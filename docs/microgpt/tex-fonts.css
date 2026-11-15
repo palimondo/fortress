@@ -30,6 +30,7 @@
 @font-face{font-family:cmtt10;src:url(fonts/cmtt10-1.woff2) format("woff2");font-display:block;unicode-range:U+21-26,U+28-3F,U+2019,U+E020}
 @font-face{font-family:cmtt10;src:url(fonts/cmtt10-2.woff2) format("woff2");font-display:block;unicode-range:U+40-5F}
 @font-face{font-family:cmtt10;src:url(fonts/cmtt10-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7E,U+A8,U+2018}
+@font-face{font-family:cmtt12;src:url(fonts/cmtt12-2.woff2) format("woff2");font-display:block;unicode-range:U+40-5F}
 @font-face{font-family:cmtt8;src:url(fonts/cmtt8-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7E,U+A8,U+2018}
 @font-face{font-family:msbm10;src:url(fonts/msbm10-2.woff2) format("woff2");font-display:block;unicode-range:U+41-5A,U+E040,U+E05B-E05E}
 @font-face{font-family:pcrr8r;src:url(fonts/pcrr8r-1.woff2) format("woff2");font-display:block;unicode-range:U+20-26,U+28-3F,U+2019}
@@ -50,6 +51,7 @@ svg text.f-cmsy10-996{font-family:cmsy10;font-size:9.96px}
 svg text.f-cmsy7-697{font-family:cmsy7;font-size:6.97px}
 svg text.f-cmti10-996{font-family:cmti10;font-size:9.96px}
 svg text.f-cmtt10-996{font-family:cmtt10;font-size:9.96px}
+svg text.f-cmtt12-1435{font-family:cmtt12;font-size:14.35px}
 svg text.f-cmtt8-697{font-family:cmtt8;font-size:6.97px}
 svg text.f-msbm10-996{font-family:msbm10;font-size:9.96px}
 svg text.f-pcrr8r-993{font-family:pcrr8r;font-size:9.93px}

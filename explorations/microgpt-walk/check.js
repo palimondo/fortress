@@ -3,8 +3,8 @@
 //   python3 -m http.server 8766 --directory /tmp/walk-srv &
 //   node explorations/microgpt-walk/check.js [URL of the walk-through] [folder for the screenshots]
 // Every page is opened light and dark, and in each of the three notations of the code (Typeset, Unicode,
-// ASCII). It fails on a page that scrolls sideways, on a typeset line that is wider than its box, on a
-// listing whose line numbers or links differ between the notations, on a script error, and on a request
+// ASCII). It fails on a page that scrolls sideways, on a source line that gives more than one typeset line,
+// on a listing whose line numbers or links differ between the notations, on a script error, and on a request
 // that leaves the site. It checks that the choice of notation holds from part to part and over a reload.
 // It then writes a note, reloads, and checks the note, the place, the export's address and that the notes are
 // kept apart from the specification reader's. It saves one screenshot of each page, light and dark, typeset.
@@ -42,10 +42,16 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
         const shown = await p.evaluate(() => document.documentElement.getAttribute('data-notation') || 'source');
         const w = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
         const wide = await p.evaluate(() => Array.from(document.querySelectorAll('.dm svg, figure.fig svg')).filter(s => s.getBoundingClientRect().right > window.innerWidth).length);
-        // a typeset line that is wider than its box scrolls sideways inside the box: none is allowed
-        const long = await p.evaluate(() => Array.from(document.querySelectorAll('.fx.n3 > .fx-r .l')).filter(l => l.offsetParent && l.scrollWidth > l.parentNode.clientWidth + 1).map(l => (l.querySelector('.ln') || l).textContent.slice(0, 12)));
-        ok((shown === form || !control) && w === 0 && wide === 0 && long.length === 0,
-           `${scheme} ${f} ${form}: no sideways scroll (${w}); formulas or drawings wider than the screen: ${wide}; typeset lines wider than their box: ${long.join(' ') || 'none'}`);
+        // one source line is one typeset line: a long one scrolls sideways inside its box, the page does not.
+        // A line holds one SVG, and a block has as many typeset lines as source lines.
+        const split = await p.evaluate(() => Array.from(document.querySelectorAll('.fx.n3')).filter(fx => {
+          const rows = Array.from(fx.querySelectorAll(':scope > .fx-r .l'));
+          const src = fx.querySelector(':scope > .fx-s:not(.fx-u)');
+          const lines = src.querySelectorAll('.l').length || src.textContent.replace(/\n$/, '').split('\n').length;
+          return rows.length !== lines || rows.some(l => l.querySelectorAll('svg').length > 1);
+        }).length);
+        ok((shown === form || !control) && w === 0 && wide === 0 && split === 0,
+           `${scheme} ${f} ${form}: no sideways scroll (${w}); formulas or drawings wider than the screen: ${wide}; blocks whose typeset lines are not one for each source line: ${split}`);
         if (form === FORMS[0] || !control) await p.screenshot({ path: path.join(SHOTS, `walk-${f}-${scheme}.png`), fullPage: true });
       }
       if (scheme === 'light' && control) {

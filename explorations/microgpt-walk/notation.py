@@ -41,10 +41,8 @@ GREEK = dict(alpha='α', beta='β', gamma='γ', delta='δ', epsilon='ε', zeta='
              kappa='κ', mu='μ', nu='ν', xi='ξ', rho='ρ', sigma='σ', tau='τ', upsilon='υ', phi='φ',
              chi='χ', psi='ψ', omega='ω', GAMMA='Γ', DELTA='Δ', THETA='Θ', LAMBDA='Λ', XI='Ξ', PI='Π', SIGMA='Σ',
              PHI='Φ', PSI='Ψ', OMEGA='Ω')
-# short names of operators (Specification/appendices/operators.tex) and of non-operator characters.
-# SUM and PROD are left as typed: today's parser takes the signs U+2211 and U+220F as prefix operators and
-# not as big operators (the gap ledger's row 5), so the Unicode form with them would not be this program.
-WORDS = dict(DOT='·', SQRT='√', TIMES='×', BY='×', CROSS='×', DIV='÷', LE='≤', GE='≥', NE='≠',
+# short names of operators (Specification/appendices/operators.tex) and of non-operator characters
+WORDS = dict(DOT='·', SQRT='√', SUM='∑', PROD='∏', TIMES='×', BY='×', CROSS='×', DIV='÷', LE='≤', GE='≥', NE='≠',
              AND='∧', OR='∨', NOT='¬', CUP='∪', CAP='∩', IN='∈', NOTIN='∉', SUBSET='⊂', SUBSETEQ='⊆', EMPTYSET='∅',
              INF='∞', OPLUS='⊕', OTIMES='⊗', CIRC='∘', FORALL='∀', EXISTS='∃')
 # ASCII shorthand, longest first (Appendix "ASCII to Unicode", "Converting ASCII Symbol Sequences"; <- in operators.tex)
@@ -116,7 +114,7 @@ SKIP = set('left right bigl bigr Bigl Bigr biggl biggr textstyle displaystyle li
            'ultrathin null relax'.split())
 WRAP = dict(VAR='<i>%s</i>', TYP='<span class="ty">%s</span>', KWD=' <span class="kw">%s</span> ',
             KWDVAR='<span class="kw">%s</span>', OPR=' <span class="op">%s</span> ',
-            BIGOPR='<span class="op">%s</span> ', STR='<span class="str">%s</span>', mathrm='<span class="rm">%s</span>',
+            BIGOPR='<span class="op big">%s</span> ', STR='<span class="str">%s</span>', mathrm='<span class="rm">%s</span>',
             mathit='<i>%s</i>', mathtt='<span class="tt">%s</span>', mathopen='%s', mathclose='%s', mathord='%s',
             mathbin='\u2009%s\u2009', mathrel=' %s ', mathop='%s ', EXP='%s', hbox='%s', mathbf='<b>%s</b>',
             sqrt='√<span class="ovl">%s</span>')
@@ -244,9 +242,6 @@ OVERRIDES = [
     dict(src='g0[i]', fortify=r'g_0_{i}', fixed=r'g_0[i]',
          why='LaTeX refuses a second subscript ("Double subscript") and prints 0 and i side by side; the index '
              'keeps its brackets, as Fortify sets an index of two (the gap ledger\'s row 62).'),
-    dict(src='BIG MAX', fortify=r'\BIGOPR{MAX}', fixed=r'\mathop{\mathtt{BIG\ MAX}}',
-         why='Fortify sets the big operator as one large MAX: the word BIG, which the program types and the text '
-             'names, is not on the page.'),
     dict(src=r'(m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]', fortify=r'^{T\llbracket\KWD{nat} r, \KWD{nat} c\rrbracket}',
          fixed=r'^{T}\llbracket\KWD{nat} r, \KWD{nat} c\rrbracket',
          why='Fortify sets the declaration\'s static parameters inside the exponent, beside T; they are not '
@@ -384,56 +379,23 @@ class Fonts:
 
 # ---------------------------------------------------------------- Fortify: emacs, latex, dvisvgm
 
-WIDTH = 176          # points: the widest typeset line on a phone 390 px wide (10 pt is 1 em of 16 px)
 PREAMBLE = r"""\documentclass[10pt]{article}
 \usepackage{fortify}
 \pagestyle{empty}
 \begin{document}
-\newbox\rowbox \newdimen\W \W=%dpt
-\tolerance=10000 \hbadness=10000 \hfuzz=\maxdimen \relpenalty=50 \binoppenalty=150
-\def\SHIP{\shipout\hbox{\special{dvisvgm:bbox \the\wd\rowbox\space\the\ht\rowbox\space\the\dp\rowbox}%%
+\newbox\rowbox
+\def\SHIP{\shipout\hbox{\special{dvisvgm:bbox \the\wd\rowbox\space\the\ht\rowbox\space\the\dp\rowbox}%
 \special{dvisvgm:raw <desc>base={?y}</desc>}\box\rowbox}}
-%% a row that is wider than the screen is set as a paragraph: TeX breaks it after a relation, an operator
-%% or a comma, and the lines after the first hang by 1.6 em. #1 is the row's indentation.
-\def\WRAP#1#2{\ifdim\wd\rowbox>\dimexpr\W-#1\relax \setbox\rowbox\vtop{\hsize=\dimexpr\W-#1\relax
-\rightskip=0pt plus 1fil \parindent=0pt \hangindent=1.6em \hangafter=1 \lineskip=1.5pt \lineskiplimit=1.5pt
-\noindent #2}\fi}
-\def\ROW#1#2{\setbox\rowbox\hbox{\FortressInnerMacros\let\*=\fortresslinecomment\strut\(\displaystyle #2\null\)}%%
-\WRAP{#1}{\FortressInnerMacros\let\*=\fortresslinecomment\strut\(\displaystyle #2\null\)\strut}\SHIP}
-\def\TROW#1#2{\setbox\rowbox\hbox{\FortressOuterMacros\rm\strut #2}%%
-\WRAP{#1}{\FortressOuterMacros\rm\strut #2\strut}\SHIP}
-""" % WIDTH
-VERSION = 'fonts shared, 2'          # a change of what clean() or page() writes: every SVG is set again
+% one source line is one typeset line, at its natural width
+\def\ROW#1{\setbox\rowbox\hbox{\FortressInnerMacros\let\*=\fortresslinecomment\strut\(\displaystyle #1\null\)}\SHIP}
+\def\TROW#1{\setbox\rowbox\hbox{\FortressOuterMacros\rm\strut #1}\SHIP}
+"""
+VERSION = 'fonts shared, one line each'          # a change of what clean() or page() writes: every SVG is set again
 TABS = re.compile(r'\\[123]|\\\+|\\-(?![A-Za-z])')
-STRING = re.compile(r"\\hbox\{\\rm\\usefont\{T1\}\{ptm\}\{m\}\{n\}``\\STR\{((?:[^{}]|\{[^{}]*\})*)\}''\}")
-
-
 def comment_text(text):
     """The words of a comment, set as text. TeX would draw a run of hyphens as one rule (-- and --- are its
-    dashes); a penalty after each hyphen of a run keeps the hyphens apart, and lets a long run break."""
-    return re.sub(r'-{2,}', lambda m: '-\\penalty0{}' * len(m.group(0)), text)
-
-
-def string_breaks(row):
-    """A string is one box, which TeX cannot break. It is cut into boxes after each space and each slash, so
-    that a row with a long string can be broken there when the row is wider than the screen."""
-    def cut(m):
-        pieces = [p for p in re.split(r'(?<=~)(?=[^~])|(?<=/)(?=[^/~.])', m.group(1)) if p]
-        if len(pieces) < 2:
-            return m.group(0)
-        out = []
-        for i, p in enumerate(pieces):
-            out.append('\\hbox{\\rm\\usefont{T1}{ptm}{m}{n}%s\\STR{%s}%s}'
-                       % ('``' if i == 0 else '', p, "''" if i == len(pieces) - 1 else ''))
-        return '\\penalty250 '.join(out)
-    return STRING.sub(cut, row)
-
-
-def trailing_comment(m):
-    """A comment after code on its line is one box in Fortify's output. It is cut into a box for each word, so
-    that the row can be broken inside it."""
-    words = ['\\hbox{\\FortressOuterMacros\\rm\\ %s}' % w for w in comment_text(m.group(1)).split(' ') if w]
-    return '\\penalty250 '.join(['\\hbox{\\tt(*}'] + words + ['\\hbox{\\ \\tt*)}'])
+    dashes); a kern of no width after each hyphen of a run keeps the hyphens apart."""
+    return re.sub(r'-{2,}', lambda m: '-\\kern0pt{}' * len(m.group(0)), text)
 
 
 class Fortify:
@@ -555,23 +517,8 @@ class Fortify:
     def page(self, k, pad):
         row = self.rows[k]
         if row.startswith('%TEXT%'):
-            return '\\TROW{%.1fpt}{%s}' % (pad * 10, row[6:])
-        row = self.math(row)
-        # TeX breaks a formula after a relation or an operator; a comma may end a line too
-        row = re.sub(r',(\s)', r',\\allowbreak\1', row)
-        # dearer places, taken only when a line has no better one: after a declaration's colon, after a slash,
-        # after a semicolon, after do, then and else, before a juxtaposed operand, before a method call's dot,
-        # before a string and inside it
-        row = row.replace('\\COLON ', '\\COLON\\penalty400 ').replace(' / ', ' /\\penalty300 ')
-        row = re.sub(r'(;|\\KWD\{(?:do|then|else)\}) ', r'\1\\penalty200 ', row)
-        row = row.replace('\\, ', '\\,\\penalty300 ').replace('\; ', '\;\\penalty300 ')
-        row = row.replace('.\\VAR{', '\\penalty450 .\\VAR{')          # before the dot of a method call
-        row = STRING.sub(lambda m: '\\penalty400 ' + m.group(0), row)     # before a string
-        row = string_breaks(row)
-        row = re.sub(r'\\fortressonelinecomment\{\(\*\}\{(.*)\}\{\*\)\}', trailing_comment, row)
-        # TeX cannot break between \left and \right: parentheses of the next fixed size stand in their place
-        row = row.replace('\\left(', '\\bigl(').replace('\\right)', '\\bigr)')
-        return '\\ROW{%.1fpt}{%s}' % (pad * 10, row)
+            return '\\TROW{%s}' % row[6:]
+        return '\\ROW{%s}' % self.math(row)
 
     @staticmethod
     def math(row):

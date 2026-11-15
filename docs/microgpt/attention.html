@@ -69,7 +69,7 @@
 <h2 id="s-four-heads" class="nb"><span class="num">4.3</span> Four heads</h2>
 <p id="p-cb1ef9b8" class="nb">The model does not use the 16 numbers of a query as one vector. It cuts every query, key and value into four pieces of four numbers: columns 0 to 3, columns 4 to 7, columns 8 to 11, columns 12 to 15. Piece number 0 of the queries works only with piece number 0 of the keys and of the values, and so on. Each of the four is called a head. A head is a complete attention computation on vectors of four numbers. The constants of line 17 say so: <span class="fc"><span class="fr m"><i>nHead</i></span><code class="fs">nHead</code></span>, the number of heads, is 4, and <span class="fc"><span class="fr m"><i>headDim</i></span><code class="fs">headDim</code></span>, the number of columns of a head, is 4.</p>
 <p id="p-aa778705" class="nb">One head gives each position one set of attention weights. Four heads give it four, so the model can read the earlier positions in four ways at once.</p>
-<div class="fx nb src n3" id="c-b7dcc0a7" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L54" title="MicroGptFlat.fss, line 54">54</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='5.041em' viewBox='0 0 175.342 50.411' fill='currentColor' style='vertical-align:-4.194em' role='img'><g>
+<div class="fx nb src n3" id="c-b7dcc0a7" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L54" title="MicroGptFlat.fss, line 54">54</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='43.067em' height='1.206em' viewBox='0 0 430.673 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmmi10-996' x='0' y='8.468'>h</text>
 <text class='f-cmex10-996' x='5.74' y='.398'></text>
 <text class='f-cmmi10-996' x='10.306' y='8.468'>m</text>
@@ -86,34 +86,34 @@
 <text class='f-cmr10-996' x='106.005' y='8.468'>32)</text>
 <text class='f-stmary10-996' x='119.843' y='8.468'></text>
 <text class='f-cmex10-996' x='123.855' y='.398'></text>
-<text class='f-cmr10-996' x='128.421' y='8.468'>:<tspan x='15.94' y='22.018'>Arra</tspan><tspan x='35.921'>y</tspan></text>
-<text class='f-cmex10-996' x='41.317' y='13.948'><tspan x='42.701' y='13.948'></tspan></text>
-<text class='f-msbm10-996' x='46.852' y='22.018'>R</text>
-<text class='f-cmr10-996' x='54.048' y='22.018'>64</text>
-<text class='f-cmmi10-996' x='64.01' y='22.018'>,</text>
-<text class='f-cmr10-996' x='68.438' y='22.018'>(</text>
-<text class='f-msbm10-996' x='72.312' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='78.954' y='22.018'>32</text>
-<text class='f-cmmi10-996' x='88.917' y='22.018'>,</text>
-<text class='f-msbm10-996' x='93.345' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='99.986' y='22.018'>32</text>
-<text class='f-cmmi10-996' x='109.949' y='22.018'>,</text>
-<text class='f-msbm10-996' x='114.377' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='121.019' y='22.018'>32)</text>
-<text class='f-cmex10-996' x='134.856' y='13.948'><tspan x='136.24' y='13.948'></tspan></text>
-<text class='f-cmr10-996' x='143.158' y='22.018'>=</text>
-<text class='f-cmti10-996' x='15.94' y='34.471'>he<tspan x='25.106'>ads</tspan></text>
-<text class='f-cmr10-996' x='40.181' y='34.471'>(</text>
-<text class='f-cmmi10-996' x='44.056' y='34.471'>m,</text>
-<text class='f-cmti10-996' x='57.231' y='34.471'>blo<tspan x='68.942'>ckSize</tspan></text>
-<text class='f-cmmi10-996' x='96.169' y='34.471'>,</text>
-<text class='f-cmti10-996' x='100.597' y='34.471'>nHe<tspan x='117.677'>ad</tspan></text>
-<text class='f-cmmi10-996' x='128.891' y='34.471'>,</text>
-<text class='f-cmti10-996' x='15.94' y='46.825'>he<tspan x='25.106'>adDim</tspan></text>
-<text class='f-cmr10-996' x='54.778' y='46.825'>)</text>
+<text class='f-cmr10-996' x='128.421' y='8.468'>:<tspan x='132.849'>Arra</tspan><tspan x='152.83'>y</tspan></text>
+<text class='f-cmex10-996' x='158.226' y='.398'><tspan x='159.61' y='.398'></tspan></text>
+<text class='f-msbm10-996' x='163.761' y='8.468'>R</text>
+<text class='f-cmr10-996' x='170.957' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='180.919' y='8.468'>,</text>
+<text class='f-cmr10-996' x='185.347' y='8.468'>(</text>
+<text class='f-msbm10-996' x='189.221' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='195.863' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='205.826' y='8.468'>,</text>
+<text class='f-msbm10-996' x='210.254' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='216.895' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='226.858' y='8.468'>,</text>
+<text class='f-msbm10-996' x='231.286' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='237.928' y='8.468'>32)</text>
+<text class='f-cmex10-996' x='251.765' y='.398'><tspan x='253.149' y='.398'></tspan></text>
+<text class='f-cmr10-996' x='260.067' y='8.468'>=</text>
+<text class='f-cmti10-996' x='270.583' y='8.468'>he<tspan x='279.749'>ads</tspan></text>
+<text class='f-cmr10-996' x='294.824' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='298.698' y='8.468'>m,</text>
+<text class='f-cmti10-996' x='311.873' y='8.468'>blo<tspan x='323.585'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='350.812' y='8.468'>,</text>
+<text class='f-cmti10-996' x='355.24' y='8.468'>nHe<tspan x='372.32'>ad</tspan></text>
+<text class='f-cmmi10-996' x='383.533' y='8.468'>,</text>
+<text class='f-cmti10-996' x='387.961' y='8.468'>he<tspan x='397.127'>adDim</tspan></text>
+<text class='f-cmr10-996' x='426.799' y='8.468'>)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L55" title="MicroGptFlat.fss, line 55">55</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.895em' viewBox='0 0 175.342 38.954' fill='currentColor' style='vertical-align:-3.049em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L55" title="MicroGptFlat.fss, line 55">55</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='34.465em' height='1.206em' viewBox='0 0 344.653 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmmi10-996' x='0' y='8.468'>u</text>
 <text class='f-cmex10-996' x='5.703' y='.398'></text>
 <text class='f-cmmi10-996' x='10.269' y='8.468'>t</text>
@@ -133,24 +133,24 @@
 <text class='f-cmr10-996' x='121.851' y='8.468'>32)</text>
 <text class='f-stmary10-996' x='135.688' y='8.468'></text>
 <text class='f-cmex10-996' x='139.701' y='.398'></text>
-<text class='f-cmr10-996' x='144.267' y='8.468'>:<tspan x='15.94' y='22.018'>Arra</tspan><tspan x='35.921'>y</tspan></text>
-<text class='f-cmex10-996' x='41.317' y='13.948'><tspan x='42.701' y='13.948'></tspan></text>
-<text class='f-msbm10-996' x='46.852' y='22.018'>R</text>
-<text class='f-cmr10-996' x='54.048' y='22.018'>64</text>
-<text class='f-cmmi10-996' x='64.01' y='22.018'>,</text>
-<text class='f-cmr10-996' x='68.438' y='22.018'>(</text>
-<text class='f-msbm10-996' x='72.312' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='78.954' y='22.018'>32</text>
-<text class='f-cmmi10-996' x='88.917' y='22.018'>,</text>
-<text class='f-msbm10-996' x='93.345' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='99.986' y='22.018'>32)</text>
-<text class='f-cmex10-996' x='113.824' y='13.948'><tspan x='115.207' y='13.948'></tspan></text>
-<text class='f-cmr10-996' x='122.126' y='22.018'>=</text>
-<text class='f-cmti10-996' x='15.94' y='35.368'>unhe<tspan x='36.054'>ads</tspan></text>
-<text class='f-cmr10-996' x='51.129' y='35.368'>(</text>
-<text class='f-cmmi10-996' x='55.003' y='35.368'>t,</text>
-<text class='f-cmti10-996' x='63.029' y='35.368'>nHe<tspan x='80.109'>ad</tspan></text>
-<text class='f-cmr10-996' x='91.322' y='35.368'>)</text>
+<text class='f-cmr10-996' x='144.267' y='8.468'>:<tspan x='148.695'>Arra</tspan><tspan x='168.676'>y</tspan></text>
+<text class='f-cmex10-996' x='174.072' y='.398'><tspan x='175.456' y='.398'></tspan></text>
+<text class='f-msbm10-996' x='179.607' y='8.468'>R</text>
+<text class='f-cmr10-996' x='186.802' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='196.765' y='8.468'>,</text>
+<text class='f-cmr10-996' x='201.193' y='8.468'>(</text>
+<text class='f-msbm10-996' x='205.067' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='211.709' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='221.672' y='8.468'>,</text>
+<text class='f-msbm10-996' x='226.099' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='232.741' y='8.468'>32)</text>
+<text class='f-cmex10-996' x='246.578' y='.398'><tspan x='247.962' y='.398'></tspan></text>
+<text class='f-cmr10-996' x='254.88' y='8.468'>=</text>
+<text class='f-cmti10-996' x='265.397' y='8.468'>unhe<tspan x='285.51'>ads</tspan></text>
+<text class='f-cmr10-996' x='300.585' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='304.46' y='8.468'>t,</text>
+<text class='f-cmti10-996' x='312.485' y='8.468'>nHe<tspan x='329.565'>ad</tspan></text>
+<text class='f-cmr10-996' x='340.779' y='8.468'>)</text>
 </g>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L54" title="MicroGptFlat.fss, line 54">54</a></span>h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L55" title="MicroGptFlat.fss, line 55">55</a></span>u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L54" title="MicroGptFlat.fss, line 54">54</a></span>h(m: Array⟦RR64,(ZZ32,ZZ32)⟧): Array⟦RR64,(ZZ32,ZZ32,ZZ32)⟧ = heads(m, blockSize, nHead, headDim)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L55" title="MicroGptFlat.fss, line 55">55</a></span>u(t: Array⟦RR64,(ZZ32,ZZ32,ZZ32)⟧): Array⟦RR64,(ZZ32,ZZ32)⟧ = unheads(t, nHead)</span></code></pre></div>
@@ -197,77 +197,77 @@ unheads (2 x 4):
 <text x="204" y="146" class="muted">plane = head</text>
 </svg><figcaption>What <span class="fc"><span class="fr m"><i>h</i></span><code class="fs">h</code></span> does to <span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span>, with one document in the batch.</figcaption></figure>
 <p id="p-22e671be" class="nb">Both functions return views. No number is copied. <span class="fc"><span class="fr m"><i>heads</i></span><code class="fs">heads</code></span> returns an object of this declaration:</p>
-<div class="fx nb src n3" id="c-bd04d39e" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L82" title="FlatArrays.fss, line 82">82</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.591em' viewBox='0 0 175.342 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<div class="fx nb src n3" id="c-bd04d39e" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L82" title="FlatArrays.fss, line 82">82</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='36.912em' height='1.196em' viewBox='0 0 369.116 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
-<text class='f-cmr10-996' x='13.782' y='8.369'>a<tspan x='22.084'>(do</tspan><tspan x='36.751'>cs.p</tspan><tspan x='53.688'>ositions</tspan><tspan x='89.775'>x</tspan><tspan x='98.354'>heads.dim)</tspan><tspan x='15.94' y='20.368'>activ</tspan><tspan x='36.696'>ation</tspan><tspan x='62.156'>as</tspan><tspan x='74.388'>do</tspan><tspan x='85.181'>cs.heads</tspan><tspan x='124.035'>planes</tspan><tspan x='154.532'>of</tspan><tspan x='15.94' y='32.323'>p</tspan><tspan x='21.752'>ositions</tspan><tspan x='57.839'>x</tspan><tspan x='66.418'>dim:</tspan></text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>a<tspan x='22.084'>(do</tspan><tspan x='36.751'>cs.p</tspan><tspan x='53.688'>ositions</tspan><tspan x='89.775'>x</tspan><tspan x='98.354'>heads.dim)</tspan><tspan x='149.329'>activ</tspan><tspan x='170.085'>ation</tspan><tspan x='195.545'>as</tspan><tspan x='207.777'>do</tspan><tspan x='218.57'>cs.heads</tspan><tspan x='257.424'>planes</tspan><tspan x='287.921'>of</tspan><tspan x='299.267'>p</tspan><tspan x='305.079'>ositions</tspan><tspan x='341.166'>x</tspan><tspan x='349.745'>dim:</tspan></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L83" title="FlatArrays.fss, line 83">83</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='3.686em' viewBox='0 0 161.893 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
-<text class='f-cmr10-996' x='0' y='8.369'>plane<tspan x='26.567'>d</tspan><tspan x='35.423'>nh</tspan><tspan x='49.813'>+</tspan><tspan x='60.883'>h,</tspan><tspan x='72.506'>ro</tspan><tspan x='81.113'>w</tspan><tspan x='91.629'>i,</tspan><tspan x='100.484'>column</tspan><tspan x='135.354'>j</tspan><tspan x='141.719'>is</tspan><tspan x='15.94' y='20.922'>base[d</tspan><tspan x='46.437'>p</tspan><tspan x='55.293'>+</tspan><tspan x='66.362'>i,</tspan><tspan x='75.218'>h</tspan><tspan x='84.074'>k</tspan><tspan x='92.653'>+</tspan><tspan x='103.722'>j];</tspan><tspan x='115.622'>and</tspan><tspan x='134.994'>the</tspan><tspan x='15.94' y='33.275'>in</tspan><tspan x='23.966'>v</tspan><tspan x='28.947'>erse</tspan></text>
-<text class='f-cmtt10-996' x='52.276' y='33.275'>*)</text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L83" title="FlatArrays.fss, line 83">83</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='33.474em' height='1.196em' viewBox='0 0 334.745 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>plane<tspan x='26.567'>d</tspan><tspan x='35.423'>nh</tspan><tspan x='49.813'>+</tspan><tspan x='60.883'>h,</tspan><tspan x='72.506'>ro</tspan><tspan x='81.113'>w</tspan><tspan x='91.629'>i,</tspan><tspan x='100.484'>column</tspan><tspan x='135.354'>j</tspan><tspan x='141.719'>is</tspan><tspan x='151.737'>base[d</tspan><tspan x='182.234'>p</tspan><tspan x='191.089'>+</tspan><tspan x='202.159'>i,</tspan><tspan x='211.015'>h</tspan><tspan x='219.87'>k</tspan><tspan x='228.449'>+</tspan><tspan x='239.519'>j];</tspan><tspan x='251.419'>and</tspan><tspan x='270.791'>the</tspan><tspan x='287.949'>in</tspan><tspan x='295.974'>v</tspan><tspan x='300.955'>erse</tspan></text>
+<text class='f-cmtt10-996' x='324.285' y='8.369'>*)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L84" title="FlatArrays.fss, line 84">84</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='4.936em' viewBox='0 0 175.342 49.359' fill='currentColor' style='vertical-align:-4.099em' role='img'><g>
-<text class='f-cmtt10-996' x='0' y='8.369'>object</text>
-<text class='f-cmr10-996' x='34.149' y='8.369'>HeadsView</text>
-<text class='f-stmary10-996' x='82.496' y='8.369'></text>
-<text class='f-cmtt10-996' x='86.509' y='8.369'>nat</text>
-<text class='f-cmti10-996' x='104.967' y='8.369'>br</text>
-<text class='f-cmmi10-996' x='114.823' y='8.369'>,</text>
-<text class='f-cmtt10-996' x='119.251' y='8.369'>nat</text>
-<text class='f-cmti10-996' x='137.709' y='8.369'>b<tspan x='141.783'>c</tspan></text>
-<text class='f-cmmi10-996' x='146.929' y='8.369'>,</text>
-<text class='f-cmtt10-996' x='15.94' y='20.368'>nat</text>
-<text class='f-cmmi10-996' x='34.399' y='20.368'>a,</text>
-<text class='f-cmtt10-996' x='44.093' y='20.368'>nat</text>
-<text class='f-cmmi10-996' x='62.551' y='20.368'>b,</text>
-<text class='f-cmtt10-996' x='15.94' y='32.323'>nat</text>
-<text class='f-cmmi10-996' x='34.399' y='32.323'>c</text>
-<text class='f-stmary10-996' x='38.71' y='32.323'></text>
-<text class='f-cmex10-996' x='42.723' y='24.253'></text>
-<text class='f-cmti10-996' x='47.289' y='32.323'>b<tspan x='51.363'>ase</tspan></text>
-<text class='f-cmr10-996' x='65.86' y='32.323'>:<tspan x='70.287'>Matrix</tspan></text>
-<text class='f-stmary10-996' x='100.203' y='32.323'></text>
-<text class='f-msbm10-996' x='104.216' y='32.323'>R</text>
-<text class='f-cmr10-996' x='111.411' y='32.323'>64</text>
-<text class='f-cmmi10-996' x='121.374' y='32.323'>,</text>
-<text class='f-cmti10-996' x='125.801' y='32.323'>br</text>
-<text class='f-cmmi10-996' x='135.657' y='32.323'>,</text>
-<text class='f-cmti10-996' x='140.085' y='32.323'>b<tspan x='144.159'>c</tspan></text>
-<text class='f-stmary10-996' x='149.305' y='32.323'></text>
-<text class='f-cmmi10-996' x='153.318' y='32.323'>,<tspan x='15.94' y='45.773'>p</tspan></text>
-<text class='f-cmr10-996' x='20.953' y='45.773'>:</text>
-<text class='f-msbm10-996' x='25.381' y='45.773'>Z</text>
-<text class='f-cmr10-996' x='32.022' y='45.773'>32</text>
-<text class='f-cmmi10-996' x='41.985' y='45.773'>,</text>
-<text class='f-cmti10-996' x='46.413' y='45.773'>nh</text>
-<text class='f-cmr10-996' x='57.87' y='45.773'>:</text>
-<text class='f-msbm10-996' x='62.298' y='45.773'>Z</text>
-<text class='f-cmr10-996' x='68.94' y='45.773'>32</text>
-<text class='f-cmmi10-996' x='78.903' y='45.773'>,<tspan x='83.33'>k</tspan></text>
-<text class='f-cmr10-996' x='88.831' y='45.773'>:</text>
-<text class='f-msbm10-996' x='93.258' y='45.773'>Z</text>
-<text class='f-cmr10-996' x='99.9' y='45.773'>32</text>
-<text class='f-cmex10-996' x='109.863' y='37.703'></text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L84" title="FlatArrays.fss, line 84">84</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='44.696em' height='1.206em' viewBox='0 0 446.964 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.468'>object</text>
+<text class='f-cmr10-996' x='34.149' y='8.468'>HeadsView</text>
+<text class='f-stmary10-996' x='82.496' y='8.468'></text>
+<text class='f-cmtt10-996' x='86.509' y='8.468'>nat</text>
+<text class='f-cmti10-996' x='104.967' y='8.468'>br</text>
+<text class='f-cmmi10-996' x='114.823' y='8.468'>,</text>
+<text class='f-cmtt10-996' x='119.251' y='8.468'>nat</text>
+<text class='f-cmti10-996' x='137.709' y='8.468'>b<tspan x='141.783'>c</tspan></text>
+<text class='f-cmmi10-996' x='146.929' y='8.468'>,</text>
+<text class='f-cmtt10-996' x='151.356' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='169.815' y='8.468'>a,</text>
+<text class='f-cmtt10-996' x='179.509' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='197.967' y='8.468'>b,</text>
+<text class='f-cmtt10-996' x='206.671' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='225.129' y='8.468'>c</text>
+<text class='f-stmary10-996' x='229.44' y='8.468'></text>
+<text class='f-cmex10-996' x='233.453' y='.398'></text>
+<text class='f-cmti10-996' x='238.019' y='8.468'>b<tspan x='242.093'>ase</tspan></text>
+<text class='f-cmr10-996' x='256.59' y='8.468'>:<tspan x='261.018'>Matrix</tspan></text>
+<text class='f-stmary10-996' x='290.933' y='8.468'></text>
+<text class='f-msbm10-996' x='294.946' y='8.468'>R</text>
+<text class='f-cmr10-996' x='302.141' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='312.104' y='8.468'>,</text>
+<text class='f-cmti10-996' x='316.532' y='8.468'>br</text>
+<text class='f-cmmi10-996' x='326.388' y='8.468'>,</text>
+<text class='f-cmti10-996' x='330.816' y='8.468'>b<tspan x='334.889'>c</tspan></text>
+<text class='f-stmary10-996' x='340.035' y='8.468'></text>
+<text class='f-cmmi10-996' x='344.048' y='8.468'>,<tspan x='348.476'>p</tspan></text>
+<text class='f-cmr10-996' x='353.488' y='8.468'>:</text>
+<text class='f-msbm10-996' x='357.916' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='364.558' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='374.52' y='8.468'>,</text>
+<text class='f-cmti10-996' x='378.948' y='8.468'>nh</text>
+<text class='f-cmr10-996' x='390.406' y='8.468'>:</text>
+<text class='f-msbm10-996' x='394.833' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='401.475' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='411.438' y='8.468'>,<tspan x='415.866'>k</tspan></text>
+<text class='f-cmr10-996' x='421.366' y='8.468'>:</text>
+<text class='f-msbm10-996' x='425.794' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='432.436' y='8.468'>32</text>
+<text class='f-cmex10-996' x='442.398' y='.398'></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L85" title="FlatArrays.fss, line 85">85</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='2.541em' viewBox='0 0 139.477 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L85" title="FlatArrays.fss, line 85">85</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='15.015em' height='1.196em' viewBox='0 0 150.147 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>extends</text>
-<text class='f-cmr10-996' x='15.94' y='21.818'>Arra<tspan x='35.921'>y3</tspan></text>
-<text class='f-stmary10-996' x='46.16' y='21.818'></text>
-<text class='f-msbm10-996' x='50.173' y='21.818'>R</text>
-<text class='f-cmr10-996' x='57.368' y='21.818'>64</text>
-<text class='f-cmmi10-996' x='67.331' y='21.818'>,</text>
-<text class='f-cmr10-996' x='71.759' y='21.818'>0</text>
-<text class='f-cmmi10-996' x='76.74' y='21.818'>,<tspan x='81.168'>a,</tspan></text>
-<text class='f-cmr10-996' x='90.862' y='21.818'>0</text>
-<text class='f-cmmi10-996' x='95.843' y='21.818'>,<tspan x='100.271'>b,</tspan></text>
-<text class='f-cmr10-996' x='108.975' y='21.818'>0</text>
-<text class='f-cmmi10-996' x='113.956' y='21.818'>,<tspan x='118.384'>c</tspan></text>
-<text class='f-stmary10-996' x='122.695' y='21.818'></text>
+<text class='f-cmr10-996' x='39.38' y='8.369'>Arra<tspan x='59.36'>y3</tspan></text>
+<text class='f-stmary10-996' x='69.6' y='8.369'></text>
+<text class='f-msbm10-996' x='73.613' y='8.369'>R</text>
+<text class='f-cmr10-996' x='80.808' y='8.369'>64</text>
+<text class='f-cmmi10-996' x='90.77' y='8.369'>,</text>
+<text class='f-cmr10-996' x='95.198' y='8.369'>0</text>
+<text class='f-cmmi10-996' x='100.18' y='8.369'>,<tspan x='104.607'>a,</tspan></text>
+<text class='f-cmr10-996' x='114.301' y='8.369'>0</text>
+<text class='f-cmmi10-996' x='119.283' y='8.369'>,<tspan x='123.711'>b,</tspan></text>
+<text class='f-cmr10-996' x='132.414' y='8.369'>0</text>
+<text class='f-cmmi10-996' x='137.395' y='8.369'>,<tspan x='141.823'>c</tspan></text>
+<text class='f-stmary10-996' x='146.135' y='8.369'></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L86" title="FlatArrays.fss, line 86">86</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.051em' viewBox='0 0 157.41 50.511' fill='currentColor' style='vertical-align:-4.204em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L86" title="FlatArrays.fss, line 86">86</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='40.263em' height='1.206em' viewBox='0 0 402.627 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>get</text>
 <text class='f-cmex10-996' x='13.42' y='.398'></text>
 <text class='f-cmti10-996' x='17.987' y='8.468'>ix</text>
@@ -284,37 +284,37 @@ unheads (2 x 4):
 <text class='f-cmr10-996' x='102.275' y='8.468'>:</text>
 <text class='f-msbm10-996' x='106.703' y='8.468'>R</text>
 <text class='f-cmr10-996' x='113.898' y='8.468'>64<tspan x='126.628'>=</tspan></text>
-<text class='f-cmtt10-996' x='15.94' y='21.021'>do</text>
-<text class='f-cmr10-996' x='29.168' y='21.021'>(</text>
-<text class='f-cmmi10-996' x='33.043' y='21.021'>q<tspan x='37.848'>,</tspan><tspan x='42.275'>i,</tspan><tspan x='15.94' y='33.475'>j</tspan></text>
-<text class='f-cmr10-996' x='20.613' y='33.475'>)<tspan x='27.255'>=</tspan></text>
-<text class='f-cmti10-996' x='37.771' y='33.475'>ix</text>
-<text class='f-cmr10-996' x='46.647' y='33.475'>;</text>
-<text class='f-cmti10-996' x='51.075' y='33.475'>b<tspan x='55.149'>ase</tspan></text>
-<text class='f-cmmi10-996' x='69.646' y='33.475'>.</text>
-<text class='f-cmti10-996' x='72.413' y='33.475'>get</text>
-<text class='f-cmex10-996' x='85.834' y='25.405'></text>
-<text class='f-cmr10-996' x='90.4' y='33.475'>(</text>
-<text class='f-cmmi10-996' x='94.274' y='33.475'>q</text>
-<text class='f-cmsy10-996' x='101.293' y='33.475'>÷</text>
-<text class='f-cmti10-996' x='111.256' y='33.475'>nh</text>
-<text class='f-cmr10-996' x='122.713' y='33.475'>)</text>
-<text class='f-cmmi10-996' x='128.248' y='33.475'>p</text>
-<text class='f-cmr10-996' x='135.474' y='33.475'>+</text>
-<text class='f-cmmi10-996' x='145.437' y='33.475'>i,</text>
-<text class='f-cmr10-996' x='15.94' y='46.924'>(</text>
-<text class='f-cmmi10-996' x='19.815' y='46.924'>q</text>
-<text class='f-cmtt10-996' x='26.833' y='46.924'>MOD</text>
-<text class='f-cmti10-996' x='44.738' y='46.924'>nh</text>
-<text class='f-cmr10-996' x='56.196' y='46.924'>)</text>
-<text class='f-cmmi10-996' x='61.731' y='46.924'>k</text>
-<text class='f-cmr10-996' x='69.445' y='46.924'>+</text>
-<text class='f-cmmi10-996' x='79.407' y='46.924'>j</text>
-<text class='f-cmex10-996' x='84.08' y='38.854'></text>
-<text class='f-cmtt10-996' x='91.414' y='46.924'>end</text>
+<text class='f-cmtt10-996' x='137.144' y='8.468'>do</text>
+<text class='f-cmr10-996' x='150.372' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='154.246' y='8.468'>q<tspan x='159.051'>,</tspan><tspan x='163.479'>i,</tspan><tspan x='171.339'>j</tspan></text>
+<text class='f-cmr10-996' x='176.012' y='8.468'>)<tspan x='182.654'>=</tspan></text>
+<text class='f-cmti10-996' x='193.17' y='8.468'>ix</text>
+<text class='f-cmr10-996' x='202.046' y='8.468'>;</text>
+<text class='f-cmti10-996' x='206.474' y='8.468'>b<tspan x='210.548'>ase</tspan></text>
+<text class='f-cmmi10-996' x='225.045' y='8.468'>.</text>
+<text class='f-cmti10-996' x='227.812' y='8.468'>get</text>
+<text class='f-cmex10-996' x='241.232' y='.398'></text>
+<text class='f-cmr10-996' x='245.799' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='249.673' y='8.468'>q</text>
+<text class='f-cmsy10-996' x='256.692' y='8.468'>÷</text>
+<text class='f-cmti10-996' x='266.654' y='8.468'>nh</text>
+<text class='f-cmr10-996' x='278.112' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='283.647' y='8.468'>p</text>
+<text class='f-cmr10-996' x='290.873' y='8.468'>+</text>
+<text class='f-cmmi10-996' x='300.836' y='8.468'>i,</text>
+<text class='f-cmr10-996' x='308.696' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='312.57' y='8.468'>q</text>
+<text class='f-cmtt10-996' x='319.589' y='8.468'>MOD</text>
+<text class='f-cmti10-996' x='337.494' y='8.468'>nh</text>
+<text class='f-cmr10-996' x='348.951' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='354.486' y='8.468'>k</text>
+<text class='f-cmr10-996' x='362.2' y='8.468'>+</text>
+<text class='f-cmmi10-996' x='372.163' y='8.468'>j</text>
+<text class='f-cmex10-996' x='376.836' y='.398'></text>
+<text class='f-cmtt10-996' x='384.169' y='8.468'>end</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L87" title="FlatArrays.fss, line 87">87</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.250em' viewBox='0 0 157.41 52.504' fill='currentColor' style='vertical-align:-4.404em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L87" title="FlatArrays.fss, line 87">87</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='44.576em' height='1.206em' viewBox='0 0 445.757 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>put</text>
 <text class='f-cmex10-996' x='14.693' y='.398'></text>
 <text class='f-cmti10-996' x='19.26' y='8.468'>ix</text>
@@ -327,45 +327,45 @@ unheads (2 x 4):
 <text class='f-cmmi10-996' x='74.075' y='8.468'>,</text>
 <text class='f-msbm10-996' x='78.503' y='8.468'>Z</text>
 <text class='f-cmr10-996' x='85.145' y='8.468'>32)</text>
-<text class='f-cmmi10-996' x='98.982' y='8.468'>,<tspan x='15.94' y='22.018'>x</tspan></text>
-<text class='f-cmr10-996' x='21.634' y='22.018'>:</text>
-<text class='f-msbm10-996' x='26.062' y='22.018'>R</text>
-<text class='f-cmr10-996' x='33.257' y='22.018'>64</text>
-<text class='f-cmex10-996' x='43.22' y='13.948'></text>
-<text class='f-cmr10-996' x='47.786' y='22.018'>:<tspan x='52.214'>(</tspan><tspan x='56.503'>)</tspan><tspan x='63.145'>=</tspan></text>
-<text class='f-cmtt10-996' x='73.661' y='22.018'>do</text>
-<text class='f-cmr10-996' x='86.889' y='22.018'>(</text>
-<text class='f-cmmi10-996' x='90.764' y='22.018'>q<tspan x='95.569'>,</tspan><tspan x='99.996'>i,</tspan><tspan x='15.94' y='35.467'>j</tspan></text>
-<text class='f-cmr10-996' x='20.613' y='35.467'>)<tspan x='27.255'>=</tspan></text>
-<text class='f-cmti10-996' x='37.771' y='35.467'>ix</text>
-<text class='f-cmr10-996' x='46.647' y='35.467'>;</text>
-<text class='f-cmti10-996' x='51.075' y='35.467'>b<tspan x='55.149'>ase</tspan></text>
-<text class='f-cmmi10-996' x='69.646' y='35.467'>.</text>
-<text class='f-cmti10-996' x='72.413' y='35.467'>put</text>
-<text class='f-cmex10-996' x='87.107' y='27.397'></text>
-<text class='f-cmr10-996' x='91.673' y='35.467'>((</text>
-<text class='f-cmmi10-996' x='99.422' y='35.467'>q</text>
-<text class='f-cmsy10-996' x='106.44' y='35.467'>÷</text>
-<text class='f-cmti10-996' x='116.403' y='35.467'>nh</text>
-<text class='f-cmr10-996' x='127.86' y='35.467'>)</text>
-<text class='f-cmmi10-996' x='133.395' y='35.467'>p</text>
-<text class='f-cmr10-996' x='140.622' y='35.467'>+</text>
-<text class='f-cmmi10-996' x='150.584' y='35.467'>i,</text>
-<text class='f-cmr10-996' x='15.94' y='48.917'>(</text>
-<text class='f-cmmi10-996' x='19.815' y='48.917'>q</text>
-<text class='f-cmtt10-996' x='26.833' y='48.917'>MOD</text>
-<text class='f-cmti10-996' x='44.738' y='48.917'>nh</text>
-<text class='f-cmr10-996' x='56.196' y='48.917'>)</text>
-<text class='f-cmmi10-996' x='61.731' y='48.917'>k</text>
-<text class='f-cmr10-996' x='69.445' y='48.917'>+</text>
-<text class='f-cmmi10-996' x='79.407' y='48.917'>j</text>
-<text class='f-cmr10-996' x='84.08' y='48.917'>)</text>
-<text class='f-cmmi10-996' x='87.955' y='48.917'>,<tspan x='92.382'>x</tspan></text>
-<text class='f-cmex10-996' x='98.076' y='40.847'></text>
-<text class='f-cmtt10-996' x='105.41' y='48.917'>end</text>
+<text class='f-cmmi10-996' x='98.982' y='8.468'>,<tspan x='103.409'>x</tspan></text>
+<text class='f-cmr10-996' x='109.103' y='8.468'>:</text>
+<text class='f-msbm10-996' x='113.531' y='8.468'>R</text>
+<text class='f-cmr10-996' x='120.726' y='8.468'>64</text>
+<text class='f-cmex10-996' x='130.689' y='.398'></text>
+<text class='f-cmr10-996' x='135.255' y='8.468'>:<tspan x='139.683'>(</tspan><tspan x='143.973'>)</tspan><tspan x='150.614'>=</tspan></text>
+<text class='f-cmtt10-996' x='161.13' y='8.468'>do</text>
+<text class='f-cmr10-996' x='174.358' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='178.233' y='8.468'>q<tspan x='183.038'>,</tspan><tspan x='187.465'>i,</tspan><tspan x='195.326'>j</tspan></text>
+<text class='f-cmr10-996' x='199.999' y='8.468'>)<tspan x='206.64'>=</tspan></text>
+<text class='f-cmti10-996' x='217.156' y='8.468'>ix</text>
+<text class='f-cmr10-996' x='226.033' y='8.468'>;</text>
+<text class='f-cmti10-996' x='230.461' y='8.468'>b<tspan x='234.534'>ase</tspan></text>
+<text class='f-cmmi10-996' x='249.031' y='8.468'>.</text>
+<text class='f-cmti10-996' x='251.798' y='8.468'>put</text>
+<text class='f-cmex10-996' x='266.492' y='.398'></text>
+<text class='f-cmr10-996' x='271.058' y='8.468'>((</text>
+<text class='f-cmmi10-996' x='278.807' y='8.468'>q</text>
+<text class='f-cmsy10-996' x='285.826' y='8.468'>÷</text>
+<text class='f-cmti10-996' x='295.788' y='8.468'>nh</text>
+<text class='f-cmr10-996' x='307.246' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='312.78' y='8.468'>p</text>
+<text class='f-cmr10-996' x='320.007' y='8.468'>+</text>
+<text class='f-cmmi10-996' x='329.969' y='8.468'>i,</text>
+<text class='f-cmr10-996' x='337.829' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='341.704' y='8.468'>q</text>
+<text class='f-cmtt10-996' x='348.723' y='8.468'>MOD</text>
+<text class='f-cmti10-996' x='366.627' y='8.468'>nh</text>
+<text class='f-cmr10-996' x='378.085' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='383.62' y='8.468'>k</text>
+<text class='f-cmr10-996' x='391.334' y='8.468'>+</text>
+<text class='f-cmmi10-996' x='401.296' y='8.468'>j</text>
+<text class='f-cmr10-996' x='405.969' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='409.844' y='8.468'>,<tspan x='414.272'>x</tspan></text>
+<text class='f-cmex10-996' x='419.965' y='.398'></text>
+<text class='f-cmtt10-996' x='427.299' y='8.468'>end</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L88" title="FlatArrays.fss, line 88">88</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.250em' viewBox='0 0 157.41 52.504' fill='currentColor' style='vertical-align:-4.404em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L88" title="FlatArrays.fss, line 88">88</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='45.724em' height='1.206em' viewBox='0 0 457.242 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>init</text>
 <text class='f-cmr7-697' x='15.966' y='9.963'>0</text>
 <text class='f-cmex10-996' x='20.436' y='.398'></text>
@@ -379,67 +379,67 @@ unheads (2 x 4):
 <text class='f-cmmi10-996' x='79.817' y='8.468'>,</text>
 <text class='f-msbm10-996' x='84.245' y='8.468'>Z</text>
 <text class='f-cmr10-996' x='90.887' y='8.468'>32)</text>
-<text class='f-cmmi10-996' x='104.724' y='8.468'>,<tspan x='15.94' y='22.018'>x</tspan></text>
-<text class='f-cmr10-996' x='21.634' y='22.018'>:</text>
-<text class='f-msbm10-996' x='26.062' y='22.018'>R</text>
-<text class='f-cmr10-996' x='33.257' y='22.018'>64</text>
-<text class='f-cmex10-996' x='43.22' y='13.948'></text>
-<text class='f-cmr10-996' x='47.786' y='22.018'>:<tspan x='52.214'>(</tspan><tspan x='56.503'>)</tspan><tspan x='63.145'>=</tspan></text>
-<text class='f-cmtt10-996' x='73.661' y='22.018'>do</text>
-<text class='f-cmr10-996' x='86.889' y='22.018'>(</text>
-<text class='f-cmmi10-996' x='90.764' y='22.018'>q<tspan x='95.569'>,</tspan><tspan x='99.996'>i,</tspan><tspan x='15.94' y='35.467'>j</tspan></text>
-<text class='f-cmr10-996' x='20.613' y='35.467'>)<tspan x='27.255'>=</tspan></text>
-<text class='f-cmti10-996' x='37.771' y='35.467'>ix</text>
-<text class='f-cmr10-996' x='46.647' y='35.467'>;</text>
-<text class='f-cmti10-996' x='51.075' y='35.467'>b<tspan x='55.149'>ase</tspan></text>
-<text class='f-cmmi10-996' x='69.646' y='35.467'>.</text>
-<text class='f-cmti10-996' x='72.413' y='35.467'>init</text>
-<text class='f-cmr7-697' x='88.38' y='36.962'>0</text>
-<text class='f-cmex10-996' x='92.849' y='27.397'></text>
-<text class='f-cmr10-996' x='97.415' y='35.467'>((</text>
-<text class='f-cmmi10-996' x='105.164' y='35.467'>q</text>
-<text class='f-cmsy10-996' x='112.183' y='35.467'>÷</text>
-<text class='f-cmti10-996' x='122.145' y='35.467'>nh</text>
-<text class='f-cmr10-996' x='133.603' y='35.467'>)</text>
-<text class='f-cmmi10-996' x='15.94' y='48.917'>p</text>
-<text class='f-cmr10-996' x='23.167' y='48.917'>+</text>
-<text class='f-cmmi10-996' x='33.129' y='48.917'>i,</text>
-<text class='f-cmr10-996' x='40.989' y='48.917'>(</text>
-<text class='f-cmmi10-996' x='44.864' y='48.917'>q</text>
-<text class='f-cmtt10-996' x='51.882' y='48.917'>MOD</text>
-<text class='f-cmti10-996' x='69.787' y='48.917'>nh</text>
-<text class='f-cmr10-996' x='81.245' y='48.917'>)</text>
-<text class='f-cmmi10-996' x='86.78' y='48.917'>k</text>
-<text class='f-cmr10-996' x='94.494' y='48.917'>+</text>
-<text class='f-cmmi10-996' x='104.456' y='48.917'>j</text>
-<text class='f-cmr10-996' x='109.129' y='48.917'>)</text>
-<text class='f-cmmi10-996' x='113.004' y='48.917'>,<tspan x='117.431'>x</tspan></text>
-<text class='f-cmex10-996' x='123.125' y='40.847'></text>
-<text class='f-cmtt10-996' x='130.459' y='48.917'>end</text>
+<text class='f-cmmi10-996' x='104.724' y='8.468'>,<tspan x='109.152'>x</tspan></text>
+<text class='f-cmr10-996' x='114.846' y='8.468'>:</text>
+<text class='f-msbm10-996' x='119.274' y='8.468'>R</text>
+<text class='f-cmr10-996' x='126.469' y='8.468'>64</text>
+<text class='f-cmex10-996' x='136.431' y='.398'></text>
+<text class='f-cmr10-996' x='140.998' y='8.468'>:<tspan x='145.426'>(</tspan><tspan x='149.715'>)</tspan><tspan x='156.357'>=</tspan></text>
+<text class='f-cmtt10-996' x='166.873' y='8.468'>do</text>
+<text class='f-cmr10-996' x='180.101' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='183.975' y='8.468'>q<tspan x='188.78'>,</tspan><tspan x='193.208'>i,</tspan><tspan x='201.068'>j</tspan></text>
+<text class='f-cmr10-996' x='205.741' y='8.468'>)<tspan x='212.383'>=</tspan></text>
+<text class='f-cmti10-996' x='222.899' y='8.468'>ix</text>
+<text class='f-cmr10-996' x='231.775' y='8.468'>;</text>
+<text class='f-cmti10-996' x='236.203' y='8.468'>b<tspan x='240.276'>ase</tspan></text>
+<text class='f-cmmi10-996' x='254.773' y='8.468'>.</text>
+<text class='f-cmti10-996' x='257.541' y='8.468'>init</text>
+<text class='f-cmr7-697' x='273.507' y='9.963'>0</text>
+<text class='f-cmex10-996' x='277.977' y='.398'></text>
+<text class='f-cmr10-996' x='282.543' y='8.468'>((</text>
+<text class='f-cmmi10-996' x='290.292' y='8.468'>q</text>
+<text class='f-cmsy10-996' x='297.31' y='8.468'>÷</text>
+<text class='f-cmti10-996' x='307.273' y='8.468'>nh</text>
+<text class='f-cmr10-996' x='318.73' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='324.265' y='8.468'>p</text>
+<text class='f-cmr10-996' x='331.492' y='8.468'>+</text>
+<text class='f-cmmi10-996' x='341.454' y='8.468'>i,</text>
+<text class='f-cmr10-996' x='349.314' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='353.189' y='8.468'>q</text>
+<text class='f-cmtt10-996' x='360.207' y='8.468'>MOD</text>
+<text class='f-cmti10-996' x='378.112' y='8.468'>nh</text>
+<text class='f-cmr10-996' x='389.57' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='395.104' y='8.468'>k</text>
+<text class='f-cmr10-996' x='402.819' y='8.468'>+</text>
+<text class='f-cmmi10-996' x='412.781' y='8.468'>j</text>
+<text class='f-cmr10-996' x='417.454' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='421.328' y='8.468'>,<tspan x='425.756'>x</tspan></text>
+<text class='f-cmex10-996' x='431.45' y='.398'></text>
+<text class='f-cmtt10-996' x='438.784' y='8.468'>end</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L89" title="FlatArrays.fss, line 89">89</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.686em' viewBox='0 0 157.41 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L89" title="FlatArrays.fss, line 89">89</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='24.945em' height='1.196em' viewBox='0 0 249.449 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.369'>r<tspan x='3.692'>eplic</tspan><tspan x='23.041'>a</tspan></text>
 <text class='f-stmary10-996' x='28.897' y='8.369'></text>
 <text class='f-cmmi10-996' x='32.91' y='8.369'>U</text>
 <text class='f-stmary10-996' x='40.799' y='8.369'></text>
-<text class='f-cmr10-996' x='44.811' y='8.369'>(<tspan x='49.101'>):</tspan><tspan x='15.94' y='20.922'>Arra</tspan><tspan x='35.921'>y3</tspan></text>
-<text class='f-stmary10-996' x='46.16' y='20.922'></text>
-<text class='f-cmmi10-996' x='50.173' y='20.922'>U<tspan x='56.955'>,</tspan></text>
-<text class='f-cmr10-996' x='61.382' y='20.922'>0</text>
-<text class='f-cmmi10-996' x='66.364' y='20.922'>,<tspan x='70.792'>a,</tspan></text>
-<text class='f-cmr10-996' x='80.486' y='20.922'>0</text>
-<text class='f-cmmi10-996' x='85.467' y='20.922'>,<tspan x='89.895'>b,</tspan></text>
-<text class='f-cmr10-996' x='98.598' y='20.922'>0</text>
-<text class='f-cmmi10-996' x='103.579' y='20.922'>,<tspan x='108.007'>c</tspan></text>
-<text class='f-stmary10-996' x='112.319' y='20.922'></text>
-<text class='f-cmr10-996' x='119.099' y='20.922'>=</text>
-<text class='f-cmti10-996' x='15.94' y='33.275'>arr<tspan x='28.925'>ay</tspan></text>
-<text class='f-cmr7-697' x='39.736' y='35.71'>3</text>
-<text class='f-stmary10-996' x='44.205' y='33.275'></text>
-<text class='f-cmmi10-996' x='48.218' y='33.275'>U<tspan x='54.999'>,</tspan><tspan x='59.427'>a,</tspan><tspan x='69.121'>b,</tspan><tspan x='77.824'>c</tspan></text>
-<text class='f-stmary10-996' x='82.136' y='33.275'></text>
-<text class='f-cmr10-996' x='86.149' y='33.275'>(<tspan x='90.438'>)</tspan></text>
+<text class='f-cmr10-996' x='44.811' y='8.369'>(<tspan x='49.101'>):</tspan><tspan x='57.403'>Arra</tspan><tspan x='77.384'>y3</tspan></text>
+<text class='f-stmary10-996' x='87.623' y='8.369'></text>
+<text class='f-cmmi10-996' x='91.636' y='8.369'>U<tspan x='98.417'>,</tspan></text>
+<text class='f-cmr10-996' x='102.845' y='8.369'>0</text>
+<text class='f-cmmi10-996' x='107.826' y='8.369'>,<tspan x='112.254'>a,</tspan></text>
+<text class='f-cmr10-996' x='121.948' y='8.369'>0</text>
+<text class='f-cmmi10-996' x='126.93' y='8.369'>,<tspan x='131.357'>b,</tspan></text>
+<text class='f-cmr10-996' x='140.061' y='8.369'>0</text>
+<text class='f-cmmi10-996' x='145.042' y='8.369'>,<tspan x='149.47'>c</tspan></text>
+<text class='f-stmary10-996' x='153.781' y='8.369'></text>
+<text class='f-cmr10-996' x='160.561' y='8.369'>=</text>
+<text class='f-cmti10-996' x='171.078' y='8.369'>arr<tspan x='184.062'>ay</tspan></text>
+<text class='f-cmr7-697' x='194.873' y='10.804'>3</text>
+<text class='f-stmary10-996' x='199.342' y='8.369'></text>
+<text class='f-cmmi10-996' x='203.355' y='8.369'>U<tspan x='210.136'>,</tspan><tspan x='214.564'>a,</tspan><tspan x='224.258'>b,</tspan><tspan x='232.962'>c</tspan></text>
+<text class='f-stmary10-996' x='237.273' y='8.369'></text>
+<text class='f-cmr10-996' x='241.286' y='8.369'>(<tspan x='245.575'>)</tspan></text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L90" title="FlatArrays.fss, line 90">90</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -483,120 +483,120 @@ qh[1,3,:] = -0.08474197564917962 -0.074962298948664 0.3810366810245596 -0.128891
 </section>
 <section class="sec" data-num="4.4" data-title="The scores">
 <h2 id="s-the-scores" class="nb"><span class="num">4.4</span> The scores</h2>
-<div class="fx nb src n3" id="c-b5289a63" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.642em' viewBox='0 0 175.342 26.423' fill='currentColor' style='vertical-align:-1.795em' role='img'><g>
-<text class='f-cmmi10-996' x='0' y='8.468'>a</text>
-<text class='f-cmr10-996' x='8.033' y='8.468'>=</text>
-<text class='f-cmti10-996' x='18.55' y='8.468'>r<tspan x='22.241'>ows</tspan></text>
-<text class='f-cmex10-996' x='38.844' y='.398'></text>
-<text class='f-cmti10-996' x='43.41' y='8.468'>sm</text>
-<text class='f-cmmi10-996' x='56.395' y='8.468'>,</text>
-<text class='f-cmti10-996' x='60.823' y='8.468'>mask</text>
-<text class='f-cmr10-996' x='86.005' y='8.468'>+<tspan x='95.968'>(</tspan></text>
-<text class='f-cmti10-996' x='99.842' y='8.468'>qh<tspan x='15.94' y='22.837'>kh</tspan></text>
-<text class='f-cmmi7-697' x='26.379' y='18.381'>T</text>
-<text class='f-cmr10-996' x='32.655' y='22.837'>)</text>
-<text class='f-cmmi10-996' x='36.53' y='22.837'>/</text>
-<text class='f-cmsy10-996' x='41.511' y='14.346'>√</text>
-<rect x='49.813' y='13.948' height='.398' width='53.228'/>
-<text class='f-cmr10-996' x='49.813' y='22.837'>1</text>
-<text class='f-cmmi10-996' x='54.795' y='22.837'>.</text>
-<text class='f-cmr10-996' x='57.562' y='22.837'>0</text>
-<text class='f-cmti10-996' x='64.204' y='22.837'>he<tspan x='73.369'>adDim</tspan></text>
-<text class='f-cmex10-996' x='104.702' y='14.767'></text>
+<div class="fx nb src n3" id="c-b5289a63" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='21.136em' height='1.793em' viewBox='0 0 211.358 17.933' fill='currentColor' style='vertical-align:-0.648em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='11.457'>a</text>
+<text class='f-cmr10-996' x='8.033' y='11.457'>=</text>
+<text class='f-cmti10-996' x='18.55' y='11.457'>r<tspan x='22.241'>ows</tspan></text>
+<text class='f-cmex10-996' x='40.505' y='.398'></text>
+<text class='f-cmti10-996' x='46.454' y='11.457'>sm</text>
+<text class='f-cmmi10-996' x='59.44' y='11.457'>,</text>
+<text class='f-cmti10-996' x='63.867' y='11.457'>mask</text>
+<text class='f-cmr10-996' x='89.049' y='11.457'>+<tspan x='99.012'>(</tspan></text>
+<text class='f-cmti10-996' x='102.886' y='11.457'>qh<tspan x='114.985'>kh</tspan></text>
+<text class='f-cmmi7-697' x='125.425' y='7.002'>T</text>
+<text class='f-cmr10-996' x='131.701' y='11.457'>)</text>
+<text class='f-cmmi10-996' x='135.575' y='11.457'>/</text>
+<text class='f-cmsy10-996' x='140.556' y='2.967'>√</text>
+<rect x='148.859' y='2.568' height='.398' width='53.228'/>
+<text class='f-cmr10-996' x='148.859' y='11.457'>1</text>
+<text class='f-cmmi10-996' x='153.84' y='11.457'>.</text>
+<text class='f-cmr10-996' x='156.607' y='11.457'>0</text>
+<text class='f-cmti10-996' x='163.249' y='11.457'>he<tspan x='172.415'>adDim</tspan></text>
+<text class='f-cmex10-996' x='203.747' y='.398'></text>
 </g>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span>a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span>a = rows(sm, mask + (qh kh^T) / √ (1.0 headDim))</span></code></pre></div>
 <p id="p-e7731621" class="nb">Read the line from the inside out.</p>
 <p id="p-75d352a0" class="nb"><span class="fc"><span class="fr m"><i>kh</i><sup><i>T</i></sup></span><code class="fs">kh^T</code></span> uses the operator <span class="fc"><span class="fr m"><sup><i>T</i></sup></span><code class="fs">^T</code></span> that line 24 of <code>MicroGptFlat.fss</code> declares for a rank-3 array. On a rank-3 array it transposes every plane. The planes of <span class="fc"><span class="fr m"><i>kh</i></span><code class="fs">kh</code></span> are 16 by 4, so the planes of <span class="fc"><span class="fr m"><i>kh</i><sup><i>T</i></sup></span><code class="fs">kh^T</code></span> are 4 by 16.</p>
 <p id="p-9708aef7" class="nb"><span class="fc"><span class="fr m"><i>qh</i> <i>kh</i><sup><i>T</i></sup></span><code class="fs">qh kh^T</code></span> is a product of two rank-3 arrays. <code>FlatArrays.fss</code> declares it as the matrix product, plane with plane:</p>
-<div class="fx nb src n3" id="c-f15dd36e" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L125" title="FlatArrays.fss, line 125">125</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<div class="fx nb src n3" id="c-f15dd36e" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L125" title="FlatArrays.fss, line 125">125</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='28.637em' height='1.196em' viewBox='0 0 286.37 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
-<text class='f-cmr10-996' x='13.782' y='8.369'>------------------------------------------------<tspan x='15.94' y='21.818'>-</tspan><tspan x='22.582'>rank-3</tspan><tspan x='53.881'>algebra</tspan><tspan x='88.778'>--------</tspan></text>
-<text class='f-cmtt10-996' x='118.666' y='21.818'>*)</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>-------------------------------------------------<tspan x='179.826'>rank-3</tspan><tspan x='211.125'>algebra</tspan><tspan x='246.022'>--------</tspan></text>
+<text class='f-cmtt10-996' x='275.91' y='8.369'>*)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L126" title="FlatArrays.fss, line 126">126</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L126" title="FlatArrays.fss, line 126">126</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='25.247em' height='1.196em' viewBox='0 0 252.47 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
-<text class='f-cmr10-996' x='13.628' y='8.369'>+.</text>
-<text class='f-cmsy10-996' x='24.144' y='8.369'>×</text>
-<text class='f-cmr10-996' x='31.893' y='8.23'>¨</text>
-<text class='f-cmsy10-996' x='31.893' y='8.369'>◦</text>
-<text class='f-cmr10-996' x='36.874' y='8.369'>2<tspan x='45.023'>:</tspan><tspan x='52.142'>the</tspan><tspan x='69.147'>library</tspan><tspan x='101.427'>pro</tspan><tspan x='116.122'>duct</tspan><tspan x='138.662'>on</tspan><tspan x='152.345'>ev</tspan><tspan x='161.755'>ery</tspan><tspan x='15.94' y='21.818'>pair</tspan><tspan x='36.447'>of</tspan><tspan x='47.793'>planes</tspan></text>
-<text class='f-cmtt10-996' x='78.29' y='21.818'>*)</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>+.</text>
+<text class='f-cmsy10-996' x='24.298' y='8.369'>×</text>
+<text class='f-cmr10-996' x='32.046' y='8.23'>¨</text>
+<text class='f-cmsy10-996' x='32.046' y='8.369'>◦</text>
+<text class='f-cmr10-996' x='37.028' y='8.369'>2<tspan x='45.33'>:</tspan><tspan x='52.525'>the</tspan><tspan x='69.683'>library</tspan><tspan x='102.117'>pro</tspan><tspan x='116.812'>duct</tspan><tspan x='139.505'>on</tspan><tspan x='153.342'>ev</tspan><tspan x='162.751'>ery</tspan><tspan x='179.66'>pair</tspan><tspan x='200.166'>of</tspan><tspan x='211.513'>planes</tspan></text>
+<text class='f-cmtt10-996' x='242.01' y='8.369'>*)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L127" title="FlatArrays.fss, line 127">127</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='6.281em' viewBox='0 0 175.342 62.809' fill='currentColor' style='vertical-align:-5.444em' role='img'><g>
-<text class='f-cmtt10-996' x='0' y='8.369'>opr</text>
-<text class='f-cmti10-996' x='18.458' y='8.369'>juxtap<tspan x='44.466'>osition</tspan></text>
-<text class='f-stmary10-996' x='74.509' y='8.369'></text>
-<text class='f-cmtt10-996' x='78.522' y='8.369'>nat</text>
-<text class='f-cmmi10-996' x='96.981' y='8.369'>a,</text>
-<text class='f-cmtt10-996' x='106.674' y='8.369'>nat</text>
-<text class='f-cmmi10-996' x='125.133' y='8.369'>b,</text>
-<text class='f-cmtt10-996' x='133.836' y='8.369'>nat</text>
-<text class='f-cmmi10-996' x='152.295' y='8.369'>c,</text>
-<text class='f-cmtt10-996' x='15.94' y='20.368'>nat</text>
-<text class='f-cmmi10-996' x='34.399' y='20.368'>a</text>
-<text class='f-cmr7-697' x='39.665' y='21.862'>2</text>
-<text class='f-cmmi10-996' x='44.134' y='20.368'>,</text>
-<text class='f-cmtt10-996' x='48.562' y='20.368'>nat</text>
-<text class='f-cmmi10-996' x='67.02' y='20.368'>b</text>
-<text class='f-cmr7-697' x='71.296' y='21.862'>2</text>
-<text class='f-cmmi10-996' x='75.765' y='20.368'>,</text>
-<text class='f-cmtt10-996' x='80.193' y='20.368'>nat</text>
-<text class='f-cmmi10-996' x='15.94' y='32.323'>c</text>
-<text class='f-cmr7-697' x='20.252' y='33.818'>2</text>
-<text class='f-stmary10-996' x='24.721' y='32.323'></text>
-<text class='f-cmex10-996' x='28.734' y='24.253'></text>
-<text class='f-cmmi10-996' x='33.3' y='32.323'>x</text>
-<text class='f-cmr10-996' x='38.994' y='32.323'>:<tspan x='43.422'>Arra</tspan><tspan x='63.402'>y3</tspan></text>
-<text class='f-stmary10-996' x='73.642' y='32.323'></text>
-<text class='f-msbm10-996' x='77.655' y='32.323'>R</text>
-<text class='f-cmr10-996' x='84.85' y='32.323'>64</text>
-<text class='f-cmmi10-996' x='94.813' y='32.323'>,</text>
-<text class='f-cmr10-996' x='99.24' y='32.323'>0</text>
-<text class='f-cmmi10-996' x='104.222' y='32.323'>,<tspan x='108.649'>a,</tspan></text>
-<text class='f-cmr10-996' x='118.343' y='32.323'>0</text>
-<text class='f-cmmi10-996' x='123.325' y='32.323'>,<tspan x='127.753'>b,</tspan></text>
-<text class='f-cmr10-996' x='136.456' y='32.323'>0</text>
-<text class='f-cmmi10-996' x='141.437' y='32.323'>,<tspan x='145.865'>c</tspan></text>
-<text class='f-stmary10-996' x='150.177' y='32.323'></text>
-<text class='f-cmmi10-996' x='154.189' y='32.323'>,<tspan x='15.94' y='45.773'>y</tspan></text>
-<text class='f-cmr10-996' x='21.182' y='45.773'>:<tspan x='25.61'>Arra</tspan><tspan x='45.591'>y3</tspan></text>
-<text class='f-stmary10-996' x='55.83' y='45.773'></text>
-<text class='f-msbm10-996' x='59.843' y='45.773'>R</text>
-<text class='f-cmr10-996' x='67.038' y='45.773'>64</text>
-<text class='f-cmmi10-996' x='77.001' y='45.773'>,</text>
-<text class='f-cmr10-996' x='81.429' y='45.773'>0</text>
-<text class='f-cmmi10-996' x='86.41' y='45.773'>,<tspan x='90.838'>a</tspan></text>
-<text class='f-cmr7-697' x='96.104' y='47.267'>2</text>
-<text class='f-cmmi10-996' x='100.573' y='45.773'>,</text>
-<text class='f-cmr10-996' x='105.001' y='45.773'>0</text>
-<text class='f-cmmi10-996' x='109.982' y='45.773'>,<tspan x='114.41'>b</tspan></text>
-<text class='f-cmr7-697' x='118.686' y='47.267'>2</text>
-<text class='f-cmmi10-996' x='123.155' y='45.773'>,</text>
-<text class='f-cmr10-996' x='127.583' y='45.773'>0</text>
-<text class='f-cmmi10-996' x='132.564' y='45.773'>,<tspan x='136.992'>c</tspan></text>
-<text class='f-cmr7-697' x='141.304' y='47.267'>2</text>
-<text class='f-stmary10-996' x='145.773' y='45.773'></text>
-<text class='f-cmex10-996' x='149.786' y='37.703'></text>
-<text class='f-cmr10-996' x='154.352' y='45.773'>:<tspan x='15.94' y='59.223'>Arra</tspan><tspan x='35.921'>y</tspan></text>
-<text class='f-cmex10-996' x='41.317' y='51.153'><tspan x='42.701' y='51.153'></tspan></text>
-<text class='f-msbm10-996' x='46.852' y='59.223'>R</text>
-<text class='f-cmr10-996' x='54.048' y='59.223'>64</text>
-<text class='f-cmmi10-996' x='64.01' y='59.223'>,</text>
-<text class='f-cmr10-996' x='68.438' y='59.223'>(</text>
-<text class='f-msbm10-996' x='72.312' y='59.223'>Z</text>
-<text class='f-cmr10-996' x='78.954' y='59.223'>32</text>
-<text class='f-cmmi10-996' x='88.917' y='59.223'>,</text>
-<text class='f-msbm10-996' x='93.345' y='59.223'>Z</text>
-<text class='f-cmr10-996' x='99.986' y='59.223'>32</text>
-<text class='f-cmmi10-996' x='109.949' y='59.223'>,</text>
-<text class='f-msbm10-996' x='114.377' y='59.223'>Z</text>
-<text class='f-cmr10-996' x='121.019' y='59.223'>32)</text>
-<text class='f-cmex10-996' x='134.856' y='51.153'><tspan x='136.24' y='51.153'></tspan></text>
-<text class='f-cmr10-996' x='143.158' y='59.223'>=</text>
-<text class='f-cmtt10-996' x='153.674' y='59.223'>do</text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L127" title="FlatArrays.fss, line 127">127</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='68.022em' height='1.206em' viewBox='0 0 680.223 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.468'>opr</text>
+<text class='f-cmti10-996' x='18.458' y='8.468'>juxtap<tspan x='44.466'>osition</tspan></text>
+<text class='f-stmary10-996' x='74.509' y='8.468'></text>
+<text class='f-cmtt10-996' x='78.522' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='96.981' y='8.468'>a,</text>
+<text class='f-cmtt10-996' x='106.674' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='125.133' y='8.468'>b,</text>
+<text class='f-cmtt10-996' x='133.836' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='152.295' y='8.468'>c,</text>
+<text class='f-cmtt10-996' x='161.034' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='179.492' y='8.468'>a</text>
+<text class='f-cmr7-697' x='184.758' y='9.963'>2</text>
+<text class='f-cmmi10-996' x='189.228' y='8.468'>,</text>
+<text class='f-cmtt10-996' x='193.656' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='212.114' y='8.468'>b</text>
+<text class='f-cmr7-697' x='216.389' y='9.963'>2</text>
+<text class='f-cmmi10-996' x='220.859' y='8.468'>,</text>
+<text class='f-cmtt10-996' x='225.287' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='243.745' y='8.468'>c</text>
+<text class='f-cmr7-697' x='248.056' y='9.963'>2</text>
+<text class='f-stmary10-996' x='252.526' y='8.468'></text>
+<text class='f-cmex10-996' x='256.539' y='.398'></text>
+<text class='f-cmmi10-996' x='261.105' y='8.468'>x</text>
+<text class='f-cmr10-996' x='266.799' y='8.468'>:<tspan x='271.227'>Arra</tspan><tspan x='291.207'>y3</tspan></text>
+<text class='f-stmary10-996' x='301.447' y='8.468'></text>
+<text class='f-msbm10-996' x='305.459' y='8.468'>R</text>
+<text class='f-cmr10-996' x='312.655' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='322.617' y='8.468'>,</text>
+<text class='f-cmr10-996' x='327.045' y='8.468'>0</text>
+<text class='f-cmmi10-996' x='332.026' y='8.468'>,<tspan x='336.454'>a,</tspan></text>
+<text class='f-cmr10-996' x='346.148' y='8.468'>0</text>
+<text class='f-cmmi10-996' x='351.13' y='8.468'>,<tspan x='355.557'>b,</tspan></text>
+<text class='f-cmr10-996' x='364.261' y='8.468'>0</text>
+<text class='f-cmmi10-996' x='369.242' y='8.468'>,<tspan x='373.67'>c</tspan></text>
+<text class='f-stmary10-996' x='377.981' y='8.468'></text>
+<text class='f-cmmi10-996' x='381.994' y='8.468'>,<tspan x='386.422'>y</tspan></text>
+<text class='f-cmr10-996' x='391.664' y='8.468'>:<tspan x='396.092'>Arra</tspan><tspan x='416.072'>y3</tspan></text>
+<text class='f-stmary10-996' x='426.312' y='8.468'></text>
+<text class='f-msbm10-996' x='430.324' y='8.468'>R</text>
+<text class='f-cmr10-996' x='437.52' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='447.482' y='8.468'>,</text>
+<text class='f-cmr10-996' x='451.91' y='8.468'>0</text>
+<text class='f-cmmi10-996' x='456.892' y='8.468'>,<tspan x='461.319'>a</tspan></text>
+<text class='f-cmr7-697' x='466.585' y='9.963'>2</text>
+<text class='f-cmmi10-996' x='471.055' y='8.468'>,</text>
+<text class='f-cmr10-996' x='475.483' y='8.468'>0</text>
+<text class='f-cmmi10-996' x='480.464' y='8.468'>,<tspan x='484.892'>b</tspan></text>
+<text class='f-cmr7-697' x='489.167' y='9.963'>2</text>
+<text class='f-cmmi10-996' x='493.637' y='8.468'>,</text>
+<text class='f-cmr10-996' x='498.065' y='8.468'>0</text>
+<text class='f-cmmi10-996' x='503.046' y='8.468'>,<tspan x='507.474'>c</tspan></text>
+<text class='f-cmr7-697' x='511.785' y='9.963'>2</text>
+<text class='f-stmary10-996' x='516.255' y='8.468'></text>
+<text class='f-cmex10-996' x='520.267' y='.398'></text>
+<text class='f-cmr10-996' x='524.833' y='8.468'>:<tspan x='529.261'>Arra</tspan><tspan x='549.242'>y</tspan></text>
+<text class='f-cmex10-996' x='554.638' y='.398'><tspan x='556.022' y='.398'></tspan></text>
+<text class='f-msbm10-996' x='560.173' y='8.468'>R</text>
+<text class='f-cmr10-996' x='567.369' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='577.331' y='8.468'>,</text>
+<text class='f-cmr10-996' x='581.759' y='8.468'>(</text>
+<text class='f-msbm10-996' x='585.633' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='592.275' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='602.238' y='8.468'>,</text>
+<text class='f-msbm10-996' x='606.666' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='613.307' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='623.27' y='8.468'>,</text>
+<text class='f-msbm10-996' x='627.698' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='634.34' y='8.468'>32)</text>
+<text class='f-cmex10-996' x='648.177' y='.398'><tspan x='649.561' y='.398'></tspan></text>
+<text class='f-cmr10-996' x='656.479' y='8.468'>=</text>
+<text class='f-cmtt10-996' x='666.995' y='8.468'>do</text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L128" title="FlatArrays.fss, line 128">128</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='8.151em' height='1.196em' viewBox='0 0 81.513 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -635,7 +635,7 @@ qh[1,3,:] = -0.08474197564917962 -0.074962298948664 0.3810366810245596 -0.128891
 <text class='f-cmr10-996' x='117.946' y='8.369'>)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L131" title="FlatArrays.fss, line 131">131</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.905em' viewBox='0 0 157.41 39.054' fill='currentColor' style='vertical-align:-3.059em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L131" title="FlatArrays.fss, line 131">131</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='31.884em' height='1.206em' viewBox='0 0 318.839 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.468'>for</text>
 <text class='f-cmmi10-996' x='18.458' y='8.468'>p</text>
 <text class='f-cmsy10-996' x='26.238' y='8.468'>←</text>
@@ -646,23 +646,23 @@ qh[1,3,:] = -0.08474197564917962 -0.074962298948664 0.3810366810245596 -0.128891
 <text class='f-cmti10-996' x='88.563' y='8.468'>plane</text>
 <text class='f-cmr10-996' x='112.226' y='8.468'>(</text>
 <text class='f-cmti10-996' x='116.1' y='8.468'>out</text>
-<text class='f-cmmi10-996' x='130.793' y='8.468'>,<tspan x='15.94' y='22.018'>p</tspan></text>
-<text class='f-cmr10-996' x='20.953' y='22.018'>)</text>
-<text class='f-cmex10-996' x='24.827' y='13.948'></text>
-<text class='f-cmmi10-996' x='29.393' y='22.018'>.</text>
-<text class='f-cmti10-996' x='32.161' y='22.018'>assign</text>
-<text class='f-cmex10-996' x='59.403' y='13.948'></text>
-<text class='f-cmr10-996' x='63.97' y='22.018'>(</text>
-<text class='f-cmti10-996' x='67.844' y='22.018'>plane</text>
-<text class='f-cmr10-996' x='91.507' y='22.018'>(</text>
-<text class='f-cmmi10-996' x='95.381' y='22.018'>x,<tspan x='105.503'>p</tspan></text>
-<text class='f-cmr10-996' x='110.515' y='22.018'>))<tspan x='15.94' y='35.467'>(</tspan></text>
-<text class='f-cmti10-996' x='19.815' y='35.467'>plane</text>
-<text class='f-cmr10-996' x='43.477' y='35.467'>(</text>
-<text class='f-cmmi10-996' x='47.352' y='35.467'>y<tspan x='52.594'>,</tspan><tspan x='57.021'>p</tspan></text>
-<text class='f-cmr10-996' x='62.034' y='35.467'>))</text>
-<text class='f-cmex10-996' x='69.783' y='27.397'></text>
-<text class='f-cmtt10-996' x='77.116' y='35.467'>end</text>
+<text class='f-cmmi10-996' x='130.793' y='8.468'>,<tspan x='135.221'>p</tspan></text>
+<text class='f-cmr10-996' x='140.234' y='8.468'>)</text>
+<text class='f-cmex10-996' x='144.108' y='.398'></text>
+<text class='f-cmmi10-996' x='148.674' y='8.468'>.</text>
+<text class='f-cmti10-996' x='151.442' y='8.468'>assign</text>
+<text class='f-cmex10-996' x='178.684' y='.398'></text>
+<text class='f-cmr10-996' x='183.251' y='8.468'>(</text>
+<text class='f-cmti10-996' x='187.125' y='8.468'>plane</text>
+<text class='f-cmr10-996' x='210.787' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='214.662' y='8.468'>x,<tspan x='224.784'>p</tspan></text>
+<text class='f-cmr10-996' x='229.796' y='8.468'>))<tspan x='239.205'>(</tspan></text>
+<text class='f-cmti10-996' x='243.079' y='8.468'>plane</text>
+<text class='f-cmr10-996' x='266.742' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='270.616' y='8.468'>y<tspan x='275.858'>,</tspan><tspan x='280.286'>p</tspan></text>
+<text class='f-cmr10-996' x='285.299' y='8.468'>))</text>
+<text class='f-cmex10-996' x='293.047' y='.398'></text>
+<text class='f-cmtt10-996' x='300.381' y='8.468'>end</text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L132" title="FlatArrays.fss, line 132">132</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='1.469em' height='1.196em' viewBox='0 0 14.693 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -697,55 +697,55 @@ scores[0,3,:] = -0.08175008584960282 0.10605658054206196 -0.13388403927731538 0.
 <section class="sec" data-num="4.5" data-title="The mask: no reading ahead">
 <h2 id="s-the-mask-no-reading-ahead" class="nb"><span class="num">4.5</span> The mask: no reading ahead</h2>
 <p id="p-d10d488d" class="nb">Position 3 has scores for all 16 positions, also for positions 4 to 15. It must not read those. The model's task at position 3 is to say which token stands at position 4. If position 3 could read position 4, it would read the answer.</p>
-<div class="fx nb src n3" id="c-24ae3657" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L29" title="MicroGptFlat.fss, line 29">29</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='5.065em' viewBox='0 0 175.342 50.65' fill='currentColor' style='vertical-align:-4.218em' role='img'><g>
-<text class='f-cmti10-996' x='0' y='8.468'>mask</text>
-<text class='f-cmr10-996' x='22.968' y='8.468'>:<tspan x='27.396'>Arra</tspan><tspan x='47.376'>y</tspan></text>
-<text class='f-cmex10-996' x='52.773' y='.398'><tspan x='54.157' y='.398'></tspan></text>
-<text class='f-msbm10-996' x='58.308' y='8.468'>R</text>
-<text class='f-cmr10-996' x='65.503' y='8.468'>64</text>
-<text class='f-cmmi10-996' x='75.466' y='8.468'>,</text>
-<text class='f-cmr10-996' x='79.893' y='8.468'>(</text>
-<text class='f-msbm10-996' x='83.768' y='8.468'>Z</text>
-<text class='f-cmr10-996' x='90.41' y='8.468'>32</text>
-<text class='f-cmmi10-996' x='100.372' y='8.468'>,</text>
-<text class='f-msbm10-996' x='104.8' y='8.468'>Z</text>
-<text class='f-cmr10-996' x='111.442' y='8.468'>32)</text>
-<text class='f-cmex10-996' x='125.279' y='.398'><tspan x='126.663' y='.398'></tspan></text>
-<text class='f-cmr10-996' x='133.581' y='8.468'>=</text>
-<text class='f-cmti10-996' x='15.94' y='22.018'>mat</text>
-<text class='f-cmex10-996' x='33.434' y='13.948'></text>
-<text class='f-cmti10-996' x='38.001' y='22.018'>blo<tspan x='49.712'>ckSize</tspan></text>
-<text class='f-cmmi10-996' x='76.939' y='22.018'>,</text>
-<text class='f-cmti10-996' x='81.367' y='22.018'>blo<tspan x='93.078'>ckSize</tspan></text>
-<text class='f-cmmi10-996' x='120.305' y='22.018'>,</text>
-<text class='f-cmtt10-996' x='124.733' y='22.018'>fn</text>
-<text class='f-cmr10-996' x='137.961' y='22.018'>(</text>
-<text class='f-cmmi10-996' x='141.835' y='22.018'>i</text>
-<text class='f-cmr10-996' x='145.268' y='22.018'>:</text>
-<text class='f-msbm10-996' x='149.695' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='156.337' y='22.018'>32</text>
-<text class='f-cmmi10-996' x='166.3' y='22.018'>,<tspan x='15.94' y='34.471'>j</tspan></text>
-<text class='f-cmr10-996' x='20.613' y='34.471'>:</text>
-<text class='f-msbm10-996' x='25.041' y='34.471'>Z</text>
-<text class='f-cmr10-996' x='31.683' y='34.471'>32):</text>
-<text class='f-msbm10-996' x='49.948' y='34.471'>R</text>
-<text class='f-cmr10-996' x='57.143' y='34.471'>64</text>
-<text class='f-cmsy10-996' x='69.873' y='34.471'>⇒</text>
-<text class='f-cmtt10-996' x='82.603' y='34.471'>if</text>
-<text class='f-cmmi10-996' x='95.831' y='34.471'>j<tspan x='103.271'>></tspan><tspan x='113.787'>i</tspan></text>
-<text class='f-cmtt10-996' x='119.987' y='34.471'>then</text>
-<text class='f-cmsy10-996' x='15.94' y='47.064'>−</text>
-<text class='f-cmr10-996' x='23.689' y='47.064'>(10</text>
-<text class='f-cmmi10-996' x='37.526' y='47.064'>.</text>
-<text class='f-cmr10-996' x='40.294' y='47.064'>0</text>
-<text class='f-cmr7-697' x='45.275' y='42.95'>10</text>
-<text class='f-cmr10-996' x='53.715' y='47.064'>)</text>
-<text class='f-cmtt10-996' x='60.357' y='47.064'>else</text>
-<text class='f-cmr10-996' x='84.046' y='47.064'>0</text>
-<text class='f-cmmi10-996' x='89.027' y='47.064'>.</text>
-<text class='f-cmr10-996' x='91.795' y='47.064'>0</text>
-<text class='f-cmtt10-996' x='99.543' y='47.064'>end</text>
-<text class='f-cmex10-996' x='115.234' y='38.994'></text>
+<div class="fx nb src n3" id="c-24ae3657" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L29" title="MicroGptFlat.fss, line 29">29</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='53.325em' height='1.233em' viewBox='0 -.136 533.247 12.331' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.608'>mask</text>
+<text class='f-cmr10-996' x='22.968' y='8.608'>:<tspan x='27.396'>Arra</tspan><tspan x='47.376'>y</tspan></text>
+<text class='f-cmex10-996' x='52.773' y='.538'><tspan x='54.157' y='.538'></tspan></text>
+<text class='f-msbm10-996' x='58.308' y='8.608'>R</text>
+<text class='f-cmr10-996' x='65.503' y='8.608'>64</text>
+<text class='f-cmmi10-996' x='75.466' y='8.608'>,</text>
+<text class='f-cmr10-996' x='79.893' y='8.608'>(</text>
+<text class='f-msbm10-996' x='83.768' y='8.608'>Z</text>
+<text class='f-cmr10-996' x='90.41' y='8.608'>32</text>
+<text class='f-cmmi10-996' x='100.372' y='8.608'>,</text>
+<text class='f-msbm10-996' x='104.8' y='8.608'>Z</text>
+<text class='f-cmr10-996' x='111.442' y='8.608'>32)</text>
+<text class='f-cmex10-996' x='125.279' y='.538'><tspan x='126.663' y='.538'></tspan></text>
+<text class='f-cmr10-996' x='133.581' y='8.608'>=</text>
+<text class='f-cmti10-996' x='144.097' y='8.608'>mat</text>
+<text class='f-cmex10-996' x='161.591' y='.538'></text>
+<text class='f-cmti10-996' x='166.157' y='8.608'>blo<tspan x='177.869'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='205.096' y='8.608'>,</text>
+<text class='f-cmti10-996' x='209.524' y='8.608'>blo<tspan x='221.235'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='248.462' y='8.608'>,</text>
+<text class='f-cmtt10-996' x='252.89' y='8.608'>fn</text>
+<text class='f-cmr10-996' x='266.118' y='8.608'>(</text>
+<text class='f-cmmi10-996' x='269.992' y='8.608'>i</text>
+<text class='f-cmr10-996' x='273.425' y='8.608'>:</text>
+<text class='f-msbm10-996' x='277.852' y='8.608'>Z</text>
+<text class='f-cmr10-996' x='284.494' y='8.608'>32</text>
+<text class='f-cmmi10-996' x='294.457' y='8.608'>,<tspan x='298.885'>j</tspan></text>
+<text class='f-cmr10-996' x='303.558' y='8.608'>:</text>
+<text class='f-msbm10-996' x='307.985' y='8.608'>Z</text>
+<text class='f-cmr10-996' x='314.627' y='8.608'>32):</text>
+<text class='f-msbm10-996' x='332.892' y='8.608'>R</text>
+<text class='f-cmr10-996' x='340.087' y='8.608'>64</text>
+<text class='f-cmsy10-996' x='352.817' y='8.608'>⇒</text>
+<text class='f-cmtt10-996' x='365.547' y='8.608'>if</text>
+<text class='f-cmmi10-996' x='378.775' y='8.608'>j<tspan x='386.216'>></tspan><tspan x='396.732'>i</tspan></text>
+<text class='f-cmtt10-996' x='402.931' y='8.608'>then</text>
+<text class='f-cmsy10-996' x='429.387' y='8.608'>−</text>
+<text class='f-cmr10-996' x='437.136' y='8.608'>(10</text>
+<text class='f-cmmi10-996' x='450.973' y='8.608'>.</text>
+<text class='f-cmr10-996' x='453.741' y='8.608'>0</text>
+<text class='f-cmr7-697' x='458.722' y='4.494'>10</text>
+<text class='f-cmr10-996' x='467.163' y='8.608'>)</text>
+<text class='f-cmtt10-996' x='473.804' y='8.608'>else</text>
+<text class='f-cmr10-996' x='497.493' y='8.608'>0</text>
+<text class='f-cmmi10-996' x='502.474' y='8.608'>.</text>
+<text class='f-cmr10-996' x='505.242' y='8.608'>0</text>
+<text class='f-cmtt10-996' x='512.99' y='8.608'>end</text>
+<text class='f-cmex10-996' x='528.681' y='.538'></text>
 </g>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L29" title="MicroGptFlat.fss, line 29">29</a></span>mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 =&gt; if j &gt; i then -(10.0^10) else 0.0 end)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L29" title="MicroGptFlat.fss, line 29">29</a></span>mask: Array⟦RR64,(ZZ32,ZZ32)⟧ = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 ⇒ if j &gt; i then -(10.0^10) else 0.0 end)</span></code></pre></div>

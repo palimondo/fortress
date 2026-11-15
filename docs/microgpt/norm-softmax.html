@@ -23,54 +23,54 @@
 <nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-rmsn-bring-a-row-to-a-standard-size">3.1 rmsn: bring a row to a standard size</a></li><li><a href="#s-rows-a-function-on-every-row">3.2 rows: a function on every row</a></li><li><a href="#s-sm-scores-into-probabilities">3.3 sm: scores into probabilities</a></li><li><a href="#s-sources">3.4 Sources</a></li></ol></nav>
 <section class="sec" data-num="3.1" data-title="rmsn: bring a row to a standard size">
 <h2 id="s-rmsn-bring-a-row-to-a-standard-size" class="nb"><span class="num">3.1</span> rmsn: bring a row to a standard size</h2>
-<div class="fx nb src n3" id="c-2e9f288d" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L26" title="MicroGptFlat.fss, line 26">26</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<div class="fx nb src n3" id="c-2e9f288d" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L26" title="MicroGptFlat.fss, line 26">26</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='30.809em' height='1.196em' viewBox='0 0 308.094 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
-<text class='f-cmr10-996' x='13.782' y='8.369'>--------------------------------------<tspan x='143.296'>rmsn,</tspan><tspan x='15.94' y='21.818'>sm</tspan><tspan x='31.493'>and</tspan><tspan x='50.865'>their</tspan><tspan x='74.692'>bac</tspan><tspan x='89.36'>kw</tspan><tspan x='101.536'>ard</tspan><tspan x='119.275'>------</tspan></text>
-<text class='f-cmtt10-996' x='142.521' y='21.818'>*)</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>--------------------------------------<tspan x='143.296'>rmsn,</tspan><tspan x='171.053'>sm</tspan><tspan x='186.606'>and</tspan><tspan x='205.978'>their</tspan><tspan x='229.805'>bac</tspan><tspan x='244.473'>kw</tspan><tspan x='256.649'>ard</tspan><tspan x='274.388'>------</tspan></text>
+<text class='f-cmtt10-996' x='297.634' y='8.369'>*)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L27" title="MicroGptFlat.fss, line 27">27</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.791em' viewBox='0 0 175.342 37.908' fill='currentColor' style='vertical-align:-2.944em' role='img'><g>
-<text class='f-cmti10-996' x='0' y='8.468'>rmsn</text>
-<text class='f-cmex10-996' x='22.787' y='.398'></text>
-<text class='f-cmmi10-996' x='27.353' y='8.468'>x</text>
-<text class='f-cmr10-996' x='33.047' y='8.468'>:<tspan x='37.475'>Arra</tspan><tspan x='57.456'>y</tspan></text>
-<text class='f-stmary10-996' x='62.852' y='8.468'></text>
-<text class='f-msbm10-996' x='66.865' y='8.468'>R</text>
-<text class='f-cmr10-996' x='74.06' y='8.468'>64</text>
-<text class='f-cmmi10-996' x='84.023' y='8.468'>,</text>
-<text class='f-msbm10-996' x='88.451' y='8.468'>Z</text>
-<text class='f-cmr10-996' x='95.092' y='8.468'>32</text>
-<text class='f-stmary10-996' x='105.055' y='8.468'></text>
-<text class='f-cmex10-996' x='109.068' y='.398'></text>
-<text class='f-cmr10-996' x='113.634' y='8.468'>:<tspan x='15.94' y='21.021'>Arra</tspan><tspan x='35.921'>y</tspan></text>
-<text class='f-stmary10-996' x='41.317' y='21.021'></text>
-<text class='f-msbm10-996' x='45.33' y='21.021'>R</text>
-<text class='f-cmr10-996' x='52.525' y='21.021'>64</text>
-<text class='f-cmmi10-996' x='62.488' y='21.021'>,</text>
-<text class='f-msbm10-996' x='66.916' y='21.021'>Z</text>
-<text class='f-cmr10-996' x='73.558' y='21.021'>32</text>
-<text class='f-stmary10-996' x='83.52' y='21.021'></text>
-<text class='f-cmr10-996' x='90.3' y='21.021'>=</text>
-<text class='f-cmmi10-996' x='15.94' y='34.321'>x/</text>
-<text class='f-cmex10-996' x='26.616' y='25.803'></text>
-<rect x='36.578' y='25.405' height='.398' width='58.762'/>
-<text class='f-cmmi10-996' x='36.578' y='34.321'></text>
-<text class='f-cmr10-996' x='42.836' y='34.321'>+<tspan x='52.799'>(</tspan></text>
-<text class='f-cmmi10-996' x='56.673' y='34.321'>x</text>
-<text class='f-cmsy10-996' x='64.581' y='34.321'>·</text>
-<text class='f-cmmi10-996' x='69.562' y='34.321'>x</text>
-<text class='f-cmr10-996' x='75.256' y='34.321'>)</text>
-<text class='f-cmmi10-996' x='79.13' y='34.321'>/</text>
-<text class='f-cmsy10-996' x='84.112' y='34.321'>|</text>
-<text class='f-cmmi10-996' x='86.879' y='34.321'>x</text>
-<text class='f-cmsy10-996' x='92.573' y='34.321'>|</text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L27" title="MicroGptFlat.fss, line 27">27</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='28.234em' height='1.290em' viewBox='0 0 282.338 12.902' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='9.315'>rmsn</text>
+<text class='f-cmex10-996' x='22.787' y='1.245'></text>
+<text class='f-cmmi10-996' x='27.353' y='9.315'>x</text>
+<text class='f-cmr10-996' x='33.047' y='9.315'>:<tspan x='37.475'>Arra</tspan><tspan x='57.456'>y</tspan></text>
+<text class='f-stmary10-996' x='62.852' y='9.315'></text>
+<text class='f-msbm10-996' x='66.865' y='9.315'>R</text>
+<text class='f-cmr10-996' x='74.06' y='9.315'>64</text>
+<text class='f-cmmi10-996' x='84.023' y='9.315'>,</text>
+<text class='f-msbm10-996' x='88.451' y='9.315'>Z</text>
+<text class='f-cmr10-996' x='95.092' y='9.315'>32</text>
+<text class='f-stmary10-996' x='105.055' y='9.315'></text>
+<text class='f-cmex10-996' x='109.068' y='1.245'></text>
+<text class='f-cmr10-996' x='113.634' y='9.315'>:<tspan x='118.062'>Arra</tspan><tspan x='138.043'>y</tspan></text>
+<text class='f-stmary10-996' x='143.439' y='9.315'></text>
+<text class='f-msbm10-996' x='147.452' y='9.315'>R</text>
+<text class='f-cmr10-996' x='154.647' y='9.315'>64</text>
+<text class='f-cmmi10-996' x='164.61' y='9.315'>,</text>
+<text class='f-msbm10-996' x='169.037' y='9.315'>Z</text>
+<text class='f-cmr10-996' x='175.679' y='9.315'>32</text>
+<text class='f-stmary10-996' x='185.642' y='9.315'></text>
+<text class='f-cmr10-996' x='192.422' y='9.315'>=</text>
+<text class='f-cmmi10-996' x='202.938' y='9.315'>x/</text>
+<text class='f-cmex10-996' x='213.613' y='.797'></text>
+<rect x='223.576' y='.398' height='.398' width='58.762'/>
+<text class='f-cmmi10-996' x='223.576' y='9.315'></text>
+<text class='f-cmr10-996' x='229.834' y='9.315'>+<tspan x='239.796'>(</tspan></text>
+<text class='f-cmmi10-996' x='243.671' y='9.315'>x</text>
+<text class='f-cmsy10-996' x='251.579' y='9.315'>·</text>
+<text class='f-cmmi10-996' x='256.56' y='9.315'>x</text>
+<text class='f-cmr10-996' x='262.254' y='9.315'>)</text>
+<text class='f-cmmi10-996' x='266.128' y='9.315'>/</text>
+<text class='f-cmsy10-996' x='271.109' y='9.315'>|</text>
+<text class='f-cmmi10-996' x='273.877' y='9.315'>x</text>
+<text class='f-cmsy10-996' x='279.571' y='9.315'>|</text>
 </g>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L26" title="MicroGptFlat.fss, line 26">26</a></span>(* -------------------------------------- rmsn, sm and their backward ------ *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L27" title="MicroGptFlat.fss, line 27">27</a></span>rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L26" title="MicroGptFlat.fss, line 26">26</a></span>(* -------------------------------------- rmsn, sm and their backward ------ *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L27" title="MicroGptFlat.fss, line 27">27</a></span>rmsn(x: Array⟦RR64,ZZ32⟧): Array⟦RR64,ZZ32⟧ = x / √ (ε + (x · x) / |x|)</span></code></pre></div>
 <p id="p-fcb17c71" class="nb">Line 26 is the heading comment for lines 27 to 34. Lines 30 to 34 hold two more functions, <span class="fc"><span class="fr m"><i>rmsn</i><i>_b</i></span><code class="fs">rmsn_b</code></span> and <span class="fc"><span class="fr m"><i>sm</i><i>_b</i></span><code class="fs">sm_b</code></span>, with which the model computes its gradient. Part 6 reads them.</p>
 <p id="p-210a1288" class="nb">Line 27 declares a function. The form is <span class="fc"><span class="fr m"><i>name</i>(<i>parameter</i>: <span class="ty">Type</span>): <span class="ty">ResultType</span> = <i>expression</i></span><code class="fs">name(parameter: Type): ResultType = expression</code></span>. This one takes a vector of floats and returns a vector of floats. <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span> is short for RMS norm, and RMS for root mean square: the function divides a vector by the root of the mean of its squares.</p>
 <p id="p-d36ad737" class="nb">The line uses one constant, <span class="fc u"><span class="fr m"><i>ϵ</i></span><code class="fs">epsilon</code><code class="fu">ε</code></span>. Line 18 of <code>MicroGptFlat.fss</code> sets it, as the first name of six, to <span class="fc"><span class="fr m">10.0<sup>−5</sup></span><code class="fs">10.0^(-5)</code></span>, which is 0.00001:</p>
-<div class="fx nb src n3" id="c-50ce1a15" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L18" title="MicroGptFlat.fss, line 18">18</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.602em' viewBox='0 -.136 175.342 26.019' fill='currentColor' style='vertical-align:-1.728em' role='img'><g>
+<div class="fx nb src n3" id="c-50ce1a15" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L18" title="MicroGptFlat.fss, line 18">18</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='27.898em' height='1.233em' viewBox='0 -.136 278.976 12.331' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmr10-996' x='0' y='8.608'>(</text>
 <text class='f-cmmi10-996' x='3.874' y='8.608'>,</text>
 <text class='f-cmti10-996' x='12.346' y='8.608'>lr</text>
@@ -89,25 +89,25 @@
 <text class='f-cmsy7-697' x='140.799' y='4.494'>−</text>
 <text class='f-cmr7-697' x='147.026' y='4.494'>5</text>
 <text class='f-cmmi10-996' x='151.496' y='8.608'>,</text>
-<text class='f-cmr10-996' x='15.94' y='22.296'>0</text>
-<text class='f-cmmi10-996' x='20.922' y='22.296'>.</text>
-<text class='f-cmr10-996' x='23.689' y='22.296'>01</text>
-<text class='f-cmmi10-996' x='33.652' y='22.296'>,</text>
-<text class='f-cmr10-996' x='38.08' y='22.296'>0</text>
-<text class='f-cmmi10-996' x='43.061' y='22.296'>.</text>
-<text class='f-cmr10-996' x='45.828' y='22.296'>85</text>
-<text class='f-cmmi10-996' x='55.791' y='22.296'>,</text>
-<text class='f-cmr10-996' x='60.219' y='22.296'>0</text>
-<text class='f-cmmi10-996' x='65.2' y='22.296'>.</text>
-<text class='f-cmr10-996' x='67.968' y='22.296'>99</text>
-<text class='f-cmmi10-996' x='77.93' y='22.296'>,</text>
-<text class='f-cmr10-996' x='82.358' y='22.296'>10</text>
-<text class='f-cmmi10-996' x='92.321' y='22.296'>.</text>
-<text class='f-cmr10-996' x='95.088' y='22.296'>0</text>
-<text class='f-cmsy7-697' x='100.069' y='18.183'>−</text>
-<text class='f-cmr7-697' x='106.296' y='18.183'>8</text>
-<text class='f-cmmi10-996' x='110.765' y='22.296'>,</text>
-<text class='f-cmr10-996' x='115.193' y='22.296'>1000)</text>
+<text class='f-cmr10-996' x='155.923' y='8.608'>0</text>
+<text class='f-cmmi10-996' x='160.905' y='8.608'>.</text>
+<text class='f-cmr10-996' x='163.672' y='8.608'>01</text>
+<text class='f-cmmi10-996' x='173.635' y='8.608'>,</text>
+<text class='f-cmr10-996' x='178.063' y='8.608'>0</text>
+<text class='f-cmmi10-996' x='183.044' y='8.608'>.</text>
+<text class='f-cmr10-996' x='185.811' y='8.608'>85</text>
+<text class='f-cmmi10-996' x='195.774' y='8.608'>,</text>
+<text class='f-cmr10-996' x='200.202' y='8.608'>0</text>
+<text class='f-cmmi10-996' x='205.183' y='8.608'>.</text>
+<text class='f-cmr10-996' x='207.951' y='8.608'>99</text>
+<text class='f-cmmi10-996' x='217.913' y='8.608'>,</text>
+<text class='f-cmr10-996' x='222.341' y='8.608'>10</text>
+<text class='f-cmmi10-996' x='232.304' y='8.608'>.</text>
+<text class='f-cmr10-996' x='235.071' y='8.608'>0</text>
+<text class='f-cmsy7-697' x='240.052' y='4.494'>−</text>
+<text class='f-cmr7-697' x='246.279' y='4.494'>8</text>
+<text class='f-cmmi10-996' x='250.748' y='8.608'>,</text>
+<text class='f-cmr10-996' x='255.176' y='8.608'>1000)</text>
 </g>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L18" title="MicroGptFlat.fss, line 18">18</a></span>(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L18" title="MicroGptFlat.fss, line 18">18</a></span>(ε, lr0, β1, β2, ε_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)</span></code></pre></div>
@@ -192,55 +192,55 @@ max |x2| = 2.55589149111105  max sumsq x2 = 16.803895081622983</code></pre>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L57" title="MicroGptFlat.fss, line 57">57</a></span>xp = rows(rmsn, x)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L57" title="MicroGptFlat.fss, line 57">57</a></span>x1 = rows(rmsn, xp)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L57" title="MicroGptFlat.fss, line 57">57</a></span>xp = rows(rmsn, x)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L57" title="MicroGptFlat.fss, line 57">57</a></span>x1 = rows(rmsn, xp)</span></code></pre></div>
 <p id="p-86d6e410" class="nb"><span class="fc"><span class="fr m"><i>rows</i></span><code class="fs">rows</code></span> is a function of <code>FlatArrays.fss</code>. It takes a function and a matrix. It applies the function to each row of the matrix and puts the results together as the rows of a new matrix. In Fortress a function is a value, so the first argument is the name <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span> and nothing more. Its definition:</p>
-<div class="fx nb src n3" id="c-767fdf10" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L142" title="FlatArrays.fss, line 142">142</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='6.386em' viewBox='0 0 175.342 63.861' fill='currentColor' style='vertical-align:-5.549em' role='img'><g>
-<text class='f-cmti10-996' x='0' y='8.369'>r<tspan x='3.692'>ows</tspan></text>
-<text class='f-stmary10-996' x='20.295' y='8.369'></text>
-<text class='f-cmtt10-996' x='24.307' y='8.369'>nat</text>
-<text class='f-cmmi10-996' x='42.766' y='8.369'>r<tspan x='46.984'>,</tspan></text>
-<text class='f-cmtt10-996' x='15.94' y='21.918'>nat</text>
-<text class='f-cmmi10-996' x='34.399' y='21.918'>c</text>
-<text class='f-stmary10-996' x='38.71' y='21.918'></text>
-<text class='f-cmex10-996' x='42.723' y='13.848'></text>
-<text class='f-cmmi10-996' x='47.289' y='21.918'>f</text>
-<text class='f-cmr10-996' x='53.239' y='21.918'>:<tspan x='57.667'>Arra</tspan><tspan x='77.647'>y</tspan></text>
-<text class='f-stmary10-996' x='83.044' y='21.918'></text>
-<text class='f-msbm10-996' x='87.057' y='21.918'>R</text>
-<text class='f-cmr10-996' x='94.252' y='21.918'>64</text>
-<text class='f-cmmi10-996' x='104.215' y='21.918'>,</text>
-<text class='f-msbm10-996' x='108.642' y='21.918'>Z</text>
-<text class='f-cmr10-996' x='115.284' y='21.918'>32</text>
-<text class='f-stmary10-996' x='125.247' y='21.918'></text>
-<text class='f-cmsy10-996' x='132.027' y='21.918'>→</text>
-<text class='f-cmr10-996' x='15.94' y='34.371'>Arra<tspan x='35.921'>y</tspan></text>
-<text class='f-stmary10-996' x='41.317' y='34.371'></text>
-<text class='f-msbm10-996' x='45.33' y='34.371'>R</text>
-<text class='f-cmr10-996' x='52.525' y='34.371'>64</text>
-<text class='f-cmmi10-996' x='62.488' y='34.371'>,</text>
-<text class='f-msbm10-996' x='66.916' y='34.371'>Z</text>
-<text class='f-cmr10-996' x='73.558' y='34.371'>32</text>
-<text class='f-stmary10-996' x='83.52' y='34.371'></text>
-<text class='f-cmmi10-996' x='87.533' y='34.371'>,<tspan x='15.94' y='46.825'>m</tspan></text>
-<text class='f-cmr10-996' x='24.688' y='46.825'>:<tspan x='29.115'>Matrix</tspan></text>
-<text class='f-stmary10-996' x='59.031' y='46.825'></text>
-<text class='f-msbm10-996' x='63.044' y='46.825'>R</text>
-<text class='f-cmr10-996' x='70.239' y='46.825'>64</text>
-<text class='f-cmmi10-996' x='80.202' y='46.825'>,<tspan x='84.63'>r</tspan><tspan x='88.848'>,</tspan><tspan x='93.275'>c</tspan></text>
-<text class='f-stmary10-996' x='97.587' y='46.825'></text>
-<text class='f-cmex10-996' x='101.6' y='38.755'></text>
-<text class='f-cmr10-996' x='106.166' y='46.825'>:<tspan x='15.94' y='60.274'>Arra</tspan><tspan x='35.921'>y</tspan></text>
-<text class='f-cmex10-996' x='41.317' y='52.204'><tspan x='42.701' y='52.204'></tspan></text>
-<text class='f-msbm10-996' x='46.852' y='60.274'>R</text>
-<text class='f-cmr10-996' x='54.048' y='60.274'>64</text>
-<text class='f-cmmi10-996' x='64.01' y='60.274'>,</text>
-<text class='f-cmr10-996' x='68.438' y='60.274'>(</text>
-<text class='f-msbm10-996' x='72.312' y='60.274'>Z</text>
-<text class='f-cmr10-996' x='78.954' y='60.274'>32</text>
-<text class='f-cmmi10-996' x='88.917' y='60.274'>,</text>
-<text class='f-msbm10-996' x='93.345' y='60.274'>Z</text>
-<text class='f-cmr10-996' x='99.986' y='60.274'>32)</text>
-<text class='f-cmex10-996' x='113.824' y='52.204'><tspan x='115.207' y='52.204'></tspan></text>
-<text class='f-cmr10-996' x='122.126' y='60.274'>=</text>
-<text class='f-cmtt10-996' x='132.642' y='60.274'>do</text>
+<div class="fx nb src n3" id="c-767fdf10" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L142" title="FlatArrays.fss, line 142">142</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='48.083em' height='1.206em' viewBox='0 0 480.831 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>r<tspan x='3.692'>ows</tspan></text>
+<text class='f-stmary10-996' x='20.295' y='8.468'></text>
+<text class='f-cmtt10-996' x='24.307' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='42.766' y='8.468'>r<tspan x='46.984'>,</tspan></text>
+<text class='f-cmtt10-996' x='51.411' y='8.468'>nat</text>
+<text class='f-cmmi10-996' x='69.87' y='8.468'>c</text>
+<text class='f-stmary10-996' x='74.181' y='8.468'></text>
+<text class='f-cmex10-996' x='78.194' y='.398'></text>
+<text class='f-cmmi10-996' x='82.76' y='8.468'>f</text>
+<text class='f-cmr10-996' x='88.71' y='8.468'>:<tspan x='93.138'>Arra</tspan><tspan x='113.119'>y</tspan></text>
+<text class='f-stmary10-996' x='118.515' y='8.468'></text>
+<text class='f-msbm10-996' x='122.528' y='8.468'>R</text>
+<text class='f-cmr10-996' x='129.723' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='139.686' y='8.468'>,</text>
+<text class='f-msbm10-996' x='144.114' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='150.755' y='8.468'>32</text>
+<text class='f-stmary10-996' x='160.718' y='8.468'></text>
+<text class='f-cmsy10-996' x='167.498' y='8.468'>→</text>
+<text class='f-cmr10-996' x='180.228' y='8.468'>Arra<tspan x='200.209'>y</tspan></text>
+<text class='f-stmary10-996' x='205.605' y='8.468'></text>
+<text class='f-msbm10-996' x='209.618' y='8.468'>R</text>
+<text class='f-cmr10-996' x='216.813' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='226.776' y='8.468'>,</text>
+<text class='f-msbm10-996' x='231.204' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='237.845' y='8.468'>32</text>
+<text class='f-stmary10-996' x='247.808' y='8.468'></text>
+<text class='f-cmmi10-996' x='251.821' y='8.468'>,<tspan x='256.249'>m</tspan></text>
+<text class='f-cmr10-996' x='264.996' y='8.468'>:<tspan x='269.424'>Matrix</tspan></text>
+<text class='f-stmary10-996' x='299.339' y='8.468'></text>
+<text class='f-msbm10-996' x='303.352' y='8.468'>R</text>
+<text class='f-cmr10-996' x='310.547' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='320.51' y='8.468'>,<tspan x='324.938'>r</tspan><tspan x='329.156'>,</tspan><tspan x='333.584'>c</tspan></text>
+<text class='f-stmary10-996' x='337.895' y='8.468'></text>
+<text class='f-cmex10-996' x='341.908' y='.398'></text>
+<text class='f-cmr10-996' x='346.474' y='8.468'>:<tspan x='350.902'>Arra</tspan><tspan x='370.883'>y</tspan></text>
+<text class='f-cmex10-996' x='376.279' y='.398'><tspan x='377.663' y='.398'></tspan></text>
+<text class='f-msbm10-996' x='381.814' y='8.468'>R</text>
+<text class='f-cmr10-996' x='389.009' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='398.972' y='8.468'>,</text>
+<text class='f-cmr10-996' x='403.4' y='8.468'>(</text>
+<text class='f-msbm10-996' x='407.274' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='413.916' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='423.879' y='8.468'>,</text>
+<text class='f-msbm10-996' x='428.306' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='434.948' y='8.468'>32)</text>
+<text class='f-cmex10-996' x='448.785' y='.398'><tspan x='450.169' y='.398'></tspan></text>
+<text class='f-cmr10-996' x='457.087' y='8.468'>=</text>
+<text class='f-cmtt10-996' x='467.604' y='8.468'>do</text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L143" title="FlatArrays.fss, line 143">143</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='6.882em' height='1.196em' viewBox='0 0 68.817 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -264,7 +264,7 @@ max |x2| = 2.55589149111105  max sumsq x2 = 16.803895081622983</code></pre>
 <text class='f-cmr10-996' x='96.423' y='8.369'>)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L145" title="FlatArrays.fss, line 145">145</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.560em' viewBox='0 0 157.41 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L145" title="FlatArrays.fss, line 145">145</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='24.788em' height='1.206em' viewBox='0 0 247.883 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.468'>for</text>
 <text class='f-cmmi10-996' x='18.458' y='8.468'>i</text>
 <text class='f-cmsy10-996' x='24.658' y='8.468'>←</text>
@@ -275,20 +275,20 @@ max |x2| = 2.55589149111105  max sumsq x2 = 16.803895081622983</code></pre>
 <text class='f-cmti10-996' x='81.641' y='8.468'>r<tspan x='85.332'>ow</tspan></text>
 <text class='f-cmr10-996' x='98.116' y='8.468'>(</text>
 <text class='f-cmti10-996' x='101.991' y='8.468'>out</text>
-<text class='f-cmmi10-996' x='116.684' y='8.468'>,<tspan x='15.94' y='22.018'>i</tspan></text>
-<text class='f-cmr10-996' x='19.373' y='22.018'>)</text>
-<text class='f-cmex10-996' x='23.247' y='13.948'></text>
-<text class='f-cmmi10-996' x='27.813' y='22.018'>.</text>
-<text class='f-cmti10-996' x='30.581' y='22.018'>assign</text>
-<text class='f-cmex10-996' x='57.823' y='13.948'></text>
-<text class='f-cmmi10-996' x='62.389' y='22.018'>f</text>
-<text class='f-cmr10-996' x='68.339' y='22.018'>(</text>
-<text class='f-cmti10-996' x='72.214' y='22.018'>r<tspan x='75.905'>ow</tspan></text>
-<text class='f-cmr10-996' x='88.689' y='22.018'>(</text>
-<text class='f-cmmi10-996' x='92.564' y='22.018'>m,<tspan x='105.739'>i</tspan></text>
-<text class='f-cmr10-996' x='109.171' y='22.018'>))</text>
-<text class='f-cmex10-996' x='116.92' y='13.948'></text>
-<text class='f-cmtt10-996' x='124.253' y='22.018'>end</text>
+<text class='f-cmmi10-996' x='116.684' y='8.468'>,<tspan x='121.112'>i</tspan></text>
+<text class='f-cmr10-996' x='124.544' y='8.468'>)</text>
+<text class='f-cmex10-996' x='128.419' y='.398'></text>
+<text class='f-cmmi10-996' x='132.985' y='8.468'>.</text>
+<text class='f-cmti10-996' x='135.752' y='8.468'>assign</text>
+<text class='f-cmex10-996' x='162.995' y='.398'></text>
+<text class='f-cmmi10-996' x='167.561' y='8.468'>f</text>
+<text class='f-cmr10-996' x='173.511' y='8.468'>(</text>
+<text class='f-cmti10-996' x='177.385' y='8.468'>r<tspan x='181.077'>ow</tspan></text>
+<text class='f-cmr10-996' x='193.861' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='197.735' y='8.468'>m,<tspan x='210.91'>i</tspan></text>
+<text class='f-cmr10-996' x='214.343' y='8.468'>))</text>
+<text class='f-cmex10-996' x='222.091' y='.398'></text>
+<text class='f-cmtt10-996' x='229.425' y='8.468'>end</text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L146" title="FlatArrays.fss, line 146">146</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='1.469em' height='1.196em' viewBox='0 0 14.693 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -324,47 +324,47 @@ max |x2| = 2.55589149111105  max sumsq x2 = 16.803895081622983</code></pre>
 </section>
 <section class="sec" data-num="3.3" data-title="sm: scores into probabilities">
 <h2 id="s-sm-scores-into-probabilities" class="nb"><span class="num">3.3</span> sm: scores into probabilities</h2>
-<div class="fx nb src n3" id="c-a7dae195" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L28" title="MicroGptFlat.fss, line 28">28</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='4.095em' viewBox='0 0 175.342 40.947' fill='currentColor' style='vertical-align:-3.248em' role='img'><g>
-<text class='f-cmti10-996' x='0' y='8.468'>sm</text>
-<text class='f-cmex10-996' x='12.985' y='.398'></text>
-<text class='f-cmmi10-996' x='17.551' y='8.468'>z</text>
-<text class='f-cmr10-996' x='22.623' y='8.468'>:<tspan x='27.05'>Arra</tspan><tspan x='47.031'>y</tspan></text>
-<text class='f-stmary10-996' x='52.427' y='8.468'></text>
-<text class='f-msbm10-996' x='56.44' y='8.468'>R</text>
-<text class='f-cmr10-996' x='63.635' y='8.468'>64</text>
-<text class='f-cmmi10-996' x='73.598' y='8.468'>,</text>
-<text class='f-msbm10-996' x='78.026' y='8.468'>Z</text>
-<text class='f-cmr10-996' x='84.668' y='8.468'>32</text>
-<text class='f-stmary10-996' x='94.63' y='8.468'></text>
-<text class='f-cmex10-996' x='98.643' y='.398'></text>
-<text class='f-cmr10-996' x='103.209' y='8.468'>:<tspan x='15.94' y='21.021'>Arra</tspan><tspan x='35.921'>y</tspan></text>
-<text class='f-stmary10-996' x='41.317' y='21.021'></text>
-<text class='f-msbm10-996' x='45.33' y='21.021'>R</text>
-<text class='f-cmr10-996' x='52.525' y='21.021'>64</text>
-<text class='f-cmmi10-996' x='62.488' y='21.021'>,</text>
-<text class='f-msbm10-996' x='66.916' y='21.021'>Z</text>
-<text class='f-cmr10-996' x='73.558' y='21.021'>32</text>
-<text class='f-stmary10-996' x='83.52' y='21.021'></text>
-<text class='f-cmr10-996' x='90.3' y='21.021'>=</text>
-<text class='f-cmtt10-996' x='100.816' y='21.021'>do</text>
-<text class='f-cmmi10-996' x='114.045' y='21.021'>e</text>
-<text class='f-cmr10-996' x='121.451' y='21.021'>=<tspan x='15.94' y='35.467'>exp</tspan></text>
-<text class='f-cmex10-996' x='31.161' y='27.397'></text>
-<text class='f-cmmi10-996' x='35.727' y='35.467'>z</text>
-<text class='f-cmsy10-996' x='43.012' y='35.467'>−</text>
-<text class='f-cmex10-996' x='52.975' y='27.397'></text>
-<text class='f-cmtt10-996' x='57.541' y='35.467'>BIG<tspan x='76.553'>MAX</tspan></text>
-<text class='f-cmmi10-996' x='93.905' y='35.467'>z</text>
-<text class='f-cmex10-996' x='98.976' y='27.397'><tspan x='103.542' y='27.397'></tspan></text>
-<text class='f-cmr10-996' x='108.108' y='35.467'>;</text>
-<text class='f-cmmi10-996' x='112.536' y='35.467'>e/</text>
-<text class='f-cmex10-996' x='122.156' y='27.397'><tspan x='126.723' y='26.003'></tspan></text>
-<text class='f-cmmi10-996' x='142.774' y='35.467'>e</text>
-<text class='f-cmex10-996' x='147.412' y='27.397'></text>
-<text class='f-cmtt10-996' x='154.746' y='35.467'>end</text>
+<div class="fx nb src n3" id="c-a7dae195" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L28" title="MicroGptFlat.fss, line 28">28</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='38.166em' height='1.793em' viewBox='0 0 381.655 17.933' fill='currentColor' style='vertical-align:-0.648em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='11.457'>sm</text>
+<text class='f-cmex10-996' x='12.985' y='3.387'></text>
+<text class='f-cmmi10-996' x='17.551' y='11.457'>z</text>
+<text class='f-cmr10-996' x='22.623' y='11.457'>:<tspan x='27.05'>Arra</tspan><tspan x='47.031'>y</tspan></text>
+<text class='f-stmary10-996' x='52.427' y='11.457'></text>
+<text class='f-msbm10-996' x='56.44' y='11.457'>R</text>
+<text class='f-cmr10-996' x='63.635' y='11.457'>64</text>
+<text class='f-cmmi10-996' x='73.598' y='11.457'>,</text>
+<text class='f-msbm10-996' x='78.026' y='11.457'>Z</text>
+<text class='f-cmr10-996' x='84.668' y='11.457'>32</text>
+<text class='f-stmary10-996' x='94.63' y='11.457'></text>
+<text class='f-cmex10-996' x='98.643' y='3.387'></text>
+<text class='f-cmr10-996' x='103.209' y='11.457'>:<tspan x='107.637'>Arra</tspan><tspan x='127.618'>y</tspan></text>
+<text class='f-stmary10-996' x='133.014' y='11.457'></text>
+<text class='f-msbm10-996' x='137.027' y='11.457'>R</text>
+<text class='f-cmr10-996' x='144.222' y='11.457'>64</text>
+<text class='f-cmmi10-996' x='154.185' y='11.457'>,</text>
+<text class='f-msbm10-996' x='158.613' y='11.457'>Z</text>
+<text class='f-cmr10-996' x='165.255' y='11.457'>32</text>
+<text class='f-stmary10-996' x='175.217' y='11.457'></text>
+<text class='f-cmr10-996' x='181.997' y='11.457'>=</text>
+<text class='f-cmtt10-996' x='192.513' y='11.457'>do</text>
+<text class='f-cmmi10-996' x='205.741' y='11.457'>e</text>
+<text class='f-cmr10-996' x='213.148' y='11.457'>=<tspan x='223.664'>exp</tspan></text>
+<text class='f-cmex10-996' x='240.545' y='.398'></text>
+<text class='f-cmmi10-996' x='246.495' y='11.457'>z</text>
+<text class='f-cmsy10-996' x='253.78' y='11.457'>−</text>
+<text class='f-cmex10-996' x='263.743' y='.398'></text>
+<text class='f-cmtt12-1435' x='269.692' y='13.173'>MAX</text>
+<text class='f-cmmi10-996' x='293.5' y='11.457'>z</text>
+<text class='f-cmex10-996' x='298.571' y='.398'><tspan x='304.521' y='.398'></tspan></text>
+<text class='f-cmr10-996' x='312.131' y='11.457'>;</text>
+<text class='f-cmmi10-996' x='316.559' y='11.457'>e/</text>
+<text class='f-cmex10-996' x='327.84' y='.398'><tspan x='333.79' y='1.993'></tspan></text>
+<text class='f-cmmi10-996' x='349.84' y='11.457'>e</text>
+<text class='f-cmex10-996' x='354.479' y='.398'></text>
+<text class='f-cmtt10-996' x='363.197' y='11.457'>end</text>
 </g>
 </svg>
-</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L28" title="MicroGptFlat.fss, line 28">28</a></span>sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX z)); e / (SUM e) end</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L28" title="MicroGptFlat.fss, line 28">28</a></span>sm(z: Array⟦RR64,ZZ32⟧): Array⟦RR64,ZZ32⟧ = do e = exp(z - (BIG MAX z)); e / (SUM e) end</span></code></pre></div>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L28" title="MicroGptFlat.fss, line 28">28</a></span>sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX z)); e / (SUM e) end</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L28" title="MicroGptFlat.fss, line 28">28</a></span>sm(z: Array⟦RR64,ZZ32⟧): Array⟦RR64,ZZ32⟧ = do e = exp(z - (BIG MAX z)); e / (∑ e) end</span></code></pre></div>
 <p id="p-a9d2c16b" class="nb"><span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span> is short for softmax. It takes a vector of numbers of any size and sign, here called scores, and returns a vector of probabilities: every element is between 0 and 1, and the elements add up to 1. A higher score gets a higher probability.</p>
 <p id="p-8921d4f2" class="nb">The body is a block with two steps, separated by a semicolon. With the scores 1, 2, 3 as <span class="fc"><span class="fr m"><i>z</i></span><code class="fs">z</code></span>, a run printed each stage:</p>
 <pre class="vb nb out" id="o-4b1c66a4" data-kind="output"><code>z - BIG MAX z (3): -2.0 -1.0 0.0
@@ -372,11 +372,11 @@ exp(z - BIG MAX z) (3): 0.1353352832366127 0.36787944117144233 1.0
 sm z (3): 0.09003057317038046 0.24472847105479764 0.6652409557748218
 SUM sm(z) = 0.9999999999999999</code></pre>
 <ul>
-<li><p id="p-755a5b7e" class="nb"><span class="fc"><span class="fr m"><span class="tt">BIG MAX</span> <i>z</i></span><code class="fs">BIG MAX z</code></span> is the largest element of <span class="fc"><span class="fr m"><i>z</i></span><code class="fs">z</code></span>: 3. <span class="fc"><span class="fr m"><span class="tt">BIG MAX</span></span><code class="fs">BIG MAX</code></span> is a big operator like <span class="fc"><span class="fr m"><span class="big">∑</span></span><code class="fs">SUM</code></span>. Written before an array, it takes all the array's elements.</p></li>
-<li><p id="p-8506be3d" class="nb"><span class="fc"><span class="fr m"><i>z</i> − (<span class="tt">BIG MAX</span> <i>z</i>)</span><code class="fs">z - (BIG MAX z)</code></span> subtracts 3 from every element. The library declares <span class="fc"><span class="fr m">−</span><code class="fs">-</code></span> between an array and a number.</p></li>
+<li><p id="p-755a5b7e" class="nb"><span class="fc"><span class="fr m"><span class="op big">MAX</span> <i>z</i></span><code class="fs">BIG MAX z</code></span> is the largest element of <span class="fc"><span class="fr m"><i>z</i></span><code class="fs">z</code></span>: 3. <span class="fc"><span class="fr m"><span class="op big">MAX</span></span><code class="fs">BIG MAX</code></span> is a big operator like <span class="fc u"><span class="fr m"><span class="big">∑</span></span><code class="fs">SUM</code><code class="fu">∑</code></span>. Written before an array, it takes all the array's elements.</p></li>
+<li><p id="p-8506be3d" class="nb"><span class="fc"><span class="fr m"><i>z</i> − (<span class="op big">MAX</span> <i>z</i>)</span><code class="fs">z - (BIG MAX z)</code></span> subtracts 3 from every element. The library declares <span class="fc"><span class="fr m">−</span><code class="fs">-</code></span> between an array and a number.</p></li>
 <li><p id="p-6ee4ce76" class="nb"><span class="fc"><span class="fr m"><span class="rm">exp</span></span><code class="fs">exp</code></span> is the exponential function: <span class="fc"><span class="fr m"><span class="rm">exp</span>(<i>t</i>)</span><code class="fs">exp(t)</code></span> is the number 2.718… raised to the power <span class="fc"><span class="fr m"><i>t</i></span><code class="fs">t</code></span>. <span class="fc"><span class="fr m"><span class="rm">exp</span>(0)</span><code class="fs">exp(0)</code></span> is 1, <span class="fc"><span class="fr m"><span class="rm">exp</span>(−1)</span><code class="fs">exp(-1)</code></span> is 0.368, <span class="fc"><span class="fr m"><span class="rm">exp</span>(−2)</span><code class="fs">exp(-2)</code></span> is 0.135. Its result is always positive. <code>FlatArrays.fss</code> declares <span class="fc"><span class="fr m"><span class="rm">exp</span></span><code class="fs">exp</code></span> for arrays: it applies <span class="fc"><span class="fr m"><span class="rm">exp</span></span><code class="fs">exp</code></span> to every element.</p></li>
-<li><p id="p-30d8bfad" class="nb"><span class="fc"><span class="fr m"><i>e</i></span><code class="fs">e</code></span> is the name of that vector of positive numbers. <span class="fc"><span class="fr m"><span class="big">∑</span><i>e</i></span><code class="fs">SUM e</code></span> is their sum, 1.5032.</p></li>
-<li><p id="p-0c40bf08" class="nb"><span class="fc"><span class="fr m"><i>e</i> / (<span class="big">∑</span><i>e</i>)</span><code class="fs">e / (SUM e)</code></span> divides every element by the sum. Now the elements add up to 1.</p></li>
+<li><p id="p-30d8bfad" class="nb"><span class="fc"><span class="fr m"><i>e</i></span><code class="fs">e</code></span> is the name of that vector of positive numbers. <span class="fc u"><span class="fr m"><span class="big">∑</span><i>e</i></span><code class="fs">SUM e</code><code class="fu">∑ e</code></span> is their sum, 1.5032.</p></li>
+<li><p id="p-0c40bf08" class="nb"><span class="fc u"><span class="fr m"><i>e</i> / (<span class="big">∑</span><i>e</i>)</span><code class="fs">e / (SUM e)</code><code class="fu">e / (∑ e)</code></span> divides every element by the sum. Now the elements add up to 1.</p></li>
 </ul>
 <div class="dm nb" id="m-25c21fb5" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='11.115em' height='4.646em' viewBox='62.485679 52.687962 111.148674 46.458145' fill='currentColor' aria-hidden='true'><g>
 <text class='f-cmtt10-996' x='61.768369' y='63.83125'>sm</text>
@@ -409,9 +409,9 @@ SUM sm(z) = 0.9999999999999999</code></pre>
 </div>
 <ul>
 <li><p id="p-101bf273" class="nb"><span class="m"><i>z</i></span> is the parameter <span class="fc"><span class="fr m"><i>z</i></span><code class="fs">z</code></span>, and <span class="m"><i>z</i><sub><i>i</i></sub></span> its element number <span class="m"><i>i</i></span>.</p></li>
-<li><p id="p-08e647a2" class="nb"><span class="m">max<sub><i>j</i></sub> <i>z</i><sub><i>j</i></sub></span> is <span class="fc"><span class="fr m"><span class="tt">BIG MAX</span> <i>z</i></span><code class="fs">BIG MAX z</code></span>.</p></li>
+<li><p id="p-08e647a2" class="nb"><span class="m">max<sub><i>j</i></sub> <i>z</i><sub><i>j</i></sub></span> is <span class="fc"><span class="fr m"><span class="op big">MAX</span> <i>z</i></span><code class="fs">BIG MAX z</code></span>.</p></li>
 <li><p id="p-3c11e427" class="nb"><span class="m"><i>e</i></span> is the local variable <span class="fc"><span class="fr m"><i>e</i></span><code class="fs">e</code></span>.</p></li>
-<li><p id="p-30091425" class="nb"><span class="m">∑<sub><i>j</i></sub> <i>e</i><sub><i>j</i></sub></span> is <span class="fc"><span class="fr m"><span class="big">∑</span><i>e</i></span><code class="fs">SUM e</code></span>.</p></li>
+<li><p id="p-30091425" class="nb"><span class="m">∑<sub><i>j</i></sub> <i>e</i><sub><i>j</i></sub></span> is <span class="fc u"><span class="fr m"><span class="big">∑</span><i>e</i></span><code class="fs">SUM e</code><code class="fu">∑ e</code></span>.</p></li>
 </ul>
 <p id="p-df8d5ce1" class="nb">Four facts about <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span>, each from a run.</p>
 <p id="p-ab703817" class="nb">A step of 1 in the score multiplies the probability by 2.718. The scores 1, 2, 3 are one apart, and 0.2447 is 2.718 times 0.0900.</p>

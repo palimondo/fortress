@@ -55,35 +55,35 @@ juanluis</code></pre></div>
 <p id="p-9a6bcbdb" class="nb">It prints one line with the sizes and then five lines, one for each step of training. Part 7 shows them.</p>
 <p id="p-d0ba2dae" class="nb">A <code>.fss</code> file holds a component, which is a unit of Fortress code. Beside each component is a <code>.fsi</code> file of the same name. It holds an api: the list of the names that other components may use, with their types.</p>
 <p id="p-8fb3a221" class="nb">The model's file starts with a comment. Fortress writes a comment between <code>(*</code> and <code>*)</code>.</p>
-<div class="fx nb src n3" id="c-9294c406" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L1" title="MicroGptFlat.fss, line 1">1</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.591em' viewBox='0 0 175.342 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<div class="fx nb src n3" id="c-9294c406" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L1" title="MicroGptFlat.fss, line 1">1</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='35.298em' height='1.196em' viewBox='0 0 352.982 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
-<text class='f-cmr10-996' x='13.782' y='8.369'>MicroGptFlat<tspan x='77.667'>--</tspan><tspan x='87.63'>microGPT</tspan><tspan x='137.125'>in</tspan><tspan x='148.748'>nativ</tspan><tspan x='170.887'>e</tspan><tspan x='15.94' y='20.368'>F</tspan><tspan x='21.613'>ortress</tspan><tspan x='53.881'>arra</tspan><tspan x='71.371'>ys,</tspan><tspan x='86.648'>data</tspan><tspan x='109.34'>designed</tspan><tspan x='149.8'>after</tspan><tspan x='15.94' y='32.323'>Hsu</tspan></text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>MicroGptFlat<tspan x='77.667'>--</tspan><tspan x='87.63'>microGPT</tspan><tspan x='137.125'>in</tspan><tspan x='148.748'>nativ</tspan><tspan x='170.887'>e</tspan><tspan x='178.636'>F</tspan><tspan x='184.309'>ortress</tspan><tspan x='216.577'>arra</tspan><tspan x='234.067'>ys,</tspan><tspan x='249.343'>data</tspan><tspan x='272.036'>designed</tspan><tspan x='312.496'>after</tspan><tspan x='336.046'>Hsu</tspan></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L2" title="MicroGptFlat.fss, line 2">2</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='3.591em' viewBox='0 0 161.893 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
-<text class='f-cmr10-996' x='0' y='8.369'>(Run<tspan x='25.436'>C4,</tspan><tspan x='43.571'>the</tspan><tspan x='60.567'>syn</tspan><tspan x='75.013'>thesis</tspan><tspan x='102.635'>of</tspan><tspan x='113.819'>rounds</tspan><tspan x='146.396'>t</tspan><tspan x='149.993'>w</tspan><tspan x='156.912'>o</tspan><tspan x='15.94' y='20.368'>and</tspan><tspan x='35.312'>three:</tspan><tspan x='15.94' y='32.323'>explorations/run-c4/design.md).</tspan></text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L2" title="MicroGptFlat.fss, line 2">2</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='35.592em' height='1.196em' viewBox='0 0 355.916 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(Run<tspan x='25.599'>C4,</tspan><tspan x='43.863'>the</tspan><tspan x='61.021'>syn</tspan><tspan x='75.467'>thesis</tspan><tspan x='103.252'>of</tspan><tspan x='114.598'>rounds</tspan><tspan x='147.337'>t</tspan><tspan x='150.934'>w</tspan><tspan x='157.853'>o</tspan><tspan x='166.155'>and</tspan><tspan x='185.527'>three:</tspan><tspan x='214.889'>explorations/run-c4/design.md).</tspan></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L3" title="MicroGptFlat.fss, line 3">3</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='2.541em' viewBox='0 0 161.893 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
-<text class='f-cmr10-996' x='0' y='8.369'>The<tspan x='20.479'>mo</tspan><tspan x='34.039'>del</tspan><tspan x='50.09'>only:</tspan><tspan x='75.827'>h</tspan><tspan x='81.085'>yp</tspan><tspan x='92.155'>erparameters,</tspan><tspan x='15.94' y='21.818'>the</tspan><tspan x='33.098'>la</tspan><tspan x='40.57'>y</tspan><tspan x='45.552'>out</tspan><tspan x='63.263'>table,</tspan><tspan x='90.937'>the</tspan><tspan x='108.095'>four</tspan><tspan x='128.878'>v</tspan><tspan x='133.86'>ector</tspan></text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L3" title="MicroGptFlat.fss, line 3">3</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='29.437em' height='1.196em' viewBox='0 0 294.369 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>The<tspan x='20.479'>mo</tspan><tspan x='34.039'>del</tspan><tspan x='50.09'>only:</tspan><tspan x='75.827'>h</tspan><tspan x='81.085'>yp</tspan><tspan x='92.155'>erparameters,</tspan><tspan x='154.836'>the</tspan><tspan x='171.994'>la</tspan><tspan x='179.466'>y</tspan><tspan x='184.448'>out</tspan><tspan x='202.159'>table,</tspan><tspan x='229.833'>the</tspan><tspan x='246.991'>four</tspan><tspan x='267.774'>v</tspan><tspan x='272.756'>ector</tspan></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L4" title="MicroGptFlat.fss, line 4">4</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='2.541em' viewBox='0 0 161.893 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
-<text class='f-cmr10-996' x='0' y='8.369'>functions,<tspan x='45.718'>the</tspan><tspan x='62.875'>step,</tspan><tspan x='86.731'>Adam</tspan><tspan x='116.342'>and</tspan><tspan x='135.714'>the</tspan><tspan x='15.94' y='21.818'>training</tspan><tspan x='53.547'>lo</tspan><tspan x='61.572'>op,</tspan><tspan x='78.131'>line</tspan><tspan x='96.891'>for</tspan><tspan x='112.082'>line</tspan><tspan x='130.843'>against</tspan></text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L4" title="MicroGptFlat.fss, line 4">4</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='29.910em' height='1.196em' viewBox='0 0 299.101 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>functions,<tspan x='45.718'>the</tspan><tspan x='62.875'>step,</tspan><tspan x='86.731'>Adam</tspan><tspan x='116.342'>and</tspan><tspan x='135.714'>the</tspan><tspan x='152.872'>training</tspan><tspan x='190.536'>lo</tspan><tspan x='198.561'>op,</tspan><tspan x='215.166'>line</tspan><tspan x='233.984'>for</tspan><tspan x='249.233'>line</tspan><tspan x='268.051'>against</tspan></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L5" title="MicroGptFlat.fss, line 5">5</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='3.686em' viewBox='0 0 161.893 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
-<text class='f-cmr10-996' x='0' y='8.369'>explorations/apl/reference/hsu-<tspan x='15.94' y='20.922'>ﬂat/microgpt</tspan></text>
-<rect x='74.681' y='20.523' height='.398' width='2.989'/>
-<text class='f-cmr10-996' x='77.67' y='20.922'>concise.dy<tspan x='121.451'>alog</tspan><tspan x='142.483'>and</tspan><tspan x='15.94' y='33.275'>the</tspan><tspan x='33.098'>form</tspan><tspan x='53.051'>ulas</tspan></text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L5" title="MicroGptFlat.fss, line 5">5</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='33.825em' height='1.196em' viewBox='0 0 338.249 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>explorations/apl/reference/hsu-ﬂat/microgpt</text>
+<rect x='196.752' y='7.97' height='.398' width='2.989'/>
+<text class='f-cmr10-996' x='199.741' y='8.369'>concise.dy<tspan x='243.521'>alog</tspan><tspan x='264.553'>and</tspan><tspan x='283.925'>the</tspan><tspan x='301.083'>form</tspan><tspan x='321.036'>ulas</tspan></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L6" title="MicroGptFlat.fss, line 6">6</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='4.842em' viewBox='0 0 161.893 48.418' fill='currentColor' style='vertical-align:-4.005em' role='img'><g>
-<text class='f-cmr10-996' x='0' y='8.369'>(the<tspan x='21.032'>tour:</tspan><tspan x='15.94' y='20.922'>explorations/run-c4/tour.md).</tspan><tspan x='15.94' y='32.877'>The</tspan><tspan x='36.419'>arra</tspan><tspan x='53.909'>y</tspan><tspan x='62.488'>v</tspan><tspan x='67.469'>o</tspan><tspan x='72.728'>cabulary</tspan><tspan x='113.436'>is</tspan><tspan x='15.94' y='44.832'>FlatArra</tspan><tspan x='54.048'>ys,</tspan></text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L6" title="MicroGptFlat.fss, line 6">6</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='34.067em' height='1.196em' viewBox='0 0 340.668 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(the<tspan x='21.032'>tour:</tspan><tspan x='46.52'>explorations/run-c4/tour.md).</tspan><tspan x='183.092'>The</tspan><tspan x='203.571'>arra</tspan><tspan x='221.061'>y</tspan><tspan x='229.64'>v</tspan><tspan x='234.621'>o</tspan><tspan x='239.879'>cabulary</tspan><tspan x='280.588'>is</tspan><tspan x='290.606'>FlatArra</tspan><tspan x='328.713'>ys,</tspan></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L7" title="MicroGptFlat.fss, line 7">7</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='3.591em' viewBox='0 0 161.893 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
-<text class='f-cmr10-996' x='0' y='8.369'>the<tspan x='17.158'>loaders</tspan><tspan x='51.003'>and</tspan><tspan x='70.375'>the</tspan><tspan x='87.533'>corpus</tspan><tspan x='119.165'>FlatData.</tspan><tspan x='15.94' y='20.368'>Run</tspan><tspan x='37.664'>from</tspan><tspan x='15.94' y='32.323'>explorations/run-c4/src:</tspan><tspan x='126'>the</tspan></text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L7" title="MicroGptFlat.fss, line 7">7</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='33.511em' height='1.196em' viewBox='0 0 335.105 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>the<tspan x='17.158'>loaders</tspan><tspan x='51.003'>and</tspan><tspan x='70.375'>the</tspan><tspan x='87.533'>corpus</tspan><tspan x='119.165'>FlatData.</tspan><tspan x='165.934'>Run</tspan><tspan x='187.658'>from</tspan><tspan x='211.209'>explorations/run-c4/src:</tspan><tspan x='321.268'>the</tspan></text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L8" title="MicroGptFlat.fss, line 8">8</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='9.691em' height='1.196em' viewBox='0 0 96.914 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -160,13 +160,13 @@ juanluis</code></pre></div>
 </section>
 <section class="sec" data-num="1.4" data-title="The constants">
 <h2 id="s-the-constants" class="nb"><span class="num">1.4</span> The constants</h2>
-<div class="fx nb src n3" id="c-73b4ea60" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L16" title="MicroGptFlat.fss, line 16">16</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<div class="fx nb src n3" id="c-73b4ea60" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L16" title="MicroGptFlat.fss, line 16">16</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='28.977em' height='1.196em' viewBox='0 0 289.774 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
-<text class='f-cmr10-996' x='13.782' y='8.369'>------------------------------------------------<tspan x='15.94' y='21.818'>---</tspan><tspan x='29.224'>h</tspan><tspan x='34.482'>yp</tspan><tspan x='45.552'>erparameters</tspan><tspan x='105.466'>----</tspan></text>
-<text class='f-cmtt10-996' x='122.07' y='21.818'>*)</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>---------------------------------------------------<tspan x='186.468'>h</tspan><tspan x='191.726'>yp</tspan><tspan x='202.795'>erparameters</tspan><tspan x='262.71'>----</tspan></text>
+<text class='f-cmtt10-996' x='279.314' y='8.369'>*)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L17" title="MicroGptFlat.fss, line 17">17</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.686em' viewBox='0 0 175.342 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L17" title="MicroGptFlat.fss, line 17">17</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='32.382em' height='1.196em' viewBox='0 0 323.821 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmr10-996' x='0' y='8.369'>(</text>
 <text class='f-cmti10-996' x='3.874' y='8.369'>nEmb<tspan x='28.454'>d</tspan></text>
 <text class='f-cmmi10-996' x='34.576' y='8.369'>,</text>
@@ -176,23 +176,23 @@ juanluis</code></pre></div>
 <text class='f-cmmi10-996' x='110.663' y='8.369'>,</text>
 <text class='f-cmti10-996' x='115.091' y='8.369'>he<tspan x='124.257'>adDim</tspan></text>
 <text class='f-cmmi10-996' x='153.929' y='8.369'>,</text>
-<text class='f-cmti10-996' x='15.94' y='20.922'>vo<tspan x='25.106'>c</tspan><tspan x='29.179'>abSize</tspan></text>
-<text class='f-cmmi10-996' x='56.916' y='20.922'>,</text>
-<text class='f-cmti10-996' x='61.343' y='20.922'>b<tspan x='65.417'>osId</tspan></text>
-<text class='f-cmr10-996' x='84.545' y='20.922'>)<tspan x='91.187'>=</tspan><tspan x='101.703'>(16</tspan></text>
-<text class='f-cmmi10-996' x='115.54' y='20.922'>,</text>
-<text class='f-cmr10-996' x='119.968' y='20.922'>16</text>
-<text class='f-cmmi10-996' x='129.93' y='20.922'>,</text>
-<text class='f-cmr10-996' x='134.358' y='20.922'>4</text>
-<text class='f-cmmi10-996' x='139.34' y='20.922'>,</text>
-<text class='f-cmr10-996' x='143.767' y='20.922'>4</text>
-<text class='f-cmmi10-996' x='148.749' y='20.922'>,</text>
-<text class='f-cmr10-996' x='153.176' y='20.922'>27</text>
-<text class='f-cmmi10-996' x='163.139' y='20.922'>,</text>
-<text class='f-cmr10-996' x='15.94' y='33.275'>26)</text>
+<text class='f-cmti10-996' x='158.357' y='8.369'>vo<tspan x='167.523'>c</tspan><tspan x='171.596'>abSize</tspan></text>
+<text class='f-cmmi10-996' x='199.332' y='8.369'>,</text>
+<text class='f-cmti10-996' x='203.76' y='8.369'>b<tspan x='207.834'>osId</tspan></text>
+<text class='f-cmr10-996' x='226.962' y='8.369'>)<tspan x='233.603'>=</tspan><tspan x='244.12'>(16</tspan></text>
+<text class='f-cmmi10-996' x='257.957' y='8.369'>,</text>
+<text class='f-cmr10-996' x='262.384' y='8.369'>16</text>
+<text class='f-cmmi10-996' x='272.347' y='8.369'>,</text>
+<text class='f-cmr10-996' x='276.775' y='8.369'>4</text>
+<text class='f-cmmi10-996' x='281.756' y='8.369'>,</text>
+<text class='f-cmr10-996' x='286.184' y='8.369'>4</text>
+<text class='f-cmmi10-996' x='291.165' y='8.369'>,</text>
+<text class='f-cmr10-996' x='295.593' y='8.369'>27</text>
+<text class='f-cmmi10-996' x='305.556' y='8.369'>,</text>
+<text class='f-cmr10-996' x='309.984' y='8.369'>26)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L18" title="MicroGptFlat.fss, line 18">18</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.602em' viewBox='0 -.136 175.342 26.019' fill='currentColor' style='vertical-align:-1.728em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L18" title="MicroGptFlat.fss, line 18">18</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='27.898em' height='1.233em' viewBox='0 -.136 278.976 12.331' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmr10-996' x='0' y='8.608'>(</text>
 <text class='f-cmmi10-996' x='3.874' y='8.608'>,</text>
 <text class='f-cmti10-996' x='12.346' y='8.608'>lr</text>
@@ -211,25 +211,25 @@ juanluis</code></pre></div>
 <text class='f-cmsy7-697' x='140.799' y='4.494'>−</text>
 <text class='f-cmr7-697' x='147.026' y='4.494'>5</text>
 <text class='f-cmmi10-996' x='151.496' y='8.608'>,</text>
-<text class='f-cmr10-996' x='15.94' y='22.296'>0</text>
-<text class='f-cmmi10-996' x='20.922' y='22.296'>.</text>
-<text class='f-cmr10-996' x='23.689' y='22.296'>01</text>
-<text class='f-cmmi10-996' x='33.652' y='22.296'>,</text>
-<text class='f-cmr10-996' x='38.08' y='22.296'>0</text>
-<text class='f-cmmi10-996' x='43.061' y='22.296'>.</text>
-<text class='f-cmr10-996' x='45.828' y='22.296'>85</text>
-<text class='f-cmmi10-996' x='55.791' y='22.296'>,</text>
-<text class='f-cmr10-996' x='60.219' y='22.296'>0</text>
-<text class='f-cmmi10-996' x='65.2' y='22.296'>.</text>
-<text class='f-cmr10-996' x='67.968' y='22.296'>99</text>
-<text class='f-cmmi10-996' x='77.93' y='22.296'>,</text>
-<text class='f-cmr10-996' x='82.358' y='22.296'>10</text>
-<text class='f-cmmi10-996' x='92.321' y='22.296'>.</text>
-<text class='f-cmr10-996' x='95.088' y='22.296'>0</text>
-<text class='f-cmsy7-697' x='100.069' y='18.183'>−</text>
-<text class='f-cmr7-697' x='106.296' y='18.183'>8</text>
-<text class='f-cmmi10-996' x='110.765' y='22.296'>,</text>
-<text class='f-cmr10-996' x='115.193' y='22.296'>1000)</text>
+<text class='f-cmr10-996' x='155.923' y='8.608'>0</text>
+<text class='f-cmmi10-996' x='160.905' y='8.608'>.</text>
+<text class='f-cmr10-996' x='163.672' y='8.608'>01</text>
+<text class='f-cmmi10-996' x='173.635' y='8.608'>,</text>
+<text class='f-cmr10-996' x='178.063' y='8.608'>0</text>
+<text class='f-cmmi10-996' x='183.044' y='8.608'>.</text>
+<text class='f-cmr10-996' x='185.811' y='8.608'>85</text>
+<text class='f-cmmi10-996' x='195.774' y='8.608'>,</text>
+<text class='f-cmr10-996' x='200.202' y='8.608'>0</text>
+<text class='f-cmmi10-996' x='205.183' y='8.608'>.</text>
+<text class='f-cmr10-996' x='207.951' y='8.608'>99</text>
+<text class='f-cmmi10-996' x='217.913' y='8.608'>,</text>
+<text class='f-cmr10-996' x='222.341' y='8.608'>10</text>
+<text class='f-cmmi10-996' x='232.304' y='8.608'>.</text>
+<text class='f-cmr10-996' x='235.071' y='8.608'>0</text>
+<text class='f-cmsy7-697' x='240.052' y='4.494'>−</text>
+<text class='f-cmr7-697' x='246.279' y='4.494'>8</text>
+<text class='f-cmmi10-996' x='250.748' y='8.608'>,</text>
+<text class='f-cmr10-996' x='255.176' y='8.608'>1000)</text>
 </g>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L16" title="MicroGptFlat.fss, line 16">16</a></span>(* --------------------------------------------------- hyperparameters ---- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L17" title="MicroGptFlat.fss, line 17">17</a></span>(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L18" title="MicroGptFlat.fss, line 18">18</a></span>(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L16" title="MicroGptFlat.fss, line 16">16</a></span>(* --------------------------------------------------- hyperparameters ---- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L17" title="MicroGptFlat.fss, line 17">17</a></span>(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L18" title="MicroGptFlat.fss, line 18">18</a></span>(ε, lr0, β1, β2, ε_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)</span></code></pre></div>
@@ -251,20 +251,20 @@ juanluis</code></pre></div>
 <li><p id="p-ee1cc6a5" class="nb"><span class="fc"><span class="fr m"><i>lr</i><sub>0</sub></span><code class="fs">lr0</code></span> is 0.01, <span class="fc u"><span class="fr m"><i>β</i><sub>1</sub></span><code class="fs">beta1</code><code class="fu">β1</code></span> is 0.85, <span class="fc u"><span class="fr m"><i>β</i><sub>2</sub></span><code class="fs">beta2</code><code class="fu">β2</code></span> is 0.99, and <span class="fc u"><span class="fr m"><i>ϵ</i><sub><span class="rm">A</span></sub></span><code class="fs">epsilon_A</code><code class="fu">ε_A</code></span> is 0.00000001. Adam, the rule that changes the parameters after each step, uses these four. <span class="fc"><span class="fr m"><i>lr</i><sub>0</sub></span><code class="fs">lr0</code></span> is the learning rate at step 0: the size of the first change. The two betas set how fast Adam's two averages forget old gradients. <span class="fc u"><span class="fr m"><i>ϵ</i><sub><span class="rm">A</span></sub></span><code class="fs">epsilon_A</code><code class="fu">ε_A</code></span> is Adam's own guard against a division by 0.</p></li>
 <li><p id="p-9df110b0" class="nb"><span class="fc"><span class="fr m"><i>nSteps</i></span><code class="fs">nSteps</code></span> is 1,000: the number of steps over which the learning rate falls to 0. Part 7 reads Adam and the training loop.</p></li>
 </ul>
-<div class="fx nb src n3" id="c-7ecdb875" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L19" title="MicroGptFlat.fss, line 19">19</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='6.037em' viewBox='0 0 175.342 60.374' fill='currentColor' style='vertical-align:-5.201em' role='img'><g>
+<div class="fx nb src n3" id="c-7ecdb875" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L19" title="MicroGptFlat.fss, line 19">19</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='52.798em' height='1.196em' viewBox='0 0 527.978 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmr10-996' x='0' y='8.369'>(</text>
 <text class='f-cmti10-996' x='3.874' y='8.369'>c<tspan x='7.948'>orpusPath</tspan></text>
 <text class='f-cmmi10-996' x='52.769' y='8.369'>,</text>
-<text class='f-cmti10-996' x='15.94' y='20.922'>weightsDir</text>
-<text class='f-cmr10-996' x='63.106' y='20.922'>)<tspan x='69.748'>=</tspan><tspan x='80.264'>(</tspan></text>
-<text class='f-ptmr8r-993' x='84.138' y='20.922'>“</text>
-<text class='f-pcrr8r-993' x='88.562' y='20.922'>../../<tspan x='124.427'>apl/</tspan><tspan x='15.94' y='32.877'>reference/</tspan><tspan x='75.716'>dzaima/</tspan><tspan x='117.559'>docs.txt</tspan></text>
-<text class='f-ptmr8r-993' x='165.38' y='32.877'>”</text>
-<text class='f-cmmi10-996' x='169.803' y='32.877'>,</text>
-<text class='f-ptmr8r-993' x='15.94' y='44.832'>“</text>
-<text class='f-pcrr8r-993' x='20.364' y='44.832'>../../<tspan x='56.229'>apl/</tspan><tspan x='80.139'>reference/</tspan><tspan x='15.94' y='56.787'>dzaima/</tspan><tspan x='57.783'>w</tspan></text>
-<text class='f-ptmr8r-993' x='63.761' y='56.787'>”</text>
-<text class='f-cmr10-996' x='68.184' y='56.787'>)</text>
+<text class='f-cmti10-996' x='57.197' y='8.369'>weightsDir</text>
+<text class='f-cmr10-996' x='104.363' y='8.369'>)<tspan x='111.004'>=</tspan><tspan x='121.52'>(</tspan></text>
+<text class='f-ptmr8r-993' x='125.395' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='129.818' y='8.369'>../../apl/reference/dzaima/docs.txt</text>
+<text class='f-ptmr8r-993' x='339.034' y='8.369'>”</text>
+<text class='f-cmmi10-996' x='343.457' y='8.369'>,</text>
+<text class='f-ptmr8r-993' x='347.885' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='352.308' y='8.369'>../../apl/reference/dzaima/w</text>
+<text class='f-ptmr8r-993' x='519.68' y='8.369'>”</text>
+<text class='f-cmr10-996' x='524.104' y='8.369'>)</text>
 </g>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L19" title="MicroGptFlat.fss, line 19">19</a></span>(corpusPath, weightsDir) = ("../../apl/reference/dzaima/docs.txt", "../../apl/reference/dzaima/w")</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L19" title="MicroGptFlat.fss, line 19">19</a></span>(corpusPath, weightsDir) = ("../../apl/reference/dzaima/docs.txt", "../../apl/reference/dzaima/w")</span></code></pre></div>
@@ -273,29 +273,29 @@ juanluis</code></pre></div>
 <section class="sec" data-num="1.5" data-title="The corpus as one matrix of tokens">
 <h2 id="s-the-corpus-as-one-matrix-of-tokens" class="nb"><span class="num">1.5</span> The corpus as one matrix of tokens</h2>
 <p id="p-cc453b34" class="nb">The program gives <code>a</code> the token 0, <code>b</code> the token 1, and so on to <code>z</code>, 25. The mark BOS is the token 26.</p>
-<div class="fx nb src n3" id="c-771d8727" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L47" title="MicroGptFlat.fss, line 47">47</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.591em' viewBox='0 0 175.342 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<div class="fx nb src n3" id="c-771d8727" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L47" title="MicroGptFlat.fss, line 47">47</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='32.996em' height='1.196em' viewBox='0 0 329.957 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
-<text class='f-cmr10-996' x='13.782' y='8.369'>--------------------<tspan x='83.52'>tactic</tspan><tspan x='111.194'>3/5:</tspan><tspan x='133.334'>the</tspan><tspan x='15.94' y='20.368'>corpus</tspan><tspan x='47.572'>as</tspan><tspan x='59.804'>one</tspan><tspan x='78.069'>padded</tspan><tspan x='112.938'>in</tspan><tspan x='120.963'>teger</tspan><tspan x='145.898'>matrix</tspan><tspan x='15.94' y='32.323'>-</tspan></text>
-<text class='f-cmtt10-996' x='22.582' y='32.323'>*)</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>--------------------<tspan x='83.52'>tactic</tspan><tspan x='111.194'>3/5:</tspan><tspan x='133.334'>the</tspan><tspan x='150.491'>corpus</tspan><tspan x='182.123'>as</tspan><tspan x='194.355'>one</tspan><tspan x='212.62'>padded</tspan><tspan x='247.489'>in</tspan><tspan x='255.515'>teger</tspan><tspan x='280.449'>matrix</tspan><tspan x='312.855'>-</tspan></text>
+<text class='f-cmtt10-996' x='319.497' y='8.369'>*)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L48" title="MicroGptFlat.fss, line 48">48</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.686em' viewBox='0 0 175.342 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L48" title="MicroGptFlat.fss, line 48">48</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='25.419em' height='1.196em' viewBox='0 0 254.189 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.369'>c<tspan x='4.074'>orpus</tspan></text>
 <text class='f-cmr10-996' x='28.696' y='8.369'>:<tspan x='33.124'>Corpus</tspan><tspan x='66.969'>=</tspan></text>
-<text class='f-cmti10-996' x='15.94' y='20.922'>lo<tspan x='23.069'>adCorpus</tspan></text>
-<text class='f-cmr10-996' x='65.005' y='20.922'>(</text>
-<text class='f-cmti10-996' x='68.879' y='20.922'>c<tspan x='72.953'>orpusPath</tspan></text>
-<text class='f-cmmi10-996' x='117.774' y='20.922'>,</text>
-<text class='f-cmti10-996' x='122.201' y='20.922'>blo<tspan x='133.913'>ckSize</tspan></text>
-<text class='f-cmmi10-996' x='161.14' y='20.922'>,</text>
-<text class='f-cmti10-996' x='15.94' y='33.275'>b<tspan x='20.014'>osId</tspan></text>
-<text class='f-cmr10-996' x='39.142' y='33.275'>)</text>
+<text class='f-cmti10-996' x='77.486' y='8.369'>lo<tspan x='84.614'>adCorpus</tspan></text>
+<text class='f-cmr10-996' x='126.55' y='8.369'>(</text>
+<text class='f-cmti10-996' x='130.424' y='8.369'>c<tspan x='134.498'>orpusPath</tspan></text>
+<text class='f-cmmi10-996' x='179.319' y='8.369'>,</text>
+<text class='f-cmti10-996' x='183.747' y='8.369'>blo<tspan x='195.458'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='222.685' y='8.369'>,</text>
+<text class='f-cmti10-996' x='227.113' y='8.369'>b<tspan x='231.186'>osId</tspan></text>
+<text class='f-cmr10-996' x='250.315' y='8.369'>)</text>
 </g>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L47" title="MicroGptFlat.fss, line 47">47</a></span>(* -------------------- tactic 3/5: the corpus as one padded integer matrix - *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L48" title="MicroGptFlat.fss, line 48">48</a></span>corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L47" title="MicroGptFlat.fss, line 47">47</a></span>(* -------------------- tactic 3/5: the corpus as one padded integer matrix - *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L48" title="MicroGptFlat.fss, line 48">48</a></span>corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)</span></code></pre></div>
 <p id="p-f6d0dd1b" class="nb">Line 47 is the heading comment. "Tactic 3/5" points to two pieces of advice from Hsu's talk, by their numbers in the project's notes on it: tactic 3, the corpus as one integer matrix with a vector of lengths, built once; tactic 5, characters turned into small integers when the data is loaded.</p>
 <p id="p-5bdae5ef" class="nb">Line 48 declares a top-level variable with a written type, <span class="fc"><span class="fr m"><span class="ty">Corpus</span></span><code class="fs">Corpus</code></span>. Its value is computed once, when the component is loaded, before <span class="fc"><span class="fr m"><i>run</i></span><code class="fs">run</code></span> starts. The function <span class="fc"><span class="fr m"><i>loadCorpus</i></span><code class="fs">loadCorpus</code></span> and the type <span class="fc"><span class="fr m"><span class="ty">Corpus</span></span><code class="fs">Corpus</code></span> are in <code>FlatData.fss</code>:</p>
-<div class="fx nb src n3" id="c-b7f3eba5" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss">FlatData.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L119" title="FlatData.fss, line 119">119</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<div class="fx nb src n3" id="c-b7f3eba5" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss">FlatData.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L119" title="FlatData.fss, line 119">119</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='24.659em' height='1.196em' viewBox='0 0 246.593 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.369'>lo<tspan x='7.129'>adCorpus</tspan></text>
 <text class='f-cmr10-996' x='49.064' y='8.369'>(</text>
 <text class='f-cmti10-996' x='52.939' y='8.369'>p<tspan x='57.521'>ath</tspan></text>
@@ -306,11 +306,11 @@ juanluis</code></pre></div>
 <text class='f-msbm10-996' x='124.58' y='8.369'>Z</text>
 <text class='f-cmr10-996' x='131.222' y='8.369'>32</text>
 <text class='f-cmmi10-996' x='141.184' y='8.369'>,</text>
-<text class='f-cmti10-996' x='15.94' y='21.818'>b<tspan x='20.014'>os</tspan></text>
-<text class='f-cmr10-996' x='29.997' y='21.818'>:</text>
-<text class='f-msbm10-996' x='34.425' y='21.818'>Z</text>
-<text class='f-cmr10-996' x='41.067' y='21.818'>32):<tspan x='59.332'>Corpus</tspan><tspan x='93.177'>=</tspan></text>
-<text class='f-cmtt10-996' x='103.693' y='21.818'>do</text>
+<text class='f-cmti10-996' x='145.612' y='8.369'>b<tspan x='149.686'>os</tspan></text>
+<text class='f-cmr10-996' x='159.669' y='8.369'>:</text>
+<text class='f-msbm10-996' x='164.097' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='170.739' y='8.369'>32):<tspan x='189.004'>Corpus</tspan><tspan x='222.849'>=</tspan></text>
+<text class='f-cmtt10-996' x='233.365' y='8.369'>do</text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L120" title="FlatData.fss, line 120">120</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='11.052em' height='1.196em' viewBox='0 0 110.516 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -322,7 +322,7 @@ juanluis</code></pre></div>
 <text class='f-cmr10-996' x='106.641' y='8.369'>)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L121" title="FlatData.fss, line 121">121</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.560em' viewBox='0 0 157.41 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L121" title="FlatData.fss, line 121">121</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='19.776em' height='1.206em' viewBox='0 0 197.761 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>tokm</text>
 <text class='f-cmr10-996' x='24.663' y='8.468'>=</text>
 <text class='f-cmti10-996' x='35.179' y='8.468'>arr<tspan x='48.164'>ay</tspan></text>
@@ -335,17 +335,17 @@ juanluis</code></pre></div>
 <text class='f-cmti10-996' x='90.938' y='8.468'>names</text>
 <text class='f-cmsy10-996' x='119.253' y='8.468'>|</text>
 <text class='f-cmmi10-996' x='122.02' y='8.468'>,</text>
-<text class='f-cmti10-996' x='15.94' y='22.018'>blk</text>
-<text class='f-cmr10-996' x='30.938' y='22.018'>+<tspan x='40.901'>1</tspan></text>
-<text class='f-cmex10-996' x='45.882' y='13.948'></text>
-<text class='f-cmmi10-996' x='50.448' y='22.018'>.</text>
-<text class='f-cmti10-996' x='53.216' y='22.018'>ﬁl<tspan x='61.872'>l</tspan></text>
-<text class='f-cmr10-996' x='65.448' y='22.018'>(</text>
-<text class='f-cmti10-996' x='69.322' y='22.018'>b<tspan x='73.395'>os</tspan></text>
-<text class='f-cmr10-996' x='83.379' y='22.018'>)</text>
+<text class='f-cmti10-996' x='126.448' y='8.468'>blk</text>
+<text class='f-cmr10-996' x='141.446' y='8.468'>+<tspan x='151.408'>1</tspan></text>
+<text class='f-cmex10-996' x='156.39' y='.398'></text>
+<text class='f-cmmi10-996' x='160.956' y='8.468'>.</text>
+<text class='f-cmti10-996' x='163.723' y='8.468'>ﬁl<tspan x='172.38'>l</tspan></text>
+<text class='f-cmr10-996' x='175.955' y='8.468'>(</text>
+<text class='f-cmti10-996' x='179.83' y='8.468'>b<tspan x='183.903'>os</tspan></text>
+<text class='f-cmr10-996' x='193.886' y='8.468'>)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L122" title="FlatData.fss, line 122">122</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.041em' viewBox='0 0 157.41 50.411' fill='currentColor' style='vertical-align:-4.194em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L122" title="FlatData.fss, line 122">122</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='48.882em' height='1.206em' viewBox='0 0 488.816 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.468'>for</text>
 <text class='f-cmmi10-996' x='18.458' y='8.468'>d</text>
 <text class='f-cmsy10-996' x='26.411' y='8.468'>←</text>
@@ -358,38 +358,38 @@ juanluis</code></pre></div>
 <text class='f-cmex10-996' x='108.879' y='.398'></text>
 <text class='f-cmmi10-996' x='113.446' y='8.468'>,<tspan x='117.873'>j</tspan></text>
 <text class='f-cmsy10-996' x='125.314' y='8.468'>←</text>
-<text class='f-cmti10-996' x='15.94' y='22.018'>se<tspan x='24.087'>q</tspan></text>
-<text class='f-cmex10-996' x='29.552' y='13.948'></text>
-<text class='f-cmr10-996' x='34.118' y='22.018'>0<tspan x='41.313'>#</tspan></text>
-<text class='f-cmsy10-996' x='51.829' y='22.018'>|</text>
-<text class='f-cmti10-996' x='54.597' y='22.018'>names</text>
-<text class='f-cmmi7-697' x='82.911' y='23.512'>d</text>
-<text class='f-cmsy10-996' x='87.557' y='22.018'>|</text>
-<text class='f-cmex10-996' x='90.324' y='13.948'></text>
-<text class='f-cmtt10-996' x='97.657' y='22.018'>do</text>
-<text class='f-cmti10-996' x='110.885' y='22.018'>tokm</text>
-<text class='f-cmr10-996' x='132.781' y='22.018'>[</text>
-<text class='f-cmmi10-996' x='135.549' y='22.018'>d,</text>
-<text class='f-cmr10-996' x='15.94' y='34.471'>1<tspan x='23.136'>+</tspan></text>
-<text class='f-cmmi10-996' x='33.098' y='34.471'>j</text>
-<text class='f-cmr10-996' x='37.771' y='34.471'>]<tspan x='43.306'>:</tspan><tspan x='46.073'>=</tspan></text>
-<text class='f-cmti10-996' x='56.589' y='34.471'>names</text>
-<text class='f-cmmi7-697' x='84.904' y='35.965'>d</text>
-<text class='f-cmr10-996' x='89.549' y='34.471'>[</text>
-<text class='f-cmmi10-996' x='92.317' y='34.471'>j</text>
-<text class='f-cmr10-996' x='96.99' y='34.471'>]</text>
-<text class='f-cmmi10-996' x='99.757' y='34.471'>.</text>
-<text class='f-cmti10-996' x='102.524' y='34.471'>c<tspan x='106.598'>o</tspan><tspan x='111.181'>dePoint</tspan></text>
-<text class='f-cmsy10-996' x='147.831' y='34.471'>−</text>
-<text class='f-ptmr8r-993' x='15.94' y='46.825'>‘</text>
-<text class='f-pcrr8r-993' x='19.258' y='46.825'>a</text>
-<text class='f-ptmr8r-993' x='25.235' y='46.825'>’</text>
-<text class='f-cmmi10-996' x='28.553' y='46.825'>.</text>
-<text class='f-cmti10-996' x='31.32' y='46.825'>c<tspan x='35.394'>o</tspan><tspan x='39.977'>dePoint</tspan></text>
-<text class='f-cmtt10-996' x='77.18' y='46.825'>end</text>
+<text class='f-cmti10-996' x='138.044' y='8.468'>se<tspan x='146.191'>q</tspan></text>
+<text class='f-cmex10-996' x='151.655' y='.398'></text>
+<text class='f-cmr10-996' x='156.221' y='8.468'>0<tspan x='163.416'>#</tspan></text>
+<text class='f-cmsy10-996' x='173.933' y='8.468'>|</text>
+<text class='f-cmti10-996' x='176.7' y='8.468'>names</text>
+<text class='f-cmmi7-697' x='205.014' y='9.963'>d</text>
+<text class='f-cmsy10-996' x='209.66' y='8.468'>|</text>
+<text class='f-cmex10-996' x='212.427' y='.398'></text>
+<text class='f-cmtt10-996' x='219.761' y='8.468'>do</text>
+<text class='f-cmti10-996' x='232.989' y='8.468'>tokm</text>
+<text class='f-cmr10-996' x='254.885' y='8.468'>[</text>
+<text class='f-cmmi10-996' x='257.652' y='8.468'>d,</text>
+<text class='f-cmr10-996' x='267.265' y='8.468'>1<tspan x='274.461'>+</tspan></text>
+<text class='f-cmmi10-996' x='284.423' y='8.468'>j</text>
+<text class='f-cmr10-996' x='289.096' y='8.468'>]<tspan x='294.631'>:</tspan><tspan x='297.398'>=</tspan></text>
+<text class='f-cmti10-996' x='307.915' y='8.468'>names</text>
+<text class='f-cmmi7-697' x='336.229' y='9.963'>d</text>
+<text class='f-cmr10-996' x='340.874' y='8.468'>[</text>
+<text class='f-cmmi10-996' x='343.642' y='8.468'>j</text>
+<text class='f-cmr10-996' x='348.315' y='8.468'>]</text>
+<text class='f-cmmi10-996' x='351.082' y='8.468'>.</text>
+<text class='f-cmti10-996' x='353.85' y='8.468'>c<tspan x='357.923'>o</tspan><tspan x='362.506'>dePoint</tspan></text>
+<text class='f-cmsy10-996' x='399.156' y='8.468'>−</text>
+<text class='f-ptmr8r-993' x='409.118' y='8.468'>‘</text>
+<text class='f-pcrr8r-993' x='412.436' y='8.468'>a</text>
+<text class='f-ptmr8r-993' x='418.413' y='8.468'>’</text>
+<text class='f-cmmi10-996' x='421.731' y='8.468'>.</text>
+<text class='f-cmti10-996' x='424.498' y='8.468'>c<tspan x='428.572'>o</tspan><tspan x='433.155'>dePoint</tspan></text>
+<text class='f-cmtt10-996' x='470.358' y='8.468'>end</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L123" title="FlatData.fss, line 123">123</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.706em' viewBox='0 0 157.41 37.061' fill='currentColor' style='vertical-align:-2.859em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L123" title="FlatData.fss, line 123">123</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='28.804em' height='1.206em' viewBox='0 0 288.043 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmr10-996' x='0' y='8.468'>Corpus</text>
 <text class='f-cmex10-996' x='31.078' y='.398'></text>
 <text class='f-cmti10-996' x='35.644' y='8.468'>tokm</text>
@@ -401,23 +401,23 @@ juanluis</code></pre></div>
 <text class='f-cmsy10-996' x='115.819' y='8.468'>|</text>
 <text class='f-cmmi10-996' x='118.586' y='8.468'>,</text>
 <text class='f-cmtt10-996' x='123.014' y='8.468'>fn</text>
-<text class='f-cmr10-996' x='15.94' y='21.021'>(</text>
-<text class='f-cmmi10-996' x='19.815' y='21.021'>d</text>
-<text class='f-cmr10-996' x='25' y='21.021'>:</text>
-<text class='f-msbm10-996' x='29.428' y='21.021'>Z</text>
-<text class='f-cmr10-996' x='36.07' y='21.021'>32):</text>
-<text class='f-msbm10-996' x='54.335' y='21.021'>Z</text>
-<text class='f-cmr10-996' x='60.976' y='21.021'>32</text>
-<text class='f-cmsy10-996' x='73.706' y='21.021'>⇒</text>
-<text class='f-cmr10-996' x='86.436' y='21.021'>1<tspan x='93.632'>+</tspan></text>
-<text class='f-cmsy10-996' x='103.594' y='21.021'>|</text>
-<text class='f-cmti10-996' x='106.362' y='21.021'>names</text>
-<text class='f-cmmi7-697' x='134.676' y='22.516'>d</text>
-<text class='f-cmsy10-996' x='139.322' y='21.021'>|</text>
-<text class='f-cmr10-996' x='142.089' y='21.021'>)</text>
-<text class='f-cmmi10-996' x='145.963' y='21.021'>,</text>
-<text class='f-cmti10-996' x='15.94' y='33.475'>blk</text>
-<text class='f-cmex10-996' x='28.724' y='25.405'></text>
+<text class='f-cmr10-996' x='136.242' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='140.116' y='8.468'>d</text>
+<text class='f-cmr10-996' x='145.302' y='8.468'>:</text>
+<text class='f-msbm10-996' x='149.729' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='156.371' y='8.468'>32):</text>
+<text class='f-msbm10-996' x='174.636' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='181.278' y='8.468'>32</text>
+<text class='f-cmsy10-996' x='194.008' y='8.468'>⇒</text>
+<text class='f-cmr10-996' x='206.738' y='8.468'>1<tspan x='213.933'>+</tspan></text>
+<text class='f-cmsy10-996' x='223.896' y='8.468'>|</text>
+<text class='f-cmti10-996' x='226.663' y='8.468'>names</text>
+<text class='f-cmmi7-697' x='254.978' y='9.963'>d</text>
+<text class='f-cmsy10-996' x='259.623' y='8.468'>|</text>
+<text class='f-cmr10-996' x='262.39' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='266.265' y='8.468'>,</text>
+<text class='f-cmti10-996' x='270.693' y='8.468'>blk</text>
+<text class='f-cmex10-996' x='283.476' y='.398'></text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L124" title="FlatData.fss, line 124">124</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -436,39 +436,39 @@ juanluis</code></pre></div>
 <pre class="vb nb out" id="o-71b03355" data-kind="output"><code>26 24 20 7 4 13 6 26 26 26 26 26 26 26 26 26 26</code></pre>
 <p id="p-092207af" class="nb">Column 0 holds BOS. Columns 1 to 6 hold <code>y</code> (24), <code>u</code> (20), <code>h</code> (7), <code>e</code> (4), <code>n</code> (13) and <code>g</code> (6). Every later column still holds the 26 from line 121. The length that line 123 stores for this document is 7.</p>
 <p id="p-ac163b3b" class="nb">The object's declaration follows.</p>
-<div class="fx nb src n3" id="c-996ed6c2" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss">FlatData.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L106" title="FlatData.fss, line 106">106</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.706em' viewBox='0 0 175.342 37.061' fill='currentColor' style='vertical-align:-2.859em' role='img'><g>
+<div class="fx nb src n3" id="c-996ed6c2" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss">FlatData.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L106" title="FlatData.fss, line 106">106</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='33.214em' height='1.206em' viewBox='0 0 332.137 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.468'>object</text>
 <text class='f-cmr10-996' x='34.149' y='8.468'>Corpus</text>
 <text class='f-cmex10-996' x='65.227' y='.398'></text>
 <text class='f-cmti10-996' x='69.794' y='8.468'>tokm</text>
-<text class='f-cmr10-996' x='91.69' y='8.468'>:<tspan x='15.94' y='21.021'>Arra</tspan><tspan x='35.921'>y</tspan></text>
-<text class='f-stmary10-996' x='41.317' y='21.021'></text>
-<text class='f-msbm10-996' x='45.33' y='21.021'>Z</text>
-<text class='f-cmr10-996' x='51.972' y='21.021'>32</text>
-<text class='f-cmmi10-996' x='61.935' y='21.021'>,</text>
-<text class='f-cmr10-996' x='66.362' y='21.021'>(</text>
-<text class='f-msbm10-996' x='70.237' y='21.021'>Z</text>
-<text class='f-cmr10-996' x='76.879' y='21.021'>32</text>
-<text class='f-cmmi10-996' x='86.841' y='21.021'>,</text>
-<text class='f-msbm10-996' x='91.269' y='21.021'>Z</text>
-<text class='f-cmr10-996' x='97.911' y='21.021'>32)</text>
-<text class='f-stmary10-996' x='111.748' y='21.021'></text>
-<text class='f-cmmi10-996' x='115.761' y='21.021'>,</text>
-<text class='f-cmti10-996' x='15.94' y='33.475'>len</text>
-<text class='f-cmr10-996' x='29.435' y='33.475'>:<tspan x='33.862'>Arra</tspan><tspan x='53.843'>y</tspan></text>
-<text class='f-stmary10-996' x='59.239' y='33.475'></text>
-<text class='f-msbm10-996' x='63.252' y='33.475'>Z</text>
-<text class='f-cmr10-996' x='69.894' y='33.475'>32</text>
-<text class='f-cmmi10-996' x='79.857' y='33.475'>,</text>
-<text class='f-msbm10-996' x='84.284' y='33.475'>Z</text>
-<text class='f-cmr10-996' x='90.926' y='33.475'>32</text>
-<text class='f-stmary10-996' x='100.889' y='33.475'></text>
-<text class='f-cmmi10-996' x='104.902' y='33.475'>,</text>
-<text class='f-cmti10-996' x='109.329' y='33.475'>blk</text>
-<text class='f-cmr10-996' x='122.113' y='33.475'>:</text>
-<text class='f-msbm10-996' x='126.541' y='33.475'>Z</text>
-<text class='f-cmr10-996' x='133.183' y='33.475'>32</text>
-<text class='f-cmex10-996' x='143.146' y='25.405'></text>
+<text class='f-cmr10-996' x='91.69' y='8.468'>:<tspan x='96.117'>Arra</tspan><tspan x='116.098'>y</tspan></text>
+<text class='f-stmary10-996' x='121.494' y='8.468'></text>
+<text class='f-msbm10-996' x='125.507' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='132.149' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='142.112' y='8.468'>,</text>
+<text class='f-cmr10-996' x='146.539' y='8.468'>(</text>
+<text class='f-msbm10-996' x='150.414' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='157.056' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='167.018' y='8.468'>,</text>
+<text class='f-msbm10-996' x='171.446' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='178.088' y='8.468'>32)</text>
+<text class='f-stmary10-996' x='191.925' y='8.468'></text>
+<text class='f-cmmi10-996' x='195.938' y='8.468'>,</text>
+<text class='f-cmti10-996' x='200.365' y='8.468'>len</text>
+<text class='f-cmr10-996' x='213.86' y='8.468'>:<tspan x='218.288'>Arra</tspan><tspan x='238.268'>y</tspan></text>
+<text class='f-stmary10-996' x='243.665' y='8.468'></text>
+<text class='f-msbm10-996' x='247.677' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='254.319' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='264.282' y='8.468'>,</text>
+<text class='f-msbm10-996' x='268.71' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='275.351' y='8.468'>32</text>
+<text class='f-stmary10-996' x='285.314' y='8.468'></text>
+<text class='f-cmmi10-996' x='289.327' y='8.468'>,</text>
+<text class='f-cmti10-996' x='293.755' y='8.468'>blk</text>
+<text class='f-cmr10-996' x='306.539' y='8.468'>:</text>
+<text class='f-msbm10-996' x='310.966' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='317.608' y='8.468'>32</text>
+<text class='f-cmex10-996' x='327.571' y='.398'></text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L107" title="FlatData.fss, line 107">107</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='7.804em' height='1.196em' viewBox='0 0 78.042 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -494,7 +494,7 @@ juanluis</code></pre></div>
 <text class='f-cmmi7-697' x='108.255' y='9.863'>d</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L109" title="FlatData.fss, line 109">109</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.541em' viewBox='0 0 157.41 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L109" title="FlatData.fss, line 109">109</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='16.407em' height='1.196em' viewBox='0 0 164.065 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.369'>token</text>
 <text class='f-cmr10-996' x='23.933' y='8.369'>(</text>
 <text class='f-cmmi10-996' x='27.807' y='8.369'>d</text>
@@ -509,21 +509,21 @@ juanluis</code></pre></div>
 <text class='f-cmr10-996' x='99.102' y='8.369'>32<tspan x='111.832'>=</tspan></text>
 <text class='f-cmti10-996' x='122.348' y='8.369'>tokm</text>
 <text class='f-cmr10-996' x='144.244' y='8.369'>[</text>
-<text class='f-cmmi10-996' x='147.011' y='8.369'>d,<tspan x='15.94' y='21.818'>j</tspan></text>
-<text class='f-cmr10-996' x='20.613' y='21.818'>]</text>
+<text class='f-cmmi10-996' x='147.011' y='8.369'>d,<tspan x='156.625'>j</tspan></text>
+<text class='f-cmr10-996' x='161.298' y='8.369'>]</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L110" title="FlatData.fss, line 110">110</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.591em' viewBox='0 0 157.41 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L110" title="FlatData.fss, line 110">110</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='32.146em' height='1.196em' viewBox='0 0 321.462 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
-<text class='f-cmr10-996' x='13.782' y='8.369'>the<tspan x='30.939'>k</tspan><tspan x='35.921'>eys</tspan><tspan x='52.857'>of</tspan><tspan x='64.204'>a</tspan><tspan x='72.506'>batc</tspan><tspan x='91.048'>h</tspan><tspan x='99.903'>b</tspan><tspan x='108.759'>of</tspan><tspan x='15.94' y='20.368'>do</tspan><tspan x='26.733'>cumen</tspan><tspan x='54.684'>ts,</tspan><tspan x='68.576'>one</tspan><tspan x='86.841'>ro</tspan><tspan x='95.448'>w</tspan><tspan x='105.964'>p</tspan><tspan x='111.776'>er</tspan><tspan x='15.94' y='32.323'>(do</tspan><tspan x='30.608'>cumen</tspan><tspan x='58.558'>t,</tspan><tspan x='68.521'>p</tspan><tspan x='74.333'>osition):</tspan></text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>the<tspan x='30.939'>k</tspan><tspan x='35.921'>eys</tspan><tspan x='52.857'>of</tspan><tspan x='64.204'>a</tspan><tspan x='72.506'>batc</tspan><tspan x='91.048'>h</tspan><tspan x='99.903'>b</tspan><tspan x='108.759'>of</tspan><tspan x='120.105'>do</tspan><tspan x='130.898'>cumen</tspan><tspan x='158.849'>ts,</tspan><tspan x='172.741'>one</tspan><tspan x='191.006'>ro</tspan><tspan x='199.613'>w</tspan><tspan x='210.129'>p</tspan><tspan x='215.941'>er</tspan><tspan x='227.591'>(do</tspan><tspan x='242.259'>cumen</tspan><tspan x='270.21'>t,</tspan><tspan x='280.172'>p</tspan><tspan x='285.984'>osition):</tspan></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L111" title="FlatData.fss, line 111">111</a></span><span class="tx" style="padding-left:3.15em"><svg xmlns='http://www.w3.org/2000/svg' width='14.396em' height='3.686em' viewBox='0 0 143.96 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
-<text class='f-cmr10-996' x='0' y='8.369'>the<tspan x='17.158'>tok</tspan><tspan x='30.995'>ens</tspan><tspan x='48.208'>at</tspan><tspan x='60.385'>p</tspan><tspan x='66.196'>osition</tspan><tspan x='98.354'>+</tspan><tspan x='109.423'>oﬀ,</tspan><tspan x='126.304'>the</tspan><tspan x='15.94' y='20.922'>p</tspan><tspan x='21.752'>ositions,</tspan><tspan x='60.606'>and</tspan><tspan x='79.978'>the</tspan><tspan x='97.136'>0/1</tspan><tspan x='15.94' y='33.275'>v</tspan><tspan x='20.645'>alidit</tspan><tspan x='43.061'>y</tspan><tspan x='51.64'>mask</tspan></text>
-<text class='f-cmtt10-996' x='80.753' y='33.275'>*)</text>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L111" title="FlatData.fss, line 111">111</a></span><span class="tx" style="padding-left:3.15em"><svg xmlns='http://www.w3.org/2000/svg' width='31.820em' height='1.196em' viewBox='0 0 318.196 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>the<tspan x='17.158'>tok</tspan><tspan x='30.995'>ens</tspan><tspan x='48.208'>at</tspan><tspan x='60.385'>p</tspan><tspan x='66.196'>osition</tspan><tspan x='98.354'>+</tspan><tspan x='109.423'>oﬀ,</tspan><tspan x='126.304'>the</tspan><tspan x='143.462'>p</tspan><tspan x='149.274'>ositions,</tspan><tspan x='188.128'>and</tspan><tspan x='207.5'>the</tspan><tspan x='224.658'>0/1</tspan><tspan x='242.923'>v</tspan><tspan x='247.628'>alidit</tspan><tspan x='270.044'>y</tspan><tspan x='278.623'>mask</tspan></text>
+<text class='f-cmtt10-996' x='307.736' y='8.369'>*)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L112" title="FlatData.fss, line 112">112</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.560em' viewBox='0 0 157.41 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L112" title="FlatData.fss, line 112">112</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='24.446em' height='1.206em' viewBox='0 0 244.459 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>tokens</text>
 <text class='f-cmex10-996' x='28.06' y='.398'></text>
 <text class='f-cmmi10-996' x='32.626' y='8.468'>b</text>
@@ -536,23 +536,23 @@ juanluis</code></pre></div>
 <text class='f-cmr10-996' x='98.393' y='8.468'>32</text>
 <text class='f-stmary10-996' x='108.356' y='8.468'></text>
 <text class='f-cmmi10-996' x='112.369' y='8.468'>,</text>
-<text class='f-cmti10-996' x='15.94' y='22.018'>oﬀ</text>
-<text class='f-cmr10-996' x='29.254' y='22.018'>:</text>
-<text class='f-msbm10-996' x='33.682' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='40.324' y='22.018'>32</text>
-<text class='f-cmex10-996' x='50.286' y='13.948'></text>
-<text class='f-cmr10-996' x='54.853' y='22.018'>:<tspan x='59.281'>Arra</tspan><tspan x='79.261'>y</tspan></text>
-<text class='f-stmary10-996' x='84.658' y='22.018'></text>
-<text class='f-msbm10-996' x='88.67' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='95.312' y='22.018'>32</text>
-<text class='f-cmmi10-996' x='105.275' y='22.018'>,</text>
-<text class='f-msbm10-996' x='109.703' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='116.344' y='22.018'>32</text>
-<text class='f-stmary10-996' x='126.307' y='22.018'></text>
-<text class='f-cmr10-996' x='133.087' y='22.018'>=</text>
+<text class='f-cmti10-996' x='116.797' y='8.468'>oﬀ</text>
+<text class='f-cmr10-996' x='130.111' y='8.468'>:</text>
+<text class='f-msbm10-996' x='134.538' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='141.18' y='8.468'>32</text>
+<text class='f-cmex10-996' x='151.143' y='.398'></text>
+<text class='f-cmr10-996' x='155.709' y='8.468'>:<tspan x='160.137'>Arra</tspan><tspan x='180.118'>y</tspan></text>
+<text class='f-stmary10-996' x='185.514' y='8.468'></text>
+<text class='f-msbm10-996' x='189.527' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='196.168' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='206.131' y='8.468'>,</text>
+<text class='f-msbm10-996' x='210.559' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='217.201' y='8.468'>32</text>
+<text class='f-stmary10-996' x='227.163' y='8.468'></text>
+<text class='f-cmr10-996' x='233.943' y='8.468'>=</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L113" title="FlatData.fss, line 113">113</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='3.706em' viewBox='0 0 139.477 37.061' fill='currentColor' style='vertical-align:-2.859em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L113" title="FlatData.fss, line 113">113</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='28.233em' height='1.206em' viewBox='0 0 282.333 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>keys</text>
 <text class='f-cmex10-996' x='18.894' y='.398'></text>
 <text class='f-cmsy10-996' x='23.461' y='8.468'>|</text>
@@ -569,26 +569,26 @@ juanluis</code></pre></div>
 <text class='f-msbm10-996' x='103.351' y='8.468'>Z</text>
 <text class='f-cmr10-996' x='109.993' y='8.468'>32</text>
 <text class='f-cmsy10-996' x='122.723' y='8.468'>⇒</text>
-<text class='f-cmti10-996' x='15.94' y='21.021'>tokm</text>
-<text class='f-cmr10-996' x='37.836' y='21.021'>[</text>
-<text class='f-cmmi10-996' x='40.604' y='21.021'>b</text>
-<text class='f-cmr10-996' x='44.879' y='21.021'>[</text>
-<text class='f-cmmi10-996' x='47.647' y='21.021'>r</text>
-<text class='f-cmsy10-996' x='54.632' y='21.021'>÷</text>
-<text class='f-cmti10-996' x='64.595' y='21.021'>blk</text>
-<text class='f-cmr10-996' x='77.379' y='21.021'>]</text>
-<text class='f-cmmi10-996' x='80.146' y='21.021'>,</text>
-<text class='f-cmr10-996' x='15.94' y='33.475'>(</text>
-<text class='f-cmmi10-996' x='19.815' y='33.475'>r</text>
-<text class='f-cmtt10-996' x='26.8' y='33.475'>MOD</text>
-<text class='f-cmti10-996' x='44.705' y='33.475'>blk</text>
-<text class='f-cmr10-996' x='57.489' y='33.475'>)<tspan x='63.577'>+</tspan></text>
-<text class='f-cmti10-996' x='73.54' y='33.475'>oﬀ</text>
-<text class='f-cmr10-996' x='86.854' y='33.475'>]</text>
-<text class='f-cmex10-996' x='89.621' y='25.405'></text>
+<text class='f-cmti10-996' x='135.453' y='8.468'>tokm</text>
+<text class='f-cmr10-996' x='157.349' y='8.468'>[</text>
+<text class='f-cmmi10-996' x='160.117' y='8.468'>b</text>
+<text class='f-cmr10-996' x='164.392' y='8.468'>[</text>
+<text class='f-cmmi10-996' x='167.16' y='8.468'>r</text>
+<text class='f-cmsy10-996' x='174.145' y='8.468'>÷</text>
+<text class='f-cmti10-996' x='184.108' y='8.468'>blk</text>
+<text class='f-cmr10-996' x='196.891' y='8.468'>]</text>
+<text class='f-cmmi10-996' x='199.659' y='8.468'>,</text>
+<text class='f-cmr10-996' x='204.087' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='207.961' y='8.468'>r</text>
+<text class='f-cmtt10-996' x='214.946' y='8.468'>MOD</text>
+<text class='f-cmti10-996' x='232.851' y='8.468'>blk</text>
+<text class='f-cmr10-996' x='245.635' y='8.468'>)<tspan x='251.723'>+</tspan></text>
+<text class='f-cmti10-996' x='261.686' y='8.468'>oﬀ</text>
+<text class='f-cmr10-996' x='275' y='8.468'>]</text>
+<text class='f-cmex10-996' x='277.767' y='.398'></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L114" title="FlatData.fss, line 114">114</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.550em' viewBox='0 0 157.41 25.504' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L114" title="FlatData.fss, line 114">114</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='21.638em' height='1.206em' viewBox='0 0 216.379 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>p<tspan x='4.583'>ositions</tspan></text>
 <text class='f-cmex10-996' x='38.753' y='.398'></text>
 <text class='f-cmmi10-996' x='43.319' y='8.468'>b</text>
@@ -601,18 +601,18 @@ juanluis</code></pre></div>
 <text class='f-cmr10-996' x='109.087' y='8.468'>32</text>
 <text class='f-stmary10-996' x='119.049' y='8.468'></text>
 <text class='f-cmex10-996' x='123.062' y='.398'></text>
-<text class='f-cmr10-996' x='127.628' y='8.468'>:<tspan x='15.94' y='21.918'>Arra</tspan><tspan x='35.921'>y</tspan></text>
-<text class='f-stmary10-996' x='41.317' y='21.918'></text>
-<text class='f-msbm10-996' x='45.33' y='21.918'>Z</text>
-<text class='f-cmr10-996' x='51.972' y='21.918'>32</text>
-<text class='f-cmmi10-996' x='61.935' y='21.918'>,</text>
-<text class='f-msbm10-996' x='66.362' y='21.918'>Z</text>
-<text class='f-cmr10-996' x='73.004' y='21.918'>32</text>
-<text class='f-stmary10-996' x='82.967' y='21.918'></text>
-<text class='f-cmr10-996' x='89.747' y='21.918'>=</text>
+<text class='f-cmr10-996' x='127.628' y='8.468'>:<tspan x='132.056'>Arra</tspan><tspan x='152.037'>y</tspan></text>
+<text class='f-stmary10-996' x='157.433' y='8.468'></text>
+<text class='f-msbm10-996' x='161.446' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='168.088' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='178.05' y='8.468'>,</text>
+<text class='f-msbm10-996' x='182.478' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='189.12' y='8.468'>32</text>
+<text class='f-stmary10-996' x='199.083' y='8.468'></text>
+<text class='f-cmr10-996' x='205.863' y='8.468'>=</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L115" title="FlatData.fss, line 115">115</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='2.560em' viewBox='0 0 139.477 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L115" title="FlatData.fss, line 115">115</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='17.769em' height='1.206em' viewBox='0 0 177.693 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>keys</text>
 <text class='f-cmex10-996' x='18.894' y='.398'></text>
 <text class='f-cmsy10-996' x='23.461' y='8.468'>|</text>
@@ -629,13 +629,13 @@ juanluis</code></pre></div>
 <text class='f-msbm10-996' x='103.351' y='8.468'>Z</text>
 <text class='f-cmr10-996' x='109.993' y='8.468'>32</text>
 <text class='f-cmsy10-996' x='122.723' y='8.468'>⇒</text>
-<text class='f-cmmi10-996' x='15.94' y='22.018'>r</text>
-<text class='f-cmtt10-996' x='22.926' y='22.018'>MOD</text>
-<text class='f-cmti10-996' x='40.831' y='22.018'>blk</text>
-<text class='f-cmex10-996' x='53.614' y='13.948'></text>
+<text class='f-cmmi10-996' x='135.453' y='8.468'>r</text>
+<text class='f-cmtt10-996' x='142.439' y='8.468'>MOD</text>
+<text class='f-cmti10-996' x='160.343' y='8.468'>blk</text>
+<text class='f-cmex10-996' x='173.127' y='.398'></text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L116" title="FlatData.fss, line 116">116</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.550em' viewBox='0 0 157.41 25.504' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L116" title="FlatData.fss, line 116">116</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='19.958em' height='1.206em' viewBox='0 0 199.577 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>valid</text>
 <text class='f-cmex10-996' x='21.397' y='.398'></text>
 <text class='f-cmmi10-996' x='25.964' y='8.468'>b</text>
@@ -648,18 +648,18 @@ juanluis</code></pre></div>
 <text class='f-cmr10-996' x='91.731' y='8.468'>32</text>
 <text class='f-stmary10-996' x='101.694' y='8.468'></text>
 <text class='f-cmex10-996' x='105.706' y='.398'></text>
-<text class='f-cmr10-996' x='110.273' y='8.468'>:<tspan x='15.94' y='21.918'>Arra</tspan><tspan x='35.921'>y</tspan></text>
-<text class='f-stmary10-996' x='41.317' y='21.918'></text>
-<text class='f-msbm10-996' x='45.33' y='21.918'>R</text>
-<text class='f-cmr10-996' x='52.525' y='21.918'>64</text>
-<text class='f-cmmi10-996' x='62.488' y='21.918'>,</text>
-<text class='f-msbm10-996' x='66.916' y='21.918'>Z</text>
-<text class='f-cmr10-996' x='73.558' y='21.918'>32</text>
-<text class='f-stmary10-996' x='83.52' y='21.918'></text>
-<text class='f-cmr10-996' x='90.3' y='21.918'>=</text>
+<text class='f-cmr10-996' x='110.273' y='8.468'>:<tspan x='114.7'>Arra</tspan><tspan x='134.681'>y</tspan></text>
+<text class='f-stmary10-996' x='140.078' y='8.468'></text>
+<text class='f-msbm10-996' x='144.09' y='8.468'>R</text>
+<text class='f-cmr10-996' x='151.286' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='161.248' y='8.468'>,</text>
+<text class='f-msbm10-996' x='165.676' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='172.318' y='8.468'>32</text>
+<text class='f-stmary10-996' x='182.28' y='8.468'></text>
+<text class='f-cmr10-996' x='189.061' y='8.468'>=</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L117" title="FlatData.fss, line 117">117</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='3.706em' viewBox='0 0 139.477 37.061' fill='currentColor' style='vertical-align:-2.859em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L117" title="FlatData.fss, line 117">117</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='36.282em' height='1.206em' viewBox='0 0 362.817 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>ve<tspan x='8.656'>c</tspan></text>
 <text class='f-cmex10-996' x='13.802' y='.398'></text>
 <text class='f-cmsy10-996' x='18.369' y='8.468'>|</text>
@@ -676,31 +676,31 @@ juanluis</code></pre></div>
 <text class='f-msbm10-996' x='98.259' y='8.468'>R</text>
 <text class='f-cmr10-996' x='105.455' y='8.468'>64</text>
 <text class='f-cmsy10-996' x='118.185' y='8.468'>⇒</text>
-<text class='f-cmtt10-996' x='15.94' y='21.021'>if</text>
-<text class='f-cmr10-996' x='29.168' y='21.021'>(</text>
-<text class='f-cmmi10-996' x='33.043' y='21.021'>r</text>
-<text class='f-cmtt10-996' x='40.028' y='21.021'>MOD</text>
-<text class='f-cmti10-996' x='57.933' y='21.021'>blk</text>
-<text class='f-cmr10-996' x='70.717' y='21.021'>)</text>
-<text class='f-cmmi10-996' x='77.359' y='21.021'>&lt;</text>
-<text class='f-cmti10-996' x='87.875' y='21.021'>len</text>
-<text class='f-cmr10-996' x='101.369' y='21.021'>[</text>
-<text class='f-cmmi10-996' x='104.136' y='21.021'>b</text>
-<text class='f-cmr10-996' x='108.412' y='21.021'>[</text>
-<text class='f-cmmi10-996' x='111.179' y='21.021'>r</text>
-<text class='f-cmsy10-996' x='118.165' y='21.021'>÷</text>
-<text class='f-cmti10-996' x='15.94' y='33.475'>blk</text>
-<text class='f-cmr10-996' x='28.724' y='33.475'>]]</text>
-<text class='f-cmtt10-996' x='37.026' y='33.475'>then</text>
-<text class='f-cmr10-996' x='60.715' y='33.475'>1</text>
-<text class='f-cmmi10-996' x='65.696' y='33.475'>.</text>
-<text class='f-cmr10-996' x='68.464' y='33.475'>0</text>
-<text class='f-cmtt10-996' x='76.212' y='33.475'>else</text>
-<text class='f-cmr10-996' x='99.901' y='33.475'>0</text>
-<text class='f-cmmi10-996' x='104.882' y='33.475'>.</text>
-<text class='f-cmr10-996' x='107.65' y='33.475'>0</text>
-<text class='f-cmtt10-996' x='115.399' y='33.475'>end</text>
-<text class='f-cmex10-996' x='131.09' y='25.405'></text>
+<text class='f-cmtt10-996' x='130.915' y='8.468'>if</text>
+<text class='f-cmr10-996' x='144.143' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='148.017' y='8.468'>r</text>
+<text class='f-cmtt10-996' x='155.002' y='8.468'>MOD</text>
+<text class='f-cmti10-996' x='172.907' y='8.468'>blk</text>
+<text class='f-cmr10-996' x='185.691' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='192.333' y='8.468'>&lt;</text>
+<text class='f-cmti10-996' x='202.849' y='8.468'>len</text>
+<text class='f-cmr10-996' x='216.343' y='8.468'>[</text>
+<text class='f-cmmi10-996' x='219.111' y='8.468'>b</text>
+<text class='f-cmr10-996' x='223.386' y='8.468'>[</text>
+<text class='f-cmmi10-996' x='226.154' y='8.468'>r</text>
+<text class='f-cmsy10-996' x='233.139' y='8.468'>÷</text>
+<text class='f-cmti10-996' x='243.102' y='8.468'>blk</text>
+<text class='f-cmr10-996' x='255.886' y='8.468'>]]</text>
+<text class='f-cmtt10-996' x='264.188' y='8.468'>then</text>
+<text class='f-cmr10-996' x='287.876' y='8.468'>1</text>
+<text class='f-cmmi10-996' x='292.858' y='8.468'>.</text>
+<text class='f-cmr10-996' x='295.625' y='8.468'>0</text>
+<text class='f-cmtt10-996' x='303.374' y='8.468'>else</text>
+<text class='f-cmr10-996' x='327.062' y='8.468'>0</text>
+<text class='f-cmmi10-996' x='332.044' y='8.468'>.</text>
+<text class='f-cmr10-996' x='334.811' y='8.468'>0</text>
+<text class='f-cmtt10-996' x='342.56' y='8.468'>end</text>
+<text class='f-cmex10-996' x='358.251' y='.398'></text>
 </g>
 </svg>
 </span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L118" title="FlatData.fss, line 118">118</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
@@ -717,13 +717,13 @@ juanluis</code></pre></div>
 </section>
 <section class="sec" data-num="1.6" data-title="The first line of the step: the keys">
 <h2 id="s-the-first-line-of-the-step-the-keys" class="nb"><span class="num">1.6</span> The first line of the step: the keys</h2>
-<div class="fx nb src n3" id="c-5a0ca8dc" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L50" title="MicroGptFlat.fss, line 50">50</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<div class="fx nb src n3" id="c-5a0ca8dc" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L50" title="MicroGptFlat.fss, line 50">50</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='31.385em' height='1.196em' viewBox='0 0 313.851 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
-<text class='f-cmr10-996' x='13.782' y='8.369'>-------------------------<tspan x='100.125'>the</tspan><tspan x='117.283'>step:</tspan><tspan x='142.245'>k</tspan><tspan x='147.226'>eys</tspan><tspan x='164.162'>-¿</tspan><tspan x='15.94' y='21.818'>(loss,</tspan><tspan x='41.511'>ﬂat</tspan><tspan x='59.223'>gradien</tspan><tspan x='91.075'>t).</tspan><tspan x='106.019'>Pure.</tspan><tspan x='133.86'>--</tspan></text>
-<text class='f-cmtt10-996' x='143.822' y='21.818'>*)</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>-------------------------<tspan x='100.125'>the</tspan><tspan x='117.283'>step:</tspan><tspan x='142.245'>k</tspan><tspan x='147.226'>eys</tspan><tspan x='164.162'>-¿</tspan><tspan x='175.509'>(loss,</tspan><tspan x='201.08'>ﬂat</tspan><tspan x='218.791'>gradien</tspan><tspan x='250.644'>t).</tspan><tspan x='265.588'>Pure.</tspan><tspan x='293.428'>--</tspan></text>
+<text class='f-cmtt10-996' x='303.391' y='8.369'>*)</text>
 </g>
 </svg>
-</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L51" title="MicroGptFlat.fss, line 51">51</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.905em' viewBox='0 0 175.342 39.054' fill='currentColor' style='vertical-align:-3.059em' role='img'><g>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L51" title="MicroGptFlat.fss, line 51">51</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='32.527em' height='1.206em' viewBox='0 0 325.273 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
 <text class='f-cmti10-996' x='0' y='8.468'>step</text>
 <text class='f-cmex10-996' x='17.687' y='.398'></text>
 <text class='f-cmmi10-996' x='22.253' y='8.468'>p</text>
@@ -735,32 +735,32 @@ juanluis</code></pre></div>
 <text class='f-msbm10-996' x='82.669' y='8.468'>Z</text>
 <text class='f-cmr10-996' x='89.311' y='8.468'>32</text>
 <text class='f-stmary10-996' x='99.274' y='8.468'></text>
-<text class='f-cmmi10-996' x='103.286' y='8.468'>,<tspan x='15.94' y='22.018'>b</tspan></text>
-<text class='f-cmr10-996' x='20.216' y='22.018'>:<tspan x='24.644'>Arra</tspan><tspan x='44.624'>y</tspan></text>
-<text class='f-stmary10-996' x='50.021' y='22.018'></text>
-<text class='f-msbm10-996' x='54.034' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='60.675' y='22.018'>32</text>
-<text class='f-cmmi10-996' x='70.638' y='22.018'>,</text>
-<text class='f-msbm10-996' x='75.066' y='22.018'>Z</text>
-<text class='f-cmr10-996' x='81.708' y='22.018'>32</text>
-<text class='f-stmary10-996' x='91.67' y='22.018'></text>
-<text class='f-cmex10-996' x='95.683' y='13.948'></text>
-<text class='f-cmr10-996' x='100.249' y='22.018'>:</text>
-<text class='f-cmex10-996' x='104.677' y='13.948'></text>
-<text class='f-msbm10-996' x='109.243' y='22.018'>R</text>
-<text class='f-cmr10-996' x='116.439' y='22.018'>64</text>
-<text class='f-cmmi10-996' x='126.401' y='22.018'>,</text>
-<text class='f-cmr10-996' x='15.94' y='35.467'>Arra<tspan x='35.921'>y</tspan></text>
-<text class='f-stmary10-996' x='41.317' y='35.467'></text>
-<text class='f-msbm10-996' x='45.33' y='35.467'>R</text>
-<text class='f-cmr10-996' x='52.525' y='35.467'>64</text>
-<text class='f-cmmi10-996' x='62.488' y='35.467'>,</text>
-<text class='f-msbm10-996' x='66.916' y='35.467'>Z</text>
-<text class='f-cmr10-996' x='73.558' y='35.467'>32</text>
-<text class='f-stmary10-996' x='83.52' y='35.467'></text>
-<text class='f-cmex10-996' x='87.533' y='27.397'></text>
-<text class='f-cmr10-996' x='94.867' y='35.467'>=</text>
-<text class='f-cmtt10-996' x='105.383' y='35.467'>do</text>
+<text class='f-cmmi10-996' x='103.286' y='8.468'>,<tspan x='107.714'>b</tspan></text>
+<text class='f-cmr10-996' x='111.99' y='8.468'>:<tspan x='116.418'>Arra</tspan><tspan x='136.398'>y</tspan></text>
+<text class='f-stmary10-996' x='141.795' y='8.468'></text>
+<text class='f-msbm10-996' x='145.807' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='152.449' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='162.412' y='8.468'>,</text>
+<text class='f-msbm10-996' x='166.84' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='173.481' y='8.468'>32</text>
+<text class='f-stmary10-996' x='183.444' y='8.468'></text>
+<text class='f-cmex10-996' x='187.457' y='.398'></text>
+<text class='f-cmr10-996' x='192.023' y='8.468'>:</text>
+<text class='f-cmex10-996' x='196.451' y='.398'></text>
+<text class='f-msbm10-996' x='201.017' y='8.468'>R</text>
+<text class='f-cmr10-996' x='208.212' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='218.175' y='8.468'>,</text>
+<text class='f-cmr10-996' x='222.603' y='8.468'>Arra<tspan x='242.584'>y</tspan></text>
+<text class='f-stmary10-996' x='247.98' y='8.468'></text>
+<text class='f-msbm10-996' x='251.993' y='8.468'>R</text>
+<text class='f-cmr10-996' x='259.188' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='269.151' y='8.468'>,</text>
+<text class='f-msbm10-996' x='273.578' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='280.22' y='8.468'>32</text>
+<text class='f-stmary10-996' x='290.183' y='8.468'></text>
+<text class='f-cmex10-996' x='294.196' y='.398'></text>
+<text class='f-cmr10-996' x='301.529' y='8.468'>=</text>
+<text class='f-cmtt10-996' x='312.045' y='8.468'>do</text>
 </g>
 </svg>
 </span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L50" title="MicroGptFlat.fss, line 50">50</a></span>(* ------------------------- the step: keys -&gt; (loss, flat gradient). Pure. -- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L51" title="MicroGptFlat.fss, line 51">51</a></span>step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L50" title="MicroGptFlat.fss, line 50">50</a></span>(* ------------------------- the step: keys -&gt; (loss, flat gradient). Pure. -- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L51" title="MicroGptFlat.fss, line 51">51</a></span>step(p: Array⟦RR64,ZZ32⟧, b: Array⟦ZZ32,ZZ32⟧): (RR64, Array⟦RR64,ZZ32⟧) = do</span></code></pre></div>
@@ -826,7 +826,7 @@ juanluis</code></pre></div>
 <text class='f-cmr10-996' x='106.216' y='8.369'>)</text>
 </g>
 </svg>
-</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>ids = corpus.tokens(b, 0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>tg = corpus.tokens(b, 1)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>vm = corpus.valid(b)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>nv = SUM vm</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>pos = corpus.positions(b)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>ids = corpus.tokens(b, 0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>tg = corpus.tokens(b, 1)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>vm = corpus.valid(b)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>nv = SUM vm</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>pos = corpus.positions(b)</span></code></pre></div>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>ids = corpus.tokens(b, 0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>tg = corpus.tokens(b, 1)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>vm = corpus.valid(b)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>nv = SUM vm</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>pos = corpus.positions(b)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>ids = corpus.tokens(b, 0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>tg = corpus.tokens(b, 1)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>vm = corpus.valid(b)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>nv = ∑ vm</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L52" title="MicroGptFlat.fss, line 52">52</a></span>pos = corpus.positions(b)</span></code></pre></div>
 <p id="p-ee306624" class="nb">Each vector has one entry for each pair of a document and a position. A position is a place in a name's row of tokens, counted from 0. The model reads 16 positions of each document, so a batch of one document gives 16 entries. Such an entry is called a row from here on, because every matrix that the step computes later has one row for each of these pairs.</p>
 <p id="p-79d6b219" class="nb">With document 0 as the batch, a run printed the five values:</p>
 <pre class="vb nb out long" id="o-fef8d13f" data-kind="output"><code>ids = 26 24 20 7 4 13 6 26 26 26 26 26 26 26 26 26
@@ -838,7 +838,7 @@ pos = 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</code></pre>
 <li><p id="p-6414df42" class="nb"><span class="fc"><span class="fr m"><i>ids</i></span><code class="fs">ids</code></span>, the tokens' identifiers, holds the token that the model reads at each position: columns 0 to 15 of the corpus row. The program calls these integers keys, because the step uses them to look rows up in tables.</p></li>
 <li><p id="p-42ec8aef" class="nb"><span class="fc"><span class="fr m"><i>tg</i></span><code class="fs">tg</code></span>, the targets, holds the token one place later: columns 1 to 16. It is the right answer for each position. At position 0 the model reads BOS (26) and the target is <code>y</code> (24). At position 6 it reads <code>g</code> (6) and the target is BOS (26).</p></li>
 <li><p id="p-eb8bf2a8" class="nb"><span class="fc"><span class="fr m"><i>vm</i></span><code class="fs">vm</code></span>, the mask of the valid rows, says which rows count: 1.0 for the seven questions of <code>yuheng</code>, 0.0 for the nine rows after the name's end. The method <span class="fc"><span class="fr m"><i>valid</i></span><code class="fs">valid</code></span> compares the position with the document's length, 7.</p></li>
-<li><p id="p-57791e07" class="nb"><span class="fc"><span class="fr m"><i>nv</i></span><code class="fs">nv</code></span>, the number of valid rows, is the number of rows that count. <span class="fc"><span class="fr m"><span class="big">∑</span></span><code class="fs">SUM</code></span> adds the elements of an array, so <span class="fc"><span class="fr m"><i>nv</i></span><code class="fs">nv</code></span> is 7.0.</p></li>
+<li><p id="p-57791e07" class="nb"><span class="fc"><span class="fr m"><i>nv</i></span><code class="fs">nv</code></span>, the number of valid rows, is the number of rows that count. <span class="fc u"><span class="fr m"><span class="big">∑</span></span><code class="fs">SUM</code><code class="fu">∑</code></span> adds the elements of an array, so <span class="fc"><span class="fr m"><i>nv</i></span><code class="fs">nv</code></span> is 7.0.</p></li>
 <li><p id="p-79e9f503" class="nb"><span class="fc"><span class="fr m"><i>pos</i></span><code class="fs">pos</code></span>, the positions, holds each row's position.</p></li>
 </ul>
 <p id="p-0766c000" class="nb">In the methods' bodies, <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> is the row's number. <span class="fc u"><span class="fr m"><i>r</i> ÷ <i>blk</i></span><code class="fs">r DIV blk</code><code class="fu">r ÷ blk</code></span> is the whole part of <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> divided by 16: which document of the batch the row belongs to. <span class="fc"><span class="fr m"><i>r</i> <span class="op">MOD</span> <i>blk</i></span><code class="fs">r MOD blk</code></span> is the remainder: the row's position. With one document in the batch, the row's number is its position.</p>
