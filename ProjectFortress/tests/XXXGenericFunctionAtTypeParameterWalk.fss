@@ -1,0 +1,16 @@
+component XXXGenericFunctionAtTypeParameterWalk
+export Executable
+
+(* A generic function is received at an arrow type over the callee's own type parameter, which the callee's other argument fixes at its declared type (var-ref.tex, section "Identifier References"). *)
+
+half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x + x
+
+appT[\T\](f: T -> T, x: T): T = f(x)
+
+run(): () = do
+    v: Vector[\RR64,3\] = [2.0 2.5 3.0]
+    a = appT(half, v)
+    assert(a[1], 5.0, "appT(half, v)[1]")
+end
+
+end

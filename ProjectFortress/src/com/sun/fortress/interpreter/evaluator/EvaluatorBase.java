@@ -634,8 +634,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             }
             Set<String> m = mentions(ty, tp_set);
             if (m.isEmpty()) continue;
-            fixedElsewhere.addAll(m);
-            at.unify(envForInference, tp_set, abm, ty);
+            if (unifyArgument(a, at, envForInference, tp_set, abm, ty)) fixedElsewhere.addAll(m);
         }
         /* The second pass: each type parameter that stands alone and that the first pass did not fix. */
         for (Map.Entry<String, List<FValue>> e : lone.entrySet()) {
@@ -716,6 +715,89 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         }
         if (byExpected) h.byExpected = true;
         return sfcn;
+    }
+
+    /**
+     * Unifies the type at of the argument a with the declared type ty of its
+     * parameter, and answers whether it did.  A function with static
+     * parameters, or an overloaded one with such an overload (instantiable),
+     * whose type does not unify with ty constrains nothing and answers
+     * false: the call's other arguments fix the static parameters that ty
+     * mentions, and the parameter's type at that instance then decides
+     * whether it receives the function (Fcn.received).
+     */
+    private static boolean unifyArgument(FValue a, FType at, Environment env, Set<String> tp_set,
+                                         BoundingMap<String, FType, TypeLatticeOps> abm, Type ty) {
+        if (instantiable(a)) {
+            try {
+                at.unify(env, tp_set, abm.copy(), ty);
+            }
+            catch (FortressException ex) {
+                return false;
+            }
+            catch (EmptyLatticeIntervalError ex) {
+                return false;
+            }
+        }
+        at.unify(env, tp_set, abm, ty);
+        return true;
+    }
+
+    /** The types of the arguments that a function of the arrow type a takes. */
+    private static List<FType> domainTypes(FTypeArrow a) {
+        FType d = a.getDomain();
+        if (d instanceof FTypeVoid) return Collections.<FType>emptyList();
+        if (d instanceof FTypeTuple) return ((FTypeTuple) d).getTypes();
+        return Collections.singletonList(d);
+    }
+
+    /**
+     * Whether the arrow type a leaves a static parameter of g open: one
+     * that no declared parameter type of g mentions, so that no domain
+     * fixes it, or any where a type of a's domain is itself not fixed
+     * (BottomType, a symbolic type).  A place of such a type receives g as
+     * it is, and g's first application fixes its static arguments.
+     */
+    public static boolean leavesOpen(GenericFunctionOrMethod g, FTypeArrow a) {
+        Set<String> names = new HashSet<String>();
+        for (StaticParam sp : g.getStaticParams()) names.add(NodeUtil.getName(sp));
+        Set<String> mentioned = new HashSet<String>();
+        for (Param p : g.getParams()) {
+            Type ty;
+            if (NodeUtil.isVarargsParam(p)) ty = p.getVarargsType().unwrap();
+            else if (p.getIdType().isSome()) ty = NodeUtil.optTypeOrPatternToType(p.getIdType()).unwrap();
+            else return true;
+            mentioned.addAll(mentions(ty, names));
+        }
+        if (!mentioned.containsAll(names)) return true;
+        for (FType d : domainTypes(a)) {
+            if (d instanceof BottomType || d instanceof SymbolicType) return true;
+        }
+        return false;
+    }
+
+    /**
+     * The instance of g that a place of the arrow type a receives, or null:
+     * the instance that a direct call of g with arguments of the types of
+     * a's domain runs (inferAndInstantiateGenericFunction), where the type
+     * of that instance is a subtype of a.  Null where a leaves a static
+     * parameter of g open (leavesOpen), and where no instance fits.
+     */
+    public static Simple_fcn instanceReceivedAt(GenericFunctionOrMethod g, FTypeArrow a) {
+        if (leavesOpen(g, a)) return null;
+        List<FValue> args = new ArrayList<FValue>();
+        for (FType d : domainTypes(a)) args.add(new DummyValue(d));
+        try {
+            Simple_fcn inst = inferAndInstantiateGenericFunction(args, g, declarationEnv(g), null);
+            FType t = inst == null ? null : inst.type();
+            return t != null && t.subtypeOf(a) ? inst : null;
+        }
+        catch (FortressException ex) {
+            return null;
+        }
+        catch (EmptyLatticeIntervalError ex) {
+            return null;
+        }
     }
 
     /**
@@ -975,8 +1057,9 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                     } else {
                         Type ty = NodeUtil.optTypeOrPatternToType(t).unwrap();
                         if (DUMP_INFERENCE) System.err.println("Unifying " + at + " and " + ty);
-                        fixable.addAll(mentions(ty, tp_set));
-                        at.unify(envForInference, tp_set, abm, ty);
+                        if (unifyArgument(a, at, envForInference, tp_set, abm, ty)) {
+                            fixable.addAll(mentions(ty, tp_set));
+                        }
                     }
                 } else { // a varargs param
                     Type ty = p.getVarargsType().unwrap();

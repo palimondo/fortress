@@ -609,7 +609,8 @@ abstract public class BaseEnv implements Environment, Iterable<String> {
     }
 
     public void putVariable(String str, FValue f2, FType ft) {
-        putValue(str, new ReferenceCell(ft, f2));
+        // a function with static parameters is received at the variable's arrow type
+        putValue(str, new ReferenceCell(ft, Fcn.received(ft, f2)));
     }
 
     public void putVariable(String str, FType ft) {
