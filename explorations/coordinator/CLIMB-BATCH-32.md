@@ -632,7 +632,7 @@ A change that your repair needs inside a declaration of rung N's, as the retry's
 
 **Files.** `scala_src/typechecker/impls/Functionals.scala` and what it calls in `scala_src/typechecker/`; `interpreter/evaluator/values/OverloadedFunction.java`, `Coercions.java`, `Numerals.java`; `Library/FortressLibrary.fss` and `.fsi`, `Equality` only; your tests; the specification's sentences named. Not: `compiler/codegen/`, the prelude, microGPT; in `Functionals.scala`, the declarations that are rung C's ("The rule the rungs keep"); `scala_src/types/TypeAnalyzer.scala`, which is rung C's; `scala_src/typechecker/Thunker.scala` and `impls/Decls.scala`, which are rung D's; in `OverloadedFunction.java`, the members from the inner class `Factory` (`:2777`) to the class's end, which are rung F's; every other file under `interpreter/`; the signature of a public method of `Coercions.java` or `Numerals.java` that a file outside your list calls; the signature of `typedApplication`, `typedApplicationOfChecked`, `preDefault` or `defaultAtUnfixedEach`, which rung C's declarations call (`:641`, `:936`, `:198`, `:279`).
 
-**Reserved points.** A model line. A change of what a value's coercion chooses. A change of the default.
+**Reserved points.** A model line. A change of what a value's coercion chooses. A change of the default. The three numeral lines inside `checkApplicableWithInference` of `Functionals.scala` are rung C's declaration: if the rule needs a change there, report it and do not build it.
 
 **Overlaps by file.** `Functionals.scala` with C, and `OverloadedFunction.java` with F: "The rule the rungs keep".
 
