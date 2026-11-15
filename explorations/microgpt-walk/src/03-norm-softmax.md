@@ -48,7 +48,7 @@ $$
 - $n$ is `|x|`, the number of elements.
 - $\varepsilon$ is `epsilon`. Every square is 0 or more, so the sum is 0 or more, and the number under the root is at least 0.00001. The root is never 0.
 
-The sum of the squares is a plain sum, and at this size it is safe. In the model, `x` has 16 elements. The model gives three matrices to `rmsn`, row by row. Their names are `x`, `xp` and `x2`. For each, a run printed the largest element, without its sign, and the largest sum of squares of a row, `sumsq`:
+The sum of the squares is a plain sum, and at this size it is safe. In the model, `x` has 16 elements. The model gives three matrices to `rmsn`, row by row. Their names are `x`, `xp` and `x2`. For each, a run printed the largest element, without its sign, and the largest sum of squares of a row, ``sumsq``:
 
 ```out
 max |x| = 0.3009792670763558  max |xp| = 2.4877144323887146

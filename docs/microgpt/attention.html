@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>4. Attention · microGPT in Fortress</title>
 <link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
 <link rel="stylesheet" href="walk.css">
 </head>
 <body data-page="chapter" data-slug="attention" data-chapter="4. Attention">
@@ -15,46 +16,150 @@
 </header>
 <div id="resume"></div>
 <div id="chapter-notes"></div>
+<div class="notation" role="group" aria-label="How the program's code is shown"><span class="lab">Code</span><span class="seg"><button type="button" data-n="typeset" aria-pressed="false">Typeset</button><button type="button" data-n="unicode" aria-pressed="false">Unicode</button><button type="button" data-n="source" aria-pressed="false">ASCII</button></span></div>
 <section class="sec chapter" data-num="4" data-title="Attention">
 <h1 id="top" class="nb"><span class="num">Part 4</span> Attention</h1>
 <p class="standfirst">The one place where a position reads other positions. Every position makes a query, a key and a value; a query scores every key; softmax turns the scores into attention weights; these mix the values. With one real row of attention weights.</p>
 <nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-what-attention-is-for">4.1 What attention is for</a></li><li><a href="#s-query-key-and-value">4.2 Query, key and value</a></li><li><a href="#s-four-heads">4.3 Four heads</a></li><li><a href="#s-the-scores">4.4 The scores</a></li><li><a href="#s-the-mask-no-reading-ahead">4.5 The mask: no reading ahead</a></li><li><a href="#s-the-attention-weights">4.6 The attention weights</a></li><li><a href="#s-mixing-the-values">4.7 Mixing the values</a></li><li><a href="#s-back-into-the-row">4.8 Back into the row</a></li><li><a href="#s-sources">4.9 Sources</a></li></ol></nav>
 <section class="sec" data-num="4.1" data-title="What attention is for">
 <h2 id="s-what-attention-is-for" class="nb"><span class="num">4.1</span> What attention is for</h2>
-<p id="p-8477a9ab" class="nb">After the first forward line, row 4 of the matrix <code>x</code> holds the embedding of the token <code>e</code> plus the embedding of position 4. It holds nothing about the tokens before it. To say what follows <code>yuhe</code>, the row needs to know about <code>y</code>, <code>u</code> and <code>h</code> too.</p>
-<p id="p-4bc84b6d" class="nb">Almost every line of the forward pass treats each row by itself. A product of the form <code>x w^T</code> puts every row through the same matrix, and <code>rows</code>, the function of <code>FlatArrays.fss</code> from Part 3, applies a function to every row. No number moves from one row to another.</p>
-<p id="p-abf34c9c" class="nb">Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. Position <code>i</code> reads position <code>j</code> when a vector of position <code>j</code> enters the average of position <code>i</code>.</p>
+<p id="p-8477a9ab" class="nb">After the first forward line, row 4 of the matrix <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> holds the embedding of the token <code>e</code> plus the embedding of position 4. It holds nothing about the tokens before it. To say what follows <code>yuhe</code>, the row needs to know about <code>y</code>, <code>u</code> and <code>h</code> too.</p>
+<p id="p-4bc84b6d" class="nb">Almost every line of the forward pass treats each row by itself. A product of the form <span class="fc"><span class="fr m"><i>x</i> <i>w</i><sup><i>T</i></sup></span><code class="fs">x w^T</code></span> puts every row through the same matrix, and <span class="fc"><span class="fr m"><i>rows</i></span><code class="fs">rows</code></span>, the function of <code>FlatArrays.fss</code> from Part 3, applies a function to every row. No number moves from one row to another.</p>
+<p id="p-abf34c9c" class="nb">Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. Position <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> reads position <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> when a vector of position <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> enters the average of position <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span>.</p>
 <p id="p-9b0f482d" class="nb">The average is weighted: each position that is read counts with a number between 0 and 1, and these numbers add up to 1. Such a number is an attention weight. The word is close to "weight matrix" and means a different thing. A weight matrix holds parameters, which only training changes. The attention weights are computed anew in every forward pass, from the rows themselves. The computation has four steps:</p>
 <ol>
 <li><p id="p-949fc7dc" class="nb">Three products make a query, a key and a value for every position.</p></li>
 <li><p id="p-a4bf4ec3" class="nb">A product of queries and keys gives scores.</p></li>
-<li><p id="p-8c363bdd" class="nb"><code>sm</code>, the softmax of Part 3, turns the scores into attention weights.</p></li>
+<li><p id="p-8c363bdd" class="nb"><span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span>, the softmax of Part 3, turns the scores into attention weights.</p></li>
 <li><p id="p-fd76d232" class="nb">A product of attention weights and values gives the averages.</p></li>
 </ol>
 </section>
 <section class="sec" data-num="4.2" data-title="Query, key and value">
 <h2 id="s-query-key-and-value" class="nb"><span class="num">4.2</span> Query, key and value</h2>
-<div class="fx nb src" id="c-faef52d8" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L58" title="MicroGptFlat.fss, line 58">58</a></span>(q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T)</span></code></pre></div>
-<p id="p-14949e6d" class="nb">The line binds three names to three products. <code>x1</code> is the matrix of Part 3: the summed embeddings after two calls of <code>rmsn</code>. <code>wq</code>, <code>wk</code> and <code>wv</code> are attention's weight matrices for the query, the key and the value, three of the nine views of Part 2. Each product puts every row of <code>x1</code> through one of them. So <code>q</code>, the queries, <code>k</code>, the keys, and <code>v</code>, the values, are matrices of 16 by 16, with one row for each position.</p>
+<div class="fx nb src n3" id="c-faef52d8" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L58" title="MicroGptFlat.fss, line 58">58</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='15.292em' height='1.281em' viewBox='0 0 152.916 12.808' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='9.221'>(</text>
+<text class='f-cmmi10-996' x='3.874' y='9.221'>q<tspan x='8.679'>,</tspan><tspan x='13.107'>k</tspan><tspan x='18.607'>,</tspan><tspan x='23.035'>v</tspan></text>
+<text class='f-cmr10-996' x='28.222' y='9.221'>)<tspan x='34.863'>=</tspan><tspan x='45.379'>(</tspan></text>
+<text class='f-cmmi10-996' x='49.254' y='9.221'>x</text>
+<text class='f-cmr7-697' x='54.948' y='10.715'>1</text>
+<text class='f-cmti10-996' x='61.078' y='9.221'>wq</text>
+<text class='f-cmmi7-697' x='73.161' y='5.108'>T</text>
+<text class='f-cmmi10-996' x='79.437' y='9.221'>,<tspan x='83.865'>x</tspan></text>
+<text class='f-cmr7-697' x='89.559' y='10.715'>1</text>
+<text class='f-cmti10-996' x='95.689' y='9.221'>wk</text>
+<text class='f-cmmi7-697' x='107.964' y='4.765'>T</text>
+<text class='f-cmmi10-996' x='114.24' y='9.221'>,<tspan x='118.668'>x</tspan></text>
+<text class='f-cmr7-697' x='124.362' y='10.715'>1</text>
+<text class='f-cmti10-996' x='130.491' y='9.221'>wv</text>
+<text class='f-cmmi7-697' x='142.766' y='5.108'>T</text>
+<text class='f-cmr10-996' x='149.042' y='9.221'>)</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L58" title="MicroGptFlat.fss, line 58">58</a></span>(q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L58" title="MicroGptFlat.fss, line 58">58</a></span>(q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T)</span></code></pre></div>
+<p id="p-14949e6d" class="nb">The line binds three names to three products. <span class="fc"><span class="fr m"><i>x</i><sub>1</sub></span><code class="fs">x1</code></span> is the matrix of Part 3: the summed embeddings after two calls of <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span>. <span class="fc"><span class="fr m"><i>wq</i></span><code class="fs">wq</code></span>, <span class="fc"><span class="fr m"><i>wk</i></span><code class="fs">wk</code></span> and <span class="fc"><span class="fr m"><i>wv</i></span><code class="fs">wv</code></span> are attention's weight matrices for the query, the key and the value, three of the nine views of Part 2. Each product puts every row of <span class="fc"><span class="fr m"><i>x</i><sub>1</sub></span><code class="fs">x1</code></span> through one of them. So <span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span>, the queries, <span class="fc"><span class="fr m"><i>k</i></span><code class="fs">k</code></span>, the keys, and <span class="fc"><span class="fr m"><i>v</i></span><code class="fs">v</code></span>, the values, are matrices of 16 by 16, with one row for each position.</p>
 <ul>
-<li><p id="p-e3d52ef1" class="nb">Row <code>i</code> of <code>q</code> is the query of position <code>i</code>. The model uses it when position <code>i</code> reads.</p></li>
-<li><p id="p-8d8d278d" class="nb">Row <code>j</code> of <code>k</code> is the key of position <code>j</code>. The model uses it when another position decides how much to read from position <code>j</code>. This key is a vector of floats. It has nothing to do with the keys of Part 1, the integers that look rows up in a table.</p></li>
-<li><p id="p-e501856f" class="nb">Row <code>j</code> of <code>v</code> is the value of position <code>j</code>. It is what position <code>j</code> gives when it is read.</p></li>
+<li><p id="p-e3d52ef1" class="nb">Row <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> of <span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span> is the query of position <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span>. The model uses it when position <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> reads.</p></li>
+<li><p id="p-8d8d278d" class="nb">Row <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> of <span class="fc"><span class="fr m"><i>k</i></span><code class="fs">k</code></span> is the key of position <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span>. The model uses it when another position decides how much to read from position <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span>. This key is a vector of floats. It has nothing to do with the keys of Part 1, the integers that look rows up in a table.</p></li>
+<li><p id="p-e501856f" class="nb">Row <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> of <span class="fc"><span class="fr m"><i>v</i></span><code class="fs">v</code></span> is the value of position <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span>. It is what position <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> gives when it is read.</p></li>
 </ul>
-<p id="p-7d614035" class="nb">The score that position <code>i</code> gives to position <code>j</code> is the dot product of query <code>i</code> and key <code>j</code>. A dot product is large when the two vectors have large elements with the same signs in the same places, and it is negative when the signs disagree. So a high score means: this query and that key fit.</p>
-<p id="p-f3ab1ccd" class="nb">The words query, key and value describe the parts' places in the computation. They say nothing about what the numbers mean. The three matrices <code>wq</code>, <code>wk</code> and <code>wv</code> start as random numbers. What a high score between two positions is good for is decided only by training.</p>
+<p id="p-7d614035" class="nb">The score that position <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> gives to position <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> is the dot product of query <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> and key <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span>. A dot product is large when the two vectors have large elements with the same signs in the same places, and it is negative when the signs disagree. So a high score means: this query and that key fit.</p>
+<p id="p-f3ab1ccd" class="nb">The words query, key and value describe the parts' places in the computation. They say nothing about what the numbers mean. The three matrices <span class="fc"><span class="fr m"><i>wq</i></span><code class="fs">wq</code></span>, <span class="fc"><span class="fr m"><i>wk</i></span><code class="fs">wk</code></span> and <span class="fc"><span class="fr m"><i>wv</i></span><code class="fs">wv</code></span> start as random numbers. What a high score between two positions is good for is decided only by training.</p>
 </section>
 <section class="sec" data-num="4.3" data-title="Four heads">
 <h2 id="s-four-heads" class="nb"><span class="num">4.3</span> Four heads</h2>
-<p id="p-cb1ef9b8" class="nb">The model does not use the 16 numbers of a query as one vector. It cuts every query, key and value into four pieces of four numbers: columns 0 to 3, columns 4 to 7, columns 8 to 11, columns 12 to 15. Piece number 0 of the queries works only with piece number 0 of the keys and of the values, and so on. Each of the four is called a head. A head is a complete attention computation on vectors of four numbers. The constants of line 17 say so: <code>nHead</code>, the number of heads, is 4, and <code>headDim</code>, the number of columns of a head, is 4.</p>
+<p id="p-cb1ef9b8" class="nb">The model does not use the 16 numbers of a query as one vector. It cuts every query, key and value into four pieces of four numbers: columns 0 to 3, columns 4 to 7, columns 8 to 11, columns 12 to 15. Piece number 0 of the queries works only with piece number 0 of the keys and of the values, and so on. Each of the four is called a head. A head is a complete attention computation on vectors of four numbers. The constants of line 17 say so: <span class="fc"><span class="fr m"><i>nHead</i></span><code class="fs">nHead</code></span>, the number of heads, is 4, and <span class="fc"><span class="fr m"><i>headDim</i></span><code class="fs">headDim</code></span>, the number of columns of a head, is 4.</p>
 <p id="p-aa778705" class="nb">One head gives each position one set of attention weights. Four heads give it four, so the model can read the earlier positions in four ways at once.</p>
-<div class="fx nb src" id="c-b7dcc0a7" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L54" title="MicroGptFlat.fss, line 54">54</a></span>h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L55" title="MicroGptFlat.fss, line 55">55</a></span>u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)</span></code></pre></div>
-<p id="p-ecb628ad" class="nb">These two lines stand at the top of the function <code>step</code>, before the forward pass. They declare two local functions. A local function can use the names around it, and is declared like a top-level one.</p>
+<div class="fx nb src n3" id="c-b7dcc0a7" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L54" title="MicroGptFlat.fss, line 54">54</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='5.041em' viewBox='0 0 175.342 50.411' fill='currentColor' style='vertical-align:-4.194em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.468'>h</text>
+<text class='f-cmex10-996' x='5.74' y='.398'></text>
+<text class='f-cmmi10-996' x='10.306' y='8.468'>m</text>
+<text class='f-cmr10-996' x='19.054' y='8.468'>:<tspan x='23.481'>Arra</tspan><tspan x='43.462'>y</tspan></text>
+<text class='f-stmary10-996' x='48.859' y='8.468'></text>
+<text class='f-msbm10-996' x='52.871' y='8.468'>R</text>
+<text class='f-cmr10-996' x='60.067' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='70.029' y='8.468'>,</text>
+<text class='f-cmr10-996' x='74.457' y='8.468'>(</text>
+<text class='f-msbm10-996' x='78.331' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='84.973' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='94.936' y='8.468'>,</text>
+<text class='f-msbm10-996' x='99.364' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='106.005' y='8.468'>32)</text>
+<text class='f-stmary10-996' x='119.843' y='8.468'></text>
+<text class='f-cmex10-996' x='123.855' y='.398'></text>
+<text class='f-cmr10-996' x='128.421' y='8.468'>:<tspan x='15.94' y='22.018'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-cmex10-996' x='41.317' y='13.948'><tspan x='42.701' y='13.948'></tspan></text>
+<text class='f-msbm10-996' x='46.852' y='22.018'>R</text>
+<text class='f-cmr10-996' x='54.048' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='64.01' y='22.018'>,</text>
+<text class='f-cmr10-996' x='68.438' y='22.018'>(</text>
+<text class='f-msbm10-996' x='72.312' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='78.954' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='88.917' y='22.018'>,</text>
+<text class='f-msbm10-996' x='93.345' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='99.986' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='109.949' y='22.018'>,</text>
+<text class='f-msbm10-996' x='114.377' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='121.019' y='22.018'>32)</text>
+<text class='f-cmex10-996' x='134.856' y='13.948'><tspan x='136.24' y='13.948'></tspan></text>
+<text class='f-cmr10-996' x='143.158' y='22.018'>=</text>
+<text class='f-cmti10-996' x='15.94' y='34.471'>he<tspan x='25.106'>ads</tspan></text>
+<text class='f-cmr10-996' x='40.181' y='34.471'>(</text>
+<text class='f-cmmi10-996' x='44.056' y='34.471'>m,</text>
+<text class='f-cmti10-996' x='57.231' y='34.471'>blo<tspan x='68.942'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='96.169' y='34.471'>,</text>
+<text class='f-cmti10-996' x='100.597' y='34.471'>nHe<tspan x='117.677'>ad</tspan></text>
+<text class='f-cmmi10-996' x='128.891' y='34.471'>,</text>
+<text class='f-cmti10-996' x='15.94' y='46.825'>he<tspan x='25.106'>adDim</tspan></text>
+<text class='f-cmr10-996' x='54.778' y='46.825'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L55" title="MicroGptFlat.fss, line 55">55</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.895em' viewBox='0 0 175.342 38.954' fill='currentColor' style='vertical-align:-3.049em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.468'>u</text>
+<text class='f-cmex10-996' x='5.703' y='.398'></text>
+<text class='f-cmmi10-996' x='10.269' y='8.468'>t</text>
+<text class='f-cmr10-996' x='13.867' y='8.468'>:<tspan x='18.295'>Arra</tspan><tspan x='38.276'>y</tspan></text>
+<text class='f-stmary10-996' x='43.672' y='8.468'></text>
+<text class='f-msbm10-996' x='47.685' y='8.468'>R</text>
+<text class='f-cmr10-996' x='54.88' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='64.843' y='8.468'>,</text>
+<text class='f-cmr10-996' x='69.27' y='8.468'>(</text>
+<text class='f-msbm10-996' x='73.145' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='79.787' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='89.749' y='8.468'>,</text>
+<text class='f-msbm10-996' x='94.177' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='100.819' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='110.782' y='8.468'>,</text>
+<text class='f-msbm10-996' x='115.209' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='121.851' y='8.468'>32)</text>
+<text class='f-stmary10-996' x='135.688' y='8.468'></text>
+<text class='f-cmex10-996' x='139.701' y='.398'></text>
+<text class='f-cmr10-996' x='144.267' y='8.468'>:<tspan x='15.94' y='22.018'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-cmex10-996' x='41.317' y='13.948'><tspan x='42.701' y='13.948'></tspan></text>
+<text class='f-msbm10-996' x='46.852' y='22.018'>R</text>
+<text class='f-cmr10-996' x='54.048' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='64.01' y='22.018'>,</text>
+<text class='f-cmr10-996' x='68.438' y='22.018'>(</text>
+<text class='f-msbm10-996' x='72.312' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='78.954' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='88.917' y='22.018'>,</text>
+<text class='f-msbm10-996' x='93.345' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='99.986' y='22.018'>32)</text>
+<text class='f-cmex10-996' x='113.824' y='13.948'><tspan x='115.207' y='13.948'></tspan></text>
+<text class='f-cmr10-996' x='122.126' y='22.018'>=</text>
+<text class='f-cmti10-996' x='15.94' y='35.368'>unhe<tspan x='36.054'>ads</tspan></text>
+<text class='f-cmr10-996' x='51.129' y='35.368'>(</text>
+<text class='f-cmmi10-996' x='55.003' y='35.368'>t,</text>
+<text class='f-cmti10-996' x='63.029' y='35.368'>nHe<tspan x='80.109'>ad</tspan></text>
+<text class='f-cmr10-996' x='91.322' y='35.368'>)</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L54" title="MicroGptFlat.fss, line 54">54</a></span>h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L55" title="MicroGptFlat.fss, line 55">55</a></span>u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L54" title="MicroGptFlat.fss, line 54">54</a></span>h(m: Array⟦RR64,(ZZ32,ZZ32)⟧): Array⟦RR64,(ZZ32,ZZ32,ZZ32)⟧ = heads(m, blockSize, nHead, headDim)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L55" title="MicroGptFlat.fss, line 55">55</a></span>u(t: Array⟦RR64,(ZZ32,ZZ32,ZZ32)⟧): Array⟦RR64,(ZZ32,ZZ32)⟧ = unheads(t, nHead)</span></code></pre></div>
+<p id="p-ecb628ad" class="nb">These two lines stand at the top of the function <span class="fc"><span class="fr m"><i>step</i></span><code class="fs">step</code></span>, before the forward pass. They declare two local functions. A local function can use the names around it, and is declared like a top-level one.</p>
 <ul>
-<li><p id="p-f137911e" class="nb"><code>h</code>, short for heads, takes a matrix and returns an array with three indices. The program's comments call such an array a rank-3 array. Its type is <code>Array[\RR64,(ZZ32,ZZ32,ZZ32)\]</code>: the index is a triple. It holds several matrices of one size, in a fixed order. Each of these matrices is a plane, and the three indices are the plane, the row and the column.</p></li>
-<li><p id="p-7cb85084" class="nb"><code>u</code>, short for unheads, goes the other way, from a rank-3 array to a matrix.</p></li>
+<li><p id="p-f137911e" class="nb"><span class="fc"><span class="fr m"><i>h</i></span><code class="fs">h</code></span>, short for heads, takes a matrix and returns an array with three indices. The program's comments call such an array a rank-3 array. Its type is <span class="fc u"><span class="fr m"><span class="ty">Array</span>⟦ℝ64,(ℤ32,ℤ32,ℤ32)⟧</span><code class="fs">Array[\RR64,(ZZ32,ZZ32,ZZ32)\]</code><code class="fu">Array⟦RR64,(ZZ32,ZZ32,ZZ32)⟧</code></span>: the index is a triple. It holds several matrices of one size, in a fixed order. Each of these matrices is a plane, and the three indices are the plane, the row and the column.</p></li>
+<li><p id="p-7cb85084" class="nb"><span class="fc"><span class="fr m"><i>u</i></span><code class="fs">u</code></span>, short for unheads, goes the other way, from a rank-3 array to a matrix.</p></li>
 </ul>
-<p id="p-636d032a" class="nb"><code>h</code> calls <code>heads</code> and <code>u</code> calls <code>unheads</code>, two functions of <code>FlatArrays.fss</code>. A small case shows what they do. The matrix <code>y</code> has the rows 1, 2, 3, 4 and 5, 6, 7, 8. The call <code>heads(y, 2, 2, 2)</code> asks for 2 positions in a document, 2 heads, and 2 numbers in a head:</p>
+<p id="p-636d032a" class="nb"><span class="fc"><span class="fr m"><i>h</i></span><code class="fs">h</code></span> calls <span class="fc"><span class="fr m"><i>heads</i></span><code class="fs">heads</code></span> and <span class="fc"><span class="fr m"><i>u</i></span><code class="fs">u</code></span> calls <span class="fc"><span class="fr m"><i>unheads</i></span><code class="fs">unheads</code></span>, two functions of <code>FlatArrays.fss</code>. A small case shows what they do. The matrix <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span> has the rows 1, 2, 3, 4 and 5, 6, 7, 8. The call <span class="fc"><span class="fr m"><i>heads</i>(<i>y</i>, 2, 2, 2)</span><code class="fs">heads(y, 2, 2, 2)</code></span> asks for 2 positions in a document, 2 heads, and 2 numbers in a head:</p>
 <pre class="vb nb out" id="o-e1bbadeb" data-kind="output"><code>heads(y, 2, 2, 2) (2 x 2 x 2):
   plane 0
     1.0 2.0
@@ -65,7 +170,7 @@
 unheads (2 x 4):
     1.0 2.0 3.0 4.0
     5.0 6.0 7.0 8.0</code></pre>
-<p id="p-3a4149ab" class="nb">Plane 0 holds columns 0 and 1 of <code>y</code>. Plane 1 holds columns 2 and 3. <code>unheads</code> puts the planes side by side again.</p>
+<p id="p-3a4149ab" class="nb">Plane 0 holds columns 0 and 1 of <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span>. Plane 1 holds columns 2 and 3. <span class="fc"><span class="fr m"><i>unheads</i></span><code class="fs">unheads</code></span> puts the planes side by side again.</p>
 <figure class="fig nb" id="f-c25dda24" data-kind="drawing"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 150" role="img" aria-label="The matrix q, 16 rows by 16 columns, is cut into four strips of four columns. Each strip is one plane of qh: 16 rows by 4 columns, one plane for each head.">
 <text x="12" y="12" class="muted">q: 16 by 16</text>
 <rect class="tint" x="12" y="20" width="36" height="96"/>
@@ -90,31 +195,490 @@ unheads (2 x 4):
 <text x="299" y="132" text-anchor="middle" class="muted">2</text>
 <text x="339" y="132" text-anchor="middle" class="muted">3</text>
 <text x="204" y="146" class="muted">plane = head</text>
-</svg><figcaption>What <code>h</code> does to <code>q</code>, with one document in the batch.</figcaption></figure>
-<p id="p-22e671be" class="nb">Both functions return views. No number is copied. <code>heads</code> returns an object of this declaration:</p>
-<div class="fx nb src" id="c-bd04d39e" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L82" title="FlatArrays.fss, line 82">82</a></span>(* a (docs.positions x heads.dim) activation as docs.heads planes of positions x dim:</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L83" title="FlatArrays.fss, line 83">83</a></span>   plane d nh + h, row i, column j is base[d p + i, h k + j]; and the inverse *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L84" title="FlatArrays.fss, line 84">84</a></span>object HeadsView[\nat br, nat bc, nat a, nat b, nat c\](base: Matrix[\RR64,br,bc\], p: ZZ32, nh: ZZ32, k: ZZ32)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L85" title="FlatArrays.fss, line 85">85</a></span>        extends Array3[\RR64,0,a,0,b,0,c\]</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L86" title="FlatArrays.fss, line 86">86</a></span>    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (q, i, j) = ix; base.get((q DIV nh) p + i, (q MOD nh) k + j) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L87" title="FlatArrays.fss, line 87">87</a></span>    put(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.put(((q DIV nh) p + i, (q MOD nh) k + j), x) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L88" title="FlatArrays.fss, line 88">88</a></span>    init0(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.init0(((q DIV nh) p + i, (q MOD nh) k + j), x) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L89" title="FlatArrays.fss, line 89">89</a></span>    replica[\U\](): Array3[\U,0,a,0,b,0,c\] = array3[\U,a,b,c\]()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L90" title="FlatArrays.fss, line 90">90</a></span>end</span></code></pre></div>
-<p id="p-1c9c7531" class="nb">The fields are <code>base</code>, the matrix that the view reads; <code>p</code>, the number of positions in a document, 16; <code>nh</code>, the number of heads, 4; and <code>k</code>, the number of columns of a head, 4. In line 86, the name <code>q</code> is the plane's number, not the model's matrix <code>q</code>. <code>i</code> is the row and <code>j</code> the column. <code>q MOD nh</code> is the head, and <code>(q MOD nh) k + j</code> is the column in the matrix: the head's first column plus <code>j</code>. <code>q DIV nh</code> is the document, and <code>(q DIV nh) p + i</code> is the row in the matrix. With a batch of several documents there is one plane for each pair of a document and a head. This keeps the documents apart: a position reads only positions of its own name.</p>
-<div class="fx nb src" id="c-166a5dff" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L58" title="MicroGptFlat.fss, line 58">58</a></span>(qh, kh, vh) = (h(q), h(k), h(v))</span></code></pre></div>
-<p id="p-6a77a6e9" class="nb"><code>qh</code>, <code>kh</code> and <code>vh</code> are the queries, the keys and the values, cut into heads. A run printed the sizes, and one query before and after the cut:</p>
+</svg><figcaption>What <span class="fc"><span class="fr m"><i>h</i></span><code class="fs">h</code></span> does to <span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span>, with one document in the batch.</figcaption></figure>
+<p id="p-22e671be" class="nb">Both functions return views. No number is copied. <span class="fc"><span class="fr m"><i>heads</i></span><code class="fs">heads</code></span> returns an object of this declaration:</p>
+<div class="fx nb src n3" id="c-bd04d39e" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L82" title="FlatArrays.fss, line 82">82</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.591em' viewBox='0 0 175.342 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>a<tspan x='22.084'>(do</tspan><tspan x='36.751'>cs.p</tspan><tspan x='53.688'>ositions</tspan><tspan x='89.775'>x</tspan><tspan x='98.354'>heads.dim)</tspan><tspan x='15.94' y='20.368'>activ</tspan><tspan x='36.696'>ation</tspan><tspan x='62.156'>as</tspan><tspan x='74.388'>do</tspan><tspan x='85.181'>cs.heads</tspan><tspan x='124.035'>planes</tspan><tspan x='154.532'>of</tspan><tspan x='15.94' y='32.323'>p</tspan><tspan x='21.752'>ositions</tspan><tspan x='57.839'>x</tspan><tspan x='66.418'>dim:</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L83" title="FlatArrays.fss, line 83">83</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='3.686em' viewBox='0 0 161.893 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>plane<tspan x='26.567'>d</tspan><tspan x='35.423'>nh</tspan><tspan x='49.813'>+</tspan><tspan x='60.883'>h,</tspan><tspan x='72.506'>ro</tspan><tspan x='81.113'>w</tspan><tspan x='91.629'>i,</tspan><tspan x='100.484'>column</tspan><tspan x='135.354'>j</tspan><tspan x='141.719'>is</tspan><tspan x='15.94' y='20.922'>base[d</tspan><tspan x='46.437'>p</tspan><tspan x='55.293'>+</tspan><tspan x='66.362'>i,</tspan><tspan x='75.218'>h</tspan><tspan x='84.074'>k</tspan><tspan x='92.653'>+</tspan><tspan x='103.722'>j];</tspan><tspan x='115.622'>and</tspan><tspan x='134.994'>the</tspan><tspan x='15.94' y='33.275'>in</tspan><tspan x='23.966'>v</tspan><tspan x='28.947'>erse</tspan></text>
+<text class='f-cmtt10-996' x='52.276' y='33.275'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L84" title="FlatArrays.fss, line 84">84</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='4.936em' viewBox='0 0 175.342 49.359' fill='currentColor' style='vertical-align:-4.099em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>object</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>HeadsView</text>
+<text class='f-stmary10-996' x='82.496' y='8.369'></text>
+<text class='f-cmtt10-996' x='86.509' y='8.369'>nat</text>
+<text class='f-cmti10-996' x='104.967' y='8.369'>br</text>
+<text class='f-cmmi10-996' x='114.823' y='8.369'>,</text>
+<text class='f-cmtt10-996' x='119.251' y='8.369'>nat</text>
+<text class='f-cmti10-996' x='137.709' y='8.369'>b<tspan x='141.783'>c</tspan></text>
+<text class='f-cmmi10-996' x='146.929' y='8.369'>,</text>
+<text class='f-cmtt10-996' x='15.94' y='20.368'>nat</text>
+<text class='f-cmmi10-996' x='34.399' y='20.368'>a,</text>
+<text class='f-cmtt10-996' x='44.093' y='20.368'>nat</text>
+<text class='f-cmmi10-996' x='62.551' y='20.368'>b,</text>
+<text class='f-cmtt10-996' x='15.94' y='32.323'>nat</text>
+<text class='f-cmmi10-996' x='34.399' y='32.323'>c</text>
+<text class='f-stmary10-996' x='38.71' y='32.323'></text>
+<text class='f-cmex10-996' x='42.723' y='24.253'></text>
+<text class='f-cmti10-996' x='47.289' y='32.323'>b<tspan x='51.363'>ase</tspan></text>
+<text class='f-cmr10-996' x='65.86' y='32.323'>:<tspan x='70.287'>Matrix</tspan></text>
+<text class='f-stmary10-996' x='100.203' y='32.323'></text>
+<text class='f-msbm10-996' x='104.216' y='32.323'>R</text>
+<text class='f-cmr10-996' x='111.411' y='32.323'>64</text>
+<text class='f-cmmi10-996' x='121.374' y='32.323'>,</text>
+<text class='f-cmti10-996' x='125.801' y='32.323'>br</text>
+<text class='f-cmmi10-996' x='135.657' y='32.323'>,</text>
+<text class='f-cmti10-996' x='140.085' y='32.323'>b<tspan x='144.159'>c</tspan></text>
+<text class='f-stmary10-996' x='149.305' y='32.323'></text>
+<text class='f-cmmi10-996' x='153.318' y='32.323'>,<tspan x='15.94' y='45.773'>p</tspan></text>
+<text class='f-cmr10-996' x='20.953' y='45.773'>:</text>
+<text class='f-msbm10-996' x='25.381' y='45.773'>Z</text>
+<text class='f-cmr10-996' x='32.022' y='45.773'>32</text>
+<text class='f-cmmi10-996' x='41.985' y='45.773'>,</text>
+<text class='f-cmti10-996' x='46.413' y='45.773'>nh</text>
+<text class='f-cmr10-996' x='57.87' y='45.773'>:</text>
+<text class='f-msbm10-996' x='62.298' y='45.773'>Z</text>
+<text class='f-cmr10-996' x='68.94' y='45.773'>32</text>
+<text class='f-cmmi10-996' x='78.903' y='45.773'>,<tspan x='83.33'>k</tspan></text>
+<text class='f-cmr10-996' x='88.831' y='45.773'>:</text>
+<text class='f-msbm10-996' x='93.258' y='45.773'>Z</text>
+<text class='f-cmr10-996' x='99.9' y='45.773'>32</text>
+<text class='f-cmex10-996' x='109.863' y='37.703'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L85" title="FlatArrays.fss, line 85">85</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='2.541em' viewBox='0 0 139.477 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>extends</text>
+<text class='f-cmr10-996' x='15.94' y='21.818'>Arra<tspan x='35.921'>y3</tspan></text>
+<text class='f-stmary10-996' x='46.16' y='21.818'></text>
+<text class='f-msbm10-996' x='50.173' y='21.818'>R</text>
+<text class='f-cmr10-996' x='57.368' y='21.818'>64</text>
+<text class='f-cmmi10-996' x='67.331' y='21.818'>,</text>
+<text class='f-cmr10-996' x='71.759' y='21.818'>0</text>
+<text class='f-cmmi10-996' x='76.74' y='21.818'>,<tspan x='81.168'>a,</tspan></text>
+<text class='f-cmr10-996' x='90.862' y='21.818'>0</text>
+<text class='f-cmmi10-996' x='95.843' y='21.818'>,<tspan x='100.271'>b,</tspan></text>
+<text class='f-cmr10-996' x='108.975' y='21.818'>0</text>
+<text class='f-cmmi10-996' x='113.956' y='21.818'>,<tspan x='118.384'>c</tspan></text>
+<text class='f-stmary10-996' x='122.695' y='21.818'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L86" title="FlatArrays.fss, line 86">86</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.051em' viewBox='0 0 157.41 50.511' fill='currentColor' style='vertical-align:-4.204em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>get</text>
+<text class='f-cmex10-996' x='13.42' y='.398'></text>
+<text class='f-cmti10-996' x='17.987' y='8.468'>ix</text>
+<text class='f-cmr10-996' x='26.863' y='8.468'>:<tspan x='31.291'>(</tspan></text>
+<text class='f-msbm10-996' x='35.165' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='41.807' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='51.77' y='8.468'>,</text>
+<text class='f-msbm10-996' x='56.197' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='62.839' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='72.802' y='8.468'>,</text>
+<text class='f-msbm10-996' x='77.23' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='83.872' y='8.468'>32)</text>
+<text class='f-cmex10-996' x='97.709' y='.398'></text>
+<text class='f-cmr10-996' x='102.275' y='8.468'>:</text>
+<text class='f-msbm10-996' x='106.703' y='8.468'>R</text>
+<text class='f-cmr10-996' x='113.898' y='8.468'>64<tspan x='126.628'>=</tspan></text>
+<text class='f-cmtt10-996' x='15.94' y='21.021'>do</text>
+<text class='f-cmr10-996' x='29.168' y='21.021'>(</text>
+<text class='f-cmmi10-996' x='33.043' y='21.021'>q<tspan x='37.848'>,</tspan><tspan x='42.275'>i,</tspan><tspan x='15.94' y='33.475'>j</tspan></text>
+<text class='f-cmr10-996' x='20.613' y='33.475'>)<tspan x='27.255'>=</tspan></text>
+<text class='f-cmti10-996' x='37.771' y='33.475'>ix</text>
+<text class='f-cmr10-996' x='46.647' y='33.475'>;</text>
+<text class='f-cmti10-996' x='51.075' y='33.475'>b<tspan x='55.149'>ase</tspan></text>
+<text class='f-cmmi10-996' x='69.646' y='33.475'>.</text>
+<text class='f-cmti10-996' x='72.413' y='33.475'>get</text>
+<text class='f-cmex10-996' x='85.834' y='25.405'></text>
+<text class='f-cmr10-996' x='90.4' y='33.475'>(</text>
+<text class='f-cmmi10-996' x='94.274' y='33.475'>q</text>
+<text class='f-cmsy10-996' x='101.293' y='33.475'>÷</text>
+<text class='f-cmti10-996' x='111.256' y='33.475'>nh</text>
+<text class='f-cmr10-996' x='122.713' y='33.475'>)</text>
+<text class='f-cmmi10-996' x='128.248' y='33.475'>p</text>
+<text class='f-cmr10-996' x='135.474' y='33.475'>+</text>
+<text class='f-cmmi10-996' x='145.437' y='33.475'>i,</text>
+<text class='f-cmr10-996' x='15.94' y='46.924'>(</text>
+<text class='f-cmmi10-996' x='19.815' y='46.924'>q</text>
+<text class='f-cmtt10-996' x='26.833' y='46.924'>MOD</text>
+<text class='f-cmti10-996' x='44.738' y='46.924'>nh</text>
+<text class='f-cmr10-996' x='56.196' y='46.924'>)</text>
+<text class='f-cmmi10-996' x='61.731' y='46.924'>k</text>
+<text class='f-cmr10-996' x='69.445' y='46.924'>+</text>
+<text class='f-cmmi10-996' x='79.407' y='46.924'>j</text>
+<text class='f-cmex10-996' x='84.08' y='38.854'></text>
+<text class='f-cmtt10-996' x='91.414' y='46.924'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L87" title="FlatArrays.fss, line 87">87</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.250em' viewBox='0 0 157.41 52.504' fill='currentColor' style='vertical-align:-4.404em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>put</text>
+<text class='f-cmex10-996' x='14.693' y='.398'></text>
+<text class='f-cmti10-996' x='19.26' y='8.468'>ix</text>
+<text class='f-cmr10-996' x='28.136' y='8.468'>:<tspan x='32.564'>(</tspan></text>
+<text class='f-msbm10-996' x='36.438' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='43.08' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='53.043' y='8.468'>,</text>
+<text class='f-msbm10-996' x='57.471' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='64.112' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='74.075' y='8.468'>,</text>
+<text class='f-msbm10-996' x='78.503' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='85.145' y='8.468'>32)</text>
+<text class='f-cmmi10-996' x='98.982' y='8.468'>,<tspan x='15.94' y='22.018'>x</tspan></text>
+<text class='f-cmr10-996' x='21.634' y='22.018'>:</text>
+<text class='f-msbm10-996' x='26.062' y='22.018'>R</text>
+<text class='f-cmr10-996' x='33.257' y='22.018'>64</text>
+<text class='f-cmex10-996' x='43.22' y='13.948'></text>
+<text class='f-cmr10-996' x='47.786' y='22.018'>:<tspan x='52.214'>(</tspan><tspan x='56.503'>)</tspan><tspan x='63.145'>=</tspan></text>
+<text class='f-cmtt10-996' x='73.661' y='22.018'>do</text>
+<text class='f-cmr10-996' x='86.889' y='22.018'>(</text>
+<text class='f-cmmi10-996' x='90.764' y='22.018'>q<tspan x='95.569'>,</tspan><tspan x='99.996'>i,</tspan><tspan x='15.94' y='35.467'>j</tspan></text>
+<text class='f-cmr10-996' x='20.613' y='35.467'>)<tspan x='27.255'>=</tspan></text>
+<text class='f-cmti10-996' x='37.771' y='35.467'>ix</text>
+<text class='f-cmr10-996' x='46.647' y='35.467'>;</text>
+<text class='f-cmti10-996' x='51.075' y='35.467'>b<tspan x='55.149'>ase</tspan></text>
+<text class='f-cmmi10-996' x='69.646' y='35.467'>.</text>
+<text class='f-cmti10-996' x='72.413' y='35.467'>put</text>
+<text class='f-cmex10-996' x='87.107' y='27.397'></text>
+<text class='f-cmr10-996' x='91.673' y='35.467'>((</text>
+<text class='f-cmmi10-996' x='99.422' y='35.467'>q</text>
+<text class='f-cmsy10-996' x='106.44' y='35.467'>÷</text>
+<text class='f-cmti10-996' x='116.403' y='35.467'>nh</text>
+<text class='f-cmr10-996' x='127.86' y='35.467'>)</text>
+<text class='f-cmmi10-996' x='133.395' y='35.467'>p</text>
+<text class='f-cmr10-996' x='140.622' y='35.467'>+</text>
+<text class='f-cmmi10-996' x='150.584' y='35.467'>i,</text>
+<text class='f-cmr10-996' x='15.94' y='48.917'>(</text>
+<text class='f-cmmi10-996' x='19.815' y='48.917'>q</text>
+<text class='f-cmtt10-996' x='26.833' y='48.917'>MOD</text>
+<text class='f-cmti10-996' x='44.738' y='48.917'>nh</text>
+<text class='f-cmr10-996' x='56.196' y='48.917'>)</text>
+<text class='f-cmmi10-996' x='61.731' y='48.917'>k</text>
+<text class='f-cmr10-996' x='69.445' y='48.917'>+</text>
+<text class='f-cmmi10-996' x='79.407' y='48.917'>j</text>
+<text class='f-cmr10-996' x='84.08' y='48.917'>)</text>
+<text class='f-cmmi10-996' x='87.955' y='48.917'>,<tspan x='92.382'>x</tspan></text>
+<text class='f-cmex10-996' x='98.076' y='40.847'></text>
+<text class='f-cmtt10-996' x='105.41' y='48.917'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L88" title="FlatArrays.fss, line 88">88</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.250em' viewBox='0 0 157.41 52.504' fill='currentColor' style='vertical-align:-4.404em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>init</text>
+<text class='f-cmr7-697' x='15.966' y='9.963'>0</text>
+<text class='f-cmex10-996' x='20.436' y='.398'></text>
+<text class='f-cmti10-996' x='25.002' y='8.468'>ix</text>
+<text class='f-cmr10-996' x='33.878' y='8.468'>:<tspan x='38.306'>(</tspan></text>
+<text class='f-msbm10-996' x='42.181' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='48.822' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='58.785' y='8.468'>,</text>
+<text class='f-msbm10-996' x='63.213' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='69.855' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='79.817' y='8.468'>,</text>
+<text class='f-msbm10-996' x='84.245' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='90.887' y='8.468'>32)</text>
+<text class='f-cmmi10-996' x='104.724' y='8.468'>,<tspan x='15.94' y='22.018'>x</tspan></text>
+<text class='f-cmr10-996' x='21.634' y='22.018'>:</text>
+<text class='f-msbm10-996' x='26.062' y='22.018'>R</text>
+<text class='f-cmr10-996' x='33.257' y='22.018'>64</text>
+<text class='f-cmex10-996' x='43.22' y='13.948'></text>
+<text class='f-cmr10-996' x='47.786' y='22.018'>:<tspan x='52.214'>(</tspan><tspan x='56.503'>)</tspan><tspan x='63.145'>=</tspan></text>
+<text class='f-cmtt10-996' x='73.661' y='22.018'>do</text>
+<text class='f-cmr10-996' x='86.889' y='22.018'>(</text>
+<text class='f-cmmi10-996' x='90.764' y='22.018'>q<tspan x='95.569'>,</tspan><tspan x='99.996'>i,</tspan><tspan x='15.94' y='35.467'>j</tspan></text>
+<text class='f-cmr10-996' x='20.613' y='35.467'>)<tspan x='27.255'>=</tspan></text>
+<text class='f-cmti10-996' x='37.771' y='35.467'>ix</text>
+<text class='f-cmr10-996' x='46.647' y='35.467'>;</text>
+<text class='f-cmti10-996' x='51.075' y='35.467'>b<tspan x='55.149'>ase</tspan></text>
+<text class='f-cmmi10-996' x='69.646' y='35.467'>.</text>
+<text class='f-cmti10-996' x='72.413' y='35.467'>init</text>
+<text class='f-cmr7-697' x='88.38' y='36.962'>0</text>
+<text class='f-cmex10-996' x='92.849' y='27.397'></text>
+<text class='f-cmr10-996' x='97.415' y='35.467'>((</text>
+<text class='f-cmmi10-996' x='105.164' y='35.467'>q</text>
+<text class='f-cmsy10-996' x='112.183' y='35.467'>÷</text>
+<text class='f-cmti10-996' x='122.145' y='35.467'>nh</text>
+<text class='f-cmr10-996' x='133.603' y='35.467'>)</text>
+<text class='f-cmmi10-996' x='15.94' y='48.917'>p</text>
+<text class='f-cmr10-996' x='23.167' y='48.917'>+</text>
+<text class='f-cmmi10-996' x='33.129' y='48.917'>i,</text>
+<text class='f-cmr10-996' x='40.989' y='48.917'>(</text>
+<text class='f-cmmi10-996' x='44.864' y='48.917'>q</text>
+<text class='f-cmtt10-996' x='51.882' y='48.917'>MOD</text>
+<text class='f-cmti10-996' x='69.787' y='48.917'>nh</text>
+<text class='f-cmr10-996' x='81.245' y='48.917'>)</text>
+<text class='f-cmmi10-996' x='86.78' y='48.917'>k</text>
+<text class='f-cmr10-996' x='94.494' y='48.917'>+</text>
+<text class='f-cmmi10-996' x='104.456' y='48.917'>j</text>
+<text class='f-cmr10-996' x='109.129' y='48.917'>)</text>
+<text class='f-cmmi10-996' x='113.004' y='48.917'>,<tspan x='117.431'>x</tspan></text>
+<text class='f-cmex10-996' x='123.125' y='40.847'></text>
+<text class='f-cmtt10-996' x='130.459' y='48.917'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L89" title="FlatArrays.fss, line 89">89</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.686em' viewBox='0 0 157.41 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>r<tspan x='3.692'>eplic</tspan><tspan x='23.041'>a</tspan></text>
+<text class='f-stmary10-996' x='28.897' y='8.369'></text>
+<text class='f-cmmi10-996' x='32.91' y='8.369'>U</text>
+<text class='f-stmary10-996' x='40.799' y='8.369'></text>
+<text class='f-cmr10-996' x='44.811' y='8.369'>(<tspan x='49.101'>):</tspan><tspan x='15.94' y='20.922'>Arra</tspan><tspan x='35.921'>y3</tspan></text>
+<text class='f-stmary10-996' x='46.16' y='20.922'></text>
+<text class='f-cmmi10-996' x='50.173' y='20.922'>U<tspan x='56.955'>,</tspan></text>
+<text class='f-cmr10-996' x='61.382' y='20.922'>0</text>
+<text class='f-cmmi10-996' x='66.364' y='20.922'>,<tspan x='70.792'>a,</tspan></text>
+<text class='f-cmr10-996' x='80.486' y='20.922'>0</text>
+<text class='f-cmmi10-996' x='85.467' y='20.922'>,<tspan x='89.895'>b,</tspan></text>
+<text class='f-cmr10-996' x='98.598' y='20.922'>0</text>
+<text class='f-cmmi10-996' x='103.579' y='20.922'>,<tspan x='108.007'>c</tspan></text>
+<text class='f-stmary10-996' x='112.319' y='20.922'></text>
+<text class='f-cmr10-996' x='119.099' y='20.922'>=</text>
+<text class='f-cmti10-996' x='15.94' y='33.275'>arr<tspan x='28.925'>ay</tspan></text>
+<text class='f-cmr7-697' x='39.736' y='35.71'>3</text>
+<text class='f-stmary10-996' x='44.205' y='33.275'></text>
+<text class='f-cmmi10-996' x='48.218' y='33.275'>U<tspan x='54.999'>,</tspan><tspan x='59.427'>a,</tspan><tspan x='69.121'>b,</tspan><tspan x='77.824'>c</tspan></text>
+<text class='f-stmary10-996' x='82.136' y='33.275'></text>
+<text class='f-cmr10-996' x='86.149' y='33.275'>(<tspan x='90.438'>)</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L90" title="FlatArrays.fss, line 90">90</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L82" title="FlatArrays.fss, line 82">82</a></span>(* a (docs.positions x heads.dim) activation as docs.heads planes of positions x dim:</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L83" title="FlatArrays.fss, line 83">83</a></span>   plane d nh + h, row i, column j is base[d p + i, h k + j]; and the inverse *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L84" title="FlatArrays.fss, line 84">84</a></span>object HeadsView[\nat br, nat bc, nat a, nat b, nat c\](base: Matrix[\RR64,br,bc\], p: ZZ32, nh: ZZ32, k: ZZ32)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L85" title="FlatArrays.fss, line 85">85</a></span>        extends Array3[\RR64,0,a,0,b,0,c\]</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L86" title="FlatArrays.fss, line 86">86</a></span>    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (q, i, j) = ix; base.get((q DIV nh) p + i, (q MOD nh) k + j) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L87" title="FlatArrays.fss, line 87">87</a></span>    put(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.put(((q DIV nh) p + i, (q MOD nh) k + j), x) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L88" title="FlatArrays.fss, line 88">88</a></span>    init0(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.init0(((q DIV nh) p + i, (q MOD nh) k + j), x) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L89" title="FlatArrays.fss, line 89">89</a></span>    replica[\U\](): Array3[\U,0,a,0,b,0,c\] = array3[\U,a,b,c\]()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L90" title="FlatArrays.fss, line 90">90</a></span>end</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L82" title="FlatArrays.fss, line 82">82</a></span>(* a (docs.positions x heads.dim) activation as docs.heads planes of positions x dim:</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L83" title="FlatArrays.fss, line 83">83</a></span>   plane d nh + h, row i, column j is base[d p + i, h k + j]; and the inverse *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L84" title="FlatArrays.fss, line 84">84</a></span>object HeadsView⟦nat br, nat bc, nat a, nat b, nat c⟧(base: Matrix⟦RR64,br,bc⟧, p: ZZ32, nh: ZZ32, k: ZZ32)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L85" title="FlatArrays.fss, line 85">85</a></span>        extends Array3⟦RR64,0,a,0,b,0,c⟧</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L86" title="FlatArrays.fss, line 86">86</a></span>    get(ix: (ZZ32,ZZ32,ZZ32)): RR64 = do (q, i, j) = ix; base.get((q ÷ nh) p + i, (q MOD nh) k + j) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L87" title="FlatArrays.fss, line 87">87</a></span>    put(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.put(((q ÷ nh) p + i, (q MOD nh) k + j), x) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L88" title="FlatArrays.fss, line 88">88</a></span>    init0(ix: (ZZ32,ZZ32,ZZ32), x: RR64): () = do (q, i, j) = ix; base.init0(((q ÷ nh) p + i, (q MOD nh) k + j), x) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L89" title="FlatArrays.fss, line 89">89</a></span>    replica⟦U⟧(): Array3⟦U,0,a,0,b,0,c⟧ = array3⟦U,a,b,c⟧()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L90" title="FlatArrays.fss, line 90">90</a></span>end</span></code></pre></div>
+<p id="p-1c9c7531" class="nb">The fields are <span class="fc"><span class="fr m"><i>base</i></span><code class="fs">base</code></span>, the matrix that the view reads; <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>, the number of positions in a document, 16; <span class="fc"><span class="fr m"><i>nh</i></span><code class="fs">nh</code></span>, the number of heads, 4; and <span class="fc"><span class="fr m"><i>k</i></span><code class="fs">k</code></span>, the number of columns of a head, 4. In line 86, the name <span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span> is the plane's number, not the model's matrix <span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span>. <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> is the row and <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> the column. <span class="fc"><span class="fr m"><i>q</i> <span class="op">MOD</span> <i>nh</i></span><code class="fs">q MOD nh</code></span> is the head, and <span class="fc"><span class="fr m">(<i>q</i> <span class="op">MOD</span> <i>nh</i>) <i>k</i> + <i>j</i></span><code class="fs">(q MOD nh) k + j</code></span> is the column in the matrix: the head's first column plus <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span>. <span class="fc u"><span class="fr m"><i>q</i> ÷ <i>nh</i></span><code class="fs">q DIV nh</code><code class="fu">q ÷ nh</code></span> is the document, and <span class="fc u"><span class="fr m">(<i>q</i> ÷ <i>nh</i>) <i>p</i> + <i>i</i></span><code class="fs">(q DIV nh) p + i</code><code class="fu">(q ÷ nh) p + i</code></span> is the row in the matrix. With a batch of several documents there is one plane for each pair of a document and a head. This keeps the documents apart: a position reads only positions of its own name.</p>
+<div class="fx nb src n3" id="c-166a5dff" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L58" title="MicroGptFlat.fss, line 58">58</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='13.515em' height='1.206em' viewBox='0 0 135.151 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.468'>(</text>
+<text class='f-cmti10-996' x='3.874' y='8.468'>qh</text>
+<text class='f-cmmi10-996' x='14.313' y='8.468'>,</text>
+<text class='f-cmti10-996' x='18.741' y='8.468'>kh</text>
+<text class='f-cmmi10-996' x='29.18' y='8.468'>,</text>
+<text class='f-cmti10-996' x='33.608' y='8.468'>vh</text>
+<text class='f-cmr10-996' x='44.047' y='8.468'>)<tspan x='50.689'>=</tspan></text>
+<text class='f-cmex10-996' x='61.205' y='.398'></text>
+<text class='f-cmmi10-996' x='65.771' y='8.468'>h</text>
+<text class='f-cmr10-996' x='71.511' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='75.386' y='8.468'>q</text>
+<text class='f-cmr10-996' x='80.19' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='84.065' y='8.468'>,<tspan x='88.493'>h</tspan></text>
+<text class='f-cmr10-996' x='94.233' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='98.107' y='8.468'>k</text>
+<text class='f-cmr10-996' x='103.607' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='107.482' y='8.468'>,<tspan x='111.909'>h</tspan></text>
+<text class='f-cmr10-996' x='117.65' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='121.524' y='8.468'>v</text>
+<text class='f-cmr10-996' x='126.71' y='8.468'>)</text>
+<text class='f-cmex10-996' x='130.585' y='.398'></text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L58" title="MicroGptFlat.fss, line 58">58</a></span>(qh, kh, vh) = (h(q), h(k), h(v))</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L58" title="MicroGptFlat.fss, line 58">58</a></span>(qh, kh, vh) = (h(q), h(k), h(v))</span></code></pre></div>
+<p id="p-6a77a6e9" class="nb"><span class="fc"><span class="fr m"><i>qh</i></span><code class="fs">qh</code></span>, <span class="fc"><span class="fr m"><i>kh</i></span><code class="fs">kh</code></span> and <span class="fc"><span class="fr m"><i>vh</i></span><code class="fs">vh</code></span> are the queries, the keys and the values, cut into heads. A run printed the sizes, and one query before and after the cut:</p>
 <pre class="vb nb out long" id="o-c3eeb721" data-kind="output"><code>sizes x (16,16) q (16,16) qh (4,16,4) kh (4,16,4)
 q[3,0..3] = 0.21653204961507866 0.07459332626949441 -0.2933447862796106 0.17866618188236993
 qh[0,3,:] = 0.21653204961507866 0.07459332626949441 -0.2933447862796106 0.17866618188236993
 q[3,4..7] = -0.08474197564917962 -0.074962298948664 0.3810366810245596 -0.12889117901497626
 qh[1,3,:] = -0.08474197564917962 -0.074962298948664 0.3810366810245596 -0.12889117901497626</code></pre>
-<p id="p-56b23e80" class="nb"><code>qh</code> has 4 planes, 16 rows and 4 columns. Row 3 of plane 0 is the first four numbers of row 3 of <code>q</code>: the query of position 3 in head 0. Row 3 of plane 1 is the next four: the query of position 3 in head 1.</p>
+<p id="p-56b23e80" class="nb"><span class="fc"><span class="fr m"><i>qh</i></span><code class="fs">qh</code></span> has 4 planes, 16 rows and 4 columns. Row 3 of plane 0 is the first four numbers of row 3 of <span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span>: the query of position 3 in head 0. Row 3 of plane 1 is the next four: the query of position 3 in head 1.</p>
 </section>
 <section class="sec" data-num="4.4" data-title="The scores">
 <h2 id="s-the-scores" class="nb"><span class="num">4.4</span> The scores</h2>
-<div class="fx nb src" id="c-b5289a63" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span>a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))</span></code></pre></div>
+<div class="fx nb src n3" id="c-b5289a63" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.642em' viewBox='0 0 175.342 26.423' fill='currentColor' style='vertical-align:-1.795em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.468'>a</text>
+<text class='f-cmr10-996' x='8.033' y='8.468'>=</text>
+<text class='f-cmti10-996' x='18.55' y='8.468'>r<tspan x='22.241'>ows</tspan></text>
+<text class='f-cmex10-996' x='38.844' y='.398'></text>
+<text class='f-cmti10-996' x='43.41' y='8.468'>sm</text>
+<text class='f-cmmi10-996' x='56.395' y='8.468'>,</text>
+<text class='f-cmti10-996' x='60.823' y='8.468'>mask</text>
+<text class='f-cmr10-996' x='86.005' y='8.468'>+<tspan x='95.968'>(</tspan></text>
+<text class='f-cmti10-996' x='99.842' y='8.468'>qh<tspan x='15.94' y='22.837'>kh</tspan></text>
+<text class='f-cmmi7-697' x='26.379' y='18.381'>T</text>
+<text class='f-cmr10-996' x='32.655' y='22.837'>)</text>
+<text class='f-cmmi10-996' x='36.53' y='22.837'>/</text>
+<text class='f-cmsy10-996' x='41.511' y='14.346'>√</text>
+<rect x='49.813' y='13.948' height='.398' width='53.228'/>
+<text class='f-cmr10-996' x='49.813' y='22.837'>1</text>
+<text class='f-cmmi10-996' x='54.795' y='22.837'>.</text>
+<text class='f-cmr10-996' x='57.562' y='22.837'>0</text>
+<text class='f-cmti10-996' x='64.204' y='22.837'>he<tspan x='73.369'>adDim</tspan></text>
+<text class='f-cmex10-996' x='104.702' y='14.767'></text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span>a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span>a = rows(sm, mask + (qh kh^T) / √ (1.0 headDim))</span></code></pre></div>
 <p id="p-e7731621" class="nb">Read the line from the inside out.</p>
-<p id="p-75d352a0" class="nb"><code>kh^T</code> uses the operator <code>^T</code> that line 24 of <code>MicroGptFlat.fss</code> declares for a rank-3 array. On a rank-3 array it transposes every plane. The planes of <code>kh</code> are 16 by 4, so the planes of <code>kh^T</code> are 4 by 16.</p>
-<p id="p-9708aef7" class="nb"><code>qh kh^T</code> is a product of two rank-3 arrays. <code>FlatArrays.fss</code> declares it as the matrix product, plane with plane:</p>
-<div class="fx nb src" id="c-f15dd36e" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L125" title="FlatArrays.fss, line 125">125</a></span>(* ------------------------------------------------- rank-3 algebra -------- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L126" title="FlatArrays.fss, line 126">126</a></span>(* +.×⍤2 : the library product on every pair of planes *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L127" title="FlatArrays.fss, line 127">127</a></span>opr juxtaposition[\nat a, nat b, nat c, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a,0,b,0,c\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L128" title="FlatArrays.fss, line 128">128</a></span>    (np, n, d) = x.sizes</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L129" title="FlatArrays.fss, line 129">129</a></span>    (yp, yn, yd) = y.sizes</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L130" title="FlatArrays.fss, line 130">130</a></span>    out = array[\RR64\](np, n, yd)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L131" title="FlatArrays.fss, line 131">131</a></span>    for p &lt;- 0#np do (plane(out, p)).assign((plane(x, p)) (plane(y, p))) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L132" title="FlatArrays.fss, line 132">132</a></span>    out</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L133" title="FlatArrays.fss, line 133">133</a></span>  end</span></code></pre></div>
-<p id="p-af9aabd3" class="nb">Line 131 is the work: for each plane <code>p</code>, the product of plane <code>p</code> of <code>x</code> and plane <code>p</code> of <code>y</code> goes into plane <code>p</code> of <code>out</code>. <code>plane(x, p)</code> is a view of plane <code>p</code> of <code>x</code> as a matrix, also declared in <code>FlatArrays.fss</code>.</p>
+<p id="p-75d352a0" class="nb"><span class="fc"><span class="fr m"><i>kh</i><sup><i>T</i></sup></span><code class="fs">kh^T</code></span> uses the operator <span class="fc"><span class="fr m"><sup><i>T</i></sup></span><code class="fs">^T</code></span> that line 24 of <code>MicroGptFlat.fss</code> declares for a rank-3 array. On a rank-3 array it transposes every plane. The planes of <span class="fc"><span class="fr m"><i>kh</i></span><code class="fs">kh</code></span> are 16 by 4, so the planes of <span class="fc"><span class="fr m"><i>kh</i><sup><i>T</i></sup></span><code class="fs">kh^T</code></span> are 4 by 16.</p>
+<p id="p-9708aef7" class="nb"><span class="fc"><span class="fr m"><i>qh</i> <i>kh</i><sup><i>T</i></sup></span><code class="fs">qh kh^T</code></span> is a product of two rank-3 arrays. <code>FlatArrays.fss</code> declares it as the matrix product, plane with plane:</p>
+<div class="fx nb src n3" id="c-f15dd36e" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L125" title="FlatArrays.fss, line 125">125</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>------------------------------------------------<tspan x='15.94' y='21.818'>-</tspan><tspan x='22.582'>rank-3</tspan><tspan x='53.881'>algebra</tspan><tspan x='88.778'>--------</tspan></text>
+<text class='f-cmtt10-996' x='118.666' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L126" title="FlatArrays.fss, line 126">126</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.628' y='8.369'>+.</text>
+<text class='f-cmsy10-996' x='24.144' y='8.369'>×</text>
+<text class='f-cmr10-996' x='31.893' y='8.23'>¨</text>
+<text class='f-cmsy10-996' x='31.893' y='8.369'>◦</text>
+<text class='f-cmr10-996' x='36.874' y='8.369'>2<tspan x='45.023'>:</tspan><tspan x='52.142'>the</tspan><tspan x='69.147'>library</tspan><tspan x='101.427'>pro</tspan><tspan x='116.122'>duct</tspan><tspan x='138.662'>on</tspan><tspan x='152.345'>ev</tspan><tspan x='161.755'>ery</tspan><tspan x='15.94' y='21.818'>pair</tspan><tspan x='36.447'>of</tspan><tspan x='47.793'>planes</tspan></text>
+<text class='f-cmtt10-996' x='78.29' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L127" title="FlatArrays.fss, line 127">127</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='6.281em' viewBox='0 0 175.342 62.809' fill='currentColor' style='vertical-align:-5.444em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>opr</text>
+<text class='f-cmti10-996' x='18.458' y='8.369'>juxtap<tspan x='44.466'>osition</tspan></text>
+<text class='f-stmary10-996' x='74.509' y='8.369'></text>
+<text class='f-cmtt10-996' x='78.522' y='8.369'>nat</text>
+<text class='f-cmmi10-996' x='96.981' y='8.369'>a,</text>
+<text class='f-cmtt10-996' x='106.674' y='8.369'>nat</text>
+<text class='f-cmmi10-996' x='125.133' y='8.369'>b,</text>
+<text class='f-cmtt10-996' x='133.836' y='8.369'>nat</text>
+<text class='f-cmmi10-996' x='152.295' y='8.369'>c,</text>
+<text class='f-cmtt10-996' x='15.94' y='20.368'>nat</text>
+<text class='f-cmmi10-996' x='34.399' y='20.368'>a</text>
+<text class='f-cmr7-697' x='39.665' y='21.862'>2</text>
+<text class='f-cmmi10-996' x='44.134' y='20.368'>,</text>
+<text class='f-cmtt10-996' x='48.562' y='20.368'>nat</text>
+<text class='f-cmmi10-996' x='67.02' y='20.368'>b</text>
+<text class='f-cmr7-697' x='71.296' y='21.862'>2</text>
+<text class='f-cmmi10-996' x='75.765' y='20.368'>,</text>
+<text class='f-cmtt10-996' x='80.193' y='20.368'>nat</text>
+<text class='f-cmmi10-996' x='15.94' y='32.323'>c</text>
+<text class='f-cmr7-697' x='20.252' y='33.818'>2</text>
+<text class='f-stmary10-996' x='24.721' y='32.323'></text>
+<text class='f-cmex10-996' x='28.734' y='24.253'></text>
+<text class='f-cmmi10-996' x='33.3' y='32.323'>x</text>
+<text class='f-cmr10-996' x='38.994' y='32.323'>:<tspan x='43.422'>Arra</tspan><tspan x='63.402'>y3</tspan></text>
+<text class='f-stmary10-996' x='73.642' y='32.323'></text>
+<text class='f-msbm10-996' x='77.655' y='32.323'>R</text>
+<text class='f-cmr10-996' x='84.85' y='32.323'>64</text>
+<text class='f-cmmi10-996' x='94.813' y='32.323'>,</text>
+<text class='f-cmr10-996' x='99.24' y='32.323'>0</text>
+<text class='f-cmmi10-996' x='104.222' y='32.323'>,<tspan x='108.649'>a,</tspan></text>
+<text class='f-cmr10-996' x='118.343' y='32.323'>0</text>
+<text class='f-cmmi10-996' x='123.325' y='32.323'>,<tspan x='127.753'>b,</tspan></text>
+<text class='f-cmr10-996' x='136.456' y='32.323'>0</text>
+<text class='f-cmmi10-996' x='141.437' y='32.323'>,<tspan x='145.865'>c</tspan></text>
+<text class='f-stmary10-996' x='150.177' y='32.323'></text>
+<text class='f-cmmi10-996' x='154.189' y='32.323'>,<tspan x='15.94' y='45.773'>y</tspan></text>
+<text class='f-cmr10-996' x='21.182' y='45.773'>:<tspan x='25.61'>Arra</tspan><tspan x='45.591'>y3</tspan></text>
+<text class='f-stmary10-996' x='55.83' y='45.773'></text>
+<text class='f-msbm10-996' x='59.843' y='45.773'>R</text>
+<text class='f-cmr10-996' x='67.038' y='45.773'>64</text>
+<text class='f-cmmi10-996' x='77.001' y='45.773'>,</text>
+<text class='f-cmr10-996' x='81.429' y='45.773'>0</text>
+<text class='f-cmmi10-996' x='86.41' y='45.773'>,<tspan x='90.838'>a</tspan></text>
+<text class='f-cmr7-697' x='96.104' y='47.267'>2</text>
+<text class='f-cmmi10-996' x='100.573' y='45.773'>,</text>
+<text class='f-cmr10-996' x='105.001' y='45.773'>0</text>
+<text class='f-cmmi10-996' x='109.982' y='45.773'>,<tspan x='114.41'>b</tspan></text>
+<text class='f-cmr7-697' x='118.686' y='47.267'>2</text>
+<text class='f-cmmi10-996' x='123.155' y='45.773'>,</text>
+<text class='f-cmr10-996' x='127.583' y='45.773'>0</text>
+<text class='f-cmmi10-996' x='132.564' y='45.773'>,<tspan x='136.992'>c</tspan></text>
+<text class='f-cmr7-697' x='141.304' y='47.267'>2</text>
+<text class='f-stmary10-996' x='145.773' y='45.773'></text>
+<text class='f-cmex10-996' x='149.786' y='37.703'></text>
+<text class='f-cmr10-996' x='154.352' y='45.773'>:<tspan x='15.94' y='59.223'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-cmex10-996' x='41.317' y='51.153'><tspan x='42.701' y='51.153'></tspan></text>
+<text class='f-msbm10-996' x='46.852' y='59.223'>R</text>
+<text class='f-cmr10-996' x='54.048' y='59.223'>64</text>
+<text class='f-cmmi10-996' x='64.01' y='59.223'>,</text>
+<text class='f-cmr10-996' x='68.438' y='59.223'>(</text>
+<text class='f-msbm10-996' x='72.312' y='59.223'>Z</text>
+<text class='f-cmr10-996' x='78.954' y='59.223'>32</text>
+<text class='f-cmmi10-996' x='88.917' y='59.223'>,</text>
+<text class='f-msbm10-996' x='93.345' y='59.223'>Z</text>
+<text class='f-cmr10-996' x='99.986' y='59.223'>32</text>
+<text class='f-cmmi10-996' x='109.949' y='59.223'>,</text>
+<text class='f-msbm10-996' x='114.377' y='59.223'>Z</text>
+<text class='f-cmr10-996' x='121.019' y='59.223'>32)</text>
+<text class='f-cmex10-996' x='134.856' y='51.153'><tspan x='136.24' y='51.153'></tspan></text>
+<text class='f-cmr10-996' x='143.158' y='59.223'>=</text>
+<text class='f-cmtt10-996' x='153.674' y='59.223'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L128" title="FlatArrays.fss, line 128">128</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='8.151em' height='1.196em' viewBox='0 0 81.513 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(</text>
+<text class='f-cmti10-996' x='3.874' y='8.369'>np</text>
+<text class='f-cmmi10-996' x='15.196' y='8.369'>,<tspan x='19.624'>n,</tspan><tspan x='30.032'>d</tspan></text>
+<text class='f-cmr10-996' x='35.217' y='8.369'>)<tspan x='41.859'>=</tspan></text>
+<text class='f-cmmi10-996' x='52.375' y='8.369'>x.</text>
+<text class='f-cmti10-996' x='60.837' y='8.369'>sizes</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L129" title="FlatArrays.fss, line 129">129</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='9.129em' height='1.196em' viewBox='0 0 91.294 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(</text>
+<text class='f-cmti10-996' x='3.874' y='8.369'>yp</text>
+<text class='f-cmmi10-996' x='14.433' y='8.369'>,</text>
+<text class='f-cmti10-996' x='18.86' y='8.369'>yn</text>
+<text class='f-cmmi10-996' x='30.063' y='8.369'>,</text>
+<text class='f-cmti10-996' x='34.491' y='8.369'>yd</text>
+<text class='f-cmr10-996' x='45.45' y='8.369'>)<tspan x='52.092'>=</tspan></text>
+<text class='f-cmmi10-996' x='62.608' y='8.369'>y<tspan x='67.85'>.</tspan></text>
+<text class='f-cmti10-996' x='70.617' y='8.369'>sizes</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L130" title="FlatArrays.fss, line 130">130</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='12.182em' height='1.196em' viewBox='0 0 121.821 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>out</text>
+<text class='f-cmr10-996' x='17.461' y='8.369'>=</text>
+<text class='f-cmti10-996' x='27.977' y='8.369'>arr<tspan x='40.961'>ay</tspan></text>
+<text class='f-stmary10-996' x='51.772' y='8.369'></text>
+<text class='f-msbm10-996' x='55.785' y='8.369'>R</text>
+<text class='f-cmr10-996' x='62.98' y='8.369'>64</text>
+<text class='f-stmary10-996' x='72.943' y='8.369'></text>
+<text class='f-cmr10-996' x='76.956' y='8.369'>(</text>
+<text class='f-cmti10-996' x='80.83' y='8.369'>np</text>
+<text class='f-cmmi10-996' x='92.152' y='8.369'>,<tspan x='96.58'>n,</tspan></text>
+<text class='f-cmti10-996' x='106.988' y='8.369'>yd</text>
+<text class='f-cmr10-996' x='117.946' y='8.369'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L131" title="FlatArrays.fss, line 131">131</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.905em' viewBox='0 0 157.41 39.054' fill='currentColor' style='vertical-align:-3.059em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.468'>for</text>
+<text class='f-cmmi10-996' x='18.458' y='8.468'>p</text>
+<text class='f-cmsy10-996' x='26.238' y='8.468'>←</text>
+<text class='f-cmr10-996' x='38.968' y='8.468'>0<tspan x='46.163'>#</tspan></text>
+<text class='f-cmti10-996' x='56.679' y='8.468'>np</text>
+<text class='f-cmtt10-996' x='70.769' y='8.468'>do</text>
+<text class='f-cmex10-996' x='83.997' y='.398'></text>
+<text class='f-cmti10-996' x='88.563' y='8.468'>plane</text>
+<text class='f-cmr10-996' x='112.226' y='8.468'>(</text>
+<text class='f-cmti10-996' x='116.1' y='8.468'>out</text>
+<text class='f-cmmi10-996' x='130.793' y='8.468'>,<tspan x='15.94' y='22.018'>p</tspan></text>
+<text class='f-cmr10-996' x='20.953' y='22.018'>)</text>
+<text class='f-cmex10-996' x='24.827' y='13.948'></text>
+<text class='f-cmmi10-996' x='29.393' y='22.018'>.</text>
+<text class='f-cmti10-996' x='32.161' y='22.018'>assign</text>
+<text class='f-cmex10-996' x='59.403' y='13.948'></text>
+<text class='f-cmr10-996' x='63.97' y='22.018'>(</text>
+<text class='f-cmti10-996' x='67.844' y='22.018'>plane</text>
+<text class='f-cmr10-996' x='91.507' y='22.018'>(</text>
+<text class='f-cmmi10-996' x='95.381' y='22.018'>x,<tspan x='105.503'>p</tspan></text>
+<text class='f-cmr10-996' x='110.515' y='22.018'>))<tspan x='15.94' y='35.467'>(</tspan></text>
+<text class='f-cmti10-996' x='19.815' y='35.467'>plane</text>
+<text class='f-cmr10-996' x='43.477' y='35.467'>(</text>
+<text class='f-cmmi10-996' x='47.352' y='35.467'>y<tspan x='52.594'>,</tspan><tspan x='57.021'>p</tspan></text>
+<text class='f-cmr10-996' x='62.034' y='35.467'>))</text>
+<text class='f-cmex10-996' x='69.783' y='27.397'></text>
+<text class='f-cmtt10-996' x='77.116' y='35.467'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L132" title="FlatArrays.fss, line 132">132</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='1.469em' height='1.196em' viewBox='0 0 14.693 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>out</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L133" title="FlatArrays.fss, line 133">133</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L125" title="FlatArrays.fss, line 125">125</a></span>(* ------------------------------------------------- rank-3 algebra -------- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L126" title="FlatArrays.fss, line 126">126</a></span>(* +.×⍤2 : the library product on every pair of planes *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L127" title="FlatArrays.fss, line 127">127</a></span>opr juxtaposition[\nat a, nat b, nat c, nat a2, nat b2, nat c2\](x: Array3[\RR64,0,a,0,b,0,c\], y: Array3[\RR64,0,a2,0,b2,0,c2\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L128" title="FlatArrays.fss, line 128">128</a></span>    (np, n, d) = x.sizes</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L129" title="FlatArrays.fss, line 129">129</a></span>    (yp, yn, yd) = y.sizes</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L130" title="FlatArrays.fss, line 130">130</a></span>    out = array[\RR64\](np, n, yd)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L131" title="FlatArrays.fss, line 131">131</a></span>    for p &lt;- 0#np do (plane(out, p)).assign((plane(x, p)) (plane(y, p))) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L132" title="FlatArrays.fss, line 132">132</a></span>    out</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L133" title="FlatArrays.fss, line 133">133</a></span>  end</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L125" title="FlatArrays.fss, line 125">125</a></span>(* ------------------------------------------------- rank-3 algebra -------- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L126" title="FlatArrays.fss, line 126">126</a></span>(* +.×⍤2 : the library product on every pair of planes *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L127" title="FlatArrays.fss, line 127">127</a></span>opr juxtaposition⟦nat a, nat b, nat c, nat a2, nat b2, nat c2⟧(x: Array3⟦RR64,0,a,0,b,0,c⟧, y: Array3⟦RR64,0,a2,0,b2,0,c2⟧): Array⟦RR64,(ZZ32,ZZ32,ZZ32)⟧ = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L128" title="FlatArrays.fss, line 128">128</a></span>    (np, n, d) = x.sizes</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L129" title="FlatArrays.fss, line 129">129</a></span>    (yp, yn, yd) = y.sizes</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L130" title="FlatArrays.fss, line 130">130</a></span>    out = array⟦RR64⟧(np, n, yd)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L131" title="FlatArrays.fss, line 131">131</a></span>    for p ← 0#np do (plane(out, p)).assign((plane(x, p)) (plane(y, p))) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L132" title="FlatArrays.fss, line 132">132</a></span>    out</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L133" title="FlatArrays.fss, line 133">133</a></span>  end</span></code></pre></div>
+<p id="p-af9aabd3" class="nb">Line 131 is the work: for each plane <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>, the product of plane <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span> of <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> and plane <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span> of <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span> goes into plane <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span> of <span class="fc"><span class="fr m"><i>out</i></span><code class="fs">out</code></span>. <span class="fc"><span class="fr m"><i>plane</i>(<i>x</i>, <i>p</i>)</span><code class="fs">plane(x, p)</code></span> is a view of plane <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span> of <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> as a matrix, also declared in <code>FlatArrays.fss</code>.</p>
 <aside class="limit"><p class="label">A limit of today's tree</p>
 <p id="p-305cbe24" class="nb">The library declares products for vectors and matrices only. A product of rank-3 arrays, plane with plane, is what this model needs, so <code>FlatArrays.fss</code> writes it as a loop over the planes. By your ruling, what a program builds that a fuller library would hold belongs in the library; this operator has not moved there.</p></aside>
-<p id="p-760bb924" class="nb">In each plane, a matrix of 16 by 4 meets a matrix of 4 by 16, and the result is 16 by 16. Take its element in row <code>i</code> and column <code>j</code>. By the rule of Part 2, it is row <code>i</code> of the plane of <code>qh</code> with row <code>j</code> of the plane of <code>kh</code>. That is the dot product of query <code>i</code> and key <code>j</code>. So plane 0 of <code>qh kh^T</code> holds every score of head 0: 16 positions that read, times 16 positions that can be read.</p>
-<p id="p-d2d79ee2" class="nb"><code>/ SQRT (1.0 headDim)</code> divides every score by 2, the square root of 4. By the usual account, a dot product of longer vectors adds more terms and grows, and the division keeps the scores in the same range for any <code>headDim</code>. The range matters because larger differences between scores make the result of softmax more uneven, as Part 3 showed. <code>1.0 headDim</code> is the float 4.0. Walk also accepts <code>SQRT headDim</code> and prints 2.0 for it; the line writes the conversion out.</p>
+<p id="p-760bb924" class="nb">In each plane, a matrix of 16 by 4 meets a matrix of 4 by 16, and the result is 16 by 16. Take its element in row <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> and column <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span>. By the rule of Part 2, it is row <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> of the plane of <span class="fc"><span class="fr m"><i>qh</i></span><code class="fs">qh</code></span> with row <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> of the plane of <span class="fc"><span class="fr m"><i>kh</i></span><code class="fs">kh</code></span>. That is the dot product of query <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> and key <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span>. So plane 0 of <span class="fc"><span class="fr m"><i>qh</i> <i>kh</i><sup><i>T</i></sup></span><code class="fs">qh kh^T</code></span> holds every score of head 0: 16 positions that read, times 16 positions that can be read.</p>
+<p id="p-d2d79ee2" class="nb"><span class="fc u"><span class="fr m">/ √<span class="ovl"> 1.0 <i>headDim</i></span></span><code class="fs">/ SQRT (1.0 headDim)</code><code class="fu">/ √ (1.0 headDim)</code></span> divides every score by 2, the square root of 4. By the usual account, a dot product of longer vectors adds more terms and grows, and the division keeps the scores in the same range for any <span class="fc"><span class="fr m"><i>headDim</i></span><code class="fs">headDim</code></span>. The range matters because larger differences between scores make the result of softmax more uneven, as Part 3 showed. <span class="fc"><span class="fr m">1.0 <i>headDim</i></span><code class="fs">1.0 headDim</code></span> is the float 4.0. Walk also accepts <span class="fc u"><span class="fr m">√<span class="ovl"> <i>headDim</i></span></span><code class="fs">SQRT headDim</code><code class="fu">√ headDim</code></span> and prints 2.0 for it; the line writes the conversion out.</p>
 <p id="p-f49b7b10" class="nb">A run printed the keys of positions 0 to 3 in head 0, and the 16 scores that position 3 gives in head 0:</p>
 <pre class="vb nb out long" id="o-fbd27293" data-kind="output"><code>kh[0,0,:] = -0.06774473275776233 -0.04662488139762622 0.223382693617192 -0.4467841172596855
 kh[0,1,:] = 0.12755053236786068 0.4892183139363175 -0.09926337243693904 0.6653949143991678
@@ -133,51 +697,85 @@ scores[0,3,:] = -0.08175008584960282 0.10605658054206196 -0.13388403927731538 0.
 <section class="sec" data-num="4.5" data-title="The mask: no reading ahead">
 <h2 id="s-the-mask-no-reading-ahead" class="nb"><span class="num">4.5</span> The mask: no reading ahead</h2>
 <p id="p-d10d488d" class="nb">Position 3 has scores for all 16 positions, also for positions 4 to 15. It must not read those. The model's task at position 3 is to say which token stands at position 4. If position 3 could read position 4, it would read the answer.</p>
-<div class="fx nb src" id="c-24ae3657" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L29" title="MicroGptFlat.fss, line 29">29</a></span>mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 =&gt; if j &gt; i then -(10.0^10) else 0.0 end)</span></code></pre></div>
-<p id="p-904bd9ec" class="nb"><code>mask</code> is a top-level variable: a matrix of 16 by 16, built once when the component is loaded. <code>mat</code> is a function of <code>FlatArrays.fss</code> that makes a matrix from its two sizes and a function of the index. The function here returns minus 10 to the power 10 where the column <code>j</code> is greater than the row <code>i</code>, and 0 elsewhere. A run printed the matrix's top left corner:</p>
+<div class="fx nb src n3" id="c-24ae3657" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L29" title="MicroGptFlat.fss, line 29">29</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='5.065em' viewBox='0 0 175.342 50.65' fill='currentColor' style='vertical-align:-4.218em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>mask</text>
+<text class='f-cmr10-996' x='22.968' y='8.468'>:<tspan x='27.396'>Arra</tspan><tspan x='47.376'>y</tspan></text>
+<text class='f-cmex10-996' x='52.773' y='.398'><tspan x='54.157' y='.398'></tspan></text>
+<text class='f-msbm10-996' x='58.308' y='8.468'>R</text>
+<text class='f-cmr10-996' x='65.503' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='75.466' y='8.468'>,</text>
+<text class='f-cmr10-996' x='79.893' y='8.468'>(</text>
+<text class='f-msbm10-996' x='83.768' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='90.41' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='100.372' y='8.468'>,</text>
+<text class='f-msbm10-996' x='104.8' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='111.442' y='8.468'>32)</text>
+<text class='f-cmex10-996' x='125.279' y='.398'><tspan x='126.663' y='.398'></tspan></text>
+<text class='f-cmr10-996' x='133.581' y='8.468'>=</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>mat</text>
+<text class='f-cmex10-996' x='33.434' y='13.948'></text>
+<text class='f-cmti10-996' x='38.001' y='22.018'>blo<tspan x='49.712'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='76.939' y='22.018'>,</text>
+<text class='f-cmti10-996' x='81.367' y='22.018'>blo<tspan x='93.078'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='120.305' y='22.018'>,</text>
+<text class='f-cmtt10-996' x='124.733' y='22.018'>fn</text>
+<text class='f-cmr10-996' x='137.961' y='22.018'>(</text>
+<text class='f-cmmi10-996' x='141.835' y='22.018'>i</text>
+<text class='f-cmr10-996' x='145.268' y='22.018'>:</text>
+<text class='f-msbm10-996' x='149.695' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='156.337' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='166.3' y='22.018'>,<tspan x='15.94' y='34.471'>j</tspan></text>
+<text class='f-cmr10-996' x='20.613' y='34.471'>:</text>
+<text class='f-msbm10-996' x='25.041' y='34.471'>Z</text>
+<text class='f-cmr10-996' x='31.683' y='34.471'>32):</text>
+<text class='f-msbm10-996' x='49.948' y='34.471'>R</text>
+<text class='f-cmr10-996' x='57.143' y='34.471'>64</text>
+<text class='f-cmsy10-996' x='69.873' y='34.471'>⇒</text>
+<text class='f-cmtt10-996' x='82.603' y='34.471'>if</text>
+<text class='f-cmmi10-996' x='95.831' y='34.471'>j<tspan x='103.271'>></tspan><tspan x='113.787'>i</tspan></text>
+<text class='f-cmtt10-996' x='119.987' y='34.471'>then</text>
+<text class='f-cmsy10-996' x='15.94' y='47.064'>−</text>
+<text class='f-cmr10-996' x='23.689' y='47.064'>(10</text>
+<text class='f-cmmi10-996' x='37.526' y='47.064'>.</text>
+<text class='f-cmr10-996' x='40.294' y='47.064'>0</text>
+<text class='f-cmr7-697' x='45.275' y='42.95'>10</text>
+<text class='f-cmr10-996' x='53.715' y='47.064'>)</text>
+<text class='f-cmtt10-996' x='60.357' y='47.064'>else</text>
+<text class='f-cmr10-996' x='84.046' y='47.064'>0</text>
+<text class='f-cmmi10-996' x='89.027' y='47.064'>.</text>
+<text class='f-cmr10-996' x='91.795' y='47.064'>0</text>
+<text class='f-cmtt10-996' x='99.543' y='47.064'>end</text>
+<text class='f-cmex10-996' x='115.234' y='38.994'></text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L29" title="MicroGptFlat.fss, line 29">29</a></span>mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 =&gt; if j &gt; i then -(10.0^10) else 0.0 end)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L29" title="MicroGptFlat.fss, line 29">29</a></span>mask: Array⟦RR64,(ZZ32,ZZ32)⟧ = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 ⇒ if j &gt; i then -(10.0^10) else 0.0 end)</span></code></pre></div>
+<p id="p-904bd9ec" class="nb"><span class="fc"><span class="fr m"><i>mask</i></span><code class="fs">mask</code></span> is a top-level variable: a matrix of 16 by 16, built once when the component is loaded. <span class="fc"><span class="fr m"><i>mat</i></span><code class="fs">mat</code></span> is a function of <code>FlatArrays.fss</code> that makes a matrix from its two sizes and a function of the index. The function here returns minus 10 to the power 10 where the column <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> is greater than the row <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span>, and 0 elsewhere. A run printed the matrix's top left corner:</p>
 <pre class="vb nb out" id="o-90ce4378" data-kind="output"><code>    0.0 -1.0E10 -1.0E10 -1.0E10
     0.0 0.0 -1.0E10 -1.0E10
     0.0 0.0 0.0 -1.0E10
     0.0 0.0 0.0 0.0</code></pre>
-<div class="dm nb" id="m-75d85d9e" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='12.615em' height='2.988em' viewBox='61.728518 52.801971 126.148642 29.877958' fill='currentColor' aria-hidden='true'><style type='text/css'>
-@font-face{font-family:qed67cbda34-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAMAAAoAAAAABRQAAAK0AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqDVIJhCwoAATYCJAMQBCAFgj4HIBvkAwguAtxmGdnaMKNjyE7RMZwed4rv/4wI2RYP/O/n7tNZ2hBtorGKhvZP3zqJKNo4tICHzlmGzD9YV3MSft9AhJpYhQgmwClBE+t8+brUxIEhQQ1Sawt5I+M8qPb1lwQowuvKf5UShJAY6tPdnv/DABPX1K/wf6DEd8vkKMxZ4t+EhhMcWAXogCc2GijMfifv9cjyT+TSrWbK6gUpWsBBBcTrePqfNZCS8AkiokACgKmADeCnnDctpYDxUZGA/0hQ6NVWEIEEzFpFpVhGoKYoaFLTigDlO3YVaRns7i/ABZ4An3wuegblgkJCdaO0hjhrCNXM00uGHC8yl6jMr7QLeWnFME/T2U3C7dbyxchNUKiZdmve2AtaHOQ5iVGyKikpivPcxm0vnSbTsuO2JcswdL6HySLnwC5lvm+VTKCKL9zZoz+N8A8cQ1M3KSM0PX6jkq+8e3B9CSbP2rpg+fJ/pKgP1ZBNcWf+Vv+4MGATVR9pXy8A9ZhgExIBaeMCoqaFvtoiFnrwRBSxt2cgTBosxTbh26iuMn4V9BQaiztIcNLk56aGWJIJk4ChaBt+jetmjX0hO4ZyrSYKc8mJl1/OaIiERbcbTfmL7bJT4vLsGQPTYfBgW0NBR6MWXmR9rJteSSfLYR2NGSp+vxz5SwCAAATwN73XnPjyn0gIAPiRSd/bK+0vJB7HOrrQyyHs3lmFiLhJJElzfMkaIClMADnMwcsgkPmRNhRjXytQQQYcxgyP0eMKCh5X4Smv94npYaAyCaDI+RkOiyqHw+Gr4PCo2mdkTnqPC+N32FxhdXW5vd21ntsjdoPJ8/U9RS3ljS2l1UpHxAGxh0BnRxdPD0s3qmhnCzl3Mnd0tBWwk5Lld1tnJ+o2wg4EQ/0TwZ9SwUVb4Ev18petu5f1l6scIRwg7GEUAAAA) format('woff2');}
-@font-face{font-family:qed67cbda34-cmr7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJcAAoAAAAABCAAAAIQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBfIFoCwgAATYCJAMKBCAFgjIHIBtRA8iOwrZtE2epGOolGGJb8fA11t7f3TtENDSTkESbZtHmiekQGrUxVwKR0NihuXZ7cUddtiGa8Gzi0aN5JD8NMpY7fpECuq0APHtJy9PAY45vbYGG1rIoQOrTzSjGNEk0QZQpb5+Q00v0gQbpG3P7z9NrMczqWAkypokNtnL51FQGCBY5ZFABWeS0/oOEjGH65GE484CiCCzVisVa648AkEETGfuARwAUQBJTAkn9dPLUi/VD8lvizpviTTmTNvtu955282pz8Zp+/J62+A69n8y8UU5e7KdeUubl+69VuLF1KtXJSXIyRP3alODPXgzQ8Xvc6jAzdJQUfadIfbJFsGhWfMtTW0nRowJS1IMy/dnRH8GeXzh068RtPwOOF9jB7Vh4C9vDSzIH21mxoq0kG7jq2LKYZkQtgdRPN4vfCKO+FBMHjZDQGyN+LToPk0j2Oqh+xMZ/HYBA8AdnqvOY3n+kXMCvPOoL4KPVnJ7TOqBdAkFWAallhUviAAi8IqUWaZuTGhCyJRgQiHX6AIHQR6Ao+tDQZQhNxSzvNEkDK0qHMMs7ULS7QMOoQjS1e6+dVrUvefjUVYrgOrdjnB1s7bl5cq4pbqqobyqDVU62jrYOIAgKVqNRgxJ1VGKgiqGHKAKr4yZVRvUqoBAqDmzZJxKmSFkLGqQ4FWp1v1iTCvXnKANTcWLLkS0HWIAxAQAAAA==) format('woff2');}
-@font-face{font-family:qed67cbda34-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJUAAoAAAAABBAAAAILAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBZIFXCwYAATYCJAMIBCAFgj4HIBtKAwCOwrblE1Gj1HCaGr7uCKq17NlHCKMH1uzYRX2EQpeKMWxthHn3wkTnfPox9yaK20w/YmqNVTRxhKLa1onD3t3zEwrotrDcz54kWVtgLWkecBRySwJNU/xg/nWbulsrKqaHEERfB3JpKlYwSD/p4d/ccgvxZ5aN4IApYtrg9B66qsHsr1c5K50c7KHeFwKALAMJOQyjCQyjmwd5eUFflmUS534yMFLxxA/iCPQA5AFx1Ntr85G5K37xfbew2N2QzG1JPrPIp7Bk+/mZtbU1um11/RX+9SUo7N0eu39la7YtNJvW1hvm7++8L+se8/eM94yPTIsP+0EyzBZlFh1+oVrDK7ycEV7o/ZbHz7wKM+X59jyJaX/7Rpg8zccmZ8s8PjpQHGUyIPmWDsfdat2uR5P8dae6YeiixD9n9iZPz9A0w2DxvDApL1M5GhVYHe1fC0AguF+ryi02Ovxn0+iAgcP573zjT55OKEBZAha5yu1i3RqjcyLGB1oKkiPWIAy56hXS4hp5RS0U1IygqGh+XzVJgibyHIRZIYK8ujsUjKpDUd1bqdq0cHz5OeemvLGyx9XlPpxcictm97x5p6Krtr2rupHnTtyIK8I1a9SiU4dKbXgSNavQVZNyjSr1cOUiq/vtajVrwpsJF5ZEa1O0lmaUiu9QphdPhS612nWp1ojHHeGGcEUDqDA=) format('woff2');}
-@font-face{font-family:qed67cbda34-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAXwAAoAAAAACawAAAWmAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAZAqMGIkRCxwAATYCJAM0BCAFgjgHIBtaBwCOxDgm8g9VrPLp+W39uRcwAKPQ5mEl2Nt2EFYEuh1WjFvVxK+I/heIBnhwTf1fJ0cBzWF937iItGGRjiwi+IHGA5zJAPSBbebWxj4LErF57nQvK4LOAIv8RraBA9Bx+vQ/c2ytDPmmuCGA6AMmHcBMgCrKWjsqA9zF6GThf+AsG4jD/h/SArTJAmAeZjEHG2lxYxifkyVYhgpUoxFt6OSBGNWWo4rX8l13z4xpY0bsHkEjM8AWGwAmAHkboKUQBRtA2Tj1QuYtGUsra37z8xl3HxN9vsA5igmunFOJVargM5qIU5ohbYBWG3ReLTupzjqrVWjl8nkHjcZ5X6j5BalKJpuzV6tr2aMHeTzIuVLC23jYhnNB5Ur2alP372413LVvaL+F0che5YK0/1oub8Jx3OZUzL5Q8yvSUbXPwadBu0MsLytG9o9574I3azRyrVahVkt373LN5YFL15BopOzf3e/A4hIe0Wp5Z59aKwP3HZo5bLnPfINKquDMHIoiCjqhVZx9aHFQLcXY2RDIaVkyowkOK2BybyxazKWjB7uMA4uLBC4aPXDu0NDx8wdLVaoUIlkbn/ts2ExofDXcDU+8j6isR9U+R5/mzmhjz15VHthwaOiwpeCOCshQeM+XyXsq7j3yvOY4rVWM3PVwG7G0HLHCmECwRzDhIDgmVz2xnlIHnX3osfuo/ZxKunBvsbv7LsEuWzJuMWKtVkfff03mFwsu5dJd9hZTQRtvOxEelKqoBbxbzuISbcDpo4eH1qzRMzY5DnLu0vF9gUSmwL4zVrssshUO44I9+7jkLA9FlByROyKYjiGyjSHYcEETyzdsa3eKKZHMFRV4eX9lpOwybG9joosDPxCVebvEjhp1vbFKHB1qEGtQRFtQblFrEpcgPpUpy1CYyPRlpBy1toNGcTEB8N6y3OuXCBGTRg+lUUYU+YmX6XCiLoQna819UY1rKaUn5Pby2YrZGPsY7t2KWUB7ovQG16GF/MQ/I1to+vjU1Po2vT6+nkxut69ox1H1nG0Mv2T5Oxsv96SxcsjwEK0kJZ0rc2gBzepAiuEe4NSFLmF7gu3OYAETxgpDG2WMv0VSujC9g6YXpy1Suht43A7rsnDasW7IKTSGRKIp2dxcLRbu4FU+jwkPoydiJ6v1wxF2h1PVxLTQVsow7+I7vl3Eh4HSTJJ6Bd8aD+EtU084c6fLTgmmhjZCH2HGvvODcMdVvXd+eOZ544d38eFbtESpLCB5ZGiAlpGSgfXFtIAq17zv7/aGKFonnmeomyzyCo9jPkynugmGPN0004ybOJS5c2l8ifFK/zOiNR6OzOz25Y0p07Y7gy2Yn8PRuhhmmvQft5kH1b342dI5Nj82JY+cyFIZjUmKXnhUev6Yls7R+2JrRRwNgx/fJoW5x9k5cuA7Pb3kDAUxvuobwgQwL9zXev5wwsQgIiz5h9k2t8CIjGKcGLN36Ei5e9uuWi/UZnGArzT95vyfG1kZtgpBvM67TyOtr+4UolvRmcowokrHSlEgopU1Hd+GCQtpAxVivSktKDJR/H6iKKhKYyd85VNDhcbdjuzCMrs8TiHbYVhYQF0jhHaXN0uEPJT3pcGKQqOlv+qx2ACAz+0T3/Ln4//P+5C+AqAHygxsp552MP3/UR+CBPRVA6oEKOBGgVyWHRaT+7AnoXCkoRAROwFgsO36yE4IyWaY0Y9hCgLAAFErjahNLgZAIlAjPmmywYFR38EBD+YOHXAg3M2FDZzBAmHrg8ABy8XBBhd5Dg4EqHDogIu+FheBWPNQ7/9nX7O0vkUifkmOS3zF2MAnj9fLOqpbOyrrmQBff18JItGIejShHW0oRwsYJBteptUGlKLer0sghlzx1luNewMYSODbH4PG4g1MvHg2tKxagm4wBh0KrV53JerBIIAN/mV8CVhoAAA=) format('woff2');}
-@font-face{font-family:qed67cbda34-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHEAAoAAAAAA2AAAAF7AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAo0RwsGAAE2AiQDCAQgBYI+ByAbugIALgocY2kaViPPreu7JJUfTmcTQk/x8LXf79zd/Q8xCZnppESii0ULjWYRL9UbVDx7pZm6beembBy/hiIYTNbTxWTKgiFGj84tSvB0ozJ4zl4nzxdlL+UGv/v7m/z84wed1hbPbNo+X2BRnScY8hpADzGKM2/tjL1mi+qKItKvE3Ieji010l66+ev2oogvl9RowFVBp1Wa2aVHVsNkJ6oO/syQB/MdCAD+/0FCRjcVUJNxULrBZOf/t8mXCYAED6DSjFZAAUTzXOvHmyc9bdtHG4f7n0toGJ3hOxUEglNxa22+p1zA6wiP+iAPRy+ol0CwKOewUKVrQvB6Q3tBqJE0CxCKptEaA9qiOisqbaymSQ+rVMaXGw3KVJQGYVQTVjSbYTW9Dqs022gbTbnHJfoMc4/689/W+2e50RoHz4k4bFWfj/RwsNDRRV5yu3AFmCKGqYDyTr+NidSftCiAMRkLRhxGx3hGYD++/MD20E4PyQMVFeQUwA4DAAA=) format('woff2');}
-@font-face{font-family:qed67cbda34-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAK4AAoAAAAABKAAAAJvAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqCeIIxCwgAATYCJAMMBCAFgjgHIBuiAwieA+7cmMX05zzFbYrM8OOsW0wzhGiNzOzBAxfZEbAEAkW6DtmoKmChmFRda3sD6/IJJWoQQ6frIU5IIEuZfb+2PcMkmjazqg2iRfP3D9FEqVohaWgMoQAbcCIBa8C5DL7Pe4u/yAZ0AvisU/cCXkC3Wtobd4LeHGEvixJL3cbgNpXLWBjy0B+szpClznGaRLqa3v+DxR3HpiQRdZASGtzK5kObARR2GGcqkAm3s6oAJGToEK4OMPpAyOXa2+nHO6rEjuDwMkJ5+RxHwSkA5IAkNYxoGLLr8plmdRMJP5jdaKiuX5DDA2a+KudJvIu8YTdsvkztfzsATsWqhwT4C8z+JmAy9wJoAQxn8YMfJ9wPHM1UxPqVkam3LZH2XgQ5gB3VLUOcmhflDk+v/lb7pNkN4RCgWSEfvi6dlOwflmwp+gwMfHUILQsjK036EdkJO9LSdqeU0Lz/hrG+uJ1DW9olfPxZ5/+KL37kuxYmc7gUt+7Otd7ezmI6uz6UQwf6aXnsj6beftuTNqb2ev788MAM1ZnlhMbPv6v3YpgvLzQsXU2W6r++gXxTbew3l6XGP+O57K+5CwAIBHd/V2OzcdI/lZCD347cO/5oNYR/ngK1EggyFUjPQd94jAMvydJziJui8R0EMpOhQAhb7wTOQotWLFdoYYUGHVip0Lu7XjcaaJHXCb0EFcvVW80KnXSxUr1jab1RJhqC/v9lO0SjTONOnDaHrr1Pl+k4OlpuBuR221w2JyJGRmbWVnoW3ApkXbiZDkJGMqqWWRpZzYybk43DQ8pj116rEF3TZk9qh42R5YMPEDc3GxcbJ7QE) format('woff2');}
-@font-face{font-family:qed67cbda34-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAOoAAoAAAAABmQAAANfAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAATAqGGIRcCwwAATYCJAMMBCAFgj4HIBvrBAAeBe6eTZiwCK/c2hb9/Hv65yZtBygT2jUDjDdAeSL+ABL/7drefKHGgyzmiJOIDvSUyn9QgPm/nN7Xs9s8Jh7g6SHPEa3BP+t5L6Ew8J5ne4ClBxrQFaBlmw2E/XSIp6f7FFSPzgA80qgH6AC72OV/otC9U/RGFaDfuABoBmAQ+A1I2EXJwBArP+f/CwHsh/e8yn/CYgBwXhQOYTQmZXDjhMHESpcp/wn+hA3ZpjfEoXQRt8L/QaMa0bQQGARBk9fE1SV+3y21O3eU7t4Nnr3DbTAwIDa8LN62Kj1nrL7X8PZtAlQPz9DCxLza/JmgW7dkRy4bDp69OCadHFhZWDMvzj2wOLmkGhQAKVi7JMaDC2wfkcSCscm5I/yoczu5dpHnNHNQbEISlhbGG2eHajdV2m4FpM3T+vj84tTAf5W84Lqguj9wwkL0UMD8HbPhefHFUQk0OqbePii2/bbx3avSk3eM7rhdCBrVHZI4Gjx02nBoSH1hRBQGh1UWR1HtEadbl6RGbqsWEc5+Ate8UIg3A7kuerQhMUfSgv0sny5z85jINg72JdGfKBOPjOV8LLqToPbxno+59kD2Vg5eRtL5yz7kJLZdBVCtoTMEdZ55jiplufejUyZ93f31jq0w91GTx0aYy5T+V/147gplL/2JkbowpkbtS1SOTXa9QQWyr5+gYUNkkmS8ZqZuu+AP6j7vvmMex/Yx9394T9qD4nIC+2/6Je85ypM6xzz/rKDTR8L6vC+nLXERFK+1ALtqBU20X+M2amZJrbmYjzNvWrt7jk87bzws9YhcYbm6KpGO8ILPOFi+wYXj5VncXvtMUFN+Dv5hiUU/IkguwVlgucdnJ79Y3TUn2EljOkn2Xt/3IvBT27c2WsDiKydOAwCA53LuD+I9//+8n5HG8gGAE9Zp3QFuZ0xBkTINAACgSFdNSFjgzGjTuU4Y4yC3KkiAgIlFGgYBkY6HmMjAQOzmJk0NDhUXIPJssEjDK0qkE5cmMvCqGXAz0PF8Zf4+bSg+s6CAZL+wNEgWOzny/fn1hKLU/KLkTEKfpcciwV62TDkKFUiUh+C5ggS8KUu8TAUKkNiCTJsvVbYsxCQLmwWcg6zuIHYiSKjGKY3UCYqkyv9CskwEfSx6WEg4Z4QA) format('woff2');}
-text.qed67cbda34f0 {font-family:qed67cbda34-cmtt10;font-size:9.96264px}
-text.qed67cbda34f1 {font-family:qed67cbda34-cmsy10;font-size:9.96264px}
-text.qed67cbda34f2 {font-family:qed67cbda34-cmmi10;font-size:9.96264px}
-text.qed67cbda34f3 {font-family:qed67cbda34-cmmi7;font-size:6.973848px}
-text.qed67cbda34f4 {font-family:qed67cbda34-cmr10;font-size:9.96264px}
-text.qed67cbda34f5 {font-family:qed67cbda34-cmr7;font-size:6.973848px}
-text.qed67cbda34f6 {font-family:qed67cbda34-cmex10;font-size:9.96264px}
-
-</style>
-<g id='page3'>
-<text class='qed67cbda34f0' x='61.768369' y='70.23675'>mask</text>
-<text class='qed67cbda34f3' x='82.68973' y='71.73113'>ij</text>
-<text class='qed67cbda34f4' x='92.473598' y='70.23675'>=</text>
-<text class='qed67cbda34f6' x='102.989678' y='53.200477'></text>
-<text class='qed67cbda34f1' x='111.01517' y='63.442206'>−</text>
-<text class='qed67cbda34f4' x='118.763917' y='63.442206'>10</text>
-<text class='qed67cbda34f5' x='128.726595' y='59.826843'>10</text>
-<text class='qed67cbda34f4' x='147.129846' y='63.442206'>if</text>
-<text class='qed67cbda34f2' x='156.262287' y='63.442206'>j<tspan x='163.7026'>></tspan><tspan x='174.21868'>i</tspan></text>
-<text class='qed67cbda34f4' x='111.01517' y='77.788357'>0<tspan x='147.129846'>otherwise</tspan></text>
+<div class="dm nb" id="m-75d85d9e" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='12.615em' height='2.988em' viewBox='61.728518 52.801971 126.148642 29.877958' fill='currentColor' aria-hidden='true'><g>
+<text class='f-cmtt10-996' x='61.768369' y='70.23675'>mask</text>
+<text class='f-cmmi7-697' x='82.68973' y='71.73113'>ij</text>
+<text class='f-cmr10-996' x='92.473598' y='70.23675'>=</text>
+<text class='f-cmex10-996' x='102.989678' y='53.200477'></text>
+<text class='f-cmsy10-996' x='111.01517' y='63.442206'>−</text>
+<text class='f-cmr10-996' x='118.763917' y='63.442206'>10</text>
+<text class='f-cmr7-697' x='128.726595' y='59.826843'>10</text>
+<text class='f-cmr10-996' x='147.129846' y='63.442206'>if</text>
+<text class='f-cmmi10-996' x='156.262287' y='63.442206'>j<tspan x='163.7026'>></tspan><tspan x='174.21868'>i</tspan></text>
+<text class='f-cmr10-996' x='111.01517' y='77.788357'>0<tspan x='147.129846'>otherwise</tspan></text>
 </g>
 </svg>
 </div>
-<p id="p-68f22262" class="nb">In line 59, <code>mask + ...</code> adds this matrix to every plane of the scores. Lines 135 and 136 of <code>FlatArrays.fss</code> declare <code>+</code> between a matrix and a rank-3 array. After the addition, row 3 of head 0 starts with the four scores as they were, and every later score is near minus 10 to the power 10:</p>
+<p id="p-68f22262" class="nb">In line 59, <span class="fc"><span class="fr m"><i>mask</i> + …</span><code class="fs">mask + ...</code></span> adds this matrix to every plane of the scores. Lines 135 and 136 of <code>FlatArrays.fss</code> declare <span class="fc"><span class="fr m">+</span><code class="fs">+</code></span> between a matrix and a rank-3 array. After the addition, row 3 of head 0 starts with the four scores as they were, and every later score is near minus 10 to the power 10:</p>
 <pre class="vb nb out" id="o-9c64b7de" data-kind="output"><code>masked[0,3,:] = -0.08175008584960282 0.10605658054206196 -0.13388403927731538 0.07289125011412394 -1.0000000000003387E10 -1.0000000000034449E10</code></pre>
 <p id="p-6d197c17" class="nb">Part 3 showed what softmax does with such a score: its result for that score is 0, exactly, and its other results are as if the score were not there.</p>
 <p id="p-27559bad" class="nb">Karpathy's program has no mask. It takes one position at a time and appends that position's key and value to two lists. The lists hold only the past, so the program never computes a score for a later position. The flat program computes all 16 positions at once, so it needs the mask to get the same result.</p>
 </section>
 <section class="sec" data-num="4.6" data-title="The attention weights">
 <h2 id="s-the-attention-weights" class="nb"><span class="num">4.6</span> The attention weights</h2>
-<p id="p-d73b77d7" class="nb"><code>rows(sm, ...)</code> applies <code>sm</code> to every row of every plane. Lines 154 to 159 of <code>FlatArrays.fss</code> declare this form of <code>rows</code>, for a rank-3 array. The result <code>a</code>, short for attention, has the size of the scores: 4 planes of 16 by 16. Its elements are the attention weights.</p>
+<p id="p-d73b77d7" class="nb"><span class="fc"><span class="fr m"><i>rows</i>(<i>sm</i>, …)</span><code class="fs">rows(sm, ...)</code></span> applies <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span> to every row of every plane. Lines 154 to 159 of <code>FlatArrays.fss</code> declare this form of <span class="fc"><span class="fr m"><i>rows</i></span><code class="fs">rows</code></span>, for a rank-3 array. The result <span class="fc"><span class="fr m"><i>a</i></span><code class="fs">a</code></span>, short for attention, has the size of the scores: 4 planes of 16 by 16. Its elements are the attention weights.</p>
 <p id="p-64a0a0a3" class="nb">Here is the row for position 3 in head 0, and its sum:</p>
 <pre class="vb nb out" id="o-ed5a6a3e" data-kind="output"><code>a[0,3,:] = 0.23131863930590738 0.2791091202495081 0.219568047869288 0.2700041925752965 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
 sum a[0,3,:] = 1.0</code></pre>
@@ -187,62 +785,59 @@ sum a[0,3,:] = 1.0</code></pre>
 a[2,5,:] = 0.14687047939195907 0.16983380191478548 0.16704614331867995 0.1519876361079705 0.1838091246038301 0.1804528146627749 0.0 0.0
 sum a[2,5,:] = 1.0</code></pre>
 <p id="p-ee9ac43b" class="nb">Position 0 can read only itself, so its one attention weight is 1. Position 5 in head 2 spreads its attention weight over positions 0 to 5.</p>
-<p id="p-12f8d4bb" class="nb">The starting parameters give nearly equal attention weights, as the rows above show. Two runs of <code>sm</code> on four scores show the two ends:</p>
+<p id="p-12f8d4bb" class="nb">The starting parameters give nearly equal attention weights, as the rows above show. Two runs of <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span> on four scores show the two ends:</p>
 <pre class="vb nb out" id="o-1dc1238a" data-kind="output"><code>sm [0 0 0 0] (4): 0.25 0.25 0.25 0.25
 sm [5 0 0 0] (4): 0.9801866626534912 0.006604445782169691 0.006604445782169691 0.006604445782169691</code></pre>
-<p id="p-4196f3e7" class="nb">With equal scores, every position gets a quarter, and the average of the values is a plain mean. With one score 5 above the others, that position gets 98 percent, and the average is almost that position's value alone. Training changes <code>wq</code> and <code>wk</code>, and with them the scores. So it can move a head from the first case towards the second.</p>
-<div class="dm nb" id="m-3167fc96" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='9.088em' height='4.217em' viewBox='62.166874 52.806419 90.880543 42.174765' fill='currentColor' aria-hidden='true'><style type='text/css'>
-@font-face{font-family:q2a5c6dc74e-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAOoAAoAAAAABmQAAANfAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAATAqGGIRcCwwAATYCJAMMBCAFgj4HIBvrBAAeBe6eTZiwCK/c2hb9/Hv65yZtBygT2jUDjDdAeSL+ABL/7drefKHGgyzmiJOIDvSUyn9QgPm/nN7Xs9s8Jh7g6SHPEa3BP+t5L6Ew8J5ne4ClBxrQFaBlmw2E/XSIp6f7FFSPzgA80qgH6AC72OV/otC9U/RGFaDfuABoBmAQ+A1I2EXJwBArP+f/CwHsh/e8yn/CYgBwXhQOYTQmZXDjhMHESpcp/wn+hA3ZpjfEoXQRt8L/QaMa0bQQGARBk9fE1SV+3y21O3eU7t4Nnr3DbTAwIDa8LN62Kj1nrL7X8PZtAlQPz9DCxLza/JmgW7dkRy4bDp69OCadHFhZWDMvzj2wOLmkGhQAKVi7JMaDC2wfkcSCscm5I/yoczu5dpHnNHNQbEISlhbGG2eHajdV2m4FpM3T+vj84tTAf5W84Lqguj9wwkL0UMD8HbPhefHFUQk0OqbePii2/bbx3avSk3eM7rhdCBrVHZI4Gjx02nBoSH1hRBQGh1UWR1HtEadbl6RGbqsWEc5+Ate8UIg3A7kuerQhMUfSgv0sny5z85jINg72JdGfKBOPjOV8LLqToPbxno+59kD2Vg5eRtL5yz7kJLZdBVCtoTMEdZ55jiplufejUyZ93f31jq0w91GTx0aYy5T+V/147gplL/2JkbowpkbtS1SOTXa9QQWyr5+gYUNkkmS8ZqZuu+AP6j7vvmMex/Yx9394T9qD4nIC+2/6Je85ypM6xzz/rKDTR8L6vC+nLXERFK+1ALtqBU20X+M2amZJrbmYjzNvWrt7jk87bzws9YhcYbm6KpGO8ILPOFi+wYXj5VncXvtMUFN+Dv5hiUU/IkguwVlgucdnJ79Y3TUn2EljOkn2Xt/3IvBT27c2WsDiKydOAwCA53LuD+I9//+8n5HG8gGAE9Zp3QFuZ0xBkTINAACgSFdNSFjgzGjTuU4Y4yC3KkiAgIlFGgYBkY6HmMjAQOzmJk0NDhUXIPJssEjDK0qkE5cmMvCqGXAz0PF8Zf4+bSg+s6CAZL+wNEgWOzny/fn1hKLU/KLkTEKfpcciwV62TDkKFUiUh+C5ggS8KUu8TAUKkNiCTJsvVbYsxCQLmwWcg6zuIHYiSKjGKY3UCYqkyv9CskwEfSx6WEg4Z4QA) format('woff2');}
-@font-face{font-family:q2a5c6dc74e-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKYAAoAAAAABKgAAAJNAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAARAqCZIIlCwwAATYCJAMSBCAFgjgHIBusA0AehXHjU7ZFE5FtlEUvSuHwFfHAu4b+5O4KgLZ1wLLCVFUCC0WsyQEpNnITitzeZNXQzi7D78++0rYIKkF8vw0qWTgiwaVBoQwM+dLN/+Vuj9bC6JZIL8EbY5n1wc4gihKv+b8Zfy1qA02Q2Be1tRfQ1l44Fmocj01nJ3ggx7fx3iYiSIctKUf59ERHK2RxDj5UEO/jp/9NDpod/hYOUyiHLIEKPJTV9SGECH3smYRMWDWYEojI0ISXNMEMgJQpE9FPxZ4S+uSu9D0t0i8YQwWjAm5sFeQUkAOCIIhtbSeuaqk5noHZTDSb4/P5TlPTe5KfLPOMs+p0kptMxqH12xy0ZkB5TrvZmean0ypydju+pmVVl2+tZ0p1dv2wc0WO1TevzQfqumBWa3s7h/+U+a+gLttG4Y4fX0mmOm8kM0bF9zbEj3Olx08/7HjhQvUrgmTJf2ZN+jJbfv5D9zHzF43JIri8Ocow9PSHR1jj1BleL8DZOODpM3tAkB0E0Ifp6gI44NW4CXACzLcgErJU334HQRAQOPi6pRVF278yNAc/ONFPPpTE9wzKRBA4QGEXM3N8B8Ok83hCuLA6epNZF0tKwih0RSmgqMIR2A9qFY3OFWrpQqUmukShd7hCBzFUyMsFPRwanaswSxdaNOgSFQ7iCiP6lwTlD7DIzRtTf+l2DZphyTyhXqc2xO0Q5jeTZmkm5FXKVXodX+MmruRBf8GVa5j0QL23FSsVbgy09CtAUCv2aXYs4DkV88yvGcTaFx7K3ZhoGWkZoBgAAA==) format('woff2');}
-@font-face{font-family:q2a5c6dc74e-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIoAAoAAAAAA8gAAAHfAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqBEIEDCwgAATYCJAMMBCAFgj4HIBsCAwA+DO+Iz2IbRnp2F4s0OnT6/uB0NA5Mk0J09AjFA7Uf6+3fj7gkfLp5U00MIeMRjzQaoWm8Fu5CuYZcrW0PPKlexLQxXbulF0MtMVSIohkvldCtVDqgDG4BcmCWRvAWgbRslmzp7D0AQNG920OWjPZepCWy7kj6Oma54+cXvnmSp54lcWtL4izJEgwzbklbQAFFoaTbRG+1ajE9giD6WhCTKyRISZ5E/9ZdWLQ9AbFRQiYACYYBcLgDHmResUbrlyexNj4BBAB+yywjykVBBaluZLogqRJ/A9L9M//nLFImJVe0oxeQAoKQU7eyfZndpvf5dcyh4mhZmUfbzuXaWMoty9coU/5csbE8fmUCesZHmP/Y+p38nAg/OnR/FjGxnPtzDZvDF6ESjS0ABAS271qq5H+FFPzlH7r15VZDCWRLQGBj5CVIFYCYMsZ6Qr011gRCVCfATBVynTB8ETiTylSEkSFPBTJlap7nqtUpCmmOoNEwRirfNjJUOkKmfGcp15DrY6c/1ZzR9e44Er7H+khP32L1LHmGGZS7A76OYz0DPf3GNNW19PWwOrAFTYyMGmh1XWMRfZab2FXW1IDbHn0smjKNbENWJObD941hhwbKugZ4ddigHgN69Is6) format('woff2');}
-@font-face{font-family:q2a5c6dc74e-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAK4AAoAAAAABKAAAAJvAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqCeIIxCwgAATYCJAMMBCAFgjgHIBuiAwieA+7cmMX05zzFbYrM8OOsW0wzhGiNzOzBAxfZEbAEAkW6DtmoKmChmFRda3sD6/IJJWoQQ6frIU5IIEuZfb+2PcMkmjazqg2iRfP3D9FEqVohaWgMoQAbcCIBa8C5DL7Pe4u/yAZ0AvisU/cCXkC3Wtobd4LeHGEvixJL3cbgNpXLWBjy0B+szpClznGaRLqa3v+DxR3HpiQRdZASGtzK5kObARR2GGcqkAm3s6oAJGToEK4OMPpAyOXa2+nHO6rEjuDwMkJ5+RxHwSkA5IAkNYxoGLLr8plmdRMJP5jdaKiuX5DDA2a+KudJvIu8YTdsvkztfzsATsWqhwT4C8z+JmAy9wJoAQxn8YMfJ9wPHM1UxPqVkam3LZH2XgQ5gB3VLUOcmhflDk+v/lb7pNkN4RCgWSEfvi6dlOwflmwp+gwMfHUILQsjK036EdkJO9LSdqeU0Lz/hrG+uJ1DW9olfPxZ5/+KL37kuxYmc7gUt+7Otd7ezmI6uz6UQwf6aXnsj6beftuTNqb2ev788MAM1ZnlhMbPv6v3YpgvLzQsXU2W6r++gXxTbew3l6XGP+O57K+5CwAIBHd/V2OzcdI/lZCD347cO/5oNYR/ngK1EggyFUjPQd94jAMvydJziJui8R0EMpOhQAhb7wTOQotWLFdoYYUGHVip0Lu7XjcaaJHXCb0EFcvVW80KnXSxUr1jab1RJhqC/v9lO0SjTONOnDaHrr1Pl+k4OlpuBuR221w2JyJGRmbWVnoW3ApkXbiZDkJGMqqWWRpZzYybk43DQ8pj116rEF3TZk9qh42R5YMPEDc3GxcbJ7QE) format('woff2');}
-@font-face{font-family:q2a5c6dc74e-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAARgAAoAAAAAB7wAAAQWAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAVAqIWIY4Cw4AATYCJAMYBCAFgj4HIBvbBQAehXHD3ayPpS2GMjh/dBCQHTm3D5LdB1Qll6kEtrnDa2vh0+HA8xM8IoH1h9bc7WeGuUtoJEhcrS1f+/kmBs1e6ve+DbGq0aX9UBIp0kS8ExKZxBBFUyWFim22IVt+2tAMz/kRqkcLoCB0pQqUQGwR1/4bsnLZpa+njAAJC6wycBK8FY0Dwy0I6jgUgAwoIPm5ZJl0AlAwGKKARCgSG9REFWGX1lEysHFgVPO88i55h7xJXiuvQULgymCaBFVBqtCu3Qg3ioiQQCDRz8nTRIbe0pVW3X/rMH8vI4uNJUtNQyNv/71DMy1tLbDcxjChM3dmvXHjvHdX/KDkqPC9/alVB3uLeja6MbmiC88RG5obloZJ2d7jmPp4F9OaFjxivIg63D7jZnzJGfx6I5dwBcEOB689ru+dMJuDTWfnhprG5en4Zm4iB1Z4bm/tgOkmhs79nZbfJLIhN3dlzV5P16W0xGezi6aBp6iPqY7ZnbVb6vEpW/tXrqvFH5ytobMr3EBHl1lPW9zPbF9yszC71gcPvZrX6Wt95u8tpO3TCtz4tnB09Fqsrf5NR443F2ati4d/VrB21PgXItHAs2Jzd9+6fR2/ZJWxwjd6a3IvXk8/ztR2FNx3Z98mTb9uv3uLTYdwpy0yh1OzKIJ0J5givZfXR1nJo7GX9obHaTY94lRzet8a432FLN4mmsEm0h0IhE+YlRJ1YnKe4Lgjyyt9wIH+CoGuba9LlfTiI8maKuTLeRZXGIeBzvk1ZrKMsHDf8CTyx0Hlz7FeG9JKVpnWmTW40o9/XE7ng8ZfFo8FG9ha6vIxEtlX0WD8jfq1LFKCDQ0OS+PR1n4wYlyHFtUft8SHhpMRmqpZK7npPjKCiNKRaMnVnRfOrQ+h0x4YI3jsOtOtE/s17pTfLxj1w4HrZ1ebo34d5ln3JAKFr8gwoCPtrXJfkWHwNbRoixMZmXZEwjvMOvcTysjB3F3bvZp5bspA66qV4AjmdTB0bacbmfjmu6zC/lNg5fTJfK6mIKlJ/04Z/etNskyU3xXaL1oUtEiD8JCtMRc3PdW1Xq7ep43CbYJjHh3DW+0aY35F6ONyt7NCxxsH4rEeHKt3AdQw6KfovB3/UKOj8k9VQRGAD1bGj687yqEiTuwDqggkVHkVMYyUf6HLUI9NxDBIWOEmaPT0EOkQN+mdICRAmbxoZVZUnWmwB9IBW1BEGR1BCQ2MBGWUsR2vjjnOKCApqiFhTWwTFNGkWlDCmHZBGU1mY+oEsux5En4Xl9XQ1dXmJ/GC5pYUk7ip+t6+v89w28BwS5ettJiUmCRIYGFi5eKkYgfIGqaShs0UTEx0KHwpnsqDjoUZqPTG1wulmGa0KYuIymA9H8DKm46Dm+bKgQC88ccbPxQQAA==) format('woff2');}
-text.q2a5c6dc74ef0 {font-family:q2a5c6dc74e-cmtt10;font-size:9.96264px}
-text.q2a5c6dc74ef1 {font-family:q2a5c6dc74e-cmsy10;font-size:9.96264px}
-text.q2a5c6dc74ef2 {font-family:q2a5c6dc74e-cmmi10;font-size:9.96264px}
-text.q2a5c6dc74ef3 {font-family:q2a5c6dc74e-cmmi7;font-size:6.973848px}
-text.q2a5c6dc74ef4 {font-family:q2a5c6dc74e-cmr10;font-size:9.96264px}
-
-</style>
-<g id='page4'>
-<text class='q2a5c6dc74ef2' x='62.364522' y='66.460292'>s</text>
-<text class='q2a5c6dc74ef3' x='67.034509' y='67.954673'>ij</text>
-<text class='q2a5c6dc74ef4' x='76.818376' y='66.460292'>=</text>
-<text class='q2a5c6dc74ef2' x='88.52997' y='59.720491'>q</text>
-<text class='q2a5c6dc74ef3' x='92.977432' y='61.214872'>i</text>
-<text class='q2a5c6dc74ef1' x='98.508145' y='59.720491'>·</text>
-<text class='q2a5c6dc74ef2' x='103.489419' y='59.720491'>k</text>
-<text class='q2a5c6dc74ef3' x='108.676011' y='61.214872'>j</text>
+<p id="p-4196f3e7" class="nb">With equal scores, every position gets a quarter, and the average of the values is a plain mean. With one score 5 above the others, that position gets 98 percent, and the average is almost that position's value alone. Training changes <span class="fc"><span class="fr m"><i>wq</i></span><code class="fs">wq</code></span> and <span class="fc"><span class="fr m"><i>wk</i></span><code class="fs">wk</code></span>, and with them the scores. So it can move a head from the first case towards the second.</p>
+<div class="dm nb" id="m-3167fc96" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='9.088em' height='4.217em' viewBox='62.166874 52.806419 90.880543 42.174765' fill='currentColor' aria-hidden='true'><g>
+<text class='f-cmmi10-996' x='62.364522' y='66.460292'>s</text>
+<text class='f-cmmi7-697' x='67.034509' y='67.954673'>ij</text>
+<text class='f-cmr10-996' x='76.818376' y='66.460292'>=</text>
+<text class='f-cmmi10-996' x='88.52997' y='59.720491'>q</text>
+<text class='f-cmmi7-697' x='92.977432' y='61.214872'>i</text>
+<text class='f-cmsy10-996' x='98.508145' y='59.720491'>·</text>
+<text class='f-cmmi10-996' x='103.489419' y='59.720491'>k</text>
+<text class='f-cmmi7-697' x='108.676011' y='61.214872'>j</text>
 <rect x='88.52997' y='63.770383' height='.398484' width='24.343845'/>
-<text class='q2a5c6dc74ef1' x='93.958071' y='66.161288'>√</text>
+<text class='f-cmsy10-996' x='93.958071' y='66.161288'>√</text>
 <rect x='102.260296' y='65.762804' height='.398484' width='5.185419'/>
-<text class='q2a5c6dc74ef2' x='102.260296' y='74.651666'>d</text>
-<text class='q2a5c6dc74ef4' x='116.283195' y='66.460292'>+</text>
-<text class='q2a5c6dc74ef0' x='126.245809' y='66.460292'>mask</text>
-<text class='q2a5c6dc74ef3' x='147.167171' y='67.954673'>ij</text>
-<text class='q2a5c6dc74ef2' x='61.768369' y='92.064138'>a</text>
-<text class='q2a5c6dc74ef3' x='67.034523' y='93.558518'>ij</text>
-<text class='q2a5c6dc74ef4' x='76.818376' y='92.064138'>=</text>
-<text class='q2a5c6dc74ef0' x='87.334456' y='92.064138'>sm</text>
-<text class='q2a5c6dc74ef4' x='97.795137' y='92.064138'>(</text>
-<text class='q2a5c6dc74ef2' x='101.669511' y='92.064138'>s</text>
-<text class='q2a5c6dc74ef3' x='106.339499' y='93.558518'>i</text>
-<text class='q2a5c6dc74ef4' x='109.656345' y='92.064138'>)</text>
-<text class='q2a5c6dc74ef3' x='113.530719' y='93.558518'>j</text>
+<text class='f-cmmi10-996' x='102.260296' y='74.651666'>d</text>
+<text class='f-cmr10-996' x='116.283195' y='66.460292'>+</text>
+<text class='f-cmtt10-996' x='126.245809' y='66.460292'>mask</text>
+<text class='f-cmmi7-697' x='147.167171' y='67.954673'>ij</text>
+<text class='f-cmmi10-996' x='61.768369' y='92.064138'>a</text>
+<text class='f-cmmi7-697' x='67.034523' y='93.558518'>ij</text>
+<text class='f-cmr10-996' x='76.818376' y='92.064138'>=</text>
+<text class='f-cmtt10-996' x='87.334456' y='92.064138'>sm</text>
+<text class='f-cmr10-996' x='97.795137' y='92.064138'>(</text>
+<text class='f-cmmi10-996' x='101.669511' y='92.064138'>s</text>
+<text class='f-cmmi7-697' x='106.339499' y='93.558518'>i</text>
+<text class='f-cmr10-996' x='109.656345' y='92.064138'>)</text>
+<text class='f-cmmi7-697' x='113.530719' y='93.558518'>j</text>
 </g>
 </svg>
 </div>
 <ul>
 <li><p id="p-0006e84d" class="nb"><span class="m"><i>s</i><sub><i>i</i><i>j</i></sub></span> is the masked score that position <span class="m"><i>i</i></span> gives to position <span class="m"><i>j</i></span>, in one head. <span class="m"><i>s</i><sub><i>i</i></sub></span> is the row of the 16 scores of position <span class="m"><i>i</i></span>.</p></li>
-<li><p id="p-2d9e07b5" class="nb"><span class="m"><i>q</i><sub><i>i</i></sub></span> is row <span class="m"><i>i</i></span> of that head's plane of <code>qh</code>, and <span class="m"><i>k</i><sub><i>j</i></sub></span> is row <span class="m"><i>j</i></span> of its plane of <code>kh</code>. The dot between them is the dot product.</p></li>
-<li><p id="p-a4d36e16" class="nb"><span class="m"><i>d</i></span> is <code>headDim</code>, 4.</p></li>
-<li><p id="p-130366ac" class="nb"><span class="m"><i>a</i><sub><i>i</i><i>j</i></sub></span> is <code>a[head, i, j]</code>: the attention weight with which position <span class="m"><i>i</i></span> reads position <span class="m"><i>j</i></span>. It is element <span class="m"><i>j</i></span> of <code>sm</code> applied to the row <span class="m"><i>s</i><sub><i>i</i></sub></span>.</p></li>
+<li><p id="p-2d9e07b5" class="nb"><span class="m"><i>q</i><sub><i>i</i></sub></span> is row <span class="m"><i>i</i></span> of that head's plane of <span class="fc"><span class="fr m"><i>qh</i></span><code class="fs">qh</code></span>, and <span class="m"><i>k</i><sub><i>j</i></sub></span> is row <span class="m"><i>j</i></span> of its plane of <span class="fc"><span class="fr m"><i>kh</i></span><code class="fs">kh</code></span>. The dot between them is the dot product.</p></li>
+<li><p id="p-a4d36e16" class="nb"><span class="m"><i>d</i></span> is <span class="fc"><span class="fr m"><i>headDim</i></span><code class="fs">headDim</code></span>, 4.</p></li>
+<li><p id="p-130366ac" class="nb"><span class="m"><i>a</i><sub><i>i</i><i>j</i></sub></span> is <span class="fc"><span class="fr m"><i>a</i>[<i>head</i>, <i>i</i>, <i>j</i>]</span><code class="fs">a[head, i, j]</code></span>: the attention weight with which position <span class="m"><i>i</i></span> reads position <span class="m"><i>j</i></span>. It is element <span class="m"><i>j</i></span> of <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span> applied to the row <span class="m"><i>s</i><sub><i>i</i></sub></span>.</p></li>
 </ul>
 </section>
 <section class="sec" data-num="4.7" data-title="Mixing the values">
 <h2 id="s-mixing-the-values" class="nb"><span class="num">4.7</span> Mixing the values</h2>
-<div class="fx nb src" id="c-835ba014" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span>hc = u(a vh)</span></code></pre></div>
-<p id="p-25fe35b6" class="nb"><code>hc</code> holds the heads' results, side by side. <code>a vh</code> is again the product plane with plane. In each plane, the 16 by 16 matrix of attention weights meets the 16 by 4 matrix of values, and the result is 16 by 4. Row <code>i</code> of the result is the sum, over every position <code>j</code>, of the attention weight <code>a[i, j]</code> times the value of position <code>j</code>. The attention weights of a row add up to 1, so this is a weighted average of the values.</p>
+<div class="fx nb src n3" id="c-835ba014" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='5.434em' height='1.196em' viewBox='0 0 54.339 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>hc</text>
+<text class='f-cmr10-996' x='13.005' y='8.369'>=</text>
+<text class='f-cmmi10-996' x='23.521' y='8.369'>u</text>
+<text class='f-cmr10-996' x='29.225' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='33.099' y='8.369'>a</text>
+<text class='f-cmti10-996' x='40.025' y='8.369'>vh</text>
+<text class='f-cmr10-996' x='50.464' y='8.369'>)</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span>hc = u(a vh)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L59" title="MicroGptFlat.fss, line 59">59</a></span>hc = u(a vh)</span></code></pre></div>
+<p id="p-25fe35b6" class="nb"><span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span> holds the heads' results, side by side. <span class="fc"><span class="fr m"><i>a</i> <i>vh</i></span><code class="fs">a vh</code></span> is again the product plane with plane. In each plane, the 16 by 16 matrix of attention weights meets the 16 by 4 matrix of values, and the result is 16 by 4. Row <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> of the result is the sum, over every position <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span>, of the attention weight <span class="fc"><span class="fr m"><i>a</i>[<i>i</i>, <i>j</i>]</span><code class="fs">a[i, j]</code></span> times the value of position <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span>. The attention weights of a row add up to 1, so this is a weighted average of the values.</p>
 <p id="p-0d65c522" class="nb">The average does not know the order of the positions that it mixes: it only adds. What tells the positions apart is the position's embedding, which the first forward line added to every row. Through it, a query can fit the key of a near position better than the key of a far one.</p>
 <p id="p-8b0f514a" class="nb">A run printed the values of positions 0 to 3 in head 0, and the result for position 3:</p>
 <pre class="vb nb out long" id="o-421b358f" data-kind="output"><code>vh[0,0,:] = -0.20056698275979826 -0.11626502009152276 0.6519530451441488 0.14354339931780064
@@ -258,45 +853,42 @@ vh[0,3,:] = -0.14966874577363545 0.24185291648488746 0.36048938146221055 0.65555
 <li><p id="p-819ec444" class="nb">0.2700 times -0.1497 is -0.0404.</p></li>
 </ul>
 <p id="p-30741e90" class="nb">The sum is -0.2626: the printed number.</p>
-<div class="dm nb" id="m-f7f2d690" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='6.961em' height='2.264em' viewBox='62.336239 53.798257 69.608057 22.641799' fill='currentColor' aria-hidden='true'><style type='text/css'>
-@font-face{font-family:q1d5c309d5c-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAALMAAoAAAAABMwAAAKCAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqDFIJJCwgAATYCJAMMBCAFgj4HIBvIA1FUDGIAPxJsY2oPhcoixqjSyPANYVA033GNh+/vzXNf+bsppWDFYCzi6WANdwJYaSlGIY123Tfh3+9DTn4ZmMAJEMauYcu2nE/QMobDmDRO8YY4qJF10OQt3kfzDejTuc+e6rzOf+t8gmHGzw+WaRQxpdt0KPRECcXcLR2dkNNhPKmkYTod0ZSvLH6nRjXGYB08+JSbWxitLiFryIK32BpIyFiMu4tg9oB0ipBcQmv4qL23Eh0qk+6HMECGIKAAkjha0Y28bB6W6mXz3Hi8moZGif57sWY6vRbEa2FNmM2dCTZuJPfuPO49h+XuPWdXvTy59QLGmEbRhfyIG+2G1zCp3ntsWB+Z69Zxo3fjNqPDWPJouvesbwc39dH6LtxqajCMujrFZrlxy9lVUANr4uZmVX3fdFv1HtylU9c+PD+YlU+KIU1wkoHl9VE+cdToUtR6irYZZIwqTHoLM1GSdfoxY4MnbLxA1pAwbRc41czCGSJ8rS6heiCM/NKEXAtfl8LJJnpEYyRxzdlpnT0MesvkkxynZBLxSuZ2UOedsAGoPZ7tJ+zh30tFooOS05i2cu7IIGWi0KDUX2rQuRhmoEwkAeTqELRd6uFAM+HC+f/xJrKuAgSCN6OllXPiyX9/KeBzy/YJWvtNiI9WX1K5nDWkBxtyjIREuZfTA0pbZOLLNjCyUwUgBtCOGxiMYoazKDozopqwJDqd3eVx6yRBRRkTthmZKCadiWpZjOhMeuzGHStpHuzfYL0Z4bJ347kASpfR4+ozmuENCz4AFUAZZKqE2+d1eTB7RTGVphCcUOKxzeZK4iFAiQUsXVa7UxFoGeLHwwTXwF7OVAFUAJRBJQA=) format('woff2');}
-@font-face{font-family:q1d5c309d5c-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIkAAoAAAAAA7gAAAHbAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBDIEMCwYAATYCJAMIBCAFgj4HIBv/AgC+DHBy9RVgiClJl6I6G0XMp3a7mmfoMzASDx/7/Tr3GSKafih41FAZklmFJFaKWEokGgma7XrbnW52sDbvEfNEfI2I60wwD3EqmZCWAnGWWV8nMGZeywlI9hrYyzvH1HyAkK0OrLywucr/FAQ/d88nFNDbwnI/S5KsLT1qSfMEIww4a4GlwbcvkG7THeIjKhXa4VN0tCBNHyI5yWVy/6/ZjflYNQMBqkDVA2Nle3oErI+zRar+MtCLVSMA+A8kSNGMLtCMoR/IZIKP/6NP9S0AJCBDoASMAZABorQjW8dp12xqfmlbVXgfT6XNZ89PM7UnJ82QsfjrGf/5qkz+frP6W2nHuEWMx/9jn3aTmo7/6V9vHQqOEG8viln58uZdXLdvq203a30pLQAEgsrP7Z6W2P41Gfgk9jve82s5vwTlEhB0ZpDfGWXLFUaIx4wnCBIlCAghVToE1fEcmUIdclVaUCj0b1TqZEUXWYXQy42QqTaHXKtTFKod50qDLs9c/lKr2usczAn8EhsJFF9s3iTP7E9PRtOjjoVCSZQAn56OvomxA0MWCT37mHXt6TgwR8AV3R450dNl6VF4FoVct9rt7Ej7smvBImLqRL02daSDqOckFIEOoMM=) format('woff2');}
-@font-face{font-family:q1d5c309d5c-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHIAAoAAAAAA3wAAAGAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANApYYQsGAAE2AiQDCAQgBYI4ByAbzgIArg5sU2zHetgWc72liJrHH8r6Nh6e7vude2fm/ZZlE0g/aBSGgX1tFdp4E4vS8vBTQGljbmtjpmg+NtcULIKG5+vo/2KKX//pxsuDJRHqY3Q/YwTAgbLZmiG+ZZvni7JYe+VBsuuOMVBgEzfjfC2ghVHs63xTwGtwl1pAawOlUvxTt/n4TUScrKAgiL42KPkdaeRzfv1v+EOPXcBjFnqACcQuJ8XQjesVHUXoRnsHiYINO7IhOUGqKjDuvfr3/okBJKhI7CD7CFRALixMlnq7f99cfni9eznnTR9n7iC+02QeQwa2358DgEDw01h2mb8ZqeD38PpxIqchMCNBsFzpgarlFIM4eacoMtLO6Io0NudGA2EZzlbNMtvM22AHzfH4nD2ZiDorHOmcreZcsM2Www7mXPlzTn0HSfsmszc1hl5MXYP2Ss+M1+ySLFZ0FBgNTl0eNxLQzS1+v5lUGFQgIQlnkAHVACtpSDhnA9YLf7zQVkQqTCEHBRgBsLcA) format('woff2');}
-@font-face{font-family:q1d5c309d5c-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAK4AAoAAAAABKAAAAJvAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqCeIIxCwgAATYCJAMMBCAFgjgHIBuiAwieA+7cmMX05zzFbYrM8OOsW0wzhGiNzOzBAxfZEbAEAkW6DtmoKmChmFRda3sD6/IJJWoQQ6frIU5IIEuZfb+2PcMkmjazqg2iRfP3D9FEqVohaWgMoQAbcCIBa8C5DL7Pe4u/yAZ0AvisU/cCXkC3Wtobd4LeHGEvixJL3cbgNpXLWBjy0B+szpClznGaRLqa3v+DxR3HpiQRdZASGtzK5kObARR2GGcqkAm3s6oAJGToEK4OMPpAyOXa2+nHO6rEjuDwMkJ5+RxHwSkA5IAkNYxoGLLr8plmdRMJP5jdaKiuX5DDA2a+KudJvIu8YTdsvkztfzsATsWqhwT4C8z+JmAy9wJoAQxn8YMfJ9wPHM1UxPqVkam3LZH2XgQ5gB3VLUOcmhflDk+v/lb7pNkN4RCgWSEfvi6dlOwflmwp+gwMfHUILQsjK036EdkJO9LSdqeU0Lz/hrG+uJ1DW9olfPxZ5/+KL37kuxYmc7gUt+7Otd7ezmI6uz6UQwf6aXnsj6beftuTNqb2ev788MAM1ZnlhMbPv6v3YpgvLzQsXU2W6r++gXxTbew3l6XGP+O57K+5CwAIBHd/V2OzcdI/lZCD347cO/5oNYR/ngK1EggyFUjPQd94jAMvydJziJui8R0EMpOhQAhb7wTOQotWLFdoYYUGHVip0Lu7XjcaaJHXCb0EFcvVW80KnXSxUr1jab1RJhqC/v9lO0SjTONOnDaHrr1Pl+k4OlpuBuR221w2JyJGRmbWVnoW3ApkXbiZDkJGMqqWWRpZzYybk43DQ8pj116rEF3TZk9qh42R5YMPEDc3GxcbJ7QE) format('woff2');}
-@font-face{font-family:q1d5c309d5c-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKYAAoAAAAABJwAAAJMAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCYIIwCwoAATYCJAMKBCAFgj4HIButAwCOwrZ5c0QyZcgXmWS6EVXD1rOfyVnisopKorBkTyEcMhmFdQiVFPfzdvp+LoUwtVMuUA1OEjYJMzh1+pvPLcoDm7gFQppTxwIp67xL6IEl2KX1xz4P8BN9sG/rxNTQpav6GCzO4A6dkk0l9KgPwsH/AlRImjdmoIcHEH2IcAVXjymhwOlWcu00EcCgT8Ad2BpAoYMFmGAB0S7Q1xXlVjK6vZXUFFDdytfBdaOhN78GXrLmHtdFJvhU9wLPz50uL12urlwvLty2LNW/pvjc6eLCExqnjPv2lOpbSprEz5WKWkG8tf35AxJ8qDm8BHyvfXm9koH7JutpDFOplSY0jpXONaXmXFHcxGty1cM9CkjLdkEuKDWbEID8U/NdEavWFUecXTZ+yAyZ2Lom2LkiE2QW+jZ4zfgTL4jXa9UWGKAPChCM/PSTwPECmf17LA+Sho7dnWCANijkNHjcRBpchpidxu8uJwYy5cQ/p0kzy5ay3wPx1YLKqQAHB6L+LV7nWSQie/cfnosABOGnpODbV0jre4gRAb4ULG/ppfZXssUChgqEU5SvETBdfBCcT1KywAk5AoKuvfoJVY15Gl1M45NdfdNkz7hFsq9v5/SYNSow6fJAbNFrZNeES7JnSQTZN+G5H3Os9IZgfgA2CIxOSqJSrtwlFacERy+oxwSlhCemhEYr03EaTgVDsaLFSZYkWAJl1mIF9a0YgaIlSUJF4TK5icLFiqEM4igoyDSIqQ78V4SCsgDpFjtIinCJPwgVTRkdjgZHhVFKAQAAAA==) format('woff2');}
-text.q1d5c309d5cf0 {font-family:q1d5c309d5c-cmtt10;font-size:9.96264px}
-text.q1d5c309d5cf2 {font-family:q1d5c309d5c-cmmi10;font-size:9.96264px}
-text.q1d5c309d5cf3 {font-family:q1d5c309d5c-cmmi7;font-size:6.973848px}
-text.q1d5c309d5cf4 {font-family:q1d5c309d5c-cmr10;font-size:9.96264px}
-text.q1d5c309d5cf6 {font-family:q1d5c309d5c-cmex10;font-size:9.96264px}
-
-</style>
-<g id='page5'>
-<text class='q1d5c309d5cf0' x='61.768369' y='63.262825'>out</text>
-<text class='q1d5c309d5cf3' x='77.45939' y='64.757206'>i</text>
-<text class='q1d5c309d5cf4' x='83.543569' y='63.262825'>=</text>
-<text class='q1d5c309d5cf6' x='94.059649' y='53.798257'></text>
-<text class='q1d5c309d5cf3' x='99.405067' y='75.017391'>j</text>
-<text class='q1d5c309d5cf2' x='110.110557' y='63.262825'>a</text>
-<text class='q1d5c309d5cf3' x='115.376711' y='64.757206'>ij</text>
-<text class='q1d5c309d5cf2' x='124.053645' y='63.262825'>v</text>
-<text class='q1d5c309d5cf3' x='128.882777' y='64.757206'>j</text>
+<div class="dm nb" id="m-f7f2d690" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='6.961em' height='2.264em' viewBox='62.336239 53.798257 69.608057 22.641799' fill='currentColor' aria-hidden='true'><g>
+<text class='f-cmtt10-996' x='61.768369' y='63.262825'>out</text>
+<text class='f-cmmi7-697' x='77.45939' y='64.757206'>i</text>
+<text class='f-cmr10-996' x='83.543569' y='63.262825'>=</text>
+<text class='f-cmex10-996' x='94.059649' y='53.798257'></text>
+<text class='f-cmmi7-697' x='99.405067' y='75.017391'>j</text>
+<text class='f-cmmi10-996' x='110.110557' y='63.262825'>a</text>
+<text class='f-cmmi7-697' x='115.376711' y='64.757206'>ij</text>
+<text class='f-cmmi10-996' x='124.053645' y='63.262825'>v</text>
+<text class='f-cmmi7-697' x='128.882777' y='64.757206'>j</text>
 </g>
 </svg>
 </div>
 <ul>
-<li><p id="p-9b98bb30" class="nb"><span class="m"><span class="tt">out</span><sub><i>i</i></sub></span> is row <span class="m"><i>i</i></span> of a plane of <code>a vh</code>.</p></li>
-<li><p id="p-a5fa09d0" class="nb"><span class="m"><i>v</i><sub><i>j</i></sub></span> is row <span class="m"><i>j</i></span> of the same plane of <code>vh</code>: a vector of four numbers.</p></li>
+<li><p id="p-9b98bb30" class="nb"><span class="m"><span class="tt">out</span><sub><i>i</i></sub></span> is row <span class="m"><i>i</i></span> of a plane of <span class="fc"><span class="fr m"><i>a</i> <i>vh</i></span><code class="fs">a vh</code></span>.</p></li>
+<li><p id="p-a5fa09d0" class="nb"><span class="m"><i>v</i><sub><i>j</i></sub></span> is row <span class="m"><i>j</i></span> of the same plane of <span class="fc"><span class="fr m"><i>vh</i></span><code class="fs">vh</code></span>: a vector of four numbers.</p></li>
 </ul>
-<p id="p-b32c932b" class="nb"><code>u</code> then puts the four planes side by side. <code>hc</code> is a matrix of 16 by 16 again: for each position, the four heads' averages, four numbers each. The run printed the first four numbers of its row 3, and they are the numbers above:</p>
+<p id="p-b32c932b" class="nb"><span class="fc"><span class="fr m"><i>u</i></span><code class="fs">u</code></span> then puts the four planes side by side. <span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span> is a matrix of 16 by 16 again: for each position, the four heads' averages, four numbers each. The run printed the first four numbers of its row 3, and they are the numbers above:</p>
 <pre class="vb nb out" id="o-8dd93e57" data-kind="output"><code>hc[3,0..3] = -0.26264079565384846 -0.09083065284086174 0.1298847285979956 0.2674161546393012</code></pre>
 </section>
 <section class="sec" data-num="4.8" data-title="Back into the row">
 <h2 id="s-back-into-the-row" class="nb"><span class="num">4.8</span> Back into the row</h2>
-<div class="fx nb src" id="c-936a19c4" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L60" title="MicroGptFlat.fss, line 60">60</a></span>x2 = xp + hc wo^T</span></code></pre></div>
-<p id="p-1bc8fe19" class="nb"><code>hc wo^T</code> puts every row of <code>hc</code> through <code>wo</code>, attention's weight matrix for the output. In <code>hc</code>, each head's result sits in its own four columns. <code>wo</code> mixes the sixteen columns.</p>
-<p id="p-4c565120" class="nb">Then the line adds the result to <code>xp</code>, the matrix of Part 3: the summed embeddings after one call of <code>rmsn</code>. It does not replace <code>xp</code>. So a row of <code>x2</code> still holds what the row held before, its own token and position, and it now also holds a mix of what the earlier positions hold. Adding a stage's result to the stage's input in this way is called a residual connection. The model does it twice: here, and at the end of the feed-forward block in Part 5.</p>
-<p id="p-b1dda08b" class="nb"><code>x2</code> is a matrix of 16 by 16, one row for each position, like every stage before it.</p>
+<div class="fx nb src n3" id="c-936a19c4" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L60" title="MicroGptFlat.fss, line 60">60</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='7.648em' height='1.247em' viewBox='0 0 76.48 12.466' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.879'>x</text>
+<text class='f-cmr7-697' x='5.694' y='10.373'>2</text>
+<text class='f-cmr10-996' x='12.931' y='8.879'>=</text>
+<text class='f-cmti10-996' x='23.447' y='8.879'>xp</text>
+<text class='f-cmr10-996' x='36.003' y='8.879'>+</text>
+<text class='f-cmti10-996' x='45.966' y='8.879'>hc<tspan x='57.864'>wo</tspan></text>
+<text class='f-cmmi7-697' x='70.204' y='4.765'>T</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L60" title="MicroGptFlat.fss, line 60">60</a></span>x2 = xp + hc wo^T</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L60" title="MicroGptFlat.fss, line 60">60</a></span>x2 = xp + hc wo^T</span></code></pre></div>
+<p id="p-1bc8fe19" class="nb"><span class="fc"><span class="fr m"><i>hc</i> <i>wo</i><sup><i>T</i></sup></span><code class="fs">hc wo^T</code></span> puts every row of <span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span> through <span class="fc"><span class="fr m"><i>wo</i></span><code class="fs">wo</code></span>, attention's weight matrix for the output. In <span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span>, each head's result sits in its own four columns. <span class="fc"><span class="fr m"><i>wo</i></span><code class="fs">wo</code></span> mixes the sixteen columns.</p>
+<p id="p-4c565120" class="nb">Then the line adds the result to <span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span>, the matrix of Part 3: the summed embeddings after one call of <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span>. It does not replace <span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span>. So a row of <span class="fc"><span class="fr m"><i>x</i><sub>2</sub></span><code class="fs">x2</code></span> still holds what the row held before, its own token and position, and it now also holds a mix of what the earlier positions hold. Adding a stage's result to the stage's input in this way is called a residual connection. The model does it twice: here, and at the end of the feed-forward block in Part 5.</p>
+<p id="p-b1dda08b" class="nb"><span class="fc"><span class="fr m"><i>x</i><sub>2</sub></span><code class="fs">x2</code></span> is a matrix of 16 by 16, one row for each position, like every stage before it.</p>
 <p id="p-36722476" class="nb">The sizes of the whole computation, from the run:</p>
 <pre class="vb nb out" id="o-eec0fd98" data-kind="output"><code>sizes scores (4,16,16) a (4,16,16) a vh (4,16,4) hc (16,16)</code></pre>
 </section>
@@ -305,7 +897,7 @@ text.q1d5c309d5cf6 {font-family:q1d5c309d5c-cmex10;font-size:9.96264px}
 <ul>
 <li><p id="p-5e8dd369" class="nb">Every value in an Output box: runs under walk of a file of small array examples, and of copies of <code>MicroGptFlat.fss</code> with print lines added.</p></li>
 <li><p id="p-2148dd71" class="nb">The scores "scaled by the square root of the key width", with no reason given: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-b/article.md#L55">explorations/run-b/article.md, line 55</a>. The reason in this part is the field's usual account and is in no file of the repository.</p></li>
-<li><p id="p-e84124bc" class="nb"><code>+</code> between a matrix and a rank-3 array: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L135">FlatArrays.fss, lines 135 and 136</a>. <code>rows</code> on a rank-3 array: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L154">lines 154 to 159</a>.</p></li>
+<li><p id="p-e84124bc" class="nb"><span class="fc"><span class="fr m">+</span><code class="fs">+</code></span> between a matrix and a rank-3 array: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L135">FlatArrays.fss, lines 135 and 136</a>. <span class="fc"><span class="fr m"><i>rows</i></span><code class="fs">rows</code></span> on a rank-3 array: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L154">lines 154 to 159</a>.</p></li>
 <li><p id="p-6aaa6903" class="nb">Karpathy's program without a mask: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-b/article.md#L59">explorations/run-b/article.md, line 59</a>, and the port, <a href="https://github.com/palimondo/fortress/blob/main/explorations/microgpt.fss#L106">explorations/microgpt.fss, lines 106 to 112</a>.</p></li>
 <li><p id="p-5ab74089" class="nb">"Residual connection": <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-b/article.md#L63">explorations/run-b/article.md, line 63</a>.</p></li>
 </ul>

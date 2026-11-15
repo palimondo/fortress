@@ -8,7 +8,7 @@
 @src 60: mr = 0.0 MAX m0
 @src 60: x4 = x2 + mr f2^T
 
-These four declarations are the rest of line 60. They form the model's second block, the feed-forward block. Its other name in the field is MLP, short for multi-layer perceptron, and the files of its two matrices are named `mlp_fc1` and `mlp_fc2`, where FC is short for fully connected. The block starts from `x2`, the matrix of Part 4: each row as it was before attention, plus attention's result.
+These four declarations are the rest of line 60. They form the model's second block, the feed-forward block. Its other name in the field is MLP, short for multi-layer perceptron, and the files of its two matrices are named ``mlp_fc1`` and ``mlp_fc2``, where FC is short for fully connected. The block starts from `x2`, the matrix of Part 4: each row as it was before attention, plus attention's result.
 
 - `x3` is `x2` with `rmsn`, the function of Part 3 that brings a row to a standard size, on every row. It is the third and last use of `rmsn` in the forward pass.
 - `m0` puts every row of `x3` through `f1`, the block's first weight matrix, 64 by 16. Each row of 16 numbers becomes a row of 64 numbers.
@@ -44,11 +44,11 @@ pr[0,:] = 0.03156561234767023 0.03989814637170121 0.05406221651821286 0.01949111
 sum pr[0,:] = 1.0
 ```
 
-- The highest score is the fifteenth, 0.674, for the token 14, `o`. Its probability is 0.0617.
-- The lowest score is -0.536, for the token 17, `r`. Its probability is 0.0184.
-- The right answer for row 0 is `y`, the token 24. Its score is -0.168 and its probability is 0.0266.
+- The highest score is the fifteenth, 0.674, for the token 14, ``o``. Its probability is 0.0617.
+- The lowest score is -0.536, for the token 17, ``r``. Its probability is 0.0184.
+- The right answer for row 0 is ``y``, the token 24. Its score is -0.168 and its probability is 0.0266.
 
-With equal probabilities, each token would have 1 in 27, which is 0.037. The untrained model is close to that, and it puts `y` a little below.
+With equal probabilities, each token would have 1 in 27, which is 0.037. The untrained model is close to that, and it puts ``y`` a little below.
 
 ## The loss
 
@@ -72,7 +72,7 @@ In the function `step`, a run printed:
 pick(pr,tg) = 0.02656262446278745 0.04017214587408415 0.028414895439496417 0.028956162103254975 0.04622320937199633 0.039261608101615705 0.03672337977848549 0.0349450358489196 0.024151667584315476 0.029294432906131603 0.03222500877833893 0.024508992299195932 0.02184420601149411 0.029300476079837403 0.03684945998367594 0.02893787421043008
 ```
 
-The first number is the 0.0266 for `y` in row 0. The first seven numbers belong to the seven questions of `yuheng`. The last nine belong to rows that do not count.
+The first number is the 0.0266 for ``y`` in row 0. The first seven numbers belong to the seven questions of ``yuheng``. The last nine belong to rows that do not count.
 
 `log` is the natural logarithm, the reverse of `exp`, the exponential function of Part 3: `log(exp(t))` is `t`. The logarithm of 1 is 0. The logarithm of a number between 0 and 1 is negative, and the smaller the number, the further below 0. `FlatArrays.fss` declares `log` for arrays, element by element. The run printed the logarithms with the sign changed:
 
@@ -80,7 +80,7 @@ The first number is the 0.0266 for `y` in row 0. The first seven numbers belong 
 -log pick = 3.6282501466505988 3.214581412219856 3.5608417840041575 3.5419722443055854 3.0742732396794525 3.237508130666618 3.3043416755676898 3.3539788561866484 3.723401850157102 3.5303577842157106 3.4350124577491985 3.708715196151209 3.823819563703278 3.530151514632506 3.3009143148998694 3.5426040155413685
 ```
 
-So each row gets a penalty: minus the logarithm of the probability that it gave to the right answer. A probability of 1 gives the penalty 0. A probability of one half gives 0.69. The 0.0266 for `y` gives 3.63.
+So each row gets a penalty: minus the logarithm of the probability that it gave to the right answer. A probability of 1 gives the penalty 0. A probability of one half gives 0.69. The 0.0266 for ``y`` gives 3.63.
 
 `vm DOT ...` is the dot product with `vm`, the vector from Part 1 that holds 1.0 for a row that counts and 0.0 for the others. It adds the values of the seven rows that count and leaves the other nine out:
 

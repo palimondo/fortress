@@ -3,7 +3,7 @@
 
 ## What attention is for
 
-After the first forward line, row 4 of the matrix `x` holds the embedding of the token `e` plus the embedding of position 4. It holds nothing about the tokens before it. To say what follows `yuhe`, the row needs to know about `y`, `u` and `h` too.
+After the first forward line, row 4 of the matrix `x` holds the embedding of the token ``e`` plus the embedding of position 4. It holds nothing about the tokens before it. To say what follows ``yuhe``, the row needs to know about ``y``, ``u`` and ``h`` too.
 
 Almost every line of the forward pass treats each row by itself. A product of the form `x w^T` puts every row through the same matrix, and `rows`, the function of `FlatArrays.fss` from Part 3, applies a function to every row. No number moves from one row to another.
 
@@ -167,7 +167,7 @@ a[0,3,:] = 0.23131863930590738 0.2791091202495081 0.219568047869288 0.2700041925
 sum a[0,3,:] = 1.0
 ```
 
-Position 3 holds the token `h`. In head 0 it reads position 0, the mark, with the attention weight 0.231; position 1, `y`, with 0.279; position 2, `u`, with 0.220; and itself with 0.270. The twelve later positions have the attention weight 0. The sixteen attention weights add up to 1.0. The four that are not 0 are close to a quarter each, because the parameters are still the random starting values and the scores are all near 0.
+Position 3 holds the token ``h``. In head 0 it reads position 0, the mark, with the attention weight 0.231; position 1, ``y``, with 0.279; position 2, ``u``, with 0.220; and itself with 0.270. The twelve later positions have the attention weight 0. The sixteen attention weights add up to 1.0. The four that are not 0 are close to a quarter each, because the parameters are still the random starting values and the scores are all near 0.
 
 The starts of two more rows from the same run:
 

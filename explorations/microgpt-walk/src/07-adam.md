@@ -12,7 +12,7 @@ $$
 - $p$ is the vector of parameters, $g$ the gradient, and $p'$ the new parameters.
 - `lr` is a small positive number, the learning rate.
 
-The weakness of this rule is that gradient entries differ widely in size. In the step on `yuheng`, parameter 500 has the entry -0.0926. The stored gradient that the quick check of Part 8 compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.
+The weakness of this rule is that gradient entries differ widely in size. In the step on ``yuheng``, parameter 500 has the entry -0.0926. The stored gradient that the quick check of Part 8 compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.
 
 The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam, short for adaptive moment estimation. Karpathy's microGPT uses it too. Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.
 
@@ -68,10 +68,10 @@ The numbers of parameter 500 in the first step show what the three lines do. A r
 index 500 p0 0.06258901428847981 g -0.09262792010673876 m1 -0.013894188016010816 v1 8.579931583300387E-5 p1 0.07258901320889183 delta 0.00999999892041202
 ```
 
-- `m1` is 0.15 times the gradient entry: -0.01389.
-- `v1` is 0.01 times the entry's square: 0.0000858.
-- The corrected first average is `m1` divided by 0.15: the entry itself, -0.0926.
-- The corrected second average is `v1` divided by 0.01: the entry's square. Its root is 0.0926, the entry without its sign.
+- ``m1`` is 0.15 times the gradient entry: -0.01389.
+- ``v1`` is 0.01 times the entry's square: 0.0000858.
+- The corrected first average is ``m1`` divided by 0.15: the entry itself, -0.0926.
+- The corrected second average is ``v1`` divided by 0.01: the entry's square. Its root is 0.0926, the entry without its sign.
 - Their quotient is -1. The move is `lr` times -1, and `lr` is 0.01 in the first step. Subtracting it raises the parameter by 0.01: from 0.0626 to 0.0726.
 
 So in the first step, the size of the entry cancels out. Only its sign is left. Two more parameters from the same run:
@@ -82,7 +82,7 @@ index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delt
 ```
 
 - Parameter 1100 has a positive entry, a third the size of the first one. It moves down, also by 0.01.
-- Parameter 0 lies in the row of `wte` for the token `a`. Its entry is 0, and it does not move: 0 divided by `epsilon_A` is 0.
+- Parameter 0 lies in the row of `wte` for the token ``a``. Its entry is 0, and it does not move: 0 divided by `epsilon_A` is 0.
 
 In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about `lr` in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less.
 
@@ -98,7 +98,7 @@ The learning rate falls in a straight line from `lr0`, 0.01, at step 0, towards 
 lr(0) = 0.01 lr(1) = 0.00999 lr(999) = 1.000000000000001E-5
 ```
 
-`lr0 (...)` is a number beside a number: the product. `1.0 s` turns the integer `s` into a float. The line needs it. In Fortress, `/` between two integers gives an exact fraction, a value of the type `QQ`: for `s` = 3, a run printed `s / nSteps` as `3/1000`. The library has no product of a float and such a fraction, and the line without `1.0` stops with "Failed to find any matching overload". With the float on the left, the division gives a float.
+`lr0 (...)` is a number beside a number: the product. `1.0 s` turns the integer `s` into a float. The line needs it. In Fortress, `/` between two integers gives an exact fraction, a value of the type `QQ`: for `s` = 3, a run printed `s / nSteps` as ``3/1000``. The library has no product of a float and such a fraction, and the line without `1.0` stops with "Failed to find any matching overload". With the float on the left, the division gives a float.
 
 The schedule is made for 1,000 steps, the number that the reference program of Part 8 was run with. The loop below runs five.
 
@@ -151,17 +151,17 @@ step 5 loss 3.2208830897506235
 
 Each line also ended with the step's time, left out here. The times are walk's, and by your ruling walk's speed says nothing about how fast Fortress is.
 
-The five losses go up and down. They cannot be compared with each other: each is measured on a different name, `yuheng`, `diondre`, `xavien`, `jori`, `juanluis`, and each is measured before that step's own change to the parameters.
+The five losses go up and down. They cannot be compared with each other: each is measured on a different name, ``yuheng``, ``diondre``, ``xavien``, ``jori``, ``juanluis``, and each is measured before that step's own change to the parameters.
 
 ## What one step does to the numbers
 
-To see the effect of a step, measure the same name before and after. A run did the step on `yuheng`, applied Adam once, and called `step` on `yuheng` again with the new parameters:
+To see the effect of a step, measure the same name before and after. A run did the step on ``yuheng``, applied Adam once, and called `step` on ``yuheng`` again with the new parameters:
 
 ```out
 loss doc 0 before 3.365966947584851 after one Adam step 2.9510500702232525
 ```
 
-The loss on `yuheng` fell from 3.366 to 2.951. In probabilities, a run printed `exp` of minus each loss:
+The loss on ``yuheng`` fell from 3.366 to 2.951. In probabilities, a run printed `exp` of minus each loss:
 
 ```out
 exp(-3.365966947584851) = 0.034528612612313464  exp(-2.9510500702232525) = 0.052284774427746754
@@ -169,7 +169,7 @@ exp(-3.365966947584851) = 0.034528612612313464  exp(-2.9510500702232525) = 0.052
 
 These are the probabilities that give the same two losses if all seven right answers have one and the same probability: 0.035 before the step, 0.052 after it.
 
-The same change helped a little on a name that the step did not see. The loss on document 1, `diondre`, with the old and with the new parameters:
+The same change helped a little on a name that the step did not see. The loss on document 1, ``diondre``, with the old and with the new parameters:
 
 ```out
 loss doc 1 with p0 3.4265763956879174 with p1 3.4242727838717717
@@ -177,7 +177,7 @@ loss doc 1 with p0 3.4265763956879174 with p1 3.4242727838717717
 
 The second number is the loss that the program printed for step 2.
 
-The whole step on `yuheng`, in numbers:
+The whole step on ``yuheng``, in numbers:
 
 1. The keys. The name becomes 16 rows of tokens, of which 7 count: `ids`, `tg`, `vm`, `pos`.
 2. The forward pass. From the keys and the 4,192 parameters it computes a matrix of 16 by 27 probabilities. The seven right answers have probabilities between 0.027 and 0.046. The loss is 3.366.

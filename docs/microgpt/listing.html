@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The program on one page · microGPT in Fortress</title>
 <link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
 <link rel="stylesheet" href="walk.css">
 </head>
 <body data-page="listing" data-slug="listing" data-chapter="The program on one page">
@@ -15,7 +16,1920 @@
 <h1>The program on one page</h1>
 <p class="standfirst">Every line of <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss"><code>MicroGptFlat.fss</code></a>, as the build found it. A line's number leads to the place that explains the line.</p>
 </header>
-<pre class="listing"><code><a class="lnk" href="task.html#c-9294c406">1</a>(* MicroGptFlat -- microGPT in native Fortress arrays, data designed after Hsu
+<div class="notation" role="group" aria-label="How the program's code is shown"><span class="lab">Code</span><span class="seg"><button type="button" data-n="typeset" aria-pressed="false">Typeset</button><button type="button" data-n="unicode" aria-pressed="false">Unicode</button><button type="button" data-n="source" aria-pressed="false">ASCII</button></span></div>
+<div class="fx n3 listing"><div class="fx-r"><span class="l"><span class="ln"><a class="lnk" href="task.html#c-9294c406">1</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.591em' viewBox='0 0 175.342 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>MicroGptFlat<tspan x='77.667'>--</tspan><tspan x='87.63'>microGPT</tspan><tspan x='137.125'>in</tspan><tspan x='148.748'>nativ</tspan><tspan x='170.887'>e</tspan><tspan x='15.94' y='20.368'>F</tspan><tspan x='21.613'>ortress</tspan><tspan x='53.881'>arra</tspan><tspan x='71.371'>ys,</tspan><tspan x='86.648'>data</tspan><tspan x='109.34'>designed</tspan><tspan x='149.8'>after</tspan><tspan x='15.94' y='32.323'>Hsu</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-9294c406">2</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='3.591em' viewBox='0 0 161.893 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(Run<tspan x='25.436'>C4,</tspan><tspan x='43.571'>the</tspan><tspan x='60.567'>syn</tspan><tspan x='75.013'>thesis</tspan><tspan x='102.635'>of</tspan><tspan x='113.819'>rounds</tspan><tspan x='146.396'>t</tspan><tspan x='149.993'>w</tspan><tspan x='156.912'>o</tspan><tspan x='15.94' y='20.368'>and</tspan><tspan x='35.312'>three:</tspan><tspan x='15.94' y='32.323'>explorations/run-c4/design.md).</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-9294c406">3</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='2.541em' viewBox='0 0 161.893 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>The<tspan x='20.479'>mo</tspan><tspan x='34.039'>del</tspan><tspan x='50.09'>only:</tspan><tspan x='75.827'>h</tspan><tspan x='81.085'>yp</tspan><tspan x='92.155'>erparameters,</tspan><tspan x='15.94' y='21.818'>the</tspan><tspan x='33.098'>la</tspan><tspan x='40.57'>y</tspan><tspan x='45.552'>out</tspan><tspan x='63.263'>table,</tspan><tspan x='90.937'>the</tspan><tspan x='108.095'>four</tspan><tspan x='128.878'>v</tspan><tspan x='133.86'>ector</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-9294c406">4</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='2.541em' viewBox='0 0 161.893 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>functions,<tspan x='45.718'>the</tspan><tspan x='62.875'>step,</tspan><tspan x='86.731'>Adam</tspan><tspan x='116.342'>and</tspan><tspan x='135.714'>the</tspan><tspan x='15.94' y='21.818'>training</tspan><tspan x='53.547'>lo</tspan><tspan x='61.572'>op,</tspan><tspan x='78.131'>line</tspan><tspan x='96.891'>for</tspan><tspan x='112.082'>line</tspan><tspan x='130.843'>against</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-9294c406">5</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='3.686em' viewBox='0 0 161.893 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>explorations/apl/reference/hsu-<tspan x='15.94' y='20.922'>ﬂat/microgpt</tspan></text>
+<rect x='74.681' y='20.523' height='.398' width='2.989'/>
+<text class='f-cmr10-996' x='77.67' y='20.922'>concise.dy<tspan x='121.451'>alog</tspan><tspan x='142.483'>and</tspan><tspan x='15.94' y='33.275'>the</tspan><tspan x='33.098'>form</tspan><tspan x='53.051'>ulas</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-9294c406">6</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='4.842em' viewBox='0 0 161.893 48.418' fill='currentColor' style='vertical-align:-4.005em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(the<tspan x='21.032'>tour:</tspan><tspan x='15.94' y='20.922'>explorations/run-c4/tour.md).</tspan><tspan x='15.94' y='32.877'>The</tspan><tspan x='36.419'>arra</tspan><tspan x='53.909'>y</tspan><tspan x='62.488'>v</tspan><tspan x='67.469'>o</tspan><tspan x='72.728'>cabulary</tspan><tspan x='113.436'>is</tspan><tspan x='15.94' y='44.832'>FlatArra</tspan><tspan x='54.048'>ys,</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-9294c406">7</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='3.591em' viewBox='0 0 161.893 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>the<tspan x='17.158'>loaders</tspan><tspan x='51.003'>and</tspan><tspan x='70.375'>the</tspan><tspan x='87.533'>corpus</tspan><tspan x='119.165'>FlatData.</tspan><tspan x='15.94' y='20.368'>Run</tspan><tspan x='37.664'>from</tspan><tspan x='15.94' y='32.323'>explorations/run-c4/src:</tspan><tspan x='126'>the</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-9294c406">8</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='9.691em' height='1.196em' viewBox='0 0 96.914 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>paths<tspan x='27.176'>are</tspan><tspan x='43.808'>relativ</tspan><tspan x='71.51'>e.</tspan></text>
+<text class='f-cmtt10-996' x='86.454' y='8.369'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-1893133f">9</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='11.041em' height='1.196em' viewBox='0 0 110.405 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>component</text>
+<text class='f-cmr10-996' x='49.84' y='8.369'>MicroGptFlat</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-1893133f">10</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='9.471em' height='1.196em' viewBox='0 0 94.714 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>export</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>MicroGptFlat</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-1893133f">11</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='8.216em' height='1.196em' viewBox='0 0 82.164 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>export</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>Executable</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-1893133f">12</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='10.580em' height='1.196em' viewBox='0 0 105.797 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>import</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>FlatArra<tspan x='72.257'>ys</tspan></text>
+<text class='f-cmmi10-996' x='81.444' y='8.369'>.</text>
+<text class='f-cmsy10-996' x='84.212' y='8.369'>{</text>
+<text class='f-cmmi10-996' x='89.193' y='8.369'>.<tspan x='93.621'>.</tspan><tspan x='98.049'>.</tspan></text>
+<text class='f-cmsy10-996' x='100.816' y='8.369'>}</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-1893133f">13</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='9.808em' height='1.196em' viewBox='0 0 98.076 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>import</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>FlatData</text>
+<text class='f-cmmi10-996' x='73.723' y='8.369'>.</text>
+<text class='f-cmsy10-996' x='76.491' y='8.369'>{</text>
+<text class='f-cmmi10-996' x='81.472' y='8.369'>.<tspan x='85.9'>.</tspan><tspan x='90.328'>.</tspan></text>
+<text class='f-cmsy10-996' x='93.095' y='8.369'>}</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-1893133f">14</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='8.983em' height='1.196em' viewBox='0 0 89.83 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>import</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>System</text>
+<text class='f-cmmi10-996' x='65.476' y='8.369'>.</text>
+<text class='f-cmsy10-996' x='68.244' y='8.369'>{</text>
+<text class='f-cmmi10-996' x='73.225' y='8.369'>.<tspan x='77.653'>.</tspan><tspan x='82.081'>.</tspan></text>
+<text class='f-cmsy10-996' x='84.848' y='8.369'>}</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk">15</a></span><span class="tx"></span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-73b4ea60">16</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>------------------------------------------------<tspan x='15.94' y='21.818'>---</tspan><tspan x='29.224'>h</tspan><tspan x='34.482'>yp</tspan><tspan x='45.552'>erparameters</tspan><tspan x='105.466'>----</tspan></text>
+<text class='f-cmtt10-996' x='122.07' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-73b4ea60">17</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.686em' viewBox='0 0 175.342 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(</text>
+<text class='f-cmti10-996' x='3.874' y='8.369'>nEmb<tspan x='28.454'>d</tspan></text>
+<text class='f-cmmi10-996' x='34.576' y='8.369'>,</text>
+<text class='f-cmti10-996' x='39.004' y='8.369'>blo<tspan x='50.715'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='77.942' y='8.369'>,</text>
+<text class='f-cmti10-996' x='82.37' y='8.369'>nHe<tspan x='99.45'>ad</tspan></text>
+<text class='f-cmmi10-996' x='110.663' y='8.369'>,</text>
+<text class='f-cmti10-996' x='115.091' y='8.369'>he<tspan x='124.257'>adDim</tspan></text>
+<text class='f-cmmi10-996' x='153.929' y='8.369'>,</text>
+<text class='f-cmti10-996' x='15.94' y='20.922'>vo<tspan x='25.106'>c</tspan><tspan x='29.179'>abSize</tspan></text>
+<text class='f-cmmi10-996' x='56.916' y='20.922'>,</text>
+<text class='f-cmti10-996' x='61.343' y='20.922'>b<tspan x='65.417'>osId</tspan></text>
+<text class='f-cmr10-996' x='84.545' y='20.922'>)<tspan x='91.187'>=</tspan><tspan x='101.703'>(16</tspan></text>
+<text class='f-cmmi10-996' x='115.54' y='20.922'>,</text>
+<text class='f-cmr10-996' x='119.968' y='20.922'>16</text>
+<text class='f-cmmi10-996' x='129.93' y='20.922'>,</text>
+<text class='f-cmr10-996' x='134.358' y='20.922'>4</text>
+<text class='f-cmmi10-996' x='139.34' y='20.922'>,</text>
+<text class='f-cmr10-996' x='143.767' y='20.922'>4</text>
+<text class='f-cmmi10-996' x='148.749' y='20.922'>,</text>
+<text class='f-cmr10-996' x='153.176' y='20.922'>27</text>
+<text class='f-cmmi10-996' x='163.139' y='20.922'>,</text>
+<text class='f-cmr10-996' x='15.94' y='33.275'>26)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-73b4ea60">18</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.602em' viewBox='0 -.136 175.342 26.019' fill='currentColor' style='vertical-align:-1.728em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.608'>(</text>
+<text class='f-cmmi10-996' x='3.874' y='8.608'>,</text>
+<text class='f-cmti10-996' x='12.346' y='8.608'>lr</text>
+<text class='f-cmr7-697' x='20.165' y='10.102'>0</text>
+<text class='f-cmmi10-996' x='24.635' y='8.608'>,<tspan x='29.062'>β</tspan></text>
+<text class='f-cmr7-697' x='34.698' y='10.102'>1</text>
+<text class='f-cmmi10-996' x='39.167' y='8.608'>,<tspan x='43.595'>β</tspan></text>
+<text class='f-cmr7-697' x='49.23' y='10.102'>2</text>
+<text class='f-cmmi10-996' x='53.699' y='8.608'>,<tspan x='58.127'></tspan></text>
+<text class='f-cmr7-697' x='62.171' y='10.102'>A</text>
+<text class='f-cmmi10-996' x='68.55' y='8.608'>,</text>
+<text class='f-cmti10-996' x='72.978' y='8.608'>nSteps</text>
+<text class='f-cmr10-996' x='102.056' y='8.608'>)<tspan x='108.698'>=</tspan><tspan x='119.214'>(10</tspan></text>
+<text class='f-cmmi10-996' x='133.051' y='8.608'>.</text>
+<text class='f-cmr10-996' x='135.818' y='8.608'>0</text>
+<text class='f-cmsy7-697' x='140.799' y='4.494'>−</text>
+<text class='f-cmr7-697' x='147.026' y='4.494'>5</text>
+<text class='f-cmmi10-996' x='151.496' y='8.608'>,</text>
+<text class='f-cmr10-996' x='15.94' y='22.296'>0</text>
+<text class='f-cmmi10-996' x='20.922' y='22.296'>.</text>
+<text class='f-cmr10-996' x='23.689' y='22.296'>01</text>
+<text class='f-cmmi10-996' x='33.652' y='22.296'>,</text>
+<text class='f-cmr10-996' x='38.08' y='22.296'>0</text>
+<text class='f-cmmi10-996' x='43.061' y='22.296'>.</text>
+<text class='f-cmr10-996' x='45.828' y='22.296'>85</text>
+<text class='f-cmmi10-996' x='55.791' y='22.296'>,</text>
+<text class='f-cmr10-996' x='60.219' y='22.296'>0</text>
+<text class='f-cmmi10-996' x='65.2' y='22.296'>.</text>
+<text class='f-cmr10-996' x='67.968' y='22.296'>99</text>
+<text class='f-cmmi10-996' x='77.93' y='22.296'>,</text>
+<text class='f-cmr10-996' x='82.358' y='22.296'>10</text>
+<text class='f-cmmi10-996' x='92.321' y='22.296'>.</text>
+<text class='f-cmr10-996' x='95.088' y='22.296'>0</text>
+<text class='f-cmsy7-697' x='100.069' y='18.183'>−</text>
+<text class='f-cmr7-697' x='106.296' y='18.183'>8</text>
+<text class='f-cmmi10-996' x='110.765' y='22.296'>,</text>
+<text class='f-cmr10-996' x='115.193' y='22.296'>1000)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-7ecdb875">19</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='6.037em' viewBox='0 0 175.342 60.374' fill='currentColor' style='vertical-align:-5.201em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(</text>
+<text class='f-cmti10-996' x='3.874' y='8.369'>c<tspan x='7.948'>orpusPath</tspan></text>
+<text class='f-cmmi10-996' x='52.769' y='8.369'>,</text>
+<text class='f-cmti10-996' x='15.94' y='20.922'>weightsDir</text>
+<text class='f-cmr10-996' x='63.106' y='20.922'>)<tspan x='69.748'>=</tspan><tspan x='80.264'>(</tspan></text>
+<text class='f-ptmr8r-993' x='84.138' y='20.922'>“</text>
+<text class='f-pcrr8r-993' x='88.562' y='20.922'>../../<tspan x='124.427'>apl/</tspan><tspan x='15.94' y='32.877'>reference/</tspan><tspan x='75.716'>dzaima/</tspan><tspan x='117.559'>docs.txt</tspan></text>
+<text class='f-ptmr8r-993' x='165.38' y='32.877'>”</text>
+<text class='f-cmmi10-996' x='169.803' y='32.877'>,</text>
+<text class='f-ptmr8r-993' x='15.94' y='44.832'>“</text>
+<text class='f-pcrr8r-993' x='20.364' y='44.832'>../../<tspan x='56.229'>apl/</tspan><tspan x='80.139'>reference/</tspan><tspan x='15.94' y='56.787'>dzaima/</tspan><tspan x='57.783'>w</tspan></text>
+<text class='f-ptmr8r-993' x='63.761' y='56.787'>”</text>
+<text class='f-cmr10-996' x='68.184' y='56.787'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk">20</a></span><span class="tx"></span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-961bed8e">21</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.591em' viewBox='0 0 175.342 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*<tspan x='13.782'>^</tspan></text>
+<text class='f-cmr10-996' x='19.012' y='8.369'>T<tspan x='29.528'>on</tspan><tspan x='43.365'>a</tspan><tspan x='51.667'>matrix</tspan><tspan x='84.074'>and</tspan><tspan x='103.445'>on</tspan><tspan x='117.283'>ev</tspan><tspan x='126.692'>ery</tspan><tspan x='143.601'>plane</tspan><tspan x='15.94' y='20.368'>of</tspan><tspan x='27.287'>a</tspan><tspan x='35.589'>rank-3</tspan><tspan x='66.888'>arra</tspan><tspan x='84.378'>y</tspan><tspan x='88.806'>,</tspan><tspan x='94.894'>declared</tspan><tspan x='134.219'>here</tspan><tspan x='155.833'>and</tspan><tspan x='15.94' y='32.323'>not</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-961bed8e">22</a></span><span class="tx" style="padding-left:1.35em"><svg xmlns='http://www.w3.org/2000/svg' width='16.189em' height='3.591em' viewBox='0 0 161.893 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>in<tspan x='11.623'>the</tspan><tspan x='28.781'>v</tspan><tspan x='33.762'>o</tspan><tspan x='39.02'>cabulary</tspan><tspan x='79.729'>b</tspan><tspan x='85.541'>ecause</tspan><tspan x='116.591'>an</tspan><tspan x='130.428'>API</tspan><tspan x='15.94' y='20.368'>cannot</tspan><tspan x='48.596'>declare</tspan><tspan x='82.386'>a</tspan><tspan x='90.688'>p</tspan><tspan x='96.5'>ostﬁx</tspan><tspan x='123.399'>op</tspan><tspan x='134.192'>erator</tspan><tspan x='15.94' y='32.323'>(ro</tspan><tspan x='28.421'>w</tspan><tspan x='38.937'>133)</tspan></text>
+<text class='f-cmtt10-996' x='64.398' y='32.323'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-961bed8e">23</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.781em' viewBox='0 0 175.342 27.807' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='10.771'>opr</text>
+<text class='f-cmex10-996' x='18.458' y='2.701'></text>
+<text class='f-cmmi10-996' x='23.025' y='10.771'>m</text>
+<text class='f-cmr10-996' x='31.772' y='10.771'>:<tspan x='36.2'>Matrix</tspan></text>
+<text class='f-stmary10-996' x='66.115' y='10.771'></text>
+<text class='f-msbm10-996' x='70.128' y='10.771'>R</text>
+<text class='f-cmr10-996' x='77.323' y='10.771'>64</text>
+<text class='f-cmmi10-996' x='87.286' y='10.771'>,<tspan x='91.714'>r</tspan><tspan x='95.932'>,</tspan><tspan x='100.36'>c</tspan></text>
+<text class='f-stmary10-996' x='104.671' y='10.771'></text>
+<text class='f-cmex10-996' x='108.684' y='2.701'></text>
+<text class='f-cmmi7-697' x='113.25' y='4.765'>T</text>
+<text class='f-stmary10-996' x='119.526' y='10.771'></text>
+<text class='f-cmtt10-996' x='123.539' y='10.771'>nat</text>
+<text class='f-cmmi10-996' x='141.997' y='10.771'>r<tspan x='146.215'>,</tspan></text>
+<text class='f-cmtt10-996' x='150.643' y='10.771'>nat</text>
+<text class='f-cmmi10-996' x='15.94' y='24.22'>c</text>
+<text class='f-stmary10-996' x='20.252' y='24.22'></text>
+<text class='f-cmr10-996' x='24.264' y='24.22'>:<tspan x='28.692'>Matrix</tspan></text>
+<text class='f-stmary10-996' x='58.608' y='24.22'></text>
+<text class='f-msbm10-996' x='62.621' y='24.22'>R</text>
+<text class='f-cmr10-996' x='69.816' y='24.22'>64</text>
+<text class='f-cmmi10-996' x='79.779' y='24.22'>,<tspan x='84.206'>c,</tspan><tspan x='92.946'>r</tspan></text>
+<text class='f-stmary10-996' x='97.717' y='24.22'></text>
+<text class='f-cmr10-996' x='104.497' y='24.22'>=</text>
+<text class='f-cmti10-996' x='115.013' y='24.22'>tr<tspan x='122.015'>ansp</tspan><tspan x='141.364'>ose</tspan></text>
+<text class='f-cmr10-996' x='155.861' y='24.22'>(</text>
+<text class='f-cmmi10-996' x='159.736' y='24.22'>m</text>
+<text class='f-cmr10-996' x='168.483' y='24.22'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-961bed8e">24</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='5.067em' viewBox='0 0 175.342 50.666' fill='currentColor' style='vertical-align:-3.989em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='10.771'>opr</text>
+<text class='f-cmex10-996' x='18.458' y='2.701'></text>
+<text class='f-cmmi10-996' x='23.025' y='10.771'>t</text>
+<text class='f-cmr10-996' x='26.622' y='10.771'>:<tspan x='31.05'>Arra</tspan><tspan x='51.031'>y3</tspan></text>
+<text class='f-stmary10-996' x='61.27' y='10.771'></text>
+<text class='f-msbm10-996' x='65.283' y='10.771'>R</text>
+<text class='f-cmr10-996' x='72.478' y='10.771'>64</text>
+<text class='f-cmmi10-996' x='82.441' y='10.771'>,</text>
+<text class='f-cmr10-996' x='86.869' y='10.771'>0</text>
+<text class='f-cmmi10-996' x='91.85' y='10.771'>,<tspan x='96.278'>a,</tspan></text>
+<text class='f-cmr10-996' x='105.972' y='10.771'>0</text>
+<text class='f-cmmi10-996' x='110.953' y='10.771'>,<tspan x='115.381'>b,</tspan></text>
+<text class='f-cmr10-996' x='124.084' y='10.771'>0</text>
+<text class='f-cmmi10-996' x='129.066' y='10.771'>,<tspan x='133.493'>c</tspan></text>
+<text class='f-stmary10-996' x='137.805' y='10.771'></text>
+<text class='f-cmex10-996' x='141.818' y='2.701'></text>
+<text class='f-cmmi7-697' x='146.384' y='4.765'>T</text>
+<text class='f-stmary10-996' x='152.66' y='10.771'></text>
+<text class='f-cmtt10-996' x='156.673' y='10.771'>nat</text>
+<text class='f-cmmi10-996' x='15.94' y='22.77'>a,</text>
+<text class='f-cmtt10-996' x='25.634' y='22.77'>nat</text>
+<text class='f-cmmi10-996' x='44.093' y='22.77'>b,</text>
+<text class='f-cmtt10-996' x='15.94' y='34.725'>nat</text>
+<text class='f-cmmi10-996' x='34.399' y='34.725'>c</text>
+<text class='f-stmary10-996' x='38.71' y='34.725'></text>
+<text class='f-cmr10-996' x='42.723' y='34.725'>:<tspan x='47.151'>Arra</tspan><tspan x='67.131'>y3</tspan></text>
+<text class='f-stmary10-996' x='77.371' y='34.725'></text>
+<text class='f-msbm10-996' x='81.383' y='34.725'>R</text>
+<text class='f-cmr10-996' x='88.579' y='34.725'>64</text>
+<text class='f-cmmi10-996' x='98.541' y='34.725'>,</text>
+<text class='f-cmr10-996' x='102.969' y='34.725'>0</text>
+<text class='f-cmmi10-996' x='107.95' y='34.725'>,<tspan x='112.378'>a,</tspan></text>
+<text class='f-cmr10-996' x='122.072' y='34.725'>0</text>
+<text class='f-cmmi10-996' x='127.054' y='34.725'>,<tspan x='131.481'>c,</tspan></text>
+<text class='f-cmr10-996' x='140.221' y='34.725'>0</text>
+<text class='f-cmmi10-996' x='145.202' y='34.725'>,<tspan x='149.63'>b</tspan></text>
+<text class='f-stmary10-996' x='153.905' y='34.725'></text>
+<text class='f-cmr10-996' x='160.685' y='34.725'>=</text>
+<text class='f-cmti10-996' x='15.94' y='47.079'>tr<tspan x='22.942'>ansp</tspan><tspan x='42.291'>ose</tspan></text>
+<text class='f-cmr10-996' x='56.788' y='47.079'>(</text>
+<text class='f-cmmi10-996' x='60.663' y='47.079'>t</text>
+<text class='f-cmr10-996' x='64.26' y='47.079'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk">25</a></span><span class="tx"></span></span><span class="l"><span class="ln"><a class="lnk" href="norm-softmax.html#c-2e9f288d">26</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>--------------------------------------<tspan x='143.296'>rmsn,</tspan><tspan x='15.94' y='21.818'>sm</tspan><tspan x='31.493'>and</tspan><tspan x='50.865'>their</tspan><tspan x='74.692'>bac</tspan><tspan x='89.36'>kw</tspan><tspan x='101.536'>ard</tspan><tspan x='119.275'>------</tspan></text>
+<text class='f-cmtt10-996' x='142.521' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="norm-softmax.html#c-2e9f288d">27</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.791em' viewBox='0 0 175.342 37.908' fill='currentColor' style='vertical-align:-2.944em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>rmsn</text>
+<text class='f-cmex10-996' x='22.787' y='.398'></text>
+<text class='f-cmmi10-996' x='27.353' y='8.468'>x</text>
+<text class='f-cmr10-996' x='33.047' y='8.468'>:<tspan x='37.475'>Arra</tspan><tspan x='57.456'>y</tspan></text>
+<text class='f-stmary10-996' x='62.852' y='8.468'></text>
+<text class='f-msbm10-996' x='66.865' y='8.468'>R</text>
+<text class='f-cmr10-996' x='74.06' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='84.023' y='8.468'>,</text>
+<text class='f-msbm10-996' x='88.451' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='95.092' y='8.468'>32</text>
+<text class='f-stmary10-996' x='105.055' y='8.468'></text>
+<text class='f-cmex10-996' x='109.068' y='.398'></text>
+<text class='f-cmr10-996' x='113.634' y='8.468'>:<tspan x='15.94' y='21.021'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-stmary10-996' x='41.317' y='21.021'></text>
+<text class='f-msbm10-996' x='45.33' y='21.021'>R</text>
+<text class='f-cmr10-996' x='52.525' y='21.021'>64</text>
+<text class='f-cmmi10-996' x='62.488' y='21.021'>,</text>
+<text class='f-msbm10-996' x='66.916' y='21.021'>Z</text>
+<text class='f-cmr10-996' x='73.558' y='21.021'>32</text>
+<text class='f-stmary10-996' x='83.52' y='21.021'></text>
+<text class='f-cmr10-996' x='90.3' y='21.021'>=</text>
+<text class='f-cmmi10-996' x='15.94' y='34.321'>x/</text>
+<text class='f-cmex10-996' x='26.616' y='25.803'></text>
+<rect x='36.578' y='25.405' height='.398' width='58.762'/>
+<text class='f-cmmi10-996' x='36.578' y='34.321'></text>
+<text class='f-cmr10-996' x='42.836' y='34.321'>+<tspan x='52.799'>(</tspan></text>
+<text class='f-cmmi10-996' x='56.673' y='34.321'>x</text>
+<text class='f-cmsy10-996' x='64.581' y='34.321'>·</text>
+<text class='f-cmmi10-996' x='69.562' y='34.321'>x</text>
+<text class='f-cmr10-996' x='75.256' y='34.321'>)</text>
+<text class='f-cmmi10-996' x='79.13' y='34.321'>/</text>
+<text class='f-cmsy10-996' x='84.112' y='34.321'>|</text>
+<text class='f-cmmi10-996' x='86.879' y='34.321'>x</text>
+<text class='f-cmsy10-996' x='92.573' y='34.321'>|</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="norm-softmax.html#c-a7dae195">28</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='4.095em' viewBox='0 0 175.342 40.947' fill='currentColor' style='vertical-align:-3.248em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>sm</text>
+<text class='f-cmex10-996' x='12.985' y='.398'></text>
+<text class='f-cmmi10-996' x='17.551' y='8.468'>z</text>
+<text class='f-cmr10-996' x='22.623' y='8.468'>:<tspan x='27.05'>Arra</tspan><tspan x='47.031'>y</tspan></text>
+<text class='f-stmary10-996' x='52.427' y='8.468'></text>
+<text class='f-msbm10-996' x='56.44' y='8.468'>R</text>
+<text class='f-cmr10-996' x='63.635' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='73.598' y='8.468'>,</text>
+<text class='f-msbm10-996' x='78.026' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='84.668' y='8.468'>32</text>
+<text class='f-stmary10-996' x='94.63' y='8.468'></text>
+<text class='f-cmex10-996' x='98.643' y='.398'></text>
+<text class='f-cmr10-996' x='103.209' y='8.468'>:<tspan x='15.94' y='21.021'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-stmary10-996' x='41.317' y='21.021'></text>
+<text class='f-msbm10-996' x='45.33' y='21.021'>R</text>
+<text class='f-cmr10-996' x='52.525' y='21.021'>64</text>
+<text class='f-cmmi10-996' x='62.488' y='21.021'>,</text>
+<text class='f-msbm10-996' x='66.916' y='21.021'>Z</text>
+<text class='f-cmr10-996' x='73.558' y='21.021'>32</text>
+<text class='f-stmary10-996' x='83.52' y='21.021'></text>
+<text class='f-cmr10-996' x='90.3' y='21.021'>=</text>
+<text class='f-cmtt10-996' x='100.816' y='21.021'>do</text>
+<text class='f-cmmi10-996' x='114.045' y='21.021'>e</text>
+<text class='f-cmr10-996' x='121.451' y='21.021'>=<tspan x='15.94' y='35.467'>exp</tspan></text>
+<text class='f-cmex10-996' x='31.161' y='27.397'></text>
+<text class='f-cmmi10-996' x='35.727' y='35.467'>z</text>
+<text class='f-cmsy10-996' x='43.012' y='35.467'>−</text>
+<text class='f-cmex10-996' x='52.975' y='27.397'></text>
+<text class='f-cmtt10-996' x='57.541' y='35.467'>BIG<tspan x='76.553'>MAX</tspan></text>
+<text class='f-cmmi10-996' x='93.905' y='35.467'>z</text>
+<text class='f-cmex10-996' x='98.976' y='27.397'><tspan x='103.542' y='27.397'></tspan></text>
+<text class='f-cmr10-996' x='108.108' y='35.467'>;</text>
+<text class='f-cmmi10-996' x='112.536' y='35.467'>e/</text>
+<text class='f-cmex10-996' x='122.156' y='27.397'><tspan x='126.723' y='26.003'></tspan></text>
+<text class='f-cmmi10-996' x='142.774' y='35.467'>e</text>
+<text class='f-cmex10-996' x='147.412' y='27.397'></text>
+<text class='f-cmtt10-996' x='154.746' y='35.467'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="attention.html#c-24ae3657">29</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='5.065em' viewBox='0 0 175.342 50.65' fill='currentColor' style='vertical-align:-4.218em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>mask</text>
+<text class='f-cmr10-996' x='22.968' y='8.468'>:<tspan x='27.396'>Arra</tspan><tspan x='47.376'>y</tspan></text>
+<text class='f-cmex10-996' x='52.773' y='.398'><tspan x='54.157' y='.398'></tspan></text>
+<text class='f-msbm10-996' x='58.308' y='8.468'>R</text>
+<text class='f-cmr10-996' x='65.503' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='75.466' y='8.468'>,</text>
+<text class='f-cmr10-996' x='79.893' y='8.468'>(</text>
+<text class='f-msbm10-996' x='83.768' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='90.41' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='100.372' y='8.468'>,</text>
+<text class='f-msbm10-996' x='104.8' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='111.442' y='8.468'>32)</text>
+<text class='f-cmex10-996' x='125.279' y='.398'><tspan x='126.663' y='.398'></tspan></text>
+<text class='f-cmr10-996' x='133.581' y='8.468'>=</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>mat</text>
+<text class='f-cmex10-996' x='33.434' y='13.948'></text>
+<text class='f-cmti10-996' x='38.001' y='22.018'>blo<tspan x='49.712'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='76.939' y='22.018'>,</text>
+<text class='f-cmti10-996' x='81.367' y='22.018'>blo<tspan x='93.078'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='120.305' y='22.018'>,</text>
+<text class='f-cmtt10-996' x='124.733' y='22.018'>fn</text>
+<text class='f-cmr10-996' x='137.961' y='22.018'>(</text>
+<text class='f-cmmi10-996' x='141.835' y='22.018'>i</text>
+<text class='f-cmr10-996' x='145.268' y='22.018'>:</text>
+<text class='f-msbm10-996' x='149.695' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='156.337' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='166.3' y='22.018'>,<tspan x='15.94' y='34.471'>j</tspan></text>
+<text class='f-cmr10-996' x='20.613' y='34.471'>:</text>
+<text class='f-msbm10-996' x='25.041' y='34.471'>Z</text>
+<text class='f-cmr10-996' x='31.683' y='34.471'>32):</text>
+<text class='f-msbm10-996' x='49.948' y='34.471'>R</text>
+<text class='f-cmr10-996' x='57.143' y='34.471'>64</text>
+<text class='f-cmsy10-996' x='69.873' y='34.471'>⇒</text>
+<text class='f-cmtt10-996' x='82.603' y='34.471'>if</text>
+<text class='f-cmmi10-996' x='95.831' y='34.471'>j<tspan x='103.271'>></tspan><tspan x='113.787'>i</tspan></text>
+<text class='f-cmtt10-996' x='119.987' y='34.471'>then</text>
+<text class='f-cmsy10-996' x='15.94' y='47.064'>−</text>
+<text class='f-cmr10-996' x='23.689' y='47.064'>(10</text>
+<text class='f-cmmi10-996' x='37.526' y='47.064'>.</text>
+<text class='f-cmr10-996' x='40.294' y='47.064'>0</text>
+<text class='f-cmr7-697' x='45.275' y='42.95'>10</text>
+<text class='f-cmr10-996' x='53.715' y='47.064'>)</text>
+<text class='f-cmtt10-996' x='60.357' y='47.064'>else</text>
+<text class='f-cmr10-996' x='84.046' y='47.064'>0</text>
+<text class='f-cmmi10-996' x='89.027' y='47.064'>.</text>
+<text class='f-cmr10-996' x='91.795' y='47.064'>0</text>
+<text class='f-cmtt10-996' x='99.543' y='47.064'>end</text>
+<text class='f-cmex10-996' x='115.234' y='38.994'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-e8b2091c">30</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.895em' viewBox='0 0 175.342 38.954' fill='currentColor' style='vertical-align:-3.049em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>rmsn</text>
+<rect x='23.385' y='8.07' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='27.204' y='8.468'>b</text>
+<text class='f-cmex10-996' x='32.416' y='.398'></text>
+<text class='f-cmti10-996' x='36.982' y='8.468'>dy</text>
+<text class='f-cmr10-996' x='47.793' y='8.468'>:<tspan x='52.22'>Arra</tspan><tspan x='72.201'>y</tspan></text>
+<text class='f-stmary10-996' x='77.597' y='8.468'></text>
+<text class='f-msbm10-996' x='81.61' y='8.468'>R</text>
+<text class='f-cmr10-996' x='88.805' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='98.768' y='8.468'>,</text>
+<text class='f-msbm10-996' x='103.196' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='109.838' y='8.468'>32</text>
+<text class='f-stmary10-996' x='119.8' y='8.468'></text>
+<text class='f-cmmi10-996' x='123.813' y='8.468'>,<tspan x='15.94' y='22.018'>x</tspan></text>
+<text class='f-cmr10-996' x='21.634' y='22.018'>:<tspan x='26.062'>Arra</tspan><tspan x='46.043'>y</tspan></text>
+<text class='f-stmary10-996' x='51.439' y='22.018'></text>
+<text class='f-msbm10-996' x='55.452' y='22.018'>R</text>
+<text class='f-cmr10-996' x='62.647' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='72.61' y='22.018'>,</text>
+<text class='f-msbm10-996' x='77.038' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='83.679' y='22.018'>32</text>
+<text class='f-stmary10-996' x='93.642' y='22.018'></text>
+<text class='f-cmex10-996' x='97.655' y='13.948'></text>
+<text class='f-cmr10-996' x='102.221' y='22.018'>:<tspan x='15.94' y='35.368'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-stmary10-996' x='41.317' y='35.368'></text>
+<text class='f-msbm10-996' x='45.33' y='35.368'>R</text>
+<text class='f-cmr10-996' x='52.525' y='35.368'>64</text>
+<text class='f-cmmi10-996' x='62.488' y='35.368'>,</text>
+<text class='f-msbm10-996' x='66.916' y='35.368'>Z</text>
+<text class='f-cmr10-996' x='73.558' y='35.368'>32</text>
+<text class='f-stmary10-996' x='83.52' y='35.368'></text>
+<text class='f-cmr10-996' x='90.3' y='35.368'>=</text>
+<text class='f-cmtt10-996' x='100.816' y='35.368'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-e8b2091c">31</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='12.518em' height='1.290em' viewBox='0 0 125.18 12.902' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='9.315'>r</text>
+<text class='f-cmr10-996' x='7.539' y='9.315'>=</text>
+<text class='f-cmex10-996' x='18.055' y='.797'></text>
+<rect x='28.018' y='.398' height='.398' width='58.762'/>
+<text class='f-cmmi10-996' x='28.018' y='9.315'></text>
+<text class='f-cmr10-996' x='34.275' y='9.315'>+<tspan x='44.238'>(</tspan></text>
+<text class='f-cmmi10-996' x='48.112' y='9.315'>x</text>
+<text class='f-cmsy10-996' x='56.02' y='9.315'>·</text>
+<text class='f-cmmi10-996' x='61.001' y='9.315'>x</text>
+<text class='f-cmr10-996' x='66.695' y='9.315'>)</text>
+<text class='f-cmmi10-996' x='70.57' y='9.315'>/</text>
+<text class='f-cmsy10-996' x='75.551' y='9.315'>|</text>
+<text class='f-cmmi10-996' x='78.318' y='9.315'>x</text>
+<text class='f-cmsy10-996' x='84.012' y='9.315'>|</text>
+<text class='f-cmr10-996' x='86.78' y='9.315'>;</text>
+<text class='f-cmmi10-996' x='91.208' y='9.315'>y</text>
+<text class='f-cmr10-996' x='99.217' y='9.315'>=</text>
+<text class='f-cmmi10-996' x='109.733' y='9.315'>x/r</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-e8b2091c">32</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='10.328em' height='1.206em' viewBox='0 0 103.278 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmex10-996' x='0' y='.398'></text>
+<text class='f-cmti10-996' x='4.566' y='8.468'>dy</text>
+<text class='f-cmsy10-996' x='17.591' y='8.468'>−</text>
+<text class='f-cmmi10-996' x='27.553' y='8.468'>y</text>
+<text class='f-cmr10-996' x='34.456' y='8.468'>((</text>
+<text class='f-cmmi10-996' x='42.205' y='8.468'>y</text>
+<text class='f-cmsy10-996' x='49.66' y='8.468'>·</text>
+<text class='f-cmti10-996' x='54.642' y='8.468'>dy</text>
+<text class='f-cmr10-996' x='65.452' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='69.327' y='8.468'>/</text>
+<text class='f-cmsy10-996' x='74.308' y='8.468'>|</text>
+<text class='f-cmmi10-996' x='77.076' y='8.468'>y</text>
+<text class='f-cmsy10-996' x='82.318' y='8.468'>|</text>
+<text class='f-cmr10-996' x='85.085' y='8.468'>)</text>
+<text class='f-cmex10-996' x='88.959' y='.398'></text>
+<text class='f-cmmi10-996' x='93.526' y='8.468'>/r</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-e8b2091c">33</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-72b72481">34</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='5.051em' viewBox='0 0 175.342 50.511' fill='currentColor' style='vertical-align:-4.204em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>sm</text>
+<rect x='13.583' y='8.07' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='17.402' y='8.468'>b</text>
+<text class='f-cmex10-996' x='22.613' y='.398'></text>
+<text class='f-cmmi10-996' x='27.18' y='8.468'>p</text>
+<text class='f-cmr10-996' x='32.192' y='8.468'>:<tspan x='36.62'>Arra</tspan><tspan x='56.601'>y</tspan></text>
+<text class='f-stmary10-996' x='61.997' y='8.468'></text>
+<text class='f-msbm10-996' x='66.01' y='8.468'>R</text>
+<text class='f-cmr10-996' x='73.205' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='83.168' y='8.468'>,</text>
+<text class='f-msbm10-996' x='87.596' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='94.237' y='8.468'>32</text>
+<text class='f-stmary10-996' x='104.2' y='8.468'></text>
+<text class='f-cmmi10-996' x='108.213' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>dy</text>
+<text class='f-cmr10-996' x='26.751' y='22.018'>:<tspan x='31.179'>Arra</tspan><tspan x='51.16'>y</tspan></text>
+<text class='f-stmary10-996' x='56.556' y='22.018'></text>
+<text class='f-msbm10-996' x='60.569' y='22.018'>R</text>
+<text class='f-cmr10-996' x='67.764' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='77.727' y='22.018'>,</text>
+<text class='f-msbm10-996' x='82.154' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='88.796' y='22.018'>32</text>
+<text class='f-stmary10-996' x='98.759' y='22.018'></text>
+<text class='f-cmex10-996' x='102.772' y='13.948'></text>
+<text class='f-cmr10-996' x='107.338' y='22.018'>:<tspan x='15.94' y='34.471'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-stmary10-996' x='41.317' y='34.471'></text>
+<text class='f-msbm10-996' x='45.33' y='34.471'>R</text>
+<text class='f-cmr10-996' x='52.525' y='34.471'>64</text>
+<text class='f-cmmi10-996' x='62.488' y='34.471'>,</text>
+<text class='f-msbm10-996' x='66.916' y='34.471'>Z</text>
+<text class='f-cmr10-996' x='73.558' y='34.471'>32</text>
+<text class='f-stmary10-996' x='83.52' y='34.471'></text>
+<text class='f-cmr10-996' x='90.3' y='34.471'>=</text>
+<text class='f-cmmi10-996' x='15.94' y='46.924'>p</text>
+<text class='f-cmsy10-996' x='23.167' y='46.924'>×</text>
+<text class='f-cmex10-996' x='33.129' y='38.854'></text>
+<text class='f-cmti10-996' x='37.695' y='46.924'>dy</text>
+<text class='f-cmsy10-996' x='50.72' y='46.924'>−</text>
+<text class='f-cmr10-996' x='60.683' y='46.924'>(</text>
+<text class='f-cmmi10-996' x='64.557' y='46.924'>p</text>
+<text class='f-cmsy10-996' x='71.783' y='46.924'>·</text>
+<text class='f-cmti10-996' x='76.765' y='46.924'>dy</text>
+<text class='f-cmr10-996' x='87.575' y='46.924'>)</text>
+<text class='f-cmex10-996' x='91.45' y='38.854'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk">35</a></span><span class="tx"></span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-06ff7dcf">36</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>-------------------------------<tspan x='120.05'>tactic</tspan><tspan x='147.724'>2/8:</tspan><tspan x='15.94' y='21.818'>one</tspan><tspan x='34.205'>v</tspan><tspan x='39.187'>ector,</tspan><tspan x='66.888'>nine</tspan><tspan x='88.474'>views</tspan><tspan x='115.373'>------</tspan></text>
+<text class='f-cmtt10-996' x='138.619' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-731c9475">37</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='11.918em' height='1.196em' viewBox='0 0 119.183 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>matName</text>
+<text class='f-cmr10-996' x='42.525' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='46.399' y='8.369'>i</text>
+<text class='f-cmr10-996' x='49.832' y='8.369'>:</text>
+<text class='f-msbm10-996' x='54.259' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='60.901' y='8.369'>32):<tspan x='79.166'>String</tspan><tspan x='108.667'>=</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-731c9475">38</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.978em' viewBox='0 0 157.41 59.776' fill='currentColor' style='vertical-align:-5.141em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>if</text>
+<text class='f-cmmi10-996' x='13.228' y='8.369'>i</text>
+<text class='f-cmr10-996' x='19.428' y='8.369'>=<tspan x='29.944'>0</tspan></text>
+<text class='f-cmtt10-996' x='37.692' y='8.369'>then</text>
+<text class='f-ptmr8r-993' x='61.381' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='65.804' y='8.369'>wte</text>
+<text class='f-ptmr8r-993' x='83.737' y='8.369'>”</text>
+<text class='f-cmtt10-996' x='90.928' y='8.369'>elif</text>
+<text class='f-cmmi10-996' x='114.617' y='8.369'>i</text>
+<text class='f-cmr10-996' x='120.816' y='8.369'>=<tspan x='15.94' y='20.324'>1</tspan></text>
+<text class='f-cmtt10-996' x='23.689' y='20.324'>then</text>
+<text class='f-ptmr8r-993' x='47.378' y='20.324'>“</text>
+<text class='f-pcrr8r-993' x='51.801' y='20.324'>wpe</text>
+<text class='f-ptmr8r-993' x='69.734' y='20.324'>”</text>
+<text class='f-cmtt10-996' x='76.924' y='20.324'>elif</text>
+<text class='f-cmmi10-996' x='100.613' y='20.324'>i</text>
+<text class='f-cmr10-996' x='106.813' y='20.324'>=<tspan x='15.94' y='32.279'>2</tspan></text>
+<text class='f-cmtt10-996' x='23.689' y='32.279'>then</text>
+<text class='f-ptmr8r-993' x='47.378' y='32.279'>“</text>
+<text class='f-pcrr8r-993' x='51.801' y='32.279'>lm_head</text>
+<text class='f-ptmr8r-993' x='93.644' y='32.279'>”</text>
+<text class='f-cmtt10-996' x='100.835' y='32.279'>elif</text>
+<text class='f-cmmi10-996' x='124.523' y='32.279'>i</text>
+<text class='f-cmr10-996' x='130.723' y='32.279'>=<tspan x='15.94' y='44.234'>3</tspan></text>
+<text class='f-cmtt10-996' x='23.689' y='44.234'>then</text>
+<text class='f-ptmr8r-993' x='47.378' y='44.234'>“</text>
+<text class='f-pcrr8r-993' x='51.801' y='44.234'>attn_wq</text>
+<text class='f-ptmr8r-993' x='93.644' y='44.234'>”</text>
+<text class='f-cmtt10-996' x='100.835' y='44.234'>elif</text>
+<text class='f-cmmi10-996' x='124.523' y='44.234'>i</text>
+<text class='f-cmr10-996' x='130.723' y='44.234'>=<tspan x='15.94' y='56.189'>4</tspan></text>
+<text class='f-cmtt10-996' x='23.689' y='56.189'>then</text>
+<text class='f-ptmr8r-993' x='47.378' y='56.189'>“</text>
+<text class='f-pcrr8r-993' x='51.801' y='56.189'>attn_wk</text>
+<text class='f-ptmr8r-993' x='93.644' y='56.189'>”</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-731c9475">39</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='4.782em' viewBox='0 0 157.41 47.821' fill='currentColor' style='vertical-align:-3.945em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>elif</text>
+<text class='f-cmmi10-996' x='23.689' y='8.369'>i</text>
+<text class='f-cmr10-996' x='29.888' y='8.369'>=<tspan x='40.404'>5</tspan></text>
+<text class='f-cmtt10-996' x='48.153' y='8.369'>then</text>
+<text class='f-ptmr8r-993' x='71.842' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='76.265' y='8.369'>attn_wv</text>
+<text class='f-ptmr8r-993' x='118.108' y='8.369'>”</text>
+<text class='f-cmtt10-996' x='125.299' y='8.369'>elif</text>
+<text class='f-cmmi10-996' x='15.94' y='20.324'>i</text>
+<text class='f-cmr10-996' x='22.14' y='20.324'>=<tspan x='32.656'>6</tspan></text>
+<text class='f-cmtt10-996' x='40.405' y='20.324'>then</text>
+<text class='f-ptmr8r-993' x='64.093' y='20.324'>“</text>
+<text class='f-pcrr8r-993' x='68.517' y='20.324'>attn_wo</text>
+<text class='f-ptmr8r-993' x='110.36' y='20.324'>”</text>
+<text class='f-cmtt10-996' x='117.55' y='20.324'>elif</text>
+<text class='f-cmmi10-996' x='141.239' y='20.324'>i</text>
+<text class='f-cmr10-996' x='147.439' y='20.324'>=<tspan x='15.94' y='32.279'>7</tspan></text>
+<text class='f-cmtt10-996' x='23.689' y='32.279'>then</text>
+<text class='f-ptmr8r-993' x='47.378' y='32.279'>“</text>
+<text class='f-pcrr8r-993' x='51.801' y='32.279'>mlp_fc1</text>
+<text class='f-ptmr8r-993' x='93.644' y='32.279'>”</text>
+<text class='f-cmtt10-996' x='100.835' y='32.279'>else</text>
+<text class='f-ptmr8r-993' x='15.94' y='44.234'>“</text>
+<text class='f-pcrr8r-993' x='20.364' y='44.234'>mlp_fc2</text>
+<text class='f-ptmr8r-993' x='62.207' y='44.234'>”</text>
+<text class='f-cmtt10-996' x='69.397' y='44.234'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-731c9475">40</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='13.756em' height='1.196em' viewBox='0 0 137.558 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>matShap<tspan x='36.917'>e</tspan></text>
+<text class='f-cmr10-996' x='42.248' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='46.123' y='8.369'>i</text>
+<text class='f-cmr10-996' x='49.555' y='8.369'>:</text>
+<text class='f-msbm10-996' x='53.983' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='60.624' y='8.369'>32):<tspan x='78.889'>(</tspan></text>
+<text class='f-msbm10-996' x='82.764' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='89.405' y='8.369'>32</text>
+<text class='f-cmmi10-996' x='99.368' y='8.369'>,</text>
+<text class='f-msbm10-996' x='103.796' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='110.438' y='8.369'>32)<tspan x='127.042'>=</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-731c9475">41</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='7.273em' viewBox='0 0 157.41 72.727' fill='currentColor' style='vertical-align:-6.436em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>if</text>
+<text class='f-cmr10-996' x='13.228' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='17.102' y='8.369'>i</text>
+<text class='f-cmr10-996' x='23.302' y='8.369'>=<tspan x='33.818'>0)</tspan></text>
+<text class='f-cmsy10-996' x='44.888' y='8.369'>∨</text>
+<text class='f-cmr10-996' x='53.743' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='57.618' y='8.369'>i</text>
+<text class='f-cmr10-996' x='63.817' y='8.369'>=<tspan x='74.333'>2)</tspan></text>
+<text class='f-cmtt10-996' x='85.956' y='8.369'>then</text>
+<text class='f-cmr10-996' x='109.645' y='8.369'>(</text>
+<text class='f-cmti10-996' x='113.519' y='8.369'>vo<tspan x='122.685'>c</tspan><tspan x='126.759'>abSize</tspan></text>
+<text class='f-cmmi10-996' x='154.495' y='8.369'>,</text>
+<text class='f-cmti10-996' x='15.94' y='20.922'>nEmb<tspan x='40.52'>d</tspan></text>
+<text class='f-cmr10-996' x='46.642' y='20.922'>)</text>
+<text class='f-cmtt10-996' x='53.283' y='20.922'>elif</text>
+<text class='f-cmmi10-996' x='76.972' y='20.922'>i</text>
+<text class='f-cmr10-996' x='83.172' y='20.922'>=<tspan x='93.688'>7</tspan></text>
+<text class='f-cmtt10-996' x='101.436' y='20.922'>then</text>
+<text class='f-cmr10-996' x='125.125' y='20.922'>(4</text>
+<text class='f-cmti10-996' x='15.94' y='32.877'>nEmb<tspan x='40.52'>d</tspan></text>
+<text class='f-cmmi10-996' x='46.642' y='32.877'>,</text>
+<text class='f-cmti10-996' x='51.069' y='32.877'>nEmb<tspan x='75.649'>d</tspan></text>
+<text class='f-cmr10-996' x='81.771' y='32.877'>)</text>
+<text class='f-cmtt10-996' x='88.413' y='32.877'>elif</text>
+<text class='f-cmmi10-996' x='112.101' y='32.877'>i</text>
+<text class='f-cmr10-996' x='118.301' y='32.877'>=<tspan x='15.94' y='44.832'>8</tspan></text>
+<text class='f-cmtt10-996' x='23.689' y='44.832'>then</text>
+<text class='f-cmr10-996' x='47.378' y='44.832'>(</text>
+<text class='f-cmti10-996' x='51.252' y='44.832'>nEmb<tspan x='75.832'>d</tspan></text>
+<text class='f-cmmi10-996' x='81.953' y='44.832'>,</text>
+<text class='f-cmr10-996' x='86.381' y='44.832'>4</text>
+<text class='f-cmti10-996' x='15.94' y='56.787'>nEmb<tspan x='40.52'>d</tspan></text>
+<text class='f-cmr10-996' x='46.642' y='56.787'>)</text>
+<text class='f-cmtt10-996' x='53.283' y='56.787'>else</text>
+<text class='f-cmr10-996' x='76.972' y='56.787'>(</text>
+<text class='f-cmti10-996' x='80.846' y='56.787'>nEmb<tspan x='105.426'>d</tspan></text>
+<text class='f-cmmi10-996' x='111.548' y='56.787'>,</text>
+<text class='f-cmti10-996' x='15.94' y='69.141'>nEmb<tspan x='40.52'>d</tspan></text>
+<text class='f-cmr10-996' x='46.642' y='69.141'>)</text>
+<text class='f-cmtt10-996' x='53.283' y='69.141'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-9d763a7d">42</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>matCount</text>
+<text class='f-cmr10-996' x='43.972' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='47.847' y='8.369'>i</text>
+<text class='f-cmr10-996' x='51.279' y='8.369'>:</text>
+<text class='f-msbm10-996' x='55.707' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='62.349' y='8.369'>32):</text>
+<text class='f-msbm10-996' x='80.613' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='87.255' y='8.369'>32<tspan x='99.985'>=</tspan></text>
+<text class='f-cmtt10-996' x='110.501' y='8.369'>do</text>
+<text class='f-cmr10-996' x='123.729' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='127.604' y='8.369'>r<tspan x='131.822'>,</tspan><tspan x='15.94' y='21.818'>c</tspan></text>
+<text class='f-cmr10-996' x='20.252' y='21.818'>)<tspan x='26.893'>=</tspan></text>
+<text class='f-cmti10-996' x='37.409' y='21.818'>matShap<tspan x='74.326'>e</tspan></text>
+<text class='f-cmr10-996' x='79.658' y='21.818'>(</text>
+<text class='f-cmmi10-996' x='83.532' y='21.818'>i</text>
+<text class='f-cmr10-996' x='86.964' y='21.818'>);</text>
+<text class='f-cmmi10-996' x='95.267' y='21.818'>r<tspan x='101.698'>c</tspan></text>
+<text class='f-cmtt10-996' x='108.777' y='21.818'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-98c767d7">43</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.939em' viewBox='0 0 175.342 29.39' fill='currentColor' style='vertical-align:-1.893em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='10.461'>matOﬀset</text>
+<text class='f-cmr10-996' x='43.209' y='10.461'>(</text>
+<text class='f-cmmi10-996' x='47.083' y='10.461'>i</text>
+<text class='f-cmr10-996' x='50.515' y='10.461'>:</text>
+<text class='f-msbm10-996' x='54.943' y='10.461'>Z</text>
+<text class='f-cmr10-996' x='61.585' y='10.461'>32):</text>
+<text class='f-msbm10-996' x='79.85' y='10.461'>Z</text>
+<text class='f-cmr10-996' x='86.491' y='10.461'>32<tspan x='99.221'>=</tspan></text>
+<text class='f-cmex10-996' x='109.737' y='.996'></text>
+<text class='f-stmary10-996' x='124.128' y='10.461'></text>
+<text class='f-msbm10-996' x='128.141' y='10.461'>Z</text>
+<text class='f-cmr10-996' x='134.782' y='10.461'>32</text>
+<text class='f-stmary10-996' x='144.745' y='10.461'></text>
+<text class='f-cmr10-996' x='148.758' y='10.461'>[</text>
+<text class='f-cmmi10-996' x='151.525' y='10.461'>j</text>
+<text class='f-cmsy10-996' x='158.966' y='10.461'>←</text>
+<text class='f-cmr10-996' x='15.94' y='25.803'>0<tspan x='23.136'>#</tspan></text>
+<text class='f-cmmi10-996' x='33.652' y='25.803'>i</text>
+<text class='f-cmr10-996' x='37.084' y='25.803'>]</text>
+<text class='f-cmti10-996' x='41.512' y='25.803'>matCount</text>
+<text class='f-cmr10-996' x='85.484' y='25.803'>(</text>
+<text class='f-cmmi10-996' x='89.358' y='25.803'>j</text>
+<text class='f-cmr10-996' x='94.031' y='25.803'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-d2d35a90">44</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='13.769em' height='1.196em' viewBox='0 0 137.691 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>nPar<tspan x='21.143'>ams</tspan></text>
+<text class='f-cmr10-996' x='39.273' y='8.369'>(<tspan x='43.563'>):</tspan></text>
+<text class='f-msbm10-996' x='51.865' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='58.507' y='8.369'>32<tspan x='71.237'>=</tspan></text>
+<text class='f-cmti10-996' x='81.753' y='8.369'>matOﬀset</text>
+<text class='f-cmr10-996' x='124.961' y='8.369'>(9)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-dcbbd551">45</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='5.250em' viewBox='0 0 175.342 52.504' fill='currentColor' style='vertical-align:-4.404em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>view</text>
+<text class='f-cmex10-996' x='19.913' y='.398'></text>
+<text class='f-cmmi10-996' x='24.479' y='8.468'>p</text>
+<text class='f-cmr10-996' x='29.491' y='8.468'>:<tspan x='33.919'>Arra</tspan><tspan x='53.9'>y</tspan></text>
+<text class='f-stmary10-996' x='59.296' y='8.468'></text>
+<text class='f-msbm10-996' x='63.309' y='8.468'>R</text>
+<text class='f-cmr10-996' x='70.504' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='80.467' y='8.468'>,</text>
+<text class='f-msbm10-996' x='84.895' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='91.537' y='8.468'>32</text>
+<text class='f-stmary10-996' x='101.499' y='8.468'></text>
+<text class='f-cmmi10-996' x='105.512' y='8.468'>,<tspan x='15.94' y='22.018'>i</tspan></text>
+<text class='f-cmr10-996' x='19.373' y='22.018'>:</text>
+<text class='f-msbm10-996' x='23.8' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='30.442' y='22.018'>32</text>
+<text class='f-cmex10-996' x='40.405' y='13.948'></text>
+<text class='f-cmr10-996' x='44.971' y='22.018'>:<tspan x='49.399'>Arra</tspan><tspan x='69.38'>y</tspan></text>
+<text class='f-cmex10-996' x='74.776' y='13.948'><tspan x='76.16' y='13.948'></tspan></text>
+<text class='f-msbm10-996' x='80.311' y='22.018'>R</text>
+<text class='f-cmr10-996' x='87.506' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='97.469' y='22.018'>,</text>
+<text class='f-cmr10-996' x='101.897' y='22.018'>(</text>
+<text class='f-msbm10-996' x='105.771' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='112.413' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='122.375' y='22.018'>,</text>
+<text class='f-msbm10-996' x='126.803' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='133.445' y='22.018'>32)</text>
+<text class='f-cmex10-996' x='147.282' y='13.948'><tspan x='148.666' y='13.948'></tspan></text>
+<text class='f-cmr10-996' x='155.584' y='22.018'>=</text>
+<text class='f-cmtt10-996' x='15.94' y='35.467'>do</text>
+<text class='f-cmr10-996' x='29.168' y='35.467'>(</text>
+<text class='f-cmmi10-996' x='33.043' y='35.467'>r<tspan x='37.261'>,</tspan><tspan x='41.689'>c</tspan></text>
+<text class='f-cmr10-996' x='46' y='35.467'>)<tspan x='52.642'>=</tspan></text>
+<text class='f-cmti10-996' x='63.158' y='35.467'>matShap<tspan x='100.075'>e</tspan></text>
+<text class='f-cmr10-996' x='105.406' y='35.467'>(</text>
+<text class='f-cmmi10-996' x='109.28' y='35.467'>i</text>
+<text class='f-cmr10-996' x='112.713' y='35.467'>);</text>
+<text class='f-cmti10-996' x='121.015' y='35.467'>view</text>
+<text class='f-cmex10-996' x='140.927' y='27.397'></text>
+<text class='f-cmmi10-996' x='145.494' y='35.467'>p,</text>
+<text class='f-cmti10-996' x='15.94' y='48.917'>matOﬀset</text>
+<text class='f-cmr10-996' x='59.149' y='48.917'>(</text>
+<text class='f-cmmi10-996' x='63.023' y='48.917'>i</text>
+<text class='f-cmr10-996' x='66.455' y='48.917'>)</text>
+<text class='f-cmmi10-996' x='70.33' y='48.917'>,<tspan x='74.758'>r</tspan><tspan x='78.976'>,</tspan><tspan x='83.403'>c</tspan></text>
+<text class='f-cmex10-996' x='87.715' y='40.847'></text>
+<text class='f-cmtt10-996' x='95.048' y='48.917'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk">46</a></span><span class="tx"></span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-771d8727">47</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.591em' viewBox='0 0 175.342 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>--------------------<tspan x='83.52'>tactic</tspan><tspan x='111.194'>3/5:</tspan><tspan x='133.334'>the</tspan><tspan x='15.94' y='20.368'>corpus</tspan><tspan x='47.572'>as</tspan><tspan x='59.804'>one</tspan><tspan x='78.069'>padded</tspan><tspan x='112.938'>in</tspan><tspan x='120.963'>teger</tspan><tspan x='145.898'>matrix</tspan><tspan x='15.94' y='32.323'>-</tspan></text>
+<text class='f-cmtt10-996' x='22.582' y='32.323'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-771d8727">48</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.686em' viewBox='0 0 175.342 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>c<tspan x='4.074'>orpus</tspan></text>
+<text class='f-cmr10-996' x='28.696' y='8.369'>:<tspan x='33.124'>Corpus</tspan><tspan x='66.969'>=</tspan></text>
+<text class='f-cmti10-996' x='15.94' y='20.922'>lo<tspan x='23.069'>adCorpus</tspan></text>
+<text class='f-cmr10-996' x='65.005' y='20.922'>(</text>
+<text class='f-cmti10-996' x='68.879' y='20.922'>c<tspan x='72.953'>orpusPath</tspan></text>
+<text class='f-cmmi10-996' x='117.774' y='20.922'>,</text>
+<text class='f-cmti10-996' x='122.201' y='20.922'>blo<tspan x='133.913'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='161.14' y='20.922'>,</text>
+<text class='f-cmti10-996' x='15.94' y='33.275'>b<tspan x='20.014'>osId</tspan></text>
+<text class='f-cmr10-996' x='39.142' y='33.275'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk">49</a></span><span class="tx"></span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-5a0ca8dc">50</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>-------------------------<tspan x='100.125'>the</tspan><tspan x='117.283'>step:</tspan><tspan x='142.245'>k</tspan><tspan x='147.226'>eys</tspan><tspan x='164.162'>-¿</tspan><tspan x='15.94' y='21.818'>(loss,</tspan><tspan x='41.511'>ﬂat</tspan><tspan x='59.223'>gradien</tspan><tspan x='91.075'>t).</tspan><tspan x='106.019'>Pure.</tspan><tspan x='133.86'>--</tspan></text>
+<text class='f-cmtt10-996' x='143.822' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-5a0ca8dc">51</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.905em' viewBox='0 0 175.342 39.054' fill='currentColor' style='vertical-align:-3.059em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>step</text>
+<text class='f-cmex10-996' x='17.687' y='.398'></text>
+<text class='f-cmmi10-996' x='22.253' y='8.468'>p</text>
+<text class='f-cmr10-996' x='27.266' y='8.468'>:<tspan x='31.694'>Arra</tspan><tspan x='51.674'>y</tspan></text>
+<text class='f-stmary10-996' x='57.071' y='8.468'></text>
+<text class='f-msbm10-996' x='61.083' y='8.468'>R</text>
+<text class='f-cmr10-996' x='68.279' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='78.241' y='8.468'>,</text>
+<text class='f-msbm10-996' x='82.669' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='89.311' y='8.468'>32</text>
+<text class='f-stmary10-996' x='99.274' y='8.468'></text>
+<text class='f-cmmi10-996' x='103.286' y='8.468'>,<tspan x='15.94' y='22.018'>b</tspan></text>
+<text class='f-cmr10-996' x='20.216' y='22.018'>:<tspan x='24.644'>Arra</tspan><tspan x='44.624'>y</tspan></text>
+<text class='f-stmary10-996' x='50.021' y='22.018'></text>
+<text class='f-msbm10-996' x='54.034' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='60.675' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='70.638' y='22.018'>,</text>
+<text class='f-msbm10-996' x='75.066' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='81.708' y='22.018'>32</text>
+<text class='f-stmary10-996' x='91.67' y='22.018'></text>
+<text class='f-cmex10-996' x='95.683' y='13.948'></text>
+<text class='f-cmr10-996' x='100.249' y='22.018'>:</text>
+<text class='f-cmex10-996' x='104.677' y='13.948'></text>
+<text class='f-msbm10-996' x='109.243' y='22.018'>R</text>
+<text class='f-cmr10-996' x='116.439' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='126.401' y='22.018'>,</text>
+<text class='f-cmr10-996' x='15.94' y='35.467'>Arra<tspan x='35.921'>y</tspan></text>
+<text class='f-stmary10-996' x='41.317' y='35.467'></text>
+<text class='f-msbm10-996' x='45.33' y='35.467'>R</text>
+<text class='f-cmr10-996' x='52.525' y='35.467'>64</text>
+<text class='f-cmmi10-996' x='62.488' y='35.467'>,</text>
+<text class='f-msbm10-996' x='66.916' y='35.467'>Z</text>
+<text class='f-cmr10-996' x='73.558' y='35.467'>32</text>
+<text class='f-stmary10-996' x='83.52' y='35.467'></text>
+<text class='f-cmex10-996' x='87.533' y='27.397'></text>
+<text class='f-cmr10-996' x='94.867' y='35.467'>=</text>
+<text class='f-cmtt10-996' x='105.383' y='35.467'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-4832cf68">52</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='6.625em' viewBox='0 0 157.41 66.252' fill='currentColor' style='vertical-align:-5.788em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>ids</text>
+<text class='f-cmr10-996' x='15.806' y='8.369'>=</text>
+<text class='f-cmti10-996' x='26.322' y='8.369'>c<tspan x='30.396'>orpus</tspan></text>
+<text class='f-cmmi10-996' x='55.018' y='8.369'>.</text>
+<text class='f-cmti10-996' x='57.786' y='8.369'>tokens</text>
+<text class='f-cmr10-996' x='85.846' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='89.72' y='8.369'>b,</text>
+<text class='f-cmr10-996' x='15.94' y='20.922'>0);</text>
+<text class='f-cmti10-996' x='29.224' y='20.922'>tg</text>
+<text class='f-cmr10-996' x='40.765' y='20.922'>=</text>
+<text class='f-cmti10-996' x='51.281' y='20.922'>c<tspan x='55.355'>orpus</tspan></text>
+<text class='f-cmmi10-996' x='79.978' y='20.922'>.</text>
+<text class='f-cmti10-996' x='82.745' y='20.922'>tokens</text>
+<text class='f-cmr10-996' x='110.805' y='20.922'>(</text>
+<text class='f-cmmi10-996' x='114.679' y='20.922'>b,</text>
+<text class='f-cmr10-996' x='15.94' y='32.877'>1);</text>
+<text class='f-cmti10-996' x='29.224' y='32.877'>vm</text>
+<text class='f-cmr10-996' x='45.485' y='32.877'>=</text>
+<text class='f-cmti10-996' x='56.001' y='32.877'>c<tspan x='60.075'>orpus</tspan></text>
+<text class='f-cmmi10-996' x='84.698' y='32.877'>.</text>
+<text class='f-cmti10-996' x='87.465' y='32.877'>valid</text>
+<text class='f-cmr10-996' x='108.863' y='32.877'>(</text>
+<text class='f-cmmi10-996' x='112.737' y='32.877'>b</text>
+<text class='f-cmr10-996' x='117.013' y='32.877'>);</text>
+<text class='f-cmti10-996' x='125.315' y='32.877'>nv</text>
+<text class='f-cmr10-996' x='139.338' y='32.877'>=</text>
+<text class='f-cmex10-996' x='15.94' y='37.858'></text>
+<text class='f-cmti10-996' x='31.991' y='47.323'>vm</text>
+<text class='f-cmr10-996' x='45.485' y='47.323'>;</text>
+<text class='f-cmti10-996' x='49.913' y='47.323'>p<tspan x='54.496'>os</tspan></text>
+<text class='f-cmr10-996' x='67.247' y='47.323'>=</text>
+<text class='f-cmti10-996' x='15.94' y='62.665'>c<tspan x='20.014'>orpus</tspan></text>
+<text class='f-cmmi10-996' x='44.637' y='62.665'>.</text>
+<text class='f-cmti10-996' x='47.404' y='62.665'>p<tspan x='51.987'>ositions</tspan></text>
+<text class='f-cmr10-996' x='86.157' y='62.665'>(</text>
+<text class='f-cmmi10-996' x='90.031' y='62.665'>b</text>
+<text class='f-cmr10-996' x='94.307' y='62.665'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-3aa342fc">53</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='6.237em' viewBox='0 0 157.41 62.366' fill='currentColor' style='vertical-align:-5.400em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(</text>
+<text class='f-cmti10-996' x='3.874' y='8.369'>wte</text>
+<text class='f-cmmi10-996' x='19.135' y='8.369'>,</text>
+<text class='f-cmti10-996' x='23.563' y='8.369'>wp<tspan x='34.765'>e</tspan></text>
+<text class='f-cmmi10-996' x='40.097' y='8.369'>,</text>
+<text class='f-cmti10-996' x='44.524' y='8.369'>lm</text>
+<text class='f-cmmi10-996' x='55.982' y='8.369'>,</text>
+<text class='f-cmti10-996' x='60.41' y='8.369'>wq</text>
+<text class='f-cmmi10-996' x='72.493' y='8.369'>,</text>
+<text class='f-cmti10-996' x='76.921' y='8.369'>wk</text>
+<text class='f-cmmi10-996' x='89.196' y='8.369'>,</text>
+<text class='f-cmti10-996' x='93.624' y='8.369'>wv</text>
+<text class='f-cmmi10-996' x='105.898' y='8.369'>,</text>
+<text class='f-cmti10-996' x='110.326' y='8.369'>wo</text>
+<text class='f-cmmi10-996' x='122.667' y='8.369'>,<tspan x='127.095'>f</tspan></text>
+<text class='f-cmr7-697' x='131.972' y='9.863'>1</text>
+<text class='f-cmmi10-996' x='136.441' y='8.369'>,<tspan x='15.94' y='21.918'>f</tspan></text>
+<text class='f-cmr7-697' x='20.818' y='23.412'>2</text>
+<text class='f-cmr10-996' x='25.287' y='21.918'>)<tspan x='31.929'>=</tspan></text>
+<text class='f-cmex10-996' x='42.445' y='13.848'></text>
+<text class='f-cmti10-996' x='47.011' y='21.918'>view</text>
+<text class='f-cmr10-996' x='66.924' y='21.918'>(</text>
+<text class='f-cmmi10-996' x='70.798' y='21.918'>p,</text>
+<text class='f-cmr10-996' x='80.239' y='21.918'>0)</text>
+<text class='f-cmmi10-996' x='89.094' y='21.918'>,</text>
+<text class='f-cmti10-996' x='93.522' y='21.918'>view</text>
+<text class='f-cmr10-996' x='113.435' y='21.918'>(</text>
+<text class='f-cmmi10-996' x='117.309' y='21.918'>p,</text>
+<text class='f-cmr10-996' x='126.749' y='21.918'>1)</text>
+<text class='f-cmmi10-996' x='135.605' y='21.918'>,</text>
+<text class='f-cmti10-996' x='15.94' y='34.371'>view</text>
+<text class='f-cmr10-996' x='35.853' y='34.371'>(</text>
+<text class='f-cmmi10-996' x='39.727' y='34.371'>p,</text>
+<text class='f-cmr10-996' x='49.168' y='34.371'>2)</text>
+<text class='f-cmmi10-996' x='58.023' y='34.371'>,</text>
+<text class='f-cmti10-996' x='62.451' y='34.371'>view</text>
+<text class='f-cmr10-996' x='82.364' y='34.371'>(</text>
+<text class='f-cmmi10-996' x='86.238' y='34.371'>p,</text>
+<text class='f-cmr10-996' x='95.678' y='34.371'>3)</text>
+<text class='f-cmmi10-996' x='104.534' y='34.371'>,</text>
+<text class='f-cmti10-996' x='108.962' y='34.371'>view</text>
+<text class='f-cmr10-996' x='128.875' y='34.371'>(</text>
+<text class='f-cmmi10-996' x='132.749' y='34.371'>p,</text>
+<text class='f-cmr10-996' x='142.189' y='34.371'>4)</text>
+<text class='f-cmmi10-996' x='151.045' y='34.371'>,</text>
+<text class='f-cmti10-996' x='15.94' y='46.326'>view</text>
+<text class='f-cmr10-996' x='35.853' y='46.326'>(</text>
+<text class='f-cmmi10-996' x='39.727' y='46.326'>p,</text>
+<text class='f-cmr10-996' x='49.168' y='46.326'>5)</text>
+<text class='f-cmmi10-996' x='58.023' y='46.326'>,</text>
+<text class='f-cmti10-996' x='62.451' y='46.326'>view</text>
+<text class='f-cmr10-996' x='82.364' y='46.326'>(</text>
+<text class='f-cmmi10-996' x='86.238' y='46.326'>p,</text>
+<text class='f-cmr10-996' x='95.678' y='46.326'>6)</text>
+<text class='f-cmmi10-996' x='104.534' y='46.326'>,</text>
+<text class='f-cmti10-996' x='108.962' y='46.326'>view</text>
+<text class='f-cmr10-996' x='128.875' y='46.326'>(</text>
+<text class='f-cmmi10-996' x='132.749' y='46.326'>p,</text>
+<text class='f-cmr10-996' x='142.189' y='46.326'>7)</text>
+<text class='f-cmmi10-996' x='151.045' y='46.326'>,</text>
+<text class='f-cmti10-996' x='15.94' y='58.78'>view</text>
+<text class='f-cmr10-996' x='35.853' y='58.78'>(</text>
+<text class='f-cmmi10-996' x='39.727' y='58.78'>p,</text>
+<text class='f-cmr10-996' x='49.168' y='58.78'>8)</text>
+<text class='f-cmex10-996' x='58.023' y='50.71'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="attention.html#c-b7dcc0a7">54</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.041em' viewBox='0 0 157.41 50.411' fill='currentColor' style='vertical-align:-4.194em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.468'>h</text>
+<text class='f-cmex10-996' x='5.74' y='.398'></text>
+<text class='f-cmmi10-996' x='10.306' y='8.468'>m</text>
+<text class='f-cmr10-996' x='19.054' y='8.468'>:<tspan x='23.481'>Arra</tspan><tspan x='43.462'>y</tspan></text>
+<text class='f-stmary10-996' x='48.859' y='8.468'></text>
+<text class='f-msbm10-996' x='52.871' y='8.468'>R</text>
+<text class='f-cmr10-996' x='60.067' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='70.029' y='8.468'>,</text>
+<text class='f-cmr10-996' x='74.457' y='8.468'>(</text>
+<text class='f-msbm10-996' x='78.331' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='84.973' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='94.936' y='8.468'>,</text>
+<text class='f-msbm10-996' x='99.364' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='106.005' y='8.468'>32)</text>
+<text class='f-stmary10-996' x='119.843' y='8.468'></text>
+<text class='f-cmex10-996' x='123.855' y='.398'></text>
+<text class='f-cmr10-996' x='128.421' y='8.468'>:<tspan x='15.94' y='22.018'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-cmex10-996' x='41.317' y='13.948'><tspan x='42.701' y='13.948'></tspan></text>
+<text class='f-msbm10-996' x='46.852' y='22.018'>R</text>
+<text class='f-cmr10-996' x='54.048' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='64.01' y='22.018'>,</text>
+<text class='f-cmr10-996' x='68.438' y='22.018'>(</text>
+<text class='f-msbm10-996' x='72.312' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='78.954' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='88.917' y='22.018'>,</text>
+<text class='f-msbm10-996' x='93.345' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='99.986' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='109.949' y='22.018'>,</text>
+<text class='f-msbm10-996' x='114.377' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='121.019' y='22.018'>32)</text>
+<text class='f-cmex10-996' x='134.856' y='13.948'><tspan x='136.24' y='13.948'></tspan></text>
+<text class='f-cmr10-996' x='143.158' y='22.018'>=</text>
+<text class='f-cmti10-996' x='15.94' y='34.471'>he<tspan x='25.106'>ads</tspan></text>
+<text class='f-cmr10-996' x='40.181' y='34.471'>(</text>
+<text class='f-cmmi10-996' x='44.056' y='34.471'>m,</text>
+<text class='f-cmti10-996' x='57.231' y='34.471'>blo<tspan x='68.942'>ckSize</tspan></text>
+<text class='f-cmmi10-996' x='96.169' y='34.471'>,</text>
+<text class='f-cmti10-996' x='100.597' y='34.471'>nHe<tspan x='117.677'>ad</tspan></text>
+<text class='f-cmmi10-996' x='128.891' y='34.471'>,</text>
+<text class='f-cmti10-996' x='15.94' y='46.825'>he<tspan x='25.106'>adDim</tspan></text>
+<text class='f-cmr10-996' x='54.778' y='46.825'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="attention.html#c-b7dcc0a7">55</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.895em' viewBox='0 0 157.41 38.954' fill='currentColor' style='vertical-align:-3.049em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.468'>u</text>
+<text class='f-cmex10-996' x='5.703' y='.398'></text>
+<text class='f-cmmi10-996' x='10.269' y='8.468'>t</text>
+<text class='f-cmr10-996' x='13.867' y='8.468'>:<tspan x='18.295'>Arra</tspan><tspan x='38.276'>y</tspan></text>
+<text class='f-stmary10-996' x='43.672' y='8.468'></text>
+<text class='f-msbm10-996' x='47.685' y='8.468'>R</text>
+<text class='f-cmr10-996' x='54.88' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='64.843' y='8.468'>,</text>
+<text class='f-cmr10-996' x='69.27' y='8.468'>(</text>
+<text class='f-msbm10-996' x='73.145' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='79.787' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='89.749' y='8.468'>,</text>
+<text class='f-msbm10-996' x='94.177' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='100.819' y='8.468'>32</text>
+<text class='f-cmmi10-996' x='110.782' y='8.468'>,</text>
+<text class='f-msbm10-996' x='115.209' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='121.851' y='8.468'>32)</text>
+<text class='f-stmary10-996' x='135.688' y='8.468'></text>
+<text class='f-cmex10-996' x='139.701' y='.398'></text>
+<text class='f-cmr10-996' x='144.267' y='8.468'>:<tspan x='15.94' y='22.018'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-cmex10-996' x='41.317' y='13.948'><tspan x='42.701' y='13.948'></tspan></text>
+<text class='f-msbm10-996' x='46.852' y='22.018'>R</text>
+<text class='f-cmr10-996' x='54.048' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='64.01' y='22.018'>,</text>
+<text class='f-cmr10-996' x='68.438' y='22.018'>(</text>
+<text class='f-msbm10-996' x='72.312' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='78.954' y='22.018'>32</text>
+<text class='f-cmmi10-996' x='88.917' y='22.018'>,</text>
+<text class='f-msbm10-996' x='93.345' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='99.986' y='22.018'>32)</text>
+<text class='f-cmex10-996' x='113.824' y='13.948'><tspan x='115.207' y='13.948'></tspan></text>
+<text class='f-cmr10-996' x='122.126' y='22.018'>=</text>
+<text class='f-cmti10-996' x='15.94' y='35.368'>unhe<tspan x='36.054'>ads</tspan></text>
+<text class='f-cmr10-996' x='51.129' y='35.368'>(</text>
+<text class='f-cmmi10-996' x='55.003' y='35.368'>t,</text>
+<text class='f-cmti10-996' x='63.029' y='35.368'>nHe<tspan x='80.109'>ad</tspan></text>
+<text class='f-cmr10-996' x='91.322' y='35.368'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-f01158b7">56</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.541em' viewBox='0 0 157.41 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>--<tspan x='23.744'>forw</tspan><tspan x='42.59'>ard,</tspan><tspan x='63.097'>all</tspan><tspan x='76.934'>(do</tspan><tspan x='91.601'>c,</tspan><tspan x='102.117'>p</tspan><tspan x='107.929'>os)</tspan><tspan x='124.035'>ro</tspan><tspan x='132.642'>ws</tspan><tspan x='147.088'>at</tspan><tspan x='15.94' y='21.818'>once</tspan><tspan x='38.633'>--</tspan></text>
+<text class='f-cmtt10-996' x='48.596' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="arrays.html#c-f01158b7">57</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.686em' viewBox='0 0 157.41 36.862' fill='currentColor' style='vertical-align:-2.849em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.369'>x</text>
+<text class='f-cmr10-996' x='8.461' y='8.369'>=</text>
+<text class='f-cmti10-996' x='18.977' y='8.369'>gather</text>
+<text class='f-cmr10-996' x='46.91' y='8.369'>(</text>
+<text class='f-cmti10-996' x='50.784' y='8.369'>wte</text>
+<text class='f-cmmi10-996' x='66.045' y='8.369'>,</text>
+<text class='f-cmti10-996' x='70.473' y='8.369'>ids</text>
+<text class='f-cmr10-996' x='83.511' y='8.369'>)<tspan x='89.6'>+</tspan></text>
+<text class='f-cmti10-996' x='99.562' y='8.369'>gather</text>
+<text class='f-cmr10-996' x='127.495' y='8.369'>(</text>
+<text class='f-cmti10-996' x='131.369' y='8.369'>wp<tspan x='142.571'>e</tspan></text>
+<text class='f-cmmi10-996' x='147.903' y='8.369'>,</text>
+<text class='f-cmti10-996' x='15.94' y='20.922'>p<tspan x='20.523'>os</tspan></text>
+<text class='f-cmr10-996' x='30.506' y='20.922'>);</text>
+<text class='f-cmti10-996' x='38.809' y='20.922'>xp</text>
+<text class='f-cmr10-996' x='51.918' y='20.922'>=</text>
+<text class='f-cmti10-996' x='62.434' y='20.922'>r<tspan x='66.126'>ows</tspan></text>
+<text class='f-cmr10-996' x='82.729' y='20.922'>(</text>
+<text class='f-cmti10-996' x='86.603' y='20.922'>rmsn</text>
+<text class='f-cmmi10-996' x='109.39' y='20.922'>,<tspan x='15.94' y='33.275'>x</tspan></text>
+<text class='f-cmr10-996' x='21.634' y='33.275'>);</text>
+<text class='f-cmmi10-996' x='29.936' y='33.275'>x</text>
+<text class='f-cmr7-697' x='35.63' y='34.77'>1</text>
+<text class='f-cmr10-996' x='42.867' y='33.275'>=</text>
+<text class='f-cmti10-996' x='53.383' y='33.275'>r<tspan x='57.075'>ows</tspan></text>
+<text class='f-cmr10-996' x='73.678' y='33.275'>(</text>
+<text class='f-cmti10-996' x='77.552' y='33.275'>rmsn</text>
+<text class='f-cmmi10-996' x='100.339' y='33.275'>,</text>
+<text class='f-cmti10-996' x='104.767' y='33.275'>xp</text>
+<text class='f-cmr10-996' x='115.109' y='33.275'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="attention.html#c-faef52d8">58</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='4.022em' viewBox='0 0 157.41 40.217' fill='currentColor' style='vertical-align:-3.100em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='9.221'>(</text>
+<text class='f-cmmi10-996' x='3.874' y='9.221'>q<tspan x='8.679'>,</tspan><tspan x='13.107'>k</tspan><tspan x='18.607'>,</tspan><tspan x='23.035'>v</tspan></text>
+<text class='f-cmr10-996' x='28.222' y='9.221'>)<tspan x='34.863'>=</tspan><tspan x='45.379'>(</tspan></text>
+<text class='f-cmmi10-996' x='49.254' y='9.221'>x</text>
+<text class='f-cmr7-697' x='54.948' y='10.715'>1</text>
+<text class='f-cmti10-996' x='61.078' y='9.221'>wq</text>
+<text class='f-cmmi7-697' x='73.161' y='5.108'>T</text>
+<text class='f-cmmi10-996' x='79.437' y='9.221'>,<tspan x='83.865'>x</tspan></text>
+<text class='f-cmr7-697' x='89.559' y='10.715'>1</text>
+<text class='f-cmti10-996' x='95.689' y='9.221'>wk</text>
+<text class='f-cmmi7-697' x='107.964' y='4.765'>T</text>
+<text class='f-cmmi10-996' x='114.24' y='9.221'>,<tspan x='118.668'>x</tspan></text>
+<text class='f-cmr7-697' x='124.362' y='10.715'>1</text>
+<text class='f-cmti10-996' x='15.94' y='23.181'>wv</text>
+<text class='f-cmmi7-697' x='28.215' y='19.067'>T</text>
+<text class='f-cmr10-996' x='34.491' y='23.181'>);<tspan x='42.793'>(</tspan></text>
+<text class='f-cmti10-996' x='46.668' y='23.181'>qh</text>
+<text class='f-cmmi10-996' x='57.107' y='23.181'>,</text>
+<text class='f-cmti10-996' x='61.535' y='23.181'>kh</text>
+<text class='f-cmmi10-996' x='71.974' y='23.181'>,</text>
+<text class='f-cmti10-996' x='76.401' y='23.181'>vh</text>
+<text class='f-cmr10-996' x='86.84' y='23.181'>)<tspan x='93.482'>=</tspan></text>
+<text class='f-cmex10-996' x='103.998' y='15.111'></text>
+<text class='f-cmmi10-996' x='108.564' y='23.181'>h</text>
+<text class='f-cmr10-996' x='114.304' y='23.181'>(</text>
+<text class='f-cmmi10-996' x='118.179' y='23.181'>q</text>
+<text class='f-cmr10-996' x='122.984' y='23.181'>)</text>
+<text class='f-cmmi10-996' x='126.858' y='23.181'>,<tspan x='131.286'>h</tspan></text>
+<text class='f-cmr10-996' x='137.026' y='23.181'>(</text>
+<text class='f-cmmi10-996' x='140.9' y='23.181'>k</text>
+<text class='f-cmr10-996' x='146.401' y='23.181'>)</text>
+<text class='f-cmmi10-996' x='150.275' y='23.181'>,<tspan x='15.94' y='36.631'>h</tspan></text>
+<text class='f-cmr10-996' x='21.68' y='36.631'>(</text>
+<text class='f-cmmi10-996' x='25.555' y='36.631'>v</text>
+<text class='f-cmr10-996' x='30.741' y='36.631'>)</text>
+<text class='f-cmex10-996' x='34.616' y='28.561'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="attention.html#c-b5289a63">59</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.977em' viewBox='0 0 157.41 39.773' fill='currentColor' style='vertical-align:-3.131em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.468'>a</text>
+<text class='f-cmr10-996' x='8.033' y='8.468'>=</text>
+<text class='f-cmti10-996' x='18.55' y='8.468'>r<tspan x='22.241'>ows</tspan></text>
+<text class='f-cmex10-996' x='38.844' y='.398'></text>
+<text class='f-cmti10-996' x='43.41' y='8.468'>sm</text>
+<text class='f-cmmi10-996' x='56.395' y='8.468'>,</text>
+<text class='f-cmti10-996' x='60.823' y='8.468'>mask</text>
+<text class='f-cmr10-996' x='86.005' y='8.468'>+<tspan x='95.968'>(</tspan></text>
+<text class='f-cmti10-996' x='99.842' y='8.468'>qh<tspan x='15.94' y='22.837'>kh</tspan></text>
+<text class='f-cmmi7-697' x='26.379' y='18.381'>T</text>
+<text class='f-cmr10-996' x='32.655' y='22.837'>)</text>
+<text class='f-cmmi10-996' x='36.53' y='22.837'>/</text>
+<text class='f-cmsy10-996' x='41.511' y='14.346'>√</text>
+<rect x='49.813' y='13.948' height='.398' width='53.228'/>
+<text class='f-cmr10-996' x='49.813' y='22.837'>1</text>
+<text class='f-cmmi10-996' x='54.795' y='22.837'>.</text>
+<text class='f-cmr10-996' x='57.562' y='22.837'>0</text>
+<text class='f-cmti10-996' x='64.204' y='22.837'>he<tspan x='73.369'>adDim</tspan></text>
+<text class='f-cmex10-996' x='104.702' y='14.767'></text>
+<text class='f-cmr10-996' x='109.268' y='22.837'>;</text>
+<text class='f-cmti10-996' x='113.696' y='22.837'>hc</text>
+<text class='f-cmr10-996' x='126.701' y='22.837'>=</text>
+<text class='f-cmmi10-996' x='137.218' y='22.837'>u</text>
+<text class='f-cmr10-996' x='142.921' y='22.837'>(</text>
+<text class='f-cmmi10-996' x='146.795' y='22.837'>a</text>
+<text class='f-cmti10-996' x='15.94' y='36.187'>vh</text>
+<text class='f-cmr10-996' x='26.379' y='36.187'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="attention.html#c-936a19c4">60</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.929em' viewBox='0 0 157.41 39.29' fill='currentColor' style='vertical-align:-3.041em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.879'>x</text>
+<text class='f-cmr7-697' x='5.694' y='10.373'>2</text>
+<text class='f-cmr10-996' x='12.931' y='8.879'>=</text>
+<text class='f-cmti10-996' x='23.447' y='8.879'>xp</text>
+<text class='f-cmr10-996' x='36.003' y='8.879'>+</text>
+<text class='f-cmti10-996' x='45.966' y='8.879'>hc<tspan x='57.864'>wo</tspan></text>
+<text class='f-cmmi7-697' x='70.204' y='4.765'>T</text>
+<text class='f-cmr10-996' x='76.48' y='8.879'>;</text>
+<text class='f-cmmi10-996' x='80.908' y='8.879'>x</text>
+<text class='f-cmr7-697' x='86.602' y='10.373'>3</text>
+<text class='f-cmr10-996' x='93.839' y='8.879'>=</text>
+<text class='f-cmti10-996' x='104.355' y='8.879'>r<tspan x='108.047'>ows</tspan></text>
+<text class='f-cmr10-996' x='124.65' y='8.879'>(</text>
+<text class='f-cmti10-996' x='128.524' y='8.879'>rmsn</text>
+<text class='f-cmmi10-996' x='151.311' y='8.879'>,<tspan x='15.94' y='22.839'>x</tspan></text>
+<text class='f-cmr7-697' x='21.634' y='24.333'>2</text>
+<text class='f-cmr10-996' x='26.104' y='22.839'>);</text>
+<text class='f-cmmi10-996' x='34.406' y='22.839'>m</text>
+<text class='f-cmr7-697' x='43.153' y='24.333'>0</text>
+<text class='f-cmr10-996' x='50.39' y='22.839'>=</text>
+<text class='f-cmmi10-996' x='60.906' y='22.839'>x</text>
+<text class='f-cmr7-697' x='66.6' y='24.333'>3</text>
+<text class='f-cmmi10-996' x='72.73' y='22.839'>f</text>
+<text class='f-cmmi7-697' x='78.68' y='18.725'>T</text>
+<text class='f-cmr7-697' x='77.607' y='25.302'>1</text>
+<text class='f-cmr10-996' x='84.956' y='22.839'>;</text>
+<text class='f-cmti10-996' x='89.383' y='22.839'>mr</text>
+<text class='f-cmr10-996' x='105.571' y='22.839'>=<tspan x='15.94' y='35.703'>0</tspan></text>
+<text class='f-cmmi10-996' x='20.922' y='35.703'>.</text>
+<text class='f-cmr10-996' x='23.689' y='35.703'>0</text>
+<text class='f-cmtt10-996' x='30.884' y='35.703'>MAX</text>
+<text class='f-cmmi10-996' x='48.789' y='35.703'>m</text>
+<text class='f-cmr7-697' x='57.536' y='37.197'>0</text>
+<text class='f-cmr10-996' x='62.006' y='35.703'>;</text>
+<text class='f-cmmi10-996' x='66.434' y='35.703'>x</text>
+<text class='f-cmr7-697' x='72.128' y='37.197'>4</text>
+<text class='f-cmr10-996' x='79.364' y='35.703'>=</text>
+<text class='f-cmmi10-996' x='89.88' y='35.703'>x</text>
+<text class='f-cmr7-697' x='95.574' y='37.197'>2</text>
+<text class='f-cmr10-996' x='102.258' y='35.703'>+</text>
+<text class='f-cmti10-996' x='112.22' y='35.703'>mr</text>
+<text class='f-cmmi10-996' x='127.301' y='35.703'>f</text>
+<text class='f-cmmi7-697' x='133.251' y='31.589'>T</text>
+<text class='f-cmr7-697' x='132.179' y='38.166'>2</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="mlp-loss.html#c-ddbc374c">61</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.971em' viewBox='0 0 157.41 39.707' fill='currentColor' style='vertical-align:-3.134em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>pr</text>
+<text class='f-cmr10-996' x='13.133' y='8.369'>=</text>
+<text class='f-cmti10-996' x='23.649' y='8.369'>r<tspan x='27.34'>ows</tspan></text>
+<text class='f-cmr10-996' x='43.943' y='8.369'>(</text>
+<text class='f-cmti10-996' x='47.818' y='8.369'>sm</text>
+<text class='f-cmmi10-996' x='60.803' y='8.369'>,<tspan x='65.23'>x</tspan></text>
+<text class='f-cmr7-697' x='70.924' y='9.863'>4</text>
+<text class='f-cmti10-996' x='15.94' y='22.671'>lm</text>
+<text class='f-cmmi7-697' x='27.398' y='18.215'>T</text>
+<text class='f-cmr10-996' x='33.674' y='22.671'>);</text>
+<text class='f-cmti10-996' x='41.976' y='22.671'>loss</text>
+<text class='f-cmr10-996' x='61.346' y='22.671'>=</text>
+<text class='f-cmsy10-996' x='71.862' y='22.671'>−</text>
+<text class='f-cmex10-996' x='79.611' y='14.601'></text>
+<text class='f-cmti10-996' x='84.177' y='22.671'>vm</text>
+<text class='f-cmsy10-996' x='99.885' y='22.671'>·</text>
+<text class='f-cmr10-996' x='104.867' y='22.671'>log<tspan x='117.735'>(</tspan></text>
+<text class='f-cmti10-996' x='121.61' y='22.671'>pick</text>
+<text class='f-cmr10-996' x='139.995' y='22.671'>(</text>
+<text class='f-cmti10-996' x='143.869' y='22.671'>pr</text>
+<text class='f-cmmi10-996' x='154.234' y='22.671'>,</text>
+<text class='f-cmti10-996' x='15.94' y='36.12'>tg</text>
+<text class='f-cmr10-996' x='24.714' y='36.12'>))</text>
+<text class='f-cmex10-996' x='32.463' y='28.05'></text>
+<text class='f-cmmi10-996' x='37.029' y='36.12'>/</text>
+<text class='f-cmti10-996' x='42.011' y='36.12'>nv</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-512de2de">62</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.541em' viewBox='0 0 157.41 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>--<tspan x='23.744'>bac</tspan><tspan x='38.411'>kw</tspan><tspan x='50.588'>ard,</tspan><tspan x='71.095'>one</tspan><tspan x='89.359'>line</tspan><tspan x='108.178'>under</tspan><tspan x='136.433'>eac</tspan><tspan x='149.993'>h</tspan><tspan x='15.94' y='21.818'>forw</tspan><tspan x='34.786'>ard</tspan><tspan x='52.525'>line,</tspan><tspan x='74.111'>b</tspan><tspan x='79.923'>ottom-up</tspan><tspan x='123.648'>--</tspan></text>
+<text class='f-cmtt10-996' x='133.61' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-7b10383c">63</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.971em' viewBox='0 0 157.41 39.707' fill='currentColor' style='vertical-align:-3.124em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>dL</text>
+<text class='f-cmr10-996' x='14.108' y='8.468'>=</text>
+<text class='f-cmti10-996' x='24.624' y='8.468'>diag</text>
+<text class='f-cmr10-996' x='43.328' y='8.468'>(</text>
+<text class='f-cmti10-996' x='47.202' y='8.468'>vm</text>
+<text class='f-cmmi10-996' x='60.696' y='8.468'>/</text>
+<text class='f-cmti10-996' x='65.677' y='8.468'>nv</text>
+<text class='f-cmr10-996' x='76.934' y='8.468'>)</text>
+<text class='f-cmex10-996' x='82.469' y='.398'></text>
+<text class='f-cmti10-996' x='87.035' y='8.468'>pr</text>
+<text class='f-cmsy10-996' x='99.614' y='8.468'>−</text>
+<text class='f-cmti10-996' x='109.576' y='8.468'>onehot</text>
+<text class='f-cmr10-996' x='139.291' y='8.468'>(</text>
+<text class='f-cmti10-996' x='143.166' y='8.468'>tg</text>
+<text class='f-cmmi10-996' x='151.94' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='22.77'>vo<tspan x='25.106'>c</tspan><tspan x='29.179'>abSize</tspan></text>
+<text class='f-cmr10-996' x='56.916' y='22.77'>)</text>
+<text class='f-cmex10-996' x='60.79' y='14.7'></text>
+<text class='f-cmr10-996' x='65.356' y='22.77'>;</text>
+<text class='f-cmti10-996' x='69.784' y='22.77'>gLM</text>
+<text class='f-cmr10-996' x='93.949' y='22.77'>=</text>
+<text class='f-cmti10-996' x='104.465' y='22.77'>dL</text>
+<text class='f-cmmi7-697' x='115.805' y='18.315'>T</text>
+<text class='f-cmmi10-996' x='15.94' y='36.12'>x</text>
+<text class='f-cmr7-697' x='21.634' y='37.615'>4</text>
+<text class='f-cmr10-996' x='26.104' y='36.12'>;</text>
+<text class='f-cmti10-996' x='30.531' y='36.12'>dX</text>
+<text class='f-cmr7-697' x='44.604' y='37.615'>4</text>
+<text class='f-cmr10-996' x='51.84' y='36.12'>=</text>
+<text class='f-cmti10-996' x='62.356' y='36.12'>dL<tspan x='75.357'>lm</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-8429f7f8">64</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.946em' viewBox='0 0 157.41 39.463' fill='currentColor' style='vertical-align:-3.024em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='9.221'>gF</text>
+<text class='f-cmr7-697' x='12.412' y='11.656'>2</text>
+<text class='f-cmr10-996' x='19.648' y='9.221'>=</text>
+<text class='f-cmti10-996' x='30.164' y='9.221'>dX</text>
+<text class='f-cmmi7-697' x='44.237' y='4.765'>T</text>
+<text class='f-cmr7-697' x='44.237' y='11.684'>4</text>
+<text class='f-cmti10-996' x='52.173' y='9.221'>mr</text>
+<text class='f-cmr10-996' x='65.594' y='9.221'>;</text>
+<text class='f-cmti10-996' x='70.021' y='9.221'>dM</text>
+<text class='f-cmr7-697' x='85.679' y='10.715'>0</text>
+<text class='f-cmr10-996' x='92.916' y='9.221'>=<tspan x='103.432'>(</tspan></text>
+<text class='f-cmti10-996' x='107.306' y='9.221'>dX</text>
+<text class='f-cmr7-697' x='121.379' y='10.715'>4</text>
+<text class='f-cmmi10-996' x='15.94' y='23.523'>f</text>
+<text class='f-cmr7-697' x='20.818' y='25.017'>2</text>
+<text class='f-cmr10-996' x='25.287' y='23.523'>)</text>
+<text class='f-cmsy10-996' x='31.375' y='23.523'>×</text>
+<text class='f-cmr10-996' x='41.338' y='23.523'>(</text>
+<text class='f-cmmi10-996' x='45.212' y='23.523'>m</text>
+<text class='f-cmr7-697' x='53.96' y='25.017'>0</text>
+<text class='f-cmmi10-996' x='61.197' y='23.523'>></text>
+<text class='f-cmr10-996' x='71.713' y='23.523'>0</text>
+<text class='f-cmmi10-996' x='76.694' y='23.523'>.</text>
+<text class='f-cmr10-996' x='79.461' y='23.523'>0);</text>
+<text class='f-cmti10-996' x='92.745' y='23.523'>gF</text>
+<text class='f-cmr7-697' x='105.157' y='25.958'>1</text>
+<text class='f-cmr10-996' x='112.393' y='23.523'>=</text>
+<text class='f-cmti10-996' x='122.909' y='23.523'>dM</text>
+<text class='f-cmmi7-697' x='138.567' y='19.067'>T</text>
+<text class='f-cmr7-697' x='138.567' y='25.986'>0</text>
+<text class='f-cmmi10-996' x='15.94' y='35.877'>x</text>
+<text class='f-cmr7-697' x='21.634' y='37.371'>3</text>
+<text class='f-cmr10-996' x='26.104' y='35.877'>;</text>
+<text class='f-cmti10-996' x='30.531' y='35.877'>dX</text>
+<text class='f-cmr7-697' x='44.604' y='37.371'>3</text>
+<text class='f-cmr10-996' x='51.84' y='35.877'>=</text>
+<text class='f-cmti10-996' x='62.356' y='35.877'>dM</text>
+<text class='f-cmr7-697' x='78.014' y='37.371'>0</text>
+<text class='f-cmmi10-996' x='84.144' y='35.877'>f</text>
+<text class='f-cmr7-697' x='89.022' y='37.371'>1</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-c172d8bb">65</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.861em' viewBox='0 0 157.41 38.611' fill='currentColor' style='vertical-align:-3.024em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='14.072' y='9.863'>2</text>
+<text class='f-cmr10-996' x='21.309' y='8.369'>=</text>
+<text class='f-cmti10-996' x='31.825' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='45.897' y='9.863'>4</text>
+<text class='f-cmr10-996' x='52.58' y='8.369'>+</text>
+<text class='f-cmti10-996' x='62.543' y='8.369'>r<tspan x='66.235'>ows</tspan></text>
+<text class='f-cmr10-996' x='82.838' y='8.369'>(</text>
+<text class='f-cmti10-996' x='86.712' y='8.369'>rmsn</text>
+<rect x='110.097' y='7.97' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='113.916' y='8.369'>b</text>
+<text class='f-cmmi10-996' x='119.127' y='8.369'>,</text>
+<text class='f-cmti10-996' x='123.555' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='137.627' y='9.863'>3</text>
+<text class='f-cmmi10-996' x='142.097' y='8.369'>,<tspan x='15.94' y='22.671'>x</tspan></text>
+<text class='f-cmr7-697' x='21.634' y='24.165'>2</text>
+<text class='f-cmr10-996' x='26.104' y='22.671'>);</text>
+<text class='f-cmti10-996' x='34.406' y='22.671'>gWO</text>
+<text class='f-cmr10-996' x='60.282' y='22.671'>=</text>
+<text class='f-cmti10-996' x='70.798' y='22.671'>dX</text>
+<text class='f-cmmi7-697' x='84.87' y='18.215'>T</text>
+<text class='f-cmr7-697' x='84.87' y='25.134'>2</text>
+<text class='f-cmti10-996' x='15.94' y='35.024'>hc</text>
+<text class='f-cmr10-996' x='26.178' y='35.024'>;</text>
+<text class='f-cmti10-996' x='30.606' y='35.024'>dh</text>
+<text class='f-cmr10-996' x='44.322' y='35.024'>=</text>
+<text class='f-cmmi10-996' x='54.838' y='35.024'>h</text>
+<text class='f-cmr10-996' x='60.578' y='35.024'>(</text>
+<text class='f-cmti10-996' x='64.452' y='35.024'>dX</text>
+<text class='f-cmr7-697' x='78.524' y='36.519'>2</text>
+<text class='f-cmti10-996' x='84.654' y='35.024'>wo</text>
+<text class='f-cmr10-996' x='96.995' y='35.024'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-f1379693">66</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.683em' viewBox='0 0 157.41 26.834' fill='currentColor' style='vertical-align:-1.795em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.879'>dVh</text>
+<text class='f-cmr10-996' x='21.121' y='8.879'>=</text>
+<text class='f-cmmi10-996' x='31.637' y='8.879'>a</text>
+<text class='f-cmmi7-697' x='36.903' y='4.765'>T</text>
+<text class='f-cmti10-996' x='44.84' y='8.879'>dh</text>
+<text class='f-cmr10-996' x='55.788' y='8.879'>;</text>
+<text class='f-cmti10-996' x='60.216' y='8.879'>dS</text>
+<text class='f-cmr10-996' x='74.869' y='8.879'>=</text>
+<text class='f-cmti10-996' x='85.385' y='8.879'>r<tspan x='89.077'>ows</tspan></text>
+<text class='f-cmr10-996' x='105.68' y='8.879'>(</text>
+<text class='f-cmti10-996' x='109.554' y='8.879'>sm</text>
+<rect x='123.137' y='8.48' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='126.956' y='8.879'>b</text>
+<text class='f-cmmi10-996' x='132.168' y='8.879'>,<tspan x='136.595'>a,</tspan></text>
+<text class='f-cmti10-996' x='15.94' y='23.247'>dh<tspan x='28.549'>vh</tspan></text>
+<text class='f-cmmi7-697' x='38.988' y='18.792'>T</text>
+<text class='f-cmr10-996' x='45.264' y='23.247'>)</text>
+<text class='f-cmmi10-996' x='49.138' y='23.247'>/</text>
+<text class='f-cmsy10-996' x='54.12' y='14.757'>√</text>
+<rect x='62.422' y='14.358' height='.398' width='53.228'/>
+<text class='f-cmr10-996' x='62.422' y='23.247'>1</text>
+<text class='f-cmmi10-996' x='67.403' y='23.247'>.</text>
+<text class='f-cmr10-996' x='70.171' y='23.247'>0</text>
+<text class='f-cmti10-996' x='76.813' y='23.247'>he<tspan x='85.978'>adDim</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-973ba1fe">67</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.981em' viewBox='0 0 157.41 39.807' fill='currentColor' style='vertical-align:-3.059em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='9.221'>dQh</text>
+<text class='f-cmr10-996' x='21.354' y='9.221'>=</text>
+<text class='f-cmti10-996' x='31.87' y='9.221'>dS<tspan x='45.416'>kh</tspan></text>
+<text class='f-cmr10-996' x='55.855' y='9.221'>;</text>
+<text class='f-cmti10-996' x='60.283' y='9.221'>dKh</text>
+<text class='f-cmr10-996' x='81.659' y='9.221'>=</text>
+<text class='f-cmti10-996' x='92.175' y='9.221'>dS</text>
+<text class='f-cmmi7-697' x='104.061' y='4.765'>T</text>
+<text class='f-cmti10-996' x='111.997' y='9.221'>qh</text>
+<text class='f-cmr10-996' x='122.436' y='9.221'>;<tspan x='126.864'>(</tspan></text>
+<text class='f-cmti10-996' x='130.738' y='9.221'>dQ</text>
+<text class='f-cmmi10-996' x='144.405' y='9.221'>,</text>
+<text class='f-cmti10-996' x='15.94' y='22.77'>dK</text>
+<text class='f-cmmi10-996' x='30.14' y='22.77'>,</text>
+<text class='f-cmti10-996' x='34.568' y='22.77'>dV</text>
+<text class='f-cmr10-996' x='48.894' y='22.77'>)<tspan x='55.536'>=</tspan></text>
+<text class='f-cmex10-996' x='66.052' y='14.7'></text>
+<text class='f-cmmi10-996' x='70.618' y='22.77'>u</text>
+<text class='f-cmr10-996' x='76.322' y='22.77'>(</text>
+<text class='f-cmti10-996' x='80.196' y='22.77'>dQh</text>
+<text class='f-cmr10-996' x='98.782' y='22.77'>)</text>
+<text class='f-cmmi10-996' x='102.656' y='22.77'>,<tspan x='107.084'>u</tspan></text>
+<text class='f-cmr10-996' x='112.787' y='22.77'>(</text>
+<text class='f-cmti10-996' x='116.662' y='22.77'>dKh</text>
+<text class='f-cmr10-996' x='135.27' y='22.77'>)</text>
+<text class='f-cmmi10-996' x='139.145' y='22.77'>,<tspan x='15.94' y='36.22'>u</tspan></text>
+<text class='f-cmr10-996' x='21.643' y='36.22'>(</text>
+<text class='f-cmti10-996' x='25.518' y='36.22'>dVh</text>
+<text class='f-cmr10-996' x='43.872' y='36.22'>)</text>
+<text class='f-cmex10-996' x='47.746' y='28.15'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-b7a06271">68</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.946em' viewBox='0 0 157.41 39.463' fill='currentColor' style='vertical-align:-3.024em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='9.221'>(</text>
+<text class='f-cmti10-996' x='3.874' y='9.221'>gWQ</text>
+<text class='f-cmmi10-996' x='26.983' y='9.221'>,</text>
+<text class='f-cmti10-996' x='31.411' y='9.221'>gWK</text>
+<text class='f-cmmi10-996' x='55.053' y='9.221'>,</text>
+<text class='f-cmti10-996' x='59.481' y='9.221'>gWV</text>
+<text class='f-cmr10-996' x='83.25' y='9.221'>)<tspan x='89.892'>=</tspan><tspan x='100.408'>(</tspan></text>
+<text class='f-cmti10-996' x='104.282' y='9.221'>dQ</text>
+<text class='f-cmmi7-697' x='117.949' y='4.765'>T</text>
+<text class='f-cmmi10-996' x='125.885' y='9.221'>x</text>
+<text class='f-cmr7-697' x='131.579' y='10.715'>1</text>
+<text class='f-cmmi10-996' x='136.048' y='9.221'>,</text>
+<text class='f-cmti10-996' x='15.94' y='23.523'>dK</text>
+<text class='f-cmmi7-697' x='30.14' y='19.067'>T</text>
+<text class='f-cmmi10-996' x='38.076' y='23.523'>x</text>
+<text class='f-cmr7-697' x='43.77' y='25.017'>1</text>
+<text class='f-cmmi10-996' x='48.24' y='23.523'>,</text>
+<text class='f-cmti10-996' x='52.667' y='23.523'>dV</text>
+<text class='f-cmmi7-697' x='66.994' y='19.067'>T</text>
+<text class='f-cmmi10-996' x='74.931' y='23.523'>x</text>
+<text class='f-cmr7-697' x='80.625' y='25.017'>1</text>
+<text class='f-cmr10-996' x='85.094' y='23.523'>);</text>
+<text class='f-cmti10-996' x='93.396' y='23.523'>dX</text>
+<text class='f-cmr7-697' x='107.468' y='25.017'>1</text>
+<text class='f-cmr10-996' x='114.705' y='23.523'>=</text>
+<text class='f-cmti10-996' x='125.221' y='23.523'>dQ<tspan x='15.94' y='35.877'>wq</tspan></text>
+<text class='f-cmr10-996' x='30.238' y='35.877'>+</text>
+<text class='f-cmti10-996' x='40.201' y='35.877'>dK<tspan x='56.06'>wk</tspan></text>
+<text class='f-cmr10-996' x='70.549' y='35.877'>+</text>
+<text class='f-cmti10-996' x='80.512' y='35.877'>dV<tspan x='96.499'>wv</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-6c161a65">69</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.541em' viewBox='0 0 157.41 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dXp</text>
+<text class='f-cmr10-996' x='20.986' y='8.369'>=</text>
+<text class='f-cmti10-996' x='31.502' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='45.574' y='9.863'>2</text>
+<text class='f-cmr10-996' x='52.257' y='8.369'>+</text>
+<text class='f-cmti10-996' x='62.22' y='8.369'>r<tspan x='65.911'>ows</tspan></text>
+<text class='f-cmr10-996' x='82.514' y='8.369'>(</text>
+<text class='f-cmti10-996' x='86.389' y='8.369'>rmsn</text>
+<rect x='109.774' y='7.97' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='113.593' y='8.369'>b</text>
+<text class='f-cmmi10-996' x='118.804' y='8.369'>,</text>
+<text class='f-cmti10-996' x='123.232' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='137.304' y='9.863'>1</text>
+<text class='f-cmmi10-996' x='141.774' y='8.369'>,</text>
+<text class='f-cmti10-996' x='15.94' y='21.818'>xp</text>
+<text class='f-cmr10-996' x='26.283' y='21.818'>);</text>
+<text class='f-cmti10-996' x='34.585' y='21.818'>dX</text>
+<text class='f-cmr10-996' x='51.424' y='21.818'>=</text>
+<text class='f-cmti10-996' x='61.94' y='21.818'>r<tspan x='65.632'>ows</tspan></text>
+<text class='f-cmr10-996' x='82.235' y='21.818'>(</text>
+<text class='f-cmti10-996' x='86.109' y='21.818'>rmsn</text>
+<rect x='109.494' y='21.42' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='113.313' y='21.818'>b</text>
+<text class='f-cmmi10-996' x='118.525' y='21.818'>,</text>
+<text class='f-cmti10-996' x='122.953' y='21.818'>dXp</text>
+<text class='f-cmmi10-996' x='141.171' y='21.818'>,<tspan x='145.599'>x</tspan></text>
+<text class='f-cmr10-996' x='151.293' y='21.818'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-518a7d08">70</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='5.250em' viewBox='0 0 157.41 52.504' fill='currentColor' style='vertical-align:-4.404em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>gWTE</text>
+<text class='f-cmr10-996' x='32.387' y='8.468'>=</text>
+<text class='f-cmti10-996' x='42.903' y='8.468'>tr<tspan x='49.904'>ansp</tspan><tspan x='69.254'>ose</tspan></text>
+<text class='f-cmex10-996' x='83.751' y='.398'></text>
+<text class='f-cmti10-996' x='88.317' y='8.468'>onehot</text>
+<text class='f-cmr10-996' x='118.032' y='8.468'>(</text>
+<text class='f-cmti10-996' x='121.906' y='8.468'>ids</text>
+<text class='f-cmmi10-996' x='134.945' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>vo<tspan x='25.106'>c</tspan><tspan x='29.179'>abSize</tspan></text>
+<text class='f-cmr10-996' x='56.916' y='22.018'>)</text>
+<text class='f-cmex10-996' x='60.79' y='13.948'></text>
+<text class='f-cmti10-996' x='67.017' y='22.018'>dX</text>
+<text class='f-cmr10-996' x='81.089' y='22.018'>;</text>
+<text class='f-cmti10-996' x='85.516' y='22.018'>gWPE</text>
+<text class='f-cmr10-996' x='117.532' y='22.018'>=</text>
+<text class='f-cmti10-996' x='15.94' y='35.467'>tr<tspan x='22.942'>ansp</tspan><tspan x='42.291'>ose</tspan></text>
+<text class='f-cmex10-996' x='56.788' y='27.397'></text>
+<text class='f-cmti10-996' x='61.354' y='35.467'>onehot</text>
+<text class='f-cmr10-996' x='91.069' y='35.467'>(</text>
+<text class='f-cmti10-996' x='94.944' y='35.467'>p<tspan x='99.526'>os</tspan></text>
+<text class='f-cmmi10-996' x='109.51' y='35.467'>,</text>
+<text class='f-cmti10-996' x='15.94' y='48.917'>blo<tspan x='27.652'>ckSize</tspan></text>
+<text class='f-cmr10-996' x='54.879' y='48.917'>)</text>
+<text class='f-cmex10-996' x='58.753' y='40.847'></text>
+<text class='f-cmti10-996' x='64.98' y='48.917'>dX</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-adbaba9c">71</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.641em' viewBox='0 0 157.41 36.408' fill='currentColor' style='vertical-align:-2.794em' role='img'><g>
+<text class='f-cmex10-996' x='0' y='.398'></text>
+<text class='f-cmti10-996' x='4.566' y='8.468'>loss</text>
+<text class='f-cmmi10-996' x='21.169' y='8.468'>,</text>
+<text class='f-cmti10-996' x='25.597' y='8.468'>ﬂat</text>
+<text class='f-cmr10-996' x='40.8' y='8.468'>(</text>
+<text class='f-cmti10-996' x='44.674' y='8.468'>gWTE</text>
+<text class='f-cmmi10-996' x='74.293' y='8.468'>,</text>
+<text class='f-cmti10-996' x='78.721' y='8.468'>gWPE</text>
+<text class='f-cmmi10-996' x='107.97' y='8.468'>,</text>
+<text class='f-cmti10-996' x='112.397' y='8.468'>gLM</text>
+<text class='f-cmmi10-996' x='133.795' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='20.423'>gWQ</text>
+<text class='f-cmmi10-996' x='39.049' y='20.423'>,</text>
+<text class='f-cmti10-996' x='43.477' y='20.423'>gWK</text>
+<text class='f-cmmi10-996' x='67.119' y='20.423'>,</text>
+<text class='f-cmti10-996' x='71.547' y='20.423'>gWV</text>
+<text class='f-cmmi10-996' x='95.316' y='20.423'>,</text>
+<text class='f-cmti10-996' x='99.744' y='20.423'>gWO</text>
+<text class='f-cmmi10-996' x='122.853' y='20.423'>,</text>
+<text class='f-cmti10-996' x='127.28' y='20.423'>gF</text>
+<text class='f-cmr7-697' x='139.692' y='22.859'>1</text>
+<text class='f-cmmi10-996' x='144.161' y='20.423'>,</text>
+<text class='f-cmti10-996' x='15.94' y='32.821'>gF</text>
+<text class='f-cmr7-697' x='28.352' y='35.257'>2</text>
+<text class='f-cmr10-996' x='32.821' y='32.821'>)</text>
+<text class='f-cmex10-996' x='36.696' y='24.752'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="backward.html#c-adbaba9c">72</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk">73</a></span><span class="tx"></span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-8c166ba8">74</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.591em' viewBox='0 0 175.342 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>---------------------<tspan x='86.841'>Adam:</tspan><tspan x='120.327'>three</tspan><tspan x='15.94' y='20.368'>whole-v</tspan><tspan x='49.149'>ector</tspan><tspan x='74.084'>expressions</tspan><tspan x='126.028'>o</tspan><tspan x='130.732'>v</tspan><tspan x='135.714'>er</tspan><tspan x='147.365'>p,</tspan><tspan x='158.988'>m,</tspan><tspan x='15.94' y='32.323'>v</tspan><tspan x='24.519'>--</tspan></text>
+<text class='f-cmtt10-996' x='34.482' y='32.323'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-8c166ba8">75</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='4.902em' viewBox='0 0 175.342 49.016' fill='currentColor' style='vertical-align:-4.055em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>adam</text>
+<text class='f-cmex10-996' x='24.187' y='.398'></text>
+<text class='f-cmmi10-996' x='28.754' y='8.468'>p</text>
+<text class='f-cmr10-996' x='33.766' y='8.468'>:<tspan x='38.194'>Arra</tspan><tspan x='58.175'>y</tspan></text>
+<text class='f-stmary10-996' x='63.571' y='8.468'></text>
+<text class='f-msbm10-996' x='67.584' y='8.468'>R</text>
+<text class='f-cmr10-996' x='74.779' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='84.742' y='8.468'>,</text>
+<text class='f-msbm10-996' x='89.17' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='95.811' y='8.468'>32</text>
+<text class='f-stmary10-996' x='105.774' y='8.468'></text>
+<text class='f-cmmi10-996' x='109.787' y='8.468'>,<tspan x='15.94' y='21.021'>m</tspan></text>
+<text class='f-cmr10-996' x='24.688' y='21.021'>:<tspan x='29.115'>Arra</tspan><tspan x='49.096'>y</tspan></text>
+<text class='f-stmary10-996' x='54.493' y='21.021'></text>
+<text class='f-msbm10-996' x='58.505' y='21.021'>R</text>
+<text class='f-cmr10-996' x='65.701' y='21.021'>64</text>
+<text class='f-cmmi10-996' x='75.663' y='21.021'>,</text>
+<text class='f-msbm10-996' x='80.091' y='21.021'>Z</text>
+<text class='f-cmr10-996' x='86.733' y='21.021'>32</text>
+<text class='f-stmary10-996' x='96.695' y='21.021'></text>
+<text class='f-cmmi10-996' x='100.708' y='21.021'>,<tspan x='15.94' y='32.976'>v</tspan></text>
+<text class='f-cmr10-996' x='21.127' y='32.976'>:<tspan x='25.555'>Arra</tspan><tspan x='45.535'>y</tspan></text>
+<text class='f-stmary10-996' x='50.932' y='32.976'></text>
+<text class='f-msbm10-996' x='54.945' y='32.976'>R</text>
+<text class='f-cmr10-996' x='62.14' y='32.976'>64</text>
+<text class='f-cmmi10-996' x='72.102' y='32.976'>,</text>
+<text class='f-msbm10-996' x='76.53' y='32.976'>Z</text>
+<text class='f-cmr10-996' x='83.172' y='32.976'>32</text>
+<text class='f-stmary10-996' x='93.135' y='32.976'></text>
+<text class='f-cmmi10-996' x='97.147' y='32.976'>,<tspan x='15.94' y='45.43'>g</tspan></text>
+<text class='f-cmr10-996' x='21.05' y='45.43'>:<tspan x='25.477'>Arra</tspan><tspan x='45.458'>y</tspan></text>
+<text class='f-stmary10-996' x='50.855' y='45.43'></text>
+<text class='f-msbm10-996' x='54.867' y='45.43'>R</text>
+<text class='f-cmr10-996' x='62.063' y='45.43'>64</text>
+<text class='f-cmmi10-996' x='72.025' y='45.43'>,</text>
+<text class='f-msbm10-996' x='76.453' y='45.43'>Z</text>
+<text class='f-cmr10-996' x='83.095' y='45.43'>32</text>
+<text class='f-stmary10-996' x='93.057' y='45.43'></text>
+<text class='f-cmmi10-996' x='97.07' y='45.43'>,<tspan x='101.498'>t</tspan></text>
+<text class='f-cmr10-996' x='105.096' y='45.43'>:</text>
+<text class='f-msbm10-996' x='109.523' y='45.43'>Z</text>
+<text class='f-cmr10-996' x='116.165' y='45.43'>32</text>
+<text class='f-cmmi10-996' x='126.128' y='45.43'>,</text>
+<text class='f-cmti10-996' x='130.556' y='45.43'>lr</text>
+<text class='f-cmr10-996' x='138.375' y='45.43'>:</text>
+<text class='f-msbm10-996' x='142.803' y='45.43'>R</text>
+<text class='f-cmr10-996' x='149.998' y='45.43'>64</text>
+<text class='f-cmex10-996' x='159.961' y='37.36'></text>
+<text class='f-cmr10-996' x='166.187' y='45.43'>:</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-8c166ba8">76</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.560em' viewBox='0 0 157.41 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmex10-996' x='0' y='.398'></text>
+<text class='f-cmr10-996' x='4.566' y='8.468'>Arra<tspan x='24.547'>y</tspan></text>
+<text class='f-stmary10-996' x='29.943' y='8.468'></text>
+<text class='f-msbm10-996' x='33.956' y='8.468'>R</text>
+<text class='f-cmr10-996' x='41.151' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='51.114' y='8.468'>,</text>
+<text class='f-msbm10-996' x='55.542' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='62.184' y='8.468'>32</text>
+<text class='f-stmary10-996' x='72.146' y='8.468'></text>
+<text class='f-cmmi10-996' x='76.159' y='8.468'>,</text>
+<text class='f-cmr10-996' x='80.587' y='8.468'>Arra<tspan x='100.568'>y</tspan></text>
+<text class='f-stmary10-996' x='105.964' y='8.468'></text>
+<text class='f-msbm10-996' x='109.977' y='8.468'>R</text>
+<text class='f-cmr10-996' x='117.172' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='127.135' y='8.468'>,</text>
+<text class='f-msbm10-996' x='131.562' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='138.204' y='8.468'>32</text>
+<text class='f-stmary10-996' x='148.167' y='8.468'></text>
+<text class='f-cmmi10-996' x='152.18' y='8.468'>,</text>
+<text class='f-cmr10-996' x='15.94' y='22.018'>Arra<tspan x='35.921'>y</tspan></text>
+<text class='f-stmary10-996' x='41.317' y='22.018'></text>
+<text class='f-msbm10-996' x='45.33' y='22.018'>R</text>
+<text class='f-cmr10-996' x='52.525' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='62.488' y='22.018'>,</text>
+<text class='f-msbm10-996' x='66.916' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='73.558' y='22.018'>32</text>
+<text class='f-stmary10-996' x='83.52' y='22.018'></text>
+<text class='f-cmex10-996' x='87.533' y='13.948'></text>
+<text class='f-cmr10-996' x='94.867' y='22.018'>=</text>
+<text class='f-cmtt10-996' x='105.383' y='22.018'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-8c166ba8">77</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='9.930em' height='1.196em' viewBox='0 0 99.295 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.369'>m</text>
+<text class='f-cmsy7-697' x='8.747' y='4.255'></text>
+<text class='f-cmr10-996' x='14.31' y='8.369'>=</text>
+<text class='f-cmmi10-996' x='24.826' y='8.369'>β</text>
+<text class='f-cmr7-697' x='30.461' y='9.863'>1</text>
+<text class='f-cmmi10-996' x='36.591' y='8.369'>m</text>
+<text class='f-cmr10-996' x='47.552' y='8.369'>+<tspan x='57.515'>(1</tspan></text>
+<text class='f-cmsy10-996' x='68.584' y='8.369'>−</text>
+<text class='f-cmmi10-996' x='78.547' y='8.369'>β</text>
+<text class='f-cmr7-697' x='84.182' y='9.863'>1</text>
+<text class='f-cmr10-996' x='88.651' y='8.369'>)</text>
+<text class='f-cmmi10-996' x='94.186' y='8.369'>g</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-8c166ba8">78</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='11.721em' height='1.196em' viewBox='0 0 117.208 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.369'>v</text>
+<text class='f-cmsy7-697' x='5.187' y='4.255'></text>
+<text class='f-cmr10-996' x='10.749' y='8.369'>=</text>
+<text class='f-cmmi10-996' x='21.265' y='8.369'>β</text>
+<text class='f-cmr7-697' x='26.9' y='9.863'>2</text>
+<text class='f-cmmi10-996' x='33.03' y='8.369'>v</text>
+<text class='f-cmr10-996' x='40.43' y='8.369'>+<tspan x='50.393'>(1</tspan></text>
+<text class='f-cmsy10-996' x='61.463' y='8.369'>−</text>
+<text class='f-cmmi10-996' x='71.425' y='8.369'>β</text>
+<text class='f-cmr7-697' x='77.06' y='9.863'>2</text>
+<text class='f-cmr10-996' x='81.53' y='8.369'>)<tspan x='87.064'>(</tspan></text>
+<text class='f-cmmi10-996' x='90.939' y='8.369'>g</text>
+<text class='f-cmsy10-996' x='98.262' y='8.369'>×</text>
+<text class='f-cmmi10-996' x='108.225' y='8.369'>g</text>
+<text class='f-cmr10-996' x='113.334' y='8.369'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-8c166ba8">79</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.773em' height='2.649em' viewBox='-.319 0 157.729 26.493' fill='currentColor' style='vertical-align:-1.802em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.468'>p</text>
+<text class='f-cmsy7-697' x='5.012' y='4.355'></text>
+<text class='f-cmr10-996' x='10.575' y='8.468'>=</text>
+<text class='f-cmmi10-996' x='21.091' y='8.468'>p</text>
+<text class='f-cmsy10-996' x='28.317' y='8.468'>−</text>
+<text class='f-cmex10-996' x='38.28' y='.398'></text>
+<text class='f-cmti10-996' x='42.846' y='8.468'>lr</text>
+<text class='f-cmr10-996' x='52.326' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='56.2' y='8.468'>m</text>
+<text class='f-cmsy7-697' x='64.947' y='4.355'></text>
+<text class='f-cmmi10-996' x='67.743' y='8.468'>/</text>
+<text class='f-cmr10-996' x='72.724' y='8.468'>(1</text>
+<text class='f-cmsy10-996' x='83.793' y='8.468'>−</text>
+<text class='f-cmmi10-996' x='15.94' y='22.906'>β</text>
+<text class='f-cmmi7-697' x='22.101' y='18.792'>t</text>
+<text class='f-cmr7-697' x='21.575' y='25.369'>1</text>
+<text class='f-cmr10-996' x='26.045' y='22.906'>))</text>
+<text class='f-cmex10-996' x='33.794' y='14.836'></text>
+<text class='f-cmmi10-996' x='38.36' y='22.906'>/</text>
+<text class='f-cmex10-996' x='43.341' y='14.836'><tspan x='47.907' y='14.346'></tspan></text>
+<rect x='57.87' y='13.948' height='.398' width='47.974'/>
+<text class='f-cmmi10-996' x='57.87' y='22.906'>v</text>
+<text class='f-cmsy7-697' x='63.057' y='20.028'></text>
+<text class='f-cmmi10-996' x='65.852' y='22.906'>/</text>
+<text class='f-cmr10-996' x='70.833' y='22.906'>(1</text>
+<text class='f-cmsy10-996' x='81.903' y='22.906'>−</text>
+<text class='f-cmmi10-996' x='91.865' y='22.906'>β</text>
+<text class='f-cmmi7-697' x='98.026' y='19.474'>t</text>
+<text class='f-cmr7-697' x='97.5' y='25.563'>2</text>
+<text class='f-cmr10-996' x='101.97' y='22.906'>)<tspan x='108.058'>+</tspan></text>
+<text class='f-cmmi10-996' x='118.021' y='22.906'></text>
+<text class='f-cmr7-697' x='122.064' y='24.4'>A</text>
+<text class='f-cmex10-996' x='128.443' y='14.836'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-8c166ba8">80</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='4.394em' height='1.196em' viewBox='0 0 43.936 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='3.874' y='8.369'>p</text>
+<text class='f-cmsy7-697' x='8.887' y='4.255'></text>
+<text class='f-cmmi10-996' x='11.682' y='8.369'>,<tspan x='16.11'>m</tspan></text>
+<text class='f-cmsy7-697' x='24.857' y='4.255'></text>
+<text class='f-cmmi10-996' x='27.652' y='8.369'>,<tspan x='32.08'>v</tspan></text>
+<text class='f-cmsy7-697' x='37.267' y='4.255'></text>
+<text class='f-cmr10-996' x='40.062' y='8.369'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-8c166ba8">81</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-06f6bbc5">82</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.550em' viewBox='0 0 175.342 25.504' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>le<tspan x='6.62'>arningR</tspan><tspan x='41.511'>ate</tspan></text>
+<text class='f-cmr10-996' x='55.244' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='59.118' y='8.369'>s</text>
+<text class='f-cmr10-996' x='63.788' y='8.369'>:</text>
+<text class='f-msbm10-996' x='68.216' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='74.858' y='8.369'>32):</text>
+<text class='f-msbm10-996' x='93.123' y='8.369'>R</text>
+<text class='f-cmr10-996' x='100.318' y='8.369'>64<tspan x='113.048'>=</tspan></text>
+<text class='f-cmti10-996' x='123.564' y='8.369'>lr</text>
+<text class='f-cmr7-697' x='131.383' y='9.863'>0</text>
+<text class='f-cmex10-996' x='15.94' y='13.848'></text>
+<text class='f-cmr10-996' x='20.507' y='21.918'>1</text>
+<text class='f-cmsy10-996' x='27.702' y='21.918'>−</text>
+<text class='f-cmr10-996' x='37.664' y='21.918'>(1</text>
+<text class='f-cmmi10-996' x='46.52' y='21.918'>.</text>
+<text class='f-cmr10-996' x='49.287' y='21.918'>0</text>
+<text class='f-cmmi10-996' x='55.929' y='21.918'>s</text>
+<text class='f-cmr10-996' x='60.599' y='21.918'>)</text>
+<text class='f-cmmi10-996' x='64.474' y='21.918'>/</text>
+<text class='f-cmti10-996' x='69.455' y='21.918'>nSteps</text>
+<text class='f-cmex10-996' x='98.533' y='13.848'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk">83</a></span><span class="tx"></span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-035e6ab9">84</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>------------------------------------------------<tspan x='15.94' y='21.818'>---</tspan><tspan x='29.224'>training</tspan><tspan x='66.888'>-----------</tspan></text>
+<text class='f-cmtt10-996' x='106.739' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-035e6ab9">85</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='6.318em' height='1.196em' viewBox='0 0 63.18 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>run</text>
+<text class='f-cmr10-996' x='15.913' y='8.369'>(<tspan x='20.202'>):</tspan><tspan x='28.505'>(</tspan><tspan x='32.794'>)</tspan><tspan x='39.436'>=</tspan></text>
+<text class='f-cmtt10-996' x='49.952' y='8.369'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-035e6ab9">86</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='6.077em' viewBox='0 0 157.41 60.772' fill='currentColor' style='vertical-align:-5.240em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>println</text>
+<text class='f-ptmr8r-993' x='32.938' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='37.361' y='8.369'>microgpt<tspan x='91.159'>flat</tspan><tspan x='121.047'>|</tspan><tspan x='15.94' y='20.922'>params</tspan></text>
+<text class='f-ptmr8r-993' x='57.783' y='20.922'>”</text>
+<text class='f-cmti10-996' x='64.974' y='20.922'>nPar<tspan x='86.117'>ams</tspan></text>
+<text class='f-cmr10-996' x='104.247' y='20.922'>(<tspan x='108.537'>)</tspan></text>
+<text class='f-ptmr8r-993' x='15.94' y='32.877'>“</text>
+<text class='f-pcrr8r-993' x='26.341' y='32.877'>|<tspan x='38.296'>corpus</tspan></text>
+<text class='f-ptmr8r-993' x='80.139' y='32.877'>”</text>
+<text class='f-cmti10-996' x='87.33' y='32.877'>c<tspan x='91.404'>orpus</tspan></text>
+<text class='f-cmmi10-996' x='116.027' y='32.877'>.</text>
+<text class='f-cmti10-996' x='118.794' y='32.877'>size</text>
+<text class='f-cmr10-996' x='135.328' y='32.877'>(<tspan x='139.617'>)</tspan></text>
+<text class='f-ptmr8r-993' x='15.94' y='44.832'>“</text>
+<text class='f-pcrr8r-993' x='26.341' y='44.832'>x</text>
+<text class='f-ptmr8r-993' x='38.296' y='44.832'>”</text>
+<text class='f-cmr10-996' x='45.487' y='44.832'>(</text>
+<text class='f-cmti10-996' x='49.361' y='44.832'>blo<tspan x='61.073'>ckSize</tspan></text>
+<text class='f-cmr10-996' x='90.514' y='44.832'>+<tspan x='15.94' y='57.186'>1)</tspan></text>
+<text class='f-ptmr8r-993' x='27.563' y='57.186'>“</text>
+<text class='f-pcrr8r-993' x='37.964' y='57.186'>|<tspan x='49.919'>batch</tspan><tspan x='85.785'>1,</tspan><tspan x='103.718'>5</tspan><tspan x='115.673'>steps</tspan></text>
+<text class='f-ptmr8r-993' x='145.561' y='57.186'>”</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-035e6ab9">87</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='3.222em' height='1.196em' viewBox='0 0 32.219 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>bsz</text>
+<text class='f-cmr10-996' x='16.722' y='8.369'>=<tspan x='27.238'>1</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-035e6ab9">88</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.773em' height='3.895em' viewBox='-.319 0 157.729 38.954' fill='currentColor' style='vertical-align:-3.059em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.369'>p</text>
+<text class='f-cmr10-996' x='5.012' y='8.369'>:<tspan x='9.44'>Arra</tspan><tspan x='29.421'>y</tspan></text>
+<text class='f-stmary10-996' x='34.817' y='8.369'></text>
+<text class='f-msbm10-996' x='38.83' y='8.369'>R</text>
+<text class='f-cmr10-996' x='46.025' y='8.369'>64</text>
+<text class='f-cmmi10-996' x='55.988' y='8.369'>,</text>
+<text class='f-msbm10-996' x='60.416' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='67.058' y='8.369'>32</text>
+<text class='f-stmary10-996' x='77.02' y='8.369'></text>
+<text class='f-cmr10-996' x='83.8' y='8.369'>:<tspan x='86.568'>=</tspan></text>
+<text class='f-cmti10-996' x='15.94' y='21.918'>lo<tspan x='23.069'>adPar</tspan><tspan x='48.795'>ams</tspan></text>
+<text class='f-cmex10-996' x='66.925' y='13.848'></text>
+<text class='f-cmti10-996' x='71.491' y='21.918'>weightsDir</text>
+<text class='f-cmmi10-996' x='118.657' y='21.918'>,</text>
+<text class='f-cmti10-996' x='15.94' y='35.368'>matName</text>
+<text class='f-cmmi10-996' x='58.465' y='35.368'>,</text>
+<text class='f-cmr10-996' x='62.893' y='35.368'>9</text>
+<text class='f-cmmi10-996' x='67.874' y='35.368'>,</text>
+<text class='f-cmti10-996' x='72.302' y='35.368'>nPar<tspan x='93.445'>ams</tspan></text>
+<text class='f-cmr10-996' x='111.576' y='35.368'>(<tspan x='115.865'>)</tspan></text>
+<text class='f-cmex10-996' x='119.739' y='27.298'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-035e6ab9">89</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.550em' viewBox='0 0 157.41 25.504' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.369'>m</text>
+<text class='f-cmr10-996' x='8.747' y='8.369'>:<tspan x='13.175'>Arra</tspan><tspan x='33.156'>y</tspan></text>
+<text class='f-stmary10-996' x='38.552' y='8.369'></text>
+<text class='f-msbm10-996' x='42.565' y='8.369'>R</text>
+<text class='f-cmr10-996' x='49.76' y='8.369'>64</text>
+<text class='f-cmmi10-996' x='59.723' y='8.369'>,</text>
+<text class='f-msbm10-996' x='64.151' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='70.793' y='8.369'>32</text>
+<text class='f-stmary10-996' x='80.755' y='8.369'></text>
+<text class='f-cmr10-996' x='87.535' y='8.369'>:<tspan x='90.303'>=</tspan></text>
+<text class='f-cmti10-996' x='15.94' y='21.918'>zer<tspan x='28.288'>os</tspan></text>
+<text class='f-cmex10-996' x='38.272' y='13.848'></text>
+<text class='f-cmti10-996' x='42.838' y='21.918'>nPar<tspan x='63.981'>ams</tspan></text>
+<text class='f-cmr10-996' x='82.111' y='21.918'>(<tspan x='86.401'>)</tspan></text>
+<text class='f-cmex10-996' x='90.275' y='13.848'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-035e6ab9">90</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.550em' viewBox='0 0 157.41 25.504' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.369'>v</text>
+<text class='f-cmr10-996' x='5.187' y='8.369'>:<tspan x='9.614'>Arra</tspan><tspan x='29.595'>y</tspan></text>
+<text class='f-stmary10-996' x='34.991' y='8.369'></text>
+<text class='f-msbm10-996' x='39.004' y='8.369'>R</text>
+<text class='f-cmr10-996' x='46.199' y='8.369'>64</text>
+<text class='f-cmmi10-996' x='56.162' y='8.369'>,</text>
+<text class='f-msbm10-996' x='60.59' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='67.232' y='8.369'>32</text>
+<text class='f-stmary10-996' x='77.194' y='8.369'></text>
+<text class='f-cmr10-996' x='83.974' y='8.369'>:<tspan x='86.742'>=</tspan></text>
+<text class='f-cmti10-996' x='15.94' y='21.918'>zer<tspan x='28.288'>os</tspan></text>
+<text class='f-cmex10-996' x='38.272' y='13.848'></text>
+<text class='f-cmti10-996' x='42.838' y='21.918'>nPar<tspan x='63.981'>ams</tspan></text>
+<text class='f-cmr10-996' x='82.111' y='21.918'>(<tspan x='86.401'>)</tspan></text>
+<text class='f-cmex10-996' x='90.275' y='13.848'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-a8e1d30b">91</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='9.867em' height='1.196em' viewBox='0 0 98.674 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>for</text>
+<text class='f-cmmi10-996' x='18.458' y='8.369'>s</text>
+<text class='f-cmsy10-996' x='25.896' y='8.369'>←</text>
+<text class='f-cmti10-996' x='38.626' y='8.369'>se<tspan x='46.773'>q</tspan></text>
+<text class='f-cmr10-996' x='52.237' y='8.369'>(0<tspan x='63.307'>#</tspan><tspan x='73.823'>5)</tspan></text>
+<text class='f-cmtt10-996' x='85.446' y='8.369'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-a8e1d30b">92</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='7.456em' height='1.196em' viewBox='0 0 74.563 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.369'>t</text>
+<text class='f-cmr7-697' x='3.598' y='9.863'>0</text>
+<text class='f-cmr10-996' x='10.834' y='8.369'>=</text>
+<text class='f-cmti10-996' x='21.35' y='8.369'>nanoTime</text>
+<text class='f-cmr10-996' x='66.399' y='8.369'>(<tspan x='70.689'>)</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-a8e1d30b">93</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='3.706em' viewBox='0 0 139.477 37.061' fill='currentColor' style='vertical-align:-2.859em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='3.874' y='8.468'>l<tspan x='7.043'>,</tspan><tspan x='11.471'>g</tspan></text>
+<text class='f-cmr10-996' x='16.58' y='8.468'>)<tspan x='23.222'>=</tspan></text>
+<text class='f-cmti10-996' x='33.738' y='8.468'>step</text>
+<text class='f-cmex10-996' x='51.425' y='.398'></text>
+<text class='f-cmmi10-996' x='55.991' y='8.468'>p,</text>
+<text class='f-cmti10-996' x='65.431' y='8.468'>keys</text>
+<text class='f-cmr10-996' x='84.326' y='8.468'>(</text>
+<text class='f-cmti10-996' x='88.2' y='8.468'>bsz</text>
+<text class='f-cmmi10-996' x='102.155' y='8.468'>,</text>
+<text class='f-cmtt10-996' x='15.94' y='21.021'>fn</text>
+<text class='f-cmr10-996' x='29.168' y='21.021'>(</text>
+<text class='f-cmmi10-996' x='33.043' y='21.021'>i</text>
+<text class='f-cmr10-996' x='36.475' y='21.021'>:</text>
+<text class='f-msbm10-996' x='40.903' y='21.021'>Z</text>
+<text class='f-cmr10-996' x='47.545' y='21.021'>32):</text>
+<text class='f-msbm10-996' x='65.809' y='21.021'>Z</text>
+<text class='f-cmr10-996' x='72.451' y='21.021'>32</text>
+<text class='f-cmsy10-996' x='85.181' y='21.021'>⇒</text>
+<text class='f-cmr10-996' x='97.911' y='21.021'>(</text>
+<text class='f-cmmi10-996' x='101.786' y='21.021'>s</text>
+<text class='f-cmti10-996' x='15.94' y='33.475'>bsz</text>
+<text class='f-cmr10-996' x='32.109' y='33.475'>+</text>
+<text class='f-cmmi10-996' x='42.071' y='33.475'>i</text>
+<text class='f-cmr10-996' x='45.504' y='33.475'>)</text>
+<text class='f-cmtt10-996' x='51.592' y='33.475'>MOD</text>
+<text class='f-cmti10-996' x='69.497' y='33.475'>c<tspan x='73.57'>orpus</tspan></text>
+<text class='f-cmmi10-996' x='98.193' y='33.475'>.</text>
+<text class='f-cmti10-996' x='100.96' y='33.475'>size</text>
+<text class='f-cmr10-996' x='117.494' y='33.475'>(<tspan x='121.784'>))</tspan></text>
+<text class='f-cmex10-996' x='129.532' y='25.405'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-a8e1d30b">94</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='2.560em' viewBox='0 0 139.477 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='3.874' y='8.468'>p,<tspan x='13.315'>m,</tspan><tspan x='26.49'>v</tspan></text>
+<text class='f-cmr10-996' x='31.676' y='8.468'>)<tspan x='38.318'>:</tspan><tspan x='41.085'>=</tspan></text>
+<text class='f-cmti10-996' x='51.602' y='8.468'>adam</text>
+<text class='f-cmex10-996' x='75.789' y='.398'></text>
+<text class='f-cmmi10-996' x='80.355' y='8.468'>p,<tspan x='89.795'>m,</tspan><tspan x='102.971'>v</tspan><tspan x='108.157'>,</tspan><tspan x='112.585'>g</tspan><tspan x='117.694'>,</tspan><tspan x='15.94' y='22.018'>s</tspan></text>
+<text class='f-cmr10-996' x='22.824' y='22.018'>+<tspan x='32.787'>1</tspan></text>
+<text class='f-cmmi10-996' x='37.768' y='22.018'>,</text>
+<text class='f-cmti10-996' x='42.196' y='22.018'>le<tspan x='48.815'>arningR</tspan><tspan x='83.707'>ate</tspan></text>
+<text class='f-cmr10-996' x='97.44' y='22.018'>(</text>
+<text class='f-cmmi10-996' x='101.314' y='22.018'>s</text>
+<text class='f-cmr10-996' x='105.984' y='22.018'>)</text>
+<text class='f-cmex10-996' x='109.858' y='13.948'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-a8e1d30b">95</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='5.041em' viewBox='0 0 139.477 50.411' fill='currentColor' style='vertical-align:-4.204em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>println</text>
+<text class='f-ptmr8r-993' x='32.938' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='37.361' y='8.369'>step</text>
+<text class='f-ptmr8r-993' x='67.249' y='8.369'>”</text>
+<text class='f-cmr10-996' x='74.44' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='78.314' y='8.369'>s</text>
+<text class='f-cmr10-996' x='85.198' y='8.369'>+<tspan x='15.94' y='20.922'>1)</tspan></text>
+<text class='f-ptmr8r-993' x='27.563' y='20.922'>“</text>
+<text class='f-pcrr8r-993' x='37.964' y='20.922'>loss</text>
+<text class='f-ptmr8r-993' x='67.852' y='20.922'>”</text>
+<text class='f-cmmi10-996' x='75.043' y='20.922'>l</text>
+<text class='f-ptmr8r-993' x='80.979' y='20.922'>“</text>
+<text class='f-pcrr8r-993' x='97.357' y='20.922'>(</text>
+<text class='f-ptmr8r-993' x='103.335' y='20.922'>”</text>
+<text class='f-cmex10-996' x='15.94' y='25.305'></text>
+<text class='f-cmr10-996' x='20.507' y='33.375'>(</text>
+<text class='f-cmti10-996' x='24.381' y='33.375'>nanoTime</text>
+<text class='f-cmr10-996' x='69.43' y='33.375'>(<tspan x='73.719'>)</tspan></text>
+<text class='f-cmsy10-996' x='79.807' y='33.375'>−</text>
+<text class='f-cmmi10-996' x='89.77' y='33.375'>t</text>
+<text class='f-cmr7-697' x='93.368' y='34.869'>0</text>
+<text class='f-cmr10-996' x='97.837' y='33.375'>)</text>
+<text class='f-cmsy10-996' x='103.925' y='33.375'>÷</text>
+<text class='f-cmr10-996' x='15.94' y='46.825'>1000000</text>
+<text class='f-cmex10-996' x='50.81' y='38.755'></text>
+<text class='f-ptmr8r-993' x='58.143' y='46.825'>“</text>
+<text class='f-pcrr8r-993' x='68.544' y='46.825'>ms)</text>
+<text class='f-ptmr8r-993' x='86.477' y='46.825'>”</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-a8e1d30b">96</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="adam.html#c-a8e1d30b">97</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a class="lnk" href="task.html#c-9be2b4ac">98</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span></div>
+<pre class="listing fx-s"><code><a class="lnk" href="task.html#c-9294c406">1</a>(* MicroGptFlat -- microGPT in native Fortress arrays, data designed after Hsu
 <a class="lnk" href="task.html#c-9294c406">2</a>   (Run C4, the synthesis of rounds two and three: explorations/run-c4/design.md).
 <a class="lnk" href="task.html#c-9294c406">3</a>   The model only: hyperparameters, the layout table, the four vector
 <a class="lnk" href="task.html#c-9294c406">4</a>   functions, the step, Adam and the training loop, line for line against
@@ -113,6 +2027,104 @@
 <a class="lnk" href="adam.html#c-a8e1d30b">96</a>    end
 <a class="lnk" href="adam.html#c-a8e1d30b">97</a>  end
 <a class="lnk" href="task.html#c-9be2b4ac">98</a>end</code></pre>
+<pre class="listing fx-s fx-u"><code><a class="lnk" href="task.html#c-9294c406">1</a>(* MicroGptFlat -- microGPT in native Fortress arrays, data designed after Hsu
+<a class="lnk" href="task.html#c-9294c406">2</a>   (Run C4, the synthesis of rounds two and three: explorations/run-c4/design.md).
+<a class="lnk" href="task.html#c-9294c406">3</a>   The model only: hyperparameters, the layout table, the four vector
+<a class="lnk" href="task.html#c-9294c406">4</a>   functions, the step, Adam and the training loop, line for line against
+<a class="lnk" href="task.html#c-9294c406">5</a>   explorations/apl/reference/hsu-flat/microgpt_concise.dyalog and the formulas
+<a class="lnk" href="task.html#c-9294c406">6</a>   (the tour: explorations/run-c4/tour.md).  The array vocabulary is FlatArrays,
+<a class="lnk" href="task.html#c-9294c406">7</a>   the loaders and the corpus FlatData.  Run from explorations/run-c4/src: the
+<a class="lnk" href="task.html#c-9294c406">8</a>   paths are relative. *)
+<a class="lnk" href="task.html#c-1893133f">9</a>component MicroGptFlat
+<a class="lnk" href="task.html#c-1893133f">10</a>export MicroGptFlat
+<a class="lnk" href="task.html#c-1893133f">11</a>export Executable
+<a class="lnk" href="task.html#c-1893133f">12</a>import FlatArrays.{...}
+<a class="lnk" href="task.html#c-1893133f">13</a>import FlatData.{...}
+<a class="lnk" href="task.html#c-1893133f">14</a>import System.{...}
+<a class="lnk">15</a>
+<a class="lnk" href="task.html#c-73b4ea60">16</a>(* --------------------------------------------------- hyperparameters ---- *)
+<a class="lnk" href="task.html#c-73b4ea60">17</a>(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)
+<a class="lnk" href="task.html#c-73b4ea60">18</a>(ε, lr0, β1, β2, ε_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)
+<a class="lnk" href="task.html#c-7ecdb875">19</a>(corpusPath, weightsDir) = ("../../apl/reference/dzaima/docs.txt", "../../apl/reference/dzaima/w")
+<a class="lnk">20</a>
+<a class="lnk" href="arrays.html#c-961bed8e">21</a>(* ^T on a matrix and on every plane of a rank-3 array, declared here and not
+<a class="lnk" href="arrays.html#c-961bed8e">22</a>   in the vocabulary because an API cannot declare a postfix operator (row 133) *)
+<a class="lnk" href="arrays.html#c-961bed8e">23</a>opr (m: Matrix⟦RR64,r,c⟧)^T⟦nat r, nat c⟧: Matrix⟦RR64,c,r⟧ = transpose(m)
+<a class="lnk" href="arrays.html#c-961bed8e">24</a>opr (t: Array3⟦RR64,0,a,0,b,0,c⟧)^T⟦nat a, nat b, nat c⟧: Array3⟦RR64,0,a,0,c,0,b⟧ = transpose(t)
+<a class="lnk">25</a>
+<a class="lnk" href="norm-softmax.html#c-2e9f288d">26</a>(* -------------------------------------- rmsn, sm and their backward ------ *)
+<a class="lnk" href="norm-softmax.html#c-2e9f288d">27</a>rmsn(x: Array⟦RR64,ZZ32⟧): Array⟦RR64,ZZ32⟧ = x / √ (ε + (x · x) / |x|)
+<a class="lnk" href="norm-softmax.html#c-a7dae195">28</a>sm(z: Array⟦RR64,ZZ32⟧): Array⟦RR64,ZZ32⟧ = do e = exp(z - (BIG MAX z)); e / (SUM e) end
+<a class="lnk" href="attention.html#c-24ae3657">29</a>mask: Array⟦RR64,(ZZ32,ZZ32)⟧ = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 ⇒ if j &gt; i then -(10.0^10) else 0.0 end)
+<a class="lnk" href="backward.html#c-e8b2091c">30</a>rmsn_b(dy: Array⟦RR64,ZZ32⟧, x: Array⟦RR64,ZZ32⟧): Array⟦RR64,ZZ32⟧ = do
+<a class="lnk" href="backward.html#c-e8b2091c">31</a>    r = √ (ε + (x · x) / |x|); y = x / r
+<a class="lnk" href="backward.html#c-e8b2091c">32</a>    (dy - y ((y · dy) / |y|)) / r
+<a class="lnk" href="backward.html#c-e8b2091c">33</a>  end
+<a class="lnk" href="backward.html#c-72b72481">34</a>sm_b(p: Array⟦RR64,ZZ32⟧, dy: Array⟦RR64,ZZ32⟧): Array⟦RR64,ZZ32⟧ = p × (dy - (p · dy))
+<a class="lnk">35</a>
+<a class="lnk" href="arrays.html#c-06ff7dcf">36</a>(* ------------------------------- tactic 2/8: one vector, nine views ------ *)
+<a class="lnk" href="arrays.html#c-731c9475">37</a>matName(i: ZZ32): String =
+<a class="lnk" href="arrays.html#c-731c9475">38</a>    if i = 0 then "wte" elif i = 1 then "wpe" elif i = 2 then "lm_head" elif i = 3 then "attn_wq" elif i = 4 then "attn_wk"
+<a class="lnk" href="arrays.html#c-731c9475">39</a>    elif i = 5 then "attn_wv" elif i = 6 then "attn_wo" elif i = 7 then "mlp_fc1" else "mlp_fc2" end
+<a class="lnk" href="arrays.html#c-731c9475">40</a>matShape(i: ZZ32): (ZZ32, ZZ32) =
+<a class="lnk" href="arrays.html#c-731c9475">41</a>    if (i = 0) ∨ (i = 2) then (vocabSize, nEmbd) elif i = 7 then (4 nEmbd, nEmbd) elif i = 8 then (nEmbd, 4 nEmbd) else (nEmbd, nEmbd) end
+<a class="lnk" href="arrays.html#c-9d763a7d">42</a>matCount(i: ZZ32): ZZ32 = do (r, c) = matShape(i); r c end
+<a class="lnk" href="arrays.html#c-98c767d7">43</a>matOffset(i: ZZ32): ZZ32 = SUM⟦ZZ32⟧[j ← 0#i] matCount(j)
+<a class="lnk" href="arrays.html#c-d2d35a90">44</a>nParams(): ZZ32 = matOffset(9)
+<a class="lnk" href="arrays.html#c-dcbbd551">45</a>view(p: Array⟦RR64,ZZ32⟧, i: ZZ32): Array⟦RR64,(ZZ32,ZZ32)⟧ = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end
+<a class="lnk">46</a>
+<a class="lnk" href="task.html#c-771d8727">47</a>(* -------------------- tactic 3/5: the corpus as one padded integer matrix - *)
+<a class="lnk" href="task.html#c-771d8727">48</a>corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)
+<a class="lnk">49</a>
+<a class="lnk" href="task.html#c-5a0ca8dc">50</a>(* ------------------------- the step: keys -&gt; (loss, flat gradient). Pure. -- *)
+<a class="lnk" href="task.html#c-5a0ca8dc">51</a>step(p: Array⟦RR64,ZZ32⟧, b: Array⟦ZZ32,ZZ32⟧): (RR64, Array⟦RR64,ZZ32⟧) = do
+<a class="lnk" href="task.html#c-4832cf68">52</a>    ids = corpus.tokens(b, 0); tg = corpus.tokens(b, 1); vm = corpus.valid(b); nv = SUM vm; pos = corpus.positions(b)
+<a class="lnk" href="arrays.html#c-3aa342fc">53</a>    (wte, wpe, lm, wq, wk, wv, wo, f1, f2) = (view(p, 0), view(p, 1), view(p, 2), view(p, 3), view(p, 4), view(p, 5), view(p, 6), view(p, 7), view(p, 8))
+<a class="lnk" href="attention.html#c-b7dcc0a7">54</a>    h(m: Array⟦RR64,(ZZ32,ZZ32)⟧): Array⟦RR64,(ZZ32,ZZ32,ZZ32)⟧ = heads(m, blockSize, nHead, headDim)
+<a class="lnk" href="attention.html#c-b7dcc0a7">55</a>    u(t: Array⟦RR64,(ZZ32,ZZ32,ZZ32)⟧): Array⟦RR64,(ZZ32,ZZ32)⟧ = unheads(t, nHead)
+<a class="lnk" href="arrays.html#c-f01158b7">56</a>    (* -- forward, all (doc, pos) rows at once -- *)
+<a class="lnk" href="arrays.html#c-f01158b7">57</a>    x = gather(wte, ids) + gather(wpe, pos); xp = rows(rmsn, x); x1 = rows(rmsn, xp)
+<a class="lnk" href="attention.html#c-faef52d8">58</a>    (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T); (qh, kh, vh) = (h(q), h(k), h(v))
+<a class="lnk" href="attention.html#c-b5289a63">59</a>    a = rows(sm, mask + (qh kh^T) / √ (1.0 headDim)); hc = u(a vh)
+<a class="lnk" href="attention.html#c-936a19c4">60</a>    x2 = xp + hc wo^T; x3 = rows(rmsn, x2); m0 = x3 f1^T; mr = 0.0 MAX m0; x4 = x2 + mr f2^T
+<a class="lnk" href="mlp-loss.html#c-ddbc374c">61</a>    pr = rows(sm, x4 lm^T); loss = -(vm · log(pick(pr, tg))) / nv
+<a class="lnk" href="backward.html#c-512de2de">62</a>    (* -- backward, one line under each forward line, bottom-up -- *)
+<a class="lnk" href="backward.html#c-7b10383c">63</a>    dL = diag(vm / nv) (pr - onehot(tg, vocabSize)); gLM = dL^T x4; dX4 = dL lm
+<a class="lnk" href="backward.html#c-8429f7f8">64</a>    gF2 = dX4^T mr; dM0 = (dX4 f2) × (m0 &gt; 0.0); gF1 = dM0^T x3; dX3 = dM0 f1
+<a class="lnk" href="backward.html#c-c172d8bb">65</a>    dX2 = dX4 + rows(rmsn_b, dX3, x2); gWO = dX2^T hc; dh = h(dX2 wo)
+<a class="lnk" href="backward.html#c-f1379693">66</a>    dVh = a^T dh; dS = rows(sm_b, a, dh vh^T) / √ (1.0 headDim)
+<a class="lnk" href="backward.html#c-973ba1fe">67</a>    dQh = dS kh; dKh = dS^T qh; (dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))
+<a class="lnk" href="backward.html#c-b7a06271">68</a>    (gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1); dX1 = dQ wq + dK wk + dV wv
+<a class="lnk" href="backward.html#c-6c161a65">69</a>    dXp = dX2 + rows(rmsn_b, dX1, xp); dX = rows(rmsn_b, dXp, x)
+<a class="lnk" href="backward.html#c-518a7d08">70</a>    gWTE = transpose(onehot(ids, vocabSize)) dX; gWPE = transpose(onehot(pos, blockSize)) dX
+<a class="lnk" href="backward.html#c-adbaba9c">71</a>    (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))
+<a class="lnk" href="backward.html#c-adbaba9c">72</a>  end
+<a class="lnk">73</a>
+<a class="lnk" href="adam.html#c-8c166ba8">74</a>(* --------------------- Adam: three whole-vector expressions over p, m, v -- *)
+<a class="lnk" href="adam.html#c-8c166ba8">75</a>adam(p: Array⟦RR64,ZZ32⟧, m: Array⟦RR64,ZZ32⟧, v: Array⟦RR64,ZZ32⟧, g: Array⟦RR64,ZZ32⟧, t: ZZ32, lr: RR64):
+<a class="lnk" href="adam.html#c-8c166ba8">76</a>    (Array⟦RR64,ZZ32⟧, Array⟦RR64,ZZ32⟧, Array⟦RR64,ZZ32⟧) = do
+<a class="lnk" href="adam.html#c-8c166ba8">77</a>    m' = β1 m + (1 - β1) g
+<a class="lnk" href="adam.html#c-8c166ba8">78</a>    v' = β2 v + (1 - β2) (g × g)
+<a class="lnk" href="adam.html#c-8c166ba8">79</a>    p' = p - (lr (m' / (1 - β1^t))) / (√ (v' / (1 - β2^t)) + ε_A)
+<a class="lnk" href="adam.html#c-8c166ba8">80</a>    (p', m', v')
+<a class="lnk" href="adam.html#c-8c166ba8">81</a>  end
+<a class="lnk" href="adam.html#c-06f6bbc5">82</a>learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)
+<a class="lnk">83</a>
+<a class="lnk" href="adam.html#c-035e6ab9">84</a>(* --------------------------------------------------- training ----------- *)
+<a class="lnk" href="adam.html#c-035e6ab9">85</a>run(): () = do
+<a class="lnk" href="adam.html#c-035e6ab9">86</a>    println "microgpt flat | params " nParams() " | corpus " corpus.size() " x " (blockSize + 1) " | batch 1, 5 steps"
+<a class="lnk" href="adam.html#c-035e6ab9">87</a>    bsz = 1
+<a class="lnk" href="adam.html#c-035e6ab9">88</a>    p: Array⟦RR64,ZZ32⟧ := loadParams(weightsDir, matName, 9, nParams())
+<a class="lnk" href="adam.html#c-035e6ab9">89</a>    m: Array⟦RR64,ZZ32⟧ := zeros(nParams())
+<a class="lnk" href="adam.html#c-035e6ab9">90</a>    v: Array⟦RR64,ZZ32⟧ := zeros(nParams())
+<a class="lnk" href="adam.html#c-a8e1d30b">91</a>    for s ← seq(0#5) do
+<a class="lnk" href="adam.html#c-a8e1d30b">92</a>        t0 = nanoTime()
+<a class="lnk" href="adam.html#c-a8e1d30b">93</a>        (l, g) = step(p, keys(bsz, fn (i: ZZ32): ZZ32 ⇒ (s bsz + i) MOD corpus.size()))
+<a class="lnk" href="adam.html#c-a8e1d30b">94</a>        (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))
+<a class="lnk" href="adam.html#c-a8e1d30b">95</a>        println "step " (s + 1) " loss " l "  (" ((nanoTime() - t0) ÷ 1000000) " ms)"
+<a class="lnk" href="adam.html#c-a8e1d30b">96</a>    end
+<a class="lnk" href="adam.html#c-a8e1d30b">97</a>  end
+<a class="lnk" href="task.html#c-9be2b4ac">98</a>end</code></pre></div>
 </div>
 <script src="walk.js"></script>
 <script src="reader.js"></script>

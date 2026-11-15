@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>8. The quick check · microGPT in Fortress</title>
 <link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
 <link rel="stylesheet" href="walk.css">
 </head>
 <body data-page="chapter" data-slug="check" data-chapter="8. The quick check">
@@ -15,6 +16,7 @@
 </header>
 <div id="resume"></div>
 <div id="chapter-notes"></div>
+<div class="notation" role="group" aria-label="How the program's code is shown"><span class="lab">Code</span><span class="seg"><button type="button" data-n="typeset" aria-pressed="false">Typeset</button><button type="button" data-n="unicode" aria-pressed="false">Unicode</button><button type="button" data-n="source" aria-pressed="false">ASCII</button></span></div>
 <section class="sec chapter" data-num="8" data-title="The quick check">
 <h1 id="top" class="nb"><span class="num">Part 8</span> The quick check</h1>
 <p class="standfirst">How the project knows that the Fortress program computes the right numbers: seven comparisons with stored values, in a second program of 60 lines.</p>
@@ -35,7 +37,7 @@ batch 1 step 2 loss 3.4242727838717717 vs 3.424272783871772: diff 4.440892098500
 VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS</code></pre>
 <p id="p-ef6c683d" class="nb">The seven checks:</p>
 <ol>
-<li><p id="p-0383ea90" class="nb">The loader. The 4,192 parameters that <code>loadParams</code> reads are equal to the stored vector, to the last digit.</p></li>
+<li><p id="p-0383ea90" class="nb">The loader. The 4,192 parameters that <span class="fc"><span class="fr m"><i>loadParams</i></span><code class="fs">loadParams</code></span> reads are equal to the stored vector, to the last digit.</p></li>
 <li><p id="p-31b28a28" class="nb">The corpus. The first 16 rows of the token matrix, and the 16 lengths, are equal to the stored rows.</p></li>
 <li><p id="p-b4e80441" class="nb">The loss of the step on document 0, <code>yuheng</code>: 3.365966947584851 in both programs.</p></li>
 <li><p id="p-9ed0c2ae" class="nb">The gradient of that step. The largest difference over the 4,192 entries is 0.00000000000000011.</p></li>
@@ -43,32 +45,822 @@ VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS</code></pre>
 <li><p id="p-f5ea8620" class="nb">The parameters after one Adam step. The largest difference is 0.00000000000000028.</p></li>
 <li><p id="p-bf3e483c" class="nb">The loss of the step on document 1 with the new parameters: 3.42427278387177 in both, with a difference in the sixteenth digit.</p></li>
 </ol>
-<p id="p-f3d19595" class="nb">The differences in checks 4, 6 and 7 are near 0.0000000000000001, the last digit that an <code>RR64</code> keeps. The check's tolerance is 0.000000000001, ten thousand times larger.</p>
+<p id="p-f3d19595" class="nb">The differences in checks 4, 6 and 7 are near 0.0000000000000001, the last digit that an <span class="fc"><span class="fr m">ℝ64</span><code class="fs">RR64</code></span> keeps. The check's tolerance is 0.000000000001, ten thousand times larger.</p>
 <p id="p-c6d0251d" class="nb">Checks 3, 5 and 7 are numbers of earlier parts: the loss of Part 5, the zeros of Part 6, and the second loss of the training loop in Part 7.</p>
 </section>
 <section class="sec" data-num="8.2" data-title="The file">
 <h2 id="s-the-file" class="nb"><span class="num">8.2</span> The file</h2>
-<div class="fx nb src" id="c-3a051900" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss">MicroGptFlatQuick.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L11" title="MicroGptFlatQuick.fss, line 11">11</a></span>component MicroGptFlatQuick</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L12" title="MicroGptFlatQuick.fss, line 12">12</a></span>export Executable</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L13" title="MicroGptFlatQuick.fss, line 13">13</a></span>import MicroGptFlat.{...}</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L14" title="MicroGptFlatQuick.fss, line 14">14</a></span>import FlatArrays.{...}</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L15" title="MicroGptFlatQuick.fss, line 15">15</a></span>import FlatData.{...}</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L16" title="MicroGptFlatQuick.fss, line 16">16</a></span>import System.{...}</span></code></pre></div>
-<p id="p-22bf8f21" class="nb">The component exports only <code>Executable</code>: it is a program and offers nothing to others. It imports the model's api. So it can call what the api lists, such as <code>step</code>, <code>adam</code>, <code>matName</code> and <code>corpus</code>, and nothing else of the model.</p>
-<div class="fx nb src" id="c-f806076b" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss">MicroGptFlatQuick.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L18" title="MicroGptFlatQuick.fss, line 18">18</a></span>goldensDir: String = "../../run-c/goldens"</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L19" title="MicroGptFlatQuick.fss, line 19">19</a></span>tolLoss: RR64 = 10.0^(-12)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L20" title="MicroGptFlatQuick.fss, line 20">20</a></span>tolGrad: RR64 = 10.0^(-12)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L21" title="MicroGptFlatQuick.fss, line 21">21</a></span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L22" title="MicroGptFlatQuick.fss, line 22">22</a></span>passed: ZZ32 := 0</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L23" title="MicroGptFlatQuick.fss, line 23">23</a></span>failed: ZZ32 := 0</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L24" title="MicroGptFlatQuick.fss, line 24">24</a></span>report(name: String, diff: RR64, tol: RR64): () = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L25" title="MicroGptFlatQuick.fss, line 25">25</a></span>    ok = diff &lt;= tol</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L26" title="MicroGptFlatQuick.fss, line 26">26</a></span>    if ok then passed += 1 else failed += 1 end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L27" title="MicroGptFlatQuick.fss, line 27">27</a></span>    println name ": diff " diff " " (if ok then "PASS" else "FAIL" end)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L28" title="MicroGptFlatQuick.fss, line 28">28</a></span>  end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L29" title="MicroGptFlatQuick.fss, line 29">29</a></span>maxAbsDiff(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64 = BIG MAX[\RR64\][i &lt;- 0#|a|] |a[i] - b[i]|</span></code></pre></div>
+<div class="fx nb src n3" id="c-3a051900" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss">MicroGptFlatQuick.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L11" title="MicroGptFlatQuick.fss, line 11">11</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='13.587em' height='1.196em' viewBox='0 0 135.865 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>component</text>
+<text class='f-cmr10-996' x='49.84' y='8.369'>MicroGptFlatQuic<tspan x='130.607'>k</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L12" title="MicroGptFlatQuick.fss, line 12">12</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='8.216em' height='1.196em' viewBox='0 0 82.164 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>export</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>Executable</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L13" title="MicroGptFlatQuick.fss, line 13">13</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='11.907em' height='1.196em' viewBox='0 0 119.067 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>import</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>MicroGptFlat</text>
+<text class='f-cmmi10-996' x='94.714' y='8.369'>.</text>
+<text class='f-cmsy10-996' x='97.481' y='8.369'>{</text>
+<text class='f-cmmi10-996' x='102.463' y='8.369'>.<tspan x='106.891'>.</tspan><tspan x='111.318'>.</tspan></text>
+<text class='f-cmsy10-996' x='114.086' y='8.369'>}</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L14" title="MicroGptFlatQuick.fss, line 14">14</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='10.580em' height='1.196em' viewBox='0 0 105.797 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>import</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>FlatArra<tspan x='72.257'>ys</tspan></text>
+<text class='f-cmmi10-996' x='81.444' y='8.369'>.</text>
+<text class='f-cmsy10-996' x='84.212' y='8.369'>{</text>
+<text class='f-cmmi10-996' x='89.193' y='8.369'>.<tspan x='93.621'>.</tspan><tspan x='98.049'>.</tspan></text>
+<text class='f-cmsy10-996' x='100.816' y='8.369'>}</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L15" title="MicroGptFlatQuick.fss, line 15">15</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='9.808em' height='1.196em' viewBox='0 0 98.076 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>import</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>FlatData</text>
+<text class='f-cmmi10-996' x='73.723' y='8.369'>.</text>
+<text class='f-cmsy10-996' x='76.491' y='8.369'>{</text>
+<text class='f-cmmi10-996' x='81.472' y='8.369'>.<tspan x='85.9'>.</tspan><tspan x='90.328'>.</tspan></text>
+<text class='f-cmsy10-996' x='93.095' y='8.369'>}</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L16" title="MicroGptFlatQuick.fss, line 16">16</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='8.983em' height='1.196em' viewBox='0 0 89.83 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>import</text>
+<text class='f-cmr10-996' x='34.149' y='8.369'>System</text>
+<text class='f-cmmi10-996' x='65.476' y='8.369'>.</text>
+<text class='f-cmsy10-996' x='68.244' y='8.369'>{</text>
+<text class='f-cmmi10-996' x='73.225' y='8.369'>.<tspan x='77.653'>.</tspan><tspan x='82.081'>.</tspan></text>
+<text class='f-cmsy10-996' x='84.848' y='8.369'>}</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L11" title="MicroGptFlatQuick.fss, line 11">11</a></span>component MicroGptFlatQuick</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L12" title="MicroGptFlatQuick.fss, line 12">12</a></span>export Executable</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L13" title="MicroGptFlatQuick.fss, line 13">13</a></span>import MicroGptFlat.{...}</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L14" title="MicroGptFlatQuick.fss, line 14">14</a></span>import FlatArrays.{...}</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L15" title="MicroGptFlatQuick.fss, line 15">15</a></span>import FlatData.{...}</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L16" title="MicroGptFlatQuick.fss, line 16">16</a></span>import System.{...}</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L11" title="MicroGptFlatQuick.fss, line 11">11</a></span>component MicroGptFlatQuick</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L12" title="MicroGptFlatQuick.fss, line 12">12</a></span>export Executable</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L13" title="MicroGptFlatQuick.fss, line 13">13</a></span>import MicroGptFlat.{...}</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L14" title="MicroGptFlatQuick.fss, line 14">14</a></span>import FlatArrays.{...}</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L15" title="MicroGptFlatQuick.fss, line 15">15</a></span>import FlatData.{...}</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L16" title="MicroGptFlatQuick.fss, line 16">16</a></span>import System.{...}</span></code></pre></div>
+<p id="p-22bf8f21" class="nb">The component exports only <span class="fc"><span class="fr m"><span class="ty">Executable</span></span><code class="fs">Executable</code></span>: it is a program and offers nothing to others. It imports the model's api. So it can call what the api lists, such as <span class="fc"><span class="fr m"><i>step</i></span><code class="fs">step</code></span>, <span class="fc"><span class="fr m"><i>adam</i></span><code class="fs">adam</code></span>, <span class="fc"><span class="fr m"><i>matName</i></span><code class="fs">matName</code></span> and <span class="fc"><span class="fr m"><i>corpus</i></span><code class="fs">corpus</code></span>, and nothing else of the model.</p>
+<div class="fx nb src n3" id="c-f806076b" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss">MicroGptFlatQuick.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L18" title="MicroGptFlatQuick.fss, line 18">18</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>goldensDir</text>
+<text class='f-cmr10-996' x='47.42' y='8.369'>:<tspan x='51.848'>String</tspan><tspan x='81.349'>=</tspan></text>
+<text class='f-ptmr8r-993' x='91.865' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='96.288' y='8.369'>../../<tspan x='132.154'>run-c/</tspan><tspan x='15.94' y='21.818'>goldens</tspan></text>
+<text class='f-ptmr8r-993' x='57.783' y='21.818'>”</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L19" title="MicroGptFlatQuick.fss, line 19">19</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='9.799em' height='1.233em' viewBox='0 -.136 97.992 12.331' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.608'>tolL<tspan x='16.687'>oss</tspan></text>
+<text class='f-cmr10-996' x='30.744' y='8.608'>:</text>
+<text class='f-msbm10-996' x='35.172' y='8.608'>R</text>
+<text class='f-cmr10-996' x='42.367' y='8.608'>64<tspan x='55.097'>=</tspan><tspan x='65.613'>10</tspan></text>
+<text class='f-cmmi10-996' x='75.576' y='8.608'>.</text>
+<text class='f-cmr10-996' x='78.343' y='8.608'>0</text>
+<text class='f-cmsy7-697' x='83.325' y='4.494'>−</text>
+<text class='f-cmr7-697' x='89.551' y='4.494'>12</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L20" title="MicroGptFlatQuick.fss, line 20">20</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='10.081em' height='1.233em' viewBox='0 -.136 100.808 12.331' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.608'>tolGr<tspan x='22.347'>ad</tspan></text>
+<text class='f-cmr10-996' x='33.56' y='8.608'>:</text>
+<text class='f-msbm10-996' x='37.988' y='8.608'>R</text>
+<text class='f-cmr10-996' x='45.183' y='8.608'>64<tspan x='57.913'>=</tspan><tspan x='68.429'>10</tspan></text>
+<text class='f-cmmi10-996' x='78.392' y='8.608'>.</text>
+<text class='f-cmr10-996' x='81.159' y='8.608'>0</text>
+<text class='f-cmsy7-697' x='86.141' y='4.494'>−</text>
+<text class='f-cmr7-697' x='92.367' y='4.494'>12</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L21" title="MicroGptFlatQuick.fss, line 21">21</a></span><span class="tx"></span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L22" title="MicroGptFlatQuick.fss, line 22">22</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='7.008em' height='1.196em' viewBox='0 0 70.081 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>p<tspan x='4.583'>asse</tspan><tspan x='21.896'>d</tspan></text>
+<text class='f-cmr10-996' x='28.017' y='8.369'>:</text>
+<text class='f-msbm10-996' x='32.445' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='39.087' y='8.369'>32<tspan x='51.817'>:</tspan><tspan x='54.584'>=</tspan><tspan x='65.1'>0</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L23" title="MicroGptFlatQuick.fss, line 23">23</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='6.626em' height='1.196em' viewBox='-.249 0 66.257 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>faile<tspan x='17.822'>d</tspan></text>
+<text class='f-cmr10-996' x='23.943' y='8.369'>:</text>
+<text class='f-msbm10-996' x='28.371' y='8.369'>Z</text>
+<text class='f-cmr10-996' x='35.013' y='8.369'>32<tspan x='47.743'>:</tspan><tspan x='50.51'>=</tspan><tspan x='61.026'>0</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L24" title="MicroGptFlatQuick.fss, line 24">24</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>r<tspan x='3.692'>ep</tspan><tspan x='12.857'>ort</tspan></text>
+<text class='f-cmr10-996' x='26.405' y='8.369'>(</text>
+<text class='f-cmti10-996' x='30.279' y='8.369'>name</text>
+<text class='f-cmr10-996' x='54.451' y='8.369'>:<tspan x='58.879'>String</tspan></text>
+<text class='f-cmmi10-996' x='85.612' y='8.369'>,</text>
+<text class='f-cmti10-996' x='90.04' y='8.369'>diﬀ</text>
+<text class='f-cmr10-996' x='106.409' y='8.369'>:</text>
+<text class='f-msbm10-996' x='110.837' y='8.369'>R</text>
+<text class='f-cmr10-996' x='118.032' y='8.369'>64</text>
+<text class='f-cmmi10-996' x='127.995' y='8.369'>,</text>
+<text class='f-cmti10-996' x='15.94' y='21.818'>tol</text>
+<text class='f-cmr10-996' x='27.918' y='21.818'>:</text>
+<text class='f-msbm10-996' x='32.345' y='21.818'>R</text>
+<text class='f-cmr10-996' x='39.541' y='21.818'>64):<tspan x='57.805'>(</tspan><tspan x='62.095'>)</tspan><tspan x='68.737'>=</tspan></text>
+<text class='f-cmtt10-996' x='79.253' y='21.818'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L25" title="MicroGptFlatQuick.fss, line 25">25</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='6.566em' height='1.196em' viewBox='0 0 65.66 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>ok</text>
+<text class='f-cmr10-996' x='13.514' y='8.369'>=</text>
+<text class='f-cmti10-996' x='24.031' y='8.369'>diﬀ</text>
+<text class='f-cmsy10-996' x='43.167' y='8.369'>≤</text>
+<text class='f-cmti10-996' x='53.683' y='8.369'>tol</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L26" title="MicroGptFlatQuick.fss, line 26">26</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.541em' viewBox='0 0 157.41 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>if</text>
+<text class='f-cmti10-996' x='13.228' y='8.369'>ok</text>
+<text class='f-cmtt10-996' x='26.742' y='8.369'>then</text>
+<text class='f-cmti10-996' x='50.431' y='8.369'>p<tspan x='55.014'>asse</tspan><tspan x='72.327'>d</tspan></text>
+<text class='f-cmr10-996' x='81.215' y='8.369'>+<tspan x='88.964'>=</tspan><tspan x='15.94' y='21.818'>1</tspan></text>
+<text class='f-cmtt10-996' x='23.689' y='21.818'>else</text>
+<text class='f-cmti10-996' x='47.378' y='21.818'>faile<tspan x='65.2'>d</tspan></text>
+<text class='f-cmr10-996' x='74.088' y='21.818'>+<tspan x='81.837'>=</tspan><tspan x='92.353'>1</tspan></text>
+<text class='f-cmtt10-996' x='100.102' y='21.818'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L27" title="MicroGptFlatQuick.fss, line 27">27</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='4.842em' viewBox='0 0 157.41 48.418' fill='currentColor' style='vertical-align:-4.005em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>println<tspan x='15.94' y='20.922'>name</tspan></text>
+<text class='f-ptmr8r-993' x='42.879' y='20.922'>“</text>
+<text class='f-pcrr8r-993' x='47.303' y='20.922'>:<tspan x='59.258'>diff</tspan></text>
+<text class='f-ptmr8r-993' x='89.146' y='20.922'>”</text>
+<text class='f-cmti10-996' x='96.336' y='20.922'>diﬀ</text>
+<text class='f-ptmr8r-993' x='115.473' y='20.922'>“<tspan x='125.874'>”</tspan></text>
+<text class='f-cmr10-996' x='133.065' y='20.922'>(</text>
+<text class='f-cmtt10-996' x='136.939' y='20.922'>if</text>
+<text class='f-cmti10-996' x='15.94' y='32.877'>ok</text>
+<text class='f-cmtt10-996' x='29.455' y='32.877'>then</text>
+<text class='f-ptmr8r-993' x='53.143' y='32.877'>“</text>
+<text class='f-pcrr8r-993' x='57.567' y='32.877'>PASS</text>
+<text class='f-ptmr8r-993' x='81.477' y='32.877'>”</text>
+<text class='f-cmtt10-996' x='88.668' y='32.877'>else</text>
+<text class='f-ptmr8r-993' x='15.94' y='44.832'>“</text>
+<text class='f-pcrr8r-993' x='20.364' y='44.832'>FAIL</text>
+<text class='f-ptmr8r-993' x='44.274' y='44.832'>”</text>
+<text class='f-cmtt10-996' x='51.465' y='44.832'>end</text>
+<text class='f-cmr10-996' x='67.156' y='44.832'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L28" title="MicroGptFlatQuick.fss, line 28">28</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L29" title="MicroGptFlatQuick.fss, line 29">29</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.905em' viewBox='0 0 175.342 39.054' fill='currentColor' style='vertical-align:-3.059em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>maxA<tspan x='25.012'>bsDiﬀ</tspan></text>
+<text class='f-cmex10-996' x='52.467' y='.398'></text>
+<text class='f-cmmi10-996' x='57.033' y='8.468'>a</text>
+<text class='f-cmr10-996' x='62.299' y='8.468'>:<tspan x='66.727'>Arra</tspan><tspan x='86.708'>y</tspan></text>
+<text class='f-stmary10-996' x='92.104' y='8.468'></text>
+<text class='f-msbm10-996' x='96.117' y='8.468'>R</text>
+<text class='f-cmr10-996' x='103.312' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='113.275' y='8.468'>,</text>
+<text class='f-msbm10-996' x='117.703' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='124.344' y='8.468'>32</text>
+<text class='f-stmary10-996' x='134.307' y='8.468'></text>
+<text class='f-cmmi10-996' x='138.32' y='8.468'>,<tspan x='15.94' y='22.018'>b</tspan></text>
+<text class='f-cmr10-996' x='20.216' y='22.018'>:<tspan x='24.644'>Arra</tspan><tspan x='44.624'>y</tspan></text>
+<text class='f-stmary10-996' x='50.021' y='22.018'></text>
+<text class='f-msbm10-996' x='54.034' y='22.018'>R</text>
+<text class='f-cmr10-996' x='61.229' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='71.192' y='22.018'>,</text>
+<text class='f-msbm10-996' x='75.619' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='82.261' y='22.018'>32</text>
+<text class='f-stmary10-996' x='92.224' y='22.018'></text>
+<text class='f-cmex10-996' x='96.237' y='13.948'></text>
+<text class='f-cmr10-996' x='100.803' y='22.018'>:</text>
+<text class='f-msbm10-996' x='105.231' y='22.018'>R</text>
+<text class='f-cmr10-996' x='112.426' y='22.018'>64<tspan x='125.156'>=</tspan></text>
+<text class='f-cmtt10-996' x='15.94' y='35.467'>BIG<tspan x='34.952'>MAX</tspan></text>
+<text class='f-stmary10-996' x='50.643' y='35.467'></text>
+<text class='f-msbm10-996' x='54.656' y='35.467'>R</text>
+<text class='f-cmr10-996' x='61.851' y='35.467'>64</text>
+<text class='f-stmary10-996' x='71.814' y='35.467'></text>
+<text class='f-cmex10-996' x='75.827' y='27.397'></text>
+<text class='f-cmmi10-996' x='79.978' y='35.467'>i</text>
+<text class='f-cmsy10-996' x='86.177' y='35.467'>←</text>
+<text class='f-cmr10-996' x='98.907' y='35.467'>0<tspan x='106.103'>#</tspan></text>
+<text class='f-cmsy10-996' x='116.619' y='35.467'>|</text>
+<text class='f-cmmi10-996' x='119.386' y='35.467'>a</text>
+<text class='f-cmsy10-996' x='124.652' y='35.467'>|</text>
+<text class='f-cmex10-996' x='127.42' y='27.397'></text>
+<text class='f-cmsy10-996' x='133.231' y='35.467'>|</text>
+<text class='f-cmmi10-996' x='135.999' y='35.467'>a</text>
+<text class='f-cmmi7-697' x='141.265' y='36.962'>i</text>
+<text class='f-cmsy10-996' x='146.795' y='35.467'>−</text>
+<text class='f-cmmi10-996' x='156.758' y='35.467'>b</text>
+<text class='f-cmmi7-697' x='161.034' y='36.962'>i</text>
+<text class='f-cmsy10-996' x='164.351' y='35.467'>|</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L18" title="MicroGptFlatQuick.fss, line 18">18</a></span>goldensDir: String = "../../run-c/goldens"</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L19" title="MicroGptFlatQuick.fss, line 19">19</a></span>tolLoss: RR64 = 10.0^(-12)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L20" title="MicroGptFlatQuick.fss, line 20">20</a></span>tolGrad: RR64 = 10.0^(-12)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L21" title="MicroGptFlatQuick.fss, line 21">21</a></span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L22" title="MicroGptFlatQuick.fss, line 22">22</a></span>passed: ZZ32 := 0</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L23" title="MicroGptFlatQuick.fss, line 23">23</a></span>failed: ZZ32 := 0</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L24" title="MicroGptFlatQuick.fss, line 24">24</a></span>report(name: String, diff: RR64, tol: RR64): () = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L25" title="MicroGptFlatQuick.fss, line 25">25</a></span>    ok = diff &lt;= tol</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L26" title="MicroGptFlatQuick.fss, line 26">26</a></span>    if ok then passed += 1 else failed += 1 end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L27" title="MicroGptFlatQuick.fss, line 27">27</a></span>    println name ": diff " diff " " (if ok then "PASS" else "FAIL" end)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L28" title="MicroGptFlatQuick.fss, line 28">28</a></span>  end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L29" title="MicroGptFlatQuick.fss, line 29">29</a></span>maxAbsDiff(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64 = BIG MAX[\RR64\][i &lt;- 0#|a|] |a[i] - b[i]|</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L18" title="MicroGptFlatQuick.fss, line 18">18</a></span>goldensDir: String = "../../run-c/goldens"</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L19" title="MicroGptFlatQuick.fss, line 19">19</a></span>tolLoss: RR64 = 10.0^(-12)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L20" title="MicroGptFlatQuick.fss, line 20">20</a></span>tolGrad: RR64 = 10.0^(-12)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L21" title="MicroGptFlatQuick.fss, line 21">21</a></span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L22" title="MicroGptFlatQuick.fss, line 22">22</a></span>passed: ZZ32 := 0</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L23" title="MicroGptFlatQuick.fss, line 23">23</a></span>failed: ZZ32 := 0</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L24" title="MicroGptFlatQuick.fss, line 24">24</a></span>report(name: String, diff: RR64, tol: RR64): () = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L25" title="MicroGptFlatQuick.fss, line 25">25</a></span>    ok = diff ≤ tol</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L26" title="MicroGptFlatQuick.fss, line 26">26</a></span>    if ok then passed += 1 else failed += 1 end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L27" title="MicroGptFlatQuick.fss, line 27">27</a></span>    println name ": diff " diff " " (if ok then "PASS" else "FAIL" end)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L28" title="MicroGptFlatQuick.fss, line 28">28</a></span>  end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L29" title="MicroGptFlatQuick.fss, line 29">29</a></span>maxAbsDiff(a: Array⟦RR64,ZZ32⟧, b: Array⟦RR64,ZZ32⟧): RR64 = BIG MAX⟦RR64⟧[i ← 0#|a|] |a[i] - b[i]|</span></code></pre></div>
 <ul>
 <li><p id="p-a5178184" class="nb">Lines 18 to 20 are constants with written types. The two tolerances are 10 to the power -12.</p></li>
-<li><p id="p-4ae2e89a" class="nb">Lines 22 and 23 declare two top-level variables that can change: the form is <code>name: Type := value</code>, as in the training loop.</p></li>
-<li><p id="p-db260d0a" class="nb"><code>report</code> prints one line of the output above and counts it. <code>diff &lt;= tol</code> is a comparison, and <code>ok</code> is a <code>Boolean</code>. <code>passed += 1</code> adds 1 to the variable.</p></li>
-<li><p id="p-90858800" class="nb"><code>maxAbsDiff</code> is the largest difference between two vectors. <code>BIG MAX</code> is used here with a generator: <code>i</code> runs over the indices, and the expression after the brackets is evaluated for each <code>i</code>. Around a number, the two bars give the absolute value: <code>|a[i] - b[i]|</code> is the difference without its sign. Around an array they give the size, as in <code>|a|</code>. Fortress chooses the meaning by the type of what stands between the bars.</p></li>
+<li><p id="p-4ae2e89a" class="nb">Lines 22 and 23 declare two top-level variables that can change: the form is <span class="fc"><span class="fr m"><i>name</i>: <span class="ty">Type</span> := <i>value</i></span><code class="fs">name: Type := value</code></span>, as in the training loop.</p></li>
+<li><p id="p-db260d0a" class="nb"><span class="fc"><span class="fr m"><i>report</i></span><code class="fs">report</code></span> prints one line of the output above and counts it. <span class="fc u"><span class="fr m"><i>diff</i> ≤ <i>tol</i></span><code class="fs">diff &lt;= tol</code><code class="fu">diff ≤ tol</code></span> is a comparison, and <span class="fc"><span class="fr m"><i>ok</i></span><code class="fs">ok</code></span> is a <span class="fc"><span class="fr m"><span class="ty">Boolean</span></span><code class="fs">Boolean</code></span>. <span class="fc"><span class="fr m"><i>passed</i> += 1</span><code class="fs">passed += 1</code></span> adds 1 to the variable.</p></li>
+<li><p id="p-90858800" class="nb"><span class="fc"><span class="fr m"><i>maxAbsDiff</i></span><code class="fs">maxAbsDiff</code></span> is the largest difference between two vectors. <span class="fc"><span class="fr m"><span class="tt">BIG MAX</span></span><code class="fs">BIG MAX</code></span> is used here with a generator: <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> runs over the indices, and the expression after the brackets is evaluated for each <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span>. Around a number, the two bars give the absolute value: <span class="fc"><span class="fr m">|<i>a</i><sub><i>i</i></sub> − <i>b</i><sub><i>i</i></sub>|</span><code class="fs">|a[i] - b[i]|</code></span> is the difference without its sign. Around an array they give the size, as in <span class="fc"><span class="fr m">|<i>a</i>|</span><code class="fs">|a|</code></span>. Fortress chooses the meaning by the type of what stands between the bars.</p></li>
 </ul>
-<div class="fx nb src" id="c-73ded70d" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss">MicroGptFlatQuick.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L31" title="MicroGptFlatQuick.fss, line 31">31</a></span>run(): () = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L32" title="MicroGptFlatQuick.fss, line 32">32</a></span>    println "MicroGptFlat quick checks (Run C4, two steps) | threads " (getProperty("fortress.threads", "?")) " | tolerances: loss " tolLoss " grad " tolGrad</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L33" title="MicroGptFlatQuick.fss, line 33">33</a></span>    wall0 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L34" title="MicroGptFlatQuick.fss, line 34">34</a></span>    p0 = loadParams("../../apl/reference/dzaima/w", matName, 9, nParams())</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L35" title="MicroGptFlatQuick.fss, line 35">35</a></span>    (* 0. the loaders against the goldens' P0 and corpus rows *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L36" title="MicroGptFlatQuick.fss, line 36">36</a></span>    report("loader: max |P - P0| over 4192", maxAbsDiff(p0, readVector(goldensDir "/P0.txt", 4192)), 0.0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L37" title="MicroGptFlatQuick.fss, line 37">37</a></span>    lines = readLines(goldensDir "/corpus_first16.txt")</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L38" title="MicroGptFlatQuick.fss, line 38">38</a></span>    corpusDiff = BIG MAX[\RR64\][d &lt;- 0#16] do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L39" title="MicroGptFlatQuick.fss, line 39">39</a></span>        nums = numbersOf(lines[d].beyond(' '))   (* the line is: name len t0 .. t16; nums[0] is len *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L40" title="MicroGptFlatQuick.fss, line 40">40</a></span>        (BIG MAX[\RR64\][j &lt;- 0#17] |nums[1 + j] - (1.0 corpus.token(d, j))|) MAX |nums[0] - (1.0 corpus.length(d))|</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L41" title="MicroGptFlatQuick.fss, line 41">41</a></span>      end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L42" title="MicroGptFlatQuick.fss, line 42">42</a></span>    report("corpus: max |row - golden| over documents 0..15", corpusDiff, 0.0)</span></code></pre></div>
+<div class="fx nb src n3" id="c-73ded70d" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss">MicroGptFlatQuick.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L31" title="MicroGptFlatQuick.fss, line 31">31</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='6.318em' height='1.196em' viewBox='0 0 63.18 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>run</text>
+<text class='f-cmr10-996' x='15.913' y='8.369'>(<tspan x='20.202'>):</tspan><tspan x='28.505'>(</tspan><tspan x='32.794'>)</tspan><tspan x='39.436'>=</tspan></text>
+<text class='f-cmtt10-996' x='49.952' y='8.369'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L32" title="MicroGptFlatQuick.fss, line 32">32</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='8.641em' viewBox='0 0 157.41 86.406' fill='currentColor' style='vertical-align:-7.804em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>println</text>
+<text class='f-ptmr8r-993' x='32.938' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='37.361' y='8.369'>MicroGptFlat<tspan x='115.07'>quick</tspan><tspan x='15.94' y='20.324'>checks</tspan><tspan x='57.783'>(Run</tspan><tspan x='87.671'>C4,</tspan><tspan x='111.582'>two</tspan><tspan x='15.94' y='32.279'>steps)</tspan><tspan x='57.783'>|</tspan><tspan x='69.739'>threads</tspan></text>
+<text class='f-ptmr8r-993' x='117.559' y='32.279'>”</text>
+<text class='f-cmex10-996' x='15.94' y='36.662'></text>
+<text class='f-cmti10-996' x='20.507' y='44.732'>getPr<tspan x='43.432'>op</tspan><tspan x='53.106'>erty</tspan></text>
+<text class='f-cmr10-996' x='70.918' y='44.732'>(</text>
+<text class='f-ptmr8r-993' x='15.94' y='58.182'>“</text>
+<text class='f-pcrr8r-993' x='20.364' y='58.182'>fortress.threads</text>
+<text class='f-ptmr8r-993' x='116.005' y='58.182'>”</text>
+<text class='f-cmmi10-996' x='120.428' y='58.182'>,</text>
+<text class='f-ptmr8r-993' x='124.856' y='58.182'>“</text>
+<text class='f-pcrr8r-993' x='129.28' y='58.182'>?</text>
+<text class='f-ptmr8r-993' x='135.257' y='58.182'>”</text>
+<text class='f-cmr10-996' x='139.68' y='58.182'>)</text>
+<text class='f-cmex10-996' x='143.555' y='50.112'></text>
+<text class='f-ptmr8r-993' x='15.94' y='70.466'>“</text>
+<text class='f-pcrr8r-993' x='26.341' y='70.466'>|<tspan x='38.296'>tolerances:</tspan><tspan x='110.027'>loss</tspan></text>
+<text class='f-ptmr8r-993' x='139.915' y='70.466'>”</text>
+<text class='f-cmti10-996' x='15.94' y='82.82'>tolL<tspan x='32.628'>oss</tspan></text>
+<text class='f-ptmr8r-993' x='49.452' y='82.82'>“</text>
+<text class='f-pcrr8r-993' x='59.853' y='82.82'>grad</text>
+<text class='f-ptmr8r-993' x='89.741' y='82.82'>”</text>
+<text class='f-cmti10-996' x='96.931' y='82.82'>tolGr<tspan x='119.278'>ad</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L33" title="MicroGptFlatQuick.fss, line 33">33</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='8.931em' height='1.196em' viewBox='0 0 89.308 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>wal<tspan x='14.767'>l</tspan></text>
+<text class='f-cmr7-697' x='18.342' y='9.863'>0</text>
+<text class='f-cmr10-996' x='25.579' y='8.369'>=</text>
+<text class='f-cmti10-996' x='36.095' y='8.369'>nanoTime</text>
+<text class='f-cmr10-996' x='81.144' y='8.369'>(<tspan x='85.433'>)</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L34" title="MicroGptFlatQuick.fss, line 34">34</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.773em' height='3.597em' viewBox='-.319 0 157.729 35.965' fill='currentColor' style='vertical-align:-2.750em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.468'>p</text>
+<text class='f-cmr7-697' x='5.012' y='9.963'>0</text>
+<text class='f-cmr10-996' x='12.249' y='8.468'>=</text>
+<text class='f-cmti10-996' x='22.765' y='8.468'>lo<tspan x='29.894'>adPar</tspan><tspan x='55.62'>ams</tspan></text>
+<text class='f-cmex10-996' x='73.75' y='.398'></text>
+<text class='f-ptmr8r-993' x='78.316' y='8.468'>“</text>
+<text class='f-pcrr8r-993' x='82.74' y='8.468'>../../<tspan x='118.605'>apl/</tspan><tspan x='15.94' y='20.423'>reference/</tspan><tspan x='75.716'>dzaima/</tspan><tspan x='117.559'>w</tspan></text>
+<text class='f-ptmr8r-993' x='123.537' y='20.423'>”</text>
+<text class='f-cmmi10-996' x='127.96' y='20.423'>,</text>
+<text class='f-cmti10-996' x='15.94' y='32.379'>matName</text>
+<text class='f-cmmi10-996' x='58.465' y='32.379'>,</text>
+<text class='f-cmr10-996' x='62.893' y='32.379'>9</text>
+<text class='f-cmmi10-996' x='67.874' y='32.379'>,</text>
+<text class='f-cmti10-996' x='72.302' y='32.379'>nPar<tspan x='93.445'>ams</tspan></text>
+<text class='f-cmr10-996' x='111.576' y='32.379'>(<tspan x='115.865'>)</tspan></text>
+<text class='f-cmex10-996' x='119.739' y='24.309'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L35" title="MicroGptFlatQuick.fss, line 35">35</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.541em' viewBox='0 0 157.41 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>0.<tspan x='25.958'>the</tspan><tspan x='43.116'>loaders</tspan><tspan x='76.961'>against</tspan><tspan x='111.333'>the</tspan><tspan x='15.94' y='21.818'>goldens’</tspan><tspan x='54.186'>P0</tspan><tspan x='69.268'>and</tspan><tspan x='88.64'>corpus</tspan><tspan x='120.272'>ro</tspan><tspan x='128.878'>ws</tspan></text>
+<text class='f-cmtt10-996' x='143.324' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L36" title="MicroGptFlatQuick.fss, line 36">36</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='6.080em' viewBox='0 0 157.41 60.802' fill='currentColor' style='vertical-align:-5.233em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>r<tspan x='3.692'>ep</tspan><tspan x='12.857'>ort</tspan></text>
+<text class='f-cmex10-996' x='26.405' y='.398'></text>
+<text class='f-ptmr8r-993' x='30.971' y='8.468'>“</text>
+<text class='f-pcrr8r-993' x='35.395' y='8.468'>loader:<tspan x='83.215'>max</tspan><tspan x='107.126'>|P</tspan><tspan x='125.058'>-</tspan><tspan x='15.94' y='20.852'>P0|</tspan><tspan x='39.851'>over</tspan><tspan x='69.739'>4192</tspan></text>
+<text class='f-ptmr8r-993' x='93.649' y='20.852'>”</text>
+<text class='f-cmmi10-996' x='98.072' y='20.852'>,</text>
+<text class='f-cmti10-996' x='15.94' y='32.807'>maxA<tspan x='40.952'>bsDiﬀ</tspan></text>
+<text class='f-cmr10-996' x='68.407' y='32.807'>(</text>
+<text class='f-cmmi10-996' x='72.281' y='32.807'>p</text>
+<text class='f-cmr7-697' x='77.294' y='34.301'>0</text>
+<text class='f-cmmi10-996' x='81.763' y='32.807'>,</text>
+<text class='f-cmti10-996' x='15.94' y='44.762'>r<tspan x='19.632'>e</tspan><tspan x='23.706'>adV</tspan><tspan x='40.531'>e</tspan><tspan x='44.605'>ctor</tspan></text>
+<text class='f-cmr10-996' x='62.863' y='44.762'>(</text>
+<text class='f-cmti10-996' x='66.737' y='44.762'>goldensDir</text>
+<text class='f-ptmr8r-993' x='15.94' y='57.216'>“</text>
+<text class='f-pcrr8r-993' x='20.364' y='57.216'>/<tspan x='26.341'>P0.txt</tspan></text>
+<text class='f-ptmr8r-993' x='62.207' y='57.216'>”</text>
+<text class='f-cmmi10-996' x='66.63' y='57.216'>,</text>
+<text class='f-cmr10-996' x='71.058' y='57.216'>4192))</text>
+<text class='f-cmmi10-996' x='98.732' y='57.216'>,</text>
+<text class='f-cmr10-996' x='103.16' y='57.216'>0</text>
+<text class='f-cmmi10-996' x='108.141' y='57.216'>.</text>
+<text class='f-cmr10-996' x='110.909' y='57.216'>0</text>
+<text class='f-cmex10-996' x='115.89' y='49.146'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L37" title="MicroGptFlatQuick.fss, line 37">37</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.541em' viewBox='0 0 157.41 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>lines</text>
+<text class='f-cmr10-996' x='23.444' y='8.369'>=</text>
+<text class='f-cmti10-996' x='33.96' y='8.369'>r<tspan x='37.652'>e</tspan><tspan x='41.725'>adLines</tspan></text>
+<text class='f-cmr10-996' x='76.288' y='8.369'>(</text>
+<text class='f-cmti10-996' x='80.163' y='8.369'>goldensDir</text>
+<text class='f-ptmr8r-993' x='15.94' y='21.818'>“</text>
+<text class='f-pcrr8r-993' x='20.364' y='21.818'>/<tspan x='26.341'>corpus_first16.txt</tspan></text>
+<text class='f-ptmr8r-993' x='133.938' y='21.818'>”</text>
+<text class='f-cmr10-996' x='138.361' y='21.818'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L38" title="MicroGptFlatQuick.fss, line 38">38</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='2.541em' viewBox='0 0 157.41 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>c<tspan x='4.074'>orpusDiﬀ</tspan></text>
+<text class='f-cmr10-996' x='49.445' y='8.369'>=</text>
+<text class='f-cmtt10-996' x='59.961' y='8.369'>BIG<tspan x='78.973'>MAX</tspan></text>
+<text class='f-stmary10-996' x='94.664' y='8.369'></text>
+<text class='f-msbm10-996' x='98.676' y='8.369'>R</text>
+<text class='f-cmr10-996' x='105.872' y='8.369'>64</text>
+<text class='f-stmary10-996' x='115.834' y='8.369'></text>
+<text class='f-cmr10-996' x='119.847' y='8.369'>[</text>
+<text class='f-cmmi10-996' x='122.615' y='8.369'>d</text>
+<text class='f-cmsy10-996' x='130.567' y='8.369'>←</text>
+<text class='f-cmr10-996' x='15.94' y='21.818'>0<tspan x='23.136'>#</tspan><tspan x='33.652'>16]</tspan></text>
+<text class='f-cmtt10-996' x='49.149' y='21.818'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L39" title="MicroGptFlatQuick.fss, line 39">39</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='5.041em' viewBox='0 0 139.477 50.411' fill='currentColor' style='vertical-align:-4.194em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>nums</text>
+<text class='f-cmr10-996' x='26.754' y='8.468'>=</text>
+<text class='f-cmti10-996' x='37.27' y='8.468'>numb<tspan x='60.438'>ersOf</tspan></text>
+<text class='f-cmex10-996' x='86.1' y='.398'></text>
+<text class='f-cmti10-996' x='90.666' y='8.468'>lines</text>
+<text class='f-cmmi7-697' x='111.343' y='9.963'>d</text>
+<text class='f-cmmi10-996' x='15.94' y='22.018'>.</text>
+<text class='f-cmti10-996' x='18.708' y='22.018'>b<tspan x='22.781'>eyond</tspan></text>
+<text class='f-cmr10-996' x='49.016' y='22.018'>(</text>
+<text class='f-ptmr8r-993' x='52.89' y='22.018'>‘<tspan x='62.186'>’</tspan></text>
+<text class='f-cmr10-996' x='65.503' y='22.018'>)</text>
+<text class='f-cmex10-996' x='69.377' y='13.948'></text>
+<text class='f-cmtt10-996' x='73.944' y='22.018'>(*</text>
+<text class='f-cmr10-996' x='87.725' y='22.018'>the<tspan x='104.883'>line</tspan><tspan x='123.701'>is:</tspan><tspan x='19.261' y='34.471'>name</tspan><tspan x='45.828'>len</tspan><tspan x='61.879'>t0</tspan><tspan x='74.056'>..</tspan><tspan x='82.911'>t16;</tspan><tspan x='102.837'>n</tspan><tspan x='108.095'>ums[0]</tspan><tspan x='19.261' y='46.825'>is</tspan><tspan x='29.279'>len</tspan></text>
+<text class='f-cmtt10-996' x='45.33' y='46.825'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L40" title="MicroGptFlatQuick.fss, line 40">40</a></span><span class="tx" style="padding-left:3.60em"><svg xmlns='http://www.w3.org/2000/svg' width='13.948em' height='6.407em' viewBox='0 0 139.477 64.07' fill='currentColor' style='vertical-align:-5.560em' role='img'><g>
+<text class='f-cmex10-996' x='0' y='.398'></text>
+<text class='f-cmtt10-996' x='4.566' y='8.468'>BIG<tspan x='23.578'>MAX</tspan></text>
+<text class='f-stmary10-996' x='39.269' y='8.468'></text>
+<text class='f-msbm10-996' x='43.282' y='8.468'>R</text>
+<text class='f-cmr10-996' x='50.477' y='8.468'>64</text>
+<text class='f-stmary10-996' x='60.44' y='8.468'></text>
+<text class='f-cmr10-996' x='64.453' y='8.468'>[</text>
+<text class='f-cmmi10-996' x='67.22' y='8.468'>j</text>
+<text class='f-cmsy10-996' x='74.66' y='8.468'>←</text>
+<text class='f-cmr10-996' x='87.39' y='8.468'>0<tspan x='94.585'>#</tspan><tspan x='105.102'>17]</tspan></text>
+<text class='f-cmex10-996' x='15.94' y='13.549'>⏐<tspan x='15.94' y='19.527'>⏐</tspan></text>
+<text class='f-cmti10-996' x='19.261' y='22.018'>nums</text>
+<text class='f-cmr10-996' x='43.247' y='22.018'>[1<tspan x='53.21'>+</tspan></text>
+<text class='f-cmmi10-996' x='63.173' y='22.018'>j</text>
+<text class='f-cmr10-996' x='67.846' y='22.018'>]</text>
+<text class='f-cmsy10-996' x='72.827' y='22.018'>−</text>
+<text class='f-cmr10-996' x='82.79' y='22.018'>(1</text>
+<text class='f-cmmi10-996' x='91.645' y='22.018'>.</text>
+<text class='f-cmr10-996' x='94.413' y='22.018'>0</text>
+<text class='f-cmti10-996' x='15.94' y='34.471'>c<tspan x='20.014'>orpus</tspan></text>
+<text class='f-cmmi10-996' x='44.637' y='34.471'>.</text>
+<text class='f-cmti10-996' x='47.404' y='34.471'>token</text>
+<text class='f-cmr10-996' x='71.337' y='34.471'>(</text>
+<text class='f-cmmi10-996' x='75.211' y='34.471'>d,<tspan x='15.94' y='46.924'>j</tspan></text>
+<text class='f-cmr10-996' x='20.613' y='46.924'>))</text>
+<text class='f-cmex10-996' x='28.362' y='38.456'>⏐<tspan x='28.362' y='44.434'>⏐</tspan><tspan x='31.683' y='38.854'></tspan></text>
+<text class='f-cmtt10-996' x='38.463' y='46.924'>MAX</text>
+<text class='f-cmex10-996' x='56.368' y='38.456'>⏐<tspan x='56.368' y='44.434'>⏐</tspan></text>
+<text class='f-cmti10-996' x='59.689' y='46.924'>nums</text>
+<text class='f-cmr7-697' x='83.675' y='48.419'>0</text>
+<text class='f-cmsy10-996' x='90.358' y='46.924'>−</text>
+<text class='f-cmr10-996' x='100.321' y='46.924'>(1</text>
+<text class='f-cmmi10-996' x='109.177' y='46.924'>.</text>
+<text class='f-cmr10-996' x='111.944' y='46.924'>0</text>
+<text class='f-cmti10-996' x='15.94' y='60.374'>c<tspan x='20.014'>orpus</tspan></text>
+<text class='f-cmmi10-996' x='44.637' y='60.374'>.</text>
+<text class='f-cmti10-996' x='47.404' y='60.374'>length</text>
+<text class='f-cmr10-996' x='73.883' y='60.374'>(</text>
+<text class='f-cmmi10-996' x='77.757' y='60.374'>d</text>
+<text class='f-cmr10-996' x='82.943' y='60.374'>))</text>
+<text class='f-cmex10-996' x='90.691' y='51.906'>⏐<tspan x='90.691' y='57.883'>⏐</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L41" title="MicroGptFlatQuick.fss, line 41">41</a></span><span class="tx" style="padding-left:2.70em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L42" title="MicroGptFlatQuick.fss, line 42">42</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='15.741em' height='3.669em' viewBox='0 0 157.41 36.692' fill='currentColor' style='vertical-align:-2.832em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>r<tspan x='3.692'>ep</tspan><tspan x='12.857'>ort</tspan></text>
+<text class='f-cmr10-996' x='26.405' y='8.369'>(</text>
+<text class='f-ptmr8r-993' x='30.279' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='34.703' y='8.369'>corpus:<tspan x='82.523'>max</tspan><tspan x='106.434'>|row</tspan><tspan x='136.322'>-</tspan><tspan x='15.94' y='20.752'>golden|</tspan><tspan x='63.761'>over</tspan><tspan x='93.649'>documents</tspan><tspan x='15.94' y='33.106'>0..15</tspan></text>
+<text class='f-ptmr8r-993' x='45.828' y='33.106'>”</text>
+<text class='f-cmmi10-996' x='50.252' y='33.106'>,</text>
+<text class='f-cmti10-996' x='54.679' y='33.106'>c<tspan x='58.753'>orpusDiﬀ</tspan></text>
+<text class='f-cmmi10-996' x='101.357' y='33.106'>,</text>
+<text class='f-cmr10-996' x='105.785' y='33.106'>0</text>
+<text class='f-cmmi10-996' x='110.766' y='33.106'>.</text>
+<text class='f-cmr10-996' x='113.533' y='33.106'>0)</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L31" title="MicroGptFlatQuick.fss, line 31">31</a></span>run(): () = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L32" title="MicroGptFlatQuick.fss, line 32">32</a></span>    println "MicroGptFlat quick checks (Run C4, two steps) | threads " (getProperty("fortress.threads", "?")) " | tolerances: loss " tolLoss " grad " tolGrad</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L33" title="MicroGptFlatQuick.fss, line 33">33</a></span>    wall0 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L34" title="MicroGptFlatQuick.fss, line 34">34</a></span>    p0 = loadParams("../../apl/reference/dzaima/w", matName, 9, nParams())</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L35" title="MicroGptFlatQuick.fss, line 35">35</a></span>    (* 0. the loaders against the goldens' P0 and corpus rows *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L36" title="MicroGptFlatQuick.fss, line 36">36</a></span>    report("loader: max |P - P0| over 4192", maxAbsDiff(p0, readVector(goldensDir "/P0.txt", 4192)), 0.0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L37" title="MicroGptFlatQuick.fss, line 37">37</a></span>    lines = readLines(goldensDir "/corpus_first16.txt")</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L38" title="MicroGptFlatQuick.fss, line 38">38</a></span>    corpusDiff = BIG MAX[\RR64\][d &lt;- 0#16] do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L39" title="MicroGptFlatQuick.fss, line 39">39</a></span>        nums = numbersOf(lines[d].beyond(' '))   (* the line is: name len t0 .. t16; nums[0] is len *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L40" title="MicroGptFlatQuick.fss, line 40">40</a></span>        (BIG MAX[\RR64\][j &lt;- 0#17] |nums[1 + j] - (1.0 corpus.token(d, j))|) MAX |nums[0] - (1.0 corpus.length(d))|</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L41" title="MicroGptFlatQuick.fss, line 41">41</a></span>      end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L42" title="MicroGptFlatQuick.fss, line 42">42</a></span>    report("corpus: max |row - golden| over documents 0..15", corpusDiff, 0.0)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L31" title="MicroGptFlatQuick.fss, line 31">31</a></span>run(): () = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L32" title="MicroGptFlatQuick.fss, line 32">32</a></span>    println "MicroGptFlat quick checks (Run C4, two steps) | threads " (getProperty("fortress.threads", "?")) " | tolerances: loss " tolLoss " grad " tolGrad</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L33" title="MicroGptFlatQuick.fss, line 33">33</a></span>    wall0 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L34" title="MicroGptFlatQuick.fss, line 34">34</a></span>    p0 = loadParams("../../apl/reference/dzaima/w", matName, 9, nParams())</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L35" title="MicroGptFlatQuick.fss, line 35">35</a></span>    (* 0. the loaders against the goldens' P0 and corpus rows *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L36" title="MicroGptFlatQuick.fss, line 36">36</a></span>    report("loader: max |P - P0| over 4192", maxAbsDiff(p0, readVector(goldensDir "/P0.txt", 4192)), 0.0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L37" title="MicroGptFlatQuick.fss, line 37">37</a></span>    lines = readLines(goldensDir "/corpus_first16.txt")</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L38" title="MicroGptFlatQuick.fss, line 38">38</a></span>    corpusDiff = BIG MAX⟦RR64⟧[d ← 0#16] do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L39" title="MicroGptFlatQuick.fss, line 39">39</a></span>        nums = numbersOf(lines[d].beyond(' '))   (* the line is: name len t0 .. t16; nums[0] is len *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L40" title="MicroGptFlatQuick.fss, line 40">40</a></span>        (BIG MAX⟦RR64⟧[j ← 0#17] |nums[1 + j] - (1.0 corpus.token(d, j))|) MAX |nums[0] - (1.0 corpus.length(d))|</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L41" title="MicroGptFlatQuick.fss, line 41">41</a></span>      end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L42" title="MicroGptFlatQuick.fss, line 42">42</a></span>    report("corpus: max |row - golden| over documents 0..15", corpusDiff, 0.0)</span></code></pre></div>
 <ul>
-<li><p id="p-b49003ff" class="nb">Line 34 reads the parameters, as the model's own <code>run</code> does.</p></li>
-<li><p id="p-e3c4bdf7" class="nb">Line 36 is check 1. <code>readVector</code>, a function of <code>FlatData.fss</code>, reads a file with one number on each line.</p></li>
-<li><p id="p-1ff7827c" class="nb">Lines 37 to 42 are check 2. The body of the outer <code>BIG MAX</code> is a block, from <code>do</code> to <code>end</code>. For each of the 16 documents it parses the stored line and compares its numbers with <code>corpus.token</code> and <code>corpus.length</code>.</p></li>
+<li><p id="p-b49003ff" class="nb">Line 34 reads the parameters, as the model's own <span class="fc"><span class="fr m"><i>run</i></span><code class="fs">run</code></span> does.</p></li>
+<li><p id="p-e3c4bdf7" class="nb">Line 36 is check 1. <span class="fc"><span class="fr m"><i>readVector</i></span><code class="fs">readVector</code></span>, a function of <code>FlatData.fss</code>, reads a file with one number on each line.</p></li>
+<li><p id="p-1ff7827c" class="nb">Lines 37 to 42 are check 2. The body of the outer <span class="fc"><span class="fr m"><span class="tt">BIG MAX</span></span><code class="fs">BIG MAX</code></span> is a block, from <span class="fc"><span class="fr m"><span class="kw">do</span></span><code class="fs">do</code></span> to <span class="fc"><span class="fr m"><span class="kw">end</span></span><code class="fs">end</code></span>. For each of the 16 documents it parses the stored line and compares its numbers with <span class="fc"><span class="fr m"><i>corpus</i>.<i>token</i></span><code class="fs">corpus.token</code></span> and <span class="fc"><span class="fr m"><i>corpus</i>.<i>length</i></span><code class="fs">corpus.length</code></span>.</p></li>
 </ul>
-<div class="fx nb src" id="c-e5a56a0a" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss">MicroGptFlatQuick.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L43" title="MicroGptFlatQuick.fss, line 43">43</a></span>  (* 1. batch 1, the first two of the full check's five Adam steps, on documents 0 and 1 *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L44" title="MicroGptFlatQuick.fss, line 44">44</a></span>  losses = readVector(goldensDir "/losses_batch1_5steps.txt", 5)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L45" title="MicroGptFlatQuick.fss, line 45">45</a></span>  t0 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L46" title="MicroGptFlatQuick.fss, line 46">46</a></span>  (l0, g0) = step(p0, keys(1, fn (i: ZZ32): ZZ32 =&gt; 0))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L47" title="MicroGptFlatQuick.fss, line 47">47</a></span>  report("batch 1 step 1 loss " l0 " vs " losses[0] " (" ((nanoTime() - t0) DIV 1000000) " ms)", |l0 - losses[0]|, tolLoss)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L48" title="MicroGptFlatQuick.fss, line 48">48</a></span>  report("step 0 batch 1: max |gradient - golden| over 4192", maxAbsDiff(g0, readVector(goldensDir "/grad_step0.txt", 4192)), tolGrad)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L49" title="MicroGptFlatQuick.fss, line 49">49</a></span>  zeroCount = SUM[\ZZ32\][i &lt;- 0#nParams()] (if g0[i] = 0.0 then 1 else 0 end)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L50" title="MicroGptFlatQuick.fss, line 50">50</a></span>  report("step 0 batch 1: zero gradient entries - 464", |1.0 zeroCount - 464.0|, 0.0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L51" title="MicroGptFlatQuick.fss, line 51">51</a></span>  (p1, m1, v1) = adam(p0, zeros(nParams()), zeros(nParams()), g0, 1, learningRate(0))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L52" title="MicroGptFlatQuick.fss, line 52">52</a></span>  report("step 0 batch 1: max |P after Adam - golden| over 4192", maxAbsDiff(p1, readVector(goldensDir "/P_after_adam.txt", 4192)), tolGrad)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L53" title="MicroGptFlatQuick.fss, line 53">53</a></span>  t1 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L54" title="MicroGptFlatQuick.fss, line 54">54</a></span>  (l1, g1) = step(p1, keys(1, fn (i: ZZ32): ZZ32 =&gt; 1))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L55" title="MicroGptFlatQuick.fss, line 55">55</a></span>  report("batch 1 step 2 loss " l1 " vs " losses[1] " (" ((nanoTime() - t1) DIV 1000000) " ms)", |l1 - losses[1]|, tolLoss)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L56" title="MicroGptFlatQuick.fss, line 56">56</a></span>  println "total " ((nanoTime() - wall0) DIV 1000000000) " s"</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L57" title="MicroGptFlatQuick.fss, line 57">57</a></span>  println "VERDICT: " passed " PASS, " failed " FAIL of " (passed + failed) (if failed = 0 then " -- ALL PASS" else " -- FAILED" end)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L58" title="MicroGptFlatQuick.fss, line 58">58</a></span>  if failed &gt; 0 then fail("MicroGptFlatQuick: " failed " check(s) failed") end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L59" title="MicroGptFlatQuick.fss, line 59">59</a></span>end</span></code></pre></div>
+<div class="fx nb src n3" id="c-e5a56a0a" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss">MicroGptFlatQuick.fss</a></div><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L43" title="MicroGptFlatQuick.fss, line 43">43</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='3.591em' viewBox='0 0 166.376 35.91' fill='currentColor' style='vertical-align:-2.754em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>1.<tspan x='25.958'>batc</tspan><tspan x='44.5'>h</tspan><tspan x='53.355'>1,</tspan><tspan x='64.425'>the</tspan><tspan x='81.583'>ﬁrst</tspan><tspan x='102.145'>t</tspan><tspan x='105.742'>w</tspan><tspan x='112.661'>o</tspan><tspan x='120.963'>of</tspan><tspan x='132.31'>the</tspan><tspan x='149.467'>full</tspan><tspan x='15.94' y='20.368'>c</tspan><tspan x='20.091'>hec</tspan><tspan x='34.205'>k’s</tspan><tspan x='49.481'>ﬁv</tspan><tspan x='59.997'>e</tspan><tspan x='67.746'>Adam</tspan><tspan x='97.357'>steps,</tspan><tspan x='125.142'>on</tspan><tspan x='15.94' y='32.323'>do</tspan><tspan x='26.733'>cumen</tspan><tspan x='54.684'>ts</tspan><tspan x='65.809'>0</tspan><tspan x='74.111'>and</tspan><tspan x='93.483'>1</tspan></text>
+<text class='f-cmtt10-996' x='101.785' y='32.323'>*)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L44" title="MicroGptFlatQuick.fss, line 44">44</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='3.587em' viewBox='0 0 166.376 35.866' fill='currentColor' style='vertical-align:-2.750em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>losses</text>
+<text class='f-cmr10-996' x='28.027' y='8.369'>=</text>
+<text class='f-cmti10-996' x='38.543' y='8.369'>r<tspan x='42.234'>e</tspan><tspan x='46.308'>adV</tspan><tspan x='63.134'>e</tspan><tspan x='67.207'>ctor</tspan></text>
+<text class='f-cmr10-996' x='85.465' y='8.369'>(</text>
+<text class='f-cmti10-996' x='89.339' y='8.369'>goldensDir</text>
+<text class='f-ptmr8r-993' x='139.527' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='143.95' y='8.369'>/<tspan x='15.94' y='20.324'>losses_batch1_5steps.txt</tspan></text>
+<text class='f-ptmr8r-993' x='159.402' y='20.324'>”</text>
+<text class='f-cmmi10-996' x='163.826' y='20.324'>,</text>
+<text class='f-cmr10-996' x='15.94' y='32.279'>5)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L45" title="MicroGptFlatQuick.fss, line 45">45</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='7.456em' height='1.196em' viewBox='0 0 74.563 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.369'>t</text>
+<text class='f-cmr7-697' x='3.598' y='9.863'>0</text>
+<text class='f-cmr10-996' x='10.834' y='8.369'>=</text>
+<text class='f-cmti10-996' x='21.35' y='8.369'>nanoTime</text>
+<text class='f-cmr10-996' x='66.399' y='8.369'>(<tspan x='70.689'>)</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L46" title="MicroGptFlatQuick.fss, line 46">46</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='2.560em' viewBox='0 0 166.376 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='3.874' y='8.468'>l</text>
+<text class='f-cmr7-697' x='6.847' y='9.963'>0</text>
+<text class='f-cmmi10-996' x='11.316' y='8.468'>,<tspan x='15.744'>g</tspan></text>
+<text class='f-cmr7-697' x='20.496' y='9.963'>0</text>
+<text class='f-cmr10-996' x='24.965' y='8.468'>)<tspan x='31.607'>=</tspan></text>
+<text class='f-cmti10-996' x='42.123' y='8.468'>step</text>
+<text class='f-cmex10-996' x='59.81' y='.398'></text>
+<text class='f-cmmi10-996' x='64.376' y='8.468'>p</text>
+<text class='f-cmr7-697' x='69.389' y='9.963'>0</text>
+<text class='f-cmmi10-996' x='73.858' y='8.468'>,</text>
+<text class='f-cmti10-996' x='78.286' y='8.468'>keys</text>
+<text class='f-cmr10-996' x='97.18' y='8.468'>(1</text>
+<text class='f-cmmi10-996' x='106.036' y='8.468'>,</text>
+<text class='f-cmtt10-996' x='15.94' y='22.018'>fn</text>
+<text class='f-cmr10-996' x='29.168' y='22.018'>(</text>
+<text class='f-cmmi10-996' x='33.043' y='22.018'>i</text>
+<text class='f-cmr10-996' x='36.475' y='22.018'>:</text>
+<text class='f-msbm10-996' x='40.903' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='47.545' y='22.018'>32):</text>
+<text class='f-msbm10-996' x='65.809' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='72.451' y='22.018'>32</text>
+<text class='f-cmsy10-996' x='85.181' y='22.018'>⇒</text>
+<text class='f-cmr10-996' x='97.911' y='22.018'>0)</text>
+<text class='f-cmex10-996' x='106.767' y='13.948'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L47" title="MicroGptFlatQuick.fss, line 47">47</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='6.042em' viewBox='0 0 166.376 60.418' fill='currentColor' style='vertical-align:-5.195em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>r<tspan x='3.692'>ep</tspan><tspan x='12.857'>ort</tspan></text>
+<text class='f-cmex10-996' x='26.405' y='.398'></text>
+<text class='f-ptmr8r-993' x='30.971' y='8.468'>“</text>
+<text class='f-pcrr8r-993' x='35.395' y='8.468'>batch<tspan x='71.26'>1</tspan><tspan x='83.215'>step</tspan><tspan x='113.103'>1</tspan><tspan x='125.058'>loss</tspan></text>
+<text class='f-ptmr8r-993' x='154.946' y='8.468'>”</text>
+<text class='f-cmmi10-996' x='15.94' y='20.468'>l</text>
+<text class='f-cmr7-697' x='18.913' y='21.962'>0</text>
+<text class='f-ptmr8r-993' x='26.15' y='20.468'>“</text>
+<text class='f-pcrr8r-993' x='36.551' y='20.468'>vs</text>
+<text class='f-ptmr8r-993' x='54.483' y='20.468'>”</text>
+<text class='f-cmti10-996' x='61.674' y='20.468'>losses</text>
+<text class='f-cmr7-697' x='86.933' y='21.962'>0</text>
+<text class='f-ptmr8r-993' x='94.17' y='20.468'>“</text>
+<text class='f-pcrr8r-993' x='104.571' y='20.468'>(</text>
+<text class='f-ptmr8r-993' x='110.549' y='20.468'>”</text>
+<text class='f-cmr10-996' x='15.94' y='32.423'>((</text>
+<text class='f-cmti10-996' x='23.689' y='32.423'>nanoTime</text>
+<text class='f-cmr10-996' x='68.738' y='32.423'>(<tspan x='73.027'>)</tspan></text>
+<text class='f-cmsy10-996' x='79.116' y='32.423'>−</text>
+<text class='f-cmmi10-996' x='89.078' y='32.423'>t</text>
+<text class='f-cmr7-697' x='92.676' y='33.917'>0</text>
+<text class='f-cmr10-996' x='97.145' y='32.423'>)</text>
+<text class='f-cmsy10-996' x='103.233' y='32.423'>÷</text>
+<text class='f-cmr10-996' x='15.94' y='44.378'>1000000)</text>
+<text class='f-ptmr8r-993' x='57.451' y='44.378'>“</text>
+<text class='f-pcrr8r-993' x='67.852' y='44.378'>ms)</text>
+<text class='f-ptmr8r-993' x='85.785' y='44.378'>”</text>
+<text class='f-cmmi10-996' x='90.208' y='44.378'>,</text>
+<text class='f-cmsy10-996' x='94.636' y='44.378'>|</text>
+<text class='f-cmmi10-996' x='97.404' y='44.378'>l</text>
+<text class='f-cmr7-697' x='100.376' y='45.872'>0</text>
+<text class='f-cmsy10-996' x='107.06' y='44.378'>−</text>
+<text class='f-cmti10-996' x='117.022' y='44.378'>losses</text>
+<text class='f-cmr7-697' x='142.281' y='45.872'>0</text>
+<text class='f-cmsy10-996' x='146.751' y='44.378'>|</text>
+<text class='f-cmmi10-996' x='149.518' y='44.378'>,</text>
+<text class='f-cmti10-996' x='15.94' y='56.831'>tolL<tspan x='32.628'>oss</tspan></text>
+<text class='f-cmex10-996' x='46.685' y='48.762'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L48" title="MicroGptFlatQuick.fss, line 48">48</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='7.276em' viewBox='0 0 166.376 72.757' fill='currentColor' style='vertical-align:-6.429em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>r<tspan x='3.692'>ep</tspan><tspan x='12.857'>ort</tspan></text>
+<text class='f-cmex10-996' x='26.405' y='.398'></text>
+<text class='f-ptmr8r-993' x='30.971' y='8.468'>“</text>
+<text class='f-pcrr8r-993' x='35.395' y='8.468'>step<tspan x='65.282'>0</tspan><tspan x='77.238'>batch</tspan><tspan x='113.103'>1:</tspan><tspan x='131.036'>max</tspan><tspan x='15.94' y='20.852'>|gradient</tspan><tspan x='75.716'>-</tspan><tspan x='87.671'>golden|</tspan><tspan x='135.492'>over</tspan><tspan x='15.94' y='32.807'>4192</tspan></text>
+<text class='f-ptmr8r-993' x='39.851' y='32.807'>”</text>
+<text class='f-cmmi10-996' x='44.274' y='32.807'>,</text>
+<text class='f-cmti10-996' x='48.702' y='32.807'>maxA<tspan x='73.713'>bsDiﬀ</tspan></text>
+<text class='f-cmr10-996' x='101.169' y='32.807'>(</text>
+<text class='f-cmmi10-996' x='105.043' y='32.807'>g</text>
+<text class='f-cmr7-697' x='109.795' y='34.301'>0</text>
+<text class='f-cmmi10-996' x='114.264' y='32.807'>,</text>
+<text class='f-cmti10-996' x='15.94' y='44.762'>r<tspan x='19.632'>e</tspan><tspan x='23.706'>adV</tspan><tspan x='40.531'>e</tspan><tspan x='44.605'>ctor</tspan></text>
+<text class='f-cmr10-996' x='62.863' y='44.762'>(</text>
+<text class='f-cmti10-996' x='66.737' y='44.762'>goldensDir</text>
+<text class='f-ptmr8r-993' x='15.94' y='56.717'>“</text>
+<text class='f-pcrr8r-993' x='20.364' y='56.717'>/<tspan x='26.341'>grad_step0.txt</tspan></text>
+<text class='f-ptmr8r-993' x='110.027' y='56.717'>”</text>
+<text class='f-cmmi10-996' x='114.451' y='56.717'>,</text>
+<text class='f-cmr10-996' x='118.879' y='56.717'>4192))</text>
+<text class='f-cmmi10-996' x='146.553' y='56.717'>,</text>
+<text class='f-cmti10-996' x='15.94' y='69.171'>tolGr<tspan x='38.287'>ad</tspan></text>
+<text class='f-cmex10-996' x='49.5' y='61.101'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L49" title="MicroGptFlatQuick.fss, line 49">49</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='4.284em' viewBox='0 0 166.376 42.84' fill='currentColor' style='vertical-align:-3.238em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='10.461'>zer<tspan x='12.348'>oCount</tspan></text>
+<text class='f-cmr10-996' x='47.631' y='10.461'>=</text>
+<text class='f-cmex10-996' x='58.147' y='.996'></text>
+<text class='f-stmary10-996' x='72.537' y='10.461'></text>
+<text class='f-msbm10-996' x='76.55' y='10.461'>Z</text>
+<text class='f-cmr10-996' x='83.192' y='10.461'>32</text>
+<text class='f-stmary10-996' x='93.155' y='10.461'></text>
+<text class='f-cmex10-996' x='97.167' y='2.391'></text>
+<text class='f-cmmi10-996' x='101.318' y='10.461'>i</text>
+<text class='f-cmsy10-996' x='107.518' y='10.461'>←</text>
+<text class='f-cmr10-996' x='15.94' y='25.903'>0<tspan x='23.136'>#</tspan></text>
+<text class='f-cmti10-996' x='33.652' y='25.903'>nPar<tspan x='54.794'>ams</tspan></text>
+<text class='f-cmr10-996' x='72.925' y='25.903'>(<tspan x='77.214'>)</tspan></text>
+<text class='f-cmex10-996' x='81.089' y='17.833'></text>
+<text class='f-cmr10-996' x='15.94' y='39.253'>(</text>
+<text class='f-cmtt10-996' x='19.815' y='39.253'>if</text>
+<text class='f-cmmi10-996' x='33.043' y='39.253'>g</text>
+<text class='f-cmr7-697' x='37.795' y='40.747'>0</text>
+<text class='f-cmr10-996' x='42.264' y='39.253'>[</text>
+<text class='f-cmmi10-996' x='45.031' y='39.253'>i</text>
+<text class='f-cmr10-996' x='48.464' y='39.253'>]<tspan x='53.998'>=</tspan><tspan x='64.514'>0</tspan></text>
+<text class='f-cmmi10-996' x='69.496' y='39.253'>.</text>
+<text class='f-cmr10-996' x='72.263' y='39.253'>0</text>
+<text class='f-cmtt10-996' x='80.012' y='39.253'>then</text>
+<text class='f-cmr10-996' x='103.701' y='39.253'>1</text>
+<text class='f-cmtt10-996' x='111.449' y='39.253'>else</text>
+<text class='f-cmr10-996' x='135.138' y='39.253'>0</text>
+<text class='f-cmtt10-996' x='142.887' y='39.253'>end</text>
+<text class='f-cmr10-996' x='158.578' y='39.253'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L50" title="MicroGptFlatQuick.fss, line 50">50</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='3.597em' viewBox='0 0 166.376 35.965' fill='currentColor' style='vertical-align:-2.750em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>r<tspan x='3.692'>ep</tspan><tspan x='12.857'>ort</tspan></text>
+<text class='f-cmex10-996' x='26.405' y='.398'></text>
+<text class='f-ptmr8r-993' x='30.971' y='8.468'>“</text>
+<text class='f-pcrr8r-993' x='35.395' y='8.468'>step<tspan x='65.282'>0</tspan><tspan x='77.238'>batch</tspan><tspan x='113.103'>1:</tspan><tspan x='131.036'>zero</tspan><tspan x='15.94' y='20.423'>gradient</tspan><tspan x='69.739'>entries</tspan><tspan x='117.559'>-</tspan><tspan x='129.514'>464</tspan></text>
+<text class='f-ptmr8r-993' x='147.447' y='20.423'>”</text>
+<text class='f-cmmi10-996' x='151.871' y='20.423'>,</text>
+<text class='f-cmsy10-996' x='15.94' y='32.379'>|</text>
+<text class='f-cmr10-996' x='18.708' y='32.379'>1</text>
+<text class='f-cmmi10-996' x='23.689' y='32.379'>.</text>
+<text class='f-cmr10-996' x='26.456' y='32.379'>0</text>
+<text class='f-cmti10-996' x='33.098' y='32.379'>zer<tspan x='45.446'>oCount</tspan></text>
+<text class='f-cmsy10-996' x='80.175' y='32.379'>−</text>
+<text class='f-cmr10-996' x='90.138' y='32.379'>464</text>
+<text class='f-cmmi10-996' x='105.082' y='32.379'>.</text>
+<text class='f-cmr10-996' x='107.849' y='32.379'>0</text>
+<text class='f-cmsy10-996' x='112.831' y='32.379'>|</text>
+<text class='f-cmmi10-996' x='115.598' y='32.379'>,</text>
+<text class='f-cmr10-996' x='120.026' y='32.379'>0</text>
+<text class='f-cmmi10-996' x='125.007' y='32.379'>.</text>
+<text class='f-cmr10-996' x='127.775' y='32.379'>0</text>
+<text class='f-cmex10-996' x='132.756' y='24.309'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L51" title="MicroGptFlatQuick.fss, line 51">51</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='4.902em' viewBox='0 0 166.376 49.016' fill='currentColor' style='vertical-align:-4.055em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='3.874' y='8.468'>p</text>
+<text class='f-cmr7-697' x='8.887' y='9.963'>1</text>
+<text class='f-cmmi10-996' x='13.356' y='8.468'>,<tspan x='17.784'>m</tspan></text>
+<text class='f-cmr7-697' x='26.531' y='9.963'>1</text>
+<text class='f-cmmi10-996' x='31.001' y='8.468'>,<tspan x='35.429'>v</tspan></text>
+<text class='f-cmr7-697' x='40.258' y='9.963'>1</text>
+<text class='f-cmr10-996' x='44.727' y='8.468'>)<tspan x='51.369'>=</tspan></text>
+<text class='f-cmti10-996' x='61.885' y='8.468'>adam</text>
+<text class='f-cmex10-996' x='86.072' y='.398'></text>
+<text class='f-cmmi10-996' x='90.638' y='8.468'>p</text>
+<text class='f-cmr7-697' x='95.651' y='9.963'>0</text>
+<text class='f-cmmi10-996' x='100.12' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='21.021'>zer<tspan x='28.288'>os</tspan></text>
+<text class='f-cmr10-996' x='38.272' y='21.021'>(</text>
+<text class='f-cmti10-996' x='42.146' y='21.021'>nPar<tspan x='63.289'>ams</tspan></text>
+<text class='f-cmr10-996' x='81.419' y='21.021'>(<tspan x='85.709'>))</tspan></text>
+<text class='f-cmmi10-996' x='93.458' y='21.021'>,</text>
+<text class='f-cmti10-996' x='15.94' y='32.976'>zer<tspan x='28.288'>os</tspan></text>
+<text class='f-cmr10-996' x='38.272' y='32.976'>(</text>
+<text class='f-cmti10-996' x='42.146' y='32.976'>nPar<tspan x='63.289'>ams</tspan></text>
+<text class='f-cmr10-996' x='81.419' y='32.976'>(<tspan x='85.709'>))</tspan></text>
+<text class='f-cmmi10-996' x='93.458' y='32.976'>,<tspan x='97.885'>g</tspan></text>
+<text class='f-cmr7-697' x='102.637' y='34.471'>0</text>
+<text class='f-cmmi10-996' x='107.107' y='32.976'>,</text>
+<text class='f-cmr10-996' x='111.534' y='32.976'>1</text>
+<text class='f-cmmi10-996' x='116.516' y='32.976'>,</text>
+<text class='f-cmti10-996' x='15.94' y='45.43'>le<tspan x='22.56'>arningR</tspan><tspan x='57.451'>ate</tspan></text>
+<text class='f-cmr10-996' x='71.184' y='45.43'>(0)</text>
+<text class='f-cmex10-996' x='83.914' y='37.36'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L52" title="MicroGptFlatQuick.fss, line 52">52</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='7.276em' viewBox='0 0 166.376 72.757' fill='currentColor' style='vertical-align:-6.429em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>r<tspan x='3.692'>ep</tspan><tspan x='12.857'>ort</tspan></text>
+<text class='f-cmex10-996' x='26.405' y='.398'></text>
+<text class='f-ptmr8r-993' x='30.971' y='8.468'>“</text>
+<text class='f-pcrr8r-993' x='35.395' y='8.468'>step<tspan x='65.282'>0</tspan><tspan x='77.238'>batch</tspan><tspan x='113.103'>1:</tspan><tspan x='131.036'>max</tspan><tspan x='15.94' y='20.852'>|P</tspan><tspan x='33.873'>after</tspan><tspan x='69.739'>Adam</tspan><tspan x='99.626'>-</tspan><tspan x='111.582'>golden|</tspan><tspan x='15.94' y='32.807'>over</tspan><tspan x='45.828'>4192</tspan></text>
+<text class='f-ptmr8r-993' x='69.739' y='32.807'>”</text>
+<text class='f-cmmi10-996' x='74.162' y='32.807'>,</text>
+<text class='f-cmti10-996' x='78.59' y='32.807'>maxA<tspan x='103.601'>bsDiﬀ</tspan></text>
+<text class='f-cmr10-996' x='131.057' y='32.807'>(</text>
+<text class='f-cmmi10-996' x='134.931' y='32.807'>p</text>
+<text class='f-cmr7-697' x='139.943' y='34.301'>1</text>
+<text class='f-cmmi10-996' x='144.413' y='32.807'>,</text>
+<text class='f-cmti10-996' x='15.94' y='44.762'>r<tspan x='19.632'>e</tspan><tspan x='23.706'>adV</tspan><tspan x='40.531'>e</tspan><tspan x='44.605'>ctor</tspan></text>
+<text class='f-cmr10-996' x='62.863' y='44.762'>(</text>
+<text class='f-cmti10-996' x='66.737' y='44.762'>goldensDir</text>
+<text class='f-ptmr8r-993' x='15.94' y='56.717'>“</text>
+<text class='f-pcrr8r-993' x='20.364' y='56.717'>/<tspan x='26.341'>P_after_adam.txt</tspan></text>
+<text class='f-ptmr8r-993' x='121.983' y='56.717'>”</text>
+<text class='f-cmmi10-996' x='126.406' y='56.717'>,</text>
+<text class='f-cmr10-996' x='130.834' y='56.717'>4192))</text>
+<text class='f-cmmi10-996' x='158.508' y='56.717'>,</text>
+<text class='f-cmti10-996' x='15.94' y='69.171'>tolGr<tspan x='38.287'>ad</tspan></text>
+<text class='f-cmex10-996' x='49.5' y='61.101'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L53" title="MicroGptFlatQuick.fss, line 53">53</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='7.456em' height='1.196em' viewBox='0 0 74.563 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='8.369'>t</text>
+<text class='f-cmr7-697' x='3.598' y='9.863'>1</text>
+<text class='f-cmr10-996' x='10.834' y='8.369'>=</text>
+<text class='f-cmti10-996' x='21.35' y='8.369'>nanoTime</text>
+<text class='f-cmr10-996' x='66.399' y='8.369'>(<tspan x='70.689'>)</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L54" title="MicroGptFlatQuick.fss, line 54">54</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='2.560em' viewBox='0 0 166.376 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.468'>(</text>
+<text class='f-cmmi10-996' x='3.874' y='8.468'>l</text>
+<text class='f-cmr7-697' x='6.847' y='9.963'>1</text>
+<text class='f-cmmi10-996' x='11.316' y='8.468'>,<tspan x='15.744'>g</tspan></text>
+<text class='f-cmr7-697' x='20.496' y='9.963'>1</text>
+<text class='f-cmr10-996' x='24.965' y='8.468'>)<tspan x='31.607'>=</tspan></text>
+<text class='f-cmti10-996' x='42.123' y='8.468'>step</text>
+<text class='f-cmex10-996' x='59.81' y='.398'></text>
+<text class='f-cmmi10-996' x='64.376' y='8.468'>p</text>
+<text class='f-cmr7-697' x='69.389' y='9.963'>1</text>
+<text class='f-cmmi10-996' x='73.858' y='8.468'>,</text>
+<text class='f-cmti10-996' x='78.286' y='8.468'>keys</text>
+<text class='f-cmr10-996' x='97.18' y='8.468'>(1</text>
+<text class='f-cmmi10-996' x='106.036' y='8.468'>,</text>
+<text class='f-cmtt10-996' x='15.94' y='22.018'>fn</text>
+<text class='f-cmr10-996' x='29.168' y='22.018'>(</text>
+<text class='f-cmmi10-996' x='33.043' y='22.018'>i</text>
+<text class='f-cmr10-996' x='36.475' y='22.018'>:</text>
+<text class='f-msbm10-996' x='40.903' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='47.545' y='22.018'>32):</text>
+<text class='f-msbm10-996' x='65.809' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='72.451' y='22.018'>32</text>
+<text class='f-cmsy10-996' x='85.181' y='22.018'>⇒</text>
+<text class='f-cmr10-996' x='97.911' y='22.018'>1)</text>
+<text class='f-cmex10-996' x='106.767' y='13.948'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L55" title="MicroGptFlatQuick.fss, line 55">55</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='6.042em' viewBox='0 0 166.376 60.418' fill='currentColor' style='vertical-align:-5.195em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>r<tspan x='3.692'>ep</tspan><tspan x='12.857'>ort</tspan></text>
+<text class='f-cmex10-996' x='26.405' y='.398'></text>
+<text class='f-ptmr8r-993' x='30.971' y='8.468'>“</text>
+<text class='f-pcrr8r-993' x='35.395' y='8.468'>batch<tspan x='71.26'>1</tspan><tspan x='83.215'>step</tspan><tspan x='113.103'>2</tspan><tspan x='125.058'>loss</tspan></text>
+<text class='f-ptmr8r-993' x='154.946' y='8.468'>”</text>
+<text class='f-cmmi10-996' x='15.94' y='20.468'>l</text>
+<text class='f-cmr7-697' x='18.913' y='21.962'>1</text>
+<text class='f-ptmr8r-993' x='26.15' y='20.468'>“</text>
+<text class='f-pcrr8r-993' x='36.551' y='20.468'>vs</text>
+<text class='f-ptmr8r-993' x='54.483' y='20.468'>”</text>
+<text class='f-cmti10-996' x='61.674' y='20.468'>losses</text>
+<text class='f-cmr7-697' x='86.933' y='21.962'>1</text>
+<text class='f-ptmr8r-993' x='94.17' y='20.468'>“</text>
+<text class='f-pcrr8r-993' x='104.571' y='20.468'>(</text>
+<text class='f-ptmr8r-993' x='110.549' y='20.468'>”</text>
+<text class='f-cmr10-996' x='15.94' y='32.423'>((</text>
+<text class='f-cmti10-996' x='23.689' y='32.423'>nanoTime</text>
+<text class='f-cmr10-996' x='68.738' y='32.423'>(<tspan x='73.027'>)</tspan></text>
+<text class='f-cmsy10-996' x='79.116' y='32.423'>−</text>
+<text class='f-cmmi10-996' x='89.078' y='32.423'>t</text>
+<text class='f-cmr7-697' x='92.676' y='33.917'>1</text>
+<text class='f-cmr10-996' x='97.145' y='32.423'>)</text>
+<text class='f-cmsy10-996' x='103.233' y='32.423'>÷</text>
+<text class='f-cmr10-996' x='15.94' y='44.378'>1000000)</text>
+<text class='f-ptmr8r-993' x='57.451' y='44.378'>“</text>
+<text class='f-pcrr8r-993' x='67.852' y='44.378'>ms)</text>
+<text class='f-ptmr8r-993' x='85.785' y='44.378'>”</text>
+<text class='f-cmmi10-996' x='90.208' y='44.378'>,</text>
+<text class='f-cmsy10-996' x='94.636' y='44.378'>|</text>
+<text class='f-cmmi10-996' x='97.404' y='44.378'>l</text>
+<text class='f-cmr7-697' x='100.376' y='45.872'>1</text>
+<text class='f-cmsy10-996' x='107.06' y='44.378'>−</text>
+<text class='f-cmti10-996' x='117.022' y='44.378'>losses</text>
+<text class='f-cmr7-697' x='142.281' y='45.872'>1</text>
+<text class='f-cmsy10-996' x='146.751' y='44.378'>|</text>
+<text class='f-cmmi10-996' x='149.518' y='44.378'>,</text>
+<text class='f-cmti10-996' x='15.94' y='56.831'>tolL<tspan x='32.628'>oss</tspan></text>
+<text class='f-cmex10-996' x='46.685' y='48.762'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L56" title="MicroGptFlatQuick.fss, line 56">56</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='2.560em' viewBox='0 0 166.376 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>println</text>
+<text class='f-ptmr8r-993' x='32.938' y='8.468'>“</text>
+<text class='f-pcrr8r-993' x='37.361' y='8.468'>total</text>
+<text class='f-ptmr8r-993' x='73.227' y='8.468'>”</text>
+<text class='f-cmex10-996' x='80.417' y='.398'></text>
+<text class='f-cmr10-996' x='84.984' y='8.468'>(</text>
+<text class='f-cmti10-996' x='88.858' y='8.468'>nanoTime</text>
+<text class='f-cmr10-996' x='133.907' y='8.468'>(<tspan x='138.196'>)</tspan></text>
+<text class='f-cmsy10-996' x='144.285' y='8.468'>−</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>wal<tspan x='30.707'>l</tspan></text>
+<text class='f-cmr7-697' x='34.283' y='23.512'>0</text>
+<text class='f-cmr10-996' x='38.752' y='22.018'>)</text>
+<text class='f-cmsy10-996' x='44.84' y='22.018'>÷</text>
+<text class='f-cmr10-996' x='54.803' y='22.018'>1000000000</text>
+<text class='f-cmex10-996' x='104.616' y='13.948'></text>
+<text class='f-ptmr8r-993' x='111.95' y='22.018'>“</text>
+<text class='f-pcrr8r-993' x='122.351' y='22.018'>s</text>
+<text class='f-ptmr8r-993' x='128.328' y='22.018'>”</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L57" title="MicroGptFlatQuick.fss, line 57">57</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='5.982em' viewBox='0 0 166.376 59.82' fill='currentColor' style='vertical-align:-5.145em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>println</text>
+<text class='f-ptmr8r-993' x='32.938' y='8.369'>“</text>
+<text class='f-pcrr8r-993' x='37.361' y='8.369'>VERDICT:</text>
+<text class='f-ptmr8r-993' x='91.159' y='8.369'>”</text>
+<text class='f-cmti10-996' x='98.35' y='8.369'>p<tspan x='102.933'>asse</tspan><tspan x='120.246'>d</tspan></text>
+<text class='f-ptmr8r-993' x='15.94' y='20.368'>“</text>
+<text class='f-pcrr8r-993' x='26.341' y='20.368'>PASS,</text>
+<text class='f-ptmr8r-993' x='62.207' y='20.368'>”</text>
+<text class='f-cmti10-996' x='69.397' y='20.368'>faile<tspan x='87.219'>d</tspan></text>
+<text class='f-ptmr8r-993' x='96.108' y='20.368'>“</text>
+<text class='f-pcrr8r-993' x='106.509' y='20.368'>FAIL<tspan x='136.397'>of</tspan></text>
+<text class='f-ptmr8r-993' x='154.33' y='20.368'>”</text>
+<text class='f-cmr10-996' x='15.94' y='32.323'>(</text>
+<text class='f-cmti10-996' x='19.815' y='32.323'>p<tspan x='24.397'>asse</tspan><tspan x='41.71'>d</tspan></text>
+<text class='f-cmr10-996' x='50.046' y='32.323'>+</text>
+<text class='f-cmti10-996' x='60.008' y='32.323'>faile<tspan x='77.83'>d</tspan></text>
+<text class='f-cmr10-996' x='83.952' y='32.323'>)<tspan x='89.486'>(</tspan></text>
+<text class='f-cmtt10-996' x='93.361' y='32.323'>if</text>
+<text class='f-cmti10-996' x='106.589' y='32.323'>faile<tspan x='124.411'>d</tspan></text>
+<text class='f-cmr10-996' x='133.299' y='32.323'>=<tspan x='15.94' y='44.278'>0</tspan></text>
+<text class='f-cmtt10-996' x='23.689' y='44.278'>then</text>
+<text class='f-ptmr8r-993' x='47.378' y='44.278'>“</text>
+<text class='f-pcrr8r-993' x='57.779' y='44.278'>--<tspan x='75.711'>ALL</tspan><tspan x='99.622'>PASS</tspan></text>
+<text class='f-ptmr8r-993' x='123.532' y='44.278'>”</text>
+<text class='f-cmtt10-996' x='130.723' y='44.278'>else</text>
+<text class='f-ptmr8r-993' x='15.94' y='56.234'>“</text>
+<text class='f-pcrr8r-993' x='26.341' y='56.234'>--<tspan x='44.274'>FAILED</tspan></text>
+<text class='f-ptmr8r-993' x='80.139' y='56.234'>”</text>
+<text class='f-cmtt10-996' x='87.33' y='56.234'>end</text>
+<text class='f-cmr10-996' x='103.021' y='56.234'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L58" title="MicroGptFlatQuick.fss, line 58">58</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='4.842em' viewBox='0 0 166.376 48.418' fill='currentColor' style='vertical-align:-4.005em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>if</text>
+<text class='f-cmti10-996' x='13.228' y='8.369'>faile<tspan x='31.05'>d</tspan></text>
+<text class='f-cmmi10-996' x='39.939' y='8.369'>></text>
+<text class='f-cmr10-996' x='50.455' y='8.369'>0</text>
+<text class='f-cmtt10-996' x='58.203' y='8.369'>then</text>
+<text class='f-cmti10-996' x='15.94' y='20.922'>fail</text>
+<text class='f-cmr10-996' x='30.718' y='20.922'>(</text>
+<text class='f-ptmr8r-993' x='34.593' y='20.922'>“</text>
+<text class='f-pcrr8r-993' x='39.016' y='20.922'>MicroGptFlatQuick:</text>
+<text class='f-ptmr8r-993' x='152.59' y='20.922'>”</text>
+<text class='f-cmti10-996' x='15.94' y='32.877'>faile<tspan x='33.762'>d</tspan></text>
+<text class='f-ptmr8r-993' x='15.94' y='44.832'>“</text>
+<text class='f-pcrr8r-993' x='26.341' y='44.832'>check(s)<tspan x='80.139'>failed</tspan></text>
+<text class='f-ptmr8r-993' x='116.005' y='44.832'>”</text>
+<text class='f-cmr10-996' x='120.428' y='44.832'>)</text>
+<text class='f-cmtt10-996' x='127.07' y='44.832'>end</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L59" title="MicroGptFlatQuick.fss, line 59">59</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L43" title="MicroGptFlatQuick.fss, line 43">43</a></span>  (* 1. batch 1, the first two of the full check's five Adam steps, on documents 0 and 1 *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L44" title="MicroGptFlatQuick.fss, line 44">44</a></span>  losses = readVector(goldensDir "/losses_batch1_5steps.txt", 5)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L45" title="MicroGptFlatQuick.fss, line 45">45</a></span>  t0 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L46" title="MicroGptFlatQuick.fss, line 46">46</a></span>  (l0, g0) = step(p0, keys(1, fn (i: ZZ32): ZZ32 =&gt; 0))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L47" title="MicroGptFlatQuick.fss, line 47">47</a></span>  report("batch 1 step 1 loss " l0 " vs " losses[0] " (" ((nanoTime() - t0) DIV 1000000) " ms)", |l0 - losses[0]|, tolLoss)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L48" title="MicroGptFlatQuick.fss, line 48">48</a></span>  report("step 0 batch 1: max |gradient - golden| over 4192", maxAbsDiff(g0, readVector(goldensDir "/grad_step0.txt", 4192)), tolGrad)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L49" title="MicroGptFlatQuick.fss, line 49">49</a></span>  zeroCount = SUM[\ZZ32\][i &lt;- 0#nParams()] (if g0[i] = 0.0 then 1 else 0 end)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L50" title="MicroGptFlatQuick.fss, line 50">50</a></span>  report("step 0 batch 1: zero gradient entries - 464", |1.0 zeroCount - 464.0|, 0.0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L51" title="MicroGptFlatQuick.fss, line 51">51</a></span>  (p1, m1, v1) = adam(p0, zeros(nParams()), zeros(nParams()), g0, 1, learningRate(0))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L52" title="MicroGptFlatQuick.fss, line 52">52</a></span>  report("step 0 batch 1: max |P after Adam - golden| over 4192", maxAbsDiff(p1, readVector(goldensDir "/P_after_adam.txt", 4192)), tolGrad)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L53" title="MicroGptFlatQuick.fss, line 53">53</a></span>  t1 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L54" title="MicroGptFlatQuick.fss, line 54">54</a></span>  (l1, g1) = step(p1, keys(1, fn (i: ZZ32): ZZ32 =&gt; 1))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L55" title="MicroGptFlatQuick.fss, line 55">55</a></span>  report("batch 1 step 2 loss " l1 " vs " losses[1] " (" ((nanoTime() - t1) DIV 1000000) " ms)", |l1 - losses[1]|, tolLoss)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L56" title="MicroGptFlatQuick.fss, line 56">56</a></span>  println "total " ((nanoTime() - wall0) DIV 1000000000) " s"</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L57" title="MicroGptFlatQuick.fss, line 57">57</a></span>  println "VERDICT: " passed " PASS, " failed " FAIL of " (passed + failed) (if failed = 0 then " -- ALL PASS" else " -- FAILED" end)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L58" title="MicroGptFlatQuick.fss, line 58">58</a></span>  if failed &gt; 0 then fail("MicroGptFlatQuick: " failed " check(s) failed") end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L59" title="MicroGptFlatQuick.fss, line 59">59</a></span>end</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L43" title="MicroGptFlatQuick.fss, line 43">43</a></span>  (* 1. batch 1, the first two of the full check's five Adam steps, on documents 0 and 1 *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L44" title="MicroGptFlatQuick.fss, line 44">44</a></span>  losses = readVector(goldensDir "/losses_batch1_5steps.txt", 5)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L45" title="MicroGptFlatQuick.fss, line 45">45</a></span>  t0 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L46" title="MicroGptFlatQuick.fss, line 46">46</a></span>  (l0, g0) = step(p0, keys(1, fn (i: ZZ32): ZZ32 ⇒ 0))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L47" title="MicroGptFlatQuick.fss, line 47">47</a></span>  report("batch 1 step 1 loss " l0 " vs " losses[0] " (" ((nanoTime() - t0) ÷ 1000000) " ms)", |l0 - losses[0]|, tolLoss)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L48" title="MicroGptFlatQuick.fss, line 48">48</a></span>  report("step 0 batch 1: max |gradient - golden| over 4192", maxAbsDiff(g0, readVector(goldensDir "/grad_step0.txt", 4192)), tolGrad)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L49" title="MicroGptFlatQuick.fss, line 49">49</a></span>  zeroCount = SUM⟦ZZ32⟧[i ← 0#nParams()] (if g0[i] = 0.0 then 1 else 0 end)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L50" title="MicroGptFlatQuick.fss, line 50">50</a></span>  report("step 0 batch 1: zero gradient entries - 464", |1.0 zeroCount - 464.0|, 0.0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L51" title="MicroGptFlatQuick.fss, line 51">51</a></span>  (p1, m1, v1) = adam(p0, zeros(nParams()), zeros(nParams()), g0, 1, learningRate(0))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L52" title="MicroGptFlatQuick.fss, line 52">52</a></span>  report("step 0 batch 1: max |P after Adam - golden| over 4192", maxAbsDiff(p1, readVector(goldensDir "/P_after_adam.txt", 4192)), tolGrad)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L53" title="MicroGptFlatQuick.fss, line 53">53</a></span>  t1 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L54" title="MicroGptFlatQuick.fss, line 54">54</a></span>  (l1, g1) = step(p1, keys(1, fn (i: ZZ32): ZZ32 ⇒ 1))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L55" title="MicroGptFlatQuick.fss, line 55">55</a></span>  report("batch 1 step 2 loss " l1 " vs " losses[1] " (" ((nanoTime() - t1) ÷ 1000000) " ms)", |l1 - losses[1]|, tolLoss)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L56" title="MicroGptFlatQuick.fss, line 56">56</a></span>  println "total " ((nanoTime() - wall0) ÷ 1000000000) " s"</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L57" title="MicroGptFlatQuick.fss, line 57">57</a></span>  println "VERDICT: " passed " PASS, " failed " FAIL of " (passed + failed) (if failed = 0 then " -- ALL PASS" else " -- FAILED" end)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L58" title="MicroGptFlatQuick.fss, line 58">58</a></span>  if failed &gt; 0 then fail("MicroGptFlatQuick: " failed " check(s) failed") end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlatQuick.fss#L59" title="MicroGptFlatQuick.fss, line 59">59</a></span>end</span></code></pre></div>
 <ul>
 <li><p id="p-39c04b8d" class="nb">Line 46 calls the model on a batch that holds the document 0. Line 47 is check 3.</p></li>
 <li><p id="p-c89144a4" class="nb">Line 48 is check 4, against the stored gradient.</p></li>
-<li><p id="p-88cda45d" class="nb">Line 49 counts the zeros: a <code>SUM</code> over all the indices of 1 where the entry is 0.0. Line 50 is check 5.</p></li>
-<li><p id="p-6e7803ac" class="nb">Line 51 calls <code>adam</code> with zeros for the two averages, step count 1 and the first learning rate. Line 52 is check 6.</p></li>
+<li><p id="p-88cda45d" class="nb">Line 49 counts the zeros: a <span class="fc"><span class="fr m"><span class="big">∑</span></span><code class="fs">SUM</code></span> over all the indices of 1 where the entry is 0.0. Line 50 is check 5.</p></li>
+<li><p id="p-6e7803ac" class="nb">Line 51 calls <span class="fc"><span class="fr m"><i>adam</i></span><code class="fs">adam</code></span> with zeros for the two averages, step count 1 and the first learning rate. Line 52 is check 6.</p></li>
 <li><p id="p-9c4c3796" class="nb">Line 54 calls the model again, with the new parameters, on the document 1. Line 55 is check 7.</p></li>
 <li><p id="p-7941af58" class="nb">Line 58 ends the run with an error if a check failed, so that the program's exit status says so.</p></li>
 </ul>

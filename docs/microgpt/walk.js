@@ -5,7 +5,9 @@
       apart from the notes on the specification.
    2. The reader writes its own address and title into the exported notes. On the notes page, this
       file puts the walk-through's address and title there, and names the saved file after it.
-   3. The Select button's selection leaves out the formulas and the long boxes of numbers (below). */
+   3. The Select button's selection leaves out the formulas and the long boxes of numbers (below).
+   4. The control of the three notations of the program's code (below).
+   5. A note's first words hold each code word once (below). */
 (function () {
   'use strict';
   var FROM = 'fortress-spec.', TO = 'fortress-microgpt.';
@@ -33,6 +35,54 @@
   document.addEventListener('selectionchange', function () {
     var s = window.getSelection && window.getSelection();
     if (!s || s.isCollapsed) document.documentElement.classList.remove('speak');
+  });
+
+  /* 4. The notation of the program's code: typeset by Fortify, Unicode, or the ASCII as typed. One control
+        for the page; the choice is kept in this browser. All three forms are in the page and walk.css shows
+        one of them by the attribute data-notation on <html>, so nothing is done word by word. */
+  var K_NOTE = 'fortress-microgpt.notation', FORMS = ['typeset', 'unicode', 'source'];
+  var notationNow = 'typeset';
+  try { var kept = localStorage.getItem(K_NOTE); if (FORMS.indexOf(kept) >= 0) notationNow = kept; } catch (e) { /* no storage */ }
+  document.documentElement.setAttribute('data-notation', notationNow);
+  function setNotation(form) {
+    /* the text at the top of the window stays where it is while the blocks below and above change height */
+    var bar = document.querySelector('nav.bar'), top = (bar ? bar.getBoundingClientRect().bottom : 0) + 44;
+    var anchor = null, before = 0;
+    var blocks = document.querySelectorAll('.page .nb');
+    for (var i = 0; i < blocks.length; i++) {
+      var r = blocks[i].getBoundingClientRect();
+      if (r.bottom > top && r.height) { anchor = blocks[i]; before = r.top; break; }
+    }
+    notationNow = form;
+    document.documentElement.setAttribute('data-notation', form);
+    try { localStorage.setItem(K_NOTE, form); } catch (e) { /* no storage */ }
+    document.querySelectorAll('.notation button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-n') === form));
+    });
+    if (anchor) window.scrollBy(0, anchor.getBoundingClientRect().top - before);
+  }
+  document.querySelectorAll('.notation button').forEach(function (b) {
+    b.setAttribute('aria-pressed', String(b.getAttribute('data-n') === notationNow));
+    b.addEventListener('click', function () { setNotation(b.getAttribute('data-n')); });
+  });
+  var navBar = document.querySelector('nav.bar');
+  if (navBar) document.documentElement.style.setProperty('--bar-h', navBar.getBoundingClientRect().height + 'px');
+
+  /* 5. A paragraph holds each code word in its three forms, and the reader takes a note's first words from
+        the paragraph's textContent. For these blocks, textContent gives the text with each code word once,
+        as typed. */
+  var textOf = Object.getOwnPropertyDescriptor(Node.prototype, 'textContent');
+  document.querySelectorAll('.page .nb').forEach(function (b) {
+    if (!b.querySelector('.fc')) return;
+    Object.defineProperty(b, 'textContent', {
+      configurable: true,
+      get: function () {
+        var c = b.cloneNode(true);
+        c.querySelectorAll('.fc > .fr, .fc > .fu').forEach(function (e) { e.remove(); });
+        return textOf.get.call(c);
+      },
+      set: function (v) { textOf.set.call(b, v); }
+    });
   });
 
   function fixExport() {

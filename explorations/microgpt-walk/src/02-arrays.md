@@ -145,13 +145,13 @@ A postfix operator binds more tightly than juxtaposition, so `x m^T` means `x (m
 
 A weight is another word for a parameter, and a weight matrix is a matrix whose elements are parameters. The model has nine. This list gives each one's index, its name in the files of starting values, its name in the function `step`, what the name is short for, its size and its job.
 
-- 0, `wte`, in `step` also `wte`: the weights of the token embedding. 27 by 16, 432 numbers. It is the token table. Row `t` is the embedding of token `t`: the vector of 16 numbers that stands for that token.
-- 1, `wpe`, in `step` also `wpe`: the weights of the position embedding. 16 by 16, 256 numbers. It is the position table. Row `i` is the embedding of position `i`: the vector of 16 numbers that stands for that position.
-- 2, `lm_head`, in `step` `lm`: the language model's head, which is the field's name for a model's last matrix. 27 by 16, 432 numbers. It turns a position's final vector into 27 scores, one for each token.
-- 3, 4 and 5, `attn_wq`, `attn_wk` and `attn_wv`, in `step` `wq`, `wk` and `wv`: attention's weights for the query, for the key and for the value. 16 by 16 each, 256 numbers each. Attention is the stage in which a position reads earlier positions. For that, it makes three vectors from each row, called the query, the key and the value, each with one of these matrices. Part 4 reads it.
-- 6, `attn_wo`, in `step` `wo`: attention's weights for the output. 16 by 16, 256 numbers. Attention's result goes through it.
-- 7, `mlp_fc1`, in `step` `f1`: 64 by 16, 1,024 numbers. MLP is short for multi-layer perceptron, the field's name for the model's second block, which Part 5 reads. FC is short for fully connected. This is the first of the block's two matrices.
-- 8, `mlp_fc2`, in `step` `f2`: 16 by 64, 1,024 numbers. The second matrix of that block.
+- 0, ``wte``, in `step` also `wte`: the weights of the token embedding. 27 by 16, 432 numbers. It is the token table. Row `t` is the embedding of token `t`: the vector of 16 numbers that stands for that token.
+- 1, ``wpe``, in `step` also `wpe`: the weights of the position embedding. 16 by 16, 256 numbers. It is the position table. Row `i` is the embedding of position `i`: the vector of 16 numbers that stands for that position.
+- 2, ``lm_head``, in `step` `lm`: the language model's head, which is the field's name for a model's last matrix. 27 by 16, 432 numbers. It turns a position's final vector into 27 scores, one for each token.
+- 3, 4 and 5, ``attn_wq``, ``attn_wk`` and ``attn_wv``, in `step` `wq`, `wk` and `wv`: attention's weights for the query, for the key and for the value. 16 by 16 each, 256 numbers each. Attention is the stage in which a position reads earlier positions. For that, it makes three vectors from each row, called the query, the key and the value, each with one of these matrices. Part 4 reads it.
+- 6, ``attn_wo``, in `step` `wo`: attention's weights for the output. 16 by 16, 256 numbers. Attention's result goes through it.
+- 7, ``mlp_fc1``, in `step` `f1`: 64 by 16, 1,024 numbers. MLP is short for multi-layer perceptron, the field's name for the model's second block, which Part 5 reads. FC is short for fully connected. This is the first of the block's two matrices.
+- 8, ``mlp_fc2``, in `step` `f2`: 16 by 64, 1,024 numbers. The second matrix of that block.
 
 The counts add up to 4,192. The program keeps all of them in one vector, `p`. The nine matrices lie in it one after the other, each one row after row.
 
@@ -275,7 +275,7 @@ So `gather(wte, ids)` is a new matrix of 16 by 16. Its row `r` is a copy of the 
 
 The operator `+` between two matrices of one size is the library's. It adds them element by element. So row `r` of `x` is the token's embedding plus the position's embedding.
 
-Row 1 of `x` belongs to position 1, where the token is `y`, 24. A run printed the first four of its 16 numbers, and the two rows that it is the sum of:
+Row 1 of `x` belongs to position 1, where the token is ``y``, 24. A run printed the first four of its 16 numbers, and the two rows that it is the sum of:
 
 ```out
 wte[24,0..3] = -0.0291914028145468 -0.02562707413091664 0.04066887602823657 -0.003619274149736821
@@ -287,7 +287,7 @@ The first number of `x`: -0.0292 plus -0.0494 is -0.0786.
 
 ## What adding the position's row does
 
-A token's embedding is the same wherever the token stands. In the row of `yuheng`, the mark, token 26, stands at position 0 and again at position 7. So rows 0 and 7 of `gather(wte, ids)` hold the same 16 numbers. A run printed the first four of them, then the first four numbers of the embeddings of positions 0 and 7, then the two sums:
+A token's embedding is the same wherever the token stands. In the row of ``yuheng``, the mark, token 26, stands at position 0 and again at position 7. So rows 0 and 7 of `gather(wte, ids)` hold the same 16 numbers. A run printed the first four of them, then the first four numbers of the embeddings of positions 0 and 7, then the two sums:
 
 ```out
 wte[26,0..3] = 0.08213648227415588 -0.036011968656176764 -0.12047466462352516 -0.03320518865639341

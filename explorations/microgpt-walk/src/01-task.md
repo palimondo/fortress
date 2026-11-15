@@ -13,14 +13,14 @@ jori
 juanluis
 ```
 
-The model reads the start of a name and answers with 27 numbers: for each character that can come next, the probability that it comes next. The 27 characters are the letters `a` to `z` and one mark for "the name starts here" and "the name ends here".
+The model reads the start of a name and answers with 27 numbers: for each character that can come next, the probability that it comes next. The 27 characters are the letters ``a`` to ``z`` and one mark for "the name starts here" and "the name ends here".
 
-Take the name `yuheng`. It gives the model seven questions:
+Take the name ``yuheng``. It gives the model seven questions:
 
-- At the start of a name, which character comes first? The right answer is `y`.
-- After `y`, which character comes next? The right answer is `u`.
-- After `yu`? `h`. After `yuh`? `e`. After `yuhe`? `n`. After `yuhen`? `g`.
-- After `yuheng`? The right answer is the mark: the name ends here.
+- At the start of a name, which character comes first? The right answer is ``y``.
+- After ``y``, which character comes next? The right answer is ``u``.
+- After ``yu``? ``h``. After ``yuh``? ``e``. After ``yuhe``? ``n``. After ``yuhen``? ``g``.
+- After ``yuheng``? The right answer is the mark: the name ends here.
 
 The model has 4,192 numbers that decide its answers. They are its parameters. Training changes the parameters, a little at each step, so that the right answers get higher probabilities. One number says how wrong the answers are: the loss. It is 0 when every right answer has the probability 1, and it grows as the right answers get lower probabilities. Part 5 computes it. A step of training aims at a lower loss on the name that the step saw. Part 7 shows one.
 
@@ -44,9 +44,9 @@ cd explorations/run-c4/src
 
 It prints one line with the sizes and then five lines, one for each step of training. Part 7 shows them.
 
-A `.fss` file holds a component, which is a unit of Fortress code. Beside each component is a `.fsi` file of the same name. It holds an api: the list of the names that other components may use, with their types.
+A ``.fss`` file holds a component, which is a unit of Fortress code. Beside each component is a ``.fsi`` file of the same name. It holds an api: the list of the names that other components may use, with their types.
 
-The model's file starts with a comment. Fortress writes a comment between `(*` and `*)`.
+The model's file starts with a comment. Fortress writes a comment between ``(*`` and ``*)``.
 
 @src 1-8
 
@@ -55,7 +55,7 @@ The comment names the parts of the file in order: the constants ("hyperparameter
 The comment also names three things from the project's history:
 
 - "Hsu" is Aaron Hsu. The program's data layout follows his talk "Designing Your Data": all the parameters lie in one vector, and the corpus is one matrix of integers. The word "flat" in the program's name means this layout.
-- The `.dyalog` file is an APL program with the same layout. The Fortress lines were written beside its lines.
+- The ``.dyalog`` file is an APL program with the same layout. The Fortress lines were written beside its lines.
 - "Run C4" is the record's name for this program. It was the fourth round of an experiment that the record calls run C.
 
 ## The frame: component, export, import
@@ -64,7 +64,7 @@ The comment also names three things from the project's history:
 
 - Line 9 opens the component. Its name must be the file's name. The matching `end` is the file's last line, line 98.
 - Line 10 says that this component implements the api `MicroGptFlat`. The api's file lists what the model offers to other components: the layout table, the corpus, `step`, `adam` and `learningRate`. The quick check imports these.
-- Line 11 says that the component also implements the api `Executable`. That api has one function, `run(): ()`. A component that exports it is a program: `bin/fortress MicroGptFlat.fss` calls its `run`.
+- Line 11 says that the component also implements the api `Executable`. That api has one function, `run(): ()`. A component that exports it is a program: ``bin/fortress MicroGptFlat.fss`` calls its `run`.
 - Lines 12 to 14 import other apis. `{...}` is Fortress text, not an omission here: it means "every name of that api".
 
 @src 98
@@ -103,7 +103,7 @@ Line 19 gives the two places on disk: the corpus, and the folder of the paramete
 
 ## The corpus as one matrix of tokens
 
-The program gives `a` the token 0, `b` the token 1, and so on to `z`, 25. The mark BOS is the token 26.
+The program gives ``a`` the token 0, ``b`` the token 1, and so on to ``z``, 25. The mark BOS is the token 26.
 
 @src 47-48
 
@@ -115,17 +115,17 @@ Line 48 declares a top-level variable with a written type, `Corpus`. Its value i
 
 - Line 120 reads the file into an array of strings, one name each.
 - Line 121 makes a matrix of integers and fills it with the token 26. `array[\ZZ32\](rows, columns)` is the library's function that makes an array. The brackets `[\ZZ32\]` hold a static argument, here the element type. Plain brackets hold an index, as in `tokm[d, 1 + j]` in the next line. `|names|` is the number of elements of `names`, 2,000. `blk` is `blockSize`, so the matrix has 17 columns.
-- Line 122 is a loop with two counters, `d` over the documents and `j` over the characters of one name. A document is one name of the corpus. `0#n` is a range: `n` integers, starting at 0. So `0#5` is 0, 1, 2, 3, 4. The body puts the token of character `j` into column `1 + j`. A character's token is its code point minus the code point of `a`. The operator `:=` assigns to an element of an array.
+- Line 122 is a loop with two counters, `d` over the documents and `j` over the characters of one name. A document is one name of the corpus. `0#n` is a range: `n` integers, starting at 0. So `0#5` is 0, 1, 2, 3, 4. The body puts the token of character `j` into column `1 + j`. A character's token is its code point minus the code point of ``a``. The operator `:=` assigns to an element of an array.
 - A Fortress loop runs its turns in parallel unless every range is wrapped in `seq`. Here both are wrapped, so the loop runs in order.
 - Line 123 builds the result, a `Corpus` object. Its second argument is a vector with one entry for each document: 1 plus the number of the name's characters.
 
-Here is row 0 of the matrix, for `yuheng`, as a run printed it:
+Here is row 0 of the matrix, for ``yuheng``, as a run printed it:
 
 ```out
 26 24 20 7 4 13 6 26 26 26 26 26 26 26 26 26 26
 ```
 
-Column 0 holds BOS. Columns 1 to 6 hold `y` (24), `u` (20), `h` (7), `e` (4), `n` (13) and `g` (6). Every later column still holds the 26 from line 121. The length that line 123 stores for this document is 7.
+Column 0 holds BOS. Columns 1 to 6 hold ``y`` (24), ``u`` (20), ``h`` (7), ``e`` (4), ``n`` (13) and ``g`` (6). Every later column still holds the 26 from line 121. The length that line 123 stores for this document is 7.
 
 The object's declaration follows.
 
@@ -174,8 +174,8 @@ pos = 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 ```
 
 - `ids`, the tokens' identifiers, holds the token that the model reads at each position: columns 0 to 15 of the corpus row. The program calls these integers keys, because the step uses them to look rows up in tables.
-- `tg`, the targets, holds the token one place later: columns 1 to 16. It is the right answer for each position. At position 0 the model reads BOS (26) and the target is `y` (24). At position 6 it reads `g` (6) and the target is BOS (26).
-- `vm`, the mask of the valid rows, says which rows count: 1.0 for the seven questions of `yuheng`, 0.0 for the nine rows after the name's end. The method `valid` compares the position with the document's length, 7.
+- `tg`, the targets, holds the token one place later: columns 1 to 16. It is the right answer for each position. At position 0 the model reads BOS (26) and the target is ``y`` (24). At position 6 it reads ``g`` (6) and the target is BOS (26).
+- `vm`, the mask of the valid rows, says which rows count: 1.0 for the seven questions of ``yuheng``, 0.0 for the nine rows after the name's end. The method `valid` compares the position with the document's length, 7.
 - `nv`, the number of valid rows, is the number of rows that count. `SUM` adds the elements of an array, so `nv` is 7.0.
 - `pos`, the positions, holds each row's position.
 

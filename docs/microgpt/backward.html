@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>6. Backward: the gradient · microGPT in Fortress</title>
 <link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
 <link rel="stylesheet" href="walk.css">
 </head>
 <body data-page="chapter" data-slug="backward" data-chapter="6. Backward: the gradient">
@@ -15,6 +16,7 @@
 </header>
 <div id="resume"></div>
 <div id="chapter-notes"></div>
+<div class="notation" role="group" aria-label="How the program's code is shown"><span class="lab">Code</span><span class="seg"><button type="button" data-n="typeset" aria-pressed="false">Typeset</button><button type="button" data-n="unicode" aria-pressed="false">Unicode</button><button type="button" data-n="source" aria-pressed="false">ASCII</button></span></div>
 <section class="sec chapter" data-num="6" data-title="Backward: the gradient">
 <h1 id="top" class="nb"><span class="num">Part 6</span> Backward: the gradient</h1>
 <p class="standfirst">What a gradient is, shown by changing one parameter and watching the loss. Then the few rules that the backward pass uses, and lines 62 to 72, each beside the forward declaration that it goes back through.</p>
@@ -22,7 +24,7 @@
 <section class="sec" data-num="6.1" data-title="What the gradient is">
 <h2 id="s-what-the-gradient-is" class="nb"><span class="num">6.1</span> What the gradient is</h2>
 <p id="p-93f54947" class="nb">The loss depends on all 4,192 parameters. Change one parameter a little, and the loss changes a little. The gradient is a vector of 4,192 numbers. Its entry for a parameter is a rate: the change of the loss for each unit of change of that parameter, while the others stay as they are.</p>
-<p id="p-2f7d9a2a" class="nb">A run shows this on parameter 500. It lies in <code>wpe</code>, the table of the position embeddings, which starts at place 432 of the parameter vector: it is element <code>[4, 4]</code> of that table. Its value is 0.0626. The step's gradient has -0.0926 at place 500. The run then called <code>step</code> twice more: once with parameter 500 raised by 0.00001, once with it lowered by 0.00001.</p>
+<p id="p-2f7d9a2a" class="nb">A run shows this on parameter 500. It lies in <span class="fc"><span class="fr m"><i>wpe</i></span><code class="fs">wpe</code></span>, the table of the position embeddings, which starts at place 432 of the parameter vector: it is element <span class="fc"><span class="fr m">[4, 4]</span><code class="fs">[4, 4]</code></span> of that table. Its value is 0.0626. The step's gradient has -0.0926 at place 500. The run then called <span class="fc"><span class="fr m"><i>step</i></span><code class="fs">step</code></span> twice more: once with parameter 500 raised by 0.00001, once with it lowered by 0.00001.</p>
 <pre class="vb nb out" id="o-059c50cf" data-kind="output"><code>index 500 p 0.06258901428847981 g -0.09262792010673876 loss+ 3.365966021326099 loss- 3.365967873884501 fd -0.09262792011188735</code></pre>
 <ul>
 <li><p id="p-12ca083b" class="nb">With the parameter raised, the loss is 3.365966021.</p></li>
@@ -31,7 +33,7 @@
 <li><p id="p-25f78bbe" class="nb">The gradient's entry, printed after <code>g</code>, is -0.09262792011. The two agree to nine digits.</p></li>
 </ul>
 <p id="p-3f0ff3d4" class="nb">The entry is negative: raising this parameter lowers the loss. Training uses exactly this fact. It moves each parameter against the sign of its gradient entry.</p>
-<p id="p-4063472a" class="nb">The same experiment on parameter 1100, which is element <code>[25, 12]</code> of <code>lm</code>, the last weight matrix, which makes the 27 scores:</p>
+<p id="p-4063472a" class="nb">The same experiment on parameter 1100, which is element <span class="fc"><span class="fr m">[25, 12]</span><code class="fs">[25, 12]</code></span> of <span class="fc"><span class="fr m"><i>lm</i></span><code class="fs">lm</code></span>, the last weight matrix, which makes the 27 scores:</p>
 <pre class="vb nb out" id="o-e9aa2adc" data-kind="output"><code>index 1100 p 0.03654080103626847 g 0.031736131393025356 loss+ 3.3659672649481087 loss- 3.3659666302254805 fd 0.03173613141171927</code></pre>
 <p id="p-60e1f525" class="nb">Here the entry is positive: raising the parameter raises the loss.</p>
 <p id="p-b6165564" class="nb">The experiment needs two forward passes for one parameter. For all the parameters that is 8,384 forward passes. The backward pass gets all 4,192 entries in one pass. The field's name for it is backpropagation.</p>
@@ -39,67 +41,83 @@
 </section>
 <section class="sec" data-num="6.2" data-title="The names and the rules">
 <h2 id="s-the-names-and-the-rules" class="nb"><span class="num">6.2</span> The names and the rules</h2>
-<div class="fx nb src" id="c-512de2de" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L62" title="MicroGptFlat.fss, line 62">62</a></span>(* -- backward, one line under each forward line, bottom-up -- *)</span></code></pre></div>
+<div class="fx nb src n3" id="c-512de2de" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L62" title="MicroGptFlat.fss, line 62">62</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.541em' viewBox='0 0 175.342 25.405' fill='currentColor' style='vertical-align:-1.704em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>(*</text>
+<text class='f-cmr10-996' x='13.782' y='8.369'>--<tspan x='23.744'>bac</tspan><tspan x='38.411'>kw</tspan><tspan x='50.588'>ard,</tspan><tspan x='71.095'>one</tspan><tspan x='89.359'>line</tspan><tspan x='108.178'>under</tspan><tspan x='136.433'>eac</tspan><tspan x='149.993'>h</tspan><tspan x='15.94' y='21.818'>forw</tspan><tspan x='34.786'>ard</tspan><tspan x='52.525'>line,</tspan><tspan x='74.111'>b</tspan><tspan x='79.923'>ottom-up</tspan><tspan x='123.648'>--</tspan></text>
+<text class='f-cmtt10-996' x='133.61' y='21.818'>*)</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L62" title="MicroGptFlat.fss, line 62">62</a></span>(* -- backward, one line under each forward line, bottom-up -- *)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L62" title="MicroGptFlat.fss, line 62">62</a></span>(* -- backward, one line under each forward line, bottom-up -- *)</span></code></pre></div>
 <p id="p-d1d99b87" class="nb">The comment states the plan. The backward pass takes the forward declarations in reverse order, from the loss back to the embeddings.</p>
-<p id="p-c37dee1d" class="nb">The names follow one pattern. For a forward value such as <code>x4</code>, the backward value is <code>dX4</code>, with a <code>d</code> in front. It has the same size. Each of its elements is a rate: the change of the loss for each unit of change of the same element of <code>x4</code>. <code>dX4</code> is the gradient at <code>x4</code>. For a weight matrix such as <code>lm</code>, the gradient is named <code>gLM</code>, with a <code>g</code> for gradient. The nine <code>g</code> matrices are the pieces of the result.</p>
+<p id="p-c37dee1d" class="nb">The names follow one pattern. For a forward value such as <span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span>, the backward value is <span class="fc"><span class="fr m"><i>dX</i><sub>4</sub></span><code class="fs">dX4</code></span>, with a <span class="fc"><span class="fr m"><i>d</i></span><code class="fs">d</code></span> in front. It has the same size. Each of its elements is a rate: the change of the loss for each unit of change of the same element of <span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span>. <span class="fc"><span class="fr m"><i>dX</i><sub>4</sub></span><code class="fs">dX4</code></span> is the gradient at <span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span>. For a weight matrix such as <span class="fc"><span class="fr m"><i>lm</i></span><code class="fs">lm</code></span>, the gradient is named <span class="fc"><span class="fr m"><i>gLM</i></span><code class="fs">gLM</code></span>, with a <span class="fc"><span class="fr m"><i>g</i></span><code class="fs">g</code></span> for gradient. The nine <span class="fc"><span class="fr m"><i>g</i></span><code class="fs">g</code></span> matrices are the pieces of the result.</p>
 <p id="p-1bf6887e" class="nb">At every forward declaration, the backward pass knows the gradient at the declared value and computes the gradient at the values that it was made from. Four rules are enough.</p>
-<p id="p-e36b5131" class="nb">Rule 1, a chain: rates multiply. Suppose <code>y</code> is 3 times <code>x</code>, and the loss is 2 times <code>y</code>. One unit more of <code>x</code> gives 3 units more of <code>y</code>, and that gives 6 units more of the loss. The rate at <code>x</code> is the rate at <code>y</code> times 3.</p>
-<p id="p-a32c7162" class="nb">Rule 2, a value used twice: rates add. If <code>x</code> goes into two later values, the loss changes through both, and the gradient at <code>x</code> is the sum of the two parts.</p>
-<p id="p-ea76acb1" class="nb">Rule 3, a sum: the gradient passes through. If <code>y</code> is <code>a + b</code>, one unit more of <code>a</code> is one unit more of <code>y</code>. The gradient at <code>a</code> is the gradient at <code>y</code>, and so is the gradient at <code>b</code>.</p>
-<p id="p-83e533d6" class="nb">Rule 4, a product of matrices. If <code>Y</code> is the product <code>A B</code>, then the gradient at <code>A</code> is <code>dY B^T</code>, and the gradient at <code>B</code> is <code>A^T dY</code>.</p>
-<div class="dm nb" id="m-210f9d48" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='15.527em' height='2.559em' viewBox='62.117061 52.80508 155.270889 25.591013' fill='currentColor' aria-hidden='true'><style type='text/css'>
-@font-face{font-family:q5816a37bd3-cmsy7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHcAAoAAAAAA3AAAAGTAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANApMVwsGAAE2AiQDBgQgBYI4ByAbwgLALgpsY9joqVFR95nmVj57MNsso5en8QCt/Xozu4uYZxFPlkgkTTSSR6pZSIRIi59E6HY3dW5NA10LvO08wT9jUfDQ33z/UwsXdoGGEmlZF62hUwMMx+xhb/Z/PbBWz89yx8/NH+i2MMopS1oa8LdAY46TtgdKI0g8ob4pbtxEilLatwVJcitSMuKbfP6ZXGsKsWUoqHAeXIGzf/zwqMjNNom3Dz7IiwDA/wERCWokAmqkOpBKBXLj/+FnLgQAEaQIqEEdIAWEGrPHNumdzHiYo8Uqb6ZwtD8Lo5/2nJRH47l4+FiHvx3eN0BA4NsmPyifTiEFX9X6RIrkVu4oEEGgPf+WLVuyJDboQnILW2JENQIQQyhyKRKUYyGVKUemWA3yZNrnRZr0SIS0UNBmFpAqsoNMnUPkKXJeiwy7WpvwKWbB9vzBGVoGevu97lFxz/4jz4fbdqh3sHfAEs8Kbhfq0FrnERw7mHX6Adtye5I8pzWgV3+U1rKTEWEdIg/f9Wvte0inB2e1hvQa1GtAAmCqAAA=) format('woff2');}
-@font-face{font-family:q5816a37bd3-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIkAAoAAAAAA9QAAAHZAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBKIEeCwYAATYCJAMIBCAFgj4HIBsRAygeBW5bAyEdXU39W5/QbIQkszzQH+r7I2Mt4LUIQwGr9ypcxYpErDkYl/cSp2ShkWmJaG5kW1z6urn/B8ir+/9/kx94oH9gEWZ+rbFtgY11PMEIAx4LNE3jjidaMHRufAQaWNTwMSJZi80TUhpCjACG+Iu8/u/DsLvBJtkGAtAVUdZA9fpqKATs5qGU8N8AcCPqFQGAD4CIhD6UgD60NZBlgc0fEr3ZVSBrIJ9AwBZ4AJABYVtLnVjoXuTQjl640zzetOB58RoOZ5Kt3nsKu3riT3C5U9zpV097w+qrbuHlPaLvpECScJJe6JYlxkdvzX8aY6a6CmWYXgxKEdSaYxcudgq3pdxvRePFbtkF6ScJkoKTvl8/3f6cvw4AAgJvW39uJs3tAx8a4C0JD5kW4HPUaRQBKIsUbY1kzpzTqQFREjOfIBBtIUAwsqpvUAsblhW1WEHNgBUVrZerprRQQiZAsOQlLKt7soKhElZU95NX7QycYfzZ6uSW1zY72F+2sYPVft17U16T11Bc21BYLneyOlodwFelclXq1clXQy5cpTxMVchVrlYzB/YSQlurWKUK8qGVPUeBRkXeyK6kvP+Qo5lcngbFajUoVE7OiZUjKwcogI4BAAA=) format('woff2');}
-@font-face{font-family:q5816a37bd3-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHIAAoAAAAAA3wAAAGAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANApYYQsGAAE2AiQDCAQgBYI4ByAbzgIArg5sU2yXelSlub1FytWUP8j2bTw83fc7986817KsAukHbccwsK+tQhtvYlFaHn4KKG3MbW3MFM3H5pqCRdBkHf1fTPHrP914MVgeKqG+VEtx7meMADiubLZmiE8eyuLGyoNk1x1joMAmbsb5WkALo9jX+aaA1+AutYDWBkql+Kdu8/GbiDhZQUEQfW1Q8jvSkc/59b/sDz12AY8J6B4mELscJsNmUK9oKEI32hpIFCzbkWXJPlJVgUFr1b+3TwwgQUViHdlCoAJyeno429v9+0p9eL17OedNH4euIP7bZO5DBrbenwOAQPDTcXRWf+NSwe/OPnAiRyEwLkGwXOm2quUIgzh5pygy0vroijQ26UYBYQ7OVp05tjNlme119sYnbcpE1AlhV+dsNemC7ay6bG/SlT/pwHeQtG8ye12j6cXUNWiv9Mx4zUmZyYqOAqPBqdvrQQLa3OD3m06FRgUSJuEMMqAaYCUNCddswHjhjw86kpgSU8hBAUYA7C0A) format('woff2');}
-@font-face{font-family:q5816a37bd3-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAPsAAoAAAAABngAAAOiAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAARAqGLIR5CwwAATYCJAMUBCAFgj4HIBsIBSCO0sw0KoaYvEwxBBEPb8v25s/O3lFacaXHtyY8XTg8wWiCUAiJwjnisSQzVJfOzskRN9JFwF4gbVpHr4KB8QLYvkBPXJNfXxOo9B2zPLny/AWf8PE5Vk2zkY+mA9SBwnx3/WUooZW3vXFS/MPfQY4K5AYgER9w578IuD5s5G2jAMNEA9AWLPFRXl7xZEB2LCGDiizRFmsFgYxxeWQc0S6gqytwIlRCrTgGQ/Wn9tUWCAULrTe0zT/p1Ak2HGKLJ8cuQZ7JdjYSx9Kr1S5XikYWdzK6ayvEQoLEqsRKqkU716RDQphBNcWdKtWiFY2VUcb0HsYIw6JL6CYdvCLr5AQcHwdNZAWRRbLKNK9a6Q9n3L2LNd8JoXd1SETAMwQSIhWMIkFFhUhQDahQMe6u2Y6JukQeU5IKq+uid4hVV4sGY6KVosUVXRMSoeHS1Q5ItQqRL+fX0Ze31YsiJCoaalW67yrVi4pWAplPiRGnqV25+WPV1Tshd7F+rbvY5IwkJl1dRe8Qq2dg04xK0QjLbyInNmRyaV97IEjkWKZm1Lhzy7Z6qjAhOFqPJWBbXxSL0nFgTtnlw4swx57CWW1BLVWpiWQnxLtsSXkOXeCzVuySIAZHaJxJGvewZu0N6g/afa+Y8aRjF2WePxSEI7F+FtD9YlIA24MW4E1FPFzs/3lZFxAyx2Tv7N84bHKqioL5uYgzQcfRASl/yHfLDLoSDgtxxFtE19cVLjrL6JNobPB08U8p2FNHe9KRIrfvv8ic8iuFxbDYnsK5s3/jSQpasq533s+hWdtBlrVql+f9Z9ir9j9R3O4d98kQsxf4d1krfokwELIkJ6nK6wLA+b7lYyyJDNodKLqPiSzE2FPLc+4nOOhp+j11kkRGPATAPRLMA0jCTi7+ED3atvqsRPm1HseGLBfKOKdY+NDVcB2lPDaFR+jRVRLPwYpjT+HM+vvNSfYDAAmJoy+cEc2x+kbNRAC/st4eU0r9y/3wXqorBPKnopC7YL26ENjeVacEXuV10jeAjQgAyiECNCAobhFAol6vN1eQDNHSRmsI4kWfCbzVWl7uNUsVQWpoIFlkB/FGvzu8mJSGt/q9Z70OXbl78b9Wa8VnZqbq6z1mXH2+nq3zbfr6BDw1H0/ORA35Bnx94ChbphyFCiTKg/JOWgKcyhIvU6ZU+vSEdHq+VNmyoH0+PRLgqmUFa7ELAglhnNPQQselyodLfnOUIT4DfPoIFAA=) format('woff2');}
-text.q5816a37bd3f1 {font-family:q5816a37bd3-cmsy10;font-size:9.96264px}
-text.q5816a37bd3f2 {font-family:q5816a37bd3-cmsy7;font-size:6.973848px}
-text.q5816a37bd3f3 {font-family:q5816a37bd3-cmmi10;font-size:9.96264px}
-text.q5816a37bd3f5 {font-family:q5816a37bd3-cmr10;font-size:9.96264px}
-
-</style>
-<g id='page2'>
-<text class='q5816a37bd3f3' x='61.768369' y='69.828202'>Y</text>
-<text class='q5816a37bd3f5' x='72.533507' y='69.828202'>=</text>
-<text class='q5816a37bd3f3' x='83.049587' y='69.828202'>A<tspan x='92.181986'>B</tspan></text>
-<text class='q5816a37bd3f5' x='122.931237' y='69.828202'>=</text>
-<text class='q5816a37bd3f1' x='129.019585' y='69.828202'>⇒</text>
-<text class='q5816a37bd3f3' x='162.259496' y='61.758427'>dA</text>
-<text class='q5816a37bd3f5' x='177.684243' y='61.758427'>=</text>
-<text class='q5816a37bd3f3' x='188.200323' y='61.758427'>d<tspan x='193.939222'>Y</tspan><tspan x='203.597428'>B</tspan></text>
-<text class='q5816a37bd3f2' x='211.654036' y='57.644931'></text>
-<text class='q5816a37bd3f3' x='161.674897' y='78.286504'>dB</text>
-<text class='q5816a37bd3f5' x='177.684243' y='78.286504'>=</text>
-<text class='q5816a37bd3f3' x='188.200323' y='78.286504'>A</text>
-<text class='q5816a37bd3f2' x='195.672322' y='74.173008'></text>
-<text class='q5816a37bd3f3' x='204.057519' y='78.286504'>d<tspan x='209.796418'>Y</tspan></text>
+<p id="p-e36b5131" class="nb">Rule 1, a chain: rates multiply. Suppose <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span> is 3 times <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span>, and the loss is 2 times <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span>. One unit more of <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> gives 3 units more of <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span>, and that gives 6 units more of the loss. The rate at <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> is the rate at <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span> times 3.</p>
+<p id="p-a32c7162" class="nb">Rule 2, a value used twice: rates add. If <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> goes into two later values, the loss changes through both, and the gradient at <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> is the sum of the two parts.</p>
+<p id="p-ea76acb1" class="nb">Rule 3, a sum: the gradient passes through. If <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span> is <span class="fc"><span class="fr m"><i>a</i> + <i>b</i></span><code class="fs">a + b</code></span>, one unit more of <span class="fc"><span class="fr m"><i>a</i></span><code class="fs">a</code></span> is one unit more of <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span>. The gradient at <span class="fc"><span class="fr m"><i>a</i></span><code class="fs">a</code></span> is the gradient at <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span>, and so is the gradient at <span class="fc"><span class="fr m"><i>b</i></span><code class="fs">b</code></span>.</p>
+<p id="p-83e533d6" class="nb">Rule 4, a product of matrices. If <span class="fc"><span class="fr m"><i>Y</i></span><code class="fs">Y</code></span> is the product <span class="fc"><span class="fr m"><i>A</i> <i>B</i></span><code class="fs">A B</code></span>, then the gradient at <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> is <span class="fc"><span class="fr m"><i>dY</i> <i>B</i><sup><i>T</i></sup></span><code class="fs">dY B^T</code></span>, and the gradient at <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span> is <span class="fc"><span class="fr m"><i>A</i><sup><i>T</i></sup> <i>dY</i></span><code class="fs">A^T dY</code></span>.</p>
+<div class="dm nb" id="m-210f9d48" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='15.527em' height='2.559em' viewBox='62.117061 52.80508 155.270889 25.591013' fill='currentColor' aria-hidden='true'><g>
+<text class='f-cmmi10-996' x='61.768369' y='69.828202'>Y</text>
+<text class='f-cmr10-996' x='72.533507' y='69.828202'>=</text>
+<text class='f-cmmi10-996' x='83.049587' y='69.828202'>A<tspan x='92.181986'>B</tspan></text>
+<text class='f-cmr10-996' x='122.931237' y='69.828202'>=</text>
+<text class='f-cmsy10-996' x='129.019585' y='69.828202'>⇒</text>
+<text class='f-cmmi10-996' x='162.259496' y='61.758427'>dA</text>
+<text class='f-cmr10-996' x='177.684243' y='61.758427'>=</text>
+<text class='f-cmmi10-996' x='188.200323' y='61.758427'>d<tspan x='193.939222'>Y</tspan><tspan x='203.597428'>B</tspan></text>
+<text class='f-cmsy7-697' x='211.654036' y='57.644931'></text>
+<text class='f-cmmi10-996' x='161.674897' y='78.286504'>dB</text>
+<text class='f-cmr10-996' x='177.684243' y='78.286504'>=</text>
+<text class='f-cmmi10-996' x='188.200323' y='78.286504'>A</text>
+<text class='f-cmsy7-697' x='195.672322' y='74.173008'></text>
+<text class='f-cmmi10-996' x='204.057519' y='78.286504'>d<tspan x='209.796418'>Y</tspan></text>
 </g>
 </svg>
 </div>
-<p id="p-b531e929" class="nb">The smallest case of rule 4 uses numbers from Part 2. Let <code>A</code> be the one row 5, 6 and <code>B</code> the one column 1, 3. Their product is one number: 5 times 1, plus 6 times 3, is 23. Let the loss be that number, so <code>dY</code> is 1.</p>
+<p id="p-b531e929" class="nb">The smallest case of rule 4 uses numbers from Part 2. Let <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> be the one row 5, 6 and <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span> the one column 1, 3. Their product is one number: 5 times 1, plus 6 times 3, is 23. Let the loss be that number, so <span class="fc"><span class="fr m"><i>dY</i></span><code class="fs">dY</code></span> is 1.</p>
 <ul>
-<li><p id="p-92bc0bd3" class="nb">Raise the 5 by one unit: the product rises by 1, the element of <code>B</code> that the 5 meets. Raise the 6: the product rises by 3. So the gradient at <code>A</code> is the row 1, 3. That is <code>B^T</code>.</p></li>
-<li><p id="p-f04a28ec" class="nb">Raise the 1 by one unit: the product rises by 5. Raise the 3: it rises by 6. So the gradient at <code>B</code> is the column 5, 6. That is <code>A^T</code>.</p></li>
+<li><p id="p-92bc0bd3" class="nb">Raise the 5 by one unit: the product rises by 1, the element of <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span> that the 5 meets. Raise the 6: the product rises by 3. So the gradient at <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> is the row 1, 3. That is <span class="fc"><span class="fr m"><i>B</i><sup><i>T</i></sup></span><code class="fs">B^T</code></span>.</p></li>
+<li><p id="p-f04a28ec" class="nb">Raise the 1 by one unit: the product rises by 5. Raise the 3: it rises by 6. So the gradient at <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span> is the column 5, 6. That is <span class="fc"><span class="fr m"><i>A</i><sup><i>T</i></sup></span><code class="fs">A^T</code></span>.</p></li>
 </ul>
-<p id="p-2c0a6069" class="nb">A larger product is many such sums. Each element of <code>A</code> enters several elements of <code>Y</code>, and by rule 2 its parts add. Written out, the additions give the two formulas above. The sizes are a check that you can make at every line: <code>dY B^T</code> has the size of <code>A</code>, and <code>A^T dY</code> has the size of <code>B</code>. The experiment of the last section is the check by a run: it agrees with the gradient that these rules give.</p>
+<p id="p-2c0a6069" class="nb">A larger product is many such sums. Each element of <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> enters several elements of <span class="fc"><span class="fr m"><i>Y</i></span><code class="fs">Y</code></span>, and by rule 2 its parts add. Written out, the additions give the two formulas above. The sizes are a check that you can make at every line: <span class="fc"><span class="fr m"><i>dY</i> <i>B</i><sup><i>T</i></sup></span><code class="fs">dY B^T</code></span> has the size of <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span>, and <span class="fc"><span class="fr m"><i>A</i><sup><i>T</i></sup> <i>dY</i></span><code class="fs">A^T dY</code></span> has the size of <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span>. The experiment of the last section is the check by a run: it agrees with the gradient that these rules give.</p>
 </section>
 <section class="sec" data-num="6.3" data-title="From the loss to the scores">
 <h2 id="s-from-the-loss-to-the-scores" class="nb"><span class="num">6.3</span> From the loss to the scores</h2>
-<div class="fx nb src" id="c-7b10383c" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span>dL = diag(vm / nv) (pr - onehot(tg, vocabSize))</span></code></pre></div>
-<p id="p-d052a987" class="nb"><code>dL</code> is the gradient at the 27 scores of every row, the matrix <code>x4 lm^T</code> that the forward pass handed to <code>sm</code>, the softmax. The line uses four names of the forward pass: <code>pr</code>, the probabilities; <code>tg</code>, the targets; <code>vm</code>, which holds 1.0 for a row that counts and 0.0 for the others; and <code>nv</code>, the number of rows that count, 7. The line goes back through two forward steps at once, the loss and <code>sm</code>, because together they have a simple gradient: for a row that counts, the probabilities, minus 1 at the right answer, divided by <code>nv</code>.</p>
-<p id="p-67510d59" class="nb"><code>onehot</code> is a function of <code>FlatArrays.fss</code>. <code>onehot(tg, vocabSize)</code> is a matrix of 16 by 27, since <code>vocabSize</code> is 27. Row <code>r</code> holds 1.0 in the column <code>tg[r]</code> and 0.0 elsewhere. A small case, with the keys 1, 0, 1 and a width of 3:</p>
+<div class="fx nb src n3" id="c-7b10383c" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.560em' viewBox='0 0 175.342 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>dL</text>
+<text class='f-cmr10-996' x='14.108' y='8.468'>=</text>
+<text class='f-cmti10-996' x='24.624' y='8.468'>diag</text>
+<text class='f-cmr10-996' x='43.328' y='8.468'>(</text>
+<text class='f-cmti10-996' x='47.202' y='8.468'>vm</text>
+<text class='f-cmmi10-996' x='60.696' y='8.468'>/</text>
+<text class='f-cmti10-996' x='65.677' y='8.468'>nv</text>
+<text class='f-cmr10-996' x='76.934' y='8.468'>)</text>
+<text class='f-cmex10-996' x='82.469' y='.398'></text>
+<text class='f-cmti10-996' x='87.035' y='8.468'>pr</text>
+<text class='f-cmsy10-996' x='99.614' y='8.468'>−</text>
+<text class='f-cmti10-996' x='109.576' y='8.468'>onehot</text>
+<text class='f-cmr10-996' x='139.291' y='8.468'>(</text>
+<text class='f-cmti10-996' x='143.166' y='8.468'>tg</text>
+<text class='f-cmmi10-996' x='151.94' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>vo<tspan x='25.106'>c</tspan><tspan x='29.179'>abSize</tspan></text>
+<text class='f-cmr10-996' x='56.916' y='22.018'>)</text>
+<text class='f-cmex10-996' x='60.79' y='13.948'></text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span>dL = diag(vm / nv) (pr - onehot(tg, vocabSize))</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span>dL = diag(vm / nv) (pr - onehot(tg, vocabSize))</span></code></pre></div>
+<p id="p-d052a987" class="nb"><span class="fc"><span class="fr m"><i>dL</i></span><code class="fs">dL</code></span> is the gradient at the 27 scores of every row, the matrix <span class="fc"><span class="fr m"><i>x</i><sub>4</sub> <i>lm</i><sup><i>T</i></sup></span><code class="fs">x4 lm^T</code></span> that the forward pass handed to <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span>, the softmax. The line uses four names of the forward pass: <span class="fc"><span class="fr m"><i>pr</i></span><code class="fs">pr</code></span>, the probabilities; <span class="fc"><span class="fr m"><i>tg</i></span><code class="fs">tg</code></span>, the targets; <span class="fc"><span class="fr m"><i>vm</i></span><code class="fs">vm</code></span>, which holds 1.0 for a row that counts and 0.0 for the others; and <span class="fc"><span class="fr m"><i>nv</i></span><code class="fs">nv</code></span>, the number of rows that count, 7. The line goes back through two forward steps at once, the loss and <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span>, because together they have a simple gradient: for a row that counts, the probabilities, minus 1 at the right answer, divided by <span class="fc"><span class="fr m"><i>nv</i></span><code class="fs">nv</code></span>.</p>
+<p id="p-67510d59" class="nb"><span class="fc"><span class="fr m"><i>onehot</i></span><code class="fs">onehot</code></span> is a function of <code>FlatArrays.fss</code>. <span class="fc"><span class="fr m"><i>onehot</i>(<i>tg</i>, <i>vocabSize</i>)</span><code class="fs">onehot(tg, vocabSize)</code></span> is a matrix of 16 by 27, since <span class="fc"><span class="fr m"><i>vocabSize</i></span><code class="fs">vocabSize</code></span> is 27. Row <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> holds 1.0 in the column <span class="fc"><span class="fr m"><i>tg</i><sub><i>r</i></sub></span><code class="fs">tg[r]</code></span> and 0.0 elsewhere. A small case, with the keys 1, 0, 1 and a width of 3:</p>
 <pre class="vb nb out" id="o-ee5c2dc3" data-kind="output"><code>onehot([1 0 1], 3) (3 x 3):
     0.0 1.0 0.0
     1.0 0.0 0.0
     0.0 1.0 0.0</code></pre>
-<p id="p-fe306ddd" class="nb"><code>pr - onehot(...)</code> subtracts it from the probabilities. The operator <code>-</code> between two matrices of one size is the library's.</p>
-<p id="p-48cb1cae" class="nb"><code>diag(vm / nv)</code> stands for a matrix of 16 by 16 that has the vector <code>vm / nv</code> on its diagonal and 0 elsewhere. Its product with a matrix multiplies row <code>r</code> of that matrix by element <code>r</code> of the vector. Here the element is one seventh for the seven rows that count and 0 for the others. A small case, with the vector 10, 100, 0 and the matrix whose rows are 5, 6 and 1, 0 and 0, 1:</p>
+<p id="p-fe306ddd" class="nb"><span class="fc"><span class="fr m"><i>pr</i> − <i>onehot</i>(…)</span><code class="fs">pr - onehot(...)</code></span> subtracts it from the probabilities. The operator <span class="fc"><span class="fr m">−</span><code class="fs">-</code></span> between two matrices of one size is the library's.</p>
+<p id="p-48cb1cae" class="nb"><span class="fc"><span class="fr m"><i>diag</i>(<i>vm</i> / <i>nv</i>)</span><code class="fs">diag(vm / nv)</code></span> stands for a matrix of 16 by 16 that has the vector <span class="fc"><span class="fr m"><i>vm</i> / <i>nv</i></span><code class="fs">vm / nv</code></span> on its diagonal and 0 elsewhere. Its product with a matrix multiplies row <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> of that matrix by element <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> of the vector. Here the element is one seventh for the seven rows that count and 0 for the others. A small case, with the vector 10, 100, 0 and the matrix whose rows are 5, 6 and 1, 0 and 0, 1:</p>
 <pre class="vb nb out" id="o-915a9863" data-kind="output"><code>diag(d3) x (3 x 2):
     50.0 60.0
     100.0 0.0
     0.0 0.0</code></pre>
-<p id="p-74340a36" class="nb"><code>diag</code> is a function of <code>FlatArrays.fss</code>. It makes an object of the type <code>Diag</code>, which extends <code>Matrix</code>. The object never builds the 16 by 16 matrix. It has its own method for the product, <code>mul</code>, which multiplies each row of the other matrix by one element of the vector.</p>
-<p id="p-2321f2ed" class="nb">A run printed row 0 of <code>dL</code>, its sum, and the start of row 9:</p>
+<p id="p-74340a36" class="nb"><span class="fc"><span class="fr m"><i>diag</i></span><code class="fs">diag</code></span> is a function of <code>FlatArrays.fss</code>. It makes an object of the type <span class="fc"><span class="fr m"><span class="ty">Diag</span></span><code class="fs">Diag</code></span>, which extends <span class="fc"><span class="fr m"><span class="ty">Matrix</span></span><code class="fs">Matrix</code></span>. The object never builds the 16 by 16 matrix. It has its own method for the product, <span class="fc"><span class="fr m"><i>mul</i></span><code class="fs">mul</code></span>, which multiplies each row of the other matrix by one element of the vector.</p>
+<p id="p-2321f2ed" class="nb">A run printed row 0 of <span class="fc"><span class="fr m"><i>dL</i></span><code class="fs">dL</code></span>, its sum, and the start of row 9:</p>
 <pre class="vb nb out long" id="o-7bbc6ff2" data-kind="output"><code>dL[0,:] = 0.004509373192524319 0.005699735195957315 0.007723173788316122 0.002784444848234319 0.006373563461181426 0.00445486534715389 0.004162377166685465 0.00536304130501513 0.004659826847633262 0.00696112881773077 0.007105936901321407 0.00658926772339339 0.003161244482467386 0.004885578262711555 0.008809312665813621 0.004084536058661723 0.00458988146986157 0.0026247722839469584 0.007792368790906924 0.004208053039143981 0.006095096062885299 0.003856049370303797 0.004191819463418026 0.006488274542068688 -0.1390624822196018 0.007230003284556968 0.004658757847708478
 sum dL[0,:] = 0.0
 dL[9,0..3] = 0.0 0.0 0.0 0.0</code></pre>
@@ -109,237 +127,589 @@ dL[9,0..3] = 0.0 0.0 0.0 0.0</code></pre>
 <li><p id="p-1ac336f9" class="nb">Row 9 does not count, and its gradient is 0.</p></li>
 </ul>
 <p id="p-c2255be5" class="nb">Read the row as an instruction: to lower the loss, raise the score of <code>y</code> and lower every other score, each in proportion to its probability.</p>
-<div class="dm nb" id="m-833dfcce" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='12.800em' height='1.797em' viewBox='62.127024 52.737775 128.002844 17.967196' fill='currentColor' aria-hidden='true'><style type='text/css'>
-@font-face{font-family:q2ee1b441ec-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHIAAoAAAAAA2AAAAF+AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAo0RwsGAAE2AiQDCAQgBYI+ByAbugIArgpsY9pQF2roJYawHoPfkgfEWJZ1I/Hw39rvvpnd/R8RDZnTyZSAd7FoodEs4qV6I5PIXmmmbWsyUzaOU0MRDCbr0cVkyg8fYryjc4sSPN2oDJ6z18VDWU3Bifye//c3+fnHDzqtLZ7ZtH2+wKI6TzDkNYAeYhRn3toZe80W1RVFpF8n5DwcB0rSSXr66/ZHEV8u6dGAq4JOqzTLG4+shslOVA7+zJAH8zMIAP4DJGR0o4CajYOiG0x2RtjkSxKABA+g0oxWQAGI5pXWl/tXPW2HF3vnp59LNIxu8J0KAsG18Fyb74kFeB0xow/ycPSCugSCRTmHuSo9SgSvN7QXuBpJswChaBrtMKAtqrNCpY2VmvSwSmV8udGggqJoEEYNYYVms6zU67FKs7220ZTvuESfYe5Rf/7bev8sN1nj4DkRh23r85EeDjVVTJGX3C5cAbaIYSqgvNNvYzz1Jy0KYCzGghWH0TGeEdiPHz9wPbTTQ/JAJ41UBLDDAAAA) format('woff2');}
-@font-face{font-family:q2ee1b441ec-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJMAAoAAAAABBgAAAIAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBaIFQCwgAATYCJAMMBCAFgj4HIBtHAwgeBW47M57kNAWO4Mme37CI6Ke/vfeSfErpFlSRXRm6cHjmGwvCIUV8HEZUI8bVHsgHoARpukO++oBDVP8PsEOeuJk2qfMCWdrluiaOBbQmdQFHmab1v33Sqz+QvLWzfylFTwluuPFnFpsr1PQZWsoH8exPbNbsvDCchQHegS/Af3157awCdTCk9T8bqOusBwSAf6CgYgVJsILsADQaYQgM/h0EAVBBh4JbcA+gAUT2jT1L0hXbFWng/XPWw0vW6o1sVbIsvn3E+C7j7i5gueb2MX3JelsMOzLTQxpm9t9n3t8HrhDyl2yWJQF3T8r2dfuBn4tyj76SoSAZsQl7udzEfNP494A9fz+vtMh4GM1b5UcY+rKnQt3gdWEAL3dwdvY9p4wrPSnDmhqLVcJW1PZY3505lZ5OVc5xHwcgCKf3VW9FPP9/eg342k2I7e/Dd27unIAJBQSHifSOyXwiMPyafq29g1wCqiOEmWjiKW8QOA8naXTmA9matgp26MHhKVsskaSZFHuCR2Rjxh3ZWlOrdIKO0ynnps43/5+rUdZQ0e3ifBEHLo7Ok8l78zPlnTVtnVUNejdHV0cXhGnSoFmHdhVa6SVoUq5bjco0qNDNhbPMym5To0kj/dKRMwhGaY0ErYQKlv8OpXroletUo02nKg303Dhy5cgFCcBlAAAA) format('woff2');}
-@font-face{font-family:q2ee1b441ec-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIEAAoAAAAAA+AAAAG5AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAARAqBIIELCwoAATYCJAMOBCAFgjgHIBsOAwAuBuxG+TKC8w4WSfplvaERvWgZz/N/yO77/zfG1mxrgAWUFVgn6wQ0OZ+K0da0f7WmeyFUmVdBuicXYC4AubLl8UCuE6FalrKdwHEZrhlNT5s1wD9xSssdP+BLAd0WgLZlL3nABf7MBRTlQUCBR9D8bWcietQlSvUbs98m1PznwQDlsfw/78Jzfi1wEIAbxAd7nF/szoHAkX6FjioQAHqgoGIeVzCPZxcYNqzgSFe/B1t7pQCABobRsA3sANAARWRcJhJtTd4+H72qpno6fKrJ6oRELIXRQelwWIKkQgl6P5kaN9SNu9m7hDoh+fOoPJ76HAOv42Znb1PwEE7YASAIl2/H5aHS9zdceQAfG8cZYEO68l5hWAGh6qjrCERZAAC1HFLXeaIDBIRmeYcOt8GoawjEFAKaAVMCBoyZh8CgAVsQGLXKhCtNDLEpkKMZdYoBi2YxaNRVG3Xo/CCmbzbXqZVNmrrYFhpTNfVMuWd6d2Frd25Fx2IG0xC1ZsW6HdtmbNLJWzNN/VVTVmyiURp43bJgzSodGkb1UFJWJ2ViG01/+KQDOtN2Ldiya84KHRbGwGhcAQAA) format('woff2');}
-@font-face{font-family:q2ee1b441ec-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIUAAoAAAAAA8AAAAHKAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBFIEPCwYAATYCJAMIBCAFgj4HIBsCA1GUi8UowI/EmMimL4mVBbsdmtspQtIp8+YPYp/F8/wftfv+NtOyLCBjZRoFtGInkEACiTGQ0v7h2u6wSvy6RJxWVCvV/LYXrWQdGKeLTLDTGuTIUNm2RJ/16U57luKdYMsdv8g/0G2P5Z69NA84a55gpIG2pAUWa0Da+qYp5RGFcCilfVtQ84t/VcpXOf5HwE9i3lgxAcEDCa7H5/QCNS99FSaq5E3nBAUVh7hzqOIWaJrgZU7rx/MTEEABDcEKuAegAVIII0FMG1Bir98GesgesiTocw612xekLj4CXhv1kJDAaBO5jiV4IZulNupiYBEqsTDpd2Oqplod9YoGNL1L54/qNBCqoKeEl9CX+xRrpXog2cIlabXwkvD65RIAEITv1dCyqTf/geUGfoirOb0U5l8pLS9gqYBQTZQ3HhY3BACU8gbyxIMoVhAEAADr3iGIHQQ0w46AbsMRBMNwC8G6cw1laWviWtdHs+kB3bE7hk0fed2d99qFTzUXB6KbkndsUlwGq2fJM8f0FqUXYoZrrmDAIb5E7CTErDhHGFkHhNwo0lr9yI1jsZaTWTQxW227jnS8h70Cc5S6iaQuCGNwGqeUASYMAA==) format('woff2');}
-@font-face{font-family:q2ee1b441ec-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKMAAoAAAAABHQAAAJDAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCRIINCwgAATYCJAMMBCAFgjgHIBuGAyCO0sw0hqgYYjPgNEQ8fL/2O/e+3f2ISGW6h0KnExkSyTRUujZS1VR+aETeoF3mnqpE7MLYjqb/7eQPmBR33TvP/dmXPIg/NPARTiyRL7uBzXQ0HSjMvLW5uE8yKtt6JNKvE0puQtWQ5HPu/dOrai3uq5ELLIsdKXiVo7PEIIByKr6AiiLc3FpBomCmXJ2BsAHoNEI6FV8r3WN9qpVL5QJMJcf5CkAb/YWE2JNwsmeu7y8dZOVy4uJqg3KeBfu32ZvrGRkbGy/E2taEhs44LhzKzjial3GLazlTQo2MgvPL9MPb9Nxuzuw9SksXck1NeIaGFvFm4XX70mPOHDY3XP/7EAPeiatLaYHFHl/2AbL7GZ/3BdszMzNYtUCL6OTWhCOF4Y77kGNKL7S6x4ZEr0taPNnW1mP/1zW1gES0eZnIlnQ2fGTp4u/XGFCfWGfEdA3+6kz4XeipPUYGNuaJ2JwD5GU/YEIXLvFKHN43ZPXZpTJeBXMmx7TYQJzCAz4k+NAE0xUAEAh+x7bNvMjqH5jSgD6HhSkcUP/yM7MBA1Igd2iZn8TQJYHER0p+ArkOpGOFGAjFHggEG0MeHWScQzRa42gNm0Gnte4PWcIPLppBYY2moDHkEK05gegMud+GbCo8//zd8/SLiAhRuk93GUnpqd3r6D3+iSFxiUER3HKSspIyQE+UCNESxAsQi5uFKP5qkfxEoIRQ4hjihKwjcZMhSZpipJGB6pNM/M1XCm7WiULESRT0cG5yJMmSJAPOAA==) format('woff2');}
-@font-face{font-family:q2ee1b441ec-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAT0AAoAAAAACQAAAASqAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAbAqKfIgkCxYAATYCJAMWBCAFgj4HIBvdBhHVomNB/EjITmquIJJIRny1bZO/kYwrHU+n/bwNrg0qpOSmIJQcC59VBF8AUe32bxIpCzDQADzJMCv/awEm7ufrom3NkVjnmw4tOrCConA2HA58ILuHi4j/BaIBy7ZlQ/ZKKTA7wwpiY7A5gBAGGgQSwC728j8JGFDN6BtmA5MSBCCRARmB3wGpJeUZQOYL5djT/0UB9uF7mPV/ChowCgGAhA4RlijSI0bEOBjjC6mQAflQCMVQCuWOchHK+w9s3qwJ48aMGgmpGAqUhEo6QA8A650QovLEs0EqBD3GVKFTrEW9TOjqWlpqCRgVTc/0TMnAFItCG11v2pCkEihphYm1xlWpFNYLUx4vnM+P4PqhPomHngh4u5Tu6Yh5nvsDTiiX6/aYjyIOzpvOuk/k5059J0HysMeoGlQuV/KICxxONy98nB8wPs9Y0BvfVuTzI/aeSl5/LLl3c5ZF6V5ndFteAQ4ndP9ZFJ+vtOwu9Sj00a4E6zLMcWNue/QYXXpOfYiPSc7JwMba7KpUML1GTVfVuzmh1vz5DQ3C6vrCjCpiZvgePdwwCF/OYbRwlVeamE2EuXpjoHFu1gjePFtEApEkt8x5RC4O43BCV59FMIwmRDgbbvPNHt6cZe1fZHA4MTC55bb2XGl8pmdKgsPh8MJRSNppq+ISyIicXO1eZ0QrAmiLirHMumf86+8eNowPIEZARKbpDgufOtH8VVPddfpkffMZ/mQT8o3Df1gMQcX1KBFLrqwLQ87gu8wE5V488Wb8RKYUEPuJKh7Ab1RHF9HC0EjkjVy9Y5uWneKY8N1OY1VEdkgnTbBGPYiiICdxn3rm6QLukm1pSo6KmHNb0PO2QMyFIeUfmvkpRUHqlgqgHRvnhZRNDj2fDzaqybQIC1x1kTa8yERu8bEeKFC9zMofkkzFrAc+/sqZMsr+ahQQEruvDwXTwSJmrXHpMik6eQY9In9svkk7vON75xA/+uF7IxdQWe7gcrj4Je3Jpt/mE/zpB3YRE1B0jPblol3z2ionncDuPHFVVbF3cwPf7/ATNs66M3vnEGefaH9JfzsIgp0x7338zhF+uLmyKfGjO7gdUwXyUdwHNt1bxyJ+ZzG+C64+sUMiHs5I6NwDrlwqzyEH+kAIKlphcNVijRz46GZj8eZT/Mkm9WQKZ90JsQuhhy5k/HhB9Wq0etFpjHqHYxaKw6JL4KPqXyQ6ihxn7egbJiw65proVAoh9sjzr+itKY0KhQ1jlnAoaxBgOKgujZ18qvyssyxGcb91FV2A8vleBV4Kd9j44WalojgA5AzUcWFkKEHY9lcBApGSnyv4eYM65v9/SIeBlQCAAMxRcdCpB6ArSkREDuoTBgCo0iCfSunoVMlhQGkUYUBo6qgDALEekEkYliQiE24ySKgkGWRkyqMpGDQRoCYIiCLHxCCiiWeQSMlmkNE0pihMhd4Havn/8opS8kpLjQzfUP1GTENbwweHwanlWSXlGXnKJkxjphG4KDiowWXZaYop88u6VBqUL0WeUqWMGAoX7hJZCuRT7mQyBIE9dPnOuqQBwameZFUKZ6pyWUp+IEMeZSaYjDEZIajiEAA=) format('woff2');}
-text.q2ee1b441ecf0 {font-family:q2ee1b441ec-cmtt10;font-size:9.96264px}
-text.q2ee1b441ecf1 {font-family:q2ee1b441ec-cmsy10;font-size:9.96264px}
-text.q2ee1b441ecf3 {font-family:q2ee1b441ec-cmmi10;font-size:9.96264px}
-text.q2ee1b441ecf4 {font-family:q2ee1b441ec-cmmi7;font-size:6.973848px}
-text.q2ee1b441ecf5 {font-family:q2ee1b441ec-cmr10;font-size:9.96264px}
-text.q2ee1b441ecf7 {font-family:q2ee1b441ec-cmex10;font-size:9.96264px}
-
-</style>
-<g id='page3'>
-<text class='q2ee1b441ecf0' x='61.768369' y='63.83125'>dL</text>
-<text class='q2ee1b441ecf4' x='72.22905' y='65.325631'>r<tspan x='76.14264'>t</tspan></text>
-<text class='q2ee1b441ecf5' x='82.417649' y='63.83125'>=</text>
-<text class='q2ee1b441ecf0' x='94.129243' y='57.091449'>vm</text>
-<text class='q2ee1b441ecf4' x='104.589924' y='58.58583'>r</text>
+<div class="dm nb" id="m-833dfcce" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='12.800em' height='1.797em' viewBox='62.127024 52.737775 128.002844 17.967196' fill='currentColor' aria-hidden='true'><g>
+<text class='f-cmtt10-996' x='61.768369' y='63.83125'>dL</text>
+<text class='f-cmmi7-697' x='72.22905' y='65.325631'>r<tspan x='76.14264'>t</tspan></text>
+<text class='f-cmr10-996' x='82.417649' y='63.83125'>=</text>
+<text class='f-cmtt10-996' x='94.129243' y='57.091449'>vm</text>
+<text class='f-cmmi7-697' x='104.589924' y='58.58583'>r</text>
 <rect x='94.129243' y='61.141341' height='.398484' width='14.87239'/>
-<text class='q2ee1b441ecf0' x='96.335097' y='70.665121'>nv</text>
-<text class='q2ee1b441ecf7' x='111.857546' y='55.761445'></text>
-<text class='q2ee1b441ecf0' x='116.423781' y='63.83125'>pr</text>
-<text class='q2ee1b441ecf4' x='126.884462' y='66.543294'>r<tspan x='130.798053'>t</tspan></text>
-<text class='q2ee1b441ecf1' x='136.519595' y='63.83125'>−</text>
-<text class='q2ee1b441ecf5' x='146.482209' y='63.83125'>[</text>
-<text class='q2ee1b441ecf3' x='150.910017' y='63.83125'>t</text>
-<text class='q2ee1b441ecf5' x='157.274984' y='63.83125'>=</text>
-<text class='q2ee1b441ecf0' x='167.791064' y='63.83125'>tg</text>
-<text class='q2ee1b441ecf4' x='178.251745' y='66.543294'>r</text>
-<text class='q2ee1b441ecf5' x='184.323854' y='63.83125'>]</text>
-<text class='q2ee1b441ecf7' x='187.091262' y='55.761445'></text>
+<text class='f-cmtt10-996' x='96.335097' y='70.665121'>nv</text>
+<text class='f-cmex10-996' x='111.857546' y='55.761445'></text>
+<text class='f-cmtt10-996' x='116.423781' y='63.83125'>pr</text>
+<text class='f-cmmi7-697' x='126.884462' y='66.543294'>r<tspan x='130.798053'>t</tspan></text>
+<text class='f-cmsy10-996' x='136.519595' y='63.83125'>−</text>
+<text class='f-cmr10-996' x='146.482209' y='63.83125'>[</text>
+<text class='f-cmmi10-996' x='150.910017' y='63.83125'>t</text>
+<text class='f-cmr10-996' x='157.274984' y='63.83125'>=</text>
+<text class='f-cmtt10-996' x='167.791064' y='63.83125'>tg</text>
+<text class='f-cmmi7-697' x='178.251745' y='66.543294'>r</text>
+<text class='f-cmr10-996' x='184.323854' y='63.83125'>]</text>
+<text class='f-cmex10-996' x='187.091262' y='55.761445'></text>
 </g>
 </svg>
 </div>
 <ul>
 <li><p id="p-02f46fcc" class="nb"><span class="m"><i>r</i></span> is the row and <span class="m"><i>t</i></span> the token.</p></li>
-<li><p id="p-36eaa9b2" class="nb">The square bracket is 1 where the statement inside it is true and 0 where it is false. It is the matrix <code>onehot(tg, vocabSize)</code>.</p></li>
+<li><p id="p-36eaa9b2" class="nb">The square bracket is 1 where the statement inside it is true and 0 where it is false. It is the matrix <span class="fc"><span class="fr m"><i>onehot</i>(<i>tg</i>, <i>vocabSize</i>)</span><code class="fs">onehot(tg, vocabSize)</code></span>.</p></li>
 </ul>
 <p id="p-5092e334" class="nb">Three numbers from Part 3 confirm the formula. The scores 1, 2, 3 give the probabilities 0.0900, 0.2447, 0.6652. Suppose the first is the right answer. A run raised the second score by one millionth and measured the change of the first probability: the rate was -0.02203. The penalty is minus the logarithm of the first probability, and the logarithm's rate at 0.0900 is 1 divided by 0.0900. A run measured that rate as 11.10733 and printed 11.10734 for the quotient. So the penalty changes at the rate 0.02203 divided by 0.0900, which is 0.2447: the second probability, as the formula says.</p>
 </section>
 <section class="sec" data-num="6.4" data-title="Back through lm">
 <h2 id="s-back-through-lm" class="nb"><span class="num">6.4</span> Back through lm</h2>
-<div class="fx nb src" id="c-b00a9dd7" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span>gLM = dL^T x4</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span>dX4 = dL lm</span></code></pre></div>
-<p id="p-432220c8" class="nb">The forward declaration is <code>x4 lm^T</code>: every row of <code>x4</code>, the result of the feed-forward block, through the last weight matrix, <code>lm</code>. In rule 4, <code>A</code> is <code>x4</code>, <code>B</code> is <code>lm^T</code>, and <code>dY</code> is <code>dL</code>.</p>
+<div class="fx nb src n3" id="c-b00a9dd7" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='6.412em' height='1.281em' viewBox='0 0 64.121 12.808' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='9.221'>gLM</text>
+<text class='f-cmr10-996' x='24.165' y='9.221'>=</text>
+<text class='f-cmti10-996' x='34.681' y='9.221'>dL</text>
+<text class='f-cmmi7-697' x='46.022' y='4.765'>T</text>
+<text class='f-cmmi10-996' x='53.958' y='9.221'>x</text>
+<text class='f-cmr7-697' x='59.652' y='10.715'>4</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='5.628em' height='1.196em' viewBox='0 0 56.284 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='14.072' y='9.863'>4</text>
+<text class='f-cmr10-996' x='21.309' y='8.369'>=</text>
+<text class='f-cmti10-996' x='31.825' y='8.369'>dL<tspan x='44.826'>lm</tspan></text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span>gLM = dL^T x4</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span>dX4 = dL lm</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span>gLM = dL^T x4</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L63" title="MicroGptFlat.fss, line 63">63</a></span>dX4 = dL lm</span></code></pre></div>
+<p id="p-432220c8" class="nb">The forward declaration is <span class="fc"><span class="fr m"><i>x</i><sub>4</sub> <i>lm</i><sup><i>T</i></sup></span><code class="fs">x4 lm^T</code></span>: every row of <span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span>, the result of the feed-forward block, through the last weight matrix, <span class="fc"><span class="fr m"><i>lm</i></span><code class="fs">lm</code></span>. In rule 4, <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> is <span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span>, <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span> is <span class="fc"><span class="fr m"><i>lm</i><sup><i>T</i></sup></span><code class="fs">lm^T</code></span>, and <span class="fc"><span class="fr m"><i>dY</i></span><code class="fs">dY</code></span> is <span class="fc"><span class="fr m"><i>dL</i></span><code class="fs">dL</code></span>.</p>
 <ul>
-<li><p id="p-eaa8b913" class="nb">The gradient at <code>A</code> is <code>dY B^T</code>. The transpose of <code>lm^T</code> is <code>lm</code>. So <code>dX4 = dL lm</code>.</p></li>
-<li><p id="p-2c428a19" class="nb">The gradient at <code>B</code> is <code>A^T dY</code>, which is <code>x4^T dL</code>. That is the gradient at <code>lm^T</code>. The gradient at <code>lm</code> itself is its transpose, and the transpose of <code>x4^T dL</code> is <code>dL^T x4</code>.</p></li>
+<li><p id="p-eaa8b913" class="nb">The gradient at <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> is <span class="fc"><span class="fr m"><i>dY</i> <i>B</i><sup><i>T</i></sup></span><code class="fs">dY B^T</code></span>. The transpose of <span class="fc"><span class="fr m"><i>lm</i><sup><i>T</i></sup></span><code class="fs">lm^T</code></span> is <span class="fc"><span class="fr m"><i>lm</i></span><code class="fs">lm</code></span>. So <span class="fc"><span class="fr m"><i>dX</i><sub>4</sub> = <i>dL</i> <i>lm</i></span><code class="fs">dX4 = dL lm</code></span>.</p></li>
+<li><p id="p-2c428a19" class="nb">The gradient at <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span> is <span class="fc"><span class="fr m"><i>A</i><sup><i>T</i></sup> <i>dY</i></span><code class="fs">A^T dY</code></span>, which is <span class="fc"><span class="fr m"><i>x</i><sub>4</sub><sup><i>T</i></sup> <i>dL</i></span><code class="fs">x4^T dL</code></span>. That is the gradient at <span class="fc"><span class="fr m"><i>lm</i><sup><i>T</i></sup></span><code class="fs">lm^T</code></span>. The gradient at <span class="fc"><span class="fr m"><i>lm</i></span><code class="fs">lm</code></span> itself is its transpose, and the transpose of <span class="fc"><span class="fr m"><i>x</i><sub>4</sub><sup><i>T</i></sup> <i>dL</i></span><code class="fs">x4^T dL</code></span> is <span class="fc"><span class="fr m"><i>dL</i><sup><i>T</i></sup> <i>x</i><sub>4</sub></span><code class="fs">dL^T x4</code></span>.</p></li>
 </ul>
-<p id="p-ccbe4617" class="nb">Seven of the nine weight matrices enter the forward pass in this form, and their <code>g</code> lines all have this shape: the transposed gradient of the result, times the input. A run printed the sizes:</p>
+<p id="p-ccbe4617" class="nb">Seven of the nine weight matrices enter the forward pass in this form, and their <span class="fc"><span class="fr m"><i>g</i></span><code class="fs">g</code></span> lines all have this shape: the transposed gradient of the result, times the input. A run printed the sizes:</p>
 <pre class="vb nb out" id="o-a494d63e" data-kind="output"><code>sizes dL (16,27) gLM (27,16) dX4 (16,16)</code></pre>
-<p id="p-934a782c" class="nb"><code>gLM</code> has the size of <code>lm</code>, and <code>dX4</code> the size of <code>x4</code>.</p>
+<p id="p-934a782c" class="nb"><span class="fc"><span class="fr m"><i>gLM</i></span><code class="fs">gLM</code></span> has the size of <span class="fc"><span class="fr m"><i>lm</i></span><code class="fs">lm</code></span>, and <span class="fc"><span class="fr m"><i>dX</i><sub>4</sub></span><code class="fs">dX4</code></span> the size of <span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span>.</p>
 </section>
 <section class="sec" data-num="6.5" data-title="Back through the feed-forward block">
 <h2 id="s-back-through-the-feed-forward-block" class="nb"><span class="num">6.5</span> Back through the feed-forward block</h2>
-<div class="fx nb src" id="c-8429f7f8" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>gF2 = dX4^T mr</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>dM0 = (dX4 f2) × (m0 &gt; 0.0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>gF1 = dM0^T x3</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>dX3 = dM0 f1</span></code></pre></div>
-<p id="p-5c5f5aea" class="nb">The forward declarations were <code>m0 = x3 f1^T</code>, <code>mr = 0.0 MAX m0</code> and <code>x4 = x2 + mr f2^T</code>. <code>f1</code> and <code>f2</code> are the block's two weight matrices, <code>m0</code> is the matrix of 16 by 64 between them, and <code>mr</code> is <code>m0</code> with its negative numbers set to 0. The backward line takes the declarations last to first.</p>
+<div class="fx nb src n3" id="c-8429f7f8" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='6.559em' height='1.281em' viewBox='0 0 65.594 12.808' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='9.221'>gF</text>
+<text class='f-cmr7-697' x='12.412' y='11.656'>2</text>
+<text class='f-cmr10-996' x='19.648' y='9.221'>=</text>
+<text class='f-cmti10-996' x='30.164' y='9.221'>dX</text>
+<text class='f-cmmi7-697' x='44.237' y='4.765'>T</text>
+<text class='f-cmr7-697' x='44.237' y='11.684'>4</text>
+<text class='f-cmti10-996' x='52.173' y='9.221'>mr</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='12.986em' height='1.196em' viewBox='0 0 129.864 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dM</text>
+<text class='f-cmr7-697' x='15.658' y='9.863'>0</text>
+<text class='f-cmr10-996' x='22.895' y='8.369'>=<tspan x='33.411'>(</tspan></text>
+<text class='f-cmti10-996' x='37.285' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='51.357' y='9.863'>4</text>
+<text class='f-cmmi10-996' x='57.487' y='8.369'>f</text>
+<text class='f-cmr7-697' x='62.365' y='9.863'>2</text>
+<text class='f-cmr10-996' x='66.834' y='8.369'>)</text>
+<text class='f-cmsy10-996' x='72.922' y='8.369'>×</text>
+<text class='f-cmr10-996' x='82.885' y='8.369'>(</text>
+<text class='f-cmmi10-996' x='86.759' y='8.369'>m</text>
+<text class='f-cmr7-697' x='95.506' y='9.863'>0</text>
+<text class='f-cmmi10-996' x='102.743' y='8.369'>></text>
+<text class='f-cmr10-996' x='113.259' y='8.369'>0</text>
+<text class='f-cmmi10-996' x='118.241' y='8.369'>.</text>
+<text class='f-cmr10-996' x='121.008' y='8.369'>0)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='6.392em' height='1.281em' viewBox='0 0 63.922 12.808' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='9.221'>gF</text>
+<text class='f-cmr7-697' x='12.412' y='11.656'>1</text>
+<text class='f-cmr10-996' x='19.648' y='9.221'>=</text>
+<text class='f-cmti10-996' x='30.164' y='9.221'>dM</text>
+<text class='f-cmmi7-697' x='45.822' y='4.765'>T</text>
+<text class='f-cmr7-697' x='45.822' y='11.684'>0</text>
+<text class='f-cmmi10-996' x='53.759' y='9.221'>x</text>
+<text class='f-cmr7-697' x='59.453' y='10.715'>3</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='6.296em' height='1.196em' viewBox='0 0 62.96 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='14.072' y='9.863'>3</text>
+<text class='f-cmr10-996' x='21.309' y='8.369'>=</text>
+<text class='f-cmti10-996' x='31.825' y='8.369'>dM</text>
+<text class='f-cmr7-697' x='47.483' y='9.863'>0</text>
+<text class='f-cmmi10-996' x='53.613' y='8.369'>f</text>
+<text class='f-cmr7-697' x='58.49' y='9.863'>1</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>gF2 = dX4^T mr</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>dM0 = (dX4 f2) × (m0 &gt; 0.0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>gF1 = dM0^T x3</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>dX3 = dM0 f1</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>gF2 = dX4^T mr</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>dM0 = (dX4 f2) × (m0 &gt; 0.0)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>gF1 = dM0^T x3</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L64" title="MicroGptFlat.fss, line 64">64</a></span>dX3 = dM0 f1</span></code></pre></div>
+<p id="p-5c5f5aea" class="nb">The forward declarations were <span class="fc"><span class="fr m"><i>m</i><sub>0</sub> = <i>x</i><sub>3</sub> <i>f</i><sub>1</sub><sup><i>T</i></sup></span><code class="fs">m0 = x3 f1^T</code></span>, <span class="fc"><span class="fr m"><i>mr</i> = 0.0 <span class="op">MAX</span> <i>m</i><sub>0</sub></span><code class="fs">mr = 0.0 MAX m0</code></span> and <span class="fc"><span class="fr m"><i>x</i><sub>4</sub> = <i>x</i><sub>2</sub> + <i>mr</i> <i>f</i><sub>2</sub><sup><i>T</i></sup></span><code class="fs">x4 = x2 + mr f2^T</code></span>. <span class="fc"><span class="fr m"><i>f</i><sub>1</sub></span><code class="fs">f1</code></span> and <span class="fc"><span class="fr m"><i>f</i><sub>2</sub></span><code class="fs">f2</code></span> are the block's two weight matrices, <span class="fc"><span class="fr m"><i>m</i><sub>0</sub></span><code class="fs">m0</code></span> is the matrix of 16 by 64 between them, and <span class="fc"><span class="fr m"><i>mr</i></span><code class="fs">mr</code></span> is <span class="fc"><span class="fr m"><i>m</i><sub>0</sub></span><code class="fs">m0</code></span> with its negative numbers set to 0. The backward line takes the declarations last to first.</p>
 <ul>
-<li><p id="p-01771d14" class="nb"><code>gF2</code> is rule 4 for <code>mr f2^T</code>: the transposed gradient of the result, times the input <code>mr</code>.</p></li>
-<li><p id="p-f613b82c" class="nb"><code>dX4 f2</code> is the other half of rule 4: the gradient at <code>mr</code>.</p></li>
-<li><p id="p-d8f27759" class="nb"><code>× (m0 &gt; 0.0)</code> goes back through <code>MAX</code>. Where an element of <code>m0</code> was positive, <code>mr</code> is that element, and the rate passes unchanged. Where it was negative, <code>mr</code> is 0 whatever the element does, and the rate is 0. <code>m0 &gt; 0.0</code> is an array of ones and zeros: <code>FlatArrays.fss</code> declares <code>&gt;</code> between an array and a number so. <code>×</code> is the product of two arrays element by element, also declared in <code>FlatArrays.fss</code>. It is a different operator from juxtaposition, which between matrices is the matrix product.</p></li>
-<li><p id="p-54fc6560" class="nb"><code>gF1</code> and <code>dX3</code> are rule 4 for <code>x3 f1^T</code>.</p></li>
+<li><p id="p-01771d14" class="nb"><span class="fc"><span class="fr m"><i>gF</i><sub>2</sub></span><code class="fs">gF2</code></span> is rule 4 for <span class="fc"><span class="fr m"><i>mr</i> <i>f</i><sub>2</sub><sup><i>T</i></sup></span><code class="fs">mr f2^T</code></span>: the transposed gradient of the result, times the input <span class="fc"><span class="fr m"><i>mr</i></span><code class="fs">mr</code></span>.</p></li>
+<li><p id="p-f613b82c" class="nb"><span class="fc"><span class="fr m"><i>dX</i><sub>4</sub> <i>f</i><sub>2</sub></span><code class="fs">dX4 f2</code></span> is the other half of rule 4: the gradient at <span class="fc"><span class="fr m"><i>mr</i></span><code class="fs">mr</code></span>.</p></li>
+<li><p id="p-d8f27759" class="nb"><span class="fc"><span class="fr m">× (<i>m</i><sub>0</sub> &gt; 0.0)</span><code class="fs">× (m0 &gt; 0.0)</code></span> goes back through <span class="fc"><span class="fr m"><span class="op">MAX</span></span><code class="fs">MAX</code></span>. Where an element of <span class="fc"><span class="fr m"><i>m</i><sub>0</sub></span><code class="fs">m0</code></span> was positive, <span class="fc"><span class="fr m"><i>mr</i></span><code class="fs">mr</code></span> is that element, and the rate passes unchanged. Where it was negative, <span class="fc"><span class="fr m"><i>mr</i></span><code class="fs">mr</code></span> is 0 whatever the element does, and the rate is 0. <span class="fc"><span class="fr m"><i>m</i><sub>0</sub> &gt; 0.0</span><code class="fs">m0 &gt; 0.0</code></span> is an array of ones and zeros: <code>FlatArrays.fss</code> declares <span class="fc"><span class="fr m">&gt;</span><code class="fs">&gt;</code></span> between an array and a number so. <span class="fc"><span class="fr m">×</span><code class="fs">×</code></span> is the product of two arrays element by element, also declared in <code>FlatArrays.fss</code>. It is a different operator from juxtaposition, which between matrices is the matrix product.</p></li>
+<li><p id="p-54fc6560" class="nb"><span class="fc"><span class="fr m"><i>gF</i><sub>1</sub></span><code class="fs">gF1</code></span> and <span class="fc"><span class="fr m"><i>dX</i><sub>3</sub></span><code class="fs">dX3</code></span> are rule 4 for <span class="fc"><span class="fr m"><i>x</i><sub>3</sub> <i>f</i><sub>1</sub><sup><i>T</i></sup></span><code class="fs">x3 f1^T</code></span>.</p></li>
 </ul>
-<div class="fx nb src" id="c-c172d8bb" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span>dX2 = dX4 + rows(rmsn_b, dX3, x2)</span></code></pre></div>
-<p id="p-fb983ab4" class="nb"><code>x2</code> was used twice in the forward pass: <code>x4</code> adds it directly, and <code>x3</code> is <code>rmsn</code> of it. By rule 2 its gradient has two parts. The first is <code>dX4</code>, by rule 3. The second goes back through <code>rmsn</code>, row by row, with the function <code>rmsn_b</code> of the next section. Lines 148 to 153 of <code>FlatArrays.fss</code> declare this form of <code>rows</code>, with two matrices: it gives the function row <code>i</code> of the first and row <code>i</code> of the second.</p>
+<div class="fx nb src n3" id="c-c172d8bb" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='16.056em' height='1.196em' viewBox='0 0 160.562 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='14.072' y='9.863'>2</text>
+<text class='f-cmr10-996' x='21.309' y='8.369'>=</text>
+<text class='f-cmti10-996' x='31.825' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='45.897' y='9.863'>4</text>
+<text class='f-cmr10-996' x='52.58' y='8.369'>+</text>
+<text class='f-cmti10-996' x='62.543' y='8.369'>r<tspan x='66.235'>ows</tspan></text>
+<text class='f-cmr10-996' x='82.838' y='8.369'>(</text>
+<text class='f-cmti10-996' x='86.712' y='8.369'>rmsn</text>
+<rect x='110.097' y='7.97' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='113.916' y='8.369'>b</text>
+<text class='f-cmmi10-996' x='119.127' y='8.369'>,</text>
+<text class='f-cmti10-996' x='123.555' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='137.627' y='9.863'>3</text>
+<text class='f-cmmi10-996' x='142.097' y='8.369'>,<tspan x='146.525'>x</tspan></text>
+<text class='f-cmr7-697' x='152.218' y='9.863'>2</text>
+<text class='f-cmr10-996' x='156.688' y='8.369'>)</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span>dX2 = dX4 + rows(rmsn_b, dX3, x2)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span>dX2 = dX4 + rows(rmsn_b, dX3, x2)</span></code></pre></div>
+<p id="p-fb983ab4" class="nb"><span class="fc"><span class="fr m"><i>x</i><sub>2</sub></span><code class="fs">x2</code></span> was used twice in the forward pass: <span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span> adds it directly, and <span class="fc"><span class="fr m"><i>x</i><sub>3</sub></span><code class="fs">x3</code></span> is <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span> of it. By rule 2 its gradient has two parts. The first is <span class="fc"><span class="fr m"><i>dX</i><sub>4</sub></span><code class="fs">dX4</code></span>, by rule 3. The second goes back through <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span>, row by row, with the function <span class="fc"><span class="fr m"><i>rmsn</i><i>_b</i></span><code class="fs">rmsn_b</code></span> of the next section. Lines 148 to 153 of <code>FlatArrays.fss</code> declare this form of <span class="fc"><span class="fr m"><i>rows</i></span><code class="fs">rows</code></span>, with two matrices: it gives the function row <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> of the first and row <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> of the second.</p>
 </section>
 <section class="sec" data-num="6.6" data-title="rmsn_b: back through rmsn">
 <h2 id="s-rmsn-b-back-through-rmsn" class="nb"><span class="num">6.6</span> rmsn_b: back through rmsn</h2>
-<div class="fx nb src" id="c-e8b2091c" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L30" title="MicroGptFlat.fss, line 30">30</a></span>rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L31" title="MicroGptFlat.fss, line 31">31</a></span>    r = SQRT (epsilon + (x DOT x) / |x|); y = x / r</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L32" title="MicroGptFlat.fss, line 32">32</a></span>    (dy - y ((y DOT dy) / |y|)) / r</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L33" title="MicroGptFlat.fss, line 33">33</a></span>  end</span></code></pre></div>
-<p id="p-7809f18f" class="nb">The <code>_b</code> stands for backward. <code>rmsn_b</code> takes <code>dy</code>, the gradient at the result of <code>rmsn</code>, and <code>x</code>, the vector that <code>rmsn</code> was applied to. It returns the gradient at <code>x</code>.</p>
+<div class="fx nb src n3" id="c-e8b2091c" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L30" title="MicroGptFlat.fss, line 30">30</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='3.895em' viewBox='0 0 175.342 38.954' fill='currentColor' style='vertical-align:-3.049em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>rmsn</text>
+<rect x='23.385' y='8.07' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='27.204' y='8.468'>b</text>
+<text class='f-cmex10-996' x='32.416' y='.398'></text>
+<text class='f-cmti10-996' x='36.982' y='8.468'>dy</text>
+<text class='f-cmr10-996' x='47.793' y='8.468'>:<tspan x='52.22'>Arra</tspan><tspan x='72.201'>y</tspan></text>
+<text class='f-stmary10-996' x='77.597' y='8.468'></text>
+<text class='f-msbm10-996' x='81.61' y='8.468'>R</text>
+<text class='f-cmr10-996' x='88.805' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='98.768' y='8.468'>,</text>
+<text class='f-msbm10-996' x='103.196' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='109.838' y='8.468'>32</text>
+<text class='f-stmary10-996' x='119.8' y='8.468'></text>
+<text class='f-cmmi10-996' x='123.813' y='8.468'>,<tspan x='15.94' y='22.018'>x</tspan></text>
+<text class='f-cmr10-996' x='21.634' y='22.018'>:<tspan x='26.062'>Arra</tspan><tspan x='46.043'>y</tspan></text>
+<text class='f-stmary10-996' x='51.439' y='22.018'></text>
+<text class='f-msbm10-996' x='55.452' y='22.018'>R</text>
+<text class='f-cmr10-996' x='62.647' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='72.61' y='22.018'>,</text>
+<text class='f-msbm10-996' x='77.038' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='83.679' y='22.018'>32</text>
+<text class='f-stmary10-996' x='93.642' y='22.018'></text>
+<text class='f-cmex10-996' x='97.655' y='13.948'></text>
+<text class='f-cmr10-996' x='102.221' y='22.018'>:<tspan x='15.94' y='35.368'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-stmary10-996' x='41.317' y='35.368'></text>
+<text class='f-msbm10-996' x='45.33' y='35.368'>R</text>
+<text class='f-cmr10-996' x='52.525' y='35.368'>64</text>
+<text class='f-cmmi10-996' x='62.488' y='35.368'>,</text>
+<text class='f-msbm10-996' x='66.916' y='35.368'>Z</text>
+<text class='f-cmr10-996' x='73.558' y='35.368'>32</text>
+<text class='f-stmary10-996' x='83.52' y='35.368'></text>
+<text class='f-cmr10-996' x='90.3' y='35.368'>=</text>
+<text class='f-cmtt10-996' x='100.816' y='35.368'>do</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L31" title="MicroGptFlat.fss, line 31">31</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='12.518em' height='1.290em' viewBox='0 0 125.18 12.902' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmmi10-996' x='0' y='9.315'>r</text>
+<text class='f-cmr10-996' x='7.539' y='9.315'>=</text>
+<text class='f-cmex10-996' x='18.055' y='.797'></text>
+<rect x='28.018' y='.398' height='.398' width='58.762'/>
+<text class='f-cmmi10-996' x='28.018' y='9.315'></text>
+<text class='f-cmr10-996' x='34.275' y='9.315'>+<tspan x='44.238'>(</tspan></text>
+<text class='f-cmmi10-996' x='48.112' y='9.315'>x</text>
+<text class='f-cmsy10-996' x='56.02' y='9.315'>·</text>
+<text class='f-cmmi10-996' x='61.001' y='9.315'>x</text>
+<text class='f-cmr10-996' x='66.695' y='9.315'>)</text>
+<text class='f-cmmi10-996' x='70.57' y='9.315'>/</text>
+<text class='f-cmsy10-996' x='75.551' y='9.315'>|</text>
+<text class='f-cmmi10-996' x='78.318' y='9.315'>x</text>
+<text class='f-cmsy10-996' x='84.012' y='9.315'>|</text>
+<text class='f-cmr10-996' x='86.78' y='9.315'>;</text>
+<text class='f-cmmi10-996' x='91.208' y='9.315'>y</text>
+<text class='f-cmr10-996' x='99.217' y='9.315'>=</text>
+<text class='f-cmmi10-996' x='109.733' y='9.315'>x/r</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L32" title="MicroGptFlat.fss, line 32">32</a></span><span class="tx" style="padding-left:1.80em"><svg xmlns='http://www.w3.org/2000/svg' width='10.328em' height='1.206em' viewBox='0 0 103.278 12.055' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmex10-996' x='0' y='.398'></text>
+<text class='f-cmti10-996' x='4.566' y='8.468'>dy</text>
+<text class='f-cmsy10-996' x='17.591' y='8.468'>−</text>
+<text class='f-cmmi10-996' x='27.553' y='8.468'>y</text>
+<text class='f-cmr10-996' x='34.456' y='8.468'>((</text>
+<text class='f-cmmi10-996' x='42.205' y='8.468'>y</text>
+<text class='f-cmsy10-996' x='49.66' y='8.468'>·</text>
+<text class='f-cmti10-996' x='54.642' y='8.468'>dy</text>
+<text class='f-cmr10-996' x='65.452' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='69.327' y='8.468'>/</text>
+<text class='f-cmsy10-996' x='74.308' y='8.468'>|</text>
+<text class='f-cmmi10-996' x='77.076' y='8.468'>y</text>
+<text class='f-cmsy10-996' x='82.318' y='8.468'>|</text>
+<text class='f-cmr10-996' x='85.085' y='8.468'>)</text>
+<text class='f-cmex10-996' x='88.959' y='.398'></text>
+<text class='f-cmmi10-996' x='93.526' y='8.468'>/r</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L33" title="MicroGptFlat.fss, line 33">33</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L30" title="MicroGptFlat.fss, line 30">30</a></span>rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L31" title="MicroGptFlat.fss, line 31">31</a></span>    r = SQRT (epsilon + (x DOT x) / |x|); y = x / r</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L32" title="MicroGptFlat.fss, line 32">32</a></span>    (dy - y ((y DOT dy) / |y|)) / r</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L33" title="MicroGptFlat.fss, line 33">33</a></span>  end</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L30" title="MicroGptFlat.fss, line 30">30</a></span>rmsn_b(dy: Array⟦RR64,ZZ32⟧, x: Array⟦RR64,ZZ32⟧): Array⟦RR64,ZZ32⟧ = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L31" title="MicroGptFlat.fss, line 31">31</a></span>    r = √ (ε + (x · x) / |x|); y = x / r</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L32" title="MicroGptFlat.fss, line 32">32</a></span>    (dy - y ((y · dy) / |y|)) / r</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L33" title="MicroGptFlat.fss, line 33">33</a></span>  end</span></code></pre></div>
+<p id="p-7809f18f" class="nb">The <code>_b</code> stands for backward. <span class="fc"><span class="fr m"><i>rmsn</i><i>_b</i></span><code class="fs">rmsn_b</code></span> takes <span class="fc"><span class="fr m"><i>dy</i></span><code class="fs">dy</code></span>, the gradient at the result of <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span>, and <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span>, the vector that <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span> was applied to. It returns the gradient at <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span>.</p>
 <ul>
-<li><p id="p-9e29722d" class="nb">Line 31 computes again what <code>rmsn</code> computed: the root <code>r</code> of the mean square plus <code>epsilon</code>, which is 0.00001, and the result <code>y</code>.</p></li>
-<li><p id="p-9d214ebd" class="nb">Line 32 is the gradient. It has two parts, because a change of one element of <code>x</code> does two things.</p></li>
-<li><p id="p-158e62ed" class="nb">First, the element's own result changes: <code>y</code> is <code>x / r</code>, so one unit more of an element is <code>1 / r</code> more of its result. This part is <code>dy / r</code>.</p></li>
-<li><p id="p-9f6c20a7" class="nb">Second, the root <code>r</code> changes a little, and every element of <code>y</code> changes with it. This part is the term that line 32 subtracts: <code>y</code>, times the number <code>(y DOT dy) / |y|</code>, divided by <code>r</code>.</p></li>
+<li><p id="p-9e29722d" class="nb">Line 31 computes again what <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span> computed: the root <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> of the mean square plus <span class="fc u"><span class="fr m"><i>ϵ</i></span><code class="fs">epsilon</code><code class="fu">ε</code></span>, which is 0.00001, and the result <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span>.</p></li>
+<li><p id="p-9d214ebd" class="nb">Line 32 is the gradient. It has two parts, because a change of one element of <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> does two things.</p></li>
+<li><p id="p-158e62ed" class="nb">First, the element's own result changes: <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span> is <span class="fc"><span class="fr m"><i>x</i> / <i>r</i></span><code class="fs">x / r</code></span>, so one unit more of an element is <span class="fc"><span class="fr m">1 / <i>r</i></span><code class="fs">1 / r</code></span> more of its result. This part is <span class="fc"><span class="fr m"><i>dy</i> / <i>r</i></span><code class="fs">dy / r</code></span>.</p></li>
+<li><p id="p-9f6c20a7" class="nb">Second, the root <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> changes a little, and every element of <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span> changes with it. This part is the term that line 32 subtracts: <span class="fc"><span class="fr m"><i>y</i></span><code class="fs">y</code></span>, times the number <span class="fc u"><span class="fr m">(<i>y</i> · <i>dy</i>) / |<i>y</i>|</span><code class="fs">(y DOT dy) / |y|</code><code class="fu">(y · dy) / |y|</code></span>, divided by <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span>.</p></li>
 </ul>
-<p id="p-5ae2f4f7" class="nb">In line 32, <code>y (...)</code> is a vector beside a number: juxtaposition multiplies every element.</p>
-<div class="dm nb" id="m-536cbc59" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='18.103em' height='5.874em' viewBox='62.087173 52.806419 181.03163 58.744254' fill='currentColor' aria-hidden='true'><style type='text/css'>
-@font-face{font-family:q2d64036ff3-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHkAAoAAAAAA5QAAAGdAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPApcXgsIAAE2AiQDDAQgBYI+ByAb3QIALgdsYynUB1qXOOYGKUd5leA3w7AYEXy/32/Pve8/xCSZdzLRG4lQPDKUZpFSyN7IJLJXmlnebnspi7f/F4pNkFSmmiRlmxAjm218seQL9WN0/44RDpwoGynaPJCUxrI9uOnlURdwgXCgpSX67BOdyWz5/6ViuePnF755klP20jx8zqIowTDjlrQFFAUaWZ5uE/XwUSMWJtRTdDQhp70QKqRLfPojL3x82TUWowZKABJWCLB7UCqH69FW6f0Zh9ybnxEA/AMJGe1EoF0wBkqFkKroBzf/qy/fWT5bIqED9AAoACFq6rfPp287saSxtsFNZ6V5labN9Lmrz97uHzf6jkAgWNv+3018V+cCvA60Kgu5P5ZBtQSCNdv9OkmPgnmfcz9Ev5m2ZSCrFyBAIrVOMlQTOFEoNWFU1OlAqTQ8rtUrElHUCIMyRqHeDio6HZTqncZaS+6J6j7MShazp15Rg1EHixfHPfvYspRIdBqKQLfP6/KAJmzquYVSm1RvZjLBoSbNoio+W86KtP9habAVk4oiSMiREYAdBg==) format('woff2');}
-@font-face{font-family:q2d64036ff3-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAMMAAoAAAAABRAAAALAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAARAqDRIJuCwwAATYCJAMUBCAFgj4HIBv9AwAGAsrNZgOhIpZSM6iYnag7OVH5HVM3+bFA3v9bGmDqa54voLKJCUYY2Jwea2TQ20RFQijbol0d0tEGNJpiMRMZpMXStf+uzGiu+CwcEoQVQB1AR2hs26d/B3TPHZ/30Xj8jgBJ2qiAICMwmylKgAZwRUPwcS0GwBJLJHju9Lzh8z5mMzx35LqAHwFbAmYhIFJm3BrQAoOB4wA6gClKk14f6jgou3a+6WGDUWoDNT1Y4OGxgXmud+83vPug3r17EfOY6249aOTdunfhb5vr6rrWfYGH+qiJ+rC+yRQ5331BiNs8t6ysew8GOa8V830G9A9Y4DGkkfVuU+h1U/J8U337TvNc57n2dVBVD1VtYDNo0JAlYeu8Bi6cGzq4rvt8d+Xv/77dNvbf02CcODBS/01pl7Rq7oOy7Ha5J/V2UuLEcRt3iFocKm5fa15c7RotNifIUb3c8V7Tc1jg18DOSSvnPCzPqmd4Lvlq9VMmrd0tyjhc1L7WPEPtqhYbE918pZuGgoXBc3cM3kstefHh3Q6OJ526+b0WLnmV38WQAK/rNYoq3wxQ1vYebtsB4+Mp0x3lRZZtOs0SSz1fN/aY0T6ghhcOf1S7N7Jy+a1trUApaMjNoH897c+1KBrfvq4GAAQg4GPVlR4tHDL/WGq0ALzzqypfc36Hy1OJjrBEwlO8CzXyBULMn+WpTEBRFvdAasP+WQuxxKla6I1kQhFSFRJaM9wCOIh7WosOB1rGBjdahw5l3BpvQtEgtFYI/MkFWostzWkZdzrTOmwZGVuTyNSIQ/xQLNGmW7uBRkMI7xljDcrSi+w7bft36tO/QzclITY+1kgBPehGT/rRl3b0RqGKHrTFvu60oRvtGIgRA/U7vw+d6EF3lGosBitQYnT3NlqdCNp+8NYMQqEt/elEH/rTgW4oJBBLPLEY0TAAAAAA) format('woff2');}
-@font-face{font-family:q2d64036ff3-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAALQAAoAAAAABQwAAAKEAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAATAqDOIJgCw4AATYCJAMYBCAFgjgHIBv1A8iOwnFviyYMZfIqogyRRbp09gT2S7JDRkR9gKUPA5epmAVJB1SGKyT+67b3LwqomUIOOPCEazyxDMO4wN/8n4s/4Pr5GgCL1ro34M2rLszbj6OxAvzoQK/xdJtPEKSFENUxvCSk27ujrxnAVTNtggDsYo//ednYLPqZg8zmAHARCIKHgr7PGAlRnOKO/4BD9tD/AQADcACvtJ4XXh5A4o5h4iVKV5yAONybJ6/yMvcQgSHSFebPB5wGEuBBJ7oxNvkF+SvKsEVrLNWyIi3badtrvbwMo9t43e2/XTONLsNYQ762rS621IQdvjvXmt2mqbHtu9bs8eWUbScWn/T24HbsXbvbi3nsPL7omM9YftdpWYY6dpG89myAcNmIoeN268ntUz03lR4bzV34p45fo8/wYWmD45yBpxWUz4eiu9KGu3Qf+eqgobW/rWizKmmw9iYSsTFW8VaeDhxW/6ctO9zxpbGpVyQ5vP3DceQLlVzBLik09LAzyHk4VF0n5HBtUO1hJJ0liT8rwsPa2Jk2FhZe+SGx95JGN4TeY71SMNqVVbukBquHRhyqCa6Rbk+hQJe0a78DAIAABB7bvN1DehT9cud4AMDn4OYGCv5XLwdAcLJDR/itLMiXX2/j8tUigA7oPZjfg1BQwICVQgBR0JEScSULkAF6yKB5gh60QOZFiwShwyUBonBocICEKAHNkwykBT5G0CLJPE+SZcWdIf8Rc7XxU9LT7nYnPSVN556wh9FnjJ46Y+T4sMyUjJR0VJpovEmmm8ZlijDNJtIxeALNeFOkS6NWe6rRRv8JwqRLkZZBrTrBoQ47AnR7uNmDr5thtKkvfKTxwmRKkSFFOo4AAAAA) format('woff2');}
-@font-face{font-family:q2d64036ff3-cmr7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIgAAoAAAAAA6wAAAHXAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBDIEVCwYAATYCJAMIBCAFgjIHIBv8AmAuB3iyiZMYk4tcN1psDxP50jvMuKSVyYzF7wiSZZvdK08pTb9rmqJQoOj6haIrFBZhsAjdjf14JMZxE/t7P+gocEofUpurkHdL75Zdoko2OOTg0jyNPMOYa4D/+eddAUnZrINQr9k1lS11NbMdT2QD+rvhAGDncZ4mAaUa+KTLg1gD0oChd0xEIq2kNCLSa0KRL6GKfM3/7UhTLEovRuEaCazBzbwBQuiOFRoUIilsAokCC7iyAGYHSKkU6DaZf2sCQIISgTaQXSBQAqI9WMdxr5hbwOfnx6Zv6vf7hevHsX62Ptv6jYrzur71wLy6XYd9bz3djVP7/6lB9o4LcXD6VPpcWidg16jH54ug8HW7CKk6HCQXwZMWsO4/Sfi/9O3mlwIEgaBzCzQKRPufKMFfjqL0hBymGJEgKDTIoQPehAsAQOaQPOQBRmoDgwAAwJgnYBCmEaBUmhagMm7eQa20FY9ZIwEV5aiwxe6gNOIKlSVl1EY81jF925PnfzWXSm9sWmRzR6nm7ip5ZjBvTeaNnqin1Co1IJ+BnqGZqZoxkYSBKuz2VfSMmWyqGZtoGegT0VBShynU9tWMlcpQ9R7KVkSq5lom5hp6RHSUtJQ0oAAtBQ==) format('woff2');}
-@font-face{font-family:q2d64036ff3-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIsAAoAAAAAA+QAAAHiAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBQIExCwYAATYCJAMIBCAFgjgHIBseAyCeBTkZbyrbNQKHkjnmwM8eZC0qHv5/rd335s8ipqdrZCuVUMybVQ4l46lC2lQJjcgMjNMRSubBBPdXiAlGhkJ3vS03Fra8ECltKZq9zeMID54od6ZsqDbFF+g/sx1PpID+LgwAZpM84AWeahpPusA6TzSCwAKQdJuIXqI+KrMjCKKvAVVuAYfU5Fs+/mMwUvxZYDuQuBY+iF08plBz21ZpUAmY2TQgUWFcZsZBLAMoisBtc/Kz5kUASFCQaAPYQ6AAsm+rfupSsrwOnP3uXSst2D5g83rPS+4YijZBazbPqm9CR6/cKUpu7s+Z+pD2vptn0dTxac2U4tJ//MabjTVWdxtBfL2sdrzgWmR6crq8hXdO9uBH5jKIwbsliPYjD9j+tJv30b9P/y5/W0MkNmdgx8tU7UNuyBQAAIHg59rwKX73H1EV8MtNRMnfovnLTi6jW4Kg0iA7NjiiClAAAJkd4ssGIFIbCATVXs8KgIa4RFEbQq3POFpqS3avWRJgUXqERc4SRa8D1CZVoaXXU+m1o+Nc8q+bdQI67rnZqDO0qlfLNRUNGilgs86kMwJ8HJwet8OFJbhFfTMBqCHfT4NyhhnpGCAUEhuUfTFa91DmxSokFZIAZqZjomMEBthaAA==) format('woff2');}
-@font-face{font-family:q2d64036ff3-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAWkAAoAAAAACRgAAAVaAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAXAqLIIgtCxIAATYCJAMgBCAFgj4HIBvgBiAehenGlx1IkutL2tqGp1P/3UVeLxe4ciomJbPe5gxyMjIaXBFp7wvg4fP2/t+AR5OBZwEF0nmg3QUeaEXQBVr+87vM/7l0f7g3Wmskzn27Corkyuf3DvDo/MgiQut5iTUwHZ5tthWIBBVH5rzbbxRBCwBC/AfdBSQAvuCp/xBw5/RA3+xxEBg0AIoM0EYA4mDzfnRbv8q7NBHA/xgB5IMA+x+ww0sEAKSKRRClJNioYJEmNtvroBOliWRKwccf8f+iZ8zuu3UegAChGsEFAA2AfgDgARpKlIbAILtMuAUJMkNXpoUxMLsG6S1ELYIK3MmIFNKLy40VbkPH1ghNTx66lOBOj/l8M5A+wtqE5ml5r911eKkAxyq8cKypS4RJrBZ6IfqYgbUwzPw1mbuXo9Uh12e9K3WIXWqrCy6aiLVimNNjyOhcaFeaTChqseASaw8+JXuMYzfmwBOd7on0iVsL7mS1Mvhmg7fNvTKhuVtuwSS44nF1iD3KhHQKlTqp0FRIvy6W6NUoR2zV5KauF63N5ZCxwg21uBa2IqW9iE6nZFq2xYU2YKgawrGBDgYM/jZhp655Wmxyr0y4Pi1/XON2o8hQ6mzmu7QsKHAcetbuXGzXjTEeNQY+9urBShbVjxdCS8Zktu0/Uoy6DnojldtW2O265nljh4u1SGRrdX04JGiZ8arBFZ0JjUsFRhx7rHhUjBTP6kwmOmqx+D32qklu6gIGm9AObHXBI7gAw5wqXG6IAPbawcvFZHxGYhXc4JujkE7d0hJkxCMt3eLXODa0yDcUFqLlw8h1u/RpeMkIo6RJZBt0bfQ0M1xCrQIL6lo8Awir00r/HIbq24ceGHVZoC9imPGeNnwMON/9rGARVKWZc0ytR/r0WurF/e9tjvP3zPkkQQTVpq0Aqbk5PI/kkJCUCysXJqN+cqL86byRDbOSKA0cg8N8cuCokvJRKLygXLhF4sVFcbQUTnduTo+oAqycI78ZVrLVP9aqNCOxmF6vZvI0HeeESVBm2mCWJh4O/TJIzo9z3fsjCt/VBKZ84pVE2a/l+dpE/27SvEuU+V3cisTL6au5iYSTcU6ry/vdXlTfXJdBl3g6ysdkjr12JgZX+/Y+YTKgb59pg3n7hyicu84s/vubmkyaH8oK1EiU8qJo16cSP+byyfHGYBBXYj2fGybOYrD0Wioy+/qH21rC7N6noupaB+e7PNoH+5l3PDud/vxRxfXoke4QH0TFaeBlTqg0W/JCryUjc6+457SE/VqZ5kJBfe+/ruxIvTML6cmnfqh2WJGaBn68tPEyuuLSkVzoh9qMLH9DFVm6a+M38l7/QxFvSDKuVNb+kBYCxTtKNsuz33Oj0PQvtvOTvJZT9GqOokzw3yH9jBPn1HTghUTm61ynqHhfn1Ykd4nPlXjSwZ3PP/eKl7joHbkroN/Pu+jpNPblNvtaYi6sSw1y8Usb1/IV3pfyV0G56W4KJoc7/omwN/VQYGyYdkLAm60Arqc+QP4xo1ZzzzRguPtyJgDgO0BxL3DWc6J+pRKIAAAAPpdlpoUd/w8+Co8AAKhgoj7DMfABJD54cROs1M55ANTBikSAR24F8pgG8kwNod+88S7RDkm6V3oVpOnOggrcnLI0ERnnViRh4ItkZMrxdGKuCKBKAxA5TROJmNaJJKidIhmTIUMX5OYztf7LvLJNe/bsUPu/pIbVvv65im8O+28+uuPQ0W17lIG+Ab5qEG+fPfY74rAtDlLKNPvmddhem+yxxw5q/goO7SE77LOXst6XfxFItu8l2zcIgs3xjU5QuvaoHQ45alu+UiBfAZfG1QgAAA==) format('woff2');}
-@font-face{font-family:q2d64036ff3-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAPMAAoAAAAABqgAAAODAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAARAqGXIURCw4AATYCJAMOBCAFgj4HIBsaBVGU60kJ8ePAbvhq2IajxbLAg4syhgd4tihv8UCtvb7dgwCCvI8yiDYyrGJJZjKeqitdlKr8qqROp5OZGY2wSPlsD0GUPYOTXHjzDdZlSQVnS+uFkytp9gpocPBLeEHzf029wiq+W+NAh0POogqseP7fhCbemG2zAa1JNkKbuTVOER86Gbh5Ex8F1aMzJHEy/JARf8ajf9jXCLSPXY8aoQMxRwr8hvvHUupuRfw+A8RvatHC5UlyRKIalghMqiq3axfrb7ko/1ca9rD/7WVtWSVQdw6suzEME3YBT8WjUD7hZyluV31Vl/CLYIIIxPGAnn2NxobtJlFmjpq+6/3CnMWNYgzXCMcdKpgknTZxqfAV52Ld4QPOLVQr3CoG+ntbekTYnYbXx5Qe4AHeyrZ+ZcaevvY2irO+N7yZci4mAoHluxYic8L2MRJ0+xkP4w1eM8n1/4mBFcpwa6llYG5IAseTe117lemBrRZCiwE9pFlDj0hfkyhsalYtrhWeJIypE4k20oh02w9q0q4XXQmu3zKsr1ftbRQCtQ1KfU3w+rITfijeSCgPlvi4A3+YewXGMMQVXA6E1/D/cYgP42WnTWDo4aq7xHeWW+rGUdM5ASHQDTi4R1TyOdvJgOwmPz7DW5FJYvHqmdrFfD8mHnNhqx6rGKJ/bYk9kK85AXus4x3X7oTnxC7ae/VFV98PheW43nVYmteWP70HBu+dOijIWzk6Ao/P6HQQDay2rGJo8FTtHfdTX+Bnx+A2h1bpCJvonpA8fRVZ0qYr3WXmwJula3kTe2h3gvO0MTTmb+mPp8yR+MaqMBamlHsWrnTXJhVGMoTlA530Op+J5gdGGxWzpPu5DD7OXGnF7jk+xVzxoL9C8Jjm6qqg6wjechsHy9xyYX23w2ivuR10Jz+H8Ws/jXmZj3sLZ96BCp9pHuEbp05gmgk5iVVKAgGB1kr976u+td/tSQp+SZ+fYMb5U/6Pk/ERXelFAneLY5KQ0xn7BdBIiJNw9uR8j0WHNZU73qKFFju9atnfRyumcn2mJtNlRJPLze/uNGlVIqQdgllbpibV7VKTGfWgyXV7K3Vqen8as/xsrWkgU6qvN/FaUfUBX6svv3+xKAU3inpRs2uBxyvdNnZe3DNtcgOkJKouxDiYxXF7oUqCD90e7L42hGfk1jcxvFdMfEEBayjUFWoSai4A) format('woff2');}
-text.q2d64036ff3f0 {font-family:q2d64036ff3-cmtt10;font-size:9.96264px}
-text.q2d64036ff3f1 {font-family:q2d64036ff3-cmsy10;font-size:9.96264px}
-text.q2d64036ff3f3 {font-family:q2d64036ff3-cmmi10;font-size:9.96264px}
-text.q2d64036ff3f4 {font-family:q2d64036ff3-cmmi7;font-size:6.973848px}
-text.q2d64036ff3f5 {font-family:q2d64036ff3-cmr10;font-size:9.96264px}
-text.q2d64036ff3f6 {font-family:q2d64036ff3-cmr7;font-size:6.973848px}
-text.q2d64036ff3f7 {font-family:q2d64036ff3-cmex10;font-size:9.96264px}
-
-</style>
-<g id='page4'>
-<text class='q2d64036ff3f0' x='61.768369' y='66.460292'>rmsn</text>
+<p id="p-5ae2f4f7" class="nb">In line 32, <span class="fc"><span class="fr m"><i>y</i> (…)</span><code class="fs">y (...)</code></span> is a vector beside a number: juxtaposition multiplies every element.</p>
+<div class="dm nb" id="m-536cbc59" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='18.103em' height='5.874em' viewBox='62.087173 52.806419 181.03163 58.744254' fill='currentColor' aria-hidden='true'><g>
+<text class='f-cmtt10-996' x='61.768369' y='66.460292'>rmsn</text>
 <rect x='83.28748' y='66.061793' height='.3985' width='2.988822'/>
-<text class='q2d64036ff3f0' x='86.276302' y='66.460292'>b</text>
-<text class='q2d64036ff3f5' x='91.506627' y='66.460292'>(</text>
-<text class='q2d64036ff3f3' x='95.381001' y='66.460292'>dy<tspan x='105.808377'>,</tspan><tspan x='111.896584'>x</tspan></text>
-<text class='q2d64036ff3f5' x='117.590516' y='66.460292'>)<tspan x='124.232188'>=</tspan><tspan x='135.943782' y='59.720491'>1</tspan></text>
+<text class='f-cmtt10-996' x='86.276302' y='66.460292'>b</text>
+<text class='f-cmr10-996' x='91.506627' y='66.460292'>(</text>
+<text class='f-cmmi10-996' x='95.381001' y='66.460292'>dy<tspan x='105.808377'>,</tspan><tspan x='111.896584'>x</tspan></text>
+<text class='f-cmr10-996' x='117.590516' y='66.460292'>)<tspan x='124.232188'>=</tspan><tspan x='135.943782' y='59.720491'>1</tspan></text>
 <rect x='135.943782' y='63.770383' height='.398484' width='4.981335'/>
-<text class='q2d64036ff3f3' x='136.04872' y='73.294162'>r</text>
-<text class='q2d64036ff3f7' x='142.120631' y='55.401665'></text>
-<text class='q2d64036ff3f3' x='148.070548' y='66.460292'>dy</text>
-<text class='q2d64036ff3f1' x='160.71179' y='66.460292'>−</text>
-<text class='q2d64036ff3f3' x='170.674403' y='66.460292'>y<tspan x='178.77226' y='59.720491'>y</tspan></text>
-<text class='q2d64036ff3f1' x='186.228069' y='59.720491'>·</text>
-<text class='q2d64036ff3f3' x='191.209343' y='59.720491'>dy</text>
+<text class='f-cmmi10-996' x='136.04872' y='73.294162'>r</text>
+<text class='f-cmex10-996' x='142.120631' y='55.401665'></text>
+<text class='f-cmmi10-996' x='148.070548' y='66.460292'>dy</text>
+<text class='f-cmsy10-996' x='160.71179' y='66.460292'>−</text>
+<text class='f-cmmi10-996' x='170.674403' y='66.460292'>y<tspan x='178.77226' y='59.720491'>y</tspan></text>
+<text class='f-cmsy10-996' x='186.228069' y='59.720491'>·</text>
+<text class='f-cmmi10-996' x='191.209343' y='59.720491'>dy</text>
 <rect x='178.77226' y='63.770383' height='.398484' width='22.864438'/>
-<text class='q2d64036ff3f3' x='187.214524' y='73.294162'>n</text>
-<text class='q2d64036ff3f7' x='202.832212' y='55.401665'></text>
-<text class='q2d64036ff3f3' x='116.693381' y='97.746214'>r</text>
-<text class='q2d64036ff3f5' x='124.232188' y='97.746214'>=</text>
-<text class='q2d64036ff3f7' x='134.748268' y='82.061258'></text>
+<text class='f-cmmi10-996' x='187.214524' y='73.294162'>n</text>
+<text class='f-cmex10-996' x='202.832212' y='55.401665'></text>
+<text class='f-cmmi10-996' x='116.693381' y='97.746214'>r</text>
+<text class='f-cmr10-996' x='124.232188' y='97.746214'>=</text>
+<text class='f-cmex10-996' x='134.748268' y='82.061258'></text>
 <rect x='144.710924' y='81.662774' height='.398484' width='53.06778'/>
-<text class='q2d64036ff3f3' x='144.710924' y='97.746214'>ε</text>
-<text class='q2d64036ff3f5' x='151.570549' y='97.746214'>+<tspan x='163.227979' y='91.006413'>1</tspan></text>
+<text class='f-cmmi10-996' x='144.710924' y='97.746214'>ε</text>
+<text class='f-cmr10-996' x='151.570549' y='97.746214'>+<tspan x='163.227979' y='91.006413'>1</tspan></text>
 <rect x='162.728677' y='95.056304' height='.398484' width='5.979925'/>
-<text class='q2d64036ff3f3' x='162.728677' y='104.580084'>n</text>
-<text class='q2d64036ff3f7' x='171.564515' y='88.281645'></text>
-<text class='q2d64036ff3f4' x='177.35042' y='109.50078'>i</text>
-<text class='q2d64036ff3f3' x='187.615423' y='97.746214'>x</text>
-<text class='q2d64036ff3f6' x='193.309355' y='94.314655'>2</text>
-<text class='q2d64036ff3f4' x='193.309355' y='100.523215'>i</text>
-<text class='q2d64036ff3f3' x='217.704015' y='97.746214'>y</text>
-<text class='q2d64036ff3f5' x='225.71329' y='97.746214'>=</text>
-<text class='q2d64036ff3f3' x='237.424884' y='91.006413'>x</text>
+<text class='f-cmmi10-996' x='162.728677' y='104.580084'>n</text>
+<text class='f-cmex10-996' x='171.564515' y='88.281645'></text>
+<text class='f-cmmi7-697' x='177.35042' y='109.50078'>i</text>
+<text class='f-cmmi10-996' x='187.615423' y='97.746214'>x</text>
+<text class='f-cmr7-697' x='193.309355' y='94.314655'>2</text>
+<text class='f-cmmi7-697' x='193.309355' y='100.523215'>i</text>
+<text class='f-cmmi10-996' x='217.704015' y='97.746214'>y</text>
+<text class='f-cmr10-996' x='225.71329' y='97.746214'>=</text>
+<text class='f-cmmi10-996' x='237.424884' y='91.006413'>x</text>
 <rect x='237.424884' y='95.056304' height='.398484' width='5.693919'/>
-<text class='q2d64036ff3f3' x='237.886106' y='104.580084'>r</text>
+<text class='f-cmmi10-996' x='237.886106' y='104.580084'>r</text>
 </g>
 </svg>
 </div>
 <ul>
 <li><p id="p-48b70afb" class="nb"><span class="m"><i>d</i><i>y</i></span>, <span class="m"><i>x</i></span>, <span class="m"><i>r</i></span> and <span class="m"><i>y</i></span> are the names of the code.</p></li>
-<li><p id="p-8215814d" class="nb"><span class="m"><i>y</i> · <i>d</i><i>y</i></span> is <code>y DOT dy</code>, and <span class="m"><i>n</i></span> is <code>|y|</code>.</p></li>
+<li><p id="p-8215814d" class="nb"><span class="m"><i>y</i> · <i>d</i><i>y</i></span> is <span class="fc u"><span class="fr m"><i>y</i> · <i>dy</i></span><code class="fs">y DOT dy</code><code class="fu">y · dy</code></span>, and <span class="m"><i>n</i></span> is <span class="fc"><span class="fr m">|<i>y</i>|</span><code class="fs">|y|</code></span>.</p></li>
 </ul>
-<p id="p-b5128b82" class="nb">A check on the vector 3, 4, whose <code>rmsn</code> is 0.8485, 1.1314. Ask for the gradient of the first result alone: <code>dy</code> is 1, 0.</p>
+<p id="p-b5128b82" class="nb">A check on the vector 3, 4, whose <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span> is 0.8485, 1.1314. Ask for the gradient of the first result alone: <span class="fc"><span class="fr m"><i>dy</i></span><code class="fs">dy</code></span> is 1, 0.</p>
 <pre class="vb nb out" id="o-0bc997fa" data-kind="output"><code>rmsn_b([1 0], [3 4]) (2): 0.18101934503466863 -0.13576433907057767
 fd d rmsn[0] / d x[0] = 0.18101931242853198</code></pre>
 <p id="p-b2ca8966" class="nb">The first number says: one unit more of the 3 raises the first result at the rate 0.1810. The second line is a measurement: the run raised the 3 by one millionth and divided the change of the first result by one millionth. The second number of the first line says that one unit more of the 4 lowers the first result. The vector grows, the root grows, and the first element's share shrinks.</p>
 </section>
 <section class="sec" data-num="6.7" data-title="Back through attention">
 <h2 id="s-back-through-attention" class="nb"><span class="num">6.7</span> Back through attention</h2>
-<p id="p-e84e24d0" class="nb">The forward declarations, from last to first, were <code>x2 = xp + hc wo^T</code>, <code>hc = u(a vh)</code>, <code>a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))</code>, the cut into heads, and the three products with <code>wq</code>, <code>wk</code> and <code>wv</code>. The names, from Part 4:</p>
+<p id="p-e84e24d0" class="nb">The forward declarations, from last to first, were <span class="fc"><span class="fr m"><i>x</i><sub>2</sub> = <i>xp</i> + <i>hc</i> <i>wo</i><sup><i>T</i></sup></span><code class="fs">x2 = xp + hc wo^T</code></span>, <span class="fc"><span class="fr m"><i>hc</i> = <i>u</i>(<i>a</i> <i>vh</i>)</span><code class="fs">hc = u(a vh)</code></span>, <span class="fc u"><span class="fr m"><i>a</i> = <i>rows</i>(<i>sm</i>, <i>mask</i> + (<i>qh</i> <i>kh</i><sup><i>T</i></sup>) / √<span class="ovl"> 1.0 <i>headDim</i></span>)</span><code class="fs">a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))</code><code class="fu">a = rows(sm, mask + (qh kh^T) / √ (1.0 headDim))</code></span>, the cut into heads, and the three products with <span class="fc"><span class="fr m"><i>wq</i></span><code class="fs">wq</code></span>, <span class="fc"><span class="fr m"><i>wk</i></span><code class="fs">wk</code></span> and <span class="fc"><span class="fr m"><i>wv</i></span><code class="fs">wv</code></span>. The names, from Part 4:</p>
 <ul>
-<li><p id="p-b271d5a2" class="nb"><code>wq</code>, <code>wk</code>, <code>wv</code> and <code>wo</code> are attention's weight matrices for the query, the key, the value and the output.</p></li>
-<li><p id="p-5ca10cc0" class="nb"><code>qh</code>, <code>kh</code> and <code>vh</code> are the queries, the keys and the values, cut into four heads: 4 planes of 16 by 4.</p></li>
-<li><p id="p-64da2447" class="nb"><code>a</code> holds the attention weights: 4 planes of 16 by 16.</p></li>
-<li><p id="p-713fca1b" class="nb"><code>hc</code> holds the four heads' results, side by side: 16 by 16.</p></li>
-<li><p id="p-82270e6a" class="nb"><code>h</code> cuts a matrix into heads, and <code>u</code> puts the heads side by side again.</p></li>
+<li><p id="p-b271d5a2" class="nb"><span class="fc"><span class="fr m"><i>wq</i></span><code class="fs">wq</code></span>, <span class="fc"><span class="fr m"><i>wk</i></span><code class="fs">wk</code></span>, <span class="fc"><span class="fr m"><i>wv</i></span><code class="fs">wv</code></span> and <span class="fc"><span class="fr m"><i>wo</i></span><code class="fs">wo</code></span> are attention's weight matrices for the query, the key, the value and the output.</p></li>
+<li><p id="p-5ca10cc0" class="nb"><span class="fc"><span class="fr m"><i>qh</i></span><code class="fs">qh</code></span>, <span class="fc"><span class="fr m"><i>kh</i></span><code class="fs">kh</code></span> and <span class="fc"><span class="fr m"><i>vh</i></span><code class="fs">vh</code></span> are the queries, the keys and the values, cut into four heads: 4 planes of 16 by 4.</p></li>
+<li><p id="p-64da2447" class="nb"><span class="fc"><span class="fr m"><i>a</i></span><code class="fs">a</code></span> holds the attention weights: 4 planes of 16 by 16.</p></li>
+<li><p id="p-713fca1b" class="nb"><span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span> holds the four heads' results, side by side: 16 by 16.</p></li>
+<li><p id="p-82270e6a" class="nb"><span class="fc"><span class="fr m"><i>h</i></span><code class="fs">h</code></span> cuts a matrix into heads, and <span class="fc"><span class="fr m"><i>u</i></span><code class="fs">u</code></span> puts the heads side by side again.</p></li>
 </ul>
-<div class="fx nb src" id="c-e6eb01cb" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span>gWO = dX2^T hc</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span>dh = h(dX2 wo)</span></code></pre></div>
-<p id="p-97d1e847" class="nb">These are rule 4 for <code>hc wo^T</code>. <code>dX2 wo</code> is the gradient at <code>hc</code>. The forward pass made <code>hc</code> by putting four planes side by side with <code>u</code>, so the backward pass cuts the gradient into four planes with <code>h</code>. <code>dh</code> is the gradient at <code>a vh</code>.</p>
-<div class="fx nb src" id="c-f1379693" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L66" title="MicroGptFlat.fss, line 66">66</a></span>dVh = a^T dh</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L66" title="MicroGptFlat.fss, line 66">66</a></span>dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)</span></code></pre></div>
-<p id="p-7583983b" class="nb"><code>a vh</code> is a product, plane with plane, so rule 4 applies in every plane, with <code>A</code> as <code>a</code> and <code>B</code> as <code>vh</code>.</p>
+<div class="fx nb src n3" id="c-e6eb01cb" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='6.864em' height='1.281em' viewBox='0 0 68.639 12.808' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='9.221'>gWO</text>
+<text class='f-cmr10-996' x='25.876' y='9.221'>=</text>
+<text class='f-cmti10-996' x='36.392' y='9.221'>dX</text>
+<text class='f-cmmi7-697' x='50.465' y='4.765'>T</text>
+<text class='f-cmr7-697' x='50.465' y='11.684'>2</text>
+<text class='f-cmti10-996' x='58.401' y='9.221'>hc</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='7.026em' height='1.196em' viewBox='0 0 70.263 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dh</text>
+<text class='f-cmr10-996' x='13.716' y='8.369'>=</text>
+<text class='f-cmmi10-996' x='24.232' y='8.369'>h</text>
+<text class='f-cmr10-996' x='29.972' y='8.369'>(</text>
+<text class='f-cmti10-996' x='33.846' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='47.918' y='9.863'>2</text>
+<text class='f-cmti10-996' x='54.048' y='8.369'>wo</text>
+<text class='f-cmr10-996' x='66.388' y='8.369'>)</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span>gWO = dX2^T hc</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span>dh = h(dX2 wo)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span>gWO = dX2^T hc</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L65" title="MicroGptFlat.fss, line 65">65</a></span>dh = h(dX2 wo)</span></code></pre></div>
+<p id="p-97d1e847" class="nb">These are rule 4 for <span class="fc"><span class="fr m"><i>hc</i> <i>wo</i><sup><i>T</i></sup></span><code class="fs">hc wo^T</code></span>. <span class="fc"><span class="fr m"><i>dX</i><sub>2</sub> <i>wo</i></span><code class="fs">dX2 wo</code></span> is the gradient at <span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span>. The forward pass made <span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span> by putting four planes side by side with <span class="fc"><span class="fr m"><i>u</i></span><code class="fs">u</code></span>, so the backward pass cuts the gradient into four planes with <span class="fc"><span class="fr m"><i>h</i></span><code class="fs">h</code></span>. <span class="fc"><span class="fr m"><i>dh</i></span><code class="fs">dh</code></span> is the gradient at <span class="fc"><span class="fr m"><i>a</i> <i>vh</i></span><code class="fs">a vh</code></span>.</p>
+<div class="fx nb src n3" id="c-f1379693" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L66" title="MicroGptFlat.fss, line 66">66</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='5.579em' height='1.247em' viewBox='0 0 55.788 12.466' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.879'>dVh</text>
+<text class='f-cmr10-996' x='21.121' y='8.879'>=</text>
+<text class='f-cmmi10-996' x='31.637' y='8.879'>a</text>
+<text class='f-cmmi7-697' x='36.903' y='4.765'>T</text>
+<text class='f-cmti10-996' x='44.84' y='8.879'>dh</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L66" title="MicroGptFlat.fss, line 66">66</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.632em' viewBox='0 0 175.342 26.323' fill='currentColor' style='vertical-align:-1.795em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dS</text>
+<text class='f-cmr10-996' x='14.653' y='8.369'>=</text>
+<text class='f-cmti10-996' x='25.169' y='8.369'>r<tspan x='28.861'>ows</tspan></text>
+<text class='f-cmr10-996' x='45.464' y='8.369'>(</text>
+<text class='f-cmti10-996' x='49.338' y='8.369'>sm</text>
+<rect x='62.921' y='7.97' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='66.74' y='8.369'>b</text>
+<text class='f-cmmi10-996' x='71.952' y='8.369'>,<tspan x='76.38'>a,</tspan></text>
+<text class='f-cmti10-996' x='86.073' y='8.369'>dh<tspan x='15.94' y='22.737'>vh</tspan></text>
+<text class='f-cmmi7-697' x='26.379' y='18.281'>T</text>
+<text class='f-cmr10-996' x='32.655' y='22.737'>)</text>
+<text class='f-cmmi10-996' x='36.53' y='22.737'>/</text>
+<text class='f-cmsy10-996' x='41.511' y='14.247'>√</text>
+<rect x='49.813' y='13.848' height='.398' width='53.228'/>
+<text class='f-cmr10-996' x='49.813' y='22.737'>1</text>
+<text class='f-cmmi10-996' x='54.795' y='22.737'>.</text>
+<text class='f-cmr10-996' x='57.562' y='22.737'>0</text>
+<text class='f-cmti10-996' x='64.204' y='22.737'>he<tspan x='73.369'>adDim</tspan></text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L66" title="MicroGptFlat.fss, line 66">66</a></span>dVh = a^T dh</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L66" title="MicroGptFlat.fss, line 66">66</a></span>dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L66" title="MicroGptFlat.fss, line 66">66</a></span>dVh = a^T dh</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L66" title="MicroGptFlat.fss, line 66">66</a></span>dS = rows(sm_b, a, dh vh^T) / √ (1.0 headDim)</span></code></pre></div>
+<p id="p-7583983b" class="nb"><span class="fc"><span class="fr m"><i>a</i> <i>vh</i></span><code class="fs">a vh</code></span> is a product, plane with plane, so rule 4 applies in every plane, with <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> as <span class="fc"><span class="fr m"><i>a</i></span><code class="fs">a</code></span> and <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span> as <span class="fc"><span class="fr m"><i>vh</i></span><code class="fs">vh</code></span>.</p>
 <ul>
-<li><p id="p-95af264d" class="nb">The gradient at <code>B</code> is <code>A^T dY</code>: <code>dVh = a^T dh</code>.</p></li>
-<li><p id="p-d05054b0" class="nb">The gradient at <code>A</code> is <code>dY B^T</code>: <code>dh vh^T</code> is the gradient at the attention weights <code>a</code>.</p></li>
+<li><p id="p-95af264d" class="nb">The gradient at <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span> is <span class="fc"><span class="fr m"><i>A</i><sup><i>T</i></sup> <i>dY</i></span><code class="fs">A^T dY</code></span>: <span class="fc"><span class="fr m"><i>dVh</i> = <i>a</i><sup><i>T</i></sup> <i>dh</i></span><code class="fs">dVh = a^T dh</code></span>.</p></li>
+<li><p id="p-d05054b0" class="nb">The gradient at <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> is <span class="fc"><span class="fr m"><i>dY</i> <i>B</i><sup><i>T</i></sup></span><code class="fs">dY B^T</code></span>: <span class="fc"><span class="fr m"><i>dh</i> <i>vh</i><sup><i>T</i></sup></span><code class="fs">dh vh^T</code></span> is the gradient at the attention weights <span class="fc"><span class="fr m"><i>a</i></span><code class="fs">a</code></span>.</p></li>
 </ul>
-<p id="p-0d4aa760" class="nb">The attention weights came from <code>sm</code>, row by row. <code>rows(sm_b, a, dh vh^T)</code> goes back through it, row by row, with the function <code>sm_b</code> below. The result is the gradient at the masked scores. The mask was added, so by rule 3 it changes nothing. The scores were divided by <code>SQRT (1.0 headDim)</code>, so by rule 1 the gradient is divided by it too. <code>dS</code> is the gradient at <code>qh kh^T</code>.</p>
-<div class="fx nb src" id="c-72b72481" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L34" title="MicroGptFlat.fss, line 34">34</a></span>sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))</span></code></pre></div>
-<p id="p-080bd683" class="nb"><code>sm_b</code> is <code>sm</code>, backward. It takes <code>p</code>, a row of attention weights that <code>sm</code> returned, and <code>dy</code>, the gradient at those attention weights. It returns the gradient at the scores that <code>sm</code> was given.</p>
-<div class="dm nb" id="m-7dc08ce7" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='13.287em' height='1.195em' viewBox='62.485679 54.296322 132.873037 11.945205' fill='currentColor' aria-hidden='true'><style type='text/css'>
-@font-face{font-family:q0b74c195ec-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHkAAoAAAAAA5QAAAGdAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPApcXgsIAAE2AiQDDAQgBYI+ByAb3QIALgdsYynUB1qXOOYGKUd5leA3w7AYEXy/32/Pve8/xCSZdzLRG4lQPDKUZpFSyN7IJLJXmlnebnspi7f/F4pNkFSmmiRlmxAjm218seQL9WN0/44RDpwoGynaPJCUxrI9uOnlURdwgXCgpSX67BOdyWz5/6ViuePnF755klP20jx8zqIowTDjlrQFFAUaWZ5uE/XwUSMWJtRTdDQhp70QKqRLfPojL3x82TUWowZKABJWCLB7UCqH69FW6f0Zh9ybnxEA/AMJGe1EoF0wBkqFkKroBzf/qy/fWT5bIqED9AAoACFq6rfPp287saSxtsFNZ6V5labN9Lmrz97uHzf6jkAgWNv+3018V+cCvA60Kgu5P5ZBtQSCNdv9OkmPgnmfcz9Ev5m2ZSCrFyBAIrVOMlQTOFEoNWFU1OlAqTQ8rtUrElHUCIMyRqHeDio6HZTqncZaS+6J6j7MShazp15Rg1EHixfHPfvYspRIdBqKQLfP6/KAJmzquYVSm1RvZjLBoSbNoio+W86KtP9habAVk4oiSMiREYAdBg==) format('woff2');}
-@font-face{font-family:q0b74c195ec-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJMAAoAAAAABBgAAAIAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBaIFQCwgAATYCJAMMBCAFgj4HIBtHAwgeBW47M57kNAWO4Mme37CI6Ke/vfeSfErpFlSRXRm6cHjmGwvCIUV8HEZUI8bVHsgHoARpukO++oBDVP8PsEOeuJk2qfMCWdrluiaOBbQmdQFHmab1v33Sqz+QvLWzfylFTwluuPFnFpsr1PQZWsoH8exPbNbsvDCchQHegS/Af3157awCdTCk9T8bqOusBwSAf6CgYgVJsILsADQaYQgM/h0EAVBBh4JbcA+gAUT2jT1L0hXbFWng/XPWw0vW6o1sVbIsvn3E+C7j7i5gueb2MX3JelsMOzLTQxpm9t9n3t8HrhDyl2yWJQF3T8r2dfuBn4tyj76SoSAZsQl7udzEfNP494A9fz+vtMh4GM1b5UcY+rKnQt3gdWEAL3dwdvY9p4wrPSnDmhqLVcJW1PZY3505lZ5OVc5xHwcgCKf3VW9FPP9/eg342k2I7e/Dd27unIAJBQSHifSOyXwiMPyafq29g1wCqiOEmWjiKW8QOA8naXTmA9matgp26MHhKVsskaSZFHuCR2Rjxh3ZWlOrdIKO0ynnps43/5+rUdZQ0e3ifBEHLo7Ok8l78zPlnTVtnVUNejdHV0cXhGnSoFmHdhVa6SVoUq5bjco0qNDNhbPMym5To0kj/dKRMwhGaY0ErYQKlv8OpXroletUo02nKg303Dhy5cgFCcBlAAAA) format('woff2');}
-@font-face{font-family:q0b74c195ec-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJYAAoAAAAABDwAAAIPAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCBIFoCwoAATYCJAMQBCAFgjgHIBtlAwgehXHjU7ZFKcKhLI4phcNXRPB0iT9v9+5SStNuHWMRKBVj0QpSNdYFIx4M1Q/8d3Qt22ceKYIeqQFR3wEKM5QAZIHVhARy40ImJ9TUD9zWvO1hWEInNrNmAYaYeE2ci8ejNVCCjD1LdwMOHiXRcMLrr9JI0ue/J3hzG+GDRSfzWTjkslEMNneQ0xLcVpMe0tv/QVvVi3+FQQkjeAMRfJXj070AMLNqMijIAl1aCkjIGIy7D9KYBTQqIZlTUwpmQ6V8lFcWqLJbpb4FcAL8TUJIowGL5WB6lWHGchkPcr426CFkhPyOZBzEKRkmZDX8nOMZhksO/UdrdITSUdv+28yV1370On0+LG8dTLf7YpETsoPqjQVsThznDzuxLBXMdzsR77MIp5rAUPzNBYUFdApv+diOBn/MPw7+d3XTudA4xBoF773xB+fgO3XcmtNKvfT8FHri9+cDAASC+zrvbdhenW5VV+ArpyfMxwFF+szQKoFgA9xJUKEi/YEgySpdEdeOW30DTleCqIySSlTQ7sLHhJ4UVmo9FlnrMEg2ajPL243LoxZVmzCt1iIr7bbJ2rAU2Wh3FrVbtnjipR9eYdLNrngzBxIS7dwD9D6JvVr2orMUJCMJNBl0RptVZmbpMUhdcy/RmblEWD5dVAY9iwQRMaDN7JfNiAikfsw1sBN2leWHFzoWBSJDJGoK) format('woff2');}
-@font-face{font-family:q0b74c195ec-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIcAAoAAAAAA9wAAAHSAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBOIEqCwYAATYCJAMIBCAFgjgHIBsXAwAeg+Nu+ceHMpRcPYZg33gr8dB3mH9mdy+ldK6FIxoMnUbzItoQAhSwKpa92u+3976IN3PUPBHFPIplcU8wHRqouu3mubAPZkJh71GO/GSZ6EYYLMFsxxNZQH8XBgDZJA+4wFNN40k3sIACSiMIKLtZytNRCA+frT02oWQCGoBGvmO3/3z9muJHPOdBATzABaGHxxSqhn0FOoqoU3sHiYJFtizC2wWqKjDs3du8vwgACSoSt8AdAhWQE+byiY2uZTS9r5lbykjfZqgrL0b+CFU4Jmy0TBv2k1cfFQ38lJcI/sXbndTO6l6SNEwo52jr74f1RIvBmYlHNdbgz/28djNHdRgautf5tcFYMv3rL3HXH//9SeVHZ6An/432bMcUGdVw4jD6762A9xAcRgSBYL+h5myWx38reIA/RWQYfpr6UZ7lAjAqQVB05Af24kgAADLPiC8E0i0MYIJxzwoIM4hRNTNoJixioNnRx61TwolKgbDNK0Y17h7NsiIMjHuq4y60ncjxw60yAR033GwzW3PNe+WaglqNFLC92c5sA38Obp/X5cEiuUVjMwGoIQm3QTnDbMysNRQs1innNFrvkOfHCiQVkgBmz8yOmQ0OYLcA) format('woff2');}
-@font-face{font-family:q0b74c195ec-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAP8AAoAAAAABngAAAOwAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAATAqGJIRoCwwAATYCJAMUBCAFgj4HIBv/BCAehXGbEyZ2KmXmS6ULKR7+Ofzd9/4azXn8Y0swCqN4TJrCncSXeMBxvN4QnnlNH67SVE9m6cPKzx3kdmSe4ooJ2G24pKUuVEvTEp0TWThywatbeqcHerzjJxbiazsH1Mf91HiTUGbZ91mCYZoWRQFTuk2UqssYpKh0dFRHGzTiDekykCefocl/MFwamrnuDbAJZYA2KMObTq52rwHBxL4GKDSE22gVSDQwX76YJ+cA0NeV0sRK06//qFfUZ2XVtTqHBKxF9tdGfuzYBZBNwkh8wFi0ZTkjwbjYE+4pQJJY5TIDEVygUlQmKjcZ3LOITWSkGhXLDNKZzESg+cKu8W2a0u4RGw9J42V4uYUMb+zk4LzkJJUCJF0Vb1ZNZC6ynEQbqbI/O2NZEQuLNVNq7QrHPZLjFvKSSaIyuECsSxAIkpQk4yV3O5yb1CqXOQxK4sSxKabi2KYubmwOTCSqFgsJJD72rCiZ2Vi+MJZNaDEr7c7JbLJxmY7UP6nBlOhYkyAO+a/mRO1GyYWclBbj1EFW87RFtUynw7dBGi+S4ek6aUVw0UwsQaggSUnz0i2qAxo7gTCFLQYptXbDMhaOG5QbneOAaUA+MpiPRarqvU01w5XoNigsnLacEj4GlI+r4XYcUqXnrH5QHdwr8FI6vvXeSm/MPPKJL4dUE5wASq50ipZn+PpHQbrXJ1w/GcSfhqQBqfsr1lOEjLkAmxFdxUcO0HXd6xfkad6uFC9FSldUZDenHFjdbR/259G06DM5+p7DHrhAwFelet3ewtbT9jmd5WcpyAmZD3Kudol+YuPjFwkJRpIMzg6qIj+MSGsIWwnFQRq8p0JAfZXwh3UV+wLp17U9bQof0H2oPhTSok891cmv5cH3ieUnkYQTu6JIH2pCwzFhpYLmhuVvtHuwHc43eKGnKmo+BNuTfPR5K7Uj7pkoKgty1jL9LeIUBXyKTinr3w7BtAHlwJTNMT+1/CgDVx/UqgWOkjKpPHMVAAJB5/RZ7lKK61clshyAL62w4Ong//uFQruhYQB0JXJDQyFv/98Hcnr7qlQJINZBQsLALMmOPL4Bba/lMFEBrL4HTglTLW5qm1KhZWAB2tq2x/tWGSOLpjIImzxVaBo6hpZF66Ft6Cnp23H+yGX+qJZZsWnTOj52h7H5KGbLPUnvX7l73Y7dazbp2qDWKB/4cGq6jm5BYRWZ+0yjlEgw8SJuwhksozAnGoAWjDUhZX+5D7v4iO0ZD0c2UNZQfGQAAAAA) format('woff2');}
-@font-face{font-family:q0b74c195ec-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAM0AAoAAAAABYwAAALoAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAARAqESINKCwoAATYCJAMKBCAFgj4HIBtPBACOwra90U4SnpWZzqDv9GcvKOxrUkh6JP8Ahah2201CTSIJZ5hZRIGm9BPX1M/zb6DEB3x95EqNrTnyfDeh4XDemBQJOF8LTDdAmq3z0mAgusozGTA4AYwokhGwgLrUlf/ShltI3lYBzJsAQLOBIfAbyDhV2WBLU54LPAmgPj7gzuLxAAAFYACkMZCEMXE+4cePAqQpVF68PI23rCZrBKEcJqH8/QcBPB59G4BCkCni6xN/K/rOncjbtyNWXzScnTk7J8cSnFjbuk5GqH9Wnmq543nuXvTdu16nbyvHH/Pu5266JHTGZFJmUR7r1iysloUPmrRu1e67HRGuXlqnw1i9dln5x0LTa7LX+K7RORC56CB9OGL1XbuZ1bJr5+TI3Lxe/6TMjjvW964pLt21uut3MWrOdFruWPT0Gcvpab01s9KYnNFeO0daj3rdvqwwe0dnw0CIP8JbaRNJodJqGyNJy20etVF8v5gAvX2/ycHj/oqf2R0G1km7SiJiiB88dsKouLebKopvmLhlR2KWfLpBoWm/+M/tD4T3Hw84vt/kwMcPXHdoLC+4v+WvhM9vD9x+3uTCc5GZA3FF4VfLHf1H0LjeA05vFbcxesNw0bXL6i2lQryF8/r9S0L6hdOxbkTqKu3rq8n1xEsR62jVDh++V+cY7kZno7rKSxgf19Gso+Lga3iLrR8J2SUq03bdC7uYJl7yowAAEACBT7vq+5PFHL7xM5gAgBcqgX72Ct7f+hVFqhzYIyWAwD4zB6KHYMRlJgCARBGACDnenGXynd9BlQQ1IQyKqT7LxCbGsgiRYdnY1LcLUqSLgXQBEKpcfJZJWBLLIiuPZRPWUhZkYeAMo35R1pJeWFHB5VwKUlyaE2x7471MRlVueVV2obo5bUZz4a5YoRKVKmQqoy5QsQxaVyRdoQoVuDiiurRcrmJF1LtpHBTo7RTNdlJXBDOiNLWWOEOVXOVfyFZInTmaGRoXg1IiAAAAAA==) format('woff2');}
-text.q0b74c195ecf0 {font-family:q0b74c195ec-cmtt10;font-size:9.96264px}
-text.q0b74c195ecf1 {font-family:q0b74c195ec-cmsy10;font-size:9.96264px}
-text.q0b74c195ecf3 {font-family:q0b74c195ec-cmmi10;font-size:9.96264px}
-text.q0b74c195ecf4 {font-family:q0b74c195ec-cmmi7;font-size:6.973848px}
-text.q0b74c195ecf5 {font-family:q0b74c195ec-cmr10;font-size:9.96264px}
-text.q0b74c195ecf7 {font-family:q0b74c195ec-cmex10;font-size:9.96264px}
-
-</style>
-<g id='page5'>
-<text class='q0b74c195ecf0' x='61.768369' y='62.764633'>sm</text>
+<p id="p-0d4aa760" class="nb">The attention weights came from <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span>, row by row. <span class="fc"><span class="fr m"><i>rows</i>(<i>sm</i><i>_b</i>, <i>a</i>, <i>dh</i> <i>vh</i><sup><i>T</i></sup>)</span><code class="fs">rows(sm_b, a, dh vh^T)</code></span> goes back through it, row by row, with the function <span class="fc"><span class="fr m"><i>sm</i><i>_b</i></span><code class="fs">sm_b</code></span> below. The result is the gradient at the masked scores. The mask was added, so by rule 3 it changes nothing. The scores were divided by <span class="fc u"><span class="fr m">√<span class="ovl"> 1.0 <i>headDim</i></span></span><code class="fs">SQRT (1.0 headDim)</code><code class="fu">√ (1.0 headDim)</code></span>, so by rule 1 the gradient is divided by it too. <span class="fc"><span class="fr m"><i>dS</i></span><code class="fs">dS</code></span> is the gradient at <span class="fc"><span class="fr m"><i>qh</i> <i>kh</i><sup><i>T</i></sup></span><code class="fs">qh kh^T</code></span>.</p>
+<div class="fx nb src n3" id="c-72b72481" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L34" title="MicroGptFlat.fss, line 34">34</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='5.051em' viewBox='0 0 175.342 50.511' fill='currentColor' style='vertical-align:-4.204em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>sm</text>
+<rect x='13.583' y='8.07' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='17.402' y='8.468'>b</text>
+<text class='f-cmex10-996' x='22.613' y='.398'></text>
+<text class='f-cmmi10-996' x='27.18' y='8.468'>p</text>
+<text class='f-cmr10-996' x='32.192' y='8.468'>:<tspan x='36.62'>Arra</tspan><tspan x='56.601'>y</tspan></text>
+<text class='f-stmary10-996' x='61.997' y='8.468'></text>
+<text class='f-msbm10-996' x='66.01' y='8.468'>R</text>
+<text class='f-cmr10-996' x='73.205' y='8.468'>64</text>
+<text class='f-cmmi10-996' x='83.168' y='8.468'>,</text>
+<text class='f-msbm10-996' x='87.596' y='8.468'>Z</text>
+<text class='f-cmr10-996' x='94.237' y='8.468'>32</text>
+<text class='f-stmary10-996' x='104.2' y='8.468'></text>
+<text class='f-cmmi10-996' x='108.213' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>dy</text>
+<text class='f-cmr10-996' x='26.751' y='22.018'>:<tspan x='31.179'>Arra</tspan><tspan x='51.16'>y</tspan></text>
+<text class='f-stmary10-996' x='56.556' y='22.018'></text>
+<text class='f-msbm10-996' x='60.569' y='22.018'>R</text>
+<text class='f-cmr10-996' x='67.764' y='22.018'>64</text>
+<text class='f-cmmi10-996' x='77.727' y='22.018'>,</text>
+<text class='f-msbm10-996' x='82.154' y='22.018'>Z</text>
+<text class='f-cmr10-996' x='88.796' y='22.018'>32</text>
+<text class='f-stmary10-996' x='98.759' y='22.018'></text>
+<text class='f-cmex10-996' x='102.772' y='13.948'></text>
+<text class='f-cmr10-996' x='107.338' y='22.018'>:<tspan x='15.94' y='34.471'>Arra</tspan><tspan x='35.921'>y</tspan></text>
+<text class='f-stmary10-996' x='41.317' y='34.471'></text>
+<text class='f-msbm10-996' x='45.33' y='34.471'>R</text>
+<text class='f-cmr10-996' x='52.525' y='34.471'>64</text>
+<text class='f-cmmi10-996' x='62.488' y='34.471'>,</text>
+<text class='f-msbm10-996' x='66.916' y='34.471'>Z</text>
+<text class='f-cmr10-996' x='73.558' y='34.471'>32</text>
+<text class='f-stmary10-996' x='83.52' y='34.471'></text>
+<text class='f-cmr10-996' x='90.3' y='34.471'>=</text>
+<text class='f-cmmi10-996' x='15.94' y='46.924'>p</text>
+<text class='f-cmsy10-996' x='23.167' y='46.924'>×</text>
+<text class='f-cmex10-996' x='33.129' y='38.854'></text>
+<text class='f-cmti10-996' x='37.695' y='46.924'>dy</text>
+<text class='f-cmsy10-996' x='50.72' y='46.924'>−</text>
+<text class='f-cmr10-996' x='60.683' y='46.924'>(</text>
+<text class='f-cmmi10-996' x='64.557' y='46.924'>p</text>
+<text class='f-cmsy10-996' x='71.783' y='46.924'>·</text>
+<text class='f-cmti10-996' x='76.765' y='46.924'>dy</text>
+<text class='f-cmr10-996' x='87.575' y='46.924'>)</text>
+<text class='f-cmex10-996' x='91.45' y='38.854'></text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L34" title="MicroGptFlat.fss, line 34">34</a></span>sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L34" title="MicroGptFlat.fss, line 34">34</a></span>sm_b(p: Array⟦RR64,ZZ32⟧, dy: Array⟦RR64,ZZ32⟧): Array⟦RR64,ZZ32⟧ = p × (dy - (p · dy))</span></code></pre></div>
+<p id="p-080bd683" class="nb"><span class="fc"><span class="fr m"><i>sm</i><i>_b</i></span><code class="fs">sm_b</code></span> is <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span>, backward. It takes <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>, a row of attention weights that <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span> returned, and <span class="fc"><span class="fr m"><i>dy</i></span><code class="fs">dy</code></span>, the gradient at those attention weights. It returns the gradient at the scores that <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span> was given.</p>
+<div class="dm nb" id="m-7dc08ce7" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='13.287em' height='1.195em' viewBox='62.485679 54.296322 132.873037 11.945205' fill='currentColor' aria-hidden='true'><g>
+<text class='f-cmtt10-996' x='61.768369' y='62.764633'>sm</text>
 <rect x='72.826791' y='62.366133' height='.3985' width='2.988822'/>
-<text class='q0b74c195ecf0' x='75.815614' y='62.764633'>b</text>
-<text class='q0b74c195ecf5' x='81.045946' y='62.764633'>(</text>
-<text class='q0b74c195ecf3' x='84.92032' y='62.764633'>p,<tspan x='96.020992'>dy</tspan></text>
-<text class='q0b74c195ecf5' x='106.448368' y='62.764633'>)</text>
-<text class='q0b74c195ecf4' x='110.322742' y='64.259013'>j</text>
-<text class='q0b74c195ecf5' x='117.287894' y='62.764633'>=</text>
-<text class='q0b74c195ecf3' x='127.803974' y='62.764633'>p</text>
-<text class='q0b74c195ecf4' x='132.816439' y='64.259013'>j</text>
-<text class='q0b74c195ecf7' x='138.674659' y='54.694827'></text>
-<text class='q0b74c195ecf3' x='143.240894' y='62.764633'>dy</text>
-<text class='q0b74c195ecf4' x='153.31083' y='64.259013'>j</text>
-<text class='q0b74c195ecf1' x='159.722517' y='62.764633'>−</text>
-<text class='q0b74c195ecf3' x='169.68513' y='62.764633'>p</text>
-<text class='q0b74c195ecf1' x='176.911461' y='62.764633'>·</text>
-<text class='q0b74c195ecf3' x='181.892735' y='62.764633'>dy</text>
-<text class='q0b74c195ecf7' x='192.320111' y='54.694827'></text>
+<text class='f-cmtt10-996' x='75.815614' y='62.764633'>b</text>
+<text class='f-cmr10-996' x='81.045946' y='62.764633'>(</text>
+<text class='f-cmmi10-996' x='84.92032' y='62.764633'>p,<tspan x='96.020992'>dy</tspan></text>
+<text class='f-cmr10-996' x='106.448368' y='62.764633'>)</text>
+<text class='f-cmmi7-697' x='110.322742' y='64.259013'>j</text>
+<text class='f-cmr10-996' x='117.287894' y='62.764633'>=</text>
+<text class='f-cmmi10-996' x='127.803974' y='62.764633'>p</text>
+<text class='f-cmmi7-697' x='132.816439' y='64.259013'>j</text>
+<text class='f-cmex10-996' x='138.674659' y='54.694827'></text>
+<text class='f-cmmi10-996' x='143.240894' y='62.764633'>dy</text>
+<text class='f-cmmi7-697' x='153.31083' y='64.259013'>j</text>
+<text class='f-cmsy10-996' x='159.722517' y='62.764633'>−</text>
+<text class='f-cmmi10-996' x='169.68513' y='62.764633'>p</text>
+<text class='f-cmsy10-996' x='176.911461' y='62.764633'>·</text>
+<text class='f-cmmi10-996' x='181.892735' y='62.764633'>dy</text>
+<text class='f-cmex10-996' x='192.320111' y='54.694827'></text>
 </g>
 </svg>
 </div>
 <ul>
-<li><p id="p-d1b4490a" class="nb"><span class="m"><i>p</i> · <i>d</i><i>y</i></span> is <code>p DOT dy</code>, one number.</p></li>
-<li><p id="p-150e0333" class="nb"><code>dy - (p DOT dy)</code> subtracts that number from every element, and <code>×</code> multiplies element by element with <code>p</code>.</p></li>
+<li><p id="p-d1b4490a" class="nb"><span class="m"><i>p</i> · <i>d</i><i>y</i></span> is <span class="fc u"><span class="fr m"><i>p</i> · <i>dy</i></span><code class="fs">p DOT dy</code><code class="fu">p · dy</code></span>, one number.</p></li>
+<li><p id="p-150e0333" class="nb"><span class="fc u"><span class="fr m"><i>dy</i> − (<i>p</i> · <i>dy</i>)</span><code class="fs">dy - (p DOT dy)</code><code class="fu">dy - (p · dy)</code></span> subtracts that number from every element, and <span class="fc"><span class="fr m">×</span><code class="fs">×</code></span> multiplies element by element with <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>.</p></li>
 </ul>
-<p id="p-1bdfa426" class="nb">The form comes from what <code>sm</code> does. One unit more of score <code>j</code> raises attention weight <code>j</code> and lowers every other attention weight, because the attention weights must still add up to 1. The check uses the three numbers of Part 3 once more. Ask for the gradient of the first probability alone: <code>dy</code> is 1, 0, 0.</p>
+<p id="p-1bdfa426" class="nb">The form comes from what <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span> does. One unit more of score <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> raises attention weight <span class="fc"><span class="fr m"><i>j</i></span><code class="fs">j</code></span> and lowers every other attention weight, because the attention weights must still add up to 1. The check uses the three numbers of Part 3 once more. Ask for the gradient of the first probability alone: <span class="fc"><span class="fr m"><i>dy</i></span><code class="fs">dy</code></span> is 1, 0, 0.</p>
 <pre class="vb nb out" id="o-3408cf96" data-kind="output"><code>sm_b(p, [1 0 0]) (3): 0.08192506906499324 -0.022033044520174298 -0.05989202454481893
 fd d p[0] / d z[1] = -0.0220330501482513</code></pre>
 <p id="p-1077f89c" class="nb">The second number says: one unit more of the second score lowers the first probability at the rate 0.02203. The second line is the measurement of the same rate, with the second score raised by one millionth.</p>
-<p id="p-e2205794" class="nb">In the model, a run printed the start of one row of <code>dS</code> and the row's sum:</p>
+<p id="p-e2205794" class="nb">In the model, a run printed the start of one row of <span class="fc"><span class="fr m"><i>dS</i></span><code class="fs">dS</code></span> and the row's sum:</p>
 <pre class="vb nb out" id="o-63952d1f" data-kind="output"><code>dS[0,3,:] = -8.376664044184177E-5 8.88923859449681E-5 -1.558747564367834E-5 1.046173014055203E-5 0.0 0.0
 sum dS[0,3,:] = 2.0328790734103208E-20</code></pre>
-<p id="p-28f38a74" class="nb">The positions that the mask hid have the attention weight 0 in <code>p</code>, so their gradient is 0. The row's sum is 0 up to rounding: raising all the scores of a row by the same amount changes no attention weight, as Part 3 showed.</p>
-<div class="fx nb src" id="c-973ba1fe" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span>dQh = dS kh</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span>dKh = dS^T qh</span></code></pre></div>
-<p id="p-7b82b2df" class="nb">The scores were <code>qh kh^T</code>. In rule 4, <code>A</code> is <code>qh</code> and <code>B</code> is <code>kh^T</code>.</p>
+<p id="p-28f38a74" class="nb">The positions that the mask hid have the attention weight 0 in <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>, so their gradient is 0. The row's sum is 0 up to rounding: raising all the scores of a row by the same amount changes no attention weight, as Part 3 showed.</p>
+<div class="fx nb src n3" id="c-973ba1fe" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='5.585em' height='1.196em' viewBox='0 0 55.855 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dQh</text>
+<text class='f-cmr10-996' x='21.354' y='8.369'>=</text>
+<text class='f-cmti10-996' x='31.87' y='8.369'>dS<tspan x='45.416'>kh</tspan></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='6.215em' height='1.281em' viewBox='0 0 62.153 12.808' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='9.221'>dKh</text>
+<text class='f-cmr10-996' x='21.376' y='9.221'>=</text>
+<text class='f-cmti10-996' x='31.892' y='9.221'>dS</text>
+<text class='f-cmmi7-697' x='43.778' y='4.765'>T</text>
+<text class='f-cmti10-996' x='51.714' y='9.221'>qh</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span>dQh = dS kh</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span>dKh = dS^T qh</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span>dQh = dS kh</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span>dKh = dS^T qh</span></code></pre></div>
+<p id="p-7b82b2df" class="nb">The scores were <span class="fc"><span class="fr m"><i>qh</i> <i>kh</i><sup><i>T</i></sup></span><code class="fs">qh kh^T</code></span>. In rule 4, <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> is <span class="fc"><span class="fr m"><i>qh</i></span><code class="fs">qh</code></span> and <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span> is <span class="fc"><span class="fr m"><i>kh</i><sup><i>T</i></sup></span><code class="fs">kh^T</code></span>.</p>
 <ul>
-<li><p id="p-82388225" class="nb">The gradient at <code>A</code> is <code>dY B^T</code>: <code>dS kh</code>.</p></li>
-<li><p id="p-96e65683" class="nb">The gradient at <code>B</code>, which is <code>kh^T</code>, is <code>A^T dY</code>: <code>qh^T dS</code>. The gradient at <code>kh</code> is its transpose: <code>dS^T qh</code>.</p></li>
+<li><p id="p-82388225" class="nb">The gradient at <span class="fc"><span class="fr m"><i>A</i></span><code class="fs">A</code></span> is <span class="fc"><span class="fr m"><i>dY</i> <i>B</i><sup><i>T</i></sup></span><code class="fs">dY B^T</code></span>: <span class="fc"><span class="fr m"><i>dS</i> <i>kh</i></span><code class="fs">dS kh</code></span>.</p></li>
+<li><p id="p-96e65683" class="nb">The gradient at <span class="fc"><span class="fr m"><i>B</i></span><code class="fs">B</code></span>, which is <span class="fc"><span class="fr m"><i>kh</i><sup><i>T</i></sup></span><code class="fs">kh^T</code></span>, is <span class="fc"><span class="fr m"><i>A</i><sup><i>T</i></sup> <i>dY</i></span><code class="fs">A^T dY</code></span>: <span class="fc"><span class="fr m"><i>qh</i><sup><i>T</i></sup> <i>dS</i></span><code class="fs">qh^T dS</code></span>. The gradient at <span class="fc"><span class="fr m"><i>kh</i></span><code class="fs">kh</code></span> is its transpose: <span class="fc"><span class="fr m"><i>dS</i><sup><i>T</i></sup> <i>qh</i></span><code class="fs">dS^T qh</code></span>.</p></li>
 </ul>
-<div class="fx nb src" id="c-f40049a6" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span>(dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))</span></code></pre></div>
-<p id="p-c0fee1df" class="nb">The forward pass cut <code>q</code>, <code>k</code> and <code>v</code> into heads with <code>h</code>. The backward pass puts the three gradients together again with <code>u</code>. <code>dQ</code>, <code>dK</code> and <code>dV</code> are matrices of 16 by 16.</p>
-<div class="fx nb src" id="c-b7a06271" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L68" title="MicroGptFlat.fss, line 68">68</a></span>(gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L68" title="MicroGptFlat.fss, line 68">68</a></span>dX1 = dQ wq + dK wk + dV wv</span></code></pre></div>
-<p id="p-e923ef6e" class="nb">These are rule 4 three times, for <code>x1 wq^T</code>, <code>x1 wk^T</code> and <code>x1 wv^T</code>. <code>x1</code> is the matrix that attention read. It went into all three products, so by rule 2 its gradient is the sum of three parts.</p>
+<div class="fx nb src n3" id="c-f40049a6" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.560em' viewBox='0 0 175.342 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='8.468'>(</text>
+<text class='f-cmti10-996' x='3.874' y='8.468'>dQ</text>
+<text class='f-cmmi10-996' x='17.541' y='8.468'>,</text>
+<text class='f-cmti10-996' x='21.969' y='8.468'>dK</text>
+<text class='f-cmmi10-996' x='36.168' y='8.468'>,</text>
+<text class='f-cmti10-996' x='40.596' y='8.468'>dV</text>
+<text class='f-cmr10-996' x='54.923' y='8.468'>)<tspan x='61.565'>=</tspan></text>
+<text class='f-cmex10-996' x='72.081' y='.398'></text>
+<text class='f-cmmi10-996' x='76.647' y='8.468'>u</text>
+<text class='f-cmr10-996' x='82.35' y='8.468'>(</text>
+<text class='f-cmti10-996' x='86.224' y='8.468'>dQh</text>
+<text class='f-cmr10-996' x='104.811' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='108.685' y='8.468'>,<tspan x='113.113'>u</tspan></text>
+<text class='f-cmr10-996' x='118.816' y='8.468'>(</text>
+<text class='f-cmti10-996' x='122.69' y='8.468'>dKh</text>
+<text class='f-cmr10-996' x='141.299' y='8.468'>)</text>
+<text class='f-cmmi10-996' x='145.173' y='8.468'>,<tspan x='15.94' y='22.018'>u</tspan></text>
+<text class='f-cmr10-996' x='21.643' y='22.018'>(</text>
+<text class='f-cmti10-996' x='25.518' y='22.018'>dVh</text>
+<text class='f-cmr10-996' x='43.872' y='22.018'>)</text>
+<text class='f-cmex10-996' x='47.746' y='13.948'></text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span>(dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L67" title="MicroGptFlat.fss, line 67">67</a></span>(dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))</span></code></pre></div>
+<p id="p-c0fee1df" class="nb">The forward pass cut <span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span>, <span class="fc"><span class="fr m"><i>k</i></span><code class="fs">k</code></span> and <span class="fc"><span class="fr m"><i>v</i></span><code class="fs">v</code></span> into heads with <span class="fc"><span class="fr m"><i>h</i></span><code class="fs">h</code></span>. The backward pass puts the three gradients together again with <span class="fc"><span class="fr m"><i>u</i></span><code class="fs">u</code></span>. <span class="fc"><span class="fr m"><i>dQ</i></span><code class="fs">dQ</code></span>, <span class="fc"><span class="fr m"><i>dK</i></span><code class="fs">dK</code></span> and <span class="fc"><span class="fr m"><i>dV</i></span><code class="fs">dV</code></span> are matrices of 16 by 16.</p>
+<div class="fx nb src n3" id="c-b7a06271" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L68" title="MicroGptFlat.fss, line 68">68</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.711em' viewBox='0 0 175.342 27.11' fill='currentColor' style='vertical-align:-1.789em' role='img'><g>
+<text class='f-cmr10-996' x='0' y='9.221'>(</text>
+<text class='f-cmti10-996' x='3.874' y='9.221'>gWQ</text>
+<text class='f-cmmi10-996' x='26.983' y='9.221'>,</text>
+<text class='f-cmti10-996' x='31.411' y='9.221'>gWK</text>
+<text class='f-cmmi10-996' x='55.053' y='9.221'>,</text>
+<text class='f-cmti10-996' x='59.481' y='9.221'>gWV</text>
+<text class='f-cmr10-996' x='83.25' y='9.221'>)<tspan x='89.892'>=</tspan><tspan x='100.408'>(</tspan></text>
+<text class='f-cmti10-996' x='104.282' y='9.221'>dQ</text>
+<text class='f-cmmi7-697' x='117.949' y='4.765'>T</text>
+<text class='f-cmmi10-996' x='125.885' y='9.221'>x</text>
+<text class='f-cmr7-697' x='131.579' y='10.715'>1</text>
+<text class='f-cmmi10-996' x='136.048' y='9.221'>,</text>
+<text class='f-cmti10-996' x='140.476' y='9.221'>dK</text>
+<text class='f-cmmi7-697' x='154.676' y='4.765'>T</text>
+<text class='f-cmmi10-996' x='15.94' y='23.523'>x</text>
+<text class='f-cmr7-697' x='21.634' y='25.017'>1</text>
+<text class='f-cmmi10-996' x='26.104' y='23.523'>,</text>
+<text class='f-cmti10-996' x='30.531' y='23.523'>dV</text>
+<text class='f-cmmi7-697' x='44.858' y='19.067'>T</text>
+<text class='f-cmmi10-996' x='52.795' y='23.523'>x</text>
+<text class='f-cmr7-697' x='58.489' y='25.017'>1</text>
+<text class='f-cmr10-996' x='62.958' y='23.523'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L68" title="MicroGptFlat.fss, line 68">68</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='13.999em' height='1.196em' viewBox='0 0 139.985 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='14.072' y='9.863'>1</text>
+<text class='f-cmr10-996' x='21.309' y='8.369'>=</text>
+<text class='f-cmti10-996' x='31.825' y='8.369'>dQ<tspan x='47.152'>wq</tspan></text>
+<text class='f-cmr10-996' x='61.45' y='8.369'>+</text>
+<text class='f-cmti10-996' x='71.412' y='8.369'>dK<tspan x='87.272'>wk</tspan></text>
+<text class='f-cmr10-996' x='101.761' y='8.369'>+</text>
+<text class='f-cmti10-996' x='111.723' y='8.369'>dV<tspan x='127.71'>wv</tspan></text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L68" title="MicroGptFlat.fss, line 68">68</a></span>(gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L68" title="MicroGptFlat.fss, line 68">68</a></span>dX1 = dQ wq + dK wk + dV wv</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L68" title="MicroGptFlat.fss, line 68">68</a></span>(gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L68" title="MicroGptFlat.fss, line 68">68</a></span>dX1 = dQ wq + dK wk + dV wv</span></code></pre></div>
+<p id="p-e923ef6e" class="nb">These are rule 4 three times, for <span class="fc"><span class="fr m"><i>x</i><sub>1</sub> <i>wq</i><sup><i>T</i></sup></span><code class="fs">x1 wq^T</code></span>, <span class="fc"><span class="fr m"><i>x</i><sub>1</sub> <i>wk</i><sup><i>T</i></sup></span><code class="fs">x1 wk^T</code></span> and <span class="fc"><span class="fr m"><i>x</i><sub>1</sub> <i>wv</i><sup><i>T</i></sup></span><code class="fs">x1 wv^T</code></span>. <span class="fc"><span class="fr m"><i>x</i><sub>1</sub></span><code class="fs">x1</code></span> is the matrix that attention read. It went into all three products, so by rule 2 its gradient is the sum of three parts.</p>
 </section>
 <section class="sec" data-num="6.8" data-title="Back to the two tables">
 <h2 id="s-back-to-the-two-tables" class="nb"><span class="num">6.8</span> Back to the two tables</h2>
-<div class="fx nb src" id="c-6c161a65" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L69" title="MicroGptFlat.fss, line 69">69</a></span>dXp = dX2 + rows(rmsn_b, dX1, xp)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L69" title="MicroGptFlat.fss, line 69">69</a></span>dX = rows(rmsn_b, dXp, x)</span></code></pre></div>
-<p id="p-1400b09a" class="nb"><code>x</code> holds the summed embeddings, <code>xp</code> is <code>x</code> after one <code>rmsn</code>, and <code>x1</code> is <code>xp</code> after a second. <code>xp</code> was used twice: <code>x2</code> adds it directly, and <code>x1</code> is <code>rmsn</code> of it. So <code>dXp</code> has two parts, as <code>dX2</code> had. Then <code>dX</code> goes back through the first <code>rmsn</code>. It is the gradient at <code>x</code>.</p>
-<div class="fx nb src" id="c-518a7d08" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L70" title="MicroGptFlat.fss, line 70">70</a></span>gWTE = transpose(onehot(ids, vocabSize)) dX</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L70" title="MicroGptFlat.fss, line 70">70</a></span>gWPE = transpose(onehot(pos, blockSize)) dX</span></code></pre></div>
-<p id="p-3a2c92ba" class="nb"><code>wte</code> is the token table and <code>wpe</code> the position table. <code>ids</code> holds each row's token and <code>pos</code> each row's position. Row <code>r</code> of <code>x</code> was row <code>ids[r]</code> of <code>wte</code> plus row <code>pos[r]</code> of <code>wpe</code>. So the gradient at row <code>t</code> of <code>wte</code> is the sum of the rows of <code>dX</code> at which the token <code>t</code> was read. The product in line 70 computes exactly that. <code>onehot(ids, vocabSize)</code> has a 1 in row <code>r</code> and column <code>ids[r]</code>. Its transpose has 27 rows and 16 columns, with a 1 in row <code>t</code> wherever the token <code>t</code> was read. Its product with <code>dX</code> adds up those rows of <code>dX</code>.</p>
+<div class="fx nb src n3" id="c-6c161a65" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L69" title="MicroGptFlat.fss, line 69">69</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='16.042em' height='1.196em' viewBox='0 0 160.418 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dXp</text>
+<text class='f-cmr10-996' x='20.986' y='8.369'>=</text>
+<text class='f-cmti10-996' x='31.502' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='45.574' y='9.863'>2</text>
+<text class='f-cmr10-996' x='52.257' y='8.369'>+</text>
+<text class='f-cmti10-996' x='62.22' y='8.369'>r<tspan x='65.911'>ows</tspan></text>
+<text class='f-cmr10-996' x='82.514' y='8.369'>(</text>
+<text class='f-cmti10-996' x='86.389' y='8.369'>rmsn</text>
+<rect x='109.774' y='7.97' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='113.593' y='8.369'>b</text>
+<text class='f-cmmi10-996' x='118.804' y='8.369'>,</text>
+<text class='f-cmti10-996' x='123.232' y='8.369'>dX</text>
+<text class='f-cmr7-697' x='137.304' y='9.863'>1</text>
+<text class='f-cmmi10-996' x='141.774' y='8.369'>,</text>
+<text class='f-cmti10-996' x='146.201' y='8.369'>xp</text>
+<text class='f-cmr10-996' x='156.544' y='8.369'>)</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L69" title="MicroGptFlat.fss, line 69">69</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='12.058em' height='1.196em' viewBox='0 0 120.582 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.369'>dX</text>
+<text class='f-cmr10-996' x='16.839' y='8.369'>=</text>
+<text class='f-cmti10-996' x='27.356' y='8.369'>r<tspan x='31.047'>ows</tspan></text>
+<text class='f-cmr10-996' x='47.65' y='8.369'>(</text>
+<text class='f-cmti10-996' x='51.525' y='8.369'>rmsn</text>
+<rect x='74.909' y='7.97' height='.398' width='2.989'/>
+<text class='f-cmti10-996' x='78.728' y='8.369'>b</text>
+<text class='f-cmmi10-996' x='83.94' y='8.369'>,</text>
+<text class='f-cmti10-996' x='88.368' y='8.369'>dXp</text>
+<text class='f-cmmi10-996' x='106.586' y='8.369'>,<tspan x='111.014'>x</tspan></text>
+<text class='f-cmr10-996' x='116.708' y='8.369'>)</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L69" title="MicroGptFlat.fss, line 69">69</a></span>dXp = dX2 + rows(rmsn_b, dX1, xp)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L69" title="MicroGptFlat.fss, line 69">69</a></span>dX = rows(rmsn_b, dXp, x)</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L69" title="MicroGptFlat.fss, line 69">69</a></span>dXp = dX2 + rows(rmsn_b, dX1, xp)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L69" title="MicroGptFlat.fss, line 69">69</a></span>dX = rows(rmsn_b, dXp, x)</span></code></pre></div>
+<p id="p-1400b09a" class="nb"><span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> holds the summed embeddings, <span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span> is <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> after one <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span>, and <span class="fc"><span class="fr m"><i>x</i><sub>1</sub></span><code class="fs">x1</code></span> is <span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span> after a second. <span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span> was used twice: <span class="fc"><span class="fr m"><i>x</i><sub>2</sub></span><code class="fs">x2</code></span> adds it directly, and <span class="fc"><span class="fr m"><i>x</i><sub>1</sub></span><code class="fs">x1</code></span> is <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span> of it. So <span class="fc"><span class="fr m"><i>dXp</i></span><code class="fs">dXp</code></span> has two parts, as <span class="fc"><span class="fr m"><i>dX</i><sub>2</sub></span><code class="fs">dX2</code></span> had. Then <span class="fc"><span class="fr m"><i>dX</i></span><code class="fs">dX</code></span> goes back through the first <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span>. It is the gradient at <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span>.</p>
+<div class="fx nb src n3" id="c-518a7d08" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L70" title="MicroGptFlat.fss, line 70">70</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.560em' viewBox='0 0 175.342 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>gWTE</text>
+<text class='f-cmr10-996' x='32.387' y='8.468'>=</text>
+<text class='f-cmti10-996' x='42.903' y='8.468'>tr<tspan x='49.904'>ansp</tspan><tspan x='69.254'>ose</tspan></text>
+<text class='f-cmex10-996' x='83.751' y='.398'></text>
+<text class='f-cmti10-996' x='88.317' y='8.468'>onehot</text>
+<text class='f-cmr10-996' x='118.032' y='8.468'>(</text>
+<text class='f-cmti10-996' x='121.906' y='8.468'>ids</text>
+<text class='f-cmmi10-996' x='134.945' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>vo<tspan x='25.106'>c</tspan><tspan x='29.179'>abSize</tspan></text>
+<text class='f-cmr10-996' x='56.916' y='22.018'>)</text>
+<text class='f-cmex10-996' x='60.79' y='13.948'></text>
+<text class='f-cmti10-996' x='67.017' y='22.018'>dX</text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L70" title="MicroGptFlat.fss, line 70">70</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='17.534em' height='2.560em' viewBox='0 0 175.342 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmti10-996' x='0' y='8.468'>gWPE</text>
+<text class='f-cmr10-996' x='32.016' y='8.468'>=</text>
+<text class='f-cmti10-996' x='42.532' y='8.468'>tr<tspan x='49.533'>ansp</tspan><tspan x='68.883'>ose</tspan></text>
+<text class='f-cmex10-996' x='83.38' y='.398'></text>
+<text class='f-cmti10-996' x='87.946' y='8.468'>onehot</text>
+<text class='f-cmr10-996' x='117.661' y='8.468'>(</text>
+<text class='f-cmti10-996' x='121.535' y='8.468'>p<tspan x='126.118'>os</tspan></text>
+<text class='f-cmmi10-996' x='136.101' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>blo<tspan x='27.652'>ckSize</tspan></text>
+<text class='f-cmr10-996' x='54.879' y='22.018'>)</text>
+<text class='f-cmex10-996' x='58.753' y='13.948'></text>
+<text class='f-cmti10-996' x='64.98' y='22.018'>dX</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L70" title="MicroGptFlat.fss, line 70">70</a></span>gWTE = transpose(onehot(ids, vocabSize)) dX</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L70" title="MicroGptFlat.fss, line 70">70</a></span>gWPE = transpose(onehot(pos, blockSize)) dX</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L70" title="MicroGptFlat.fss, line 70">70</a></span>gWTE = transpose(onehot(ids, vocabSize)) dX</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L70" title="MicroGptFlat.fss, line 70">70</a></span>gWPE = transpose(onehot(pos, blockSize)) dX</span></code></pre></div>
+<p id="p-3a2c92ba" class="nb"><span class="fc"><span class="fr m"><i>wte</i></span><code class="fs">wte</code></span> is the token table and <span class="fc"><span class="fr m"><i>wpe</i></span><code class="fs">wpe</code></span> the position table. <span class="fc"><span class="fr m"><i>ids</i></span><code class="fs">ids</code></span> holds each row's token and <span class="fc"><span class="fr m"><i>pos</i></span><code class="fs">pos</code></span> each row's position. Row <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> of <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> was row <span class="fc"><span class="fr m"><i>ids</i><sub><i>r</i></sub></span><code class="fs">ids[r]</code></span> of <span class="fc"><span class="fr m"><i>wte</i></span><code class="fs">wte</code></span> plus row <span class="fc"><span class="fr m"><i>pos</i><sub><i>r</i></sub></span><code class="fs">pos[r]</code></span> of <span class="fc"><span class="fr m"><i>wpe</i></span><code class="fs">wpe</code></span>. So the gradient at row <span class="fc"><span class="fr m"><i>t</i></span><code class="fs">t</code></span> of <span class="fc"><span class="fr m"><i>wte</i></span><code class="fs">wte</code></span> is the sum of the rows of <span class="fc"><span class="fr m"><i>dX</i></span><code class="fs">dX</code></span> at which the token <span class="fc"><span class="fr m"><i>t</i></span><code class="fs">t</code></span> was read. The product in line 70 computes exactly that. <span class="fc"><span class="fr m"><i>onehot</i>(<i>ids</i>, <i>vocabSize</i>)</span><code class="fs">onehot(ids, vocabSize)</code></span> has a 1 in row <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> and column <span class="fc"><span class="fr m"><i>ids</i><sub><i>r</i></sub></span><code class="fs">ids[r]</code></span>. Its transpose has 27 rows and 16 columns, with a 1 in row <span class="fc"><span class="fr m"><i>t</i></span><code class="fs">t</code></span> wherever the token <span class="fc"><span class="fr m"><i>t</i></span><code class="fs">t</code></span> was read. Its product with <span class="fc"><span class="fr m"><i>dX</i></span><code class="fs">dX</code></span> adds up those rows of <span class="fc"><span class="fr m"><i>dX</i></span><code class="fs">dX</code></span>.</p>
 <p id="p-c0e9eb3e" class="nb">A run printed the starts of some rows:</p>
 <pre class="vb nb out long" id="o-3f7468d7" data-kind="output"><code>gWTE[24,0..3] = 0.02444797853510436 0.10385342691476042 -0.11380900808712022 0.13270155741575465
 gWTE[0,0..3] = 0.0 0.0 0.0 0.0
@@ -348,30 +718,63 @@ gWPE[9,0..3] = 0.0 0.0 0.0 0.0
 dX[1,0..3] = 0.02444797853510436 0.10385342691476042 -0.11380900808712022 0.13270155741575465
 dX[9,0..3] = 0.0 0.0 0.0 0.0</code></pre>
 <ul>
-<li><p id="p-4b01d44c" class="nb">The token <code>y</code>, 24, was read once, in row 1. So row 24 of <code>gWTE</code> is row 1 of <code>dX</code>.</p></li>
-<li><p id="p-f231f0f5" class="nb">The token <code>a</code>, 0, does not occur in <code>yuheng</code>. Row 0 of <code>gWTE</code> is 0: this step says nothing about the embedding of <code>a</code>.</p></li>
-<li><p id="p-2d534d4e" class="nb">Position 1 belongs to row 1 alone, so row 1 of <code>gWPE</code> is also row 1 of <code>dX</code>.</p></li>
-<li><p id="p-d009b37e" class="nb">Row 9 of <code>dX</code> is 0. Row 9 does not count in the loss, and no row that counts reads it, because of the mask. So row 9 of <code>gWPE</code> is 0.</p></li>
+<li><p id="p-4b01d44c" class="nb">The token <code>y</code>, 24, was read once, in row 1. So row 24 of <span class="fc"><span class="fr m"><i>gWTE</i></span><code class="fs">gWTE</code></span> is row 1 of <span class="fc"><span class="fr m"><i>dX</i></span><code class="fs">dX</code></span>.</p></li>
+<li><p id="p-f231f0f5" class="nb">The token <code>a</code>, 0, does not occur in <code>yuheng</code>. Row 0 of <span class="fc"><span class="fr m"><i>gWTE</i></span><code class="fs">gWTE</code></span> is 0: this step says nothing about the embedding of <code>a</code>.</p></li>
+<li><p id="p-2d534d4e" class="nb">Position 1 belongs to row 1 alone, so row 1 of <span class="fc"><span class="fr m"><i>gWPE</i></span><code class="fs">gWPE</code></span> is also row 1 of <span class="fc"><span class="fr m"><i>dX</i></span><code class="fs">dX</code></span>.</p></li>
+<li><p id="p-d009b37e" class="nb">Row 9 of <span class="fc"><span class="fr m"><i>dX</i></span><code class="fs">dX</code></span> is 0. Row 9 does not count in the loss, and no row that counts reads it, because of the mask. So row 9 of <span class="fc"><span class="fr m"><i>gWPE</i></span><code class="fs">gWPE</code></span> is 0.</p></li>
 </ul>
 <aside class="limit"><p class="label">A limit of today's tree</p>
-<p id="p-467023a6" class="nb">Lines 63 to 68 write a transpose as <code>^T</code>. Line 70 writes <code>transpose(...)</code>, a function call. The cause is the operand: it is the result of a call. Under walk, a call cannot be followed by <code>^T</code>, with or without parentheses around it (the gap ledger's rows 144 and 158). Row 144 reads the specification as forbidding the form without parentheses; row 158 records the form with parentheses as a gap of walk.</p></aside>
+<p id="p-467023a6" class="nb">Lines 63 to 68 write a transpose as <span class="fc"><span class="fr m"><sup><i>T</i></sup></span><code class="fs">^T</code></span>. Line 70 writes <span class="fc"><span class="fr m"><i>transpose</i>(…)</span><code class="fs">transpose(...)</code></span>, a function call. The cause is the operand: it is the result of a call. Under walk, a call cannot be followed by <span class="fc"><span class="fr m"><sup><i>T</i></sup></span><code class="fs">^T</code></span>, with or without parentheses around it (the gap ledger's rows 144 and 158). Row 144 reads the specification as forbidding the form without parentheses; row 158 records the form with parentheses as a gap of walk.</p></aside>
 </section>
 <section class="sec" data-num="6.9" data-title="The result">
 <h2 id="s-the-result" class="nb"><span class="num">6.9</span> The result</h2>
 <p id="p-4f6ae634" class="nb">The comment in line 62 says "one line under each forward line, bottom-up". This list pairs them:</p>
 <ul>
-<li><p id="p-7d7a2bbf" class="nb">Forward line 61, <code>pr</code> and <code>loss</code>: backward line 63.</p></li>
-<li><p id="p-4c82f511" class="nb">Forward line 60, from <code>x3</code> to <code>x4</code>: backward line 64 and the first declaration of line 65.</p></li>
-<li><p id="p-bec5d567" class="nb">Forward line 60, <code>x2</code>, and line 59, <code>hc</code>: the rest of line 65.</p></li>
-<li><p id="p-ac3b410b" class="nb">Forward line 59, <code>a</code>: backward line 66.</p></li>
+<li><p id="p-7d7a2bbf" class="nb">Forward line 61, <span class="fc"><span class="fr m"><i>pr</i></span><code class="fs">pr</code></span> and <span class="fc"><span class="fr m"><i>loss</i></span><code class="fs">loss</code></span>: backward line 63.</p></li>
+<li><p id="p-4c82f511" class="nb">Forward line 60, from <span class="fc"><span class="fr m"><i>x</i><sub>3</sub></span><code class="fs">x3</code></span> to <span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span>: backward line 64 and the first declaration of line 65.</p></li>
+<li><p id="p-bec5d567" class="nb">Forward line 60, <span class="fc"><span class="fr m"><i>x</i><sub>2</sub></span><code class="fs">x2</code></span>, and line 59, <span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span>: the rest of line 65.</p></li>
+<li><p id="p-ac3b410b" class="nb">Forward line 59, <span class="fc"><span class="fr m"><i>a</i></span><code class="fs">a</code></span>: backward line 66.</p></li>
 <li><p id="p-87fea66a" class="nb">Forward line 58: backward lines 67 and 68.</p></li>
-<li><p id="p-7c67d285" class="nb">Forward line 57, <code>xp</code> and <code>x1</code>: backward line 69.</p></li>
-<li><p id="p-17d14621" class="nb">Forward line 57, <code>x</code>: backward line 70.</p></li>
+<li><p id="p-7c67d285" class="nb">Forward line 57, <span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span> and <span class="fc"><span class="fr m"><i>x</i><sub>1</sub></span><code class="fs">x1</code></span>: backward line 69.</p></li>
+<li><p id="p-17d14621" class="nb">Forward line 57, <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span>: backward line 70.</p></li>
 </ul>
-<div class="fx nb src" id="c-adbaba9c" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L71" title="MicroGptFlat.fss, line 71">71</a></span>  (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L72" title="MicroGptFlat.fss, line 72">72</a></span>end</span></code></pre></div>
-<p id="p-952578e8" class="nb">The value of the step is a pair: the loss, and the nine gradient matrices made into one vector. <code>flat</code> is a function of <code>FlatArrays.fss</code>. It takes any number of matrices and copies their elements, row after row, into one new vector. A small case, with the matrices <code>m</code> and <code>n</code> of Part 2:</p>
+<div class="fx nb src n3" id="c-adbaba9c" data-kind="code"><div class="fx-r"><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L71" title="MicroGptFlat.fss, line 71">71</a></span><span class="tx" style="padding-left:0.90em"><svg xmlns='http://www.w3.org/2000/svg' width='16.638em' height='2.560em' viewBox='0 0 166.376 25.604' fill='currentColor' style='vertical-align:-1.714em' role='img'><g>
+<text class='f-cmex10-996' x='0' y='.398'></text>
+<text class='f-cmti10-996' x='4.566' y='8.468'>loss</text>
+<text class='f-cmmi10-996' x='21.169' y='8.468'>,</text>
+<text class='f-cmti10-996' x='25.597' y='8.468'>ﬂat</text>
+<text class='f-cmr10-996' x='40.8' y='8.468'>(</text>
+<text class='f-cmti10-996' x='44.674' y='8.468'>gWTE</text>
+<text class='f-cmmi10-996' x='74.293' y='8.468'>,</text>
+<text class='f-cmti10-996' x='78.721' y='8.468'>gWPE</text>
+<text class='f-cmmi10-996' x='107.97' y='8.468'>,</text>
+<text class='f-cmti10-996' x='112.397' y='8.468'>gLM</text>
+<text class='f-cmmi10-996' x='133.795' y='8.468'>,</text>
+<text class='f-cmti10-996' x='138.223' y='8.468'>gWQ</text>
+<text class='f-cmmi10-996' x='161.332' y='8.468'>,</text>
+<text class='f-cmti10-996' x='15.94' y='22.018'>gWK</text>
+<text class='f-cmmi10-996' x='39.582' y='22.018'>,</text>
+<text class='f-cmti10-996' x='44.01' y='22.018'>gWV</text>
+<text class='f-cmmi10-996' x='67.779' y='22.018'>,</text>
+<text class='f-cmti10-996' x='72.207' y='22.018'>gWO</text>
+<text class='f-cmmi10-996' x='95.316' y='22.018'>,</text>
+<text class='f-cmti10-996' x='99.744' y='22.018'>gF</text>
+<text class='f-cmr7-697' x='112.155' y='24.453'>1</text>
+<text class='f-cmmi10-996' x='116.625' y='22.018'>,</text>
+<text class='f-cmti10-996' x='121.052' y='22.018'>gF</text>
+<text class='f-cmr7-697' x='133.464' y='24.453'>2</text>
+<text class='f-cmr10-996' x='137.933' y='22.018'>)</text>
+<text class='f-cmex10-996' x='141.808' y='13.948'></text>
+</g>
+</svg>
+</span></span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L72" title="MicroGptFlat.fss, line 72">72</a></span><span class="tx"><svg xmlns='http://www.w3.org/2000/svg' width='1.846em' height='1.196em' viewBox='0 0 18.458 11.955' fill='currentColor' style='vertical-align:-0.359em' role='img'><g>
+<text class='f-cmtt10-996' x='0' y='8.369'>end</text>
+</g>
+</svg>
+</span></span></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L71" title="MicroGptFlat.fss, line 71">71</a></span>  (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L72" title="MicroGptFlat.fss, line 72">72</a></span>end</span></code></pre><pre class="fx-s fx-u"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L71" title="MicroGptFlat.fss, line 71">71</a></span>  (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L72" title="MicroGptFlat.fss, line 72">72</a></span>end</span></code></pre></div>
+<p id="p-952578e8" class="nb">The value of the step is a pair: the loss, and the nine gradient matrices made into one vector. <span class="fc"><span class="fr m"><i>flat</i></span><code class="fs">flat</code></span> is a function of <code>FlatArrays.fss</code>. It takes any number of matrices and copies their elements, row after row, into one new vector. A small case, with the matrices <span class="fc"><span class="fr m"><i>m</i></span><code class="fs">m</code></span> and <span class="fc"><span class="fr m"><i>n</i></span><code class="fs">n</code></span> of Part 2:</p>
 <pre class="vb nb out" id="o-c5e09830" data-kind="output"><code>flat(m, n) (8): 1.0 2.0 3.0 4.0 0.0 1.0 1.0 0.0</code></pre>
-<p id="p-a5f4bc25" class="nb">The nine arguments stand in the order of the layout table. So the gradient has the layout of <code>p</code>: entry 500 of the gradient belongs to parameter 500.</p>
+<p id="p-a5f4bc25" class="nb">The nine arguments stand in the order of the layout table. So the gradient has the layout of <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>: entry 500 of the gradient belongs to parameter 500.</p>
 <p id="p-07af186c" class="nb">A run printed the sizes of the backward values, and counted the entries of the gradient that are exactly 0:</p>
 <pre class="vb nb out" id="o-3ad6a256" data-kind="output"><code>sizes gF2 (16,64) dM0 (16,64) gF1 (64,16) gWO (16,16) dh (4,16,4) dVh (4,16,4) dS (4,16,16) dQh (4,16,4) dQ (16,16) gWQ (16,16) dX (16,16) gWTE (27,16) gWPE (16,16)
 zero gradient entries 464</code></pre>
@@ -379,7 +782,7 @@ zero gradient entries 464</code></pre>
 <pre class="vb nb out" id="o-d9985d4a" data-kind="output"><code>zeros in wte part 320  in wpe part 144  in the rest 0
 zero rows of gWTE: 0 1 2 3 5 8 9 10 11 12 14 15 16 17 18 19 21 22 23 25
 zero rows of gWPE: 7 8 9 10 11 12 13 14 15</code></pre>
-<p id="p-238e1561" class="nb"><code>yuheng</code> uses seven tokens: the mark, 26, and the letters <code>e</code>, <code>g</code>, <code>h</code>, <code>n</code>, <code>u</code>, <code>y</code>, which are 4, 6, 7, 13, 20, 24. The other twenty rows of <code>gWTE</code> are 0: 20 times 16 is 320 entries. The name fills positions 0 to 6. Rows 7 to 15 of <code>gWPE</code> are 0: 9 times 16 is 144 entries. 320 plus 144 is 464. Every entry of the other seven matrices is different from 0.</p>
+<p id="p-238e1561" class="nb"><code>yuheng</code> uses seven tokens: the mark, 26, and the letters <code>e</code>, <code>g</code>, <code>h</code>, <code>n</code>, <code>u</code>, <code>y</code>, which are 4, 6, 7, 13, 20, 24. The other twenty rows of <span class="fc"><span class="fr m"><i>gWTE</i></span><code class="fs">gWTE</code></span> are 0: 20 times 16 is 320 entries. The name fills positions 0 to 6. Rows 7 to 15 of <span class="fc"><span class="fr m"><i>gWPE</i></span><code class="fs">gWPE</code></span> are 0: 9 times 16 is 144 entries. 320 plus 144 is 464. Every entry of the other seven matrices is different from 0.</p>
 </section>
 <section class="sec" data-num="6.10" data-title="Sources">
 <h2 id="s-sources" class="nb"><span class="num">6.10</span> Sources</h2>
@@ -387,7 +790,7 @@ zero rows of gWPE: 7 8 9 10 11 12 13 14 15</code></pre>
 <li><p id="p-5e8dd369" class="nb">Every value in an Output box: runs under walk of a file of small array examples, and of copies of <code>MicroGptFlat.fss</code> with print lines added.</p></li>
 <li><p id="p-586b23e9" class="nb">Backpropagation, and the <code>Value</code> objects of Karpathy's program: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-b/article.md#L13">explorations/run-b/article.md, line 13</a>.</p></li>
 <li><p id="p-d0de8222" class="nb">The two forms of rule 4 in the project's write-up of run B: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-b/article.md#L158">explorations/run-b/article.md, line 158</a>.</p></li>
-<li><p id="p-14cc0c98" class="nb"><code>Diag</code> and its product: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L33">FlatArrays.fss, lines 33 to 44</a>. <code>rows</code> with two matrices: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L148">lines 148 to 153</a>. <code>flat</code>: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L179">lines 179 to 189</a>.</p></li>
+<li><p id="p-14cc0c98" class="nb"><span class="fc"><span class="fr m"><span class="ty">Diag</span></span><code class="fs">Diag</code></span> and its product: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L33">FlatArrays.fss, lines 33 to 44</a>. <span class="fc"><span class="fr m"><i>rows</i></span><code class="fs">rows</code></span> with two matrices: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L148">lines 148 to 153</a>. <span class="fc"><span class="fr m"><i>flat</i></span><code class="fs">flat</code></span>: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L179">lines 179 to 189</a>.</p></li>
 </ul>
 </section>
 </section>

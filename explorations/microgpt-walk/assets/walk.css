@@ -55,3 +55,48 @@ ul.chapters .lead { display: block; color: var(--muted); font-size: .88rem; font
 html.speak .dm svg, html.speak pre.vb.out.long { -webkit-user-select: none; user-select: none; }
 
 .intro details.words { margin: 0 0 .9rem; }
+
+/* The three notations of the program's code: as typed (ASCII), after the specification's ASCII conversion
+   (Unicode), and typeset by Fortify. All three are in the markup; the attribute data-notation on <html>
+   (walk.js) says which one shows. Without the attribute (no script), the pages show the code as typed. */
+.fx.n3 > .fx-r, .fx.n3 > .fx-u, .fc > .fr, .fc > .fu { display: none; }
+html[data-notation="typeset"] .fx.n3 > .fx-r { display: block; }
+html[data-notation="typeset"] .fx.n3 > .fx-s { display: none; }
+html[data-notation="unicode"] .fx.n3 > .fx-u { display: block; }
+html[data-notation="unicode"] .fx.n3 > .fx-s:not(.fx-u) { display: none; }
+html[data-notation="typeset"] .fc > .fr { display: inline; }
+html[data-notation="typeset"] .fc > .fr + .fs { display: none; }
+html[data-notation="unicode"] .fc.u > .fu { display: inline; }
+html[data-notation="unicode"] .fc.u > .fs { display: none; }
+.fx.n3 > .fx-u { border-top: 0; border-radius: 5px; }
+/* a typeset code word keeps the inline highlight of a code word, in the fonts of a formula in a sentence */
+.fc > .fr { background: var(--code-bg); border-radius: 3px; padding: .08em .1em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* a typeset line: the number stands at the left as in the source, and stays there while a long line is scrolled */
+.fx.n3 > .fx-r { padding: 8px 12px 8px 0; }
+.fx.n3 > .fx-r .l { display: flex; align-items: baseline; width: max-content; min-width: 100%; line-height: 1.5; min-height: 1.5em; }
+.fx.n3 > .fx-r .ln { flex: none; position: sticky; left: 0; z-index: 1; width: 2.4em; padding: 0 .9em 0 12px; box-sizing: content-box;
+  text-align: right; font-family: var(--mono); font-size: .84rem; color: var(--muted); background: var(--surface);
+  -webkit-user-select: none; user-select: none; }
+.fx.n3 > .fx-r .ln a { color: inherit; text-decoration: none; }
+.fx.n3 > .fx-r .tx { flex: none; padding-right: 12px; }
+.fx.n3.own > .fx-r .tx { margin-left: 12px; }
+.fx.n3 > .fx-r svg { display: inline-block; max-width: none; fill: currentColor; overflow: visible; }
+.fx .src-file + .fx-r { padding-top: 4px; }
+/* the text of an SVG is text, in the fonts of tex-fonts.css */
+.fx-r svg text, .dm svg text { white-space: pre; font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0, "calt" 0, "dlig" 0; }
+
+/* the program on one page, in the three notations */
+.fx.listing { border: 0; background: none; }
+.fx.listing > .fx-r { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px 10px 0; }
+.fx.listing > .fx-r .ln a.lnk { min-width: 0; margin: 0; display: inline; }
+.fx.listing > pre.listing { border: 1px solid var(--rule); border-radius: 6px; }
+
+/* the control: one for the page, under the bar, in reach while reading */
+.notation { position: sticky; top: var(--bar-h, 2.6rem); z-index: 4; display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+  margin: 0 0 .9rem; padding: 4px 0; background: var(--bg); font-family: var(--mono); font-size: .72rem; color: var(--muted);
+  -webkit-user-select: none; user-select: none; }
+.notation .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: var(--surface); }
+.notation .seg button { font: inherit; font-weight: 600; color: var(--muted); background: none; border: 0; padding: .35em .8em; cursor: pointer; }
+.notation .seg button + button { border-left: 1px solid var(--rule); }
+.notation .seg button[aria-pressed="true"] { background: var(--code-bg); color: var(--accent); }

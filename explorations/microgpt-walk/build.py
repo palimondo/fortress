@@ -4,9 +4,10 @@
     python3 explorations/microgpt-walk/build.py            # build every page
     python3 explorations/microgpt-walk/build.py --strict   # also fail if a line of the program is not quoted
     python3 explorations/microgpt-walk/build.py --reader   # also copy reader.css and reader.js again
+    python3 explorations/microgpt-walk/build.py --out DIR --work DIR   # a trial build beside the published pages
 
 README.md beside this file gives the markup of src/*.md and what the build checks.
-Python 3, the standard library, and latex and dvisvgm for the displayed formulas.
+Python 3 with fontTools; latex and dvisvgm for the formulas and the typeset code; emacs for Fortify.
 """
 import hashlib
 import html
@@ -17,11 +18,19 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import notation
+
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent.parent
+ROOT = Path(os.environ.get('FORTRESS_ROOT') or HERE.parent.parent)      # a copy of this folder elsewhere names the tree
 SRC = HERE / 'src'
 OUT = ROOT / 'docs' / 'microgpt'
 WORK = ROOT / 'tmp' / 'microgpt-walk'
+for _i, _a in enumerate(sys.argv):                 # --out DIR and --work DIR: a trial build beside the published pages
+    if _a == '--out':
+        OUT = Path(sys.argv[_i + 1]).resolve()
+    if _a == '--work':
+        WORK = Path(sys.argv[_i + 1]).resolve()
 PROG = ROOT / 'explorations' / 'run-c4' / 'src'
 MAIN = 'MicroGptFlat.fss'
 READER = ROOT / 'docs' / 'specification'
@@ -52,6 +61,17 @@ class Sources:
         self.lines = {}
         self.covered = {}      # line number of MAIN -> set of character positions quoted
         self.first = {}        # line number of MAIN -> (slug, block id) of its first quotation
+        self.unis = {}
+
+    def uni(self, name):
+        """The file's lines after the specification's ASCII conversion (notation.unicode_form)."""
+        if name not in self.unis:
+            out, comment = [], False
+            for line in self.get(name):
+                text, comment = notation.unicode_form(line, comment)
+                out.append(text)
+            self.unis[name] = out
+        return self.unis[name]
 
     def get(self, name):
         if name not in self.lines:
@@ -149,7 +169,21 @@ def inline_math(tex):
     return ''.join(out)
 
 
-def inline(text):
+NOTATION = None          # the notation.Fortify of this build; main() sets it
+NOT_FORTRESS = re.compile(r'^[\w./-]+\.(fss|fsi|md|py|js|css|tex|txt|html|svg|dyalog)$|^explorations/|^--')
+
+
+def code_word(src, forms=True):
+    """A code word inside a sentence in its three notations. All three are in the markup; walk.css shows one."""
+    if not forms or NOTATION is None or NOT_FORTRESS.search(src):
+        return '<code>%s</code>' % esc(src)
+    uni = notation.unicode_form(src)[0]
+    return ('<span class="fc%s">\x02%s\x02<code class="fs">%s</code>%s</span>'
+            % (' u' if uni != src else '', NOTATION.inline(src), esc(src),
+               '<code class="fu">%s</code>' % esc(uni) if uni != src else ''))
+
+
+def inline(text, forms=True):
     """`code`, **strong**, *emphasis*, [text](link), $formula$."""
     keep = []
 
@@ -157,7 +191,10 @@ def inline(text):
         keep.append(markup)
         return '\x00%d\x00' % (len(keep) - 1)
 
-    text = re.sub(r'`([^`]+)`', lambda m: stash('<code>%s</code>' % esc(m.group(1))), text)
+    # ``word``: a code word that is not Fortress (a name of the corpus, a file's name, a command, a label of
+    # a run's output) stays plain in every notation
+    text = re.sub(r'``([^`]+)``', lambda m: stash('<code>%s</code>' % esc(m.group(1))), text)
+    text = re.sub(r'`([^`]+)`', lambda m: stash(code_word(m.group(1), forms)), text)
     text = re.sub(r'\$([^$]+)\$', lambda m: stash('<span class="m">%s</span>' % inline_math(m.group(1))), text)
     text = esc(text)
 
@@ -179,7 +216,7 @@ def inline(text):
 
 
 def plain(text):
-    return re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', '', inline(text)))).strip()
+    return re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', '', inline(text, False)))).strip()
 
 
 # ---------------------------------------------------------------- displayed formulas
@@ -202,7 +239,7 @@ class Formulas:
         self.want = {}
 
     def key(self, tex):
-        k = 'q' + sha(PREAMBLE + tex, 10)
+        k = 'q' + sha(PREAMBLE + 'fonts shared' + tex, 10)
         self.want[k] = tex
         return k
 
@@ -230,15 +267,14 @@ class Formulas:
 
     @staticmethod
     def clean(svg, k):
-        """One SVG serves light and dark: it is drawn in the text's colour. Its font and class names get the
-        formula's key, since every formula of a page shares the page's names."""
+        """One SVG serves light and dark: it is drawn in the text's colour. The embedded fonts are dropped
+        when the SVG is put into a page (notation.Fonts.strip)."""
         svg = re.sub(r'<\?xml[^>]*\?>\s*', '', svg)
         svg = re.sub(r'<!--.*?-->\s*', '', svg, flags=re.S)
         svg = svg.replace('<![CDATA[', '').replace(']]>', '')
-        svg = re.sub(r'font-family:([A-Za-z0-9]+)', lambda m: 'font-family:%s-%s' % (k, m.group(1)), svg)
-        svg = re.sub(r'text\.f(\d+)', lambda m: 'text.%sf%s' % (k, m.group(1)), svg)
-        svg = re.sub(r"class='f(\d+)'", lambda m: "class='%sf%s'" % (k, m.group(1)), svg)
+        svg = re.sub(r'@font-face\{[^}]*\}\s*', '', svg)
         svg = re.sub(r"\s(xmlns:xlink|version)='[^']*'", '', svg)
+        svg = re.sub(r"<g id='page\d+'>", '<g>', svg)
 
         def size(m):
             return "%s='%.3fem'" % (m.group(1), float(m.group(2)) * EM_PER_PT)
@@ -248,7 +284,7 @@ class Formulas:
         return head + " fill='currentColor' aria-hidden='true'>" + rest.strip() + '\n'
 
     def svg(self, k):
-        return (self.dir / (k + '.svg')).read_text(encoding='utf-8')
+        return NOTATION.fonts.strip((self.dir / (k + '.svg')).read_text(encoding='utf-8'))
 
 
 # ---------------------------------------------------------------- one part
@@ -262,14 +298,16 @@ class Part:
         self.title = self.lead = ''
         self.sections = []           # (level, number, title, anchor)
         self.pending = []            # formula placeholders
+        self.rows = []               # keys of the typeset rows of the quoted lines
         self.body = self.convert(path.read_text(encoding='utf-8'))
+        inline(self.title), inline(self.lead)      # their code words are asked for before Fortify runs
 
     @property
     def chapter(self):
         return ('%d. %s' % (self.number, self.title)) if self.number else self.title
 
     def uid(self, prefix, text):
-        base = '%s-%s' % (prefix, sha(text))
+        base = '%s-%s' % (prefix, sha(text.replace('``', '`')))      # a mark for plain code does not move a note
         uid, n = base, 1
         while uid in self.ids:
             n += 1
@@ -392,8 +430,21 @@ class Part:
                 long = ' long' if len(text) > 200 else ''      # Speak skips a long box of numbers (walk.js)
                 return ('<pre class="vb nb out%s" id="%s" data-kind="output"><code>%s</code></pre>'
                         % (long, self.uid('o', text), esc(text)))
-            return ('<div class="fx nb own" id="%s" data-kind="code"><pre class="fx-s"><code>%s</code></pre></div>'
-                    % (self.uid('c', text), esc(text)))
+            if lang != 'fortress':
+                return ('<div class="fx nb own" id="%s" data-kind="code"><pre class="fx-s"><code>%s</code></pre></div>'
+                        % (self.uid('c', text), esc(text)))
+            # code that is not in the program's files: each line is fortified alone, in the three notations
+            typeset, uni = [], []
+            for line in text.split('\n'):
+                key = NOTATION.fragment(line.strip())
+                pad = (len(line) - len(line.lstrip(' '))) * 0.45 if line.strip() else 0
+                self.rows.append((key, pad))
+                typeset.append('<span class="l"><span class="tx"%s>\x03%s\x03%.2f\x03</span></span>'
+                               % (' style="padding-left:%.2fem"' % pad if pad else '', key, pad))
+                uni.append(esc(notation.unicode_form(line)[0]))
+            return ('<div class="fx nb own n3" id="%s" data-kind="code"><div class="fx-r">%s</div>'
+                    '<pre class="fx-s"><code>%s</code></pre><pre class="fx-s fx-u"><code>%s</code></pre></div>'
+                    % (self.uid('c', text), ''.join(typeset), esc(text), '\n'.join(uni)))
         if kind == 'src':
             return self.src(data)
         if kind == 'math':
@@ -431,12 +482,26 @@ class Part:
             rows.extend(self.sources.quote(name, spec, (self.slug, uid)))
         indent = min((len(t) - len(t.lstrip(' ')) for _, t, _ in rows if t.strip()), default=0)
         url = GITHUB + 'explorations/run-c4/src/' + name
+        lines, unis = self.sources.get(name), self.sources.uni(name)
+        typeset, uni = [], []
         for n, t, _ in rows:
-            text.append('<span class="l"><span class="ln"><a href="%s#L%d" title="%s, line %d">%d</a></span>%s</span>'
-                        % (url, n, name, n, n, esc(t[indent:] if t.strip() else '')))
+            num = ('<span class="ln"><a href="%s#L%d" title="%s, line %d">%d</a></span>' % (url, n, name, n, n))
+            body = t[indent:] if t.strip() else ''
+            text.append('<span class="l">%s%s</span>' % (num, esc(body)))
+            whole = t == lines[n - 1]
+            # the Unicode form: the line after ASCII conversion, read in the file (a comment may span lines)
+            u = unis[n - 1][indent:] if whole else notation.unicode_form(t)[0]
+            uni.append('<span class="l">%s%s</span>' % (num, esc(u if t.strip() else '')))
+            # the typeset form: Fortify's row for the line, set in the file's context, or for the fragment alone
+            key = NOTATION.line(name, n) if whole else NOTATION.fragment(t.strip())
+            pad = (len(t) - len(t.lstrip(' ')) - indent) * 0.45 if t.strip() else 0
+            self.rows.append((key, pad))
+            typeset.append('<span class="l">%s<span class="tx"%s>\x03%s\x03%.2f\x03</span></span>'
+                           % (num, ' style="padding-left:%.2fem"' % pad if pad else '', key, pad))
         cap = '' if name == MAIN else '<div class="src-file"><a href="%s">%s</a></div>' % (url, name)
-        return ('<div class="fx nb src" id="%s" data-kind="code">%s<pre class="fx-s"><code>%s</code></pre></div>'
-                % (uid, cap, ''.join(text)))
+        return ('<div class="fx nb src n3" id="%s" data-kind="code">%s<div class="fx-r">%s</div>'
+                '<pre class="fx-s"><code>%s</code></pre><pre class="fx-s fx-u"><code>%s</code></pre></div>'
+                % (uid, cap, ''.join(typeset), ''.join(text), ''.join(uni)))
 
 
 # ---------------------------------------------------------------- pages
@@ -449,6 +514,7 @@ def page(title, kind, slug, chapter, body, here):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>%s</title>
 <link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
 <link rel="stylesheet" href="walk.css">
 </head>
 <body data-page="%s" data-slug="%s" data-chapter="%s">
@@ -463,6 +529,10 @@ def page(title, kind, slug, chapter, body, here):
 ''' % (esc(title), kind, slug, html.escape(chapter), esc(here), body)
 
 
+# the control of the three notations: one for the page, under the bar (walk.js, walk.css)
+CONTROL = '''<div class="notation" role="group" aria-label="How the program's code is shown"><span class="lab">Code</span><span class="seg"><button type="button" data-n="typeset" aria-pressed="false">Typeset</button><button type="button" data-n="unicode" aria-pressed="false">Unicode</button><button type="button" data-n="source" aria-pressed="false">ASCII</button></span></div>'''
+
+
 def part_page(part, prev, nxt):
     secs = ''.join('<li><a href="#%s">%s %s</a></li>' % (a, num, esc(t)) for lvl, num, t, a in part.sections if lvl == 2)
     pager = '<nav class="pager" aria-label="Parts">%s%s</nav>' % (
@@ -473,6 +543,7 @@ def part_page(part, prev, nxt):
 </header>
 <div id="resume"></div>
 <div id="chapter-notes"></div>
+%s
 <section class="sec chapter" data-num="%d" data-title="%s">
 <h1 id="top" class="nb"><span class="num">Part %d</span> %s</h1>
 %s
@@ -481,7 +552,7 @@ def part_page(part, prev, nxt):
 </section>
 %s
 <footer class="colophon">Built from <code>explorations/microgpt-walk/src/%s</code> of the revival's repository. The quoted lines are those of <a href="%s">MicroGptFlat.fss</a> and the components beside it, as the build found them.</footer>''' % (
-        TITLE, part.number, html.escape(part.title), part.number, inline(part.title),
+        TITLE, CONTROL, part.number, html.escape(part.title), part.number, inline(part.title),
         '<p class="standfirst">%s</p>' % inline(part.lead) if part.lead else '', secs, part.body, pager,
         part.path.name, GITHUB + 'explorations/run-c4/src/' + MAIN)
     return page('%s · microGPT in Fortress' % part.chapter, 'chapter', part.slug, part.chapter, body, part.chapter)
@@ -501,6 +572,7 @@ def index_page(parts, intro):
 %s
 </header>
 <div id="continue"></div>
+%s
 <div class="intro">
 %s
 </div>
@@ -510,7 +582,7 @@ def index_page(parts, intro):
 <ul class="chapters"><li class="done" data-slug="listing"><a href="listing.html">The program on one page</a><span class="lead" style="margin-left:0">Every line of <code>MicroGptFlat.fss</code>; each number leads to the place that explains the line.</span></li></ul>
 </section>
 <footer class="colophon">Text and build: <code>explorations/microgpt-walk/</code> of the revival's repository. The reader is the specification reader's, used unchanged.</footer>''' % (
-        TITLE, intro.lead and '<p class="standfirst">%s</p>' % inline(intro.lead), intro.body, '\n'.join(items))
+        TITLE, intro.lead and '<p class="standfirst">%s</p>' % inline(intro.lead), CONTROL, intro.body, '\n'.join(items))
     return page(TITLE, 'index', 'index', 'Contents', body, 'microGPT in Fortress')
 
 
@@ -542,44 +614,81 @@ def notes_page():
 
 
 def listing_page(sources):
-    rows = []
-    for n, line in enumerate(sources.get(MAIN), 1):
-        if n == len(sources.get(MAIN)) and not line:
+    """The whole file, in the three notations. A line's number leads to the place that explains the line."""
+    lines, unis = sources.get(MAIN), sources.uni(MAIN)
+    typeset, text, uni, keys = [], [], [], []
+    for n, line in enumerate(lines, 1):
+        if n == len(lines) and not line:
             break
         where = sources.first.get(n)
         num = ('<a class="lnk" href="%s.html#%s">%d</a>' % (where[0], where[1], n)) if where else '<a class="lnk">%d</a>' % n
-        rows.append(num + esc(line))
+        text.append(num + esc(line))
+        uni.append(num + esc(unis[n - 1]))
+        key, pad = NOTATION.line(MAIN, n), (len(line) - len(line.lstrip(' '))) * 0.45 if line.strip() else 0
+        keys.append((key, pad))
+        typeset.append('<span class="l"><span class="ln">%s</span><span class="tx"%s>\x03%s\x03%.2f\x03</span></span>'
+                       % (num, ' style="padding-left:%.2fem"' % pad if pad else '', key, pad))
     body = '''<header class="masthead">
 <p class="eyebrow">%s</p>
 <h1>The program on one page</h1>
 <p class="standfirst">Every line of <a href="%s"><code>MicroGptFlat.fss</code></a>, as the build found it. A line's number leads to the place that explains the line.</p>
 </header>
-<pre class="listing"><code>%s</code></pre>''' % (TITLE, GITHUB + 'explorations/run-c4/src/' + MAIN, '\n'.join(rows))
-    return page('The program on one page · microGPT in Fortress', 'listing', 'listing', 'The program on one page', body, 'The program on one page')
+%s
+<div class="fx n3 listing"><div class="fx-r">%s</div>
+<pre class="listing fx-s"><code>%s</code></pre>
+<pre class="listing fx-s fx-u"><code>%s</code></pre></div>''' % (TITLE, GITHUB + 'explorations/run-c4/src/' + MAIN, CONTROL, ''.join(typeset),
+                                                                 '\n'.join(text), '\n'.join(uni))
+    return page('The program on one page · microGPT in Fortress', 'listing', 'listing', 'The program on one page', body,
+                'The program on one page'), keys
 
 
 def main():
     strict = '--strict' in sys.argv
+    global NOTATION
     sources, formulas = Sources(), Formulas()
+    NOTATION = notation.Fortify(ROOT, PROG, WORK)
     files = sorted(SRC.glob('[0-9][0-9]-*.md'))
     SLUGS.update(re.sub(r'^\d+-', '', f.stem) for f in files if f.name != '00-index.md')
     intro = Part(SRC / '00-index.md', 0, sources, formulas)
     parts = [Part(f, int(f.name[:2]), sources, formulas) for f in files if f.name != '00-index.md']
     formulas.render()
     OUT.mkdir(parents=True, exist_ok=True)
+    listing, listing_rows = listing_page(sources)
+    NOTATION.run()
+    NOTATION.render([k for p in [intro] + parts for k in p.rows] + listing_rows)
+    misses = []
+
+    def word(m):
+        """The typeset form of a code word: Fortify's LaTeX as HTML text, or nothing where it has none."""
+        tex = NOTATION.rows.get('F|' + m.group(1))
+        try:
+            return '<span class="fr m">%s</span>' % notation.tex_html(tex)
+        except (notation.NoHtml, TypeError, AttributeError) as e:
+            misses.append((NOTATION.want_frag[m.group(1)], tex, repr(e)))
+            return ''
 
     def fill(text):
-        return re.sub(r'\x01(\w+)\x01', lambda m: formulas.svg(m.group(1)), text)
+        text = re.sub(r'\x01(\w+)\x01', lambda m: formulas.svg(m.group(1)), text)
+        text = re.sub(r'\x03([^\x03]+)\x03([0-9.]+)\x03', lambda m: NOTATION.svg(m.group(1), float(m.group(2))), text)
+        text = re.sub(r'\x02F\|(\w+)\x02', word, text)
+        return text
 
     for p in [intro] + parts:
         p.body = fill(p.body)
     for i, p in enumerate(parts):
-        (OUT / (p.slug + '.html')).write_text(part_page(p, parts[i - 1] if i else None, parts[i + 1] if i + 1 < len(parts) else None), encoding='utf-8')
-    (OUT / 'index.html').write_text(index_page(parts, intro), encoding='utf-8')
+        (OUT / (p.slug + '.html')).write_text(fill(part_page(p, parts[i - 1] if i else None, parts[i + 1] if i + 1 < len(parts) else None)), encoding='utf-8')
+    (OUT / 'index.html').write_text(fill(index_page(parts, intro)), encoding='utf-8')
     (OUT / 'notes.html').write_text(notes_page(), encoding='utf-8')
-    (OUT / 'listing.html').write_text(listing_page(sources), encoding='utf-8')
+    (OUT / 'listing.html').write_text(fill(listing), encoding='utf-8')
+    NOTATION.faults.extend(NOTATION.fonts.build(WORK, OUT))
     for name in ('walk.css', 'walk.js'):
         shutil.copyfile(HERE / 'assets' / name, OUT / name)
+    if misses:
+        print('code words with no typeset form as HTML text (they stay as typed):')
+        for src, tex, why in sorted(set(misses)):
+            print('  %s   %s   %s' % (src, tex, why))
+    for f in NOTATION.faults:
+        print('FAULT: ' + f)
     for name in ('reader.css', 'reader.js'):      # the specification reader's files, unchanged
         if '--reader' in sys.argv or not (OUT / name).exists():
             shutil.copyfile(READER / name, OUT / name)
@@ -594,7 +703,7 @@ def main():
         print('  not quoted in full: lines ' + ' '.join(str(n) for n, _ in bad))
     words = sum(len(re.sub(r'<[^>]+>', ' ', p.body).split()) for p in parts)
     print('about %d words' % words)
-    if bad and strict:
+    if (bad or NOTATION.faults or misses) and strict:
         raise SystemExit(1)
 
 

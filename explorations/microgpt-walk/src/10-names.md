@@ -10,14 +10,14 @@ The sizes are those that a run printed for a batch of one document. "16 by 16" m
 - `ids`: the tokens' identifiers. The token that the model reads in each row. 16 integers.
 - `tg`: the targets. The token that comes next in each row, the right answer. 16 integers.
 - `vm`: the mask of the valid rows. 1.0 for a row that counts, 0.0 for a row after the name's end. 16 floats.
-- `nv`: the number of valid rows, the rows that count. 7.0 for `yuheng`.
+- `nv`: the number of valid rows, the rows that count. 7.0 for ``yuheng``.
 - `pos`: the positions. The position of each row, 0 to 15. 16 integers.
 - `wte`: the weights of the token embedding. The token table, 27 by 16. Row `t` is the embedding of the token `t`. A view into `p`.
 - `wpe`: the weights of the position embedding. The position table, 16 by 16. Row `i` is the embedding of position `i`. A view into `p`.
-- `lm`: the language model's head, in the files `lm_head`. The matrix that makes 27 scores from a row, 27 by 16. A view into `p`.
-- `wq`, `wk`, `wv`: attention's weights for the query, the key and the value, in the files `attn_wq`, `attn_wk` and `attn_wv`. The matrices that make queries, keys and values, 16 by 16 each. Views into `p`.
-- `wo`: attention's weights for the output, in the files `attn_wo`. The matrix that mixes the heads' results, 16 by 16. A view into `p`.
-- `f1`: in the files `mlp_fc1`, for multi-layer perceptron, fully connected, 1. The first matrix of the feed-forward block, 64 by 16. `f2`: the second, 16 by 64. Views into `p`.
+- `lm`: the language model's head, in the files ``lm_head``. The matrix that makes 27 scores from a row, 27 by 16. A view into `p`.
+- `wq`, `wk`, `wv`: attention's weights for the query, the key and the value, in the files ``attn_wq``, ``attn_wk`` and ``attn_wv``. The matrices that make queries, keys and values, 16 by 16 each. Views into `p`.
+- `wo`: attention's weights for the output, in the files ``attn_wo``. The matrix that mixes the heads' results, 16 by 16. A view into `p`.
+- `f1`: in the files ``mlp_fc1``, for multi-layer perceptron, fully connected, 1. The first matrix of the feed-forward block, 64 by 16. `f2`: the second, 16 by 64. Views into `p`.
 - `x`: the token's embedding plus the position's embedding, for each row. 16 by 16.
 - `xp`: `x` with `rmsn`, the RMS norm, on every row. 16 by 16. Attention's result is added to it.
 - `x1`: `xp` with `rmsn` on every row. 16 by 16. Attention reads it.
@@ -62,7 +62,7 @@ The step returns `loss` and the nine `g` matrices as one vector of 4,192 floats,
 
 ## The terms
 
-- Token: an integer that stands for one character. 0 to 25 are `a` to `z`.
+- Token: an integer that stands for one character. 0 to 25 are ``a`` to ``z``.
 - Mark, or BOS: the token 26. It stands before a name and after it.
 - Document: one name of the corpus.
 - Position: a place in a document's row of tokens, counted from 0. The model reads positions 0 to 15.

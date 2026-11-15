@@ -5,6 +5,12 @@ The program is a small GPT, after Andrej Karpathy's microGPT. It learns to conti
 
 The ten parts explain the model and the code together. They take the lines in the order that a reader needs, which is not always the file's order. Every line of the file is quoted somewhere, with its line number. [The program on one page](part:listing) shows the file whole, and each line number there leads to the place that explains the line.
 
+The control under the bar at the top of each page shows the program's code in one of three forms, in the listings and in the sentences alike.
+
+- Typeset is the program as Fortify, the Fortress team's tool, renders it: the form of the specification and of the team's papers.
+- Unicode is the source with the language's Unicode characters, as a programmer can type it.
+- ASCII is the source as it is in the files.
+
 !!! words How these pages work | Line numbers, formulas, output, the boxes for limits, your place and notes, Speak.
 - A grey number at the left of a code line is the line's number in `MicroGptFlat.fss`. It links to the file on GitHub. A long line wraps on a phone; a new line of the file always starts with its number. A block from another file names that file above its lines.
 - Where a formula helps, it stands after the code that computes it, and a list ties each symbol to a name in the code.
@@ -16,4 +22,4 @@ The ten parts explain the model and the code together. They take the lines in th
 - The Select button beside a heading selects that section's text, for Speak. Its selection leaves out the formulas and the long boxes of numbers. The text around them says what they hold.
 !!!
 
-All the examples use one name of the corpus, `yuheng`, so that the same numbers return from part to part. [Part 10](part:names) lists every name of the program's main function, `step`, and every term, each with its meaning.
+All the examples use one name of the corpus, ``yuheng``, so that the same numbers return from part to part. [Part 10](part:names) lists every name of the program's main function, `step`, and every term, each with its meaning.

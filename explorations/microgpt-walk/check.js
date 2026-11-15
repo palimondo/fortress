@@ -2,9 +2,12 @@
 //   mkdir -p /tmp/walk-srv && ln -sfn "$PWD/docs" /tmp/walk-srv/fortress
 //   python3 -m http.server 8766 --directory /tmp/walk-srv &
 //   node explorations/microgpt-walk/check.js [URL of the walk-through] [folder for the screenshots]
-// It fails on a page that scrolls sideways, on a script error, and on a request that leaves the site. It then
-// writes a note, reloads, and checks the note, the place, the export's address and that the notes are kept
-// apart from the specification reader's. It saves one screenshot of each page, light and dark.
+// Every page is opened light and dark, and in each of the three notations of the code (Typeset, Unicode,
+// ASCII). It fails on a page that scrolls sideways, on a typeset line that is wider than its box, on a
+// listing whose line numbers or links differ between the notations, on a script error, and on a request
+// that leaves the site. It checks that the choice of notation holds from part to part and over a reload.
+// It then writes a note, reloads, and checks the note, the place, the export's address and that the notes are
+// kept apart from the specification reader's. It saves one screenshot of each page, light and dark, typeset.
 // It needs Playwright (NODE_PATH, or /opt/node-tools/node_modules, or the global node_modules).
 let pw;
 for (const m of ['playwright', '/opt/node-tools/node_modules/playwright', '/opt/node22/lib/node_modules/playwright']) {
@@ -16,6 +19,7 @@ const path = require('path');
 const U = process.argv[2] || 'http://localhost:8766/fortress/microgpt/';
 const SHOTS = process.argv[3] || '/tmp';
 const OUT = path.join(__dirname, '..', '..', 'docs', 'microgpt');
+const FORMS = ['typeset', 'unicode', 'source'];
 const pages = fs.readdirSync(OUT).filter(f => f.endsWith('.html')).map(f => f.replace(/\.html$/, '')).sort();
 let failed = 0;
 const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m); };
@@ -31,13 +35,55 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
     await p.emulateMedia({ colorScheme: scheme });
     for (const f of pages) {
       await p.goto(U + f + '.html');
-      const w = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-      const wide = await p.evaluate(() => Array.from(document.querySelectorAll('.dm svg, figure.fig svg')).filter(s => s.getBoundingClientRect().right > window.innerWidth).length);
-      ok(w === 0 && wide === 0, `${scheme} ${f}: no sideways scroll (${w}); formulas or drawings wider than the screen: ${wide}`);
-      await p.screenshot({ path: path.join(SHOTS, `walk-${f}-${scheme}.png`), fullPage: true });
+      const control = await p.locator('.notation button').count();
+      for (const form of control ? FORMS : ['source']) {
+        if (control) await p.click(`.notation button[data-n="${form}"]`);
+        await p.evaluate(() => document.fonts.ready);
+        const shown = await p.evaluate(() => document.documentElement.getAttribute('data-notation') || 'source');
+        const w = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        const wide = await p.evaluate(() => Array.from(document.querySelectorAll('.dm svg, figure.fig svg')).filter(s => s.getBoundingClientRect().right > window.innerWidth).length);
+        // a typeset line that is wider than its box scrolls sideways inside the box: none is allowed
+        const long = await p.evaluate(() => Array.from(document.querySelectorAll('.fx.n3 > .fx-r .l')).filter(l => l.offsetParent && l.scrollWidth > l.parentNode.clientWidth + 1).map(l => (l.querySelector('.ln') || l).textContent.slice(0, 12)));
+        ok((shown === form || !control) && w === 0 && wide === 0 && long.length === 0,
+           `${scheme} ${f} ${form}: no sideways scroll (${w}); formulas or drawings wider than the screen: ${wide}; typeset lines wider than their box: ${long.join(' ') || 'none'}`);
+        if (form === FORMS[0] || !control) await p.screenshot({ path: path.join(SHOTS, `walk-${f}-${scheme}.png`), fullPage: true });
+      }
+      if (scheme === 'light' && control) {
+        // the three notations of a block hold the same line numbers with the same links
+        const differ = await p.evaluate(() => Array.from(document.querySelectorAll('.fx.n3')).filter(fx => {
+          const nums = e => Array.from(e.querySelectorAll('.ln a, a.lnk')).map(a => a.textContent + ' ' + (a.getAttribute('href') || '')).join('|');
+          const three = [fx.querySelector(':scope > .fx-r'), fx.querySelector(':scope > .fx-s:not(.fx-u)'), fx.querySelector(':scope > .fx-u')].map(nums);
+          return three[0] !== three[1] || three[1] !== three[2];
+        }).length);
+        const blocks = await p.locator('.fx.n3').count();
+        const held = await p.evaluate(() => /@font-face|<style/.test(Array.from(document.querySelectorAll('.page svg')).map(s => s.innerHTML).join('')));
+        ok(differ === 0 && !held, `${f}: ${blocks} blocks, each with the same line numbers and links in the three notations; no SVG holds a font or a style`);
+        await p.click('.notation button[data-n="typeset"]');
+      }
     }
   }
   await p.emulateMedia({ colorScheme: 'light' });
+  // the choice of notation: Typeset on a first visit, then kept from part to part and over a reload
+  const parts = pages.filter(f => !['index', 'notes', 'listing'].includes(f));
+  const fresh = await b.newContext({ viewport: { width: 390, height: 844 } });
+  const q = await fresh.newPage();
+  await q.goto(U + parts[0] + '.html');
+  ok(await q.evaluate(() => document.documentElement.getAttribute('data-notation')) === 'typeset', 'a first visit shows the typeset form');
+  const fontsUsed = await q.evaluate(async () => { await document.fonts.ready; return Array.from(document.fonts).filter(x => x.status === 'loaded').length; });
+  ok(fontsUsed > 0, 'the typeset code draws with the shared fonts: ' + fontsUsed + ' pieces loaded');
+  await q.click('.notation button[data-n="unicode"]');
+  await q.goto(U + parts[1] + '.html');
+  const there = await q.evaluate(() => document.documentElement.getAttribute('data-notation'));
+  await q.reload();
+  const again = await q.evaluate(() => [document.documentElement.getAttribute('data-notation'), document.querySelector('.notation button[aria-pressed="true"]').getAttribute('data-n')].join(' '));
+  await q.goto(U + 'listing.html');
+  const listing = await q.evaluate(() => document.documentElement.getAttribute('data-notation'));
+  ok(there === 'unicode' && again === 'unicode unicode' && listing === 'unicode', `the choice holds from part to part, over a reload and on the listing: ${there}, ${again}, ${listing}`);
+  // a note's first words come from the paragraph's text with each code word once
+  await q.goto(U + parts[0] + '.html');
+  const once = await q.evaluate(() => { const b = document.querySelector('p.nb .fc.u, p.nb .fc').closest('.nb'); const c = b.cloneNode(true); c.querySelectorAll('.fr, .fu').forEach(e => e.remove()); return b.textContent === Object.getOwnPropertyDescriptor(Node.prototype, 'textContent').get.call(c); });
+  ok(once, 'the text of a paragraph that a note quotes holds each code word once');
+  await fresh.close();
   const first = pages.find(f => !['index', 'notes', 'listing'].includes(f) && fs.readFileSync(path.join(OUT, f + '.html'), 'utf8').includes('class="dm'));
   await p.goto(U + first + '.html');
   const gutter = await p.evaluate(() => document.querySelector('.page').getBoundingClientRect().left);
@@ -79,7 +125,7 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
   await p.goto(link);
   ok(await p.evaluate(() => !!document.getElementById(decodeURIComponent(location.hash.slice(1)))), 'a link of the export leads to its passage');
   await p.goto(U + 'listing.html');
-  const dead = await p.evaluate(() => Array.from(document.querySelectorAll('pre.listing a.lnk')).filter(a => !a.getAttribute('href') && a.parentNode).length);
+  const dead = await p.evaluate(() => Array.from(document.querySelectorAll('pre.listing:not(.fx-u) a.lnk')).filter(a => !a.getAttribute('href') && a.parentNode).length);
   console.log('listing: line numbers without a place: ' + dead);
   ok(ext.length === 0, 'no request leaves the site: ' + ext.slice(0, 3).join(' '));
   ok(errs.length === 0, 'no script error: ' + errs.slice(0, 3).join(' | '));

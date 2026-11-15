@@ -25,7 +25,7 @@ The seven checks:
 
 1. The loader. The 4,192 parameters that `loadParams` reads are equal to the stored vector, to the last digit.
 2. The corpus. The first 16 rows of the token matrix, and the 16 lengths, are equal to the stored rows.
-3. The loss of the step on document 0, `yuheng`: 3.365966947584851 in both programs.
+3. The loss of the step on document 0, ``yuheng``: 3.365966947584851 in both programs.
 4. The gradient of that step. The largest difference over the 4,192 entries is 0.00000000000000011.
 5. The number of gradient entries that are exactly 0: 464, the count of Part 6.
 6. The parameters after one Adam step. The largest difference is 0.00000000000000028.

@@ -13,8 +13,8 @@ index 500 p 0.06258901428847981 g -0.09262792010673876 loss+ 3.365966021326099 l
 
 - With the parameter raised, the loss is 3.365966021.
 - With the parameter lowered, the loss is 3.365967874.
-- The difference is -0.000001853, for a change of 0.00002 in the parameter. The rate is the first divided by the second: -0.09262792011, printed after `fd`.
-- The gradient's entry, printed after `g`, is -0.09262792011. The two agree to nine digits.
+- The difference is -0.000001853, for a change of 0.00002 in the parameter. The rate is the first divided by the second: -0.09262792011, printed after ``fd``.
+- The gradient's entry, printed after ``g``, is -0.09262792011. The two agree to nine digits.
 
 The entry is negative: raising this parameter lowers the loss. Training uses exactly this fact. It moves each parameter against the sign of its gradient entry.
 
@@ -28,7 +28,7 @@ Here the entry is positive: raising the parameter raises the loss.
 
 The experiment needs two forward passes for one parameter. For all the parameters that is 8,384 forward passes. The backward pass gets all 4,192 entries in one pass. The field's name for it is backpropagation.
 
-Karpathy's microGPT does not write a backward pass by hand. In his program, every number of the forward pass is an object of the class `Value`, with a field `grad` that can change. The gradient is found by going back through those objects. The flat program has no such objects. Its backward pass is written out by hand, in lines 63 to 70.
+Karpathy's microGPT does not write a backward pass by hand. In his program, every number of the forward pass is an object of the class ``Value``, with a field ``grad`` that can change. The gradient is found by going back through those objects. The flat program has no such objects. Its backward pass is written out by hand, in lines 63 to 70.
 
 ## The names and the rules
 
@@ -101,10 +101,10 @@ dL[9,0..3] = 0.0 0.0 0.0 0.0
 ```
 
 - The first number is the probability of the token 0 in row 0, 0.0316, divided by 7.
-- The twenty-fifth number belongs to `y`, the right answer. It is 0.0266 minus 1, divided by 7: -0.1391. It is the only negative number of the row.
+- The twenty-fifth number belongs to ``y``, the right answer. It is 0.0266 minus 1, divided by 7: -0.1391. It is the only negative number of the row.
 - Row 9 does not count, and its gradient is 0.
 
-Read the row as an instruction: to lower the loss, raise the score of `y` and lower every other score, each in proportion to its probability.
+Read the row as an instruction: to lower the loss, raise the score of ``y`` and lower every other score, each in proportion to its probability.
 
 $$
 \c{dL}_{rt} = \frac{\c{vm}_r}{\c{nv}}\,\bigl(\c{pr}_{rt} - [\,t = \c{tg}_r\,]\bigr)
@@ -155,7 +155,7 @@ The forward declarations were `m0 = x3 f1^T`, `mr = 0.0 MAX m0` and `x4 = x2 + m
 
 @src 30-33
 
-The `_b` stands for backward. `rmsn_b` takes `dy`, the gradient at the result of `rmsn`, and `x`, the vector that `rmsn` was applied to. It returns the gradient at `x`.
+The ``_b`` stands for backward. `rmsn_b` takes `dy`, the gradient at the result of `rmsn`, and `x`, the vector that `rmsn` was applied to. It returns the gradient at `x`.
 
 - Line 31 computes again what `rmsn` computed: the root `r` of the mean square plus `epsilon`, which is 0.00001, and the result `y`.
 - Line 32 is the gradient. It has two parts, because a change of one element of `x` does two things.
@@ -278,8 +278,8 @@ dX[1,0..3] = 0.02444797853510436 0.10385342691476042 -0.11380900808712022 0.1327
 dX[9,0..3] = 0.0 0.0 0.0 0.0
 ```
 
-- The token `y`, 24, was read once, in row 1. So row 24 of `gWTE` is row 1 of `dX`.
-- The token `a`, 0, does not occur in `yuheng`. Row 0 of `gWTE` is 0: this step says nothing about the embedding of `a`.
+- The token ``y``, 24, was read once, in row 1. So row 24 of `gWTE` is row 1 of `dX`.
+- The token ``a``, 0, does not occur in ``yuheng``. Row 0 of `gWTE` is 0: this step says nothing about the embedding of ``a``.
 - Position 1 belongs to row 1 alone, so row 1 of `gWPE` is also row 1 of `dX`.
 - Row 9 of `dX` is 0. Row 9 does not count in the loss, and no row that counts reads it, because of the mask. So row 9 of `gWPE` is 0.
 
@@ -324,11 +324,11 @@ zero rows of gWTE: 0 1 2 3 5 8 9 10 11 12 14 15 16 17 18 19 21 22 23 25
 zero rows of gWPE: 7 8 9 10 11 12 13 14 15
 ```
 
-`yuheng` uses seven tokens: the mark, 26, and the letters `e`, `g`, `h`, `n`, `u`, `y`, which are 4, 6, 7, 13, 20, 24. The other twenty rows of `gWTE` are 0: 20 times 16 is 320 entries. The name fills positions 0 to 6. Rows 7 to 15 of `gWPE` are 0: 9 times 16 is 144 entries. 320 plus 144 is 464. Every entry of the other seven matrices is different from 0.
+``yuheng`` uses seven tokens: the mark, 26, and the letters ``e``, ``g``, ``h``, ``n``, ``u``, ``y``, which are 4, 6, 7, 13, 20, 24. The other twenty rows of `gWTE` are 0: 20 times 16 is 320 entries. The name fills positions 0 to 6. Rows 7 to 15 of `gWPE` are 0: 9 times 16 is 144 entries. 320 plus 144 is 464. Every entry of the other seven matrices is different from 0.
 
 ## Sources
 
 - Every value in an Output box: runs under walk of a file of small array examples, and of copies of `MicroGptFlat.fss` with print lines added.
-- Backpropagation, and the `Value` objects of Karpathy's program: [explorations/run-b/article.md, line 13](src:explorations/run-b/article.md#L13).
+- Backpropagation, and the ``Value`` objects of Karpathy's program: [explorations/run-b/article.md, line 13](src:explorations/run-b/article.md#L13).
 - The two forms of rule 4 in the project's write-up of run B: [explorations/run-b/article.md, line 158](src:explorations/run-b/article.md#L158).
 - `Diag` and its product: [FlatArrays.fss, lines 33 to 44](src:explorations/run-c4/src/FlatArrays.fss#L33). `rows` with two matrices: [lines 148 to 153](src:explorations/run-c4/src/FlatArrays.fss#L148). `flat`: [lines 179 to 189](src:explorations/run-c4/src/FlatArrays.fss#L179).

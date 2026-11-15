@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>10. Every name of the step, and the terms · microGPT in Fortress</title>
 <link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
 <link rel="stylesheet" href="walk.css">
 </head>
 <body data-page="chapter" data-slug="names" data-chapter="10. Every name of the step, and the terms">
@@ -15,69 +16,70 @@
 </header>
 <div id="resume"></div>
 <div id="chapter-notes"></div>
+<div class="notation" role="group" aria-label="How the program's code is shown"><span class="lab">Code</span><span class="seg"><button type="button" data-n="typeset" aria-pressed="false">Typeset</button><button type="button" data-n="unicode" aria-pressed="false">Unicode</button><button type="button" data-n="source" aria-pressed="false">ASCII</button></span></div>
 <section class="sec chapter" data-num="10" data-title="Every name of the step, and the terms">
 <h1 id="top" class="nb"><span class="num">Part 10</span> Every name of the step, and the terms</h1>
-<p class="standfirst">A reference to return to: what each name in the function <code>step</code> holds and what it is short for, with its size for a batch of one document, and the terms of the ten parts, each with its meaning.</p>
+<p class="standfirst">A reference to return to: what each name in the function <span class="fc"><span class="fr m"><i>step</i></span><code class="fs">step</code></span> holds and what it is short for, with its size for a batch of one document, and the terms of the ten parts, each with its meaning.</p>
 <nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-the-names-of-the-forward-pass">10.1 The names of the forward pass</a></li><li><a href="#s-the-names-of-the-backward-pass">10.2 The names of the backward pass</a></li><li><a href="#s-the-terms">10.3 The terms</a></li></ol></nav>
 <section class="sec" data-num="10.1" data-title="The names of the forward pass">
 <h2 id="s-the-names-of-the-forward-pass" class="nb"><span class="num">10.1</span> The names of the forward pass</h2>
 <p id="p-f4b52124" class="nb">The sizes are those that a run printed for a batch of one document. "16 by 16" means 16 rows by 16 columns. A size with three numbers means planes, rows, columns.</p>
 <ul>
-<li><p id="p-3e7acc36" class="nb"><code>p</code>: the parameters. A vector of 4,192 floats.</p></li>
-<li><p id="p-f7644453" class="nb"><code>b</code>: the batch, the numbers of the documents of this step. Here one integer, 0.</p></li>
-<li><p id="p-6d5a3e61" class="nb"><code>ids</code>: the tokens' identifiers. The token that the model reads in each row. 16 integers.</p></li>
-<li><p id="p-704dbe13" class="nb"><code>tg</code>: the targets. The token that comes next in each row, the right answer. 16 integers.</p></li>
-<li><p id="p-515170d2" class="nb"><code>vm</code>: the mask of the valid rows. 1.0 for a row that counts, 0.0 for a row after the name's end. 16 floats.</p></li>
-<li><p id="p-9864bd59" class="nb"><code>nv</code>: the number of valid rows, the rows that count. 7.0 for <code>yuheng</code>.</p></li>
-<li><p id="p-f8e788ef" class="nb"><code>pos</code>: the positions. The position of each row, 0 to 15. 16 integers.</p></li>
-<li><p id="p-fce7211c" class="nb"><code>wte</code>: the weights of the token embedding. The token table, 27 by 16. Row <code>t</code> is the embedding of the token <code>t</code>. A view into <code>p</code>.</p></li>
-<li><p id="p-f3ad39da" class="nb"><code>wpe</code>: the weights of the position embedding. The position table, 16 by 16. Row <code>i</code> is the embedding of position <code>i</code>. A view into <code>p</code>.</p></li>
-<li><p id="p-c8fbddc2" class="nb"><code>lm</code>: the language model's head, in the files <code>lm_head</code>. The matrix that makes 27 scores from a row, 27 by 16. A view into <code>p</code>.</p></li>
-<li><p id="p-ea9d0746" class="nb"><code>wq</code>, <code>wk</code>, <code>wv</code>: attention's weights for the query, the key and the value, in the files <code>attn_wq</code>, <code>attn_wk</code> and <code>attn_wv</code>. The matrices that make queries, keys and values, 16 by 16 each. Views into <code>p</code>.</p></li>
-<li><p id="p-c5565a8b" class="nb"><code>wo</code>: attention's weights for the output, in the files <code>attn_wo</code>. The matrix that mixes the heads' results, 16 by 16. A view into <code>p</code>.</p></li>
-<li><p id="p-38d7fe83" class="nb"><code>f1</code>: in the files <code>mlp_fc1</code>, for multi-layer perceptron, fully connected, 1. The first matrix of the feed-forward block, 64 by 16. <code>f2</code>: the second, 16 by 64. Views into <code>p</code>.</p></li>
-<li><p id="p-220e7afd" class="nb"><code>x</code>: the token's embedding plus the position's embedding, for each row. 16 by 16.</p></li>
-<li><p id="p-4b5c1d1b" class="nb"><code>xp</code>: <code>x</code> with <code>rmsn</code>, the RMS norm, on every row. 16 by 16. Attention's result is added to it.</p></li>
-<li><p id="p-fd10e693" class="nb"><code>x1</code>: <code>xp</code> with <code>rmsn</code> on every row. 16 by 16. Attention reads it.</p></li>
-<li><p id="p-aa356f3f" class="nb"><code>q</code>, <code>k</code>, <code>v</code>: the queries, the keys and the values. Every row of <code>x1</code> through <code>wq</code>, <code>wk</code>, <code>wv</code>: the query, the key and the value of each position. 16 by 16 each.</p></li>
-<li><p id="p-9caab018" class="nb"><code>qh</code>, <code>kh</code>, <code>vh</code>: the queries, keys and values in heads. The same numbers cut into heads. 4 planes of 16 by 4 each. Views.</p></li>
-<li><p id="p-7fd2037b" class="nb"><code>a</code>: attention. The attention weights. 4 planes of 16 by 16. In a plane, row <code>i</code> holds the attention weights with which position <code>i</code> reads positions 0 to 15. Each row adds up to 1.</p></li>
-<li><p id="p-4285abc9" class="nb"><code>hc</code>: the heads' results. For each position, the four heads' weighted averages of the values, side by side. 16 by 16.</p></li>
-<li><p id="p-e255590a" class="nb"><code>x2</code>: <code>xp</code> plus <code>hc</code> through <code>wo</code>. 16 by 16. The feed-forward block's result is added to it.</p></li>
-<li><p id="p-94cf3176" class="nb"><code>x3</code>: <code>x2</code> with <code>rmsn</code> on every row. 16 by 16.</p></li>
-<li><p id="p-75e167b9" class="nb"><code>m0</code>: every row of <code>x3</code> through <code>f1</code>. 16 by 64.</p></li>
-<li><p id="p-35cbcba5" class="nb"><code>mr</code>: <code>m0</code> after ReLU, with its negative numbers set to 0. 16 by 64.</p></li>
-<li><p id="p-577fee17" class="nb"><code>x4</code>: <code>x2</code> plus <code>mr</code> through <code>f2</code>. 16 by 16.</p></li>
-<li><p id="p-c83a7a1a" class="nb"><code>pr</code>: the probabilities, the model's answer. 16 by 27. Row <code>r</code> holds the 27 probabilities for the token after position <code>r</code>.</p></li>
-<li><p id="p-7153c494" class="nb"><code>loss</code>: one float. The mean, over the rows that count, of minus the logarithm of the probability of the right answer.</p></li>
+<li><p id="p-3e7acc36" class="nb"><span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>: the parameters. A vector of 4,192 floats.</p></li>
+<li><p id="p-f7644453" class="nb"><span class="fc"><span class="fr m"><i>b</i></span><code class="fs">b</code></span>: the batch, the numbers of the documents of this step. Here one integer, 0.</p></li>
+<li><p id="p-6d5a3e61" class="nb"><span class="fc"><span class="fr m"><i>ids</i></span><code class="fs">ids</code></span>: the tokens' identifiers. The token that the model reads in each row. 16 integers.</p></li>
+<li><p id="p-704dbe13" class="nb"><span class="fc"><span class="fr m"><i>tg</i></span><code class="fs">tg</code></span>: the targets. The token that comes next in each row, the right answer. 16 integers.</p></li>
+<li><p id="p-515170d2" class="nb"><span class="fc"><span class="fr m"><i>vm</i></span><code class="fs">vm</code></span>: the mask of the valid rows. 1.0 for a row that counts, 0.0 for a row after the name's end. 16 floats.</p></li>
+<li><p id="p-9864bd59" class="nb"><span class="fc"><span class="fr m"><i>nv</i></span><code class="fs">nv</code></span>: the number of valid rows, the rows that count. 7.0 for <code>yuheng</code>.</p></li>
+<li><p id="p-f8e788ef" class="nb"><span class="fc"><span class="fr m"><i>pos</i></span><code class="fs">pos</code></span>: the positions. The position of each row, 0 to 15. 16 integers.</p></li>
+<li><p id="p-fce7211c" class="nb"><span class="fc"><span class="fr m"><i>wte</i></span><code class="fs">wte</code></span>: the weights of the token embedding. The token table, 27 by 16. Row <span class="fc"><span class="fr m"><i>t</i></span><code class="fs">t</code></span> is the embedding of the token <span class="fc"><span class="fr m"><i>t</i></span><code class="fs">t</code></span>. A view into <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>.</p></li>
+<li><p id="p-f3ad39da" class="nb"><span class="fc"><span class="fr m"><i>wpe</i></span><code class="fs">wpe</code></span>: the weights of the position embedding. The position table, 16 by 16. Row <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> is the embedding of position <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span>. A view into <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>.</p></li>
+<li><p id="p-c8fbddc2" class="nb"><span class="fc"><span class="fr m"><i>lm</i></span><code class="fs">lm</code></span>: the language model's head, in the files <code>lm_head</code>. The matrix that makes 27 scores from a row, 27 by 16. A view into <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>.</p></li>
+<li><p id="p-ea9d0746" class="nb"><span class="fc"><span class="fr m"><i>wq</i></span><code class="fs">wq</code></span>, <span class="fc"><span class="fr m"><i>wk</i></span><code class="fs">wk</code></span>, <span class="fc"><span class="fr m"><i>wv</i></span><code class="fs">wv</code></span>: attention's weights for the query, the key and the value, in the files <code>attn_wq</code>, <code>attn_wk</code> and <code>attn_wv</code>. The matrices that make queries, keys and values, 16 by 16 each. Views into <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>.</p></li>
+<li><p id="p-c5565a8b" class="nb"><span class="fc"><span class="fr m"><i>wo</i></span><code class="fs">wo</code></span>: attention's weights for the output, in the files <code>attn_wo</code>. The matrix that mixes the heads' results, 16 by 16. A view into <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>.</p></li>
+<li><p id="p-38d7fe83" class="nb"><span class="fc"><span class="fr m"><i>f</i><sub>1</sub></span><code class="fs">f1</code></span>: in the files <code>mlp_fc1</code>, for multi-layer perceptron, fully connected, 1. The first matrix of the feed-forward block, 64 by 16. <span class="fc"><span class="fr m"><i>f</i><sub>2</sub></span><code class="fs">f2</code></span>: the second, 16 by 64. Views into <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>.</p></li>
+<li><p id="p-220e7afd" class="nb"><span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span>: the token's embedding plus the position's embedding, for each row. 16 by 16.</p></li>
+<li><p id="p-4b5c1d1b" class="nb"><span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span>: <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span> with <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span>, the RMS norm, on every row. 16 by 16. Attention's result is added to it.</p></li>
+<li><p id="p-fd10e693" class="nb"><span class="fc"><span class="fr m"><i>x</i><sub>1</sub></span><code class="fs">x1</code></span>: <span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span> with <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span> on every row. 16 by 16. Attention reads it.</p></li>
+<li><p id="p-aa356f3f" class="nb"><span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span>, <span class="fc"><span class="fr m"><i>k</i></span><code class="fs">k</code></span>, <span class="fc"><span class="fr m"><i>v</i></span><code class="fs">v</code></span>: the queries, the keys and the values. Every row of <span class="fc"><span class="fr m"><i>x</i><sub>1</sub></span><code class="fs">x1</code></span> through <span class="fc"><span class="fr m"><i>wq</i></span><code class="fs">wq</code></span>, <span class="fc"><span class="fr m"><i>wk</i></span><code class="fs">wk</code></span>, <span class="fc"><span class="fr m"><i>wv</i></span><code class="fs">wv</code></span>: the query, the key and the value of each position. 16 by 16 each.</p></li>
+<li><p id="p-9caab018" class="nb"><span class="fc"><span class="fr m"><i>qh</i></span><code class="fs">qh</code></span>, <span class="fc"><span class="fr m"><i>kh</i></span><code class="fs">kh</code></span>, <span class="fc"><span class="fr m"><i>vh</i></span><code class="fs">vh</code></span>: the queries, keys and values in heads. The same numbers cut into heads. 4 planes of 16 by 4 each. Views.</p></li>
+<li><p id="p-7fd2037b" class="nb"><span class="fc"><span class="fr m"><i>a</i></span><code class="fs">a</code></span>: attention. The attention weights. 4 planes of 16 by 16. In a plane, row <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> holds the attention weights with which position <span class="fc"><span class="fr m"><i>i</i></span><code class="fs">i</code></span> reads positions 0 to 15. Each row adds up to 1.</p></li>
+<li><p id="p-4285abc9" class="nb"><span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span>: the heads' results. For each position, the four heads' weighted averages of the values, side by side. 16 by 16.</p></li>
+<li><p id="p-e255590a" class="nb"><span class="fc"><span class="fr m"><i>x</i><sub>2</sub></span><code class="fs">x2</code></span>: <span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span> plus <span class="fc"><span class="fr m"><i>hc</i></span><code class="fs">hc</code></span> through <span class="fc"><span class="fr m"><i>wo</i></span><code class="fs">wo</code></span>. 16 by 16. The feed-forward block's result is added to it.</p></li>
+<li><p id="p-94cf3176" class="nb"><span class="fc"><span class="fr m"><i>x</i><sub>3</sub></span><code class="fs">x3</code></span>: <span class="fc"><span class="fr m"><i>x</i><sub>2</sub></span><code class="fs">x2</code></span> with <span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span> on every row. 16 by 16.</p></li>
+<li><p id="p-75e167b9" class="nb"><span class="fc"><span class="fr m"><i>m</i><sub>0</sub></span><code class="fs">m0</code></span>: every row of <span class="fc"><span class="fr m"><i>x</i><sub>3</sub></span><code class="fs">x3</code></span> through <span class="fc"><span class="fr m"><i>f</i><sub>1</sub></span><code class="fs">f1</code></span>. 16 by 64.</p></li>
+<li><p id="p-35cbcba5" class="nb"><span class="fc"><span class="fr m"><i>mr</i></span><code class="fs">mr</code></span>: <span class="fc"><span class="fr m"><i>m</i><sub>0</sub></span><code class="fs">m0</code></span> after ReLU, with its negative numbers set to 0. 16 by 64.</p></li>
+<li><p id="p-577fee17" class="nb"><span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span>: <span class="fc"><span class="fr m"><i>x</i><sub>2</sub></span><code class="fs">x2</code></span> plus <span class="fc"><span class="fr m"><i>mr</i></span><code class="fs">mr</code></span> through <span class="fc"><span class="fr m"><i>f</i><sub>2</sub></span><code class="fs">f2</code></span>. 16 by 16.</p></li>
+<li><p id="p-c83a7a1a" class="nb"><span class="fc"><span class="fr m"><i>pr</i></span><code class="fs">pr</code></span>: the probabilities, the model's answer. 16 by 27. Row <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span> holds the 27 probabilities for the token after position <span class="fc"><span class="fr m"><i>r</i></span><code class="fs">r</code></span>.</p></li>
+<li><p id="p-7153c494" class="nb"><span class="fc"><span class="fr m"><i>loss</i></span><code class="fs">loss</code></span>: one float. The mean, over the rows that count, of minus the logarithm of the probability of the right answer.</p></li>
 </ul>
 </section>
 <section class="sec" data-num="10.2" data-title="The names of the backward pass">
 <h2 id="s-the-names-of-the-backward-pass" class="nb"><span class="num">10.2</span> The names of the backward pass</h2>
-<p id="p-d7bbbb4a" class="nb">Each name holds rates: the change of the loss for each unit of change of an element of a forward value. It has the size of that forward value. A <code>d</code> in front marks the gradient at a value that the forward pass computed, and a <code>g</code> marks the gradient at a weight matrix.</p>
+<p id="p-d7bbbb4a" class="nb">Each name holds rates: the change of the loss for each unit of change of an element of a forward value. It has the size of that forward value. A <span class="fc"><span class="fr m"><i>d</i></span><code class="fs">d</code></span> in front marks the gradient at a value that the forward pass computed, and a <span class="fc"><span class="fr m"><i>g</i></span><code class="fs">g</code></span> marks the gradient at a weight matrix.</p>
 <ul>
-<li><p id="p-9af848bd" class="nb"><code>dL</code>: the gradient at the 27 scores of each row, before <code>sm</code>. 16 by 27.</p></li>
-<li><p id="p-35716e6c" class="nb"><code>gLM</code>: the gradient at <code>lm</code>. 27 by 16.</p></li>
-<li><p id="p-5f3cbd25" class="nb"><code>dX4</code>: the gradient at <code>x4</code>. 16 by 16.</p></li>
-<li><p id="p-86253b12" class="nb"><code>gF2</code>: the gradient at <code>f2</code>. 16 by 64.</p></li>
-<li><p id="p-6ab35dc4" class="nb"><code>dM0</code>: the gradient at <code>m0</code>. 16 by 64.</p></li>
-<li><p id="p-72c4cbbb" class="nb"><code>gF1</code>: the gradient at <code>f1</code>. 64 by 16.</p></li>
-<li><p id="p-48413d13" class="nb"><code>dX3</code>: the gradient at <code>x3</code>. 16 by 16.</p></li>
-<li><p id="p-5206a1b5" class="nb"><code>dX2</code>: the gradient at <code>x2</code>. 16 by 16.</p></li>
-<li><p id="p-f846fac4" class="nb"><code>gWO</code>: the gradient at <code>wo</code>. 16 by 16.</p></li>
-<li><p id="p-b3307762" class="nb"><code>dh</code>: the gradient at the heads' averages, <code>a vh</code>. 4 planes of 16 by 4.</p></li>
-<li><p id="p-152ad16f" class="nb"><code>dVh</code>: the gradient at <code>vh</code>. 4 planes of 16 by 4.</p></li>
-<li><p id="p-99745701" class="nb"><code>dS</code>: the gradient at the scores <code>qh kh^T</code>. 4 planes of 16 by 16.</p></li>
-<li><p id="p-f65fd4e6" class="nb"><code>dQh</code>, <code>dKh</code>: the gradients at <code>qh</code> and <code>kh</code>. 4 planes of 16 by 4 each.</p></li>
-<li><p id="p-8ca0b066" class="nb"><code>dQ</code>, <code>dK</code>, <code>dV</code>: the gradients at <code>q</code>, <code>k</code> and <code>v</code>. 16 by 16 each.</p></li>
-<li><p id="p-0907f432" class="nb"><code>gWQ</code>, <code>gWK</code>, <code>gWV</code>: the gradients at <code>wq</code>, <code>wk</code> and <code>wv</code>. 16 by 16 each.</p></li>
-<li><p id="p-e536a717" class="nb"><code>dX1</code>: the gradient at <code>x1</code>. 16 by 16.</p></li>
-<li><p id="p-94efa9d8" class="nb"><code>dXp</code>: the gradient at <code>xp</code>. 16 by 16.</p></li>
-<li><p id="p-5b425e53" class="nb"><code>dX</code>: the gradient at <code>x</code>. 16 by 16.</p></li>
-<li><p id="p-6c07566a" class="nb"><code>gWTE</code>: the gradient at <code>wte</code>. 27 by 16.</p></li>
-<li><p id="p-2cb30eab" class="nb"><code>gWPE</code>: the gradient at <code>wpe</code>. 16 by 16.</p></li>
+<li><p id="p-9af848bd" class="nb"><span class="fc"><span class="fr m"><i>dL</i></span><code class="fs">dL</code></span>: the gradient at the 27 scores of each row, before <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span>. 16 by 27.</p></li>
+<li><p id="p-35716e6c" class="nb"><span class="fc"><span class="fr m"><i>gLM</i></span><code class="fs">gLM</code></span>: the gradient at <span class="fc"><span class="fr m"><i>lm</i></span><code class="fs">lm</code></span>. 27 by 16.</p></li>
+<li><p id="p-5f3cbd25" class="nb"><span class="fc"><span class="fr m"><i>dX</i><sub>4</sub></span><code class="fs">dX4</code></span>: the gradient at <span class="fc"><span class="fr m"><i>x</i><sub>4</sub></span><code class="fs">x4</code></span>. 16 by 16.</p></li>
+<li><p id="p-86253b12" class="nb"><span class="fc"><span class="fr m"><i>gF</i><sub>2</sub></span><code class="fs">gF2</code></span>: the gradient at <span class="fc"><span class="fr m"><i>f</i><sub>2</sub></span><code class="fs">f2</code></span>. 16 by 64.</p></li>
+<li><p id="p-6ab35dc4" class="nb"><span class="fc"><span class="fr m"><i>dM</i><sub>0</sub></span><code class="fs">dM0</code></span>: the gradient at <span class="fc"><span class="fr m"><i>m</i><sub>0</sub></span><code class="fs">m0</code></span>. 16 by 64.</p></li>
+<li><p id="p-72c4cbbb" class="nb"><span class="fc"><span class="fr m"><i>gF</i><sub>1</sub></span><code class="fs">gF1</code></span>: the gradient at <span class="fc"><span class="fr m"><i>f</i><sub>1</sub></span><code class="fs">f1</code></span>. 64 by 16.</p></li>
+<li><p id="p-48413d13" class="nb"><span class="fc"><span class="fr m"><i>dX</i><sub>3</sub></span><code class="fs">dX3</code></span>: the gradient at <span class="fc"><span class="fr m"><i>x</i><sub>3</sub></span><code class="fs">x3</code></span>. 16 by 16.</p></li>
+<li><p id="p-5206a1b5" class="nb"><span class="fc"><span class="fr m"><i>dX</i><sub>2</sub></span><code class="fs">dX2</code></span>: the gradient at <span class="fc"><span class="fr m"><i>x</i><sub>2</sub></span><code class="fs">x2</code></span>. 16 by 16.</p></li>
+<li><p id="p-f846fac4" class="nb"><span class="fc"><span class="fr m"><i>gWO</i></span><code class="fs">gWO</code></span>: the gradient at <span class="fc"><span class="fr m"><i>wo</i></span><code class="fs">wo</code></span>. 16 by 16.</p></li>
+<li><p id="p-b3307762" class="nb"><span class="fc"><span class="fr m"><i>dh</i></span><code class="fs">dh</code></span>: the gradient at the heads' averages, <span class="fc"><span class="fr m"><i>a</i> <i>vh</i></span><code class="fs">a vh</code></span>. 4 planes of 16 by 4.</p></li>
+<li><p id="p-152ad16f" class="nb"><span class="fc"><span class="fr m"><i>dVh</i></span><code class="fs">dVh</code></span>: the gradient at <span class="fc"><span class="fr m"><i>vh</i></span><code class="fs">vh</code></span>. 4 planes of 16 by 4.</p></li>
+<li><p id="p-99745701" class="nb"><span class="fc"><span class="fr m"><i>dS</i></span><code class="fs">dS</code></span>: the gradient at the scores <span class="fc"><span class="fr m"><i>qh</i> <i>kh</i><sup><i>T</i></sup></span><code class="fs">qh kh^T</code></span>. 4 planes of 16 by 16.</p></li>
+<li><p id="p-f65fd4e6" class="nb"><span class="fc"><span class="fr m"><i>dQh</i></span><code class="fs">dQh</code></span>, <span class="fc"><span class="fr m"><i>dKh</i></span><code class="fs">dKh</code></span>: the gradients at <span class="fc"><span class="fr m"><i>qh</i></span><code class="fs">qh</code></span> and <span class="fc"><span class="fr m"><i>kh</i></span><code class="fs">kh</code></span>. 4 planes of 16 by 4 each.</p></li>
+<li><p id="p-8ca0b066" class="nb"><span class="fc"><span class="fr m"><i>dQ</i></span><code class="fs">dQ</code></span>, <span class="fc"><span class="fr m"><i>dK</i></span><code class="fs">dK</code></span>, <span class="fc"><span class="fr m"><i>dV</i></span><code class="fs">dV</code></span>: the gradients at <span class="fc"><span class="fr m"><i>q</i></span><code class="fs">q</code></span>, <span class="fc"><span class="fr m"><i>k</i></span><code class="fs">k</code></span> and <span class="fc"><span class="fr m"><i>v</i></span><code class="fs">v</code></span>. 16 by 16 each.</p></li>
+<li><p id="p-0907f432" class="nb"><span class="fc"><span class="fr m"><i>gWQ</i></span><code class="fs">gWQ</code></span>, <span class="fc"><span class="fr m"><i>gWK</i></span><code class="fs">gWK</code></span>, <span class="fc"><span class="fr m"><i>gWV</i></span><code class="fs">gWV</code></span>: the gradients at <span class="fc"><span class="fr m"><i>wq</i></span><code class="fs">wq</code></span>, <span class="fc"><span class="fr m"><i>wk</i></span><code class="fs">wk</code></span> and <span class="fc"><span class="fr m"><i>wv</i></span><code class="fs">wv</code></span>. 16 by 16 each.</p></li>
+<li><p id="p-e536a717" class="nb"><span class="fc"><span class="fr m"><i>dX</i><sub>1</sub></span><code class="fs">dX1</code></span>: the gradient at <span class="fc"><span class="fr m"><i>x</i><sub>1</sub></span><code class="fs">x1</code></span>. 16 by 16.</p></li>
+<li><p id="p-94efa9d8" class="nb"><span class="fc"><span class="fr m"><i>dXp</i></span><code class="fs">dXp</code></span>: the gradient at <span class="fc"><span class="fr m"><i>xp</i></span><code class="fs">xp</code></span>. 16 by 16.</p></li>
+<li><p id="p-5b425e53" class="nb"><span class="fc"><span class="fr m"><i>dX</i></span><code class="fs">dX</code></span>: the gradient at <span class="fc"><span class="fr m"><i>x</i></span><code class="fs">x</code></span>. 16 by 16.</p></li>
+<li><p id="p-6c07566a" class="nb"><span class="fc"><span class="fr m"><i>gWTE</i></span><code class="fs">gWTE</code></span>: the gradient at <span class="fc"><span class="fr m"><i>wte</i></span><code class="fs">wte</code></span>. 27 by 16.</p></li>
+<li><p id="p-2cb30eab" class="nb"><span class="fc"><span class="fr m"><i>gWPE</i></span><code class="fs">gWPE</code></span>: the gradient at <span class="fc"><span class="fr m"><i>wpe</i></span><code class="fs">wpe</code></span>. 16 by 16.</p></li>
 </ul>
-<p id="p-419c3b70" class="nb">The step returns <code>loss</code> and the nine <code>g</code> matrices as one vector of 4,192 floats, in the layout of <code>p</code>.</p>
+<p id="p-419c3b70" class="nb">The step returns <span class="fc"><span class="fr m"><i>loss</i></span><code class="fs">loss</code></span> and the nine <span class="fc"><span class="fr m"><i>g</i></span><code class="fs">g</code></span> matrices as one vector of 4,192 floats, in the layout of <span class="fc"><span class="fr m"><i>p</i></span><code class="fs">p</code></span>.</p>
 </section>
 <section class="sec" data-num="10.3" data-title="The terms">
 <h2 id="s-the-terms" class="nb"><span class="num">10.3</span> The terms</h2>
@@ -88,17 +90,17 @@
 <li><p id="p-be87b8cd" class="nb">Position: a place in a document's row of tokens, counted from 0. The model reads positions 0 to 15.</p></li>
 <li><p id="p-ccdcfb36" class="nb">Row: one pair of a document and a position. Every matrix of the step has one row for each pair.</p></li>
 <li><p id="p-4750374e" class="nb">Batch: the documents that one step learns from.</p></li>
-<li><p id="p-c1793608" class="nb">Key, in Part 1: an integer that looks a row up in a table. <code>ids</code>, <code>tg</code> and <code>pos</code> are vectors of keys.</p></li>
+<li><p id="p-c1793608" class="nb">Key, in Part 1: an integer that looks a row up in a table. <span class="fc"><span class="fr m"><i>ids</i></span><code class="fs">ids</code></span>, <span class="fc"><span class="fr m"><i>tg</i></span><code class="fs">tg</code></span> and <span class="fc"><span class="fr m"><i>pos</i></span><code class="fs">pos</code></span> are vectors of keys.</p></li>
 <li><p id="p-ebd19144" class="nb">Parameter: one of the 4,192 floats that training changes.</p></li>
 <li><p id="p-c1f515b1" class="nb">Weight matrix: one of the nine matrices of parameters.</p></li>
 <li><p id="p-30d0ff8f" class="nb">Vocabulary: the model's set of tokens, 27 of them. In the program's comments, "the array vocabulary" is the file <code>FlatArrays.fss</code>.</p></li>
-<li><p id="p-26c158dd" class="nb"><code>FlatArrays.fss</code>: the file of array helpers that the program imports. It holds the functions and operators on vectors and matrices that Fortress's library does not have, such as <code>rows</code>, <code>gather</code> and <code>view</code>.</p></li>
-<li><p id="p-08f8e306" class="nb"><code>rmsn</code>: RMS norm, for root mean square. It divides a row by the root of the mean of its squares.</p></li>
-<li><p id="p-6dfc3a51" class="nb"><code>sm</code>: softmax. It turns a row of scores into probabilities.</p></li>
+<li><p id="p-26c158dd" class="nb"><code>FlatArrays.fss</code>: the file of array helpers that the program imports. It holds the functions and operators on vectors and matrices that Fortress's library does not have, such as <span class="fc"><span class="fr m"><i>rows</i></span><code class="fs">rows</code></span>, <span class="fc"><span class="fr m"><i>gather</i></span><code class="fs">gather</code></span> and <span class="fc"><span class="fr m"><i>view</i></span><code class="fs">view</code></span>.</p></li>
+<li><p id="p-08f8e306" class="nb"><span class="fc"><span class="fr m"><i>rmsn</i></span><code class="fs">rmsn</code></span>: RMS norm, for root mean square. It divides a row by the root of the mean of its squares.</p></li>
+<li><p id="p-6dfc3a51" class="nb"><span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span>: softmax. It turns a row of scores into probabilities.</p></li>
 <li><p id="p-17d1a585" class="nb">View: a matrix or a vector without storage of its own. It reads and writes another array.</p></li>
 <li><p id="p-8ddebdce" class="nb">Plane: one of the matrices of an array with three indices.</p></li>
 <li><p id="p-e601e865" class="nb">Embedding: the row that a table holds for a token or for a position, a vector of 16 numbers.</p></li>
-<li><p id="p-3ae0ab53" class="nb">Score: a number of any size and sign that goes into <code>sm</code>.</p></li>
+<li><p id="p-3ae0ab53" class="nb">Score: a number of any size and sign that goes into <span class="fc"><span class="fr m"><i>sm</i></span><code class="fs">sm</code></span>.</p></li>
 <li><p id="p-11ec4c8b" class="nb">Query, key and value, in attention: three vectors that each position makes from its row. A query with a key gives a score. The values are what gets averaged.</p></li>
 <li><p id="p-b48b636f" class="nb">Head: one of the four attention computations, each on four of the sixteen columns.</p></li>
 <li><p id="p-1b359f34" class="nb">Attention weight: a number between 0 and 1 that says how much one position reads from another. The model computes it anew in every forward pass.</p></li>
@@ -107,7 +109,7 @@
 <li><p id="p-45d3223d" class="nb">Loss: one number that says how wrong the model's probabilities are for the right answers.</p></li>
 <li><p id="p-2f3b800b" class="nb">Gradient: for each parameter, the rate at which the loss changes when that parameter changes.</p></li>
 <li><p id="p-a4b6f826" class="nb">Backward pass: the part of the step that computes the gradient, lines 63 to 70.</p></li>
-<li><p id="p-808a4cc6" class="nb">Step: the function <code>step</code>, one forward pass and one backward pass. A step of training is a step and one call of <code>adam</code>.</p></li>
+<li><p id="p-808a4cc6" class="nb">Step: the function <span class="fc"><span class="fr m"><i>step</i></span><code class="fs">step</code></span>, one forward pass and one backward pass. A step of training is a step and one call of <span class="fc"><span class="fr m"><i>adam</i></span><code class="fs">adam</code></span>.</p></li>
 </ul>
 </section>
 </section>
