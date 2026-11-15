@@ -3,24 +3,24 @@
 
 ## What attention is for
 
-After the first forward line, row 4 of the matrix holds the embedding of the token `e` at position 4. It holds nothing about the tokens before it. To say what follows `yuhe`, the row needs to know about `y`, `u` and `h` too.
+After the first forward line, row 4 of the matrix `x` holds the embedding of the token `e` plus the embedding of position 4. It holds nothing about the tokens before it. To say what follows `yuhe`, the row needs to know about `y`, `u` and `h` too.
 
-Almost every line of the forward pass treats each row by itself. A product of the form `x w^T` puts every row through the same matrix, and `rows` applies a function to every row. No number moves from one row to another.
+Almost every line of the forward pass treats each row by itself. A product of the form `x w^T` puts every row through the same matrix, and `rows`, the function of `FlatArrays.fss` from Part 3, applies a function to every row. No number moves from one row to another.
 
-Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. This text says that position `i` reads position `j` when a vector of position `j` enters the average of position `i`.
+Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. Position `i` reads position `j` when a vector of position `j` enters the average of position `i`.
 
-The average is weighted: each position that is read counts with a number between 0 and 1, and these numbers add up to 1. This text calls such a number an attention weight. The word is close to "weight matrix" and means a different thing. A weight matrix holds parameters, which only training changes. The attention weights are computed anew in every forward pass, from the rows themselves. This part follows that computation in four steps:
+The average is weighted: each position that is read counts with a number between 0 and 1, and these numbers add up to 1. Such a number is an attention weight. The word is close to "weight matrix" and means a different thing. A weight matrix holds parameters, which only training changes. The attention weights are computed anew in every forward pass, from the rows themselves. The computation has four steps:
 
 1. Three products make a query, a key and a value for every position.
 2. A product of queries and keys gives scores.
-3. `sm` turns the scores into attention weights.
+3. `sm`, the softmax of Part 3, turns the scores into attention weights.
 4. A product of attention weights and values gives the averages.
 
 ## Query, key and value
 
 @src 58: (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T)
 
-The line binds three names to three products. Each product puts every row of `x1` through one weight matrix, as Part 2 showed. So `q`, `k` and `v` are matrices of 16 by 16, with one row for each position.
+The line binds three names to three products. `x1` is the matrix of Part 3: the summed embeddings after two calls of `rmsn`. `wq`, `wk` and `wv` are attention's weight matrices for the query, the key and the value, three of the nine views of Part 2. Each product puts every row of `x1` through one of them. So `q`, the queries, `k`, the keys, and `v`, the values, are matrices of 16 by 16, with one row for each position.
 
 - Row `i` of `q` is the query of position `i`. The model uses it when position `i` reads.
 - Row `j` of `k` is the key of position `j`. The model uses it when another position decides how much to read from position `j`. This key is a vector of floats. It has nothing to do with the keys of Part 1, the integers that look rows up in a table.
@@ -32,18 +32,18 @@ The words query, key and value describe the parts' places in the computation. Th
 
 ## Four heads
 
-The model does not use the 16 numbers of a query as one vector. It cuts every query, key and value into four pieces of four numbers: columns 0 to 3, columns 4 to 7, columns 8 to 11, columns 12 to 15. Piece number 0 of the queries works only with piece number 0 of the keys and of the values, and so on. Each of the four is called a head. A head is a complete attention computation on vectors of four numbers. That is the meaning of the constants `nHead`, 4, and `headDim`, 4.
+The model does not use the 16 numbers of a query as one vector. It cuts every query, key and value into four pieces of four numbers: columns 0 to 3, columns 4 to 7, columns 8 to 11, columns 12 to 15. Piece number 0 of the queries works only with piece number 0 of the keys and of the values, and so on. Each of the four is called a head. A head is a complete attention computation on vectors of four numbers. The constants of line 17 say so: `nHead`, the number of heads, is 4, and `headDim`, the number of columns of a head, is 4.
 
 One head gives each position one set of attention weights. Four heads give it four, so the model can read the earlier positions in four ways at once.
 
 @src 54-55
 
-These two lines stand at the top of the step, before the forward pass. They declare two functions inside the function `step`. A local function can use the names around it, and is declared like a top-level one.
+These two lines stand at the top of the function `step`, before the forward pass. They declare two functions inside the function `step`. A local function can use the names around it, and is declared like a top-level one.
 
-- `h` takes a matrix and returns an array with three indices. The program's comments call such an array a rank-3 array. Its type is `Array[\RR64,(ZZ32,ZZ32,ZZ32)\]`: the index is a triple. It holds several matrices of one size, in a fixed order. Each of these matrices is a plane, and the three indices are the plane, the row and the column.
-- `u` goes the other way, from a rank-3 array to a matrix.
+- `h`, short for heads, takes a matrix and returns an array with three indices. The program's comments call such an array a rank-3 array. Its type is `Array[\RR64,(ZZ32,ZZ32,ZZ32)\]`: the index is a triple. It holds several matrices of one size, in a fixed order. Each of these matrices is a plane, and the three indices are the plane, the row and the column.
+- `u`, short for unheads, goes the other way, from a rank-3 array to a matrix.
 
-Both call the vocabulary. A small case shows what they do. The matrix `y` has the rows 1, 2, 3, 4 and 5, 6, 7, 8. The call `heads(y, 2, 2, 2)` asks for 2 positions in a document, 2 heads, and 2 numbers in a head:
+`h` calls `heads` and `u` calls `unheads`, two functions of `FlatArrays.fss`. A small case shows what they do. The matrix `y` has the rows 1, 2, 3, 4 and 5, 6, 7, 8. The call `heads(y, 2, 2, 2)` asks for 2 positions in a document, 2 heads, and 2 numbers in a head:
 
 ```out
 heads(y, 2, 2, 2) (2 x 2 x 2):
@@ -62,15 +62,15 @@ Plane 0 holds columns 0 and 1 of `y`. Plane 1 holds columns 2 and 3. `unheads` p
 
 @fig heads | What `h` does to `q`, with one document in the batch.
 
-Both functions return views. No number is copied:
+Both functions return views. No number is copied. `heads` returns an object of this declaration:
 
 @src FlatArrays.fss 82-90
 
-In line 86, the name `q` is the plane's number, not the model's matrix `q`. `i` is the row and `j` the column. `q MOD nh` is the head, and `(q MOD nh) k + j` is the column in the matrix: the head's first column plus `j`. `q DIV nh` is the document, and `(q DIV nh) p + i` is the row in the matrix. With a batch of several documents there is one plane for each pair of a document and a head. This keeps the documents apart: a position reads only positions of its own name.
+The fields are `base`, the matrix that the view reads; `p`, the number of positions in a document, 16; `nh`, the number of heads, 4; and `k`, the number of columns of a head, 4. In line 86, the name `q` is the plane's number, not the model's matrix `q`. `i` is the row and `j` the column. `q MOD nh` is the head, and `(q MOD nh) k + j` is the column in the matrix: the head's first column plus `j`. `q DIV nh` is the document, and `(q DIV nh) p + i` is the row in the matrix. With a batch of several documents there is one plane for each pair of a document and a head. This keeps the documents apart: a position reads only positions of its own name.
 
 @src 58: (qh, kh, vh) = (h(q), h(k), h(v))
 
-A run printed the sizes, and one query before and after the cut:
+`qh`, `kh` and `vh` are the queries, the keys and the values, cut into heads. A run printed the sizes, and one query before and after the cut:
 
 ```out
 sizes x (16,16) q (16,16) qh (4,16,4) kh (4,16,4)
@@ -86,23 +86,23 @@ qh[1,3,:] = -0.08474197564917962 -0.074962298948664 0.3810366810245596 -0.128891
 
 @src 59: a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))
 
-This line holds the middle of attention. Read it from the inside out.
+Read the line from the inside out.
 
-`kh^T` uses the operator of line 24. On a rank-3 array it transposes every plane. The planes of `kh` are 16 by 4, so the planes of `kh^T` are 4 by 16.
+`kh^T` uses the operator `^T` that line 24 of `MicroGptFlat.fss` declares for a rank-3 array. On a rank-3 array it transposes every plane. The planes of `kh` are 16 by 4, so the planes of `kh^T` are 4 by 16.
 
-`qh kh^T` is a product of two rank-3 arrays. The vocabulary declares it: the matrix product, plane with plane.
+`qh kh^T` is a product of two rank-3 arrays. `FlatArrays.fss` declares it as the matrix product, plane with plane:
 
 @src FlatArrays.fss 125-133
 
-Line 131 is the work: for each plane `p`, the product of plane `p` of `x` and plane `p` of `y` goes into plane `p` of `out`. `plane` is one more view of the vocabulary.
+Line 131 is the work: for each plane `p`, the product of plane `p` of `x` and plane `p` of `y` goes into plane `p` of `out`. `plane(x, p)` is a view of plane `p` of `x` as a matrix, also declared in `FlatArrays.fss`.
 
 !!! limit
-The library declares products for vectors and matrices only. A product of rank-3 arrays, plane with plane, is what this model needs, so the vocabulary writes it as a loop over the planes. By your ruling, what a program builds that a fuller library would hold belongs in the library; this operator has not moved there.
+The library declares products for vectors and matrices only. A product of rank-3 arrays, plane with plane, is what this model needs, so `FlatArrays.fss` writes it as a loop over the planes. By your ruling, what a program builds that a fuller library would hold belongs in the library; this operator has not moved there.
 !!!
 
 In each plane, a matrix of 16 by 4 meets a matrix of 4 by 16, and the result is 16 by 16. Take its element in row `i` and column `j`. By the rule of Part 2, it is row `i` of the plane of `qh` with row `j` of the plane of `kh`. That is the dot product of query `i` and key `j`. So plane 0 of `qh kh^T` holds every score of head 0: 16 positions that read, times 16 positions that can be read.
 
-`/ SQRT (1.0 headDim)` divides every score by 2, the square root of 4. The project's write-up of run B describes the scores as "scaled by the square root of the key width" ([explorations/run-b/article.md, line 55](src:explorations/run-b/article.md#L55)) and gives no reason. The reason that this text recalls, and did not test, is this: a dot product of longer vectors adds more terms and grows, and the division keeps the scores in the same range for any `headDim`. Part 3 showed why the range matters: larger differences between scores make the result of softmax more uneven. `1.0 headDim` is the float 4.0. Walk also accepts `SQRT headDim` and prints 2.0 for it; the line writes the conversion out.
+`/ SQRT (1.0 headDim)` divides every score by 2, the square root of 4. By the usual account, a dot product of longer vectors adds more terms and grows, and the division keeps the scores in the same range for any `headDim`. The range matters because larger differences between scores make the result of softmax more uneven, as Part 3 showed. `1.0 headDim` is the float 4.0. Walk also accepts `SQRT headDim` and prints 2.0 for it; the line writes the conversion out.
 
 A run printed the keys of positions 0 to 3 in head 0, and the 16 scores that position 3 gives in head 0:
 
@@ -129,7 +129,7 @@ Position 3 has scores for all 16 positions, also for positions 4 to 15. It must 
 
 @src 29
 
-`mask` is a top-level variable: a matrix of 16 by 16, built once when the component is loaded. `mat` is the vocabulary's function that makes a matrix from its two sizes and a function of the index. The function here returns minus 10 to the power 10 where the column `j` is greater than the row `i`, and 0 elsewhere. A run printed the matrix's top left corner:
+`mask` is a top-level variable: a matrix of 16 by 16, built once when the component is loaded. `mat` is a function of `FlatArrays.fss` that makes a matrix from its two sizes and a function of the index. The function here returns minus 10 to the power 10 where the column `j` is greater than the row `i`, and 0 elsewhere. A run printed the matrix's top left corner:
 
 ```out
     0.0 -1.0E10 -1.0E10 -1.0E10
@@ -146,7 +146,7 @@ $$
 \end{cases}
 $$
 
-In line 59, `mask + ...` adds this matrix to every plane of the scores. A matrix plus a rank-3 array is an operator of the vocabulary ([FlatArrays.fss, lines 135 and 136](src:explorations/run-c4/src/FlatArrays.fss#L135)). After the addition, row 3 of head 0 starts with the four scores as they were, and every later score is near minus 10 to the power 10:
+In line 59, `mask + ...` adds this matrix to every plane of the scores. Lines 135 and 136 of `FlatArrays.fss` declare `+` between a matrix and a rank-3 array. After the addition, row 3 of head 0 starts with the four scores as they were, and every later score is near minus 10 to the power 10:
 
 ```out
 masked[0,3,:] = -0.08175008584960282 0.10605658054206196 -0.13388403927731538 0.07289125011412394 -1.0000000000003387E10 -1.0000000000034449E10
@@ -154,11 +154,11 @@ masked[0,3,:] = -0.08175008584960282 0.10605658054206196 -0.13388403927731538 0.
 
 Part 3 showed what softmax does with such a score: its result for that score is 0, exactly, and its other results are as if the score were not there.
 
-Karpathy's program has no mask. In the words of the project's write-up of run B, it "reaches the same numbers by never computing a later position's score at all (its `keys`/`values` lists hold only the past)" ([explorations/run-b/article.md, line 59](src:explorations/run-b/article.md#L59)). The project's port of his program shows the same: its function takes one position at a time and appends that position's key and value to two lists ([explorations/microgpt.fss, lines 106 to 112](src:explorations/microgpt.fss#L106)). The flat program computes all 16 positions at once, so it needs the mask to get the same result.
+Karpathy's program has no mask. It takes one position at a time and appends that position's key and value to two lists. The lists hold only the past, so the program never computes a score for a later position. The flat program computes all 16 positions at once, so it needs the mask to get the same result.
 
 ## The attention weights
 
-`rows(sm, ...)` applies `sm` to every row of every plane. This is the same `rows` as in Part 3, declared a third time for a rank-3 array ([FlatArrays.fss, lines 154 to 159](src:explorations/run-c4/src/FlatArrays.fss#L154)). The result `a` has the size of the scores: 4 planes of 16 by 16. Its elements are the attention weights.
+`rows(sm, ...)` applies `sm` to every row of every plane. Lines 154 to 159 of `FlatArrays.fss` declare this form of `rows`, for a rank-3 array. The result `a`, short for attention, has the size of the scores: 4 planes of 16 by 16. Its elements are the attention weights.
 
 Here is the row for position 3 in head 0, and its sum:
 
@@ -186,7 +186,7 @@ sm [0 0 0 0] (4): 0.25 0.25 0.25 0.25
 sm [5 0 0 0] (4): 0.9801866626534912 0.006604445782169691 0.006604445782169691 0.006604445782169691
 ```
 
-With equal scores, every position gets a quarter, and the average of the values is a plain mean. With one score 5 above the others, that position gets 98 percent, and the average is almost that position's value alone. Training changes `wq` and `wk`, and with them the scores. So it can move a head from the first case towards the second. No run in this text shows a trained head.
+With equal scores, every position gets a quarter, and the average of the values is a plain mean. With one score 5 above the others, that position gets 98 percent, and the average is almost that position's value alone. Training changes `wq` and `wk`, and with them the scores. So it can move a head from the first case towards the second.
 
 $$
 \begin{aligned}
@@ -204,7 +204,7 @@ $$
 
 @src 59: hc = u(a vh)
 
-`a vh` is again the product plane with plane. In each plane, the 16 by 16 matrix of attention weights meets the 16 by 4 matrix of values, and the result is 16 by 4. Row `i` of the result is the sum, over every position `j`, of the attention weight `a[i, j]` times the value of position `j`. The attention weights of a row add up to 1, so this is a weighted average of the values.
+`hc` holds the heads' results, side by side. `a vh` is again the product plane with plane. In each plane, the 16 by 16 matrix of attention weights meets the 16 by 4 matrix of values, and the result is 16 by 4. Row `i` of the result is the sum, over every position `j`, of the attention weight `a[i, j]` times the value of position `j`. The attention weights of a row add up to 1, so this is a weighted average of the values.
 
 The average does not know the order of the positions that it mixes: it only adds. What tells the positions apart is the position's embedding, which the first forward line added to every row. Through it, a query can fit the key of a near position better than the key of a far one.
 
@@ -244,9 +244,9 @@ hc[3,0..3] = -0.26264079565384846 -0.09083065284086174 0.1298847285979956 0.2674
 
 @src 60: x2 = xp + hc wo^T
 
-`hc wo^T` puts every row of `hc` through the last attention matrix, `wo`. In `hc`, each head's result sits in its own four columns. `wo` mixes the sixteen columns.
+`hc wo^T` puts every row of `hc` through `wo`, attention's weight matrix for the output. In `hc`, each head's result sits in its own four columns. `wo` mixes the sixteen columns.
 
-Then the line adds the result to `xp`, the matrix that attention started from. It does not replace `xp`. So a row of `x2` still holds what the row held before, its own token and position, and it now also holds a mix of what the earlier positions hold. Adding a stage's result to the stage's input in this way is called a residual connection. The project's write-up of run B uses the name so: "The residual connections add each block's output to its input" ([explorations/run-b/article.md, line 63](src:explorations/run-b/article.md#L63)). The model does it twice: here, and at the end of the feed-forward block in Part 5.
+Then the line adds the result to `xp`, the matrix of Part 3: the summed embeddings after one call of `rmsn`. It does not replace `xp`. So a row of `x2` still holds what the row held before, its own token and position, and it now also holds a mix of what the earlier positions hold. Adding a stage's result to the stage's input in this way is called a residual connection. The model does it twice: here, and at the end of the feed-forward block in Part 5.
 
 `x2` is a matrix of 16 by 16, one row for each position, like every stage before it.
 
@@ -255,3 +255,11 @@ The sizes of the whole computation, from the run:
 ```out
 sizes scores (4,16,16) a (4,16,16) a vh (4,16,4) hc (16,16)
 ```
+
+## Sources
+
+- Every value in an Output box: runs under walk of a file of small array examples, and of copies of `MicroGptFlat.fss` with print lines added.
+- The scores "scaled by the square root of the key width", with no reason given: [explorations/run-b/article.md, line 55](src:explorations/run-b/article.md#L55). The reason in this part is the field's usual account and is in no file of the repository.
+- `+` between a matrix and a rank-3 array: [FlatArrays.fss, lines 135 and 136](src:explorations/run-c4/src/FlatArrays.fss#L135). `rows` on a rank-3 array: [lines 154 to 159](src:explorations/run-c4/src/FlatArrays.fss#L154).
+- Karpathy's program without a mask: [explorations/run-b/article.md, line 59](src:explorations/run-b/article.md#L59), and the port, [explorations/microgpt.fss, lines 106 to 112](src:explorations/microgpt.fss#L106).
+- "Residual connection": [explorations/run-b/article.md, line 63](src:explorations/run-b/article.md#L63).
