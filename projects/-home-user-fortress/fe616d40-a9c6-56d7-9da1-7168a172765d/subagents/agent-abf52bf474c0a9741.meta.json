@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Planner: climb batch 32, the model's notation","toolUseId":"toolu_01QgemZEHZBfjmd2bTUy9ymp","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"medium","pickedEffortModel":"claude-fable-5-2"}
