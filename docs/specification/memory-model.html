@@ -10,12 +10,12 @@
 svg.tx text.t0{font-family:cmmi10;font-size:9.96px}
 svg.tx text.t1{font-family:cmr10;font-size:9.96px}
 svg.tx text.t2{font-family:msbm10;font-size:9.96px}
-svg.tx text.t3{font-family:cmr7;font-size:6.97px}
-svg.tx text.t4{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t3{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t4{font-family:cmr7;font-size:6.97px}
 svg.tx text.t5{font-family:cmsy7;font-size:6.97px}
 </style>
 </head>
-<body data-page="chapter" data-slug="memory-model" data-chapter="21. Memory Model">
+<body data-page="chapter" data-slug="memory-model" data-chapter="21. Memory Model" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">21. Memory Model</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -79,182 +79,164 @@ svg.tx text.t5{font-family:cmsy7;font-size:6.97px}
 <p id="p-b11972b4" class="nb">When comparing variables defined in different scopes, these rules will eventually lead to reads of fields or to reads of parameters in some common containing scope.</p>
 <p id="p-3adc2cc3" class="nb">We extend this to field references as follows: two field references are apparently disjoint if they refer to distinct fields, or they refer to identically named fields read from apparently disjoint object references.</p>
 <p id="p-d7f69e04" class="nb">Consider the following example:</p>
-<div class="fx nb both" id="c-b2d6d27e" data-kind="code" data-example="MemModel.Aliases.f"><div class="fx-r"><svg class="tx" data-d="1" viewBox="-0.60 11.26 126.04 69.94" width="12.604em" height="6.994em" fill="currentColor"><text class='t0' x='0' y='19.33'>f</text>
-<text class='t1' x='5.95' y='19.33'>(</text>
-<text class='t0' x='9.82' y='19.33'>x</text>
-<text class='t1' x='15.52' y='19.33'>:</text>
-<text class='t2' x='19.95' y='19.33'>Z</text>
-<text class='t1' x='26.59' y='19.33'>64</text>
-<text class='t3' x='36.55' y='20.82'>2</text>
-<text class='t0' x='41.02' y='19.33'>,<tspan x='45.45'>y</tspan></text>
-<text class='t1' x='50.69' y='19.33'>:</text>
-<text class='t2' x='55.12' y='19.33'>Z</text>
-<text class='t1' x='61.76' y='19.33'>64</text>
-<text class='t3' x='71.72' y='20.82'>2</text>
-<text class='t1' x='76.19' y='19.33'>):</text>
-<text class='t2' x='84.49' y='19.33'>Z</text>
-<text class='t1' x='91.14' y='19.33'>64<tspan x='103.87'>=</tspan></text>
-<text class='t4' x='114.38' y='19.33'>do</text>
-<text class='t0' x='9.82' y='39.75'>x</text>
-<text class='t3' x='15.52' y='41.25'>0</text>
-<text class='t1' x='22.75' y='39.75'>:<tspan x='25.52'>=</tspan><tspan x='36.04'>17</tspan></text>
-<text class='t0' x='9.82' y='60.17'>y</text>
-<text class='t3' x='14.71' y='61.67'>0</text>
-<text class='t1' x='21.95' y='60.17'>:<tspan x='24.71'>=</tspan><tspan x='35.23'>32</tspan></text>
-<text class='t4' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>f(x: ZZ64[2], y: ZZ64[2]): ZZ64 = do
+<div class="fx nb both" id="c-b2d6d27e" data-kind="code" data-example="MemModel.Aliases.f"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.26 138.14 44.54" width="13.814em" height="4.454em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>f</text>
+<text class='t1' x='15.91' y='19.33'>(</text>
+<text class='t0' x='19.79' y='19.33'>x</text>
+<text class='t1' x='25.48' y='19.33'>:</text>
+<text class='t2' x='29.91' y='19.33'>Z</text>
+<text class='t1' x='36.55' y='19.33'>64[2]</text>
+<text class='t0' x='57.03' y='19.33'>,<tspan x='61.46'>y</tspan></text>
+<text class='t1' x='66.7' y='19.33'>:</text>
+<text class='t2' x='71.13' y='19.33'>Z</text>
+<text class='t1' x='77.77' y='19.33'>64[2]):</text>
+<text class='t2' x='106.55' y='19.33'>Z</text>
+<text class='t1' x='113.19' y='19.33'>64<tspan x='125.92'>=</tspan></text>
+<text class='t3' x='136.44' y='19.33'>do</text>
+<text class='t0' x='19.79' y='31.28'>x</text>
+<text class='t4' x='25.48' y='32.78'>0</text>
+<text class='t1' x='32.72' y='31.28'>:<tspan x='35.49'>=</tspan><tspan x='46'>17</tspan></text>
+<text class='t0' x='19.79' y='43.24'>y</text>
+<text class='t4' x='24.67' y='44.73'>0</text>
+<text class='t1' x='31.91' y='43.24'>:<tspan x='34.68'>=</tspan><tspan x='45.19'>32</tspan></text>
+<text class='t3' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>f(x: ZZ64[2], y: ZZ64[2]): ZZ64 = do
   x[0] := 17
   y[0] := 32
 end</code></pre></div>
 <p id="p-265d7080" class="nb">Here <span class="m"><i>x</i></span> and <span class="m"><i>y</i></span> in <span class="m"><i>f</i></span> are apparently disjoint; the writes may be reordered, so the call <span class="m"><i>f</i>(<i>a</i>, <i>a</i>)</span> may assign either 17 or 32 to <span class="m"><i>a</i><sub>0</sub></span>.</p>
 <p id="p-eb3d9475" class="nb">A similar phenomenon occurs in the following example:</p>
-<div class="fx nb both" id="c-7dd0cd09" data-kind="code" data-example="MemModel.Aliases.g"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 11.26 125.20 69.94" width="12.520em" height="6.994em" fill="currentColor"><text class='t0' x='0' y='19.33'>g</text>
-<text class='t1' x='5.11' y='19.33'>(</text>
-<text class='t0' x='8.98' y='19.33'>x</text>
-<text class='t1' x='14.68' y='19.33'>:</text>
-<text class='t2' x='19.11' y='19.33'>Z</text>
-<text class='t1' x='25.75' y='19.33'>64</text>
-<text class='t3' x='35.71' y='20.82'>2</text>
-<text class='t0' x='40.18' y='19.33'>,<tspan x='44.61'>y</tspan></text>
-<text class='t1' x='49.85' y='19.33'>:</text>
-<text class='t2' x='54.28' y='19.33'>Z</text>
-<text class='t1' x='60.92' y='19.33'>64</text>
-<text class='t3' x='70.88' y='20.82'>2</text>
-<text class='t1' x='75.35' y='19.33'>):</text>
-<text class='t2' x='83.65' y='19.33'>Z</text>
-<text class='t1' x='90.29' y='19.33'>64<tspan x='103.02'>=</tspan></text>
-<text class='t4' x='113.54' y='19.33'>do</text>
-<text class='t0' x='8.98' y='39.75'>x</text>
-<text class='t3' x='14.68' y='41.25'>0</text>
-<text class='t1' x='21.91' y='39.75'>:<tspan x='24.68'>=</tspan><tspan x='35.2'>17</tspan></text>
-<text class='t0' x='8.98' y='60.17'>y</text>
-<text class='t3' x='13.87' y='61.67'>0</text>
-<text class='t4' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>g(x: ZZ64[2], y: ZZ64[2]): ZZ64 = do
+<div class="fx nb both" id="c-7dd0cd09" data-kind="code" data-example="MemModel.Aliases.g"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.26 137.29 44.54" width="13.729em" height="4.454em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>g</text>
+<text class='t1' x='15.07' y='19.33'>(</text>
+<text class='t0' x='18.95' y='19.33'>x</text>
+<text class='t1' x='24.64' y='19.33'>:</text>
+<text class='t2' x='29.07' y='19.33'>Z</text>
+<text class='t1' x='35.71' y='19.33'>64[2]</text>
+<text class='t0' x='56.19' y='19.33'>,<tspan x='60.62'>y</tspan></text>
+<text class='t1' x='65.86' y='19.33'>:</text>
+<text class='t2' x='70.29' y='19.33'>Z</text>
+<text class='t1' x='76.93' y='19.33'>64[2]):</text>
+<text class='t2' x='105.71' y='19.33'>Z</text>
+<text class='t1' x='112.35' y='19.33'>64<tspan x='125.08'>=</tspan></text>
+<text class='t3' x='135.6' y='19.33'>do</text>
+<text class='t0' x='18.95' y='31.28'>x</text>
+<text class='t4' x='24.64' y='32.78'>0</text>
+<text class='t1' x='31.88' y='31.28'>:<tspan x='34.64'>=</tspan><tspan x='45.16'>17</tspan></text>
+<text class='t0' x='18.95' y='43.24'>y</text>
+<text class='t4' x='23.83' y='44.73'>0</text>
+<text class='t3' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>g(x: ZZ64[2], y: ZZ64[2]): ZZ64 = do
   x[0] := 17
   y[0]
 end</code></pre></div>
 <p id="p-00e60214" class="nb">Again <span class="m"><i>x</i></span> and <span class="m"><i>y</i></span> are apparently distinct in <span class="m"><i>g</i></span>, so the write to <span class="m"><i>x</i><sub>0</sub></span> and the read of <span class="m"><i>y</i><sub>0</sub></span> may be reordered. The call <span class="m"><i>g</i>(<i>a</i>, <i>a</i>)</span> will assign 17 to <span class="m"><i>a</i><sub>0</sub></span> but may return either the initial value of <span class="m"><i>a</i><sub>0</sub></span> or 17.</p>
 <p id="p-00c4947f" class="nb">It is safe to <em>read</em> an object through apparently disjoint references:</p>
-<div class="fx nb both" id="c-3f972710" data-kind="code" data-example="MemModel.Aliases.h"><div class="fx-r"><svg class="tx" data-d="3" viewBox="-0.60 11.26 125.83 90.37" width="12.583em" height="9.037em" fill="currentColor"><text class='t0' x='0' y='19.33'>h</text>
-<text class='t1' x='5.74' y='19.33'>(</text>
-<text class='t0' x='9.61' y='19.33'>x</text>
-<text class='t1' x='15.31' y='19.33'>:</text>
-<text class='t2' x='19.74' y='19.33'>Z</text>
-<text class='t1' x='26.38' y='19.33'>64</text>
-<text class='t3' x='36.34' y='20.82'>2</text>
-<text class='t0' x='40.81' y='19.33'>,<tspan x='45.24'>y</tspan></text>
-<text class='t1' x='50.48' y='19.33'>:</text>
-<text class='t2' x='54.91' y='19.33'>Z</text>
-<text class='t1' x='61.55' y='19.33'>64</text>
-<text class='t3' x='71.51' y='20.82'>2</text>
-<text class='t1' x='75.98' y='19.33'>):</text>
-<text class='t2' x='84.28' y='19.33'>Z</text>
-<text class='t1' x='90.93' y='19.33'>64<tspan x='103.66'>=</tspan></text>
-<text class='t4' x='114.17' y='19.33'>do</text>
-<text class='t0' x='9.61' y='39.75'>u</text>
-<text class='t1' x='15.32' y='39.75'>:</text>
-<text class='t2' x='19.75' y='39.75'>Z</text>
-<text class='t1' x='26.39' y='39.75'>64<tspan x='39.12'>=</tspan></text>
-<text class='t0' x='49.63' y='39.75'>x</text>
-<text class='t3' x='55.33' y='41.25'>0</text>
-<text class='t0' x='9.61' y='60.17'>v</text>
-<text class='t1' x='14.8' y='60.17'>:</text>
-<text class='t2' x='19.23' y='60.17'>Z</text>
-<text class='t1' x='25.87' y='60.17'>64<tspan x='38.6'>=</tspan></text>
-<text class='t0' x='49.12' y='60.17'>y</text>
-<text class='t3' x='54' y='61.67'>0</text>
-<text class='t0' x='9.61' y='80.6'>u</text>
-<text class='t1' x='17.53' y='80.6'>+</text>
-<text class='t0' x='27.49' y='80.6'>v</text>
-<text class='t4' x='0' y='101.02'>end</text></svg></div><pre class="fx-s"><code>h(x: ZZ64[2], y: ZZ64[2]): ZZ64 = do
+<div class="fx nb both" id="c-3f972710" data-kind="code" data-example="MemModel.Aliases.h"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 137.93 56.49" width="13.793em" height="5.649em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>h</text>
+<text class='t1' x='15.7' y='19.33'>(</text>
+<text class='t0' x='19.58' y='19.33'>x</text>
+<text class='t1' x='25.27' y='19.33'>:</text>
+<text class='t2' x='29.7' y='19.33'>Z</text>
+<text class='t1' x='36.34' y='19.33'>64[2]</text>
+<text class='t0' x='56.82' y='19.33'>,<tspan x='61.25'>y</tspan></text>
+<text class='t1' x='66.49' y='19.33'>:</text>
+<text class='t2' x='70.92' y='19.33'>Z</text>
+<text class='t1' x='77.56' y='19.33'>64[2]):</text>
+<text class='t2' x='106.34' y='19.33'>Z</text>
+<text class='t1' x='112.98' y='19.33'>64<tspan x='125.71'>=</tspan></text>
+<text class='t3' x='136.23' y='19.33'>do</text>
+<text class='t0' x='19.58' y='31.28'>u</text>
+<text class='t1' x='25.28' y='31.28'>:</text>
+<text class='t2' x='29.71' y='31.28'>Z</text>
+<text class='t1' x='36.35' y='31.28'>64<tspan x='49.08'>=</tspan></text>
+<text class='t0' x='59.6' y='31.28'>x</text>
+<text class='t4' x='65.29' y='32.78'>0</text>
+<text class='t0' x='19.58' y='43.24'>v</text>
+<text class='t1' x='24.76' y='43.24'>:</text>
+<text class='t2' x='29.19' y='43.24'>Z</text>
+<text class='t1' x='35.83' y='43.24'>64<tspan x='48.56'>=</tspan></text>
+<text class='t0' x='59.08' y='43.24'>y</text>
+<text class='t4' x='63.96' y='44.73'>0</text>
+<text class='t0' x='19.58' y='55.19'>u</text>
+<text class='t1' x='27.49' y='55.19'>+</text>
+<text class='t0' x='37.46' y='55.19'>v</text>
+<text class='t3' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>h(x: ZZ64[2], y: ZZ64[2]): ZZ64 = do
   u: ZZ64 = x[0]
   v: ZZ64 = y[0]
   u + v
 end</code></pre></div>
 <p id="p-17feb8eb" class="nb">A call to <span class="m"><i>h</i>(<i>a</i>, <i>a</i>)</span> will read <span class="m"><i>a</i><sub>0</sub></span> twice without ambiguity. Note, however, that the reads may still be reordered, and if <span class="m"><i>a</i><sub>0</sub></span> is written in parallel by another thread this reordering can be observed.</p>
 <p id="p-1c638177" class="nb">If necessary, <span class="m"><span class="kw">atomic</span></span> expressions can be used to order disjoint field references:</p>
-<div class="fx nb both" id="c-c7af8c50" data-kind="code" data-example="MemModel.Aliases.fprime"><div class="fx-r"><svg class="tx" data-d="4" viewBox="-0.60 10.74 120.40 70.46" width="12.040em" height="7.046em" fill="currentColor"><text class='t0' x='0' y='19.33'>f</text>
-<text class='t5' x='5.95' y='15.21'></text>
-<text class='t1' x='8.75' y='19.33'>(</text>
-<text class='t0' x='12.62' y='19.33'>x</text>
-<text class='t1' x='18.31' y='19.33'>:</text>
-<text class='t2' x='22.74' y='19.33'>Z</text>
-<text class='t1' x='29.38' y='19.33'>64</text>
-<text class='t3' x='39.35' y='20.82'>2</text>
-<text class='t0' x='43.81' y='19.33'>,<tspan x='48.24'>y</tspan></text>
-<text class='t1' x='53.48' y='19.33'>:</text>
-<text class='t2' x='57.91' y='19.33'>Z</text>
-<text class='t1' x='64.55' y='19.33'>64</text>
-<text class='t3' x='74.52' y='20.82'>2</text>
-<text class='t1' x='78.99' y='19.33'>):<tspan x='87.29'>(</tspan><tspan x='91.58'>)</tspan><tspan x='98.22'>=</tspan></text>
-<text class='t4' x='108.74' y='19.33'>do<tspan x='8.86' y='39.75'>atomic</tspan></text>
-<text class='t0' x='43' y='39.75'>x</text>
-<text class='t3' x='48.7' y='41.25'>0</text>
-<text class='t1' x='55.94' y='39.75'>:<tspan x='58.7'>=</tspan><tspan x='69.22'>17</tspan></text>
-<text class='t4' x='8.86' y='60.17'>atomic</text>
-<text class='t0' x='43' y='60.17'>y</text>
-<text class='t3' x='47.89' y='61.67'>0</text>
-<text class='t1' x='55.13' y='60.17'>:<tspan x='57.89'>=</tspan><tspan x='68.41'>32</tspan></text>
-<text class='t4' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>f'(x: ZZ64[2], y: ZZ64[2]): () = do
+<div class="fx nb both" id="c-c7af8c50" data-kind="code" data-example="MemModel.Aliases.fprime"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.24 132.07 44.56" width="13.207em" height="4.456em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>f</text>
+<text class='t5' x='15.91' y='15.71'></text>
+<text class='t1' x='18.71' y='19.33'>(</text>
+<text class='t0' x='22.58' y='19.33'>x</text>
+<text class='t1' x='28.28' y='19.33'>:</text>
+<text class='t2' x='32.7' y='19.33'>Z</text>
+<text class='t1' x='39.35' y='19.33'>64[2]</text>
+<text class='t0' x='59.82' y='19.33'>,<tspan x='64.25'>y</tspan></text>
+<text class='t1' x='69.49' y='19.33'>:</text>
+<text class='t2' x='73.92' y='19.33'>Z</text>
+<text class='t1' x='80.56' y='19.33'>64[2]):<tspan x='109.34'>()</tspan><tspan x='119.86'>=</tspan></text>
+<text class='t3' x='130.38' y='19.33'>do<tspan x='21.92' y='31.28'>atomic</tspan></text>
+<text class='t0' x='58.28' y='31.28'>x</text>
+<text class='t4' x='63.97' y='32.78'>0</text>
+<text class='t1' x='71.21' y='31.28'>:<tspan x='73.98'>=</tspan><tspan x='84.5'>17</tspan></text>
+<text class='t3' x='21.92' y='43.24'>atomic</text>
+<text class='t0' x='58.28' y='43.24'>y</text>
+<text class='t4' x='63.17' y='44.73'>0</text>
+<text class='t1' x='70.4' y='43.24'>:<tspan x='73.17'>=</tspan><tspan x='83.69'>32</tspan></text>
+<text class='t3' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>f'(x: ZZ64[2], y: ZZ64[2]): () = do
   atomic x[0] := 17
   atomic y[0] := 32
 end</code></pre></div>
 <p id="p-4427def7" class="nb">Here the call <span class="m"><i>f</i>′(<i>a</i>, <i>a</i>)</span> ends up setting <span class="m"><i>a</i><sub>0</sub></span> to 32. Note that simply using a single <span class="m"><span class="kw">atomic</span></span> expression containing one or both writes is not sufficient; the two writes must be in distinct <span class="m"><span class="kw">atomic</span></span> expressions to be required to occur in order.</p>
 <p id="p-5167ecfa" class="nb">When references occur in distinct calling contexts, they are disambiguated at the point of call:</p>
-<div class="fx nb both" id="c-2cf02a4f" data-kind="code" data-example="MemModel.Aliases.jkl"><div class="fx-r"><svg class="tx" data-d="5" viewBox="-0.60 11.26 132.85 172.06" width="13.285em" height="17.206em" fill="currentColor"><text class='t0' x='0' y='19.33'>j</text>
-<text class='t1' x='4.67' y='19.33'>(</text>
-<text class='t0' x='8.55' y='19.33'>x</text>
-<text class='t1' x='14.24' y='19.33'>:</text>
-<text class='t2' x='18.67' y='19.33'>Z</text>
-<text class='t1' x='25.31' y='19.33'>64</text>
-<text class='t3' x='35.27' y='20.82'>2</text>
-<text class='t0' x='39.74' y='19.33'>,<tspan x='44.17'>y</tspan></text>
-<text class='t1' x='49.41' y='19.33'>:</text>
-<text class='t2' x='53.84' y='19.33'>Z</text>
-<text class='t1' x='60.48' y='19.33'>64):<tspan x='78.75'>(</tspan><tspan x='83.04'>)</tspan><tspan x='89.68'>=</tspan></text>
-<text class='t0' x='100.19' y='19.33'>x</text>
-<text class='t3' x='105.89' y='20.82'>0</text>
-<text class='t1' x='113.13' y='19.33'>:<tspan x='115.89'>=</tspan></text>
-<text class='t0' x='126.41' y='19.33'>y<tspan x='0' y='39.75'>k</tspan></text>
-<text class='t1' x='5.5' y='39.75'>(</text>
-<text class='t0' x='9.37' y='39.75'>x</text>
-<text class='t1' x='15.07' y='39.75'>:</text>
-<text class='t2' x='19.5' y='39.75'>Z</text>
-<text class='t1' x='26.14' y='39.75'>64</text>
-<text class='t3' x='36.1' y='41.25'>2</text>
-<text class='t1' x='40.57' y='39.75'>):<tspan x='48.87'>(</tspan><tspan x='53.16'>)</tspan><tspan x='59.8'>=</tspan></text>
-<text class='t4' x='70.32' y='39.75'>do</text>
-<text class='t0' x='9.37' y='60.17'>j</text>
-<text class='t1' x='14.05' y='60.17'>(</text>
-<text class='t0' x='17.92' y='60.17'>x,</text>
-<text class='t1' x='28.04' y='60.17'>17)</text>
-<text class='t0' x='9.37' y='80.6'>j</text>
-<text class='t1' x='14.05' y='80.6'>(</text>
-<text class='t0' x='17.92' y='80.6'>x,</text>
-<text class='t1' x='28.04' y='80.6'>32)</text>
-<text class='t4' x='0' y='101.02'>end</text>
-<text class='t0' x='0' y='121.44'>l</text>
-<text class='t1' x='3.17' y='121.44'>(</text>
-<text class='t0' x='7.04' y='121.44'>x</text>
-<text class='t1' x='12.74' y='121.44'>:</text>
-<text class='t2' x='17.16' y='121.44'>Z</text>
-<text class='t1' x='23.81' y='121.44'>64</text>
-<text class='t3' x='33.77' y='122.94'>2</text>
-<text class='t0' x='38.24' y='121.44'>,<tspan x='42.67'>y</tspan></text>
-<text class='t1' x='47.91' y='121.44'>:</text>
-<text class='t2' x='52.34' y='121.44'>Z</text>
-<text class='t1' x='58.98' y='121.44'>64</text>
-<text class='t3' x='68.94' y='122.94'>2</text>
-<text class='t1' x='73.41' y='121.44'>):<tspan x='81.71'>(</tspan><tspan x='86'>)</tspan><tspan x='92.64'>=</tspan></text>
-<text class='t4' x='103.16' y='121.44'>do</text>
-<text class='t0' x='7.04' y='141.87'>j</text>
-<text class='t1' x='11.72' y='141.87'>(</text>
-<text class='t0' x='15.59' y='141.87'>x,</text>
-<text class='t1' x='25.71' y='141.87'>17)</text>
-<text class='t0' x='7.04' y='162.29'>j</text>
-<text class='t1' x='11.72' y='162.29'>(</text>
-<text class='t0' x='15.59' y='162.29'>y<tspan x='20.83'>,</tspan></text>
-<text class='t1' x='25.26' y='162.29'>32)</text>
-<text class='t4' x='0' y='182.71'>end</text></svg></div><pre class="fx-s"><code>j(x: ZZ64[2], y: ZZ64): () = x[0] := y
+<div class="fx nb both" id="c-2cf02a4f" data-kind="code" data-example="MemModel.Aliases.jkl"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.26 138.48 104.31" width="13.848em" height="10.431em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>j</text>
+<text class='t1' x='14.64' y='19.33'>(</text>
+<text class='t0' x='18.51' y='19.33'>x</text>
+<text class='t1' x='24.2' y='19.33'>:</text>
+<text class='t2' x='28.63' y='19.33'>Z</text>
+<text class='t1' x='35.27' y='19.33'>64[2]</text>
+<text class='t0' x='55.75' y='19.33'>,<tspan x='60.18'>y</tspan></text>
+<text class='t1' x='65.42' y='19.33'>:</text>
+<text class='t2' x='69.85' y='19.33'>Z</text>
+<text class='t1' x='76.49' y='19.33'>64):<tspan x='94.76'>()</tspan><tspan x='105.27'>=</tspan></text>
+<text class='t0' x='115.79' y='19.33'>x</text>
+<text class='t4' x='121.48' y='20.82'>0</text>
+<text class='t1' x='128.72' y='19.33'>:<tspan x='131.49'>=</tspan></text>
+<text class='t0' x='142' y='19.33'>y<tspan x='9.96' y='31.28'>k</tspan></text>
+<text class='t1' x='15.46' y='31.28'>(</text>
+<text class='t0' x='19.34' y='31.28'>x</text>
+<text class='t1' x='25.03' y='31.28'>:</text>
+<text class='t2' x='29.46' y='31.28'>Z</text>
+<text class='t1' x='36.1' y='31.28'>64[2]):<tspan x='64.88'>()</tspan><tspan x='75.4'>=</tspan></text>
+<text class='t3' x='85.91' y='31.28'>do</text>
+<text class='t0' x='19.34' y='43.24'>j</text>
+<text class='t1' x='24.01' y='43.24'>(</text>
+<text class='t0' x='27.88' y='43.24'>x,</text>
+<text class='t1' x='38.01' y='43.24'>17)</text>
+<text class='t0' x='19.34' y='55.19'>j</text>
+<text class='t1' x='24.01' y='55.19'>(</text>
+<text class='t0' x='27.88' y='55.19'>x,</text>
+<text class='t1' x='38.01' y='55.19'>32)</text>
+<text class='t3' x='9.96' y='67.15'>end</text>
+<text class='t0' x='9.96' y='79.1'>l</text>
+<text class='t1' x='13.13' y='79.1'>(</text>
+<text class='t0' x='17.01' y='79.1'>x</text>
+<text class='t1' x='22.7' y='79.1'>:</text>
+<text class='t2' x='27.13' y='79.1'>Z</text>
+<text class='t1' x='33.77' y='79.1'>64[2]</text>
+<text class='t0' x='54.25' y='79.1'>,<tspan x='58.68'>y</tspan></text>
+<text class='t1' x='63.92' y='79.1'>:</text>
+<text class='t2' x='68.35' y='79.1'>Z</text>
+<text class='t1' x='74.99' y='79.1'>64[2]):<tspan x='103.77'>()</tspan><tspan x='114.28'>=</tspan></text>
+<text class='t3' x='124.8' y='79.1'>do</text>
+<text class='t0' x='17.01' y='91.06'>j</text>
+<text class='t1' x='21.68' y='91.06'>(</text>
+<text class='t0' x='25.55' y='91.06'>x,</text>
+<text class='t1' x='35.67' y='91.06'>17)</text>
+<text class='t0' x='17.01' y='103.01'>j</text>
+<text class='t1' x='21.68' y='103.01'>(</text>
+<text class='t0' x='25.55' y='103.01'>y<tspan x='30.8'>,</tspan></text>
+<text class='t1' x='35.22' y='103.01'>32)</text>
+<text class='t3' x='9.96' y='114.97'>end</text></svg></div><pre class="fx-s"><code>j(x: ZZ64[2], y: ZZ64): () = x[0] := y
 k(x: ZZ64[2]): () = do
   j(x, 17)
   j(x, 32)
@@ -335,8 +317,9 @@ end</code></pre></div>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="type-inference.html"><span>Previous</span> 20. Type Inference</a><a class="next" href="components.html"><span>Next</span> 22. Components and APIs</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic/memory-model.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic/memory-model.tex</code> with nothing added to its text. The Fortress revival of 2026 did not change this chapter; its revised edition, kept apart, has <a href="revival/memory-model.html">the same chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

@@ -20,7 +20,7 @@ svg.tx text.t9{font-family:cmsy10;font-size:9.96px}
 svg.tx text.t10{font-family:stmary7;font-size:6.97px}
 </style>
 </head>
-<body data-page="chapter" data-slug="lib-numbers-advanced" data-chapter="41. Numbers">
+<body data-page="chapter" data-slug="lib-numbers-advanced" data-chapter="41. Numbers" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">41. Numbers</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -31,8 +31,6 @@ svg.tx text.t10{font-family:stmary7;font-size:6.97px}
 <section class="sec chapter" data-num="41" data-title="Numbers">
 <h1 id="top" class="nb"><a id="chap-lib-numbers-advanced"></a><span class="num">Chapter 41</span> Numbers</h1>
 <nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-advanced-rationals">41.1 The Trait Fortress.Standard.RationalQuantity</a></li></ol></nav>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-superseded">Section I.1.14</a><!--nc--></span></p>
-<p id="p-3cc9a4e4" class="nb">This chapter is the original design of the rational types, kept word for word as a superseded design. It defines the eighteen rational types of the Working Draft of February 2011 as instantiations of one trait, <span class="m"><span class="ty">RationalQuantity</span></span>, each of which extends the instantiations with weaker flags. Instantiation exclusion (<a class="xref" href="spec-changes.html#sec-revival-rule">Section I.1.1</a><!--nc-->) refuses that trait; the compiled type checker refuses it as a cyclic type hierarchy, and the interpreter cannot instantiate it; the Fortress standard libraries never declared these types; and the team’s later Types chapter (Luchangco, 2012) comments out the type aliases by which this chapter names them and keeps the statement that the numeric types are mutually exclusive (<a class="xref" href="types.html#sec-types-libraries">Section 6.9</a>). <a class="xref" href="lib-numbers-basic.html#sec-basic-rationals">Section 33.1</a><!--nc--> and <a class="xref" href="lib-numbers-basic.html#sec-basic-integers">Section 33.2</a><!--nc--> describe the number types the library declares, and <a class="xref" href="spec-changes.html">Appendix I</a><!--nc--> says why. The way back is the later chapter’s declaration-site variance: each flag a covariant static parameter, a form the compiled type checker already accepts. It waits for covariance to run on both implementations, which is item 12 of the revival’s worklist and row 404 of its gap ledger.</p></aside>
 <section class="sec" data-num="41.1" data-title="The Trait Fortress.Standard.RationalQuantity">
 <h2 id="sec-advanced-rationals" class="nb"><span class="num">41.1</span> The Trait Fortress.Standard.RationalQuantity</h2>
 <p id="p-a49d092d" class="nb">The standard types for rational numbers such as <span class="m">ℚ</span> and <span class="m">ℚ<sup>∗</sup></span> and <span class="m">ℚ<sup>#</sup><sub>≤</sub></span> are defined in terms of a single trait <span class="m"><span class="ty">RationalQuantity</span></span> that handles dimensions and units as well as performing a case analysis to distinguish rather a particular expression is guaranteed not to produce infinities, <span class="m">0/0</span>, or numbers of a particular sign.</p>
@@ -3903,8 +3901,9 @@ svg.tx text.t10{font-family:stmary7;font-size:6.97px}
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="lib-algebraic-constraints.html"><span>Previous</span> 40. Algebraic Constraints</a><a class="next" href="lib-api-components.html"><span>Next</span> 42. Components and APIs</a></nav>
-<footer class="colophon">Converted from <code>Specification/advanced-lib/numbers-advanced.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/advanced-lib/numbers-advanced.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/lib-numbers-advanced.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

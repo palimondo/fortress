@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Convert chapters of the Fortress specification (LaTeX) to the HTML reader.
+"""Convert the Fortress specification (LaTeX) to the HTML reader, in two editions.
 
-Reads Specification/ (never Specification-1.0-frozen/), SpecData/examples and
-SpecData/tables, and writes static pages to docs/specification/.  It changes
-no file of the original tree.  README.md beside this script says how to run it
-and what does not convert yet.
+--source names the source root, and so the edition: Specification-1.0-frozen/ is the team's Working
+Draft of February 2011 (pages in docs/specification/), Specification/ is the revival's revised edition
+(pages in docs/specification/revival/, not to be indexed).  It changes no file of the original tree.
+README.md beside this script says how to run it, what the editions hold and what differs from the PDF.
 
-    python3 explorations/coordinator/tools/spec-html/spec2html.py            # the chapters of DEFAULT_CHAPTERS
+    python3 explorations/coordinator/tools/spec-html/spec2html.py            # the revised edition
+    python3 explorations/coordinator/tools/spec-html/spec2html.py --source Specification-1.0-frozen
     python3 explorations/coordinator/tools/spec-html/spec2html.py --list     # every chapter, with its slug
-    python3 explorations/coordinator/tools/spec-html/spec2html.py --chapters intro,overview,programs
     python3 explorations/coordinator/tools/spec-html/spec2html.py --try types  # convert to the work folder only, print the gaps
 """
 import argparse
@@ -33,8 +33,51 @@ DEFAULT_OUT = os.path.join(ROOT, 'docs', 'specification')
 DEFAULT_BASE = 'https://palimondo.github.io/fortress/specification/'
 DEFAULT_CHAPTERS = []          # none named: every chapter and appendix
 SPEC_TITLE = 'The Fortress Language Specification'
+TITLE_TAIL = ', revised edition of the 2026 revival'
 SAMPLE = {'preface', 'intro', 'overview', 'programs', 'lexical-structure', 'evaluation', 'types'}   # the first sample, 2026-11-10
 LIBRARIES = [os.path.join(ROOT, 'Library'), os.path.join(ROOT, 'ProjectFortress', 'LibraryBuiltin')]
+# The two editions, by the source root that --source names. The Working Draft is the team's text and
+# nothing else: its LaTeX is Specification-1.0-frozen/, and what the conversion reads beside the LaTeX
+# (the examples and tables of SpecData/, Fortify, the library's .fsi files) is the team's tree at the
+# commit of that draft, taken from git into the work folder. The revised edition reads the working tree.
+DRAFT_COMMIT = '2f8b4331a'     # the team's last commit of the draft, 2011-02-02 (F-163)
+DRAFT_DATE = '2 February 2011'
+EDITIONS = {
+    'Specification-1.0-frozen': dict(key='draft', out=os.path.join(ROOT, 'docs', 'specification'),
+                                     base='https://palimondo.github.io/fortress/specification/',
+                                     store='fortress-spec', other='Specification', other_href='revival/'),
+    'Specification': dict(key='revised', out=os.path.join(ROOT, 'docs', 'specification', 'revival'),
+                          base='https://palimondo.github.io/fortress/specification/revival/',
+                          store='fortress-spec-revival', other='Specification-1.0-frozen', other_href='../'),
+}
+ED = EDITIONS['Specification']
+REVISED = True                 # the edition that is built: the revival's revised one, or the team's draft
+
+
+def set_source(source, work):
+    """Point the conversion at one source root, and at the tree that belongs to it."""
+    global SPEC, MACRO_DIR, EXAMPLES, TABLES, FORTIFY_EL, LIBRARIES, ED, REVISED
+    name = os.path.basename(os.path.normpath(source))
+    if name not in EDITIONS:
+        sys.exit('--source names %r; the editions are %s' % (source, ' and '.join(sorted(EDITIONS))))
+    ED, REVISED = EDITIONS[name], EDITIONS[name]['key'] == 'revised'
+    SPEC = os.path.join(ROOT, name)
+    MACRO_DIR = os.path.join(SPEC, 'latex-common', 'macros')
+    if REVISED:
+        return
+    tree = os.path.join(work, 'tree-' + DRAFT_COMMIT)
+    if not os.path.exists(os.path.join(tree, 'done')):
+        os.makedirs(tree, exist_ok=True)
+        ar = subprocess.Popen(['git', '-C', ROOT, 'archive', DRAFT_COMMIT, 'SpecData', 'Fortify', 'Library',
+                               'ProjectFortress/LibraryBuiltin'], stdout=subprocess.PIPE)
+        subprocess.run(['tar', '-x', '-C', tree], stdin=ar.stdout, check=True)
+        if ar.wait():
+            sys.exit('git archive %s failed' % DRAFT_COMMIT)
+        open(os.path.join(tree, 'done'), 'w').close()
+    EXAMPLES = os.path.join(tree, 'SpecData', 'examples')
+    TABLES = os.path.join(tree, 'SpecData', 'tables')
+    FORTIFY_EL = os.path.join(tree, 'Fortify', 'fortify.el')
+    LIBRARIES = [os.path.join(tree, 'Library'), os.path.join(tree, 'ProjectFortress', 'LibraryBuiltin')]
 # The edition's layer over the authors' text. An address of the authors' text gets a link to the
 # Internet Archive's copy nearest this date (a partial timestamp resolves to the nearest capture);
 # 2008 is the year of the release that the preface names with the address.
@@ -362,7 +405,7 @@ def run_latex(tex, aux, folder, n):
     for name in ('d.aux', 'd.aux.in'):          # latex rewrites d.aux; compare.js gives pdflatex the copy
         with open(os.path.join(folder, name), 'w', encoding='utf-8') as f:
             f.write(aux)
-    env = dict(os.environ, TEXINPUTS='.:%s:' % os.path.join(ROOT, 'Fortify'), max_print_line='10000')
+    env = dict(os.environ, TEXINPUTS='.:%s:' % os.path.dirname(FORTIFY_EL), max_print_line='10000')
     try:
         subprocess.run(['latex', '-interaction=nonstopmode', 'd.tex'], cwd=folder, env=env,
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=900)
@@ -1281,12 +1324,13 @@ class Converter:
             self.out.block('<p class="gap">[Not in this edition: the listing of the api <code>%s</code>.]</p>' % esc(name))
             self.unknown['api listing'] = self.unknown.get('api listing', 0) + 1
             return
-        self.out.block('<p class="standfirst">The listing below is made from <code>%s</code> of the revival’s '
-                       'repository, as the specification’s build makes it.</p>' % esc(os.path.relpath(src, ROOT)))
+        self.out.block('<!--API %s-->' % esc(os.path.relpath(src, ROOT if REVISED else os.path.dirname(os.path.dirname(EXAMPLES)))))
         inner = Source()
         text = inner.prepare(read(tex))
-        base = len(self.src.verb)
+        base, base_f = len(self.src.verb), len(self.src.fsrc)
         self.src.verb.extend(inner.verb)
+        self.src.fsrc.extend(inner.fsrc)
+        text = re.sub(r'\\FSSRC\{(\d+)\}', lambda mm: '\\FSSRC{%d}' % (int(mm.group(1)) + base_f), text)
         text = re.sub(r'\\(VERBBLOCK|VERBINLINE)\{(\d+)\}',
                       lambda mm: '\\%s{%d}' % (mm.group(1), int(mm.group(2)) + base), text)
         self.push(tokenize(text))
@@ -1764,7 +1808,8 @@ class Converter:
         rendered = None
         tex = os.path.join(self.work, 'examples', part, name + '.tex')
         self.examples_needed.add((part, os.path.basename(src)))
-        if os.path.exists(tex) and '\\begin{FortressCode}' in read(tex):
+        # foreg writes the FortressCode environment; in the team's tree of February 2011 it wrote Fortress
+        if os.path.exists(tex) and re.search(r'\\begin\{Fortress(Code)?\}', read(tex)):
             rendered = self.display('\\input{%s}' % tex)
         if rendered is None:
             self.no_render.append(name)
@@ -2096,7 +2141,14 @@ class Converter:
         out = Out(self)
         body = self.run(tokenize(text), out)
         body += '\n</section>' * len(self.sections)
-        for words in REVIVAL_PARAGRAPHS.get(ch['slug'], []):
+        if REVISED:
+            body = re.sub(r'<!--API (.*?)-->', r'<p class="standfirst">The listing below is made from <code>\1</code> of '
+                          r'the revival’s repository, as the specification’s build makes it.</p>', body)
+        else:
+            body = re.sub(r'<!--API (.*?)-->', r'<p class="edline">This edition: the listing below is made from '
+                          r'<code>\1</code> of the team’s tree at the commit of this draft (<code>%s</code>), as the '
+                          r'specification’s build makes it.</p>' % DRAFT_COMMIT, body)
+        for words in REVIVAL_PARAGRAPHS.get(ch['slug'], []) if REVISED else []:
             body, n = re.subn(r'(<p id="[^"]+" class="nb)(">%s)' % re.escape(words), r'\1 rv\2', body)
             if not n:
                 self.warn('the revival\'s paragraph "%s" was not found' % words)
@@ -2104,7 +2156,8 @@ class Converter:
             body += '\n<section class="sec fns"><h2 id="footnotes">Footnotes</h2>\n<ol>%s</ol></section>' % ''.join(
                 '<li id="fn-%d">%s <a href="#fnref-%d" aria-label="Back to the text">↩</a></li>' % (i + 1, f, i + 1)
                 for i, f in enumerate(self.footnotes))
-        body = archive_links(body)
+        if REVISED:
+            body = archive_links(body)
         return dict(body=body, toc=self.toc, unknown=dict(self.unknown), cited=set(self.cited), disp=list(self.disp),
                     revisions=self.revisions, code=self.n_code, both=self.n_both,
                     no_render=list(self.no_render))
@@ -2194,6 +2247,127 @@ def bibliography(conv):
 
 # ---------------------------------------------------------------- the pages
 
+def chapter_latex(root):
+    """The LaTeX of each chapter under one source root, by slug: the chapter's own text and the text of
+    every file that it reads, without comments. A chapter that the revival did not change has the same
+    LaTeX under both roots."""
+    global SPEC
+    saved, SPEC = SPEC, root
+    try:
+        def whole(src, text, depth=0):
+            def sub(m):
+                p = resolve_input(m.group(1))
+                if p and os.path.isfile(p) and depth < 8:
+                    inner = Source()
+                    return whole(inner, inner.prepare(read(p)), depth + 1)
+                return m.group(0).replace(root, '')
+            return re.sub(r'\\input\{([^}]*)\}', sub, text) + repr(src.fsrc) + repr(src.verb)
+        st = Structure()
+        return {ch['slug']: whole(*st.chapter_text(ch)) for ch in st.chapters}
+    finally:
+        SPEC = saved
+
+
+def chapter_companions(latex, examples, tables, libraries):
+    """What a chapter shows that is not in its LaTeX: the sources of its examples (SpecData/examples),
+    its tables of reserved words (SpecData/tables) and the .fsi files of its library listings, as one text."""
+    out = []
+    for arg in re.findall(r'\\input\{([^}]*)\}', latex):
+        m = re.search(r'/(\w[\w-]*)/examples/(.+?)(\.tex)?$', arg)
+        paths = []
+        if m:
+            paths = [os.path.join(examples, m.group(1), m.group(2) + ext) for ext in ('.fss', '.fsi')]
+        m = re.search(r'fortress-(keywords|unitOperators|specialReservedWords)', arg)
+        if m:
+            paths = [os.path.join(tables, 'fortress-' + m.group(1))]
+        m = re.search(r'/library/apis/(\w+)', arg)
+        if m:
+            paths = [os.path.join(d, m.group(1) + '.fsi') for d in libraries]
+        out.extend(read(p) for p in paths if os.path.isfile(p))
+    return '\x00'.join(out)
+
+
+def other_edition(out, slugs):
+    """The pages of the other edition, read from where the build put them: for each chapter the ids
+    of its blocks. Empty for a chapter that is not built."""
+    folder = os.path.normpath(os.path.join(out, ED['other_href']))
+    found = {}
+    for s in slugs:
+        p = os.path.join(folder, s + '.html')
+        if not os.path.exists(p):
+            continue
+        h = read(p)
+        found[s] = dict(ids=set(re.findall(r' id="([a-z]-[0-9a-f]{8}(?:-\d+)?)"', h)))
+    return found
+
+
+PDFS = [  # the editions that are PDFs: the file in the tree, and its name under pdf/
+    ('alpha', 'Specification-history/fortress.1.0alpha.pdf'),
+    ('beta', 'Specification-history/fortress.1.0beta.pdf'),
+    ('1.0', 'Specification-1.0-frozen/fortress.1.0.pdf'),
+]
+GITHUB = 'https://github.com/palimondo/fortress/'
+
+
+def editions_page(out, results, other, changed):
+    """The entry page of the editions, the PDFs that it serves, and revised-only.js: for each chapter the
+    ids of the blocks that only the revised edition has, by which the reader knows a note whose passage
+    is there. Every date and fact on the page is from Specification-history/README.md,
+    explorations/coordinator/spec-editions-leads-2026-11-10.md, F-163, pdfinfo and git."""
+    only = {}
+    for s, o in sorted(other.items()):
+        mine = set(re.findall(r' id="([a-z]-[0-9a-f]{8}(?:-\d+)?)"', results[s]['body'])) if s in results else set()
+        ids = sorted(o['ids'] - mine)
+        if ids:
+            only[s] = ' '.join(ids)
+    with open(os.path.join(out, 'revised-only.js'), 'w', encoding='utf-8') as f:
+        f.write('/* The blocks that only the revised edition has, by chapter. Written by the build. */\n'
+                'window.FORTRESS_REVISED_ONLY = %s;\n' % json.dumps(only, indent=0, sort_keys=True))
+    os.makedirs(os.path.join(out, 'pdf'), exist_ok=True)
+    pdf = {}
+    for key, rel in PDFS:
+        src = os.path.join(ROOT, rel)
+        shutil.copyfile(src, os.path.join(out, 'pdf', os.path.basename(rel)))
+        pdf[key] = '<a href="pdf/%s">PDF</a>, %.1f MB' % (os.path.basename(rel), os.path.getsize(src) / 1e6)
+    n_changed, n_pages = sum(1 for v in changed.values() if v == 'text'), len(changed)
+    revised_pdf = os.path.join(ROOT, 'Specification', 'fortress.pdf')
+    body = '''<header class="masthead">
+<p class="eyebrow">%s</p>
+<h1>The editions</h1>
+<p class="standfirst">The specification at its milestones, oldest first. The Fortress team wrote the first four. The last entry, set apart, is not the team’s.</p>
+</header>
+<section class="part">
+<ol class="editions">
+<li><h3><span class="when">19 September 2006</span> Version 1.0 α</h3>
+<p>411 pages. Sun Microsystems published it as a PDF, before the code was opened: the repository’s history starts on 4 January 2007. Only the PDF is known to survive in public; its LaTeX source has not been found.</p>
+<p class="links">%s. This copy was fetched on 10 November 2026 from the University of Jena; its title page carries “© Sun Microsystems, Inc.”, and the file holds no licence statement (<a href="%stree/main/Specification-history">where it came from</a>).</p></li>
+<li><h3><span class="when">6 March 2007</span> Version 1.0 β</h3>
+<p>441 pages, by the same eight authors. Only the PDF is known to survive in public; its LaTeX source has not been found.</p>
+<p class="links">%s. This copy was fetched on 10 November 2026 from UCLA; its title page carries “© Sun Microsystems, Inc.”, and the file holds no licence statement (<a href="%stree/main/Specification-history">where it came from</a>).</p></li>
+<li><h3><span class="when">31 March 2008</span> Version 1.0</h3>
+<p>262 pages. The PDF that the team released with the interpreter; it entered the repository on that day, and the tag <code>1.0</code> holds it. Its LaTeX source has not been found.</p>
+<p class="links">%s (<code>Specification-1.0-frozen/fortress.1.0.pdf</code> in the repository).</p></li>
+<li><h3><span class="when">2 February 2011</span> The Working Draft</h3>
+<p>The specification as the team left it. Its LaTeX entered the repository on 20 October and 5 November 2009, and the team’s last commit of the draft is of 2 February 2011 (<code>%s</code>). Its appendix of the changes since 1.0 is a stub that the team left.</p>
+<p class="links"><a href="index.html">This HTML edition</a>, converted from that LaTeX (<code>Specification-1.0-frozen/</code>, byte for byte the draft of that day). The repository holds no PDF of this draft.</p></li>
+</ol>
+</section>
+<section class="part apart">
+<h2>Not the team’s work</h2>
+<ol class="editions">
+<li><h3><span class="when">2026</span> The revised edition of the Fortress revival</h3>
+<p>The Fortress revival, which works to finish the team’s design, revises the Working Draft in <code>Specification/</code>. A passage that it changed carries a callout, and its Appendix I lists each change with the original text. %s Its pages ask search engines not to index them.</p>
+<p class="links"><a href="revival/index.html">The revised edition</a>; its <a href="%sblob/main/Specification/fortress.pdf">PDF</a> in the repository, %.1f MB, a draft build.</p></li>
+</ol>
+</section>
+<footer class="colophon">This page is the edition’s, not the authors’. Its dates and facts are from the repository: <code>Specification-history/README.md</code>, the git history, and the PDFs themselves.</footer>''' % (
+        SPEC_TITLE, pdf['alpha'], GITHUB, pdf['beta'], GITHUB, pdf['1.0'], DRAFT_COMMIT,
+        'It changes the text of %d of the %d chapter pages.' % (n_changed, n_pages) if other else '',
+        GITHUB, os.path.getsize(revised_pdf) / 1e6)
+    with open(os.path.join(out, 'editions.html'), 'w', encoding='utf-8') as f:
+        f.write(page('The editions · Fortress specification', body, 'plain', 'editions', 'The editions', 'The editions'))
+
+
 def page(title, body, kind, slug='', chapter_title='', nav='', svg_style=''):
     return '''<!doctype html>
 <html lang="en">
@@ -2201,18 +2375,20 @@ def page(title, body, kind, slug='', chapter_title='', nav='', svg_style=''):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>%s</title>
-<link rel="stylesheet" href="reader.css">
+%s<link rel="stylesheet" href="reader.css">
 %s</head>
-<body data-page="%s" data-slug="%s" data-chapter="%s">
+<body data-page="%s" data-slug="%s" data-chapter="%s" data-edition="%s" data-store="%s">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">%s</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 %s
 </div>
+<script src="%srevised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>
-''' % (esc(title), '<link rel="stylesheet" href="tex-fonts.css">\n<style>\n%s</style>\n' % svg_style if svg_style else '',
-       kind, esc(slug), esc(chapter_title), nav, body)
+''' % (esc(title), '<meta name="robots" content="noindex">\n' if REVISED else '',
+       '<link rel="stylesheet" href="tex-fonts.css">\n<style>\n%s</style>\n' % svg_style if svg_style else '',
+       kind, esc(slug), esc(chapter_title), ED['key'], ED['store'], nav, body, '../' if REVISED else '')
 
 
 def plain(h):
@@ -2304,6 +2480,20 @@ def build(args):
             failed.append('font %s lacks %d characters that the displays use: %s'
                           % (fam, len(missing), ' '.join('U+%04X' % ord(c) for c in sorted(missing)[:12])))
     order = [c for c in st.chapters if c['slug'] in converted]
+    other = other_edition(target, [c['slug'] for c in st.chapters])
+    changed = {}
+    if not REVISED:
+        mine, theirs = chapter_latex(SPEC), chapter_latex(os.path.join(ROOT, ED['other']))
+        for c in st.chapters:
+            a, b = mine[c['slug']], theirs.get(c['slug'], '')
+            if a != b:
+                changed[c['slug']] = 'text'
+            elif chapter_companions(a, EXAMPLES, TABLES, LIBRARIES) != chapter_companions(
+                    b, os.path.join(ROOT, 'SpecData', 'examples'), os.path.join(ROOT, 'SpecData', 'tables'),
+                    [os.path.join(ROOT, 'Library'), os.path.join(ROOT, 'ProjectFortress', 'LibraryBuiltin')]):
+                changed[c['slug']] = 'tree'
+            else:
+                changed[c['slug']] = ''
     report = []
     gaps = 0
     for s in wanted:
@@ -2321,10 +2511,39 @@ def build(args):
             toc = '<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol>%s</ol></nav>' % ''.join(
                 '<li><a href="#%s">%s %s</a></li>' % (hid, num, title) for _, num, title, hid in secs)
         front = ''
-        if ch['kind'] == 'front':
+        if ch['kind'] == 'front' and REVISED:
             front = ('<p class="standfirst">These pages stand before the table of contents in the '
                      'specification, with no heading of their own.</p>\n'
                      '<p class="legend"><strong>The notation of this edition.</strong> %s</p>' % LEGEND)
+        elif ch['kind'] == 'front':
+            front = ('<p class="edline">This edition: these pages stand before the table of contents in the '
+                     'specification, with no heading of their own.</p>\n')
+        there = s in other
+        if REVISED:
+            top = ('<p class="edline top">The Fortress revival’s revised edition of 2026, not the text of the Fortress '
+                   'team. %s</p>\n' % ('The team’s Working Draft of February 2011: <a href="../%s.html">this chapter</a>.' % s
+                                       if there or not other else
+                                       '<a href="../index.html">The team’s Working Draft of February 2011</a>.'))
+            foot = ('Converted from <code>%s</code> of the revival’s repository. The text is the working draft of the '
+                    'specification as the revival revises it. <a href="../editions.html">The editions</a>.'
+                    % esc(os.path.relpath(ch['file'], ROOT)))
+        else:
+            top = ''
+            if not there:
+                state = 'The Fortress revival of 2026 keeps a revised edition, apart from this one: <a href="revival/index.html">its contents</a>.'
+            elif not changed[s]:
+                state = ('The Fortress revival of 2026 did not change this chapter; its revised edition, kept apart, '
+                         'has <a href="revival/%s.html">the same chapter</a>.' % s)
+            elif changed[s] == 'tree':
+                state = ('The Fortress revival of 2026 did not change the text of this chapter; in its revised edition, kept '
+                         'apart, the chapter’s examples or library listings are those of the tree of 2026: '
+                         '<a href="revival/%s.html">the revised chapter</a>.' % s)
+            else:
+                state = ('The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: '
+                         '<a href="revival/%s.html">the revised chapter</a>.' % s)
+            foot = ('This edition: the Working Draft of %s as the Fortress team left it, converted from <code>%s</code> '
+                    'with nothing added to its text. %s <a href="editions.html">The editions</a>.'
+                    % (DRAFT_DATE, esc(os.path.relpath(ch['file'], ROOT)), state))
         pager = '<nav class="pager" aria-label="Chapters">%s%s</nav>' % (
             '<a class="prev" href="%s.html"><span>Previous</span> %s</a>' % (
                 prev_c['slug'], ('%s. ' % prev_c['num'] if prev_c['num'] else '') + titles[prev_c['slug']]) if prev_c else '<span></span>',
@@ -2332,7 +2551,7 @@ def build(args):
                 next_c['slug'], ('%s. ' % next_c['num'] if next_c['num'] else '') + titles[next_c['slug']]) if next_c
             else '<a class="next" href="index.html"><span>Next</span> Contents%s</a>'
             % ('' if len(order) == len(st.chapters) else ': the chapters after this one are not converted yet'))
-        body = '''<header class="masthead">
+        body = top + '''<header class="masthead">
 <p class="eyebrow">%s</p>
 </header>
 <div id="resume"></div>
@@ -2343,12 +2562,12 @@ def build(args):
 %s
 </section>
 %s
-<footer class="colophon">Converted from <code>%s</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>''' % (
+<footer class="colophon">%s</footer>''' % (
             esc(eyebrow), ch['num'], esc(plain(titles[s])), anchors,
             '<span class="num">%s</span> ' % name if ch['num'] else '', titles[s],
-            front, toc, r['body'], pager, esc(os.path.relpath(ch['file'], ROOT)))
+            front, toc, r['body'], pager, foot)
         with open(os.path.join(target, s + '.html'), 'w', encoding='utf-8') as f:
-            f.write(page('%s · Fortress specification' % full, body, 'chapter', s, full,
+            f.write(page('%s · Fortress specification%s' % (full, TITLE_TAIL if REVISED else ''), body, 'chapter', s, full,
                          esc(full), r['svg_style']))
         n_unknown = sum(r['unknown'].values()) + len(r['display_errors'])
         gaps += n_unknown
@@ -2391,7 +2610,38 @@ def build(args):
         listed.update(c['slug'] for c in p['chapters'])
     n_all = len(st.chapters) - 1
     n_done = len([c for c in st.chapters if c['slug'] in results and c['kind'] != 'front'])
-    index = '''<header class="masthead">
+    all_here = ('All %d chapters and appendices are here.' % n_all if n_done == n_all else
+                '%d of the %d chapters and appendices are converted. The others are listed below and marked.' % (n_done, n_all))
+    if not REVISED:
+        index = '''<header class="masthead">
+<p class="eyebrow">Working Draft of %s</p>
+<h1>%s</h1>
+<p class="standfirst">Eric Allen, David Chase, Joe Hallett, Victor Luchangco, Jan-Willem Maessen, Sukyoung Ryu, Guy L. Steele Jr. and Sam Tobin-Hochstadt; with Joao Dias, Carl Eastlund, Christine Flood, Yossi Lev, Cheryl McCosh, Janus Dam Nielsen and Dan Smith. © Sun Microsystems, Inc.</p>
+</header>
+<p class="edline">This edition: the specification as the Fortress team left it, converted to HTML in 2026 with nothing added to its text. <a href="editions.html">The editions of the specification</a>, from 1.0α of 2006 to this draft.</p>
+<div id="continue"></div>
+<details class="words">
+<summary><strong class="w-head">How this edition works</strong> <span class="w-lead">A reading edition for a phone: your place, your notes, the code examples.</span></summary>
+<ul>
+<li>%s</li>
+<li>The page remembers where you stopped, in this browser, and offers to continue there.</li>
+<li>The pencil at the end of a paragraph, a code example or a heading attaches a note to it. <a href="notes.html">Notes</a> lists them all, and exports them as text.</li>
+<li>The examples, the displayed formulas, the tables and the grammar are set by LaTeX from the specification’s own source, and shown as pictures whose text can be selected. A wide one scrolls sideways inside its frame. Code words and formulas inside a sentence are ordinary text.</li>
+<li>A code example that has a source form shows it too: the Fortress that a person types. The switch above an example changes them all.</li>
+<li>A box headed “Draft note” is a note of the authors.</li>
+<li>The Select button beside a heading selects that section's text, for Speak.</li>
+<li>A line that starts “This edition:” is the edition’s, not the authors’; each chapter has one at its foot.</li>
+</ul>
+</details>
+<section class="part contents">
+<h2>Contents</h2>
+%s
+</section>
+<footer class="colophon">This edition: built from <code>Specification-1.0-frozen/</code> of <a href="https://github.com/palimondo/fortress">the Fortress revival's repository</a>, which holds the team’s tree. <a href="editions.html">The editions</a>. The revival of 2026 keeps a revised edition apart from this one: <a href="revival/index.html">its contents</a>.</footer>''' % (
+            DRAFT_DATE, SPEC_TITLE, all_here, '\n'.join(rows))
+    else:
+        index = '''<p class="edline top">The Fortress revival’s revised edition of 2026, not the text of the Fortress team. <a href="../index.html">The team’s Working Draft of February 2011</a>. <a href="../editions.html">The editions</a>.</p>
+<header class="masthead">
 <p class="eyebrow">Working draft of 19 July 2012, with the changes of the 2026 revival</p>
 <h1>%s</h1>
 <p class="standfirst">Eric Allen, David Chase, Joe Hallett, Victor Luchangco, Jan-Willem Maessen, Sukyoung Ryu, Guy L. Steele Jr. and Sam Tobin-Hochstadt; with Joao Dias, Carl Eastlund, Christine Flood, Yossi Lev, Cheryl McCosh, Janus Dam Nielsen and Dan Smith. © Sun Microsystems, Inc.</p>
@@ -2415,13 +2665,10 @@ def build(args):
 <h2>Contents</h2>
 %s
 </section>
-<footer class="colophon">Built from <code>Specification/</code> of <a href="https://github.com/palimondo/fortress">the revival's repository</a>. The <a href="../revival-story/">revival's story so far</a> is another page of this site.</footer>''' % (
-        SPEC_TITLE, LEGEND,
-        'All %d chapters and appendices are here.' % n_all if n_done == n_all else
-        '%d of the %d chapters and appendices are converted. The others are listed below and marked.' % (n_done, n_all),
-        '\n'.join(rows))
+<footer class="colophon">Built from <code>Specification/</code> of <a href="https://github.com/palimondo/fortress">the revival's repository</a>. The <a href="../../revival-story/">revival's story so far</a> is another page of this site.</footer>''' % (
+            SPEC_TITLE, LEGEND, all_here, '\n'.join(rows))
     with open(os.path.join(out, 'index.html'), 'w', encoding='utf-8') as f:
-        f.write(page(SPEC_TITLE, index, 'index', 'index', 'Contents', 'Fortress specification'))
+        f.write(page(SPEC_TITLE + (TITLE_TAIL if REVISED else ''), index, 'index', 'index', 'Contents', 'Fortress specification'))
 
     notes = '''<header class="masthead">
 <p class="eyebrow">%s</p>
@@ -2447,7 +2694,13 @@ def build(args):
 <div id="notes-list"></div>
 </section>''' % SPEC_TITLE
     with open(os.path.join(out, 'notes.html'), 'w', encoding='utf-8') as f:
-        f.write(page('Notes · Fortress specification', notes, 'notes', 'notes', 'Notes', 'Your notes'))
+        if REVISED:
+            notes = ('<p class="edline top">The Fortress revival’s revised edition of 2026, not the text of the Fortress team. '
+                     'Notes on this edition are kept apart from the notes on <a href="../notes.html">the team’s Working Draft</a>.</p>\n') + notes
+        else:
+            notes += ('\n<p class="edline">This edition: a note that was written on a passage of the revival’s revised edition '
+                      'stays in this list and in the export, marked as a note whose passage is in the revised edition.</p>')
+        f.write(page('Notes · Fortress specification' + (TITLE_TAIL if REVISED else ''), notes, 'notes', 'notes', 'Notes', 'Your notes'))
 
     refs = '''<header class="masthead">
 <p class="eyebrow">%s</p>
@@ -2456,10 +2709,15 @@ def build(args):
 </header>
 <section class="part refs">
 %s
-</section>''' % (SPEC_TITLE, archive_links(bibliography(conv)))
+</section>''' % (SPEC_TITLE, archive_links(bibliography(conv)) if REVISED else bibliography(conv))
     with open(os.path.join(out, 'references.html'), 'w', encoding='utf-8') as f:
-        f.write(page('References · Fortress specification', refs, 'plain', 'references', 'References', 'References'))
+        if REVISED:
+            refs = ('<p class="edline top">The Fortress revival’s revised edition of 2026, not the text of the Fortress team. '
+                    '<a href="../references.html">The references of the team’s Working Draft</a>.</p>\n') + refs
+        f.write(page('References · Fortress specification' + (TITLE_TAIL if REVISED else ''), refs, 'plain', 'references', 'References', 'References'))
 
+    if not REVISED:
+        editions_page(out, results, other, changed)
     print('contents: %d of %d chapters and appendices converted; pages in %s' % (n_done, n_all, os.path.relpath(out, ROOT)))
     if gaps:
         print('GAPS: %d constructs did not convert (marked in the pages)' % gaps)
@@ -2471,10 +2729,22 @@ def main():
     ap.add_argument('--chapters', default=','.join(DEFAULT_CHAPTERS), help='slugs of the chapters to publish, comma-separated; all of them if none is named')
     ap.add_argument('--try', dest='only', help='convert these chapters (or: all) into the work folder only, and print what did not convert')
     ap.add_argument('--list', action='store_true', help='print every chapter with its slug')
-    ap.add_argument('--out', default=DEFAULT_OUT)
-    ap.add_argument('--work', default='/tmp/spec-html-work', help='scratch folder: the examples as foreg renders them')
-    ap.add_argument('--base', default=DEFAULT_BASE, help='public address of the pages, for the links in exported notes')
-    sys.exit(build(ap.parse_args()))
+    ap.add_argument('--source', default='Specification',
+                    help='the source root, which names the edition: Specification (the revised edition, into '
+                         'docs/specification/revival/) or Specification-1.0-frozen (the Working Draft of February 2011, '
+                         'into docs/specification/)')
+    ap.add_argument('--out', help='where the pages go; by default the edition\'s folder under docs/specification/')
+    ap.add_argument('--work', help='scratch folder: the examples as foreg renders them; by default '
+                                   '/tmp/spec-html-work for the revised edition and /tmp/spec-html-work-draft for the draft')
+    ap.add_argument('--base', help='public address of the pages, for the links in exported notes')
+    args = ap.parse_args()
+    draft = os.path.basename(os.path.normpath(args.source)) != 'Specification'
+    args.work = args.work or ('/tmp/spec-html-work-draft' if draft else '/tmp/spec-html-work')
+    os.makedirs(args.work, exist_ok=True)
+    set_source(args.source, args.work)
+    args.out = args.out or ED['out']
+    args.base = args.base or ED['base']
+    sys.exit(build(args))
 
 
 if __name__ == '__main__':

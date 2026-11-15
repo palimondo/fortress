@@ -19,12 +19,10 @@ svg.tx text.t8{font-family:cmmi10;font-size:9.96px}
 svg.tx text.t9{font-family:cmsy7;font-size:6.97px}
 svg.tx text.t10{font-family:stmary10;font-size:9.96px}
 svg.tx text.t11{font-family:cmti10;font-size:9.96px}
-svg.tx text.t12{font-family:cmti7;font-size:6.97px}
-svg.tx text.t13{font-family:cmex10;font-size:9.96px}
-svg.tx text.t14{font-family:msbm10;font-size:9.96px}
+svg.tx text.t12{font-family:msbm10;font-size:9.96px}
 </style>
 </head>
-<body data-page="chapter" data-slug="functions" data-chapter="9. Functions">
+<body data-page="chapter" data-slug="functions" data-chapter="9. Functions" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">9. Functions</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -171,45 +169,41 @@ svg.tx text.t14{font-family:msbm10;font-size:9.96px}
 <p id="p-ff3963ba" class="nb">A parameter declared by varargs binding is called a <em>varargs parameter</em>; it is used to pass a variable number of arguments to a function as a single heap sequence. The type of a varargs parameter is <span class="m"><span class="ty">HeapSequence</span>⟦<i>T</i>⟧</span> where <span class="m"><i>T</i></span> is the type mentioned in (or inferred for) that binding.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-907302a7" class="nb">See the library section for a discussion of <span class="m"><span class="ty">HeapSequence</span></span>.</p></aside>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-varargs">Section I.1.38</a><!--nc--></span></p>
-<p id="p-2c71f8c4" class="nb">No library declares <span class="m"><span class="ty">HeapSequence</span></span>, nor the immutable sequence that the team’s draft note at the start of <a class="xref" href="#sec-function-app">Section 9.2</a><!--nc--> agreed on in its place. Both implementations give a varargs parameter the array type of the Fortress standard libraries that the compiled type checker’s authors named for it, <span class="m"><span class="ty">ImmutableArray</span>⟦<i>T</i>, ℤ32⟧</span>: the interpreter binds the parameter to an immutable one-dimensional array of the arguments, and the compiled type checker types the parameter in the body at that type. The compiled path’s own library declares no such type, so there the compiled type checker refuses every use of a varargs parameter, in a body, a contract or a function expression, naming the type; and the code generator does not yet compile a function with a varargs parameter.</p></aside>
 <p id="p-4f693dfa" class="nb">Note that the type of a varargs parameter cannot be omitted. If a function does not have a varargs parameter then the number of arguments is fixed by the function’s type. Note that a varargs parameter is not allowed to have a default expression.</p>
 <p id="p-d4dec428" class="nb">For example, here is a simple polymorphic function for creating lists:</p>
-<div class="fx nb both" id="c-54ee0e57" data-kind="code" data-example="Fun.Decl"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 11.26 221.92 70.04" width="22.192em" height="7.004em" fill="currentColor"><text class='t3' x='0' y='19.33'>List</text>
-<text class='t10' x='16.8' y='19.33'></text>
-<text class='t8' x='20.81' y='19.33'>T</text>
-<text class='t6' x='30.78' y='19.33'>extends</text>
-<text class='t3' x='70.16' y='19.33'>Ob<tspan x='84'>ject</tspan></text>
-<text class='t8' x='99.77' y='19.33'>,</text>
-<text class='t6' x='104.2' y='19.33'>nat</text>
-<text class='t11' x='122.66' y='19.33'>length</text>
-<text class='t10' x='149.14' y='19.33'></text>
-<text class='t3' x='153.15' y='19.33'>(</text>
-<text class='t11' x='157.03' y='19.33'>r<tspan x='160.72'>est</tspan></text>
-<text class='t3' x='173.63' y='19.33'>:</text>
-<text class='t8' x='178.06' y='19.33'>T</text>
-<text class='t12' x='183.88' y='20.82'>length</text>
-<text class='t3' x='206.33' y='19.33'>)<tspan x='212.97'>=</tspan></text>
-<text class='t6' x='8.86' y='39.75'>if</text>
-<text class='t11' x='22.08' y='39.75'>length</text>
-<text class='t3' x='51.33' y='39.75'>=<tspan x='61.85'>0</tspan></text>
-<text class='t6' x='69.59' y='39.75'>then</text>
-<text class='t3' x='93.28' y='39.75'>Empt<tspan x='117.5'>y</tspan></text>
-<text class='t6' x='8.86' y='60.27'>else</text>
-<text class='t3' x='32.54' y='60.27'>Cons</text>
-<text class='t13' x='54.19' y='52.2'></text>
-<text class='t11' x='58.75' y='60.27'>r<tspan x='62.44'>est</tspan></text>
-<text class='t5' x='75.35' y='61.77'>0</text>
-<text class='t8' x='79.82' y='60.27'>,</text>
-<text class='t3' x='84.25' y='60.27'>List<tspan x='101.05'>(</tspan></text>
-<text class='t11' x='104.92' y='60.27'>r<tspan x='108.62'>est</tspan></text>
-<text class='t5' x='121.53' y='62.07'>1:<tspan x='127.75'>(</tspan></text>
-<text class='t12' x='130.87' y='62.07'>length</text>
-<text class='t9' x='152.82' y='62.07'>−</text>
-<text class='t5' x='159.04' y='62.07'>1)</text>
-<text class='t3' x='166.62' y='60.27'>)</text>
-<text class='t13' x='170.5' y='52.2'></text>
-<text class='t6' x='8.86' y='80.7'>end</text></svg></div><pre class="fx-s"><code>List[\T extends Object, nat length\](rest: T[length]) =
+<div class="fx nb both" id="c-54ee0e57" data-kind="code" data-example="Fun.Decl"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.26 237.29 44.54" width="23.729em" height="4.454em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>List</text>
+<text class='t10' x='26.76' y='19.33'></text>
+<text class='t8' x='30.77' y='19.33'>T</text>
+<text class='t6' x='40.75' y='19.33'>extends</text>
+<text class='t3' x='82.34' y='19.33'>Ob<tspan x='96.18'>ject</tspan></text>
+<text class='t8' x='111.95' y='19.33'>,</text>
+<text class='t6' x='116.38' y='19.33'>nat</text>
+<text class='t11' x='137.05' y='19.33'>length</text>
+<text class='t10' x='163.53' y='19.33'></text>
+<text class='t3' x='167.54' y='19.33'>(</text>
+<text class='t11' x='171.42' y='19.33'>r<tspan x='175.11'>est</tspan></text>
+<text class='t3' x='188.02' y='19.33'>:</text>
+<text class='t8' x='192.45' y='19.33'>T</text>
+<text class='t3' x='199.65' y='19.33'>[</text>
+<text class='t11' x='202.42' y='19.33'>length</text>
+<text class='t3' x='228.9' y='19.33'>])<tspan x='238.31'>=</tspan></text>
+<text class='t6' x='21.92' y='31.28'>if</text>
+<text class='t11' x='37.36' y='31.28'>length</text>
+<text class='t3' x='66.61' y='31.28'>=<tspan x='77.12'>0</tspan></text>
+<text class='t6' x='84.87' y='31.28'>then</text>
+<text class='t3' x='110.77' y='31.28'>Empt<tspan x='134.99'>y</tspan></text>
+<text class='t6' x='21.92' y='43.24'>else</text>
+<text class='t3' x='47.82' y='43.24'>Cons<tspan x='69.46'>(</tspan></text>
+<text class='t11' x='73.34' y='43.24'>r<tspan x='77.03'>est</tspan></text>
+<text class='t5' x='89.94' y='44.73'>0</text>
+<text class='t8' x='94.41' y='43.24'>,</text>
+<text class='t3' x='98.84' y='43.24'>List<tspan x='115.63'>(</tspan></text>
+<text class='t11' x='119.51' y='43.24'>r<tspan x='123.2'>est</tspan></text>
+<text class='t3' x='136.11' y='43.24'>[1<tspan x='145.52'>:</tspan><tspan x='149.95'>(</tspan></text>
+<text class='t11' x='153.82' y='43.24'>length</text>
+<text class='t4' x='182.52' y='43.24'>−</text>
+<text class='t3' x='192.48' y='43.24'>1)]))</text>
+<text class='t6' x='21.92' y='55.19'>end</text></svg></div><pre class="fx-s"><code>List[\T extends Object, nat length\](rest: T[length]) =
   if length = 0 then Empty
   else Cons(rest[0], List(rest[1:(length-1)]))
   end</code></pre></div>
@@ -257,30 +251,30 @@ svg.tx text.t14{font-family:msbm10;font-size:9.96px}
 <p id="p-3b1cd6d3" class="nb">When a function is called (See <a class="xref" href="expressions.html#sec-function-calls">Section 13.6</a><!--nc--> for a discussion of function call expressions), function arguments are evaluated in parallel, keyword parameters not explicitly bound are bound to their default values sequentially, and the body of the function is evaluated in a new environment, extending the environment in which it is defined with all parameters bound to their arguments.</p>
 <p id="p-452b356f" class="nb">If the application of a function <span class="m"><i>f</i></span> ends by calling another function <span class="m"><i>g</i></span>, tail-call optimization must be applied. Storage used by the new environments constructed for the application of <span class="m"><i>f</i></span> must be reclaimed.</p>
 <p id="p-0931022b" class="nb">Here are some examples:</p>
-<div class="fx nb both" id="c-aac82e2a" data-kind="code" data-example="Fun.App.a"><div class="fx-r"><svg class="tx" data-d="3" viewBox="4.38 11.26 52.01 31.59" width="5.201em" height="3.159em" fill="currentColor"><text class='t3' x='4.98' y='19.33'>sin<tspan x='17.21'>(</tspan></text>
-<text class='t8' x='21.09' y='19.33'>π</text>
-<text class='t3' x='27.12' y='19.33'>)<tspan x='4.98' y='39.75'>arctan</tspan><tspan x='32.68'>(</tspan></text>
-<text class='t8' x='36.56' y='39.75'>y<tspan x='41.8'>,</tspan><tspan x='46.23'>x</tspan></text>
-<text class='t3' x='51.92' y='39.75'>)</text></svg></div><pre class="fx-s"><code>  sin(pi)
+<div class="fx nb both" id="c-aac82e2a" data-kind="code" data-example="Fun.App.a"><div class="fx-r"><svg class="tx" data-d="3" viewBox="21.32 11.26 52.01 23.12" width="5.201em" height="2.312em" fill="currentColor"><text class='t3' x='21.92' y='19.33'>sin<tspan x='34.15'>(</tspan></text>
+<text class='t8' x='38.02' y='19.33'>π</text>
+<text class='t3' x='44.06' y='19.33'>)<tspan x='21.92' y='31.28'>arctan</tspan><tspan x='49.62'>(</tspan></text>
+<text class='t8' x='53.49' y='31.28'>y<tspan x='58.74'>,</tspan><tspan x='63.16'>x</tspan></text>
+<text class='t3' x='68.86' y='31.28'>)</text></svg></div><pre class="fx-s"><code>  sin(pi)
   arctan(y, x)</code></pre></div>
 <p id="p-90f7a546" class="nb">If the function’s argument is not a tuple, then the argument need not be parenthesized:</p>
-<div class="fx nb both" id="c-41b274cb" data-kind="code" data-example="Fun.App.b"><div class="fx-r"><svg class="tx" data-d="4" viewBox="4.38 12.07 39.56 30.21" width="3.956em" height="3.021em" fill="currentColor"><text class='t3' x='4.98' y='19.33'>sin</text>
-<text class='t8' x='20.53' y='19.33'>x</text>
-<text class='t3' x='4.98' y='39.75'>log<tspan x='21.17'>log</tspan></text>
-<text class='t8' x='37.36' y='39.75'>n</text></svg></div><pre class="fx-s"><code>  sin x
+<div class="fx nb both" id="c-41b274cb" data-kind="code" data-example="Fun.App.b"><div class="fx-r"><svg class="tx" data-d="4" viewBox="21.32 12.07 36.24 21.75" width="3.624em" height="2.175em" fill="currentColor"><text class='t3' x='21.92' y='19.33'>sin</text>
+<text class='t8' x='35.81' y='19.33'>x</text>
+<text class='t3' x='21.92' y='31.28'>log<tspan x='36.45'>log</tspan></text>
+<text class='t8' x='50.98' y='31.28'>n</text></svg></div><pre class="fx-s"><code>  sin x
   log log n</code></pre></div>
 <p id="p-e45009dc" class="nb">Here are a few varargs and keyword examples:</p>
 <div class="fx nb both" id="c-95053fc0" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.26 198.21 11.16" width="19.821em" height="1.116em" fill="currentColor"><text class='t8' x='9.96' y='19.33'>f</text>
 <text class='t3' x='15.91' y='19.33'>(</text>
 <text class='t8' x='19.79' y='19.33'>x</text>
 <text class='t3' x='27.14' y='19.33'>:</text>
-<text class='t14' x='31.57' y='19.33'>Z</text>
+<text class='t12' x='31.57' y='19.33'>Z</text>
 <text class='t8' x='38.21' y='19.33'>,<tspan x='42.64'>y</tspan></text>
 <text class='t3' x='49.54' y='19.33'>:</text>
-<text class='t14' x='53.97' y='19.33'>Z</text>
+<text class='t12' x='53.97' y='19.33'>Z</text>
 <text class='t8' x='62.27' y='19.33'>.<tspan x='66.7'>.</tspan><tspan x='71.13'>.</tspan><tspan x='75.55'>,</tspan><tspan x='79.98'>z</tspan></text>
 <text class='t3' x='86.71' y='19.33'>:</text>
-<text class='t14' x='91.14' y='19.33'>Z</text>
+<text class='t12' x='91.14' y='19.33'>Z</text>
 <text class='t3' x='100.55' y='19.33'>=<tspan x='111.07'>0)</tspan><tspan x='122.69'>=</tspan></text>
 <text class='t4' x='133.21' y='19.33'></text>
 <text class='t8' x='137.08' y='19.33'>x,</text>
@@ -454,9 +448,7 @@ f(1, 2, 3, z=8)  returns  &lt;| 1, &lt;| 2, 3 |&gt;, 8 |&gt;</code></pre></div>
 <text class='t1' x='113.26' y='88.58'>Name</text>
 <text class='t3' x='140.66' y='88.58'>:</text>
 <text class='t1' x='147.58' y='88.58'>Arr<tspan x='160.97'>owT</tspan><tspan x='177.39'>ype</tspan></text></svg></div>
-<p id="p-0b2069cc" class="nb">In a component, overloaded functions may be declared separately from their definitions using <em>abstract function declarations</em>. Abstract function declarations themselves may be overloaded. For an abstract function declaration with name <span class="m"><i>f</i></span>, argument type <span class="m"><i>T</i></span>, and return type <span class="m"><i>U</i></span> (<span class="m"><i>T</i></span> and <span class="m"><i>U</i></span> may be tuple types), any concrete declaration for <span class="m"><i>f</i></span> must be for a function whose argument type is a subtype of <span class="m"><i>T</i></span> and whose return type is a subtype of <span class="m"><i>U</i></span>. Furthermore, the argument types of the concrete declarations for <span class="m"><i>f</i></span> must together cover <span class="m"><i>T</i></span> (<a class="xref" href="types.html#sec-internal-types">Section 6.10</a>). Concrete function declarations must satisfy the overloading rules. Unless <span class="m"><i>T</i></span> has a <span class="m"><span class="kw">comprises</span></span> clause (or is a tuple type, at least one of whose entries has a <span class="m"><span class="kw">comprises</span></span> clause), this implies that some concrete declaration for <span class="m"><i>f</i></span> must have argument type <span class="m"><i>T</i></span>.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-covering">Section I.1.34</a><!--nc--></span></p>
-<p id="p-7dcacad2" class="nb">The Working Draft of February 2011 said that the union of the argument types of the concrete declarations must be equal to <span class="m"><i>T</i></span>; under a <span class="m"><span class="kw">comprises</span></span> clause read at the level of values (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->) the union of the listed types covers <span class="m"><i>T</i></span> without being equal to it.</p></aside>
+<p id="p-232aff9f" class="nb">In a component, overloaded functions may be declared separately from their definitions using <em>abstract function declarations</em>. Abstract function declarations themselves may be overloaded. For an abstract function declaration with name <span class="m"><i>f</i></span>, argument type <span class="m"><i>T</i></span>, and return type <span class="m"><i>U</i></span> (<span class="m"><i>T</i></span> and <span class="m"><i>U</i></span> may be tuple types), any concrete declaration for <span class="m"><i>f</i></span> must be for a function whose argument type is a subtype of <span class="m"><i>T</i></span> and whose return type is a subtype of <span class="m"><i>U</i></span>. Furthermore, the union of the argument types of the concrete declarations for <span class="m"><i>f</i></span> must be equal to <span class="m"><i>T</i></span>. Concrete function declarations must satisfy the overloading rules. Unless <span class="m"><i>T</i></span> has a <span class="m"><span class="kw">comprises</span></span> clause (or is a tuple type, at least one of whose entries has a <span class="m"><span class="kw">comprises</span></span> clause), this implies that some concrete declaration for <span class="m"><i>f</i></span> must have argument type <span class="m"><i>T</i></span>.</p>
 <p id="p-fade5827" class="nb">Syntactically, an abstract function declaration is a function declaration without a body. Parameter names may be elided but parameter types cannot be omitted. Additionally, when a function’s type is not parameterized, Fortress provides an alternative mathematical notation for an abstract function declaration: function name followed by the token ‘<span class="m">:</span>’, followed by an arrow type.</p>
 <p id="p-f76befb6" class="nb">For example, after the following abstract function declaration:</p>
 <div class="fx nb both" id="c-c3df4bf6" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 11.26 119.30 11.16" width="11.930em" height="1.116em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>printMole<tspan x='51.87'>cule</tspan></text>
@@ -488,9 +480,7 @@ f(1, 2, 3, z=8)  returns  &lt;| 1, &lt;| 2, 3 |&gt;, 8 |&gt;</code></pre></div>
 <text class='t11' x='73.55' y='31.28'>mole<tspan x='93.41'>cule</tspan></text>
 <text class='t3' x='111.21' y='31.28'>:<tspan x='115.64'>InorganicMolecule</tspan><tspan x='194.82'>)</tspan><tspan x='201.46'>=</tspan></text>
 <text class='t8' x='211.97' y='31.28'>.<tspan x='216.4'>.</tspan><tspan x='220.83'>.</tspan></text></svg></div></div>
-<p id="p-78bfbdb7" class="nb">For the latter, the programmer must provide a definition for every type listed in the <span class="m"><span class="kw">comprises</span></span> clause of <span class="m"><span class="ty">Molecule</span></span>, or definitions that together cover those types, or it is a static error.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-covering">Section I.1.34</a><!--nc--></span></p>
-<p id="p-8879b443" class="nb">The Working Draft of February 2011 asked here for a definition for every immediate subtype of <span class="m"><span class="ty">Molecule</span></span>. Where a trait with static parameters stands unlisted between a trait with a <span class="m"><span class="kw">comprises</span></span> clause and its listed types, the immediate subtypes and the listed types differ; the type group’s calculus Welterweight Fortress (2012) asks for definitions for all the types comprised. The compiled type checker checks, at each object declaration, that the object’s concrete methods cover the abstract methods it inherits, and reads <span class="m"><span class="kw">comprises</span></span> clauses to do so: concrete methods over the types that a trait lists together cover an abstract method over that trait; top-level abstract function declarations run on neither implementation of the revival.</p></aside>
+<p id="p-f1ce15ff" class="nb">For the latter, the programmer must provide a definition for every immediate subtype of <span class="m"><span class="ty">Molecule</span></span>, or it is a static error.</p>
 </section>
 <section class="sec" data-num="9.4" data-title="Function Contracts">
 <h2 id="sec-contracts" class="nb"><span class="num">9.4</span> Function Contracts</h2>
@@ -551,69 +541,67 @@ f(1, 2, 3, z=8)  returns  &lt;| 1, &lt;| 2, 3 |&gt;, 8 |&gt;</code></pre></div>
 <p id="p-3b927a2d" class="nb">The <span class="m"><span class="kw">ensures</span></span> clause consists of a sequence of <span class="m"><span class="kw">ensures</span></span> subclauses. Each such subclause consists of an expression of type <span class="m"><span class="ty">Boolean</span></span>, optionally followed by a <span class="m"><span class="kw">provided</span></span> subclause. A <span class="m"><span class="kw">provided</span></span> subclause begins with <span class="m"><span class="kw">provided</span></span> followed by an expression of type <span class="m"><span class="ty">Boolean</span></span>. For each subclause in the <span class="m"><span class="kw">ensures</span></span> clause of a contract, the <span class="m"><span class="kw">provided</span></span> subclause is evaluated immediately after the <span class="m"><span class="kw">requires</span></span> clause during a function call (before the function body is evaluated). If a <span class="m"><span class="kw">provided</span></span> subclause evaluates to <span class="m"><i>true</i></span>, then the expression preceding this <span class="m"><span class="kw">provided</span></span> subclause is evaluated after the function body is evaluated. If the expression evaluated after function evaluation does not evaluate to <span class="m"><i>true</i></span>, a <span class="m"><span class="ty">CalleeViolation</span></span> exception is thrown. The expression preceding the <span class="m"><span class="kw">provided</span></span> subclause can refer to the return value of the function. A <span class="m"><span class="kw">outcome</span></span> variable is implicitly bound to a return value of the function and is in scope of the expression preceding the <span class="m"><span class="kw">provided</span></span> subclause. The implicitly declared <span class="m"><span class="kw">outcome</span></span> shadows any other declaration with the same name in scope.</p>
 <p id="p-0ce97176" class="nb">The <span class="m"><span class="kw">invariant</span></span> clause consists of a sequence of expressions of <em>any type</em> enclosed by curly braces. These expressions are evaluated before and after a function call. For each expression <span class="m"><i>e</i></span> in this sequence, if the value of <span class="m"><i>e</i></span> when evaluated before the function call is not equal to the value of <span class="m"><i>e</i></span> after the function call, a <span class="m"><span class="ty">CalleeViolation</span></span> exception is thrown.</p>
 <p id="p-0931022b-2" class="nb">Here are some examples:</p>
-<div class="fx nb both" id="c-042648d6" data-kind="code" data-example="Fun.Contract"><div class="fx-r"><svg class="tx" data-d="13" viewBox="-0.60 11.26 328.79 176.34" width="32.879em" height="17.634em" fill="currentColor"><text class='t11' x='0' y='19.33'>factorial</text>
-<text class='t3' x='37.06' y='19.33'>(</text>
-<text class='t8' x='40.93' y='19.33'>n</text>
-<text class='t3' x='46.91' y='19.33'>:</text>
-<text class='t14' x='51.34' y='19.33'>Z</text>
-<text class='t3' x='57.98' y='19.33'>64)</text>
-<text class='t6' x='74.58' y='19.33'>requires</text>
-<text class='t4' x='119.19' y='19.33'>{</text>
-<text class='t8' x='125.84' y='19.33'>n</text>
-<text class='t4' x='134.58' y='19.33'>≥</text>
-<text class='t3' x='145.1' y='19.33'>0</text>
-<text class='t4' x='151.74' y='19.33'>}</text>
-<text class='t3' x='159.49' y='19.33'>=</text>
-<text class='t6' x='8.86' y='39.75'>if</text>
-<text class='t8' x='22.08' y='39.75'>n</text>
-<text class='t3' x='30.83' y='39.75'>=<tspan x='41.35'>0</tspan></text>
-<text class='t6' x='49.1' y='39.75'>then</text>
-<text class='t3' x='72.78' y='39.75'>1</text>
-<text class='t6' x='8.86' y='60.17'>else</text>
-<text class='t8' x='32.54' y='60.17'>n</text>
-<text class='t11' x='40.18' y='60.17'>factorial</text>
-<text class='t3' x='77.24' y='60.17'>(</text>
-<text class='t8' x='81.11' y='60.17'>n</text>
-<text class='t4' x='89.31' y='60.17'>−</text>
-<text class='t3' x='99.27' y='60.17'>1)</text>
-<text class='t6' x='8.86' y='80.6'>end</text>
-<text class='t11' x='0' y='105.11'>mangle</text>
-<text class='t3' x='31.3' y='105.11'>(</text>
-<text class='t11' x='35.17' y='105.11'>input</text>
-<text class='t3' x='58.52' y='105.11'>:<tspan x='62.95'>List</tspan><tspan x='79.75'>)</tspan></text>
-<text class='t6' x='86.39' y='105.11'>ensures</text>
-<text class='t13' x='125.77' y='97.04'></text>
-<text class='t11' x='133.24' y='105.11'>sorte<tspan x='153.99'>d</tspan></text>
-<text class='t3' x='160.12' y='105.11'>(</text>
-<text class='t11' x='163.99' y='105.11'>outc<tspan x='181.81'>ome</tspan></text>
-<text class='t3' x='200.38' y='105.11'>)</text>
-<text class='t6' x='207.02' y='105.11'>provided</text>
-<text class='t11' x='251.63' y='105.11'>sorte<tspan x='272.38'>d</tspan></text>
-<text class='t3' x='278.51' y='105.11'>(</text>
-<text class='t11' x='282.38' y='105.11'>input</text>
-<text class='t3' x='305.73' y='105.11'>)</text>
-<text class='t13' x='311.26' y='97.04'></text>
-<text class='t3' x='319.84' y='105.11'>=</text>
-<text class='t6' x='8.86' y='125.53'>if</text>
-<text class='t11' x='22.08' y='125.53'>input</text>
-<text class='t4' x='48.2' y='125.53'></text>
-<text class='t3' x='48.2' y='125.53'>=<tspan x='58.72'>Empt</tspan><tspan x='82.93'>y</tspan></text>
-<text class='t6' x='8.86' y='146.05'>then</text>
-<text class='t11' x='32.54' y='146.05'>mangle</text>
-<text class='t13' x='63.84' y='137.98'></text>
-<text class='t11' x='68.41' y='146.05'>ﬁrst</text>
-<text class='t3' x='86.54' y='146.05'>(</text>
-<text class='t11' x='90.42' y='146.05'>input</text>
-<text class='t3' x='113.77' y='146.05'>)</text>
-<text class='t13' x='117.64' y='137.98'></text>
-<text class='t11' x='32.54' y='166.58'>mangle</text>
-<text class='t13' x='63.84' y='158.51'></text>
-<text class='t11' x='68.41' y='166.58'>r<tspan x='72.1'>est</tspan></text>
-<text class='t3' x='85.01' y='166.58'>(</text>
-<text class='t11' x='88.89' y='166.58'>input</text>
-<text class='t3' x='112.24' y='166.58'>)</text>
-<text class='t13' x='116.11' y='158.51'></text>
-<text class='t6' x='8.86' y='187'>end</text></svg></div><pre class="fx-s"><code>factorial(n: ZZ64) requires { n &gt;= 0 } =
+<div class="fx nb both" id="c-042648d6" data-kind="code" data-example="Fun.Contract"><div class="fx-r"><svg class="tx" data-d="13" viewBox="9.36 11.26 329.57 108.30" width="32.957em" height="10.830em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>factorial</text>
+<text class='t3' x='47.02' y='19.33'>(</text>
+<text class='t8' x='50.89' y='19.33'>n</text>
+<text class='t3' x='56.87' y='19.33'>:</text>
+<text class='t12' x='61.3' y='19.33'>Z</text>
+<text class='t3' x='67.94' y='19.33'>64)</text>
+<text class='t6' x='84.55' y='19.33'>requires</text>
+<text class='t4' x='129.16' y='19.33'>{</text>
+<text class='t8' x='135.8' y='19.33'>n</text>
+<text class='t4' x='144.55' y='19.33'>≥</text>
+<text class='t3' x='155.06' y='19.33'>0</text>
+<text class='t4' x='161.7' y='19.33'>}</text>
+<text class='t3' x='169.45' y='19.33'>=</text>
+<text class='t6' x='21.92' y='31.28'>if</text>
+<text class='t8' x='37.36' y='31.28'>n</text>
+<text class='t3' x='46.11' y='31.28'>=<tspan x='56.62'>0</tspan></text>
+<text class='t6' x='64.37' y='31.28'>then</text>
+<text class='t3' x='88.06' y='31.28'>1</text>
+<text class='t6' x='21.92' y='43.24'>else</text>
+<text class='t8' x='47.82' y='43.24'>n</text>
+<text class='t11' x='56.01' y='43.24'>factorial</text>
+<text class='t3' x='93.07' y='43.24'>(</text>
+<text class='t8' x='96.94' y='43.24'>n</text>
+<text class='t4' x='105.14' y='43.24'>−</text>
+<text class='t3' x='115.1' y='43.24'>1)</text>
+<text class='t6' x='21.92' y='55.19'>end</text>
+<text class='t11' x='9.96' y='71.13'>mangle</text>
+<text class='t3' x='41.26' y='71.13'>(</text>
+<text class='t11' x='45.14' y='71.13'>input</text>
+<text class='t3' x='68.49' y='71.13'>:<tspan x='72.92'>List</tspan><tspan x='89.71'>)</tspan></text>
+<text class='t6' x='96.35' y='71.13'>ensures</text>
+<text class='t4' x='135.73' y='71.13'>{</text>
+<text class='t11' x='142.38' y='71.13'>sorte<tspan x='163.13'>d</tspan></text>
+<text class='t3' x='169.25' y='71.13'>(</text>
+<text class='t6' x='173.12' y='71.13'>outcome</text>
+<text class='t3' x='209.73' y='71.13'>)</text>
+<text class='t6' x='216.38' y='71.13'>provided</text>
+<text class='t11' x='263.2' y='71.13'>sorte<tspan x='283.95'>d</tspan></text>
+<text class='t3' x='290.07' y='71.13'>(</text>
+<text class='t11' x='293.95' y='71.13'>input</text>
+<text class='t3' x='317.3' y='71.13'>)</text>
+<text class='t4' x='322.83' y='71.13'>}</text>
+<text class='t3' x='330.58' y='71.13'>=</text>
+<text class='t6' x='21.92' y='83.09'>if</text>
+<text class='t11' x='37.36' y='83.09'>input</text>
+<text class='t4' x='63.48' y='83.09'></text>
+<text class='t3' x='63.48' y='83.09'>=<tspan x='73.99'>Empt</tspan><tspan x='98.21'>y</tspan></text>
+<text class='t6' x='21.92' y='95.04'>then</text>
+<text class='t11' x='45.61' y='95.04'>mangle</text>
+<text class='t3' x='76.91' y='95.04'>(</text>
+<text class='t11' x='80.78' y='95.04'>ﬁrst</text>
+<text class='t3' x='98.91' y='95.04'>(</text>
+<text class='t11' x='102.79' y='95.04'>input</text>
+<text class='t3' x='126.14' y='95.04'>))</text>
+<text class='t11' x='45.61' y='107'>mangle</text>
+<text class='t3' x='76.91' y='107'>(</text>
+<text class='t11' x='80.78' y='107'>r<tspan x='84.47'>est</tspan></text>
+<text class='t3' x='97.38' y='107'>(</text>
+<text class='t11' x='101.26' y='107'>input</text>
+<text class='t3' x='124.61' y='107'>))</text>
+<text class='t6' x='21.92' y='118.95'>end</text></svg></div><pre class="fx-s"><code>factorial(n: ZZ64) requires { n &gt;= 0 } =
   if n = 0 then 1
   else n factorial(n - 1)
   end
@@ -648,8 +636,9 @@ mangle(input: List) ensures { sorted(outcome) provided sorted(input) } =
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="variables.html"><span>Previous</span> 8. Variables</a><a class="next" href="traits.html"><span>Next</span> 10. Traits</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic/functions.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic/functions.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/functions.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

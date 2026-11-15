@@ -17,7 +17,7 @@ svg.tx text.t6{font-family:ptmr8r;font-size:9.93px}
 svg.tx text.t7{font-family:pcrr8r;font-size:9.93px}
 </style>
 </head>
-<body data-page="chapter" data-slug="exceptions" data-chapter="14. Exceptions">
+<body data-page="chapter" data-slug="exceptions" data-chapter="14. Exceptions" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">14. Exceptions</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -70,19 +70,19 @@ svg.tx text.t7{font-family:pcrr8r;font-size:9.93px}
 <text class='t0' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>  printStackTrace(): ()
 end</code></pre></div>
 <p id="p-47b880d6" class="nb">Every exception is a subtype of either type <span class="m"><span class="ty">CheckedException</span></span> or <span class="m"><span class="ty">UncheckedException</span></span>:</p>
-<div class="fx nb both" id="c-606388ce" data-kind="code" data-example="Exceptions"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 11.81 332.87 73.37" width="33.287em" height="7.337em" fill="currentColor"><text class='t0' x='0' y='19.33'>trait</text>
-<text class='t1' x='28.92' y='19.33'>Chec<tspan x='50.23'>k</tspan><tspan x='55.21'>edException</tspan></text>
-<text class='t0' x='111.53' y='19.33'>extends</text>
-<text class='t1' x='150.91' y='19.33'>Exception</text>
-<text class='t0' x='197.26' y='19.33'>excludes</text>
-<text class='t1' x='241.87' y='19.33'>Unc<tspan x='259.03'>hec</tspan><tspan x='273.14'>k</tspan><tspan x='278.12'>edException</tspan></text>
-<text class='t0' x='0' y='39.75'>end<tspan x='0' y='64.16'>trait</tspan></text>
-<text class='t1' x='28.92' y='64.16'>Unc<tspan x='46.08'>hec</tspan><tspan x='60.19'>k</tspan><tspan x='65.17'>edException</tspan></text>
-<text class='t0' x='121.49' y='64.16'>extends</text>
-<text class='t1' x='160.87' y='64.16'>Exception</text>
-<text class='t0' x='207.22' y='64.16'>excludes</text>
-<text class='t1' x='251.83' y='64.16'>Chec<tspan x='273.14'>k</tspan><tspan x='278.12'>edException</tspan></text>
-<text class='t0' x='0' y='84.58'>end</text></svg></div><pre class="fx-s"><code>trait CheckedException extends Exception excludes UncheckedException
+<div class="fx nb both" id="c-606388ce" data-kind="code" data-example="Exceptions"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.81 339.51 47.97" width="33.951em" height="4.797em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>Chec<tspan x='62.4'>k</tspan><tspan x='67.39'>edException</tspan></text>
+<text class='t0' x='123.7' y='19.33'>extends</text>
+<text class='t1' x='165.3' y='19.33'>Exception</text>
+<text class='t0' x='211.65' y='19.33'>excludes</text>
+<text class='t1' x='258.47' y='19.33'>Unc<tspan x='275.63'>hec</tspan><tspan x='289.75'>k</tspan><tspan x='294.73'>edException</tspan></text>
+<text class='t0' x='9.96' y='31.28'>end<tspan x='9.96' y='47.22'>trait</tspan></text>
+<text class='t1' x='41.1' y='47.22'>Unc<tspan x='58.25'>hec</tspan><tspan x='72.37'>k</tspan><tspan x='77.35'>edException</tspan></text>
+<text class='t0' x='133.67' y='47.22'>extends</text>
+<text class='t1' x='175.26' y='47.22'>Exception</text>
+<text class='t0' x='221.61' y='47.22'>excludes</text>
+<text class='t1' x='268.44' y='47.22'>Chec<tspan x='289.75'>k</tspan><tspan x='294.73'>edException</tspan></text>
+<text class='t0' x='9.96' y='59.18'>end</text></svg></div><pre class="fx-s"><code>trait CheckedException extends Exception excludes UncheckedException
 end
 
 trait UncheckedException extends Exception excludes CheckedException
@@ -92,7 +92,7 @@ end</code></pre></div>
 </section>
 <section class="sec" data-num="14.3" data-title="Information of Exceptions">
 <h2 id="sec-chained-exceptions" class="nb"><span class="num">14.3</span> Information of Exceptions</h2>
-<p id="p-f0c68b89" class="nb">Every exception has optional fields: a message and a chained exception. These fields are default to <span class="m"><span class="ty">Nothing</span>⟦<span class="ty">String</span>⟧</span> and <span class="m"><span class="ty">Nothing</span>⟦<span class="ty">Exception</span>⟧</span> as follows:</p>
+<p id="p-cdfb565c" class="nb">Every exception has optional fields: a message and a chained exception. These fields are default to <span class="m"><span class="ty">Nothing</span></span> as follows:</p>
 <div class="fx nb both" id="c-e1b661df-2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 313.67 80.40" width="31.367em" height="8.040em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
 <text class='t1' x='38.88' y='19.33'>Exception</text>
 <text class='t0' x='85.24' y='19.33'>comprises</text>
@@ -108,9 +108,6 @@ end</code></pre></div>
 <text class='t1' x='137.47' y='31.28'>String</text>
 <text class='t5' x='164.21' y='31.28'></text>
 <text class='t1' x='170.99' y='31.28'>=<tspan x='181.5'>Nothing</tspan></text>
-<text class='t5' x='216.79' y='31.28'></text>
-<text class='t1' x='220.8' y='31.28'>String</text>
-<text class='t5' x='247.53' y='31.28'></text>
 <text class='t0' x='21.92' y='43.24'>setter</text>
 <text class='t4' x='56.07' y='43.24'>message</text>
 <text class='t1' x='91.95' y='43.24'>(Ma<tspan x='109.66'>yb</tspan><tspan x='120.73'>e</tspan></text>
@@ -125,9 +122,6 @@ end</code></pre></div>
 <text class='t1' x='125.78' y='55.19'>Exception</text>
 <text class='t5' x='169.37' y='55.19'></text>
 <text class='t1' x='176.15' y='55.19'>=<tspan x='186.66'>Nothing</tspan></text>
-<text class='t5' x='221.95' y='55.19'></text>
-<text class='t1' x='225.96' y='55.19'>Exception</text>
-<text class='t5' x='269.55' y='55.19'></text>
 <text class='t0' x='21.92' y='67.15'>setter</text>
 <text class='t4' x='56.07' y='67.15'>chain</text>
 <text class='t1' x='80.25' y='67.15'>(Ma<tspan x='97.97'>yb</tspan><tspan x='109.04'>e</tspan></text>
@@ -139,10 +133,7 @@ end</code></pre></div>
 <text class='t1' x='90.9' y='79.1'>():<tspan x='103.08'>()</tspan></text>
 <text class='t0' x='9.96' y='91.06'>end</text></svg></div><pre class="fx-s"><code>  printStackTrace(): ()
 end</code></pre></div>
-<p id="p-e732e811" class="nb">where an optional value <span class="m"><i>v</i></span> of type <span class="m"><span class="ty">Maybe</span>⟦<i>T</i>⟧</span> is either <span class="m"><span class="ty">Nothing</span>⟦<i>T</i>⟧</span> or <span class="m"><span class="ty">Just</span>(<i>v</i>)</span>.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-nothing">Section I.1.7</a><!--nc--></span></p>
-<p id="p-07109f9e" class="nb">The Working Draft of February 2011 wrote both defaults as a bare <span class="m"><span class="ty">Nothing</span></span>, one object for every instantiation of <span class="m"><span class="ty">Maybe</span></span>, which instantiation exclusion forbids (<a class="xref" href="lib-convenience.html#sec-convenience-types">Section 39.2</a><!--nc-->).</p></aside>
-<p id="p-6b56d991" class="nb">The <span class="m"><i>chain</i></span> field can be set at most once. If it is set more than once, an <span class="m"><span class="ty">InvalidChain</span></span> exception is thrown. It is generally set when the exception is created.</p>
+<p id="p-e6137a1f" class="nb">where an optional value <span class="m"><i>v</i></span> is either <span class="m"><span class="ty">Nothing</span></span> or <span class="m"><span class="ty">Just</span>(<i>v</i>)</span>. The <span class="m"><i>chain</i></span> field can be set at most once. If it is set more than once, an <span class="m"><span class="ty">InvalidChain</span></span> exception is thrown. It is generally set when the exception is created.</p>
 <p id="p-2738ac28" class="nb">When an exception is created, the execution stack of its thread at the time of the exception creation is captured in the exception. The invocation of <span class="m"><i>printStackTrace</i></span> prints the captured stack trace. There is no way to update the captured stack trace. If a programmer wants to catch a thrown exception and rethrow it, and capture the stack trace at the time of the second throwing of the exception, the programmer has to create a new exception (perhaps with the original exception as its <span class="m"><i>chain</i></span> field).</p>
 <p id="p-4d78c396" class="nb">When an exception is thrown, its <span class="m"><i>message</i></span> and <span class="m"><i>chain</i></span> fields may be set. For example, if a checked exception is caught in a <span class="m"><span class="kw">catch</span></span> clause, and the <span class="m"><span class="kw">catch</span></span> clause in turn throws an unchecked exception, the unchecked exception can be chained so that an examination of the unchecked exception reveals information about the original exception. For example:</p>
 <div class="fx nb both" id="c-ef0b297b" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.26 357.04 68.45" width="35.704em" height="6.845em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>r<tspan x='13.65'>e</tspan><tspan x='17.73'>ad</tspan></text>
@@ -217,8 +208,9 @@ end</code></pre></div>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="expressions.html"><span>Previous</span> 13. Expressions</a><a class="next" href="multiple-dispatch.html"><span>Next</span> 15. Overloading and Multiple Dispatch</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic/exceptions.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic/exceptions.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/exceptions.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

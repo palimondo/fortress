@@ -17,14 +17,14 @@ svg.tx text.t6{font-family:ptmri8r;font-size:9.93px}
 svg.tx text.t7{font-family:ptmr8r;font-size:9.93px}
 svg.tx text.t8{font-family:cmr7;font-size:6.97px}
 svg.tx text.t9{font-family:cmsy10;font-size:9.96px}
-svg.tx text.t10{font-family:pcrr8r;font-size:9.93px}
-svg.tx text.t11{font-family:msbm10;font-size:9.96px}
+svg.tx text.t10{font-family:msbm10;font-size:9.96px}
+svg.tx text.t11{font-family:pcrr8r;font-size:9.93px}
 svg.tx text.t12{font-family:cmex10;font-size:9.96px}
 svg.tx text.t13{font-family:cmti7;font-size:6.97px}
 svg.tx text.t14{font-family:cmsy7;font-size:6.97px}
 </style>
 </head>
-<body data-page="chapter" data-slug="parallelism" data-chapter="23. Parallelism and Locality">
+<body data-page="chapter" data-slug="parallelism" data-chapter="23. Parallelism and Locality" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">23. Parallelism and Locality</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -56,101 +56,101 @@ svg.tx text.t14{font-family:cmsy7;font-size:6.97px}
 <section class="sec" data-num="23.2" data-title="Placing Threads">
 <h2 id="sec-parallelism-fundamentals" class="nb"><span class="num">23.2</span> Placing Threads</h2>
 <p id="p-135a552d" class="nb">A thread can be placed in a particular region by using an <span class="m"><span class="kw">at</span></span> expression:</p>
-<div class="fx nb both" id="c-7b6a6ea7" data-kind="code" data-example="Parallel.At.a"><div class="fx-r"><svg class="tx" data-d="1" viewBox="-0.60 11.26 119.66 72.43" width="11.966em" height="7.243em" fill="currentColor"><text class='t0' x='0' y='19.33'>(</text>
-<text class='t1' x='3.87' y='19.33'>v<tspan x='9.06'>,</tspan><tspan x='13.49'>w</tspan></text>
-<text class='t0' x='20.89' y='19.33'>)<tspan x='27.53'>:</tspan><tspan x='30.3'>=</tspan><tspan x='40.81'>(</tspan></text>
-<text class='t1' x='44.69' y='19.33'>a</text>
-<text class='t2' x='49.95' y='20.82'>i</text>
-<text class='t1' x='53.27' y='19.33'>,</text>
-<text class='t3' x='44.69' y='39.75'>at</text>
-<text class='t1' x='57.92' y='39.75'>a.</text>
-<text class='t4' x='65.95' y='39.75'>r<tspan x='69.64'>e</tspan><tspan x='73.72'>gion</tspan></text>
-<text class='t0' x='92.81' y='39.75'>(</text>
-<text class='t1' x='96.69' y='39.75'>j</text>
-<text class='t0' x='101.36' y='39.75'>)</text>
-<text class='t3' x='108' y='39.75'>do</text>
-<text class='t1' x='57.92' y='60.17'>a</text>
-<text class='t2' x='63.18' y='61.67'>j</text>
-<text class='t3' x='44.69' y='80.6'>end</text>
-<text class='t0' x='60.38' y='80.6'>)</text></svg></div><pre class="fx-s"><code>(v, w) := (a[i],
+<div class="fx nb both" id="c-7b6a6ea7" data-kind="code" data-example="Parallel.At.a"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.26 119.66 47.03" width="11.966em" height="4.703em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>(</text>
+<text class='t1' x='13.84' y='19.33'>v<tspan x='19.02'>,</tspan><tspan x='23.45'>w</tspan></text>
+<text class='t0' x='30.85' y='19.33'>)<tspan x='37.49'>:</tspan><tspan x='40.26'>=</tspan><tspan x='50.78'>(</tspan></text>
+<text class='t1' x='54.65' y='19.33'>a</text>
+<text class='t2' x='59.92' y='20.82'>i</text>
+<text class='t1' x='63.23' y='19.33'>,</text>
+<text class='t3' x='54.65' y='31.28'>at</text>
+<text class='t1' x='67.88' y='31.28'>a.</text>
+<text class='t4' x='75.91' y='31.28'>r<tspan x='79.6'>e</tspan><tspan x='83.68'>gion</tspan></text>
+<text class='t0' x='102.77' y='31.28'>(</text>
+<text class='t1' x='106.65' y='31.28'>j</text>
+<text class='t0' x='111.32' y='31.28'>)</text>
+<text class='t3' x='117.96' y='31.28'>do</text>
+<text class='t1' x='67.88' y='43.24'>a</text>
+<text class='t2' x='73.15' y='44.73'>j</text>
+<text class='t3' x='54.65' y='55.19'>end</text>
+<text class='t0' x='70.34' y='55.19'>)</text></svg></div><pre class="fx-s"><code>(v, w) := (a[i],
            at a.region(j) do
               a[j]
            end)</code></pre></div>
 <p id="p-fdafa2e0" class="nb">In this example, two implicit threads are created; the first computes <span class="m"><i>a</i><sub><i>i</i></sub></span> locally, the second computes <span class="m"><i>a</i><sub><i>j</i></sub></span> in the region where the <span class="m"><i>j</i><sup><i>th</i></sup></span> element of <span class="m"><i>a</i></span> resides, specified by <span class="m"><i>a</i>.<i>region</i>(<i>j</i>)</span>. The expression after <span class="m"><span class="kw">at</span></span> must return a value of type <span class="m"><span class="ty">Region</span></span>, and the block immediately following <span class="m"><span class="kw">do</span></span> is run in that region; the result of the block is the result of the <span class="m"><span class="kw">at</span></span> expression as a whole. Often it is more graceful to use the <span class="m"><span class="kw">also</span> <span class="kw">do</span></span> construct (described in<a class="xref" href="expressions.html#sec-also-block">Section 13.11.2</a><!--nc-->) in these cases:</p>
-<div class="fx nb both" id="c-54b42a34" data-kind="code" data-example="Parallel.At.b"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 12.64 101.43 88.98" width="10.143em" height="8.898em" fill="currentColor"><text class='t3' x='0' y='19.33'>do</text>
-<text class='t1' x='8.86' y='39.75'>v</text>
-<text class='t0' x='16.81' y='39.75'>:<tspan x='19.58'>=</tspan></text>
-<text class='t1' x='30.09' y='39.75'>a</text>
-<text class='t2' x='35.36' y='41.25'>i</text>
-<text class='t3' x='0' y='60.17'>also<tspan x='26.46'>at</tspan></text>
-<text class='t1' x='39.68' y='60.17'>a.</text>
-<text class='t4' x='47.72' y='60.17'>r<tspan x='51.41'>e</tspan><tspan x='55.48'>gion</tspan></text>
-<text class='t0' x='74.58' y='60.17'>(</text>
-<text class='t1' x='78.45' y='60.17'>j</text>
-<text class='t0' x='83.13' y='60.17'>)</text>
-<text class='t3' x='89.77' y='60.17'>do</text>
-<text class='t1' x='8.86' y='80.6'>w</text>
-<text class='t0' x='19.02' y='80.6'>:<tspan x='21.79'>=</tspan></text>
-<text class='t1' x='32.31' y='80.6'>a</text>
-<text class='t2' x='37.57' y='82.09'>j</text>
-<text class='t3' x='0' y='101.02'>end</text></svg></div><pre class="fx-s"><code>do
+<div class="fx nb both" id="c-54b42a34" data-kind="code" data-example="Parallel.At.b"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 12.64 103.64 55.11" width="10.364em" height="5.511em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>do</text>
+<text class='t1' x='21.92' y='31.28'>v</text>
+<text class='t0' x='29.87' y='31.28'>:<tspan x='32.64'>=</tspan></text>
+<text class='t1' x='43.16' y='31.28'>a</text>
+<text class='t2' x='48.42' y='32.78'>i</text>
+<text class='t3' x='9.96' y='43.24'>also<tspan x='36.42'>at</tspan></text>
+<text class='t1' x='51.86' y='43.24'>a.</text>
+<text class='t4' x='59.89' y='43.24'>r<tspan x='63.59'>e</tspan><tspan x='67.66'>gion</tspan></text>
+<text class='t0' x='86.75' y='43.24'>(</text>
+<text class='t1' x='90.63' y='43.24'>j</text>
+<text class='t0' x='95.3' y='43.24'>)</text>
+<text class='t3' x='101.94' y='43.24'>do</text>
+<text class='t1' x='21.92' y='55.19'>w</text>
+<text class='t0' x='32.09' y='55.19'>:<tspan x='34.85'>=</tspan></text>
+<text class='t1' x='45.37' y='55.19'>a</text>
+<text class='t2' x='50.64' y='56.69'>j</text>
+<text class='t3' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>do
   v := a[i]
 also at a.region(j) do
   w := a[j]
 end</code></pre></div>
 <p id="p-a9a142e0" class="nb">We can also use <span class="m"><span class="kw">at</span></span> with a <span class="m"><span class="kw">spawn</span></span> expression:</p>
-<div class="fx nb both" id="c-79a74cdd" data-kind="code" data-example="Parallel.At.c"><div class="fx-r"><svg class="tx" data-d="3" viewBox="-0.60 11.26 128.91 110.79" width="12.891em" height="11.079em" fill="currentColor"><text class='t1' x='0' y='19.33'>s</text>
-<text class='t0' x='7.44' y='19.33'>=</text>
-<text class='t3' x='20.72' y='19.33'>spawn<tspan x='55.17'>at</tspan></text>
-<text class='t1' x='68.4' y='19.33'>a.</text>
-<text class='t4' x='76.44' y='19.33'>r<tspan x='80.13'>e</tspan><tspan x='84.2'>gion</tspan></text>
-<text class='t0' x='103.3' y='19.33'>(</text>
-<text class='t1' x='107.17' y='19.33'>i</text>
-<text class='t0' x='110.6' y='19.33'>)</text>
-<text class='t3' x='117.24' y='19.33'>do</text>
-<text class='t1' x='55.17' y='39.75'>a</text>
-<text class='t2' x='60.44' y='41.25'>i</text>
-<text class='t3' x='20.72' y='60.17'>end</text>
-<text class='t1' x='0' y='80.6'>t</text>
-<text class='t0' x='6.36' y='80.6'>=</text>
-<text class='t3' x='19.65' y='80.6'>spawn<tspan x='54.1'>at</tspan></text>
-<text class='t4' x='67.33' y='80.6'>r<tspan x='71.02'>e</tspan><tspan x='75.1'>gion</tspan></text>
-<text class='t0' x='94.19' y='80.6'>(</text>
-<text class='t1' x='98.07' y='80.6'>s</text>
-<text class='t0' x='102.74' y='80.6'>)</text>
-<text class='t3' x='109.38' y='80.6'>do</text>
-<text class='t1' x='54.1' y='101.02'>a</text>
-<text class='t2' x='59.37' y='102.52'>j</text>
-<text class='t3' x='19.65' y='121.44'>end</text></svg></div><pre class="fx-s"><code>s = spawn at a.region(i) do
+<div class="fx nb both" id="c-79a74cdd" data-kind="code" data-example="Parallel.At.c"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 122.82 68.45" width="12.282em" height="6.845em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>s</text>
+<text class='t0' x='17.4' y='19.33'>=</text>
+<text class='t3' x='27.92' y='19.33'>spawn<tspan x='56.84'>at</tspan></text>
+<text class='t1' x='72.28' y='19.33'>a.</text>
+<text class='t4' x='80.31' y='19.33'>r<tspan x='84'>e</tspan><tspan x='88.08'>gion</tspan></text>
+<text class='t0' x='107.17' y='19.33'>(</text>
+<text class='t1' x='111.05' y='19.33'>i</text>
+<text class='t0' x='114.48' y='19.33'>)</text>
+<text class='t3' x='121.12' y='19.33'>do</text>
+<text class='t1' x='56.84' y='31.28'>a</text>
+<text class='t2' x='62.1' y='32.78'>i</text>
+<text class='t3' x='27.92' y='43.24'>end</text>
+<text class='t1' x='9.96' y='55.19'>t</text>
+<text class='t0' x='16.33' y='55.19'>=</text>
+<text class='t3' x='26.84' y='55.19'>spawn<tspan x='55.76'>at</tspan></text>
+<text class='t4' x='71.2' y='55.19'>r<tspan x='74.9'>e</tspan><tspan x='78.97'>gion</tspan></text>
+<text class='t0' x='98.07' y='55.19'>(</text>
+<text class='t1' x='101.94' y='55.19'>s</text>
+<text class='t0' x='106.61' y='55.19'>)</text>
+<text class='t3' x='113.25' y='55.19'>do</text>
+<text class='t1' x='55.76' y='67.15'>a</text>
+<text class='t2' x='61.03' y='68.64'>j</text>
+<text class='t3' x='26.84' y='79.1'>end</text></svg></div><pre class="fx-s"><code>s = spawn at a.region(i) do
           a[i]
     end
 t = spawn at region(s) do
           a[j]
     end</code></pre></div>
 <p id="p-2ac5f1e0" class="nb">Finally, note that it is possible to use an <span class="m"><span class="kw">at</span></span> expression within a block:</p>
-<div class="fx nb both" id="c-7a6af581" data-kind="code" data-example="Parallel.At.d"><div class="fx-r"><svg class="tx" data-d="4" viewBox="-0.60 12.64 83.83 129.83" width="8.383em" height="12.983em" fill="currentColor"><text class='t3' x='0' y='19.33'>do</text>
-<text class='t1' x='8.86' y='39.75'>v</text>
-<text class='t0' x='16.81' y='39.75'>:<tspan x='19.58'>=</tspan></text>
-<text class='t1' x='30.09' y='39.75'>a</text>
-<text class='t2' x='35.36' y='41.25'>i</text>
-<text class='t3' x='8.86' y='60.17'>at</text>
-<text class='t1' x='22.08' y='60.17'>a.</text>
-<text class='t4' x='30.12' y='60.17'>r<tspan x='33.81'>e</tspan><tspan x='37.88'>gion</tspan></text>
-<text class='t0' x='56.98' y='60.17'>(</text>
-<text class='t1' x='60.85' y='60.17'>j</text>
-<text class='t0' x='65.53' y='60.17'>)</text>
-<text class='t3' x='72.17' y='60.17'>do</text>
-<text class='t1' x='17.71' y='80.6'>w</text>
-<text class='t0' x='27.88' y='80.6'>:<tspan x='30.65'>=</tspan></text>
-<text class='t1' x='41.16' y='80.6'>a</text>
-<text class='t2' x='46.43' y='82.09'>j</text>
-<text class='t3' x='8.86' y='101.02'>end</text>
-<text class='t1' x='8.86' y='121.44'>x</text>
-<text class='t0' x='17.32' y='121.44'>=</text>
-<text class='t1' x='27.83' y='121.44'>v</text>
-<text class='t0' x='35.23' y='121.44'>+</text>
-<text class='t1' x='45.2' y='121.44'>w</text>
-<text class='t3' x='0' y='141.87'>end</text></svg></div><pre class="fx-s"><code>do
+<div class="fx nb both" id="c-7a6af581" data-kind="code" data-example="Parallel.At.d"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 12.64 89.14 79.02" width="8.914em" height="7.902em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>do</text>
+<text class='t1' x='21.92' y='31.28'>v</text>
+<text class='t0' x='29.87' y='31.28'>:<tspan x='32.64'>=</tspan></text>
+<text class='t1' x='43.16' y='31.28'>a</text>
+<text class='t2' x='48.42' y='32.78'>i</text>
+<text class='t3' x='21.92' y='43.24'>at</text>
+<text class='t1' x='37.36' y='43.24'>a.</text>
+<text class='t4' x='45.39' y='43.24'>r<tspan x='49.08'>e</tspan><tspan x='53.16'>gion</tspan></text>
+<text class='t0' x='72.25' y='43.24'>(</text>
+<text class='t1' x='76.13' y='43.24'>j</text>
+<text class='t0' x='80.8' y='43.24'>)</text>
+<text class='t3' x='87.44' y='43.24'>do</text>
+<text class='t1' x='33.87' y='55.19'>w</text>
+<text class='t0' x='44.04' y='55.19'>:<tspan x='46.81'>=</tspan></text>
+<text class='t1' x='57.32' y='55.19'>a</text>
+<text class='t2' x='62.59' y='56.69'>j</text>
+<text class='t3' x='21.92' y='67.15'>end</text>
+<text class='t1' x='21.92' y='79.1'>x</text>
+<text class='t0' x='30.38' y='79.1'>=</text>
+<text class='t1' x='40.9' y='79.1'>v</text>
+<text class='t0' x='48.3' y='79.1'>+</text>
+<text class='t1' x='58.26' y='79.1'>w</text>
+<text class='t3' x='9.96' y='91.06'>end</text></svg></div><pre class="fx-s"><code>do
   v := a[i]
   at a.region(j) do
     w := a[j]
@@ -176,17 +176,17 @@ end</code></pre></div>
 <li><p id="p-55bf8e65" class="nb">A field with value type is assigned by copying, and thus has the sharedness of the containing object or closure.</p></li>
 </ul>
 <p id="p-33a96aa5" class="nb">Publishing can be expensive, particularly if the structure being broadcast is large and heavily nested; this can cause an apparently short <span class="m"><span class="kw">atomic</span></span> expression (a single write, say) to run arbitrarily long. To avoid this, the library programmer can request that an object be published by calling the semantically transparent function <span class="m"><i>shared</i></span> provided by the Fortress libraries:</p>
-<div class="fx nb both" id="c-95c9018a" data-kind="code" data-example="Parallel.Shared.a"><div class="fx-r"><svg class="tx" data-d="5" viewBox="-0.60 11.26 101.32 31.59" width="10.132em" height="3.159em" fill="currentColor"><text class='t1' x='0' y='19.33'>y</text>
-<text class='t0' x='8.01' y='19.33'>:<tspan x='10.78'>=</tspan></text>
-<text class='t4' x='21.29' y='19.33'>shar<tspan x='39.24'>e</tspan><tspan x='43.32'>d</tspan></text>
-<text class='t0' x='51.1' y='19.33'>Cons<tspan x='72.74'>(</tspan></text>
-<text class='t1' x='76.61' y='19.33'>x,</text>
-<text class='t4' x='86.73' y='19.33'>xs</text>
-<text class='t0' x='96.25' y='19.33'>)</text>
-<text class='t4' x='0' y='39.75'>shar<tspan x='17.95'>e</tspan><tspan x='22.02'>d</tspan></text>
-<text class='t0' x='28.14' y='39.75'>(</text>
-<text class='t1' x='32.02' y='39.75'>y</text>
-<text class='t0' x='37.26' y='39.75'>)</text></svg></div><pre class="fx-s"><code>y := shared Cons(x, xs)
+<div class="fx nb both" id="c-95c9018a" data-kind="code" data-example="Parallel.Shared.a"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.26 101.88 23.12" width="10.188em" height="2.312em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>y</text>
+<text class='t0' x='17.97' y='19.33'>:<tspan x='20.74'>=</tspan></text>
+<text class='t4' x='31.26' y='19.33'>shar<tspan x='49.2'>e</tspan><tspan x='53.28'>d</tspan></text>
+<text class='t0' x='61.61' y='19.33'>Cons<tspan x='83.25'>(</tspan></text>
+<text class='t1' x='87.13' y='19.33'>x,</text>
+<text class='t4' x='97.25' y='19.33'>xs</text>
+<text class='t0' x='106.76' y='19.33'>)</text>
+<text class='t4' x='9.96' y='31.28'>shar<tspan x='27.91'>e</tspan><tspan x='31.99'>d</tspan></text>
+<text class='t0' x='38.11' y='31.28'>(</text>
+<text class='t1' x='41.98' y='31.28'>y</text>
+<text class='t0' x='47.22' y='31.28'>)</text></svg></div><pre class="fx-s"><code>y := shared Cons(x, xs)
 shared(y)</code></pre></div>
 <p id="p-9e18d4fd" class="nb">A local copy of an object can be obtained by calling <span class="m"><i>copy</i></span>, a method on trait <span class="m"><span class="ty">Any</span></span>:</p>
 <aside class="draft"><p class="label">Draft note</p>
@@ -268,7 +268,7 @@ shared(y)</code></pre></div>
 <text class='t7' x='268.25' y='105.6'>.</text>
 <rect x='456.71' y='85.28' height='23.91' width='.4'/>
 <rect x='0' y='109.19' height='.4' width='457.11'/></svg></div>
-<div class="tw nb" id="t-3394a232" data-kind="table"><svg class="tx" data-d="7" viewBox="-0.60 -0.60 458.31 50.61" width="45.831em" height="5.061em" fill="currentColor"><rect x='0' y='0' height='.4' width='457.11'/>
+<div class="tw nb" id="t-f3f40b35" data-kind="table"><svg class="tx" data-d="7" viewBox="-0.60 -0.60 458.31 50.61" width="45.831em" height="5.061em" fill="currentColor"><rect x='0' y='0' height='.4' width='457.11'/>
 <rect x='0' y='.4' height='11.96' width='.4'/>
 <text class='t4' x='6.38' y='8.77'>a</text>
 <text class='t1' x='12.23' y='8.77'>.</text>
@@ -287,14 +287,14 @@ shared(y)</code></pre></div>
 <rect x='0' y='12.75' height='23.91' width='.4'/>
 <text class='t4' x='6.38' y='27.1'>a</text>
 <text class='t1' x='12.23' y='27.1'>.</text>
-<text class='t4' x='15' y='27.1'>tabulate</text>
-<text class='t0' x='49.61' y='27.1'>(</text>
-<text class='t1' x='53.48' y='27.1'>f</text>
-<text class='t0' x='61.09' y='27.1'>:</text>
-<text class='t1' x='65.52' y='27.1'>I</text>
-<text class='t9' x='73.45' y='27.1'>→</text>
-<text class='t1' x='86.18' y='27.1'>E</text>
-<text class='t0' x='94.11' y='27.1'>)</text>
+<text class='t4' x='15' y='27.1'>ﬁl<tspan x='23.66'>l</tspan></text>
+<text class='t0' x='27.23' y='27.1'>(</text>
+<text class='t1' x='31.11' y='27.1'>f</text>
+<text class='t0' x='38.72' y='27.1'>:</text>
+<text class='t1' x='43.14' y='27.1'>I</text>
+<text class='t9' x='51.07' y='27.1'>→</text>
+<text class='t1' x='63.8' y='27.1'>E</text>
+<text class='t0' x='71.73' y='27.1'>)</text>
 <rect x='156.35' y='12.75' height='23.91' width='.4'/>
 <text class='t7' x='162.73' y='21.12'>Calls</text>
 <text class='t4' x='186.73' y='21.12'>f</text>
@@ -321,8 +321,6 @@ shared(y)</code></pre></div>
 <rect x='456.71' y='37.06' height='11.96' width='.4'/>
 <rect x='0' y='49.02' height='.4' width='457.11'/></svg></div>
 <figcaption>Figure 23.1: <a id="fig-arrayFactories"></a>Factories for creating arrays and methods for initializing their elements</figcaption></div>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-tabulate">Section I.1.18</a><!--nc--></span></p>
-<p id="p-80e369b0" class="nb">The Working Draft of February 2011 gave the method of <a class="xref" href="#fig-arrayFactories">Figure 23.1</a><!--nc--> that calls <span class="m"><i>f</i></span> at each index the name <span class="m"><i>fill</i></span>, which is also the name of the method above it that initializes every element with one value. When the element type <span class="m"><i>E</i></span> is <span class="m"><span class="ty">Any</span></span> or a function type, a function is a value of type <span class="m"><i>E</i></span> as well as a function from <span class="m"><i>I</i></span> to <span class="m"><i>E</i></span>, and the two declarations are ambiguous; the method that calls <span class="m"><i>f</i></span> is named <span class="m"><i>tabulate</i></span>, and <span class="m"><i>fill</i></span> keeps the value.</p></aside>
 <p id="p-83961ade" class="nb">Each array element may be initialized at most once using the methods of <a class="xref" href="#fig-arrayFactories">Figure 23.1</a><!--nc-->; the programmer must assure that this initialization completes before any other access to the corresponding array element. The programmer must also assure that an element is initialized before it is first read.<sup class="fnref"><a id="fnref-3" href="#fn-3">3</a></sup> Note that these factories and methods are intended to be used to library programmers to build higher-level functionality (for example, the <span class="m"><i>fill</i></span> methods themselves are defined in terms of calls to <span class="m"><i>init</i></span>, and the <span class="m"><i>array</i></span> factory is defined in terms of <span class="m"><i>array</i><sub>1</sub></span>, <span class="m"><i>array</i><sub>2</sub></span>, and so forth).</p>
 <p id="p-80a070bc" class="nb">Because the elements of a fortress array may reside in multiple regions of the machine, there is an additional method <span class="m"><i>a</i>.<i>region</i>(<i>i</i>)</span> which returns the region in which the array element <span class="m"><i>a</i><sub><i>i</i></sub></span> resides. An element of an array is always local to the region in which the array as a whole is contained, so <span class="m">(<i>a</i>.<i>region</i>(<i>i</i>)).<i>isLocalTo</i>(<i>region</i>(<i>a</i>))</span> must always return <span class="m"><i>true</i></span>. When an array contains reference objects, the programmer must be careful to distinguish the region in which the array element <span class="m"><i>a</i><sub><i>i</i></sub></span> resides, <span class="m"><i>a</i>.<i>region</i>(<i>i</i>)</span>, from the region in which the object referred to by the array element resides, <span class="m"><i>region</i>(<i>a</i><sub><i>i</i></sub>)</span>. The former describes the region of the array itself; the latter describes the region of the data referred to by the array. These may differ.</p>
 </section>
@@ -332,34 +330,36 @@ shared(y)</code></pre></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-d4610819" class="nb">The example is commented out because it is not yet supported nor run by the interpreter.</p></aside>
 <p id="p-0701bb15" class="nb">Fortress also includes a <span class="m"><span class="kw">tryatomic</span></span> expression, which attempts to run its body expression atomically. If it succeeds, the result is returned; if it aborts due to a call to <span class="m"><i>abort</i></span> or due to conflict (as described in <a class="xref" href="expressions.html#sec-atomic">Section 13.23</a><!--nc-->), the checked exception <span class="m"><span class="ty">TryAtomicFailure</span></span> is thrown. In addition, <span class="m"><span class="kw">tryatomic</span></span> is permitted to throw <span class="m"><span class="ty">TryAtomicFailure</span></span> in the absence of conflict; however, it is not permitted to fail unless some other thread performs an access to shared state while the body is being run. Conceptually <span class="m"><span class="kw">atomic</span></span> can be defined in terms of <span class="m"><span class="kw">tryatomic</span></span> as follows:</p>
-<div class="fx nb both" id="c-53208792" data-kind="code" data-example="Parallel.Abort.b"><div class="fx-r"><svg class="tx" data-d="8" viewBox="-0.60 11.81 271.52 212.35" width="27.152em" height="21.235em" fill="currentColor"><text class='t3' x='0' y='19.33'>label</text>
-<text class='t0' x='28.92' y='19.33'>A<tspan x='36.11'>tomicBlo</tspan><tspan x='75.55'>c</tspan><tspan x='79.7'>k</tspan></text>
-<text class='t3' x='8.86' y='39.75'>while</text>
-<text class='t4' x='37.77' y='39.75'>true</text>
-<text class='t3' x='58.73' y='39.75'>do<tspan x='17.71' y='60.17'>try</tspan></text>
-<text class='t4' x='26.57' y='80.6'>r<tspan x='30.26'>esult</tspan></text>
-<text class='t0' x='53.83' y='80.6'>=</text>
-<text class='t3' x='64.35' y='80.6'>tryatomic</text>
-<text class='t4' x='114.19' y='80.6'>b<tspan x='118.26'>o</tspan><tspan x='122.84'>dy</tspan></text>
-<text class='t3' x='26.57' y='101.02'>exit</text>
-<text class='t0' x='50.26' y='101.02'>A<tspan x='57.45'>tomicBlo</tspan><tspan x='96.89'>c</tspan><tspan x='101.04'>k</tspan></text>
-<text class='t3' x='109.06' y='101.02'>with</text>
-<text class='t4' x='132.75' y='101.02'>r<tspan x='136.44'>esult</tspan></text>
-<text class='t3' x='17.71' y='121.44'>catch</text>
-<text class='t1' x='46.63' y='121.44'>e</text>
-<text class='t0' x='26.57' y='141.87'>T<tspan x='32.93'>ryA</tspan><tspan x='49.29'>tomicF</tspan><tspan x='79.31'>ailure</tspan></text>
-<text class='t9' x='106.46' y='141.87'>⇒</text>
-<text class='t0' x='119.19' y='141.87'>(<tspan x='123.48'>)</tspan></text>
-<text class='t10' x='127.36' y='141.87'>(<tspan y='143.61'>*</tspan></text>
-<text class='t7' x='141.8' y='141.87'>continue<tspan x='178.6'>e</tspan><tspan x='182.88'>x</tspan><tspan x='187.71'>ecution</tspan></text>
-<text class='t10' x='219.53' y='143.61'>*)</text>
-<text class='t3' x='17.71' y='162.29'>end<tspan x='8.86' y='182.71'>end</tspan><tspan x='8.86' y='203.14'>throw</tspan></text>
-<text class='t0' x='37.77' y='203.14'>Unreac<tspan x='68.24'>hableCo</tspan><tspan x='103.94'>de</tspan></text>
-<text class='t10' x='128.85' y='203.14'>(<tspan y='204.88'>*</tspan></text>
-<text class='t7' x='143.3' y='203.14'>inserted<tspan x='177.33'>for</tspan><tspan x='191.43'>type</tspan><tspan x='211.08'>correctness</tspan></text>
-<text class='t10' x='258.38' y='204.88'>*)</text>
-<text class='t3' x='0' y='223.56'>end</text>
-<text class='t0' x='18.46' y='223.56'>A<tspan x='25.65'>tomicBlo</tspan><tspan x='65.09'>c</tspan><tspan x='69.24'>k</tspan></text></svg></div><pre class="fx-s"><code>label AtomicBlock
+<div class="fx nb both" id="c-53208792" data-kind="code" data-example="Parallel.Abort.b"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 11.81 256.26 127.67" width="25.626em" height="12.767em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>label</text>
+<text class='t0' x='41.1' y='19.33'>A<tspan x='48.29'>tomicBlo</tspan><tspan x='87.73'>c</tspan><tspan x='91.88'>k</tspan></text>
+<text class='t3' x='21.92' y='31.28'>while</text>
+<text class='t4' x='53.05' y='31.28'>true</text>
+<text class='t3' x='74.01' y='31.28'>do<tspan x='33.87' y='43.24'>try</tspan></text>
+<text class='t4' x='45.83' y='55.19'>r<tspan x='49.52'>esult</tspan></text>
+<text class='t0' x='73.09' y='55.19'>=</text>
+<text class='t3' x='83.61' y='55.19'>tryatomic</text>
+<text class='t4' x='135.66' y='55.19'>b<tspan x='139.73'>o</tspan><tspan x='144.32'>dy</tspan></text>
+<text class='t3' x='45.83' y='67.15'>exit</text>
+<text class='t0' x='71.73' y='67.15'>A<tspan x='78.93'>tomicBlo</tspan><tspan x='118.36'>c</tspan><tspan x='122.51'>k</tspan></text>
+<text class='t3' x='130.54' y='67.15'>with</text>
+<text class='t4' x='156.44' y='67.15'>r<tspan x='160.13'>esult</tspan></text>
+<text class='t3' x='33.87' y='79.1'>catch</text>
+<text class='t1' x='65.01' y='79.1'>e</text>
+<text class='t0' x='45.83' y='91.06'>T<tspan x='52.19'>ryA</tspan><tspan x='68.55'>tomicF</tspan><tspan x='98.57'>ailure</tspan></text>
+<text class='t9' x='125.72' y='91.06'>⇒</text>
+<text class='t0' x='138.45' y='91.06'>()(</text>
+<text class='t9' x='150.08' y='91.06'>∗</text>
+<text class='t7' x='157.82' y='91.06'>continue<tspan x='194.63'>e</tspan><tspan x='198.9'>x</tspan><tspan x='203.73'>ecution</tspan></text>
+<text class='t9' x='235.83' y='91.06'>∗</text>
+<text class='t0' x='240.81' y='91.06'>)</text>
+<text class='t3' x='33.87' y='103.01'>end<tspan x='21.92' y='114.97'>end</tspan><tspan x='21.92' y='126.92'>throw</tspan></text>
+<text class='t0' x='53.05' y='126.92'>Unreac<tspan x='83.52'>hableCo</tspan><tspan x='119.22'>de</tspan><tspan x='129.18'>(</tspan></text>
+<text class='t9' x='133.06' y='126.92'>∗</text>
+<text class='t7' x='140.81' y='126.92'>inserted<tspan x='174.84'>for</tspan><tspan x='188.94'>type</tspan><tspan x='208.59'>correctness</tspan></text>
+<text class='t9' x='256.17' y='126.92'>∗</text>
+<text class='t0' x='261.15' y='126.92'>)</text>
+<text class='t3' x='9.96' y='138.88'>end</text>
+<text class='t0' x='30.63' y='138.88'>A<tspan x='37.83'>tomicBlo</tspan><tspan x='77.27'>c</tspan><tspan x='81.42'>k</tspan></text></svg></div><pre class="fx-s"><code>label AtomicBlock
   while true do
     try
       result = tryatomic body
@@ -538,7 +538,7 @@ end</code></pre></div>
 <p id="p-1e8fedba" class="nb">Typical code for stopping a thread looks something like the following example:</p>
 <div class="fx nb both" id="c-b8341d27" data-kind="code"><div class="fx-r"><svg class="tx" data-d="14" viewBox="9.36 11.86 249.59 163.48" width="24.959em" height="16.348em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>x</text>
 <text class='t0' x='18.42' y='19.33'>:</text>
-<text class='t11' x='23.96' y='19.33'>Z</text>
+<text class='t10' x='23.96' y='19.33'>Z</text>
 <text class='t0' x='30.6' y='19.33'>64<tspan x='43.33'>:</tspan><tspan x='46.1'>=</tspan><tspan x='56.61'>0</tspan></text>
 <text class='t1' x='9.96' y='31.28'>t</text>
 <text class='t0' x='16.33' y='31.28'>=</text>
@@ -609,59 +609,59 @@ end</code></pre></div>
 <text class='t1' x='228.82' y='19.33'>R</text></svg></div></div>
 <p id="p-21cd181d" class="nb">The mechanics of object generation are embedded entirely in the <span class="m"><i>generate</i></span> method. This method takes two arguments. The <span class="m"><i>generate</i></span> method invokes <span class="m"><i>body</i></span> once for each object which is to be generated, passing the generated object as an argument. Each call to <span class="m"><i>body</i></span> returns a result of type <span class="m"><i>R</i></span>; these results are combined using the reduction <span class="m"><i>r</i></span>, which encapsulates a monoidal operator on objects of type <span class="m"><i>R</i></span>. <em>All the parallelism provided by a particular generator is specified by definition of the <span class="m"><i>generate</i></span> method.</em></p>
 <p id="p-87b06d7b" class="nb">In practice, calls to <span class="m"><i>generate</i></span> are produced by desugaring expressions with generator clause lists, as described below (<a class="xref" href="#sec-desugaring-generators">Section 23.8.1</a><!--nc-->). However it is possible to call the <span class="m"><i>generate</i></span> method directly, as in the following example:</p>
-<div class="fx nb both" id="c-6fb22547" data-kind="code" data-example="Generators.ReductionClass"><div class="fx-r"><svg class="tx" data-d="16" viewBox="-0.60 11.26 279.93 118.36" width="27.993em" height="11.836em" fill="currentColor"><text class='t3' x='0' y='19.33'>object</text>
-<text class='t0' x='34.15' y='19.33'>SumZZ32</text>
-<text class='t3' x='78.43' y='19.33'>extends</text>
-<text class='t0' x='117.81' y='19.33'>Comm<tspan x='146.31'>utativ</tspan><tspan x='172.33'>eMonoidReduction</tspan></text>
-<text class='t5' x='254.1' y='19.33'></text>
-<text class='t11' x='258.12' y='19.33'>Z</text>
-<text class='t0' x='264.76' y='19.33'>32</text>
-<text class='t5' x='274.72' y='19.33'></text>
-<text class='t4' x='17.71' y='39.75'>asString</text>
-<text class='t0' x='54.11' y='39.75'>(<tspan x='58.4'>):</tspan><tspan x='66.7'>String</tspan><tspan x='96.2'>=</tspan></text>
-<text class='t7' x='106.72' y='39.75'>“</text>
-<text class='t10' x='111.14' y='39.75'>SumZZ32</text>
-<text class='t7' x='152.98' y='39.75'>”</text>
-<text class='t4' x='17.71' y='60.17'>empty</text>
-<text class='t0' x='44.56' y='60.17'>(<tspan x='48.85'>):</tspan></text>
-<text class='t11' x='57.15' y='60.17'>Z</text>
-<text class='t0' x='63.79' y='60.17'>32<tspan x='76.52'>=</tspan><tspan x='87.04'>0</tspan></text>
-<text class='t4' x='17.71' y='80.6'>join</text>
-<text class='t0' x='35.28' y='80.6'>(</text>
-<text class='t1' x='39.15' y='80.6'>a</text>
-<text class='t0' x='44.42' y='80.6'>:</text>
-<text class='t11' x='48.85' y='80.6'>Z</text>
-<text class='t0' x='55.49' y='80.6'>32</text>
-<text class='t1' x='65.45' y='80.6'>,<tspan x='69.88'>b</tspan></text>
-<text class='t0' x='74.15' y='80.6'>:</text>
-<text class='t11' x='78.58' y='80.6'>Z</text>
-<text class='t0' x='85.22' y='80.6'>32):</text>
-<text class='t11' x='103.49' y='80.6'>Z</text>
-<text class='t0' x='110.13' y='80.6'>32<tspan x='122.86'>=</tspan></text>
-<text class='t1' x='133.38' y='80.6'>a</text>
-<text class='t0' x='140.86' y='80.6'>+</text>
-<text class='t1' x='150.82' y='80.6'>b</text>
-<text class='t3' x='0' y='101.02'>end</text>
-<text class='t1' x='0' y='125.53'>z</text>
-<text class='t0' x='7.84' y='125.53'>=<tspan x='18.35'>(1</tspan><tspan x='29.42'>#</tspan><tspan x='39.94'>100)</tspan></text>
-<text class='t1' x='58.76' y='125.53'>.</text>
-<text class='t4' x='61.53' y='125.53'>gener<tspan x='84.57'>ate</tspan></text>
-<text class='t5' x='98.3' y='125.53'></text>
-<text class='t11' x='102.31' y='125.53'>Z</text>
-<text class='t0' x='108.95' y='125.53'>32</text>
-<text class='t5' x='118.92' y='125.53'></text>
-<text class='t12' x='122.93' y='117.46'></text>
-<text class='t0' x='127.5' y='125.53'>SumZZ32</text>
-<text class='t1' x='169.01' y='125.53'>,</text>
-<text class='t3' x='173.44' y='125.53'>fn</text>
-<text class='t0' x='186.66' y='125.53'>(</text>
-<text class='t1' x='190.54' y='125.53'>x</text>
-<text class='t0' x='196.23' y='125.53'>)</text>
-<text class='t9' x='202.87' y='125.53'>⇒</text>
-<text class='t0' x='215.6' y='125.53'>3</text>
-<text class='t1' x='222.25' y='125.53'>x</text>
-<text class='t0' x='230.15' y='125.53'>+<tspan x='240.12'>2</tspan></text>
-<text class='t12' x='245.1' y='117.46'></text></svg></div><pre class="fx-s"><code>object SumZZ32 extends CommutativeMonoidReduction[\ZZ32\]
+<div class="fx nb both" id="c-6fb22547" data-kind="code" data-example="Generators.ReductionClass"><div class="fx-r"><svg class="tx" data-d="16" viewBox="9.36 11.26 284.36 74.92" width="28.436em" height="7.492em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>object</text>
+<text class='t0' x='46.33' y='19.33'>SumZZ32</text>
+<text class='t3' x='90.6' y='19.33'>extends</text>
+<text class='t0' x='132.2' y='19.33'>Comm<tspan x='160.7'>utativ</tspan><tspan x='186.72'>eMonoidReduction</tspan></text>
+<text class='t5' x='268.49' y='19.33'></text>
+<text class='t10' x='272.51' y='19.33'>Z</text>
+<text class='t0' x='279.15' y='19.33'>32</text>
+<text class='t5' x='289.11' y='19.33'></text>
+<text class='t4' x='33.87' y='31.28'>asString</text>
+<text class='t0' x='70.27' y='31.28'>()<tspan x='79.68'>:</tspan><tspan x='84.11'>String</tspan><tspan x='113.61'>=</tspan></text>
+<text class='t7' x='129.66' y='31.28'>“</text>
+<text class='t11' x='134.08' y='31.28'>SumZZ32</text>
+<text class='t7' x='175.93' y='31.28'>”</text>
+<text class='t4' x='33.87' y='43.24'>empty</text>
+<text class='t0' x='60.72' y='43.24'>():</text>
+<text class='t10' x='72.9' y='43.24'>Z</text>
+<text class='t0' x='79.54' y='43.24'>32<tspan x='92.27'>=</tspan><tspan x='102.79'>0</tspan></text>
+<text class='t4' x='33.87' y='55.19'>join</text>
+<text class='t0' x='51.44' y='55.19'>(</text>
+<text class='t1' x='55.32' y='55.19'>a</text>
+<text class='t0' x='60.58' y='55.19'>:</text>
+<text class='t10' x='65.01' y='55.19'>Z</text>
+<text class='t0' x='71.65' y='55.19'>32</text>
+<text class='t1' x='81.61' y='55.19'>,<tspan x='86.04'>b</tspan></text>
+<text class='t0' x='90.32' y='55.19'>:</text>
+<text class='t10' x='94.74' y='55.19'>Z</text>
+<text class='t0' x='101.39' y='55.19'>32):</text>
+<text class='t10' x='119.65' y='55.19'>Z</text>
+<text class='t0' x='126.29' y='55.19'>32<tspan x='139.02'>=</tspan></text>
+<text class='t1' x='149.54' y='55.19'>a</text>
+<text class='t0' x='157.02' y='55.19'>+</text>
+<text class='t1' x='166.98' y='55.19'>b</text>
+<text class='t3' x='9.96' y='67.15'>end</text>
+<text class='t1' x='9.96' y='83.09'>z</text>
+<text class='t0' x='17.8' y='83.09'>=<tspan x='28.32'>(1</tspan></text>
+<text class='t11' x='38.83' y='83.09'>#</text>
+<text class='t0' x='46.47' y='83.09'>100)</text>
+<text class='t1' x='65.29' y='83.09'>.</text>
+<text class='t4' x='68.06' y='83.09'>gener<tspan x='91.1'>ate</tspan></text>
+<text class='t5' x='104.83' y='83.09'></text>
+<text class='t10' x='108.84' y='83.09'>Z</text>
+<text class='t0' x='115.49' y='83.09'>32</text>
+<text class='t5' x='125.45' y='83.09'></text>
+<text class='t0' x='129.46' y='83.09'>(SumZZ32</text>
+<text class='t1' x='174.85' y='83.09'>,</text>
+<text class='t3' x='179.27' y='83.09'>fn</text>
+<text class='t0' x='192.5' y='83.09'>(</text>
+<text class='t1' x='196.38' y='83.09'>x</text>
+<text class='t0' x='202.07' y='83.09'>)</text>
+<text class='t9' x='208.71' y='83.09'>⇒</text>
+<text class='t0' x='221.44' y='83.09'>3</text>
+<text class='t1' x='226.42' y='83.09'>x</text>
+<text class='t0' x='234.33' y='83.09'>+<tspan x='244.29'>2)</tspan></text></svg></div><pre class="fx-s"><code>object SumZZ32 extends CommutativeMonoidReduction[\ZZ32\]
     asString():String = "SumZZ32"
     empty(): ZZ32 = 0
     join(a: ZZ32, b: ZZ32): ZZ32 = a+b
@@ -669,193 +669,197 @@ end
 
 z = (1#100).generate[\ZZ32\](SumZZ32, fn (x) =&gt; 3 x + 2)</code></pre></div>
 <p id="p-459fc302" class="nb">Any reduction must define two methods: an associative binary operation <span class="m"><i>join</i></span>, and <span class="m"><i>empty</i></span>, a method that returns the identity of this operation. Here we define reduction <span class="m"><span class="ty">SumZZ32</span></span> representing integer addition. We use this to compute the sum of <span class="m">3<i>x</i> + 2</span> for <span class="m"><i>x</i></span> drawn from the range <span class="m">1 <span class="rm"><span class="tt">#</span></span> 100</span>, yielding the expected answer of 15350.</p>
-<div class="fig"><div class="fx nb both" id="c-f00b3d26" data-kind="code" data-example="Generators.GeneratorDefn"><div class="fx-r"><svg class="tx" data-d="17" viewBox="-0.60 11.26 349.88 445.24" width="34.988em" height="44.524em" fill="currentColor"><text class='t3' x='0' y='19.33'>object</text>
-<text class='t0' x='34.15' y='19.33'>Blo<tspan x='49.23'>c</tspan><tspan x='53.38'>k</tspan><tspan x='58.36'>edRange</tspan><tspan x='95.59'>(</tspan></text>
-<text class='t4' x='99.46' y='19.33'>lo</text>
-<text class='t0' x='107.73' y='19.33'>:</text>
-<text class='t11' x='112.15' y='19.33'>Z</text>
-<text class='t0' x='118.8' y='19.33'>32</text>
-<text class='t1' x='128.76' y='19.33'>,</text>
-<text class='t4' x='133.19' y='19.33'>hi</text>
-<text class='t0' x='142.35' y='19.33'>:</text>
-<text class='t11' x='146.78' y='19.33'>Z</text>
-<text class='t0' x='153.42' y='19.33'>32</text>
-<text class='t1' x='163.38' y='19.33'>,<tspan x='167.81'>b</tspan></text>
-<text class='t0' x='172.09' y='19.33'>:</text>
-<text class='t11' x='176.51' y='19.33'>Z</text>
-<text class='t0' x='183.15' y='19.33'>32)</text>
-<text class='t3' x='199.76' y='19.33'>extends</text>
-<text class='t0' x='239.14' y='19.33'>Generator</text>
-<text class='t5' x='282.99' y='19.33'></text>
-<text class='t11' x='287' y='19.33'>Z</text>
-<text class='t0' x='293.64' y='19.33'>32</text>
-<text class='t5' x='303.61' y='19.33'></text>
-<text class='t4' x='8.86' y='39.75'>size</text>
-<text class='t0' x='27.05' y='39.75'>:</text>
-<text class='t11' x='31.48' y='39.75'>Z</text>
-<text class='t0' x='38.12' y='39.75'>32<tspan x='50.85'>=</tspan></text>
-<text class='t4' x='61.37' y='39.75'>hi</text>
-<text class='t9' x='72.74' y='39.75'>−</text>
-<text class='t4' x='82.7' y='39.75'>lo</text>
-<text class='t0' x='93.18' y='39.75'>+<tspan x='103.15'>1</tspan></text>
-<text class='t4' x='8.86' y='60.17'>se<tspan x='17'>q</tspan></text>
-<text class='t0' x='22.47' y='60.17'>(</text>
-<text class='t3' x='26.34' y='60.17'>self</text>
-<text class='t0' x='47.26' y='60.17'>):<tspan x='55.56'>Sequen</tspan><tspan x='86.01'>tialGenerator</tspan></text>
-<text class='t5' x='144.25' y='60.17'></text>
-<text class='t11' x='148.26' y='60.17'>Z</text>
-<text class='t0' x='154.9' y='60.17'>32</text>
-<text class='t5' x='164.86' y='60.17'></text>
-<text class='t0' x='171.64' y='60.17'>=</text>
-<text class='t4' x='182.16' y='60.17'>se<tspan x='190.31'>q</tspan></text>
-<text class='t0' x='195.77' y='60.17'>(</text>
-<text class='t4' x='199.65' y='60.17'>lo</text>
-<text class='t0' x='209.57' y='60.17'>:</text>
-<text class='t4' x='214' y='60.17'>hi</text>
-<text class='t0' x='223.16' y='60.17'>)</text>
-<text class='t4' x='8.86' y='80.7'>gener<tspan x='31.9'>ate</tspan></text>
-<text class='t5' x='45.63' y='80.7'></text>
-<text class='t1' x='49.64' y='80.7'>R</text>
-<text class='t5' x='57.28' y='80.7'></text>
-<text class='t12' x='61.3' y='72.63'></text>
-<text class='t4' x='65.86' y='80.7'>r<tspan x='69.55'>e</tspan><tspan x='73.63'>duction</tspan></text>
-<text class='t0' x='106.47' y='80.7'>:<tspan x='110.9'>Reduction</tspan></text>
-<text class='t5' x='155.32' y='80.7'></text>
-<text class='t1' x='159.33' y='80.7'>R</text>
-<text class='t5' x='166.97' y='80.7'></text>
-<text class='t1' x='170.98' y='80.7'>,</text>
-<text class='t4' x='175.41' y='80.7'>b<tspan x='179.48'>o</tspan><tspan x='184.07'>dy</tspan></text>
-<text class='t0' x='194.88' y='80.7'>:</text>
-<text class='t11' x='199.31' y='80.7'>Z</text>
-<text class='t0' x='205.95' y='80.7'>32</text>
-<text class='t9' x='218.68' y='80.7'>→</text>
-<text class='t1' x='231.41' y='80.7'>R</text>
-<text class='t12' x='239.05' y='72.63'></text>
-<text class='t0' x='243.62' y='80.7'>:</text>
-<text class='t1' x='248.04' y='80.7'>R</text>
-<text class='t0' x='258.45' y='80.7'>=</text>
-<text class='t3' x='17.71' y='101.12'>if</text>
-<text class='t4' x='30.94' y='101.12'>size</text>
-<text class='t9' x='50.24' y='101.12'>≤</text>
-<text class='t0' x='60.76' y='101.12'>(</text>
-<text class='t1' x='64.63' y='101.12'>b</text>
-<text class='t3' x='71.12' y='101.12'>MAX</text>
-<text class='t0' x='89.02' y='101.12'>1)</text>
-<text class='t3' x='100.65' y='101.12'>then</text>
-<text class='t10' x='26.57' y='121.54'>(<tspan y='123.29'>*</tspan></text>
-<text class='t7' x='41.01' y='121.54'>Blocks<tspan x='71.18'>smaller</tspan><tspan x='103'>than</tspan><tspan x='122.65'>b</tspan><tspan x='130.12'>run</tspan><tspan x='145.89'>sequentially</tspan></text>
-<text class='t10' x='196.53' y='123.29'>*)</text>
-<text class='t1' x='26.57' y='141.97'>r</text>
-<text class='t0' x='33' y='141.97'>:</text>
-<text class='t1' x='37.43' y='141.97'>R</text>
-<text class='t0' x='47.83' y='141.97'>:<tspan x='50.6'>=</tspan></text>
-<text class='t4' x='61.12' y='141.97'>r<tspan x='64.81'>e</tspan><tspan x='68.88'>duction</tspan></text>
-<text class='t1' x='101.73' y='141.97'>.</text>
-<text class='t4' x='104.49' y='141.97'>empty</text>
-<text class='t0' x='131.35' y='141.97'>(<tspan x='135.63'>)</tspan></text>
-<text class='t1' x='26.57' y='162.39'>i</text>
-<text class='t0' x='31.66' y='162.39'>:</text>
-<text class='t11' x='36.09' y='162.39'>Z</text>
-<text class='t0' x='42.73' y='162.39'>32<tspan x='55.46'>:</tspan><tspan x='58.23'>=</tspan></text>
-<text class='t4' x='68.74' y='162.39'>lo</text>
-<text class='t3' x='26.57' y='182.81'>while</text>
-<text class='t1' x='55.49' y='182.81'>i</text>
-<text class='t9' x='61.69' y='182.81'>≤</text>
-<text class='t4' x='72.2' y='182.81'>hi</text>
-<text class='t3' x='84.13' y='182.81'>do</text>
-<text class='t1' x='35.42' y='203.24'>v</text>
-<text class='t0' x='42.27' y='203.24'>:</text>
-<text class='t1' x='46.7' y='203.24'>R</text>
-<text class='t0' x='57.11' y='203.24'>=</text>
-<text class='t4' x='67.62' y='203.24'>b<tspan x='71.7'>o</tspan><tspan x='76.28'>dy</tspan></text>
-<text class='t0' x='87.09' y='203.24'>(</text>
-<text class='t1' x='90.96' y='203.24'>i</text>
-<text class='t0' x='94.4' y='203.24'>)</text>
-<text class='t1' x='35.42' y='223.66'>r</text>
-<text class='t0' x='42.96' y='223.66'>:<tspan x='45.73'>=</tspan></text>
-<text class='t4' x='56.24' y='223.66'>r<tspan x='59.94'>e</tspan><tspan x='64.01'>duction</tspan></text>
-<text class='t1' x='96.85' y='223.66'>.</text>
-<text class='t4' x='99.62' y='223.66'>join</text>
-<text class='t0' x='117.19' y='223.66'>(</text>
-<text class='t1' x='121.06' y='223.66'>r<tspan x='125.28'>,</tspan><tspan x='129.71'>v</tspan></text>
-<text class='t0' x='134.9' y='223.66'>)</text>
-<text class='t1' x='35.42' y='244.08'>i</text>
-<text class='t0' x='41.62' y='244.08'>+<tspan x='49.37'>=</tspan><tspan x='59.89'>1</tspan></text>
-<text class='t3' x='26.57' y='264.51'>end</text>
-<text class='t1' x='26.57' y='284.93'>r</text>
-<text class='t3' x='17.71' y='305.35'>else</text>
-<text class='t10' x='26.57' y='325.78'>(<tspan y='327.52'>*</tspan></text>
-<text class='t7' x='41.01' y='325.78'>Blocks<tspan x='71.18'>lar</tspan><tspan x='81.51'>ger</tspan><tspan x='96.72'>than</tspan><tspan x='116.37'>b</tspan><tspan x='123.84'>are</tspan><tspan x='138.5'>split</tspan><tspan x='158.15'>in</tspan><tspan x='168.39'>half</tspan><tspan x='186.38'>and</tspan><tspan x='203.25'>generated</tspan><tspan x='244.47'>in</tspan><tspan x='254.71'>parallel.</tspan></text>
-<text class='t10' x='290.17' y='327.52'>*)</text>
-<text class='t4' x='26.57' y='346.2'>mid</text>
-<text class='t0' x='46.66' y='346.2'>=</text>
-<text class='t4' x='57.17' y='346.2'>lo</text>
-<text class='t0' x='67.65' y='346.2'>+<tspan x='77.62'>(</tspan></text>
-<text class='t4' x='81.49' y='346.2'>hi</text>
-<text class='t9' x='92.87' y='346.2'>−</text>
-<text class='t4' x='102.83' y='346.2'>lo</text>
-<text class='t0' x='111.1' y='346.2'>)</text>
-<text class='t9' x='117.19' y='346.2'>÷</text>
-<text class='t0' x='127.15' y='346.2'>2</text>
-<text class='t4' x='26.57' y='366.63'>r<tspan x='30.26'>e</tspan><tspan x='34.33'>duction</tspan></text>
-<text class='t1' x='67.18' y='366.63'>.</text>
-<text class='t4' x='69.94' y='366.63'>join</text>
-<text class='t0' x='87.51' y='366.63'>(<tspan x='91.38'>Blo</tspan><tspan x='106.47'>c</tspan><tspan x='110.62'>k</tspan><tspan x='115.6'>edRange</tspan><tspan x='152.82'>(</tspan></text>
-<text class='t4' x='156.7' y='366.63'>lo</text>
-<text class='t1' x='164.96' y='366.63'>,</text>
-<text class='t4' x='169.39' y='366.63'>mid</text>
-<text class='t1' x='186.71' y='366.63'>,<tspan x='191.14'>b</tspan></text>
-<text class='t0' x='195.42' y='366.63'>)</text>
-<text class='t1' x='199.29' y='366.63'>.</text>
-<text class='t4' x='202.06' y='366.63'>gener<tspan x='225.1'>ate</tspan></text>
-<text class='t5' x='238.83' y='366.63'></text>
-<text class='t1' x='242.85' y='366.63'>R</text>
-<text class='t5' x='250.49' y='366.63'></text>
-<text class='t0' x='254.5' y='366.63'>(</text>
-<text class='t4' x='258.38' y='366.63'>r<tspan x='262.07'>e</tspan><tspan x='266.14'>duction</tspan></text>
-<text class='t1' x='298.98' y='366.63'>,</text>
-<text class='t4' x='303.41' y='366.63'>b<tspan x='307.49'>o</tspan><tspan x='312.07'>dy</tspan></text>
-<text class='t0' x='322.88' y='366.63'>)</text>
-<text class='t1' x='326.75' y='366.63'>,</text>
-<text class='t0' x='91.38' y='387.05'>Blo<tspan x='106.47'>c</tspan><tspan x='110.62'>k</tspan><tspan x='115.6'>edRange</tspan><tspan x='152.82'>(</tspan></text>
-<text class='t4' x='156.7' y='387.05'>mid</text>
-<text class='t0' x='176.23' y='387.05'>+<tspan x='186.2'>1</tspan></text>
-<text class='t1' x='191.18' y='387.05'>,</text>
-<text class='t4' x='195.61' y='387.05'>hi</text>
-<text class='t1' x='204.77' y='387.05'>,<tspan x='209.2'>b</tspan></text>
-<text class='t0' x='213.47' y='387.05'>)</text>
-<text class='t1' x='217.35' y='387.05'>.</text>
-<text class='t4' x='220.11' y='387.05'>gener<tspan x='243.15'>ate</tspan></text>
-<text class='t5' x='256.89' y='387.05'></text>
-<text class='t1' x='260.9' y='387.05'>R</text>
-<text class='t5' x='268.54' y='387.05'></text>
-<text class='t0' x='272.55' y='387.05'>(</text>
-<text class='t4' x='276.43' y='387.05'>r<tspan x='280.12'>e</tspan><tspan x='284.19'>duction</tspan></text>
-<text class='t1' x='317.04' y='387.05'>,</text>
-<text class='t4' x='321.47' y='387.05'>b<tspan x='325.54'>o</tspan><tspan x='330.12'>dy</tspan></text>
-<text class='t0' x='340.93' y='387.05'>))</text>
-<text class='t3' x='17.71' y='407.47'>end<tspan x='0' y='427.9'>end</tspan></text>
-<text class='t1' x='0' y='452.4'>f</text>
-<text class='t0' x='5.95' y='452.4'>(<tspan x='10.24'>)</tspan><tspan x='16.88'>=</tspan></text>
-<text class='t12' x='27.4' y='444.33'>⟨</text>
-<text class='t0' x='33.76' y='452.4'>2</text>
-<text class='t1' x='40.4' y='452.4'>x</text>
-<text class='t12' x='48.87' y='443.94'>⏐<tspan x='48.87' y='449.91'>⏐</tspan></text>
-<text class='t1' x='54.95' y='452.4'>x</text>
-<text class='t9' x='63.41' y='452.4'>←</text>
-<text class='t0' x='76.14' y='452.4'>Blo<tspan x='91.23'>c</tspan><tspan x='95.38'>k</tspan><tspan x='100.36'>edRange</tspan><tspan x='137.58'>(1</tspan></text>
-<text class='t1' x='146.44' y='452.4'>,</text>
-<text class='t0' x='150.86' y='452.4'>10</text>
-<text class='t1' x='160.83' y='452.4'>,</text>
-<text class='t0' x='165.26' y='452.4'>3)</text>
-<text class='t12' x='175.77' y='444.33'>⟩</text></svg></div><pre class="fx-s"><code>object BlockedRange(lo: ZZ32, hi: ZZ32, b: ZZ32) extends Generator[\ZZ32\]
-  size : ZZ32 = hi - lo + 1
-  seq(self): SequentialGenerator[\ZZ32\] = seq(lo:hi)
-  generate[\R\](reduction: Reduction[\R\], body: ZZ32-&gt;R): R =
+<div class="fig"><div class="fx nb both" id="c-77aacbca" data-kind="code" data-example="Generators.GeneratorDefn"><div class="fx-r"><svg class="tx" data-d="17" viewBox="9.36 11.26 359.18 266.21" width="35.918em" height="26.621em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>object</text>
+<text class='t0' x='46.33' y='19.33'>Blo<tspan x='61.41'>c</tspan><tspan x='65.56'>k</tspan><tspan x='70.54'>edRange</tspan><tspan x='107.76'>(</tspan></text>
+<text class='t4' x='111.64' y='19.33'>lo</text>
+<text class='t0' x='119.9' y='19.33'>:</text>
+<text class='t10' x='124.33' y='19.33'>Z</text>
+<text class='t0' x='130.97' y='19.33'>64</text>
+<text class='t1' x='140.94' y='19.33'>,</text>
+<text class='t4' x='145.36' y='19.33'>hi</text>
+<text class='t0' x='154.53' y='19.33'>:</text>
+<text class='t10' x='158.95' y='19.33'>Z</text>
+<text class='t0' x='165.6' y='19.33'>64</text>
+<text class='t1' x='175.56' y='19.33'>,<tspan x='179.99'>b</tspan></text>
+<text class='t0' x='184.26' y='19.33'>:</text>
+<text class='t10' x='188.69' y='19.33'>Z</text>
+<text class='t0' x='195.33' y='19.33'>64)</text>
+<text class='t3' x='211.94' y='19.33'>extends</text>
+<text class='t0' x='253.53' y='19.33'>Generator</text>
+<text class='t5' x='297.38' y='19.33'></text>
+<text class='t10' x='301.39' y='19.33'>Z</text>
+<text class='t0' x='308.03' y='19.33'>64</text>
+<text class='t5' x='318' y='19.33'></text>
+<text class='t4' x='21.92' y='31.28'>size</text>
+<text class='t0' x='41.22' y='31.28'>:</text>
+<text class='t10' x='48.97' y='31.28'>Z</text>
+<text class='t0' x='55.61' y='31.28'>64<tspan x='68.34'>=</tspan></text>
+<text class='t4' x='78.86' y='31.28'>hi</text>
+<text class='t9' x='90.23' y='31.28'>−</text>
+<text class='t4' x='100.19' y='31.28'>lo</text>
+<text class='t0' x='110.67' y='31.28'>+<tspan x='120.64'>1</tspan></text>
+<text class='t4' x='21.92' y='43.24'>se<tspan x='30.06'>q</tspan></text>
+<text class='t0' x='35.53' y='43.24'>(</text>
+<text class='t3' x='39.4' y='43.24'>self</text>
+<text class='t0' x='60.32' y='43.24'>):<tspan x='68.63'>Sequen</tspan><tspan x='99.07'>tialGenerator</tspan></text>
+<text class='t5' x='157.31' y='43.24'></text>
+<text class='t10' x='161.32' y='43.24'>Z</text>
+<text class='t0' x='167.96' y='43.24'>64</text>
+<text class='t5' x='177.93' y='43.24'></text>
+<text class='t0' x='184.71' y='43.24'>=</text>
+<text class='t4' x='195.22' y='43.24'>se<tspan x='203.37'>q</tspan></text>
+<text class='t0' x='208.83' y='43.24'>(</text>
+<text class='t4' x='212.71' y='43.24'>lo</text>
+<text class='t0' x='222.63' y='43.24'>:</text>
+<text class='t4' x='227.06' y='43.24'>hi</text>
+<text class='t0' x='236.23' y='43.24'>)</text>
+<text class='t4' x='21.92' y='55.19'>gener<tspan x='44.96'>ate</tspan></text>
+<text class='t5' x='58.69' y='55.19'></text>
+<text class='t1' x='62.7' y='55.19'>R</text>
+<text class='t5' x='70.35' y='55.19'></text>
+<text class='t0' x='74.36' y='55.19'>(</text>
+<text class='t4' x='78.23' y='55.19'>r<tspan x='81.93'>e</tspan><tspan x='86'>duction</tspan></text>
+<text class='t0' x='118.84' y='55.19'>:<tspan x='123.27'>Reduction</tspan></text>
+<text class='t5' x='167.69' y='55.19'></text>
+<text class='t1' x='171.7' y='55.19'>R</text>
+<text class='t5' x='179.34' y='55.19'></text>
+<text class='t1' x='183.35' y='55.19'>,</text>
+<text class='t4' x='187.78' y='55.19'>b<tspan x='191.86'>o</tspan><tspan x='196.44'>dy</tspan></text>
+<text class='t0' x='207.25' y='55.19'>:</text>
+<text class='t10' x='211.68' y='55.19'>Z</text>
+<text class='t0' x='218.32' y='55.19'>64</text>
+<text class='t9' x='231.05' y='55.19'>→</text>
+<text class='t1' x='243.78' y='55.19'>R</text>
+<text class='t0' x='251.42' y='55.19'>):</text>
+<text class='t1' x='259.72' y='55.19'>R</text>
+<text class='t0' x='270.13' y='55.19'>=</text>
+<text class='t3' x='33.87' y='67.15'>if</text>
+<text class='t4' x='49.31' y='67.15'>size</text>
+<text class='t9' x='68.62' y='67.15'>≤</text>
+<text class='t0' x='79.13' y='67.15'>(</text>
+<text class='t1' x='83.01' y='67.15'>b</text>
+<text class='t3' x='89.5' y='67.15'>MAX</text>
+<text class='t0' x='107.4' y='67.15'>1)</text>
+<text class='t3' x='119.02' y='67.15'>then</text>
+<text class='t0' x='45.83' y='79.1'>(</text>
+<text class='t9' x='49.7' y='79.1'>∗</text>
+<text class='t7' x='57.45' y='79.1'>Blocks<tspan x='87.62'>smaller</tspan><tspan x='119.44'>than</tspan><tspan x='139.08'>b</tspan><tspan x='146.56'>run</tspan><tspan x='162.33'>sequentially</tspan></text>
+<text class='t9' x='213.24' y='79.1'>∗</text>
+<text class='t0' x='218.22' y='79.1'>)</text>
+<text class='t1' x='45.83' y='91.06'>r</text>
+<text class='t0' x='53.37' y='91.06'>:</text>
+<text class='t1' x='61.12' y='91.06'>R</text>
+<text class='t0' x='71.52' y='91.06'>:<tspan x='74.29'>=</tspan></text>
+<text class='t4' x='84.81' y='91.06'>r<tspan x='88.5'>e</tspan><tspan x='92.57'>duction</tspan></text>
+<text class='t1' x='125.42' y='91.06'>.</text>
+<text class='t4' x='128.18' y='91.06'>empty</text>
+<text class='t0' x='155.03' y='91.06'>()</text>
+<text class='t1' x='45.83' y='103.01'>i</text>
+<text class='t0' x='52.03' y='103.01'>:</text>
+<text class='t10' x='59.78' y='103.01'>Z</text>
+<text class='t0' x='66.42' y='103.01'>64<tspan x='79.15'>:</tspan><tspan x='81.92'>=</tspan></text>
+<text class='t4' x='92.43' y='103.01'>lo</text>
+<text class='t3' x='45.83' y='114.97'>while</text>
+<text class='t1' x='76.96' y='114.97'>i</text>
+<text class='t9' x='83.16' y='114.97'>≤</text>
+<text class='t4' x='93.68' y='114.97'>hi</text>
+<text class='t3' x='105.61' y='114.97'>do</text>
+<text class='t1' x='57.78' y='126.92'>v</text>
+<text class='t0' x='65.74' y='126.92'>:</text>
+<text class='t1' x='73.49' y='126.92'>R</text>
+<text class='t0' x='83.89' y='126.92'>=</text>
+<text class='t4' x='94.41' y='126.92'>b<tspan x='98.48'>o</tspan><tspan x='103.07'>dy</tspan></text>
+<text class='t0' x='113.88' y='126.92'>(</text>
+<text class='t1' x='117.75' y='126.92'>i</text>
+<text class='t0' x='121.18' y='126.92'>)</text>
+<text class='t1' x='57.78' y='138.88'>r</text>
+<text class='t0' x='65.32' y='138.88'>:<tspan x='68.09'>=</tspan></text>
+<text class='t4' x='78.61' y='138.88'>r<tspan x='82.3'>e</tspan><tspan x='86.37'>duction</tspan></text>
+<text class='t1' x='119.21' y='138.88'>.</text>
+<text class='t4' x='121.98' y='138.88'>join</text>
+<text class='t0' x='139.55' y='138.88'>(</text>
+<text class='t1' x='143.42' y='138.88'>r<tspan x='147.64'>,</tspan><tspan x='152.07'>v</tspan></text>
+<text class='t0' x='157.26' y='138.88'>)</text>
+<text class='t1' x='57.78' y='150.83'>i</text>
+<text class='t0' x='63.98' y='150.83'>+<tspan x='71.73'>=</tspan><tspan x='82.25'>1</tspan></text>
+<text class='t3' x='45.83' y='162.79'>end</text>
+<text class='t1' x='45.83' y='174.74'>r</text>
+<text class='t3' x='33.87' y='186.7'>else</text>
+<text class='t0' x='45.83' y='198.66'>(</text>
+<text class='t9' x='49.7' y='198.66'>∗</text>
+<text class='t7' x='57.45' y='198.66'>Blocks<tspan x='87.62'>lar</tspan><tspan x='97.95'>ger</tspan><tspan x='113.16'>than</tspan><tspan x='132.81'>b</tspan><tspan x='140.28'>are</tspan><tspan x='154.93'>split</tspan><tspan x='174.59'>in</tspan><tspan x='184.83'>half</tspan><tspan x='202.81'>and</tspan><tspan x='219.69'>generated</tspan><tspan x='260.91'>in</tspan><tspan x='271.15'>parallel.</tspan></text>
+<text class='t9' x='306.28' y='198.66'>∗</text>
+<text class='t0' x='311.26' y='198.66'>)</text>
+<text class='t4' x='45.83' y='210.61'>mid</text>
+<text class='t0' x='65.92' y='210.61'>=</text>
+<text class='t9' x='76.44' y='210.61'></text>
+<text class='t0' x='80.86' y='210.61'>(</text>
+<text class='t4' x='84.74' y='210.61'>lo</text>
+<text class='t0' x='95.22' y='210.61'>+</text>
+<text class='t4' x='105.18' y='210.61'>hi</text>
+<text class='t0' x='114.34' y='210.61'>)</text>
+<text class='t1' x='118.22' y='210.61'>/</text>
+<text class='t0' x='123.2' y='210.61'>2</text>
+<text class='t9' x='128.18' y='210.61'></text>
+<text class='t4' x='45.83' y='222.57'>r<tspan x='49.52'>e</tspan><tspan x='53.59'>duction</tspan></text>
+<text class='t1' x='86.44' y='222.57'>.</text>
+<text class='t4' x='89.2' y='222.57'>join</text>
+<text class='t0' x='106.77' y='222.57'>(Blo<tspan x='125.73'>c</tspan><tspan x='129.88'>k</tspan><tspan x='134.86'>edRange</tspan><tspan x='172.08'>(</tspan></text>
+<text class='t4' x='175.96' y='222.57'>lo</text>
+<text class='t1' x='184.22' y='222.57'>,</text>
+<text class='t4' x='188.65' y='222.57'>mid</text>
+<text class='t1' x='205.98' y='222.57'>,<tspan x='210.4'>b</tspan></text>
+<text class='t0' x='214.68' y='222.57'>)</text>
+<text class='t1' x='218.55' y='222.57'>.</text>
+<text class='t4' x='221.32' y='222.57'>gener<tspan x='244.36'>ate</tspan></text>
+<text class='t5' x='258.1' y='222.57'></text>
+<text class='t1' x='262.11' y='222.57'>R</text>
+<text class='t5' x='269.75' y='222.57'></text>
+<text class='t0' x='273.76' y='222.57'>(</text>
+<text class='t4' x='277.64' y='222.57'>r<tspan x='281.33'>e</tspan><tspan x='285.4'>duction</tspan></text>
+<text class='t1' x='318.25' y='222.57'>,</text>
+<text class='t4' x='322.67' y='222.57'>b<tspan x='326.75'>o</tspan><tspan x='331.33'>dy</tspan></text>
+<text class='t0' x='342.14' y='222.57'>)</text>
+<text class='t1' x='346.02' y='222.57'>,</text>
+<text class='t0' x='110.65' y='234.52'>Blo<tspan x='125.73'>c</tspan><tspan x='129.88'>k</tspan><tspan x='134.86'>edRange</tspan><tspan x='172.08'>(</tspan></text>
+<text class='t4' x='175.96' y='234.52'>mid</text>
+<text class='t0' x='195.5' y='234.52'>+<tspan x='205.46'>1</tspan></text>
+<text class='t1' x='210.44' y='234.52'>,</text>
+<text class='t4' x='214.87' y='234.52'>hi</text>
+<text class='t1' x='224.03' y='234.52'>,<tspan x='228.46'>b</tspan></text>
+<text class='t0' x='232.73' y='234.52'>)</text>
+<text class='t1' x='236.61' y='234.52'>.</text>
+<text class='t4' x='239.37' y='234.52'>gener<tspan x='262.42'>ate</tspan></text>
+<text class='t5' x='276.15' y='234.52'></text>
+<text class='t1' x='280.16' y='234.52'>R</text>
+<text class='t5' x='287.8' y='234.52'></text>
+<text class='t0' x='291.82' y='234.52'>(</text>
+<text class='t4' x='295.69' y='234.52'>r<tspan x='299.38'>e</tspan><tspan x='303.46'>duction</tspan></text>
+<text class='t1' x='336.3' y='234.52'>,</text>
+<text class='t4' x='340.73' y='234.52'>b<tspan x='344.8'>o</tspan><tspan x='349.38'>dy</tspan></text>
+<text class='t0' x='360.19' y='234.52'>))</text>
+<text class='t3' x='33.87' y='246.48'>end<tspan x='9.96' y='258.43'>end</tspan></text>
+<text class='t1' x='9.96' y='274.37'>f</text>
+<text class='t0' x='15.91' y='274.37'>()<tspan x='26.43'>=</tspan></text>
+<text class='t9' x='36.94' y='274.37'></text>
+<text class='t0' x='42.48' y='274.37'>2</text>
+<text class='t1' x='47.46' y='274.37'>x</text>
+<text class='t9' x='55.92' y='274.37'>|</text>
+<text class='t1' x='61.46' y='274.37'>x</text>
+<text class='t9' x='69.92' y='274.37'>←</text>
+<text class='t0' x='82.65' y='274.37'>Blo<tspan x='97.73'>c</tspan><tspan x='101.88'>k</tspan><tspan x='106.86'>edRange</tspan><tspan x='144.08'>(1</tspan></text>
+<text class='t1' x='152.94' y='274.37'>,</text>
+<text class='t0' x='157.37' y='274.37'>10</text>
+<text class='t1' x='167.33' y='274.37'>,</text>
+<text class='t0' x='171.76' y='274.37'>3)</text>
+<text class='t9' x='182.27' y='274.37'></text></svg></div><pre class="fx-s"><code>object BlockedRange(lo: ZZ64, hi: ZZ64, b: ZZ64) extends Generator[\ZZ64\]
+  size : ZZ64 = hi - lo + 1
+  seq(self): SequentialGenerator[\ZZ64\] = seq(lo:hi)
+  generate[\R\](reduction: Reduction[\R\], body: ZZ64-&gt;R): R =
     if size &lt;= (b MAX 1) then
       (* Blocks smaller than b run sequentially *)
       r : R := reduction.empty()
-      i : ZZ32 := lo
+      i : ZZ64 := lo
       while i &lt;= hi do
         v : R = body(i)
         r := reduction.join(r,v)
@@ -864,7 +868,7 @@ z = (1#100).generate[\ZZ32\](SumZZ32, fn (x) =&gt; 3 x + 2)</code></pre></div>
       r
     else
       (* Blocks larger than b are split in half and generated in parallel. *)
-      mid = lo + (hi - lo) DIV 2
+      mid = |\ (lo+hi)/2 /|
       reduction.join(BlockedRange(lo,mid,b).generate[\R\](reduction,body),
                      BlockedRange(mid+1,hi,b).generate[\R\](reduction,body))
     end
@@ -872,8 +876,6 @@ end
 
 f() = &lt;| 2 x | x &lt;- BlockedRange(1,10,3) |&gt;</code></pre></div>
 <figcaption>Figure 23.2: <a id="fig-generatorDefn"></a>Sample <span class="m"><span class="ty">Generator</span></span> definition: blocked integer ranges.</figcaption></div>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-range-examples">Section I.1.20</a><!--nc--></span></p>
-<p id="p-0c92a7cd" class="nb">The Working Draft of February 2011 defined the generator of <a class="xref" href="#fig-generatorDefn">Figure 23.2</a><!--nc--> over <span class="m">ℤ64</span>, and its method <span class="m"><i>seq</i></span> built a range over <span class="m">ℤ64</span>, which <a class="xref" href="expressions.html#sec-ranges">Section 13.16</a><!--nc--> no longer admits; the generator is defined over <span class="m">ℤ32</span>. Its midpoint was <span class="m">⌊(<i>lo</i> + <i>hi</i>)/2⌋</span>, a value of type <span class="m">ℤ</span>, which converts to neither fixed-size type; it is <span class="m"><i>lo</i> + (<i>hi</i> − <i>lo</i>) ÷ 2</span>.</p></aside>
 <p id="p-2bb4e7bc" class="nb">For non-commutative reductions such as the <span class="m"><span class="ty">Concat</span></span> reduction used for list comprehensions in <a class="xref" href="#fig-generatedExpressions">Figure 23.4</a><!--nc-->, it is important to note that results must be combined in the natural order of the generator. If <span class="m"><i>join</i></span> is not associative, or <span class="m"><i>empty</i></span> is not the identity of <span class="m"><i>join</i></span>, passing the reduction to <span class="m"><i>generate</i></span> will produce unpredictable results. A generator is permitted to group reduction operations in any way it likes consistent with its natural order, and insert an arbitrary number of <span class="m"><i>empty</i></span> elements.</p>
 <p id="p-ff5756c5" class="nb"><a class="xref" href="#fig-generatorDefn">Figure 23.2</a><!--nc--> defines a generator that generates the integers between <span class="m"><i>lo</i></span> and <span class="m"><i>hi</i></span> in sequential blocks of size at most <span class="m"><i>b</i></span>. In this example, we divide the range in half if it is larger than the block size <span class="m"><i>b</i></span>; these two halves are computed in parallel (recall that the arguments to the method call <span class="m"><i>reduction</i>.<i>join</i></span> are evaluated in parallel). If the range is smaller than <span class="m"><i>b</i></span>, then it is enumerated serially using a <span class="m"><span class="kw">while</span></span> loop, accumulating the result <span class="m"><i>r</i></span> as it goes. Observe that the parallelism obtained from a generator is <em>dictated by the code of the <span class="m"><i>generate</i></span> method</em>. While programmers using a generator should assume that calls to <span class="m"><i>body</i></span> may occur in parallel, the library programmer is free to choose the amount of parallelism that is actually exposed.</p>
 <p id="p-6264db21" class="nb">This example uses <em>recursive subdivision</em> to divide a blocked range into approximately equal-sized chunks of work. Recursive subdivision is the recommended technique for exposing large amounts of parallelism in a Fortress program because it adjusts easily to varying machine sizes and can be dynamically load balanced.</p>
@@ -1217,7 +1219,7 @@ f() = &lt;| 2 x | x &lt;- BlockedRange(1,10,3) |&gt;</code></pre></div>
 <text class='t5' x='393.86' y='31.28'></text>
 <text class='t4' x='27.9' y='43.24'>size</text>
 <text class='t0' x='47.2' y='43.24'>:</text>
-<text class='t11' x='54.95' y='43.24'>Z</text>
+<text class='t10' x='54.95' y='43.24'>Z</text>
 <text class='t0' x='61.59' y='43.24'>64<tspan x='74.32'>=</tspan></text>
 <text class='t4' x='84.83' y='43.24'>outer</text>
 <text class='t1' x='108.44' y='43.24'>.</text>
@@ -1334,26 +1336,26 @@ end</code></pre></div>
 <section class="sec" data-num="23.8.3" data-title="Using Overloading to Adapt Generators and Traversals">
 <h3 id="s-using-overloading-to-adapt-generators-and-traversals" class="nb"><span class="num">23.8.3</span> Using Overloading to Adapt Generators and Traversals</h3>
 <p id="p-74eaa94b" class="nb">Overloaded instances of the <span class="m"><i>generate</i></span> method can be used to adapt a generator to the particular properties of the reduction being performed. For example, a commutative monoid need only maintain a single variable <span class="m"><i>result</i></span> containing the reduced value so far:</p>
-<div class="fx nb both" id="c-cbc725f6" data-kind="code"><div class="fx-r"><svg class="tx" data-d="27" viewBox="15.34 11.26 374.71 259.73" width="37.471em" height="25.973em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>value<tspan x='47.63'>object</tspan></text>
+<div class="fx nb both" id="c-7b33ea20" data-kind="code"><div class="fx-r"><svg class="tx" data-d="27" viewBox="15.34 11.26 374.71 259.73" width="37.471em" height="25.973em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>value<tspan x='47.63'>object</tspan></text>
 <text class='t0' x='81.78' y='19.33'>Blo<tspan x='96.86'>c</tspan><tspan x='101.01'>k</tspan><tspan x='105.99'>edRange</tspan><tspan x='143.21'>(</tspan></text>
 <text class='t4' x='147.09' y='19.33'>lo</text>
 <text class='t0' x='155.35' y='19.33'>:</text>
-<text class='t11' x='159.78' y='19.33'>Z</text>
-<text class='t0' x='166.42' y='19.33'>32</text>
+<text class='t10' x='159.78' y='19.33'>Z</text>
+<text class='t0' x='166.42' y='19.33'>64</text>
 <text class='t1' x='176.39' y='19.33'>,</text>
 <text class='t4' x='180.81' y='19.33'>hi</text>
 <text class='t0' x='189.98' y='19.33'>:</text>
-<text class='t11' x='194.4' y='19.33'>Z</text>
-<text class='t0' x='201.05' y='19.33'>32</text>
+<text class='t10' x='194.4' y='19.33'>Z</text>
+<text class='t0' x='201.05' y='19.33'>64</text>
 <text class='t1' x='211.01' y='19.33'>,<tspan x='215.44'>b</tspan></text>
 <text class='t0' x='219.71' y='19.33'>:</text>
-<text class='t11' x='224.14' y='19.33'>Z</text>
-<text class='t0' x='230.78' y='19.33'>32)</text>
+<text class='t10' x='224.14' y='19.33'>Z</text>
+<text class='t0' x='230.78' y='19.33'>64)</text>
 <text class='t3' x='247.39' y='19.33'>extends</text>
 <text class='t0' x='286.77' y='19.33'>Generator</text>
 <text class='t5' x='330.61' y='19.33'></text>
-<text class='t11' x='334.63' y='19.33'>Z</text>
-<text class='t0' x='341.27' y='19.33'>32</text>
+<text class='t10' x='334.63' y='19.33'>Z</text>
+<text class='t0' x='341.27' y='19.33'>64</text>
 <text class='t5' x='351.23' y='19.33'></text>
 <text class='t1' x='27.9' y='31.28'>.<tspan x='32.32'>.</tspan><tspan x='36.75'>.</tspan></text>
 <text class='t4' x='27.9' y='43.24'>gener<tspan x='50.94'>ate</tspan></text>
@@ -1372,8 +1374,8 @@ end</code></pre></div>
 <text class='t0' x='274.5' y='43.24'>(</text>
 <text class='t4' x='278.37' y='43.24'>b<tspan x='282.45'>o</tspan><tspan x='287.03'>dy</tspan></text>
 <text class='t0' x='300.61' y='43.24'>:</text>
-<text class='t11' x='306.14' y='43.24'>Z</text>
-<text class='t0' x='312.79' y='43.24'>32</text>
+<text class='t10' x='306.14' y='43.24'>Z</text>
+<text class='t0' x='312.79' y='43.24'>64</text>
 <text class='t9' x='325.52' y='43.24'>→</text>
 <text class='t1' x='338.25' y='43.24'>R</text>
 <text class='t0' x='345.89' y='43.24'>)<tspan x='352.53'>:</tspan></text>
@@ -1403,8 +1405,8 @@ end</code></pre></div>
 <text class='t3' x='159.27' y='79.1'>then</text>
 <text class='t1' x='63.76' y='91.06'>i</text>
 <text class='t0' x='69.96' y='91.06'>:</text>
-<text class='t11' x='75.5' y='91.06'>Z</text>
-<text class='t0' x='82.14' y='91.06'>32<tspan x='94.87'>=</tspan></text>
+<text class='t10' x='75.5' y='91.06'>Z</text>
+<text class='t0' x='82.14' y='91.06'>64<tspan x='94.87'>=</tspan></text>
 <text class='t1' x='105.38' y='91.06'>l</text>
 <text class='t3' x='63.76' y='103.01'>while</text>
 <text class='t1' x='92.68' y='103.01'>i</text>
@@ -1460,11 +1462,11 @@ end</code></pre></div>
 <text class='t0' x='100.45' y='234.52'>)</text>
 <text class='t4' x='39.85' y='246.48'>r<tspan x='43.54'>esult</tspan></text>
 <text class='t3' x='27.9' y='258.43'>end<tspan x='15.94' y='270.39'>end</tspan></text></svg></div><pre class="fx-s"><code>  ...
-  generate[\R extends CommutativeMonoid[\ R, OPLUS\], opr OPLUS\](body : ZZ32 -&gt; R) : R = do
+  generate[\R extends CommutativeMonoid[\ R, OPLUS\], opr OPLUS\](body : ZZ64 -&gt; R) : R = do
     result : R = Identity[\OPLUS\]
     traverse(l,u) =
       if u-l+1 &lt;= max(b,1) then
-        i : ZZ32 = l
+        i : ZZ64 = l
         while i &lt;= u do
           t = body(i)
           atomic result := result OPLUS t
@@ -1480,8 +1482,6 @@ end</code></pre></div>
     result
   end
 end</code></pre></div>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-range-examples">Section I.1.20</a><!--nc--></span></p>
-<p id="p-b2cf35aa" class="nb">The Working Draft of February 2011 declared this generator over <span class="m">ℤ64</span>, as it declared the generator of <a class="xref" href="#fig-generatorDefn">Figure 23.2</a><!--nc-->, whose members the ellipsis stands for; both are declared over <span class="m">ℤ32</span>.</p></aside>
 <p id="p-d454b121" class="nb">The choice of whether to apply this transformation is left up to the author of the generator; when many iterations run in parallel the <span class="m"><i>result</i></span> variable becomes a scalability bottleneck and this technique should not be used.</p>
 <p id="p-b062af74" class="nb">Various other properties of the reduction operator can be exploited:</p>
 <ul>
@@ -1545,8 +1545,9 @@ end</code></pre></div>
 <ol><li id="fn-1">Note: the initial implementation of the Fortress language assumes a single machine with shared memory and exposes only the <span class="m"><span class="ty">Global</span></span> region. <a href="#fnref-1" aria-label="Back to the text">↩</a></li><li id="fn-2">Note, for example, that the present Fortress implementation immediately makes every object shared after construction, so that <span class="m"><i>isShared()</i></span> will always return <span class="m"><i>true</i></span>. <a href="#fnref-2" aria-label="Back to the text">↩</a></li><li id="fn-3">The present implementation signals a fatal error in case of duplicate initialization, or if an uninitialized element is read. <a href="#fnref-3" aria-label="Back to the text">↩</a></li><li id="fn-4">In future, it is likely that Fortress will use a desugaring that in fact yields a <span class="m"><span class="ty">Generator</span></span> rather than a higher-order function. This permits type-directed nesting and composition of generators. <a href="#fnref-4" aria-label="Back to the text">↩</a></li></ol></section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="components.html"><span>Previous</span> 22. Components and APIs</a><a class="next" href="overloaded-declarations.html"><span>Next</span> 24. Overloaded Functional Declarations</a></nav>
-<footer class="colophon">Converted from <code>Specification/advanced/parallelism-locality/parallelism-locality.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/advanced/parallelism-locality/parallelism-locality.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/parallelism.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

@@ -24,7 +24,7 @@ svg.tx text.t13{font-family:stmary10;font-size:9.96px}
 svg.tx text.t14{font-family:cmsy7;font-size:6.97px}
 </style>
 </head>
-<body data-page="chapter" data-slug="overview" data-chapter="2. Overview">
+<body data-page="chapter" data-slug="overview" data-chapter="2. Overview" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">2. Overview</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -48,14 +48,14 @@ svg.tx text.t14{font-family:cmsy7;font-size:6.97px}
 <p id="p-f09ab2d6" class="nb">A Fortress program can be processed in one of two ways:</p>
 <ul>
 <li><p id="p-0788cb16" class="nb">It can be <em>executed</em>. The Fortress program is stored in a file with the suffix “<span class="tt">.fss</span>” and executed directly from an underlying operating system shell by calling the command “<span class="tt">fortress run</span>” on it. For example, suppose we write the following <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">Hello, world!</span></span>”</span></span></span> program to a file “<span class="tt">HelloWorld.fss</span>”:</p>
-<div class="fx nb both" id="c-d69969a0" data-kind="code" data-example="Overview.shell.a"><div class="fx-r"><svg class="tx" data-d="1" viewBox="-0.60 11.81 150.07 31.03" width="15.007em" height="3.103em" fill="currentColor"><text class='t0' x='0' y='19.33'>export</text>
-<text class='t1' x='34.15' y='19.33'>Executable</text>
-<text class='t2' x='0' y='39.75'>run</text>
-<text class='t1' x='15.91' y='39.75'>(<tspan x='20.2'>)</tspan><tspan x='26.84'>=</tspan></text>
-<text class='t2' x='37.36' y='39.75'>print</text>
-<text class='t3' x='62.33' y='39.75'>“</text>
-<text class='t4' x='66.75' y='39.75'>Hello,<tspan x='108.6'>world!</tspan></text>
-<text class='t3' x='144.46' y='39.75'>”</text></svg></div><pre class="fx-s"><code>export Executable
+<div class="fx nb both" id="c-d69969a0" data-kind="code" data-example="Overview.shell.a"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.81 152.42 22.56" width="15.242em" height="2.256em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>export</text>
+<text class='t1' x='46.33' y='19.33'>Executable</text>
+<text class='t2' x='9.96' y='31.28'>run</text>
+<text class='t1' x='25.88' y='31.28'>()<tspan x='36.39'>=</tspan></text>
+<text class='t2' x='46.91' y='31.28'>print</text>
+<text class='t3' x='74.65' y='31.28'>“</text>
+<text class='t4' x='79.07' y='31.28'>Hello,<tspan x='120.91'>world!</tspan></text>
+<text class='t3' x='156.78' y='31.28'>”</text></svg></div><pre class="fx-s"><code>export Executable
 run() = print "Hello, world!"</code></pre></div>
 <p id="p-18267c77" class="nb">The first line is an <em>export statement</em>; we ignore it for the moment. The second line defines a function <span class="m"><i>run</i></span>, which takes a parameter named <span class="m"><i>args</i></span> and prints the string <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">Hello, world!</span></span>”</span></span></span>. Note that the parameter <span class="m"><i>args</i></span> does not include a declaration of its type. In many cases, types can be elided in Fortress and inferred from context. (In this case, the type of <span class="m"><i>args</i></span> is inferred based on the program’s export statement, explained in <a class="xref" href="#sec-overview-apis">Section 2.2</a>.)</p>
 <p id="p-26db44c4" class="nb">We can execute this program by issuing the following command to the shell:</p>
@@ -64,31 +64,31 @@ run() = print "Hello, world!"</code></pre></div>
 <p id="p-701bd238" class="nb"><span class="tt">fortress HelloWorld.fss</span></p></li>
 <li><p id="p-ade874e1" class="nb">It can be <em>compiled</em>. In this case, the Fortress program is compiled into a <em>component</em>, which is stored in a hidden persistent cache maintained by the implementation, called a <em>fortress</em>. Typically, a single fortress holds all the components of a user, or group of users sharing programs and libraries. In our examples, we often refer to the fortress we are storing components in as <em>the resident fortress</em>.</p>
 <p id="p-84fa0afe" class="nb">For example, we could have written our <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">Hello, world!</span></span>”</span></span></span> program as follows:</p>
-<div class="fx nb both" id="c-10c268f4" data-kind="code" data-example="HelloWorld"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 11.81 158.93 69.39" width="15.893em" height="6.939em" fill="currentColor"><text class='t0' x='0' y='19.33'>component</text>
-<text class='t1' x='49.84' y='19.33'>HelloW<tspan x='81.67'>orld</tspan></text>
-<text class='t0' x='8.86' y='39.75'>export</text>
-<text class='t1' x='43' y='39.75'>Executable</text>
-<text class='t2' x='8.86' y='60.17'>run</text>
-<text class='t1' x='24.77' y='60.17'>(<tspan x='29.06'>)</tspan><tspan x='35.7'>=</tspan></text>
-<text class='t2' x='46.22' y='60.17'>print</text>
-<text class='t3' x='71.19' y='60.17'>“</text>
-<text class='t4' x='75.61' y='60.17'>Hello,<tspan x='117.45'>world!</tspan></text>
-<text class='t3' x='153.32' y='60.17'>”</text>
-<text class='t0' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>component HelloWorld
+<div class="fx nb both" id="c-10c268f4" data-kind="code" data-example="HelloWorld"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.81 164.38 43.98" width="16.438em" height="4.398em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>component</text>
+<text class='t1' x='62.02' y='19.33'>HelloW<tspan x='93.84'>orld</tspan></text>
+<text class='t0' x='21.92' y='31.28'>export</text>
+<text class='t1' x='58.28' y='31.28'>Executable</text>
+<text class='t2' x='21.92' y='43.24'>run</text>
+<text class='t1' x='37.83' y='43.24'>()<tspan x='48.35'>=</tspan></text>
+<text class='t2' x='58.86' y='43.24'>print</text>
+<text class='t3' x='86.6' y='43.24'>“</text>
+<text class='t4' x='91.03' y='43.24'>Hello,<tspan x='132.87'>world!</tspan></text>
+<text class='t3' x='168.73' y='43.24'>”</text>
+<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>component HelloWorld
   export Executable
   run() = print "Hello, world!"
 end</code></pre></div>
 <p id="p-2d155496" class="nb">We can compile this program, by issuing the command “<span class="tt">fortress compile</span>” on it:</p>
 <p id="p-b307a32e" class="nb"><span class="tt">fortress compile HelloWorld.fss</span></p>
 <p id="p-e17a0706" class="nb">As a result of this command, a component named “<span class="m"><span class="ty">HelloWorld</span></span>” is stored in the resident fortress. The name of this component is provided by the enclosing component declaration surrounding the code. If there is no enclosing component declaration, then the contents of the file are understood to belong to a single component whose name is that of the file it is stored in, minus its suffix. For example, suppose we write the following program in a source file named “<span class="tt">HelloWorld2.fss</span>”:</p>
-<div class="fx nb both" id="c-90a7c9de" data-kind="code" data-example="HelloWorld2"><div class="fx-r"><svg class="tx" data-d="3" viewBox="-0.60 11.81 179.96 31.03" width="17.996em" height="3.103em" fill="currentColor"><text class='t0' x='0' y='19.33'>export</text>
-<text class='t1' x='34.15' y='19.33'>Executable</text>
-<text class='t2' x='0' y='39.75'>run</text>
-<text class='t1' x='15.91' y='39.75'>(<tspan x='20.2'>)</tspan><tspan x='26.84'>=</tspan></text>
-<text class='t2' x='37.36' y='39.75'>print</text>
-<text class='t3' x='62.33' y='39.75'>“</text>
-<text class='t4' x='66.75' y='39.75'>Hi,<tspan x='90.67'>it’s</tspan><tspan x='120.55'>me</tspan><tspan x='138.49'>again!</tspan></text>
-<text class='t3' x='174.35' y='39.75'>”</text></svg></div><pre class="fx-s"><code>export Executable
+<div class="fx nb both" id="c-90a7c9de" data-kind="code" data-example="HelloWorld2"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.81 182.31 22.56" width="18.231em" height="2.256em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>export</text>
+<text class='t1' x='46.33' y='19.33'>Executable</text>
+<text class='t2' x='9.96' y='31.28'>run</text>
+<text class='t1' x='25.88' y='31.28'>()<tspan x='36.39'>=</tspan></text>
+<text class='t2' x='46.91' y='31.28'>print</text>
+<text class='t3' x='74.65' y='31.28'>“</text>
+<text class='t4' x='79.07' y='31.28'>Hi,<tspan x='102.98'>it’s</tspan><tspan x='132.87'>me</tspan><tspan x='150.8'>again!</tspan></text>
+<text class='t3' x='186.67' y='31.28'>”</text></svg></div><pre class="fx-s"><code>export Executable
 run() = print "Hi, it's me again!"</code></pre></div>
 <p id="p-04f71d6d" class="nb">When we compile this file:</p>
 <p id="p-ffe59943" class="nb"><span class="tt">fortress compile HelloWorld2.fss</span></p>
@@ -159,11 +159,11 @@ end</code></pre></div>
 <section class="sec" data-num="2.2" data-title="Exports and Imports">
 <h2 id="sec-overview-apis" class="nb"><span class="num">2.2</span> Exports and Imports</h2>
 <p id="p-934d16e7" class="nb">When a component is defined, it can include <em>export statements</em>. For example, all of the components we have defined thus far have included the export statement “<span class="m"><span class="kw">export</span> <span class="ty">Executable</span></span>”. Export statements list various <em>APIs</em> that a component implements. Unlike in other languages, APIs in Fortress are themselves program constructs; programmers can rely on standard APIs, and declare new ones. API declarations are sequences of declarations of variables, functions, and other program constructs, along with their types and other supporting declarations. For example, here is the definition of API <span class="m"><span class="ty">Executable</span></span>:</p>
-<div class="fx nb both" id="c-4d96f3e6" data-kind="code" data-example="Executable"><div class="fx-r"><svg class="tx" data-d="6" viewBox="-0.60 11.81 67.67 48.97" width="6.767em" height="4.897em" fill="currentColor"><text class='t0' x='0' y='19.33'>api</text>
-<text class='t1' x='18.46' y='19.33'>Executable</text>
-<text class='t2' x='8.86' y='39.75'>run</text>
-<text class='t1' x='24.77' y='39.75'>(<tspan x='29.06'>):</tspan><tspan x='37.36'>(</tspan><tspan x='41.65'>)</tspan></text>
-<text class='t0' x='0' y='60.17'>end</text></svg></div><pre class="fx-s"><code>api Executable
+<div class="fx nb both" id="c-4d96f3e6" data-kind="code" data-example="Executable"><div class="fx-r"><svg class="tx" data-d="6" viewBox="9.36 11.81 69.89 32.03" width="6.989em" height="3.203em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>api</text>
+<text class='t1' x='30.63' y='19.33'>Executable</text>
+<text class='t2' x='21.92' y='31.28'>run</text>
+<text class='t1' x='37.83' y='31.28'>():<tspan x='50.01'>()</tspan></text>
+<text class='t0' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>api Executable
   run(): ()
 end</code></pre></div>
 <p id="p-7dd4cf05" class="nb">This API contains the declaration of a single function <span class="m"><i>run</i></span>, whose type is <span class="m">(<span class="ty">String</span>…) → ()</span>. This type is an <em>arrow type</em>; it declares the type of a function’s parameter, and its return type. The function <span class="m"><i>run</i></span> includes a single parameter; the notion <span class="m">(<span class="ty">String</span>…)</span> indicates that it is a <em>varargs</em> parameter; the function <span class="m"><i>run</i></span> can be called with an arbitrary number of string arguments. For example, here are valid calls to this function:</p>
@@ -202,17 +202,17 @@ run("run(...)")</code></pre></div>
 <p id="p-ef7dd875" class="nb">As with components, APIs can be defined in files and compiled. APIs must be defined in files with the suffix <span class="tt">.fsi</span>. An <span class="tt">.fsi</span> file contains source code for exactly one API, and its name must match the file name, minus the suffix. If there are no explicit “<span class="m"><span class="kw">api</span></span>” headers, the file is understood to define a single API whose name is the name of the containing file (minus its suffix).</p>
 <p id="p-751234d0" class="nb">An API is compiled with the shell command “<span class="tt">fortress compile</span>”. When an API is compiled, it is installed in the resident fortress.</p>
 <p id="p-06685f05" class="nb">For example, if we store the following API in a file named “<span class="tt">Zeepf.fsi</span>”:</p>
-<div class="fx nb both" id="c-88f2b7cc" data-kind="code" data-example="Zeepf"><div class="fx-r"><svg class="tx" data-d="8" viewBox="-0.60 11.81 97.91 69.39" width="9.791em" height="6.939em" fill="currentColor"><text class='t0' x='0' y='19.33'>api</text>
-<text class='t1' x='18.46' y='19.33'>Zeepf</text>
-<text class='t2' x='8.86' y='39.75'>fo<tspan x='16.49'>o</tspan></text>
-<text class='t1' x='22.21' y='39.75'>:<tspan x='26.64'>String</tspan></text>
-<text class='t6' x='56.14' y='39.75'>→</text>
-<text class='t1' x='68.87' y='39.75'>(<tspan x='73.16'>)</tspan></text>
-<text class='t2' x='8.86' y='60.17'>b<tspan x='12.93'>az</tspan></text>
-<text class='t1' x='23.32' y='60.17'>:<tspan x='27.75'>String</tspan></text>
-<text class='t6' x='57.25' y='60.17'>→</text>
-<text class='t1' x='69.98' y='60.17'>String</text>
-<text class='t0' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>api Zeepf
+<div class="fx nb both" id="c-88f2b7cc" data-kind="code" data-example="Zeepf"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 11.81 101.01 43.98" width="10.101em" height="4.398em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>api</text>
+<text class='t1' x='30.63' y='19.33'>Zeepf</text>
+<text class='t2' x='21.92' y='31.28'>fo<tspan x='29.56'>o</tspan></text>
+<text class='t1' x='35.28' y='31.28'>:<tspan x='39.7'>String</tspan></text>
+<text class='t6' x='69.2' y='31.28'>→</text>
+<text class='t1' x='81.93' y='31.28'>()</text>
+<text class='t2' x='21.92' y='43.24'>b<tspan x='25.99'>az</tspan></text>
+<text class='t1' x='36.38' y='43.24'>:<tspan x='40.81'>String</tspan></text>
+<text class='t6' x='70.31' y='43.24'>→</text>
+<text class='t1' x='83.04' y='43.24'>String</text>
+<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>api Zeepf
   foo: String -&gt; ()
   baz: String -&gt; String
 end</code></pre></div>
@@ -221,41 +221,41 @@ end</code></pre></div>
 <p id="p-f245a434" class="nb">This command compiles the API <span class="m"><span class="ty">Zeepf</span></span> and installs it in the resident fortress.</p>
 <p id="p-d872630c" class="nb">Unlike component compilation, API compilation does not shadow existing elements of a fortress. If we attempt to compile an API with the same name as an API already defined in the resident fortress, an error is signaled and the fortress is left unchanged. To remove an API, we must first remove all components referring to the API, and then issue the shell command “<span class="tt">fortress removeApi</span>”.</p>
 <p id="p-38b3a9c3" class="nb">A component that exports an API must provide a definition for every program construct declared in the API. For example, because our component <span class="m"><span class="ty">HelloWorld</span></span>:</p>
-<div class="fx nb both" id="c-10c268f4-2" data-kind="code" data-example="HelloWorld"><div class="fx-r"><svg class="tx" data-d="9" viewBox="-0.60 11.81 158.93 69.39" width="15.893em" height="6.939em" fill="currentColor"><text class='t0' x='0' y='19.33'>component</text>
-<text class='t1' x='49.84' y='19.33'>HelloW<tspan x='81.67'>orld</tspan></text>
-<text class='t0' x='8.86' y='39.75'>export</text>
-<text class='t1' x='43' y='39.75'>Executable</text>
-<text class='t2' x='8.86' y='60.17'>run</text>
-<text class='t1' x='24.77' y='60.17'>(<tspan x='29.06'>)</tspan><tspan x='35.7'>=</tspan></text>
-<text class='t2' x='46.22' y='60.17'>print</text>
-<text class='t3' x='71.19' y='60.17'>“</text>
-<text class='t4' x='75.61' y='60.17'>Hello,<tspan x='117.45'>world!</tspan></text>
-<text class='t3' x='153.32' y='60.17'>”</text>
-<text class='t0' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>component HelloWorld
+<div class="fx nb both" id="c-10c268f4-2" data-kind="code" data-example="HelloWorld"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.81 164.38 43.98" width="16.438em" height="4.398em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>component</text>
+<text class='t1' x='62.02' y='19.33'>HelloW<tspan x='93.84'>orld</tspan></text>
+<text class='t0' x='21.92' y='31.28'>export</text>
+<text class='t1' x='58.28' y='31.28'>Executable</text>
+<text class='t2' x='21.92' y='43.24'>run</text>
+<text class='t1' x='37.83' y='43.24'>()<tspan x='48.35'>=</tspan></text>
+<text class='t2' x='58.86' y='43.24'>print</text>
+<text class='t3' x='86.6' y='43.24'>“</text>
+<text class='t4' x='91.03' y='43.24'>Hello,<tspan x='132.87'>world!</tspan></text>
+<text class='t3' x='168.73' y='43.24'>”</text>
+<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>component HelloWorld
   export Executable
   run() = print "Hello, world!"
 end</code></pre></div>
 <p id="p-0175c509" class="nb">exports the API <span class="m"><span class="ty">Executable</span></span>, it must include a definition for the function <span class="m"><i>run</i></span>. The definition of <span class="m"><i>run</i></span> in <span class="m"><span class="ty">HelloWorld</span></span> need not include declarations of the parameter type or return type of <span class="m"><i>run</i></span>, as these can be inferred from the definition of API <span class="m"><span class="ty">Executable</span></span>.</p>
 <p id="p-32b06673" class="nb">Components are also allowed to <em>import</em> APIs. A component that imports an API is allowed to use any of the program constructs declared in that API. For example, the following component imports the API <span class="m"><span class="ty">Zeepf</span></span> and calls the function <span class="m"><i>foo</i></span> declared in <span class="m"><span class="ty">Zeepf</span></span>:</p>
-<div class="fx nb both" id="c-4dc35981" data-kind="code" data-example="Blargh"><div class="fx-r"><svg class="tx" data-d="10" viewBox="-0.60 11.81 125.19 89.81" width="12.519em" height="8.981em" fill="currentColor"><text class='t0' x='0' y='19.33'>component</text>
-<text class='t1' x='49.84' y='19.33'>Blargh</text>
-<text class='t0' x='8.86' y='39.75'>import</text>
-<text class='t1' x='43' y='39.75'>Zeepf</text>
-<text class='t5' x='67.3' y='39.75'>.</text>
-<text class='t6' x='70.07' y='39.75'>{</text>
-<text class='t5' x='75.05' y='39.75'>.<tspan x='79.48'>.</tspan><tspan x='83.91'>.</tspan></text>
-<text class='t6' x='86.67' y='39.75'>}</text>
-<text class='t0' x='8.86' y='60.17'>export</text>
-<text class='t1' x='43' y='60.17'>Executable</text>
-<text class='t2' x='8.86' y='80.6'>run</text>
-<text class='t1' x='24.77' y='80.6'>(<tspan x='29.06'>)</tspan><tspan x='35.7'>=</tspan></text>
-<text class='t2' x='46.22' y='80.6'>fo<tspan x='53.85'>o</tspan></text>
-<text class='t1' x='59.57' y='80.6'>(</text>
-<text class='t3' x='63.45' y='80.6'>“</text>
-<text class='t4' x='67.87' y='80.6'>whatever</text>
-<text class='t3' x='115.69' y='80.6'>”</text>
-<text class='t1' x='120.12' y='80.6'>)</text>
-<text class='t0' x='0' y='101.02'>end</text></svg></div><pre class="fx-s"><code>component Blargh
+<div class="fx nb both" id="c-4dc35981" data-kind="code" data-example="Blargh"><div class="fx-r"><svg class="tx" data-d="10" viewBox="9.36 11.81 127.88 55.94" width="12.788em" height="5.594em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>component</text>
+<text class='t1' x='62.02' y='19.33'>Blargh</text>
+<text class='t0' x='21.92' y='31.28'>import</text>
+<text class='t1' x='58.28' y='31.28'>Zeepf</text>
+<text class='t5' x='82.58' y='31.28'>.</text>
+<text class='t6' x='85.35' y='31.28'>{</text>
+<text class='t5' x='90.33' y='31.28'>.<tspan x='94.76'>.</tspan><tspan x='99.18'>.</tspan></text>
+<text class='t6' x='101.95' y='31.28'>}</text>
+<text class='t0' x='21.92' y='43.24'>export</text>
+<text class='t1' x='58.28' y='43.24'>Executable</text>
+<text class='t2' x='21.92' y='55.19'>run</text>
+<text class='t1' x='37.83' y='55.19'>()<tspan x='48.35'>=</tspan></text>
+<text class='t2' x='58.86' y='55.19'>fo<tspan x='66.5'>o</tspan></text>
+<text class='t1' x='72.22' y='55.19'>(</text>
+<text class='t3' x='76.1' y='55.19'>“</text>
+<text class='t4' x='80.52' y='55.19'>whatever</text>
+<text class='t3' x='128.34' y='55.19'>”</text>
+<text class='t1' x='132.76' y='55.19'>)</text>
+<text class='t0' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>component Blargh
   import Zeepf.{...}
   export Executable
   run() = foo("whatever")
@@ -267,14 +267,14 @@ end</code></pre></div>
 <text class='t5' x='61.55' y='19.33'>S</text>
 <text class='t6' x='68.23' y='19.33'>}</text></svg></div><pre class="fx-s"><code>import A.{S}</code></pre></div>
 <p id="p-d9b370aa" class="nb">all names in the list of names <span class="m"><i>S</i></span> are imported from API <span class="m"><i>A</i></span>, and can be referred to as unqualified names within the importing component. In the example above, the names we have imported consist of a single name: <span class="m"><i>foo</i></span>. If we had instead written:</p>
-<div class="fx nb both" id="c-39b01bc1" data-kind="code" data-example="Blargh2"><div class="fx-r"><svg class="tx" data-d="12" viewBox="-0.60 11.26 104.63 11.16" width="10.463em" height="1.116em" fill="currentColor"><text class='t0' x='0' y='19.33'>import</text>
-<text class='t1' x='34.15' y='19.33'>Zeepf</text>
-<text class='t5' x='58.45' y='19.33'>.</text>
-<text class='t6' x='61.21' y='19.33'>{</text>
-<text class='t2' x='66.2' y='19.33'>fo<tspan x='73.83'>o</tspan></text>
-<text class='t5' x='79.55' y='19.33'>,</text>
-<text class='t2' x='83.98' y='19.33'>b<tspan x='88.06'>az</tspan></text>
-<text class='t6' x='98.45' y='19.33'>}</text></svg></div><pre class="fx-s"><code>import Zeepf.{foo, baz}</code></pre></div>
+<div class="fx nb both" id="c-39b01bc1" data-kind="code" data-example="Blargh2"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 11.26 106.84 11.16" width="10.684em" height="1.116em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>import</text>
+<text class='t1' x='46.33' y='19.33'>Zeepf</text>
+<text class='t5' x='70.62' y='19.33'>.</text>
+<text class='t6' x='73.39' y='19.33'>{</text>
+<text class='t2' x='78.37' y='19.33'>fo<tspan x='86.01'>o</tspan></text>
+<text class='t5' x='91.73' y='19.33'>,</text>
+<text class='t2' x='96.16' y='19.33'>b<tspan x='100.23'>az</tspan></text>
+<text class='t6' x='110.62' y='19.33'>}</text></svg></div><pre class="fx-s"><code>import Zeepf.{foo, baz}</code></pre></div>
 <p id="p-e08899a3" class="nb">then we would have been able to refer to both <span class="m"><i>foo</i></span> and <span class="m"><i>baz</i></span> as unqualified names in <span class="m"><span class="ty">Blargh</span></span>.</p>
 <p id="p-00625366" class="nb">Note that no component refers directly to another component, or to constructs defined in another component. Instead, <em>all external references go through APIs</em>. This level of indirection provides us with significant power. It provides a way to hide implementation details in a component. Also, our intention is that in future implementations, it will be possible to make use of APIs to provide sophisticated link and upgrade operations for the purposes of building large programs.</p>
 <p id="p-f6724fba" class="nb">Components that contain no import statements and export the API <span class="m"><span class="ty">Executable</span></span> are referred to as <em>executable components</em>. They can be compiled and executed directly as stand-alone components. All of our <span class="m"><span class="ty">HelloWorld</span></span> components are executable components. However, if a component imports one or more APIs, it cannot be executed as a stand-alone program. Instead, its imports are resolved to other components that export all of the APIs it imports, to form a new <em>compound</em> component. For example, we define the following component in a file named <span class="tt">Ralph.fss</span>:</p>
@@ -310,22 +310,22 @@ end</code></pre></div>
 <p id="p-6f58b5c1" class="nb">One aspect of Fortress that is quite different from many other languages is that various program constructs are rendered in particular fonts, so as to emulate mathematical notation. For example, variable names are rendered in italic fonts. Many other program constructs have their own rendering rules. For example, the operator <code>^</code> indicates superscripting in Fortress. A function definition consisting of the following ASCII characters:</p>
 <pre class="vb nb" id="c-d116082d" data-kind="code"><code>f(x) = x^2 + sin x - cos 2 x</code></pre>
 <p id="p-7aa49600" class="nb">is rendered as follows:</p>
-<div class="fx nb both" id="c-d116082d-2" data-kind="code" data-example="Overview.Rendering.a"><div class="fx-r"><svg class="tx" data-d="13" viewBox="-0.60 10.36 118.63 12.30" width="11.863em" height="1.230em" fill="currentColor"><text class='t5' x='0' y='19.57'>f</text>
-<text class='t1' x='5.95' y='19.57'>(</text>
-<text class='t5' x='9.82' y='19.57'>x</text>
-<text class='t1' x='15.52' y='19.57'>)<tspan x='22.16'>=</tspan></text>
-<text class='t5' x='32.68' y='19.57'>x</text>
-<text class='t7' x='38.37' y='15.45'>2</text>
-<text class='t1' x='45.05' y='19.57'>+<tspan x='55.02'>sin</tspan></text>
-<text class='t5' x='70.57' y='19.57'>x</text>
-<text class='t6' x='78.48' y='19.57'>−</text>
-<text class='t1' x='88.44' y='19.57'>cos<tspan x='105.1'>2</tspan></text>
-<text class='t5' x='111.74' y='19.57'>x</text></svg></div><pre class="fx-s"><code>f(x) = x^2 + sin x - cos 2 x</code></pre></div>
+<div class="fx nb both" id="c-d116082d-2" data-kind="code" data-example="Overview.Rendering.a"><div class="fx-r"><svg class="tx" data-d="13" viewBox="9.36 10.62 113.65 11.80" width="11.365em" height="1.180em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>f</text>
+<text class='t1' x='15.91' y='19.33'>(</text>
+<text class='t5' x='19.79' y='19.33'>x</text>
+<text class='t1' x='25.48' y='19.33'>)<tspan x='32.12'>=</tspan></text>
+<text class='t5' x='42.64' y='19.33'>x</text>
+<text class='t7' x='48.33' y='15.71'>2</text>
+<text class='t1' x='55.02' y='19.33'>+<tspan x='64.98'>sin</tspan></text>
+<text class='t5' x='78.87' y='19.33'>x</text>
+<text class='t6' x='86.78' y='19.33'>−</text>
+<text class='t1' x='96.74' y='19.33'>cos<tspan x='111.74'>2</tspan></text>
+<text class='t5' x='116.72' y='19.33'>x</text></svg></div><pre class="fx-s"><code>f(x) = x^2 + sin x - cos 2 x</code></pre></div>
 <p id="p-6b1b9377" class="nb">Array indexing, written with brackets:</p>
 <pre class="vb nb" id="c-3f33d85a" data-kind="code"><code>a[i]</code></pre>
 <p id="p-7aa49600-2" class="nb">is rendered as follows:</p>
-<div class="fx nb both" id="c-3f33d85a-2" data-kind="code" data-example="Overview.Rendering.b"><div class="fx-r"><svg class="tx" data-d="14" viewBox="-0.60 14.44 9.28 6.98" width="0.928em" height="0.698em" fill="currentColor"><text class='t5' x='0' y='19.33'>a</text>
-<text class='t8' x='5.27' y='20.82'>i</text></svg></div><pre class="fx-s"><code>a[i]</code></pre></div>
+<div class="fx nb both" id="c-3f33d85a-2" data-kind="code" data-example="Overview.Rendering.b"><div class="fx-r"><svg class="tx" data-d="14" viewBox="9.36 14.44 9.28 6.98" width="0.928em" height="0.698em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>a</text>
+<text class='t8' x='15.23' y='20.82'>i</text></svg></div><pre class="fx-s"><code>a[i]</code></pre></div>
 <p id="p-a82cba1a" class="nb">There are many other examples of special rendering conventions.</p>
 <p id="p-556e3c9d" class="nb">Fortress also supports the use of Unicode characters [<a class="cite" href="references.html#ref-Unicode">Unicode</a>] in identifiers. In order to make it easy to enter such characters with today’s input devices, Fortress defines a convention for keyboard entry: ASCII names (and abbreviations) of Unicode characters can be written in a program in all caps (with spaces replaced by underscores). Such identifiers are converted to Unicode characters. For example, the identifier:</p>
 <pre class="vb nb" id="c-fa5339aa" data-kind="code"><code>GREEK_CAPITAL_LETTER_LAMBDA</code></pre>
@@ -434,57 +434,56 @@ end</code></pre></div>
 <section class="sec" data-num="2.5" data-title="Some Common Types in Fortress">
 <h2 id="s-some-common-types-in-fortress" class="nb"><span class="num">2.5</span> Some Common Types in Fortress</h2>
 <p id="p-ce3afde7" class="nb">Fortress provides a wide variety of standard types, including <span class="m"><span class="ty">String</span></span>, <span class="m"><span class="ty">Boolean</span></span>, and various numeric types. The floating-point type <span class="m">ℝ64</span> (written in ASCII as <code>RR64</code>) is the type of 64-bit precision floating-point numbers. For example, the following function takes a 64-bit float and returns a 64-bit float:</p>
-<div class="fx nb both" id="c-63e9ef44" data-kind="code" data-example="Overview.Types"><div class="fx-r"><svg class="tx" data-d="16" viewBox="-0.60 10.36 100.63 19.06" width="10.063em" height="1.906em" fill="currentColor"><text class='t2' x='0' y='21.99'>halve</text>
-<text class='t1' x='22.64' y='21.99'>(</text>
-<text class='t5' x='26.52' y='21.99'>x</text>
-<text class='t1' x='32.21' y='21.99'>:</text>
-<text class='t12' x='36.64' y='21.99'>R</text>
-<text class='t1' x='43.84' y='21.99'>64):</text>
-<text class='t12' x='62.1' y='21.99'>R</text>
-<text class='t1' x='69.3' y='21.99'>64<tspan x='82.03'>=</tspan></text>
-<text class='t5' x='93.74' y='15.25'>x</text>
-<rect x='93.74' y='19.3' height='.4' width='5.69'/>
-<text class='t1' x='94.09' y='28.82'>2</text></svg></div><pre class="fx-s"><code>halve(x: RR64): RR64 = x/2</code></pre></div>
+<div class="fx nb both" id="c-63e9ef44" data-kind="code" data-example="Overview.Types"><div class="fx-r"><svg class="tx" data-d="16" viewBox="9.36 11.26 109.40 11.16" width="10.940em" height="1.116em" fill="currentColor"><text class='t2' x='9.96' y='19.33'>halve</text>
+<text class='t1' x='32.61' y='19.33'>(</text>
+<text class='t5' x='36.48' y='19.33'>x</text>
+<text class='t1' x='42.18' y='19.33'>:</text>
+<text class='t12' x='46.6' y='19.33'>R</text>
+<text class='t1' x='53.8' y='19.33'>64):</text>
+<text class='t12' x='72.06' y='19.33'>R</text>
+<text class='t1' x='79.26' y='19.33'>64<tspan x='91.99'>=</tspan></text>
+<text class='t5' x='102.5' y='19.33'>x/</text>
+<text class='t1' x='113.18' y='19.33'>2</text></svg></div><pre class="fx-s"><code>halve(x: RR64): RR64 = x/2</code></pre></div>
 <p id="p-6cb1d44a" class="nb">Predictably, 32-bit precision floats are written <span class="m">ℝ32</span>.</p>
 <p id="p-2061c8e4" class="nb">64-bit integers are denoted by the type <span class="m">ℤ64</span> and 32-bit integers by the type <span class="m">ℤ32</span> and infinite precision integers by the type <span class="m">ℤ</span>.</p>
 </section>
 <section class="sec" data-num="2.6" data-title="Functions in Fortress">
 <h2 id="s-functions-in-fortress" class="nb"><span class="num">2.6</span> Functions in Fortress</h2>
 <p id="p-2510e038" class="nb">Fortress allows recursive, and mutually recursive function definitions. Here is a simple definition of a <span class="m"><i>factorial</i></span> function in Fortress:</p>
-<div class="fx nb both" id="c-0184cecc" data-kind="code" data-example="Overview.Function.factorial"><div class="fx-r"><svg class="tx" data-d="17" viewBox="-0.60 11.26 127.78 52.01" width="12.778em" height="5.201em" fill="currentColor"><text class='t2' x='0' y='19.33'>factorial</text>
-<text class='t1' x='37.06' y='19.33'>(</text>
-<text class='t5' x='40.93' y='19.33'>n</text>
-<text class='t1' x='46.91' y='19.33'>)<tspan x='53.55'>=</tspan></text>
-<text class='t0' x='8.86' y='39.75'>if</text>
-<text class='t5' x='22.08' y='39.75'>n</text>
-<text class='t1' x='30.83' y='39.75'>=<tspan x='41.35'>0</tspan></text>
-<text class='t0' x='49.1' y='39.75'>then</text>
-<text class='t1' x='72.78' y='39.75'>1</text>
-<text class='t0' x='8.86' y='60.17'>else</text>
-<text class='t5' x='32.54' y='60.17'>n</text>
-<text class='t2' x='40.18' y='60.17'>factorial</text>
-<text class='t1' x='77.24' y='60.17'>(</text>
-<text class='t5' x='81.11' y='60.17'>n</text>
-<text class='t6' x='89.31' y='60.17'>−</text>
-<text class='t1' x='99.27' y='60.17'>1)</text>
-<text class='t0' x='110.89' y='60.17'>end</text></svg></div><pre class="fx-s"><code>factorial(n) =
+<div class="fx nb both" id="c-0184cecc" data-kind="code" data-example="Overview.Function.factorial"><div class="fx-r"><svg class="tx" data-d="17" viewBox="9.36 11.26 133.65 35.07" width="13.365em" height="3.507em" fill="currentColor"><text class='t2' x='9.96' y='19.33'>factorial</text>
+<text class='t1' x='47.02' y='19.33'>(</text>
+<text class='t5' x='50.89' y='19.33'>n</text>
+<text class='t1' x='56.87' y='19.33'>)<tspan x='63.51'>=</tspan></text>
+<text class='t0' x='21.92' y='31.28'>if</text>
+<text class='t5' x='37.36' y='31.28'>n</text>
+<text class='t1' x='46.11' y='31.28'>=<tspan x='56.62'>0</tspan></text>
+<text class='t0' x='64.37' y='31.28'>then</text>
+<text class='t1' x='88.06' y='31.28'>1</text>
+<text class='t0' x='21.92' y='43.24'>else</text>
+<text class='t5' x='47.82' y='43.24'>n</text>
+<text class='t2' x='56.01' y='43.24'>factorial</text>
+<text class='t1' x='93.07' y='43.24'>(</text>
+<text class='t5' x='96.94' y='43.24'>n</text>
+<text class='t6' x='105.14' y='43.24'>−</text>
+<text class='t1' x='115.1' y='43.24'>1)</text>
+<text class='t0' x='126.72' y='43.24'>end</text></svg></div><pre class="fx-s"><code>factorial(n) =
   if n = 0 then 1
   else n factorial(n-1) end</code></pre></div>
 <section class="sec" data-num="2.6.1" data-title="Juxtaposition and function application">
 <h3 id="s-juxtaposition-and-function-application" class="nb"><span class="num">2.6.1</span> Juxtaposition and function application</h3>
 <p id="p-43d28c08" class="nb">In the definition of <span class="m"><i>factorial</i></span>, note the juxtaposition of parameter <span class="m"><i>n</i></span> with the recursive call <span class="m"><i>factorial</i>(<i>n</i> − 1)</span>. In Fortress, as in mathematics, multiplication is represented through juxtaposition. By default, two expressions of numeric type that are juxtaposed represent a multiplication. On the other hand, juxtaposition of an expression of function type with another expression to its right represents function application, as in the following example:</p>
-<div class="fx nb both" id="c-9e8c9f3b" data-kind="code" data-example="Overview.Juxt.sin"><div class="fx-r"><svg class="tx" data-d="18" viewBox="-0.60 12.07 22.45 7.85" width="2.245em" height="0.785em" fill="currentColor"><text class='t1' x='0' y='19.33'>sin</text>
-<text class='t5' x='15.55' y='19.33'>x</text></svg></div><pre class="fx-s"><code>sin x</code></pre></div>
+<div class="fx nb both" id="c-9e8c9f3b" data-kind="code" data-example="Overview.Juxt.sin"><div class="fx-r"><svg class="tx" data-d="18" viewBox="9.36 12.07 20.79 7.85" width="2.079em" height="0.785em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>sin</text>
+<text class='t5' x='23.85' y='19.33'>x</text></svg></div><pre class="fx-s"><code>sin x</code></pre></div>
 <p id="p-0dc532e8" class="nb">Moreover, juxtaposition of expressions of string type represents concatenation, as in the following example:</p>
-<div class="fx nb both" id="c-144cac88" data-kind="code" data-example="Overview.Juxt.String"><div class="fx-r"><svg class="tx" data-d="19" viewBox="-0.60 12.00 152.47 9.39" width="15.247em" height="0.939em" fill="currentColor"><text class='t3' x='0' y='19.33'>“</text>
-<text class='t4' x='4.42' y='19.33'>Hi,</text>
-<text class='t3' x='22.36' y='19.33'>”<tspan x='29.55'>“</tspan></text>
-<text class='t4' x='39.95' y='19.33'>it’s</text>
-<text class='t3' x='63.86' y='19.33'>”<tspan x='71.05'>“</tspan></text>
-<text class='t4' x='81.45' y='19.33'>me</text>
-<text class='t3' x='93.4' y='19.33'>”<tspan x='100.6'>“</tspan></text>
-<text class='t4' x='111' y='19.33'>again.</text>
-<text class='t3' x='146.86' y='19.33'>”</text></svg></div><pre class="fx-s"><code>"Hi," " it's" " me" " again."</code></pre></div>
+<div class="fx nb both" id="c-144cac88" data-kind="code" data-example="Overview.Juxt.String"><div class="fx-r"><svg class="tx" data-d="19" viewBox="9.36 12.00 160.77 9.39" width="16.077em" height="0.939em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>“</text>
+<text class='t4' x='14.39' y='19.33'>Hi,</text>
+<text class='t3' x='32.32' y='19.33'>”<tspan x='42.28'>“</tspan></text>
+<text class='t4' x='52.68' y='19.33'>it’s</text>
+<text class='t3' x='76.59' y='19.33'>”<tspan x='86.55'>“</tspan></text>
+<text class='t4' x='96.95' y='19.33'>me</text>
+<text class='t3' x='108.9' y='19.33'>”<tspan x='118.86'>“</tspan></text>
+<text class='t4' x='129.26' y='19.33'>again.</text>
+<text class='t3' x='165.13' y='19.33'>”</text></svg></div><pre class="fx-s"><code>"Hi," " it's" " me" " again."</code></pre></div>
 <p id="p-5da8ad0e" class="nb">In fact, juxtaposition is an operator in Fortress, just like <span class="m">+</span> and <span class="m">−</span>, that is overloaded based on the runtime types of its arguments.</p>
 <p id="p-5a6d033f" class="nb">There is a special case concerning juxtaposition that is important to mention: When writing a numeric literal, the <em>digit-group separator</em>, <span class="tt">NARROW NO-BREAK SPACE</span> (U+202F), may be included between the digits in order to improve readability. In ASCII, this character can be abbreviated in the context of a numeric literal (<em>and only in this context</em>) with the character <span class="tt">'</span>. For example, the number 299,792,458 can be denoted in ASCII by the following numeric literal:</p>
 <pre class="vb nb" id="c-6813238e" data-kind="code"><code>299'792'458</code></pre>
@@ -553,34 +552,32 @@ end</code></pre></div>
 <section class="sec" data-num="2.6.3" data-title="Varargs Parameters">
 <h3 id="s-varargs-parameters" class="nb"><span class="num">2.6.3</span> Varargs Parameters</h3>
 <p id="p-77a385c8" class="nb">It is also possible to define functions that take a variable number of arguments. For example:</p>
-<div class="fx nb both" id="c-b8317fa8" data-kind="code" data-example="Overview.Function.printFirst"><div class="fx-r"><svg class="tx" data-d="23" viewBox="-0.60 11.26 256.71 49.62" width="25.671em" height="4.962em" fill="currentColor"><text class='t2' x='0' y='19.33'>printFirst</text>
-<text class='t1' x='43.35' y='19.33'>(</text>
-<text class='t2' x='47.22' y='19.33'>xs</text>
-<text class='t1' x='56.73' y='19.33'>:</text>
-<text class='t12' x='61.16' y='19.33'>Z</text>
-<text class='t1' x='67.8' y='19.33'>32</text>
-<text class='t5' x='79.43' y='19.33'>.<tspan x='83.85'>.</tspan><tspan x='88.28'>.</tspan></text>
-<text class='t1' x='91.05' y='19.33'>)<tspan x='97.69'>=</tspan></text>
-<text class='t0' x='8.86' y='39.85'>if</text>
-<text class='t2' x='22.08' y='39.85'>xs</text>
-<text class='t5' x='31.6' y='39.85'>.</text>
-<text class='t2' x='34.36' y='39.85'>r<tspan x='38.06'>e</tspan><tspan x='42.13'>duc</tspan><tspan x='56.64'>e</tspan></text>
-<text class='t11' x='61.97' y='31.78'></text>
-<text class='t1' x='66.54' y='39.85'>SizeReduction</text>
-<text class='t13' x='128.11' y='39.85'></text>
-<text class='t12' x='132.13' y='39.85'>Z</text>
-<text class='t1' x='138.77' y='39.85'>32</text>
-<text class='t13' x='148.73' y='39.85'></text>
-<text class='t1' x='152.74' y='39.85'>(<tspan x='157.03'>)</tspan></text>
-<text class='t11' x='160.91' y='31.78'></text>
-<text class='t5' x='168.24' y='39.85'>></text>
-<text class='t1' x='178.76' y='39.85'>0</text>
-<text class='t0' x='186.51' y='39.85'>then</text>
-<text class='t2' x='210.19' y='39.85'>println<tspan x='242.03'>xs</tspan></text>
-<text class='t7' x='251.54' y='41.34'>0</text>
-<text class='t0' x='8.86' y='60.27'>else<tspan x='35.31'>throw</tspan></text>
-<text class='t1' x='64.23' y='60.27'>Error</text>
-<text class='t0' x='90.47' y='60.27'>end</text></svg></div><pre class="fx-s"><code>printFirst(xs: ZZ32...) =
+<div class="fx nb both" id="c-b8317fa8" data-kind="code" data-example="Overview.Function.printFirst"><div class="fx-r"><svg class="tx" data-d="23" viewBox="9.36 11.26 262.99 32.58" width="26.299em" height="3.258em" fill="currentColor"><text class='t2' x='9.96' y='19.33'>printFirst</text>
+<text class='t1' x='53.31' y='19.33'>(</text>
+<text class='t2' x='57.18' y='19.33'>xs</text>
+<text class='t1' x='66.7' y='19.33'>:</text>
+<text class='t12' x='71.12' y='19.33'>Z</text>
+<text class='t1' x='77.77' y='19.33'>32</text>
+<text class='t5' x='89.39' y='19.33'>.<tspan x='93.82'>.</tspan><tspan x='98.25'>.</tspan></text>
+<text class='t1' x='101.01' y='19.33'>)<tspan x='107.65'>=</tspan></text>
+<text class='t0' x='21.92' y='31.28'>if</text>
+<text class='t2' x='37.36' y='31.28'>xs</text>
+<text class='t5' x='46.87' y='31.28'>.</text>
+<text class='t2' x='49.64' y='31.28'>r<tspan x='53.33'>e</tspan><tspan x='57.41'>duc</tspan><tspan x='71.92'>e</tspan></text>
+<text class='t1' x='77.25' y='31.28'>(SizeReduction</text>
+<text class='t13' x='142.7' y='31.28'></text>
+<text class='t12' x='146.71' y='31.28'>Z</text>
+<text class='t1' x='153.35' y='31.28'>32</text>
+<text class='t13' x='163.32' y='31.28'></text>
+<text class='t1' x='167.33' y='31.28'>())</text>
+<text class='t5' x='181.72' y='31.28'>></text>
+<text class='t1' x='192.23' y='31.28'>0</text>
+<text class='t0' x='199.98' y='31.28'>then</text>
+<text class='t2' x='225.89' y='31.28'>println<tspan x='258.27'>xs</tspan></text>
+<text class='t7' x='267.78' y='32.78'>0</text>
+<text class='t0' x='21.92' y='43.24'>else<tspan x='48.37'>throw</tspan></text>
+<text class='t1' x='79.51' y='43.24'>Error</text>
+<text class='t0' x='105.74' y='43.24'>end</text></svg></div><pre class="fx-s"><code>printFirst(xs: ZZ32...) =
   if xs.reduce(SizeReduction[\ZZ32\]()) &gt; 0 then println xs[0]
   else throw Error end</code></pre></div>
 <p id="p-e3991fa6" class="nb">This function takes an arbitrary number of integers and prints the first one (unless it is given zero arguments; then it throws an exception).</p>
@@ -588,21 +585,20 @@ end</code></pre></div>
 <section class="sec" data-num="2.6.4" data-title="Function Overloading">
 <h3 id="sec-overview-function-overloading" class="nb"><span class="num">2.6.4</span> Function Overloading</h3>
 <p id="p-828d7815" class="nb">Functions can be overloaded in Fortress by the types of their parameters. Calls to overloaded functions are resolved based on the runtime types of the arguments. For example, the following function is overloaded based on parameter type:</p>
-<div class="fx nb both" id="c-d05c5dfd" data-kind="code" data-example="Overview.Function.size"><div class="fx-r"><svg class="tx" data-d="24" viewBox="-0.60 11.26 143.40 32.68" width="14.340em" height="3.268em" fill="currentColor"><text class='t2' x='0' y='19.33'>size</text>
-<text class='t1' x='16.53' y='19.33'>(</text>
-<text class='t5' x='20.41' y='19.33'>x</text>
-<text class='t1' x='26.1' y='19.33'>:<tspan x='30.53'>Nil</tspan><tspan x='43.54'>)</tspan><tspan x='50.18'>=</tspan><tspan x='60.69'>0</tspan></text>
-<text class='t2' x='0' y='39.85'>size</text>
-<text class='t1' x='16.53' y='39.85'>(</text>
-<text class='t5' x='20.41' y='39.85'>x</text>
-<text class='t1' x='26.1' y='39.85'>:<tspan x='30.53'>Cons</tspan><tspan x='52.17'>)</tspan><tspan x='58.81'>=</tspan><tspan x='69.33'>1</tspan><tspan x='76.52'>+</tspan></text>
-<text class='t2' x='86.49' y='39.85'>size</text>
-<text class='t11' x='103.02' y='31.78'></text>
-<text class='t2' x='107.59' y='39.85'>r<tspan x='111.28'>est</tspan></text>
-<text class='t1' x='124.19' y='39.85'>(</text>
-<text class='t5' x='128.06' y='39.85'>x</text>
-<text class='t1' x='133.76' y='39.85'>)</text>
-<text class='t11' x='137.63' y='31.78'></text></svg></div><pre class="fx-s"><code>size(x: Nil) = 0
+<div class="fx nb both" id="c-d05c5dfd" data-kind="code" data-example="Overview.Function.size"><div class="fx-r"><svg class="tx" data-d="24" viewBox="9.36 11.26 142.01 23.12" width="14.201em" height="2.312em" fill="currentColor"><text class='t2' x='9.96' y='19.33'>size</text>
+<text class='t1' x='26.5' y='19.33'>(</text>
+<text class='t5' x='30.37' y='19.33'>x</text>
+<text class='t1' x='36.06' y='19.33'>:<tspan x='40.49'>Nil</tspan><tspan x='53.5'>)</tspan><tspan x='60.14'>=</tspan><tspan x='70.66'>0</tspan></text>
+<text class='t2' x='9.96' y='31.28'>size</text>
+<text class='t1' x='26.5' y='31.28'>(</text>
+<text class='t5' x='30.37' y='31.28'>x</text>
+<text class='t1' x='36.06' y='31.28'>:<tspan x='40.49'>Cons</tspan><tspan x='62.13'>)</tspan><tspan x='68.78'>=</tspan><tspan x='79.29'>1</tspan><tspan x='86.49'>+</tspan></text>
+<text class='t2' x='96.45' y='31.28'>size</text>
+<text class='t1' x='112.98' y='31.28'>(</text>
+<text class='t2' x='116.86' y='31.28'>r<tspan x='120.55'>est</tspan></text>
+<text class='t1' x='133.46' y='31.28'>(</text>
+<text class='t5' x='137.33' y='31.28'>x</text>
+<text class='t1' x='143.03' y='31.28'>))</text></svg></div><pre class="fx-s"><code>size(x: Nil) = 0
 size(x: Cons) = 1 + size(rest(x))</code></pre></div>
 <p id="p-7850a4e5" class="nb">If we call <span class="m"><i>size</i></span> on an object with runtime type <span class="m"><span class="ty">Cons</span></span>, the second definition of <span class="m"><i>size</i></span> will be invoked <em>regardless of the static type of the argument</em>. Of course, function applications are statically checked to ensure that <em>some</em> definition will be applicable at run time, and that the definition to apply will be unambiguous.</p>
 </section>
@@ -610,67 +606,65 @@ size(x: Cons) = 1 + size(rest(x))</code></pre></div>
 <h3 id="s-function-contracts" class="nb"><span class="num">2.6.5</span> Function Contracts</h3>
 <p id="p-42fbce89" class="nb">Fortress allows <em>contracts</em> to be included in function declarations. Among other things, contracts allow us to <em>require</em> that the argument to a function satisfies a given set of constraints, and to <em>ensure</em> that the resulting value satisfies some constraints. They provide essential documentation for the clients of a function, enabling us to express semantic properties that cannot be expressed through the static type system.</p>
 <p id="p-41491c69" class="nb">Contracts are placed at the end of a function header, before the function body. For example, we can place a contract on our <span class="m"><i>factorial</i></span> function requiring that its argument be nonnegative as follows:</p>
-<div class="fx nb both" id="c-02fbf984" data-kind="code" data-example="Overview.Function.contract.a"><div class="fx-r"><svg class="tx" data-d="25" viewBox="-0.60 11.26 141.07 52.01" width="14.107em" height="5.201em" fill="currentColor"><text class='t2' x='0' y='19.33'>factorial</text>
-<text class='t1' x='37.06' y='19.33'>(</text>
-<text class='t5' x='40.93' y='19.33'>n</text>
-<text class='t1' x='46.91' y='19.33'>)</text>
-<text class='t0' x='53.55' y='19.33'>requires</text>
-<text class='t6' x='98.16' y='19.33'>{</text>
-<text class='t5' x='104.8' y='19.33'>n</text>
-<text class='t6' x='113.55' y='19.33'>≥</text>
-<text class='t1' x='124.07' y='19.33'>0</text>
-<text class='t6' x='130.71' y='19.33'>}</text>
-<text class='t1' x='8.86' y='39.75'>=</text>
-<text class='t0' x='22.14' y='39.75'>if</text>
-<text class='t5' x='35.37' y='39.75'>n</text>
-<text class='t1' x='44.11' y='39.75'>=<tspan x='54.63'>0</tspan></text>
-<text class='t0' x='62.38' y='39.75'>then</text>
-<text class='t1' x='86.07' y='39.75'>1</text>
-<text class='t0' x='22.14' y='60.17'>else</text>
-<text class='t5' x='45.83' y='60.17'>n</text>
-<text class='t2' x='53.47' y='60.17'>factorial</text>
-<text class='t1' x='90.52' y='60.17'>(</text>
-<text class='t5' x='94.4' y='60.17'>n</text>
-<text class='t6' x='102.59' y='60.17'>−</text>
-<text class='t1' x='112.55' y='60.17'>1)</text>
-<text class='t0' x='124.18' y='60.17'>end</text></svg></div><pre class="fx-s"><code>factorial(n) requires { n &gt;= 0 }
+<div class="fx nb both" id="c-02fbf984" data-kind="code" data-example="Overview.Function.contract.a"><div class="fx-r"><svg class="tx" data-d="25" viewBox="9.36 11.26 144.17 35.07" width="14.417em" height="3.507em" fill="currentColor"><text class='t2' x='9.96' y='19.33'>factorial</text>
+<text class='t1' x='47.02' y='19.33'>(</text>
+<text class='t5' x='50.89' y='19.33'>n</text>
+<text class='t1' x='56.87' y='19.33'>)</text>
+<text class='t0' x='63.51' y='19.33'>requires</text>
+<text class='t6' x='108.12' y='19.33'>{</text>
+<text class='t5' x='114.77' y='19.33'>n</text>
+<text class='t6' x='123.51' y='19.33'>≥</text>
+<text class='t1' x='134.03' y='19.33'>0</text>
+<text class='t6' x='140.67' y='19.33'>}</text>
+<text class='t1' x='21.92' y='31.28'>=</text>
+<text class='t0' x='32.43' y='31.28'>if</text>
+<text class='t5' x='47.88' y='31.28'>n</text>
+<text class='t1' x='56.62' y='31.28'>=<tspan x='67.14'>0</tspan></text>
+<text class='t0' x='74.89' y='31.28'>then</text>
+<text class='t1' x='98.58' y='31.28'>1</text>
+<text class='t0' x='32.43' y='43.24'>else</text>
+<text class='t5' x='58.34' y='43.24'>n</text>
+<text class='t2' x='66.53' y='43.24'>factorial</text>
+<text class='t1' x='103.59' y='43.24'>(</text>
+<text class='t5' x='107.46' y='43.24'>n</text>
+<text class='t6' x='115.65' y='43.24'>−</text>
+<text class='t1' x='125.62' y='43.24'>1)</text>
+<text class='t0' x='137.24' y='43.24'>end</text></svg></div><pre class="fx-s"><code>factorial(n) requires { n &gt;= 0 }
   = if n = 0 then 1
     else n factorial(n-1) end</code></pre></div>
 <p id="p-6e2ba58b" class="nb">We can also ensure that the result of <span class="m"><i>factorial</i></span> is itself nonnegative:</p>
-<div class="fx nb both" id="c-ffc9847a" data-kind="code" data-example="Overview.Function.contract.b"><div class="fx-r"><svg class="tx" data-d="26" viewBox="-0.60 11.26 182.94 92.86" width="18.294em" height="9.286em" fill="currentColor"><text class='t2' x='0' y='19.33'>factorial</text>
-<text class='t1' x='37.06' y='19.33'>(</text>
-<text class='t5' x='40.93' y='19.33'>n</text>
-<text class='t1' x='46.91' y='19.33'>)</text>
-<text class='t0' x='8.86' y='39.75'>requires</text>
-<text class='t6' x='53.47' y='39.75'>{</text>
-<text class='t5' x='60.11' y='39.75'>n</text>
-<text class='t6' x='68.85' y='39.75'>≥</text>
-<text class='t1' x='79.37' y='39.75'>0</text>
-<text class='t6' x='86.01' y='39.75'>}</text>
-<text class='t0' x='8.86' y='60.17'>ensures</text>
-<text class='t6' x='48.24' y='60.17'>{</text>
-<text class='t2' x='54.88' y='60.17'>outc<tspan x='72.7'>ome</tspan></text>
-<text class='t6' x='94.04' y='60.17'>≥</text>
-<text class='t1' x='104.55' y='60.17'>1</text>
-<text class='t0' x='112.3' y='60.17'>provided</text>
-<text class='t2' x='156.91' y='60.17'>true</text>
-<text class='t6' x='176.76' y='60.17'>}</text>
-<text class='t1' x='8.86' y='80.6'>=</text>
-<text class='t0' x='22.14' y='80.6'>if</text>
-<text class='t5' x='35.37' y='80.6'>n</text>
-<text class='t1' x='44.11' y='80.6'>=<tspan x='54.63'>0</tspan></text>
-<text class='t0' x='62.38' y='80.6'>then</text>
-<text class='t1' x='86.07' y='80.6'>1</text>
-<text class='t0' x='22.14' y='101.02'>else</text>
-<text class='t5' x='45.83' y='101.02'>n</text>
-<text class='t2' x='53.47' y='101.02'>factorial</text>
-<text class='t1' x='90.52' y='101.02'>(</text>
-<text class='t5' x='94.4' y='101.02'>n</text>
-<text class='t6' x='102.59' y='101.02'>−</text>
-<text class='t1' x='112.55' y='101.02'>1)</text>
-<text class='t0' x='124.18' y='101.02'>end</text></svg></div><pre class="fx-s"><code>factorial(n)
+<div class="fx nb both" id="c-1e3c1f98" data-kind="code" data-example="Overview.Function.contract.b"><div class="fx-r"><svg class="tx" data-d="26" viewBox="9.36 11.26 144.17 58.98" width="14.417em" height="5.898em" fill="currentColor"><text class='t2' x='9.96' y='19.33'>factorial</text>
+<text class='t1' x='47.02' y='19.33'>(</text>
+<text class='t5' x='50.89' y='19.33'>n</text>
+<text class='t1' x='56.87' y='19.33'>)</text>
+<text class='t0' x='21.92' y='31.28'>requires</text>
+<text class='t6' x='66.53' y='31.28'>{</text>
+<text class='t5' x='73.17' y='31.28'>n</text>
+<text class='t6' x='81.92' y='31.28'>≥</text>
+<text class='t1' x='92.43' y='31.28'>0</text>
+<text class='t6' x='99.07' y='31.28'>}</text>
+<text class='t0' x='21.92' y='43.24'>ensures</text>
+<text class='t6' x='61.3' y='43.24'>{</text>
+<text class='t0' x='67.94' y='43.24'>outcome</text>
+<text class='t6' x='104.55' y='43.24'>≥</text>
+<text class='t1' x='115.07' y='43.24'>1</text>
+<text class='t6' x='121.71' y='43.24'>}</text>
+<text class='t1' x='21.92' y='55.19'>=</text>
+<text class='t0' x='32.43' y='55.19'>if</text>
+<text class='t5' x='47.88' y='55.19'>n</text>
+<text class='t1' x='56.62' y='55.19'>=<tspan x='67.14'>0</tspan></text>
+<text class='t0' x='74.89' y='55.19'>then</text>
+<text class='t1' x='98.58' y='55.19'>1</text>
+<text class='t0' x='32.43' y='67.15'>else</text>
+<text class='t5' x='58.34' y='67.15'>n</text>
+<text class='t2' x='66.53' y='67.15'>factorial</text>
+<text class='t1' x='103.59' y='67.15'>(</text>
+<text class='t5' x='107.46' y='67.15'>n</text>
+<text class='t6' x='115.65' y='67.15'>−</text>
+<text class='t1' x='125.62' y='67.15'>1)</text>
+<text class='t0' x='137.24' y='67.15'>end</text></svg></div><pre class="fx-s"><code>factorial(n)
   requires { n &gt;= 0 }
-  ensures { outcome &gt;= 1 provided true } 
+  ensures { outcome &gt;= 1 }
   = if n = 0 then 1
     else n factorial(n-1) end</code></pre></div>
 <p id="p-1accb138" class="nb">The variable <span class="m"><span class="kw">outcome</span></span> is bound in the <span class="m"><span class="kw">ensures</span></span> clause to the return value of the function.</p>
@@ -679,91 +673,90 @@ size(x: Cons) = 1 + size(rest(x))</code></pre></div>
 <section class="sec" data-num="2.7" data-title="Some Common Expressions in Fortress">
 <h2 id="s-some-common-expressions-in-fortress" class="nb"><span class="num">2.7</span> Some Common Expressions in Fortress</h2>
 <p id="p-953de989" class="nb">We have already seen an <span class="m"><span class="kw">if</span></span> expression in Fortress. Here’s an example of a <span class="m"><span class="kw">while</span></span> expression:</p>
-<div class="fx nb both" id="c-ddc77867" data-kind="code" data-example="Overview.Expression.whileE"><div class="fx-r"><svg class="tx" data-d="27" viewBox="4.38 12.31 72.29 68.89" width="7.229em" height="6.889em" fill="currentColor"><text class='t0' x='4.98' y='19.33'>while</text>
-<text class='t5' x='33.9' y='19.33'>x<tspan x='42.36'>&lt;</tspan></text>
-<text class='t1' x='52.88' y='19.33'>10</text>
-<text class='t0' x='65.61' y='19.33'>do</text>
-<text class='t2' x='13.84' y='39.75'>println</text>
-<text class='t5' x='45.67' y='39.75'>x<tspan x='13.84' y='60.17'>x</tspan></text>
-<text class='t1' x='22.3' y='60.17'>+<tspan x='30.05'>=</tspan><tspan x='40.56'>1</tspan></text>
-<text class='t0' x='4.98' y='80.6'>end</text></svg></div><pre class="fx-s"><code>  while x &lt; 10 do
+<div class="fx nb both" id="c-ddc77867" data-kind="code" data-example="Overview.Expression.whileE"><div class="fx-r"><svg class="tx" data-d="27" viewBox="21.32 12.31 74.50 43.49" width="7.450em" height="4.349em" fill="currentColor"><text class='t0' x='21.92' y='19.33'>while</text>
+<text class='t5' x='53.05' y='19.33'>x<tspan x='61.51'>&lt;</tspan></text>
+<text class='t1' x='72.03' y='19.33'>10</text>
+<text class='t0' x='84.76' y='19.33'>do</text>
+<text class='t2' x='33.87' y='31.28'>println</text>
+<text class='t5' x='66.26' y='31.28'>x<tspan x='33.87' y='43.24'>x</tspan></text>
+<text class='t1' x='42.33' y='43.24'>+<tspan x='50.08'>=</tspan><tspan x='60.6'>1</tspan></text>
+<text class='t0' x='21.92' y='55.19'>end</text></svg></div><pre class="fx-s"><code>  while x &lt; 10 do
     println x
     x += 1
   end</code></pre></div>
 <p id="p-acc914ec" class="nb">A sequence of expressions in Fortress may be delimited by <span class="m"><span class="kw">do</span></span> and <span class="m"><span class="kw">end</span></span>. Here is an example of a function that prints three words:</p>
-<div class="fx nb both" id="c-e15c73f5" data-kind="code" data-example="Overview.Expression.printThreeWords"><div class="fx-r"><svg class="tx" data-d="28" viewBox="-0.60 11.26 107.65 90.37" width="10.765em" height="9.037em" fill="currentColor"><text class='t2' x='0' y='19.33'>printThr<tspan x='37.17'>e</tspan><tspan x='41.25'>eWor</tspan><tspan x='64.56'>ds</tspan></text>
-<text class='t1' x='74.55' y='19.33'>(<tspan x='78.84'>)</tspan><tspan x='85.48'>=</tspan></text>
-<text class='t0' x='95.99' y='19.33'>do</text>
-<text class='t2' x='8.86' y='39.75'>print</text>
-<text class='t3' x='33.83' y='39.75'>“</text>
-<text class='t4' x='38.25' y='39.75'>print</text>
-<text class='t3' x='68.14' y='39.75'>”</text>
-<text class='t2' x='8.86' y='60.17'>print</text>
-<text class='t3' x='33.83' y='60.17'>“</text>
-<text class='t4' x='44.23' y='60.17'>three</text>
-<text class='t3' x='74.12' y='60.17'>”</text>
-<text class='t2' x='8.86' y='80.6'>print</text>
-<text class='t3' x='33.83' y='80.6'>“</text>
-<text class='t4' x='44.23' y='80.6'>words</text>
-<text class='t3' x='74.12' y='80.6'>”</text>
-<text class='t0' x='0' y='101.02'>end</text></svg></div><pre class="fx-s"><code>printThreeWords() = do
+<div class="fx nb both" id="c-e15c73f5" data-kind="code" data-example="Overview.Expression.printThreeWords"><div class="fx-r"><svg class="tx" data-d="28" viewBox="9.36 11.26 107.24 56.49" width="10.724em" height="5.649em" fill="currentColor"><text class='t2' x='9.96' y='19.33'>printThr<tspan x='47.13'>e</tspan><tspan x='51.21'>eWor</tspan><tspan x='74.53'>ds</tspan></text>
+<text class='t1' x='84.51' y='19.33'>()<tspan x='95.03'>=</tspan></text>
+<text class='t0' x='105.54' y='19.33'>do</text>
+<text class='t2' x='21.92' y='31.28'>print</text>
+<text class='t3' x='49.66' y='31.28'>“</text>
+<text class='t4' x='54.08' y='31.28'>print</text>
+<text class='t3' x='83.97' y='31.28'>”</text>
+<text class='t2' x='21.92' y='43.24'>print</text>
+<text class='t3' x='49.66' y='43.24'>“</text>
+<text class='t4' x='60.06' y='43.24'>three</text>
+<text class='t3' x='89.95' y='43.24'>”</text>
+<text class='t2' x='21.92' y='55.19'>print</text>
+<text class='t3' x='49.66' y='55.19'>“</text>
+<text class='t4' x='60.06' y='55.19'>words</text>
+<text class='t3' x='89.95' y='55.19'>”</text>
+<text class='t0' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>printThreeWords() = do
   print "print"
   print " three"
   print " words"
 end</code></pre></div>
 <p id="p-944fd286" class="nb">A <em>tuple</em> expression contains a sequence of elements delimited by parentheses and separated by commas:</p>
-<div class="fx nb both" id="c-e17b684c" data-kind="code" data-example="Overview.Expression.tuple"><div class="fx-r"><svg class="tx" data-d="29" viewBox="-0.60 11.26 268.25 11.16" width="26.825em" height="1.116em" fill="currentColor"><text class='t1' x='0' y='19.33'>(</text>
-<text class='t3' x='3.87' y='19.33'>“</text>
-<text class='t4' x='8.3' y='19.33'>this</text>
-<text class='t3' x='32.21' y='19.33'>”</text>
-<text class='t5' x='36.63' y='19.33'>,</text>
-<text class='t3' x='41.06' y='19.33'>“</text>
-<text class='t4' x='45.48' y='19.33'>is</text>
-<text class='t3' x='57.44' y='19.33'>”</text>
-<text class='t5' x='61.86' y='19.33'>,</text>
-<text class='t3' x='66.29' y='19.33'>“</text>
-<text class='t4' x='70.71' y='19.33'>a</text>
-<text class='t3' x='76.69' y='19.33'>”</text>
-<text class='t5' x='81.11' y='19.33'>,</text>
-<text class='t3' x='85.54' y='19.33'>“</text>
-<text class='t4' x='89.96' y='19.33'>tuple</text>
-<text class='t3' x='119.85' y='19.33'>”</text>
-<text class='t5' x='124.28' y='19.33'>,</text>
-<text class='t3' x='128.7' y='19.33'>“</text>
-<text class='t4' x='133.13' y='19.33'>of</text>
-<text class='t3' x='145.08' y='19.33'>”</text>
-<text class='t5' x='149.51' y='19.33'>,</text>
-<text class='t3' x='153.93' y='19.33'>“</text>
-<text class='t4' x='158.36' y='19.33'>mostly</text>
-<text class='t3' x='194.22' y='19.33'>”</text>
-<text class='t5' x='198.65' y='19.33'>,</text>
-<text class='t3' x='203.07' y='19.33'>“</text>
-<text class='t4' x='207.5' y='19.33'>strings</text>
-<text class='t3' x='249.34' y='19.33'>”</text>
-<text class='t5' x='253.76' y='19.33'>,</text>
-<text class='t1' x='258.19' y='19.33'>0)</text></svg></div><pre class="fx-s"><code>("this", "is", "a", "tuple", "of", "mostly", "strings", 0)</code></pre></div>
+<div class="fx nb both" id="c-e17b684c" data-kind="code" data-example="Overview.Expression.tuple"><div class="fx-r"><svg class="tx" data-d="29" viewBox="9.36 11.26 301.45 11.16" width="30.145em" height="1.116em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>(</text>
+<text class='t3' x='13.84' y='19.33'>“</text>
+<text class='t4' x='18.26' y='19.33'>this</text>
+<text class='t3' x='42.17' y='19.33'>”</text>
+<text class='t5' x='46.59' y='19.33'>,</text>
+<text class='t3' x='56.56' y='19.33'>“</text>
+<text class='t4' x='60.98' y='19.33'>is</text>
+<text class='t3' x='72.94' y='19.33'>”</text>
+<text class='t5' x='77.36' y='19.33'>,</text>
+<text class='t3' x='87.32' y='19.33'>“</text>
+<text class='t4' x='91.74' y='19.33'>a</text>
+<text class='t3' x='97.72' y='19.33'>”</text>
+<text class='t5' x='102.15' y='19.33'>,</text>
+<text class='t3' x='112.11' y='19.33'>“</text>
+<text class='t4' x='116.53' y='19.33'>tuple</text>
+<text class='t3' x='146.42' y='19.33'>”</text>
+<text class='t5' x='150.84' y='19.33'>,</text>
+<text class='t3' x='160.8' y='19.33'>“</text>
+<text class='t4' x='165.23' y='19.33'>of</text>
+<text class='t3' x='177.18' y='19.33'>”</text>
+<text class='t5' x='181.61' y='19.33'>,</text>
+<text class='t3' x='191.57' y='19.33'>“</text>
+<text class='t4' x='195.99' y='19.33'>mostly</text>
+<text class='t3' x='231.86' y='19.33'>”</text>
+<text class='t5' x='236.28' y='19.33'>,</text>
+<text class='t3' x='246.24' y='19.33'>“</text>
+<text class='t4' x='250.67' y='19.33'>strings</text>
+<text class='t3' x='292.51' y='19.33'>”</text>
+<text class='t5' x='296.93' y='19.33'>,</text>
+<text class='t1' x='301.36' y='19.33'>0)</text></svg></div><pre class="fx-s"><code>("this", "is", "a", "tuple", "of", "mostly", "strings", 0)</code></pre></div>
 <p id="p-8f0e2d91" class="nb">When a tuple expression is evaluated, the various subexpressions are evaluated <em>in parallel</em>. For example, the following tuple expression denotes a parallel computation:</p>
-<div class="fx nb both" id="c-11d66933" data-kind="code" data-example="Overview.Expression.tuple.factorial"><div class="fx-r"><svg class="tx" data-d="30" viewBox="-0.60 10.36 173.53 13.16" width="17.353em" height="1.316em" fill="currentColor"><text class='t11' x='0' y='11.36'></text>
-<text class='t2' x='4.57' y='19.43'>factorial</text>
-<text class='t1' x='41.62' y='19.43'>(10)</text>
-<text class='t5' x='59.33' y='19.43'>,</text>
-<text class='t2' x='63.76' y='19.43'>factorial</text>
-<text class='t1' x='100.82' y='19.43'>(5)</text>
-<text class='t5' x='113.55' y='19.43'>,</text>
-<text class='t2' x='117.97' y='19.43'>factorial</text>
-<text class='t1' x='155.03' y='19.43'>(2)</text>
-<text class='t11' x='167.76' y='11.36'></text></svg></div><pre class="fx-s"><code>(factorial(10), factorial(5), factorial(2))</code></pre></div>
+<div class="fx nb both" id="c-11d66933" data-kind="code" data-example="Overview.Expression.tuple.factorial"><div class="fx-r"><svg class="tx" data-d="30" viewBox="9.36 11.26 172.14 11.16" width="17.214em" height="1.116em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>(</text>
+<text class='t2' x='13.84' y='19.33'>factorial</text>
+<text class='t1' x='50.89' y='19.33'>(10)</text>
+<text class='t5' x='68.6' y='19.33'>,</text>
+<text class='t2' x='73.03' y='19.33'>factorial</text>
+<text class='t1' x='110.09' y='19.33'>(5)</text>
+<text class='t5' x='122.82' y='19.33'>,</text>
+<text class='t2' x='127.24' y='19.33'>factorial</text>
+<text class='t1' x='164.3' y='19.33'>(2))</text></svg></div><pre class="fx-s"><code>(factorial(10), factorial(5), factorial(2))</code></pre></div>
 <p id="p-53478b16" class="nb">The elements in this expression may be evaluated in parallel. This same computation can be expressed as follows:</p>
-<div class="fx nb both" id="c-d75e6c3c" data-kind="code" data-example="Overview.Expression.alsodo"><div class="fx-r"><svg class="tx" data-d="31" viewBox="-0.60 12.64 64.82 129.83" width="6.482em" height="12.983em" fill="currentColor"><text class='t0' x='0' y='19.33'>do</text>
-<text class='t2' x='8.86' y='39.75'>factorial</text>
-<text class='t1' x='45.91' y='39.75'>(10)</text>
-<text class='t0' x='0' y='60.17'>also<tspan x='26.46'>do</tspan></text>
-<text class='t2' x='8.86' y='80.6'>factorial</text>
-<text class='t1' x='45.91' y='80.6'>(5)</text>
-<text class='t0' x='0' y='101.02'>also<tspan x='26.46'>do</tspan></text>
-<text class='t2' x='8.86' y='121.44'>factorial</text>
-<text class='t1' x='45.91' y='121.44'>(2)</text>
-<text class='t0' x='0' y='141.87'>end</text></svg></div><pre class="fx-s"><code>do
+<div class="fx nb both" id="c-d75e6c3c" data-kind="code" data-example="Overview.Expression.alsodo"><div class="fx-r"><svg class="tx" data-d="31" viewBox="9.36 12.64 67.92 79.02" width="6.792em" height="7.902em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>do</text>
+<text class='t2' x='21.92' y='31.28'>factorial</text>
+<text class='t1' x='58.97' y='31.28'>(10)</text>
+<text class='t0' x='9.96' y='43.24'>also<tspan x='36.42'>do</tspan></text>
+<text class='t2' x='21.92' y='55.19'>factorial</text>
+<text class='t1' x='58.97' y='55.19'>(5)</text>
+<text class='t0' x='9.96' y='67.15'>also<tspan x='36.42'>do</tspan></text>
+<text class='t2' x='21.92' y='79.1'>factorial</text>
+<text class='t1' x='58.97' y='79.1'>(2)</text>
+<text class='t0' x='9.96' y='91.06'>end</text></svg></div><pre class="fx-s"><code>do
   factorial(10)
 also do
   factorial(5)
@@ -774,17 +767,17 @@ end</code></pre></div>
 <section class="sec" data-num="2.8" data-title="For Loops Are Parallel by Default">
 <h2 id="s-for-loops-are-parallel-by-default" class="nb"><span class="num">2.8</span> For Loops Are Parallel by Default</h2>
 <p id="p-87d91848" class="nb">Here is an example of a simple <span class="m"><span class="kw">for</span></span> loop in Fortress:</p>
-<div class="fx nb both" id="c-9338b86c" data-kind="code" data-example="Overview.Expression.forLoop"><div class="fx-r"><svg class="tx" data-d="32" viewBox="4.38 12.16 72.85 48.62" width="7.285em" height="4.862em" fill="currentColor"><text class='t0' x='4.98' y='19.33'>for</text>
-<text class='t5' x='23.44' y='19.33'>i</text>
-<text class='t6' x='29.64' y='19.33'>←</text>
-<text class='t1' x='42.37' y='19.33'>1<tspan x='49.01'>:</tspan><tspan x='53.44'>10</tspan></text>
-<text class='t0' x='66.17' y='19.33'>do</text>
-<text class='t2' x='13.84' y='39.75'>print</text>
-<text class='t1' x='36.04' y='39.75'>(</text>
-<text class='t5' x='39.92' y='39.75'>i</text>
-<text class='t3' x='46.11' y='39.75'>“<tspan x='56.52'>”</tspan></text>
-<text class='t1' x='60.94' y='39.75'>)</text>
-<text class='t0' x='4.98' y='60.17'>end</text></svg></div><pre class="fx-s"><code>  for i &lt;- 1:10 do
+<div class="fx nb both" id="c-9338b86c" data-kind="code" data-example="Overview.Expression.forLoop"><div class="fx-r"><svg class="tx" data-d="32" viewBox="21.32 12.16 75.06 31.68" width="7.506em" height="3.168em" fill="currentColor"><text class='t0' x='21.92' y='19.33'>for</text>
+<text class='t5' x='42.59' y='19.33'>i</text>
+<text class='t6' x='48.79' y='19.33'>←</text>
+<text class='t1' x='61.52' y='19.33'>1<tspan x='68.16'>:</tspan><tspan x='72.59'>10</tspan></text>
+<text class='t0' x='85.32' y='19.33'>do</text>
+<text class='t2' x='33.87' y='31.28'>print</text>
+<text class='t1' x='56.08' y='31.28'>(</text>
+<text class='t5' x='59.95' y='31.28'>i</text>
+<text class='t3' x='68.92' y='31.28'>“<tspan x='79.32'>”</tspan></text>
+<text class='t1' x='83.74' y='31.28'>)</text>
+<text class='t0' x='21.92' y='43.24'>end</text></svg></div><pre class="fx-s"><code>  for i &lt;- 1:10 do
     print(i " ")
   end</code></pre></div>
 <p id="p-61799e16" class="nb">This <span class="m"><span class="kw">for</span></span> loop iterates over all elements <span class="m"><i>i</i></span> between <span class="m">1</span> and <span class="m">10</span> and prints the value of <span class="m"><i>i</i></span>. Expressions such as <span class="m">1 : 10</span> are referred to as <em>range expressions</em>. They can be used in any context where we wish to denote all the integers between a given pair of integers.</p>
@@ -794,43 +787,43 @@ end</code></pre></div>
 <section class="sec" data-num="2.9" data-title="Atomic Expressions">
 <h2 id="s-atomic-expressions" class="nb"><span class="num">2.9</span> Atomic Expressions</h2>
 <p id="p-50fef499" class="nb">In order to control interactions of parallel executions, Fortress includes the notion of <em>atomic expressions</em>, as in the following example:</p>
-<div class="fx nb both" id="c-80897167" data-kind="code" data-example="Overview.Expression.atomicE"><div class="fx-r"><svg class="tx" data-d="33" viewBox="4.38 12.64 48.58 68.56" width="4.858em" height="6.856em" fill="currentColor"><text class='t0' x='4.98' y='19.33'>atomic<tspan x='41.9'>do</tspan></text>
-<text class='t5' x='13.84' y='39.75'>x</text>
-<text class='t1' x='22.3' y='39.75'>+<tspan x='30.05'>=</tspan><tspan x='40.56'>1</tspan></text>
-<text class='t5' x='13.84' y='60.17'>y</text>
-<text class='t1' x='21.85' y='60.17'>+<tspan x='29.59'>=</tspan><tspan x='40.11'>1</tspan></text>
-<text class='t0' x='4.98' y='80.6'>end</text></svg></div><pre class="fx-s"><code>  atomic do
+<div class="fx nb both" id="c-80897167" data-kind="code" data-example="Overview.Expression.atomicE"><div class="fx-r"><svg class="tx" data-d="33" viewBox="21.32 12.64 48.58 43.15" width="4.858em" height="4.315em" fill="currentColor"><text class='t0' x='21.92' y='19.33'>atomic<tspan x='58.83'>do</tspan></text>
+<text class='t5' x='33.87' y='31.28'>x</text>
+<text class='t1' x='42.33' y='31.28'>+<tspan x='50.08'>=</tspan><tspan x='60.6'>1</tspan></text>
+<text class='t5' x='33.87' y='43.24'>y</text>
+<text class='t1' x='41.88' y='43.24'>+<tspan x='49.63'>=</tspan><tspan x='60.15'>1</tspan></text>
+<text class='t0' x='21.92' y='55.19'>end</text></svg></div><pre class="fx-s"><code>  atomic do
     x += 1
     y += 1
   end</code></pre></div>
 <p id="p-0723acec" class="nb">An atomic expression is executed in such a manner that all other threads observe either that the computation has completed, or that it has not yet begun; no other thread observes an atomic expression to have only partially completed. Consider the following parallel computation:</p>
-<div class="fx nb both" id="c-94ed9f69" data-kind="code" data-example="Overview.Expression.Also.b"><div class="fx-r"><svg class="tx" data-d="34" viewBox="-0.60 12.64 83.89 231.95" width="8.389em" height="23.195em" fill="currentColor"><text class='t0' x='0' y='19.33'>do</text>
-<text class='t5' x='8.86' y='39.75'>x</text>
-<text class='t1' x='14.55' y='39.75'>:</text>
-<text class='t12' x='18.98' y='39.75'>Z</text>
-<text class='t1' x='25.62' y='39.75'>32<tspan x='38.35'>:</tspan><tspan x='41.12'>=</tspan><tspan x='51.63'>0</tspan></text>
-<text class='t5' x='8.86' y='60.17'>y</text>
-<text class='t1' x='14.1' y='60.17'>:</text>
-<text class='t12' x='18.53' y='60.17'>Z</text>
-<text class='t1' x='25.17' y='60.17'>32<tspan x='37.9'>:</tspan><tspan x='40.66'>=</tspan><tspan x='51.18'>0</tspan></text>
-<text class='t5' x='8.86' y='80.6'>z</text>
-<text class='t1' x='13.93' y='80.6'>:</text>
-<text class='t12' x='18.35' y='80.6'>Z</text>
-<text class='t1' x='25' y='80.6'>32<tspan x='37.73'>:</tspan><tspan x='40.49'>=</tspan><tspan x='51.01'>0</tspan></text>
-<text class='t0' x='8.86' y='101.02'>atomic<tspan x='45.77'>do</tspan></text>
-<text class='t5' x='17.71' y='121.44'>x</text>
-<text class='t1' x='26.17' y='121.44'>+<tspan x='33.92'>=</tspan><tspan x='44.44'>1</tspan></text>
-<text class='t5' x='17.71' y='141.87'>y</text>
-<text class='t1' x='25.72' y='141.87'>+<tspan x='33.47'>=</tspan><tspan x='43.99'>1</tspan></text>
-<text class='t0' x='8.86' y='162.29'>also<tspan x='35.31'>atomic</tspan><tspan x='72.23'>do</tspan></text>
-<text class='t5' x='17.71' y='182.71'>z</text>
-<text class='t1' x='25.55' y='182.71'>:<tspan x='28.32'>=</tspan></text>
-<text class='t5' x='38.83' y='182.71'>x</text>
-<text class='t1' x='46.74' y='182.71'>+</text>
-<text class='t5' x='56.7' y='182.71'>y</text>
-<text class='t0' x='8.86' y='203.14'>end</text>
-<text class='t5' x='8.86' y='223.56'>z</text>
-<text class='t0' x='0' y='243.99'>end</text></svg></div><pre class="fx-s"><code>do
+<div class="fx nb both" id="c-94ed9f69" data-kind="code" data-example="Overview.Expression.Also.b"><div class="fx-r"><svg class="tx" data-d="34" viewBox="9.36 12.64 86.99 138.80" width="8.699em" height="13.880em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>do</text>
+<text class='t5' x='21.92' y='31.28'>x</text>
+<text class='t1' x='27.61' y='31.28'>:</text>
+<text class='t12' x='32.04' y='31.28'>Z</text>
+<text class='t1' x='38.68' y='31.28'>32<tspan x='51.41'>:</tspan><tspan x='54.18'>=</tspan><tspan x='64.69'>0</tspan></text>
+<text class='t5' x='21.92' y='43.24'>y</text>
+<text class='t1' x='27.16' y='43.24'>:</text>
+<text class='t12' x='31.59' y='43.24'>Z</text>
+<text class='t1' x='38.23' y='43.24'>32<tspan x='50.96'>:</tspan><tspan x='53.73'>=</tspan><tspan x='64.24'>0</tspan></text>
+<text class='t5' x='21.92' y='55.19'>z</text>
+<text class='t1' x='26.99' y='55.19'>:</text>
+<text class='t12' x='31.42' y='55.19'>Z</text>
+<text class='t1' x='38.06' y='55.19'>32<tspan x='50.79'>:</tspan><tspan x='53.56'>=</tspan><tspan x='64.07'>0</tspan></text>
+<text class='t0' x='21.92' y='67.15'>atomic<tspan x='58.83'>do</tspan></text>
+<text class='t5' x='33.87' y='79.1'>x</text>
+<text class='t1' x='42.33' y='79.1'>+<tspan x='50.08'>=</tspan><tspan x='60.6'>1</tspan></text>
+<text class='t5' x='33.87' y='91.06'>y</text>
+<text class='t1' x='41.88' y='91.06'>+<tspan x='49.63'>=</tspan><tspan x='60.15'>1</tspan></text>
+<text class='t0' x='21.92' y='103.01'>also<tspan x='48.37'>atomic</tspan><tspan x='85.29'>do</tspan></text>
+<text class='t5' x='33.87' y='114.97'>z</text>
+<text class='t1' x='41.71' y='114.97'>:<tspan x='44.48'>=</tspan></text>
+<text class='t5' x='55' y='114.97'>x</text>
+<text class='t1' x='62.9' y='114.97'>+</text>
+<text class='t5' x='72.87' y='114.97'>y</text>
+<text class='t0' x='21.92' y='126.92'>end</text>
+<text class='t5' x='21.92' y='138.88'>z</text>
+<text class='t0' x='9.96' y='150.83'>end</text></svg></div><pre class="fx-s"><code>do
   x: ZZ32 := 0
   y: ZZ32 := 0
   z: ZZ32 := 0
@@ -921,169 +914,152 @@ end</code></pre></div>
 <h2 id="sec-overview-aggregate" class="nb"><span class="num">2.11</span> Aggregate Expressions</h2>
 <p id="p-6c206b93" class="nb">As with mathematical notation, Fortress includes special syntactic support for writing down many common kinds of collections, such as arrays, matrices, vectors, maps, sets, and lists simply by enumerating all of the collection’s elements. We refer to an expression formed by enumerating the elements of a collection as an <em>aggregate expression</em>. The elements of an aggregate expression are computed in parallel.</p>
 <p id="p-295a0b90" class="nb">For example, we can define an array <span class="m"><i>a</i></span> in Fortress by explicitly writing down its elements, enclosed in brackets and separated by whitespace, as follows:</p>
-<a id="arrayAInf"></a><div class="fx nb both" id="c-76a98226" data-kind="code" data-example="Overview.Expression.aggregate.a"><div class="fx-r"><svg class="tx" data-d="40" viewBox="4.38 11.26 86.76 11.16" width="8.676em" height="1.116em" fill="currentColor"><text class='t5' x='4.98' y='19.33'>a</text>
-<text class='t1' x='10.25' y='19.33'>:</text>
-<text class='t12' x='14.68' y='19.33'>Z</text>
-<text class='t1' x='21.32' y='19.33'>32</text>
-<text class='t7' x='31.28' y='20.82'>5</text>
-<text class='t1' x='38.52' y='19.33'>=<tspan x='49.03'>[0</tspan><tspan x='59.55'>1</tspan><tspan x='67.3'>2</tspan><tspan x='75.05'>3</tspan><tspan x='82.79'>4]</tspan></text></svg></div><pre class="fx-s"><code>  a:ZZ32[5] = [0 1 2 3 4]</code></pre></div>
+<a id="arrayAInf"></a><div class="fx nb both" id="c-76a98226" data-kind="code" data-example="Overview.Expression.aggregate.a"><div class="fx-r"><svg class="tx" data-d="40" viewBox="21.32 11.26 94.47 11.16" width="9.447em" height="1.116em" fill="currentColor"><text class='t5' x='21.92' y='19.33'>a</text>
+<text class='t1' x='28.84' y='19.33'>:</text>
+<text class='t12' x='33.27' y='19.33'>Z</text>
+<text class='t1' x='39.91' y='19.33'>32[5]<tspan x='63.16'>=</tspan><tspan x='73.68'>[0</tspan><tspan x='84.19'>1</tspan><tspan x='91.94'>2</tspan><tspan x='99.69'>3</tspan><tspan x='107.44'>4]</tspan></text></svg></div><pre class="fx-s"><code>  a:ZZ32[5] = [0 1 2 3 4]</code></pre></div>
 <p id="p-fce952b1" class="nb">Two-dimensional arrays can be written down by separating rows by newlines (or by semicolons). For example, we can bind <span class="m"><i>b</i></span> to a two-dimensional array as follows:</p>
-<a id="arrayBInf"></a><div class="fx nb both" id="c-5d4e79e0" data-kind="code" data-example="Overview.Expression.aggregate.b"><div class="fx-r"><svg class="tx" data-d="41" viewBox="4.38 10.36 91.00 25.11" width="9.100em" height="2.511em" fill="currentColor"><text class='t5' x='4.98' y='25.4'>b</text>
-<text class='t1' x='9.26' y='25.4'>:</text>
-<text class='t12' x='13.68' y='25.4'>Z</text>
-<text class='t1' x='20.33' y='25.4'>32</text>
-<text class='t7' x='30.29' y='26.9'>2</text>
-<text class='t8' x='34.26' y='26.9'>,</text>
-<text class='t7' x='36.63' y='26.9'>2</text>
-<text class='t1' x='43.86' y='25.4'>=</text>
-<text class='t11' x='54.38' y='11.36'></text>
-<text class='t1' x='64.62' y='19.33'>3<tspan x='79.56'>4</tspan><tspan x='64.62' y='31.28'>5</tspan><tspan x='79.56'>6</tspan></text>
-<text class='t11' x='89.53' y='11.36'></text></svg></div><pre class="fx-s"><code>  b:ZZ32[2,2] = [3 4
+<a id="arrayBInf"></a><div class="fx nb both" id="c-5d4e79e0" data-kind="code" data-example="Overview.Expression.aggregate.b"><div class="fx-r"><svg class="tx" data-d="41" viewBox="21.32 11.26 81.30 23.12" width="8.130em" height="2.312em" fill="currentColor"><text class='t5' x='21.92' y='19.33'>b</text>
+<text class='t1' x='27.85' y='19.33'>:</text>
+<text class='t12' x='32.28' y='19.33'>Z</text>
+<text class='t1' x='38.92' y='19.33'>32[2</text>
+<text class='t5' x='56.63' y='19.33'>,</text>
+<text class='t1' x='61.06' y='19.33'>2]<tspan x='71.58'>=</tspan><tspan x='82.09'>[</tspan><tspan x='86.52'>3</tspan><tspan x='94.27'>4</tspan><tspan x='86.52' y='31.28'>5</tspan><tspan x='94.27'>6]</tspan></text></svg></div><pre class="fx-s"><code>  b:ZZ32[2,2] = [3 4
                  5 6]</code></pre></div>
 <p id="p-a1403620" class="nb">There is also support for writing down arrays of dimension three and higher. We bind <span class="m"><i>c</i></span> to a three-dimensional array as follows:</p>
-<a id="arrayCInf"></a><div class="fx nb both" id="c-ddb6dfb9" data-kind="code" data-example="Overview.Expression.aggregate.c"><div class="fx-r"><svg class="tx" data-d="42" viewBox="4.38 10.36 110.11 96.84" width="11.011em" height="9.684em" fill="currentColor"><text class='t5' x='4.98' y='61.27'>c</text>
-<text class='t1' x='9.29' y='61.27'>:</text>
-<text class='t12' x='13.72' y='61.27'>Z</text>
-<text class='t1' x='20.36' y='61.27'>32</text>
-<text class='t7' x='30.32' y='62.77'>2</text>
-<text class='t8' x='34.3' y='62.77'>,</text>
-<text class='t7' x='36.66' y='62.77'>2</text>
-<text class='t8' x='40.63' y='62.77'>,</text>
-<text class='t7' x='43' y='62.77'>3</text>
-<text class='t1' x='50.24' y='61.27'>=</text>
-<text class='t11' x='60.75' y='11.36'>⎡<tspan x='60.75' y='28.89'>⎢</tspan><tspan x='60.75' y='34.87'>⎢</tspan><tspan x='60.75' y='40.85'>⎢</tspan><tspan x='60.75' y='46.82'>⎢</tspan><tspan x='60.75' y='52.8'>⎢</tspan><tspan x='60.75' y='58.78'>⎢</tspan><tspan x='60.75' y='64.76'>⎢</tspan><tspan x='60.75' y='70.74'>⎢</tspan><tspan x='60.75' y='76.71'>⎢</tspan><tspan x='60.75' y='82.69'>⎢</tspan><tspan x='60.75' y='89.07'>⎣</tspan></text>
-<text class='t1' x='74.87' y='19.33'>1<tspan x='94.79'>2</tspan><tspan x='74.87' y='31.28'>3</tspan><tspan x='94.79'>4</tspan><tspan x='74.87' y='55.19'>5</tspan><tspan x='94.79'>6</tspan><tspan x='74.87' y='67.15'>7</tspan><tspan x='94.79'>8</tspan><tspan x='74.87' y='91.06'>9</tspan><tspan x='92.3'>10</tspan><tspan x='72.38' y='103.01'>11</tspan><tspan x='92.3'>12</tspan></text>
-<text class='t11' x='107.24' y='11.36'>⎤<tspan x='107.24' y='28.89'>⎥</tspan><tspan x='107.24' y='34.87'>⎥</tspan><tspan x='107.24' y='40.85'>⎥</tspan><tspan x='107.24' y='46.82'>⎥</tspan><tspan x='107.24' y='52.8'>⎥</tspan><tspan x='107.24' y='58.78'>⎥</tspan><tspan x='107.24' y='64.76'>⎥</tspan><tspan x='107.24' y='70.74'>⎥</tspan><tspan x='107.24' y='76.71'>⎥</tspan><tspan x='107.24' y='82.69'>⎥</tspan><tspan x='107.24' y='89.07'>⎦</tspan></text></svg></div><pre class="fx-s"><code>  c:ZZ32[2,2,3] = [1 2
+<a id="arrayCInf"></a><div class="fx nb both" id="c-ddb6dfb9" data-kind="code" data-example="Overview.Expression.aggregate.c"><div class="fx-r"><svg class="tx" data-d="42" viewBox="21.32 11.26 152.18 47.03" width="15.218em" height="4.703em" fill="currentColor"><text class='t5' x='21.92' y='19.33'>c</text>
+<text class='t1' x='27.89' y='19.33'>:</text>
+<text class='t12' x='32.32' y='19.33'>Z</text>
+<text class='t1' x='38.96' y='19.33'>32[2</text>
+<text class='t5' x='56.67' y='19.33'>,</text>
+<text class='t1' x='61.1' y='19.33'>2</text>
+<text class='t5' x='66.08' y='19.33'>,</text>
+<text class='t1' x='70.51' y='19.33'>3]<tspan x='81.02'>=</tspan><tspan x='91.54'>[</tspan><tspan x='95.97'>1</tspan><tspan x='103.72'>2</tspan><tspan x='95.97' y='31.28'>3</tspan><tspan x='103.72'>4;</tspan><tspan x='113.13'>;</tspan><tspan x='117.55'>5</tspan><tspan x='125.3'>6</tspan><tspan x='117.55' y='43.24'>7</tspan><tspan x='125.3'>8;</tspan><tspan x='134.71'>;</tspan><tspan x='139.14'>9</tspan><tspan x='146.89'>10</tspan><tspan x='147.44' y='55.19'>11</tspan><tspan x='160.17'>12]</tspan></text></svg></div><pre class="fx-s"><code>  c:ZZ32[2,2,3] = [1 2
                    3 4;; 5 6
                          7 8;; 9 10
                               11 12]</code></pre></div>
 <p id="p-377cb4f5" class="nb">Various slices of the array along the third dimension are separated by pairs of semicolons. (Higher dimensional arrays are also supported. When writing a four-dimensional array, slices along the fourth dimension are separating by triples of semicolons, and so on.)</p>
 <p id="p-863b9bb7" class="nb">Vectors are written down just like one-dimensional arrays. Similarly, matrices are written down just like two-dimensional arrays. Whether an array aggregate expression evaluates to an array, a vector, or a matrix is inferred from context (e.g., the static type of a variable that such an expression is bound to). Of course, all elements of vectors and matrices must be numbers.</p>
 <p id="p-2a48bd52" class="nb">Note that there is a syntactic conflict between the use of juxtaposition to represent elements along a row in an array and the use of juxtaposition to represent applications of the juxtaposition operator, and the use of spaces to seperate digits in a numeric literal. In order to include an application of the juxtaposition operator or a numeric literal with spaces as an outermost subexpression of an array aggregate, it is necessary to include extra parentheses. For example, the following aggregate expression represents a counterclockwise rotation matrix by an angle <span class="m">θ</span> in <span class="m">ℝ64<sup>2</sup></span>:</p>
-<div class="fx nb both" id="c-af820d78" data-kind="code" data-example="Overview.Expression.aggregate.d"><div class="fx-r"><svg class="tx" data-d="43" viewBox="4.38 10.36 149.53 25.11" width="14.953em" height="2.511em" fill="currentColor"><text class='t5' x='4.98' y='25.4'>d</text>
-<text class='t1' x='10.17' y='25.4'>:</text>
-<text class='t12' x='14.59' y='25.4'>R</text>
-<text class='t1' x='21.79' y='25.4'>64</text>
-<text class='t7' x='31.75' y='26.9'>2</text>
-<text class='t8' x='35.72' y='26.9'>,</text>
-<text class='t7' x='38.09' y='26.9'>2</text>
-<text class='t1' x='45.33' y='25.4'>=</text>
-<text class='t11' x='55.84' y='11.36'></text>
-<text class='t1' x='66.08' y='19.33'>(cos</text>
-<text class='t5' x='86.62' y='19.33'>θ</text>
-<text class='t1' x='91.57' y='19.33'>)<tspan x='105.41'>(</tspan></text>
-<text class='t6' x='109.28' y='19.33'>−</text>
-<text class='t1' x='118.69' y='19.33'>sin</text>
-<text class='t5' x='134.24' y='19.33'>θ</text>
-<text class='t1' x='139.2' y='19.33'>)<tspan x='66.64' y='31.28'>(sin</tspan></text>
-<text class='t5' x='86.06' y='31.28'>θ</text>
-<text class='t1' x='91.02' y='31.28'>)<tspan x='109.56'>(cos</tspan></text>
-<text class='t5' x='130.09' y='31.28'>θ</text>
-<text class='t1' x='135.05' y='31.28'>)</text>
-<text class='t11' x='148.05' y='11.36'></text></svg></div><pre class="fx-s"><code>  d:RR64[2,2] = [(cos theta) (- sin theta)
+<div class="fx nb both" id="c-af820d78" data-kind="code" data-example="Overview.Expression.aggregate.d"><div class="fx-r"><svg class="tx" data-d="43" viewBox="21.32 11.26 130.97 23.12" width="13.097em" height="2.312em" fill="currentColor"><text class='t5' x='21.92' y='19.33'>d</text>
+<text class='t1' x='28.76' y='19.33'>:</text>
+<text class='t12' x='33.19' y='19.33'>R</text>
+<text class='t1' x='40.39' y='19.33'>64[2</text>
+<text class='t5' x='58.1' y='19.33'>,</text>
+<text class='t1' x='62.53' y='19.33'>2]<tspan x='73.04'>=</tspan><tspan x='83.56'>[</tspan><tspan x='87.99'>(cos</tspan></text>
+<text class='t5' x='106.86' y='19.33'>θ</text>
+<text class='t1' x='111.81' y='19.33'>)(</text>
+<text class='t6' x='119.56' y='19.33'>−</text>
+<text class='t1' x='128.97' y='19.33'>sin</text>
+<text class='t5' x='142.86' y='19.33'>θ</text>
+<text class='t1' x='147.82' y='19.33'>)<tspan x='87.99' y='31.28'>(sin</tspan></text>
+<text class='t5' x='105.75' y='31.28'>θ</text>
+<text class='t1' x='110.71' y='31.28'>)(cos</text>
+<text class='t5' x='133.45' y='31.28'>θ</text>
+<text class='t1' x='138.41' y='31.28'>)]</text></svg></div><pre class="fx-s"><code>  d:RR64[2,2] = [(cos theta) (- sin theta)
                  (sin theta) (cos theta)]</code></pre></div>
 <p id="p-2562e786" class="nb">A set can be written down by enclosing its elements in braces and separating its elements by commas. Here we bind <span class="m"><i>s</i></span> to the set of integers <span class="m">0</span> through <span class="m">4</span>:</p>
-<div class="fx nb both" id="c-f58c48f1" data-kind="code" data-example="Overview.Expression.aggregate.s"><div class="fx-r"><svg class="tx" data-d="44" viewBox="-0.60 11.26 71.73 11.16" width="7.173em" height="1.116em" fill="currentColor"><text class='t5' x='0' y='19.33'>s</text>
-<text class='t1' x='7.44' y='19.33'>=</text>
-<text class='t6' x='17.95' y='19.33'>{</text>
-<text class='t1' x='22.93' y='19.33'>0</text>
-<text class='t5' x='27.92' y='19.33'>,</text>
-<text class='t1' x='32.34' y='19.33'>1</text>
-<text class='t5' x='37.33' y='19.33'>,</text>
-<text class='t1' x='41.75' y='19.33'>2</text>
-<text class='t5' x='46.73' y='19.33'>,</text>
-<text class='t1' x='51.16' y='19.33'>3</text>
-<text class='t5' x='56.14' y='19.33'>,</text>
-<text class='t1' x='60.57' y='19.33'>4</text>
-<text class='t6' x='65.55' y='19.33'>}</text></svg></div><pre class="fx-s"><code>s = {0, 1, 2, 3, 4}</code></pre></div>
+<div class="fx nb both" id="c-f58c48f1" data-kind="code" data-example="Overview.Expression.aggregate.s"><div class="fx-r"><svg class="tx" data-d="44" viewBox="9.36 11.26 71.73 11.16" width="7.173em" height="1.116em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>s</text>
+<text class='t1' x='17.4' y='19.33'>=</text>
+<text class='t6' x='27.92' y='19.33'>{</text>
+<text class='t1' x='32.9' y='19.33'>0</text>
+<text class='t5' x='37.88' y='19.33'>,</text>
+<text class='t1' x='42.31' y='19.33'>1</text>
+<text class='t5' x='47.29' y='19.33'>,</text>
+<text class='t1' x='51.72' y='19.33'>2</text>
+<text class='t5' x='56.7' y='19.33'>,</text>
+<text class='t1' x='61.12' y='19.33'>3</text>
+<text class='t5' x='66.11' y='19.33'>,</text>
+<text class='t1' x='70.53' y='19.33'>4</text>
+<text class='t6' x='75.52' y='19.33'>}</text></svg></div><pre class="fx-s"><code>s = {0, 1, 2, 3, 4}</code></pre></div>
 <p id="p-f99edd87" class="nb">The elements of a list are enclosed in angle brackets (written in ASCII as <code>&lt;|</code> and <code>|&gt;</code>):</p>
-<div class="fx nb both" id="c-52373b79" data-kind="code" data-example="Overview.Expression.aggregate.l"><div class="fx-r"><svg class="tx" data-d="45" viewBox="-0.60 11.26 68.02 11.16" width="6.802em" height="1.116em" fill="currentColor"><text class='t5' x='0' y='19.33'>l</text>
-<text class='t1' x='5.94' y='19.33'>=</text>
-<text class='t6' x='16.45' y='19.33'></text>
-<text class='t1' x='20.33' y='19.33'>0</text>
-<text class='t5' x='25.31' y='19.33'>,</text>
-<text class='t1' x='29.74' y='19.33'>1</text>
-<text class='t5' x='34.72' y='19.33'>,</text>
-<text class='t1' x='39.14' y='19.33'>2</text>
-<text class='t5' x='44.13' y='19.33'>,</text>
-<text class='t1' x='48.55' y='19.33'>3</text>
-<text class='t5' x='53.54' y='19.33'>,</text>
-<text class='t1' x='57.96' y='19.33'>4</text>
-<text class='t6' x='62.94' y='19.33'></text></svg></div><pre class="fx-s"><code>l = &lt;|0, 1, 2, 3, 4|&gt;</code></pre></div>
+<div class="fx nb both" id="c-52373b79" data-kind="code" data-example="Overview.Expression.aggregate.l"><div class="fx-r"><svg class="tx" data-d="45" viewBox="9.36 11.26 68.02 11.16" width="6.802em" height="1.116em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>l</text>
+<text class='t1' x='15.9' y='19.33'>=</text>
+<text class='t6' x='26.41' y='19.33'></text>
+<text class='t1' x='30.29' y='19.33'>0</text>
+<text class='t5' x='35.27' y='19.33'>,</text>
+<text class='t1' x='39.7' y='19.33'>1</text>
+<text class='t5' x='44.68' y='19.33'>,</text>
+<text class='t1' x='49.11' y='19.33'>2</text>
+<text class='t5' x='54.09' y='19.33'>,</text>
+<text class='t1' x='58.52' y='19.33'>3</text>
+<text class='t5' x='63.5' y='19.33'>,</text>
+<text class='t1' x='67.93' y='19.33'>4</text>
+<text class='t6' x='72.91' y='19.33'></text></svg></div><pre class="fx-s"><code>l = &lt;|0, 1, 2, 3, 4|&gt;</code></pre></div>
 <p id="p-7892a646" class="nb">The elements of a map are enclosed in curly braces, with key/value pairs joined by the arrow <span class="m">↦</span> (written in ASCII as <code>|-&gt;</code>):</p>
-<div class="fx nb both" id="c-cf6120b2" data-kind="code" data-example="Expr.Map"><div class="fx-r"><svg class="tx" data-d="46" viewBox="-0.60 11.26 151.28 11.16" width="15.128em" height="1.116em" fill="currentColor"><text class='t5' x='0' y='19.33'>m</text>
-<text class='t1' x='11.51' y='19.33'>=</text>
-<text class='t6' x='22.03' y='19.33'>{</text>
-<text class='t3' x='28.67' y='19.33'>“</text>
-<text class='t4' x='33.1' y='19.33'>a</text>
-<text class='t3' x='39.07' y='19.33'>”</text>
-<text class='t6' x='46.26' y='19.33'>↦→</text>
-<text class='t1' x='58.99' y='19.33'>0</text>
-<text class='t5' x='63.98' y='19.33'>,</text>
-<text class='t3' x='68.4' y='19.33'>“</text>
-<text class='t4' x='72.83' y='19.33'>b</text>
-<text class='t3' x='78.8' y='19.33'>”</text>
-<text class='t6' x='85.99' y='19.33'>↦→</text>
-<text class='t1' x='98.72' y='19.33'>1</text>
-<text class='t5' x='103.71' y='19.33'>,</text>
-<text class='t3' x='108.13' y='19.33'>“</text>
-<text class='t4' x='112.56' y='19.33'>c</text>
-<text class='t3' x='118.53' y='19.33'>”</text>
-<text class='t6' x='125.73' y='19.33'>↦→</text>
-<text class='t1' x='138.46' y='19.33'>2</text>
-<text class='t6' x='145.1' y='19.33'>}</text></svg></div><pre class="fx-s"><code>m = { "a" |-&gt; 0, "b" |-&gt; 1, "c" |-&gt; 2 }</code></pre></div>
+<div class="fx nb both" id="c-cf6120b2" data-kind="code" data-example="Expr.Map"><div class="fx-r"><svg class="tx" data-d="46" viewBox="9.36 11.26 178.95 11.16" width="17.895em" height="1.116em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>m</text>
+<text class='t1' x='21.48' y='19.33'>=</text>
+<text class='t6' x='31.99' y='19.33'>{</text>
+<text class='t3' x='38.64' y='19.33'>“</text>
+<text class='t4' x='43.06' y='19.33'>a</text>
+<text class='t3' x='49.04' y='19.33'>”</text>
+<text class='t6' x='61.76' y='19.33'>↦→</text>
+<text class='t1' x='74.49' y='19.33'>0</text>
+<text class='t5' x='79.47' y='19.33'>,</text>
+<text class='t3' x='89.44' y='19.33'>“</text>
+<text class='t4' x='93.86' y='19.33'>b</text>
+<text class='t3' x='99.84' y='19.33'>”</text>
+<text class='t6' x='112.56' y='19.33'>↦→</text>
+<text class='t1' x='125.29' y='19.33'>1</text>
+<text class='t5' x='130.27' y='19.33'>,</text>
+<text class='t3' x='140.24' y='19.33'>“</text>
+<text class='t4' x='144.66' y='19.33'>c</text>
+<text class='t3' x='150.64' y='19.33'>”</text>
+<text class='t6' x='163.36' y='19.33'>↦→</text>
+<text class='t1' x='176.09' y='19.33'>2</text>
+<text class='t6' x='182.73' y='19.33'>}</text></svg></div><pre class="fx-s"><code>m = { "a" |-&gt; 0, "b" |-&gt; 1, "c" |-&gt; 2 }</code></pre></div>
 </section>
 <section class="sec" data-num="2.12" data-title="Comprehensions">
 <h2 id="s-comprehensions" class="nb"><span class="num">2.12</span> Comprehensions</h2>
 <p id="p-16f938c9" class="nb">Another way in which Fortress mimics mathematical notation is in its support for <em>comprehensions</em>. Comprehensions describe the elements of a collection by providing a rule that holds for all of the collection’s elements. The elements of the collection are computed in parallel by default. For example, we define a set <span class="m"><i>s</i></span> that consists of all elements of another set <span class="m"><i>t</i></span> divided by 2, as follows:</p>
-<div class="fx nb both" id="c-18381f9b" data-kind="code" data-example="Overview.Expression.comprehension.s"><div class="fx-r"><svg class="tx" data-d="47" viewBox="4.38 11.26 86.72 11.16" width="8.672em" height="1.116em" fill="currentColor"><text class='t5' x='4.98' y='19.33'>s</text>
-<text class='t1' x='12.42' y='19.33'>=</text>
-<text class='t6' x='22.93' y='19.33'>{</text>
-<text class='t5' x='29.58' y='19.33'>x</text>
-<text class='t6' x='37.48' y='19.33'>÷</text>
-<text class='t1' x='47.45' y='19.33'>2</text>
-<text class='t6' x='55.2' y='19.33'>|</text>
-<text class='t5' x='60.73' y='19.33'>x</text>
-<text class='t6' x='69.19' y='19.33'>←</text>
-<text class='t5' x='81.92' y='19.33'>t</text>
-<text class='t6' x='85.52' y='19.33'>}</text></svg></div><pre class="fx-s"><code>  s = { x DIV 2 | x &lt;- t}</code></pre></div>
+<div class="fx nb both" id="c-18381f9b" data-kind="code" data-example="Overview.Expression.comprehension.s"><div class="fx-r"><svg class="tx" data-d="47" viewBox="21.32 11.26 86.72 11.16" width="8.672em" height="1.116em" fill="currentColor"><text class='t5' x='21.92' y='19.33'>s</text>
+<text class='t1' x='29.36' y='19.33'>=</text>
+<text class='t6' x='39.87' y='19.33'>{</text>
+<text class='t5' x='46.51' y='19.33'>x</text>
+<text class='t6' x='54.42' y='19.33'>÷</text>
+<text class='t1' x='64.38' y='19.33'>2</text>
+<text class='t6' x='72.13' y='19.33'>|</text>
+<text class='t5' x='77.67' y='19.33'>x</text>
+<text class='t6' x='86.13' y='19.33'>←</text>
+<text class='t5' x='98.86' y='19.33'>t</text>
+<text class='t6' x='102.46' y='19.33'>}</text></svg></div><pre class="fx-s"><code>  s = { x DIV 2 | x &lt;- t}</code></pre></div>
 <p id="p-9b5d6b29" class="nb">The expression to the left of the vertical bar explains that elements of <span class="m"><i>s</i></span> consist of every value <span class="m"><i>x</i>/2</span> for every valid value of <span class="m"><i>x</i></span> (determined by the right hand side). The expression to the right of the vertical bar explains how the elements <span class="m"><i>x</i></span> are to be <em>generated</em> (in this case, from the set <span class="m"><i>t</i></span>). The right hand side of a comprehension can consist of multiple generators. For example, the following set consists of every element resulting from the sum of an element of <span class="m"><i>s</i></span> with an element of <span class="m"><i>t</i></span>:</p>
-<div class="fx nb both" id="c-e14bd53f" data-kind="code" data-example="Overview.Expression.comprehension.sum"><div class="fx-r"><svg class="tx" data-d="48" viewBox="4.38 11.26 116.19 11.16" width="11.619em" height="1.116em" fill="currentColor"><text class='t5' x='4.98' y='19.33'>u</text>
-<text class='t1' x='13.45' y='19.33'>=</text>
-<text class='t6' x='23.97' y='19.33'>{</text>
-<text class='t5' x='28.95' y='19.33'>x</text>
-<text class='t1' x='36.86' y='19.33'>+</text>
-<text class='t5' x='46.82' y='19.33'>y</text>
-<text class='t6' x='54.83' y='19.33'>|</text>
-<text class='t5' x='60.36' y='19.33'>x</text>
-<text class='t6' x='68.82' y='19.33'>←</text>
-<text class='t5' x='81.55' y='19.33'>s,<tspan x='90.65'>y</tspan></text>
-<text class='t6' x='98.66' y='19.33'>←</text>
-<text class='t5' x='111.39' y='19.33'>t</text>
-<text class='t6' x='114.99' y='19.33'>}</text></svg></div><pre class="fx-s"><code>  u = {x + y | x &lt;- s, y &lt;- t}</code></pre></div>
+<div class="fx nb both" id="c-e14bd53f" data-kind="code" data-example="Overview.Expression.comprehension.sum"><div class="fx-r"><svg class="tx" data-d="48" viewBox="21.32 11.26 116.19 11.16" width="11.619em" height="1.116em" fill="currentColor"><text class='t5' x='21.92' y='19.33'>u</text>
+<text class='t1' x='30.39' y='19.33'>=</text>
+<text class='t6' x='40.9' y='19.33'>{</text>
+<text class='t5' x='45.89' y='19.33'>x</text>
+<text class='t1' x='53.79' y='19.33'>+</text>
+<text class='t5' x='63.76' y='19.33'>y</text>
+<text class='t6' x='71.77' y='19.33'>|</text>
+<text class='t5' x='77.3' y='19.33'>x</text>
+<text class='t6' x='85.76' y='19.33'>←</text>
+<text class='t5' x='98.49' y='19.33'>s,<tspan x='107.59'>y</tspan></text>
+<text class='t6' x='115.6' y='19.33'>←</text>
+<text class='t5' x='128.33' y='19.33'>t</text>
+<text class='t6' x='131.93' y='19.33'>}</text></svg></div><pre class="fx-s"><code>  u = {x + y | x &lt;- s, y &lt;- t}</code></pre></div>
 <p id="p-b3f02f13" class="nb">The right hand side of a comprehension can also contain <em>filtering expressions</em> to constrain the elements provided by other clauses. For example, we can stipulate that <span class="m"><i>v</i></span> consists of all nonnegative elements of <span class="m"><i>t</i></span> as follows:</p>
-<div class="fx nb both" id="c-85a610f4" data-kind="code" data-example="Overview.Expression.comprehension.filter"><div class="fx-r"><svg class="tx" data-d="49" viewBox="-0.60 11.26 96.80 11.16" width="9.680em" height="1.116em" fill="currentColor"><text class='t5' x='0' y='19.33'>v</text>
-<text class='t1' x='7.95' y='19.33'>=</text>
-<text class='t6' x='18.47' y='19.33'>{</text>
-<text class='t5' x='23.45' y='19.33'>x</text>
-<text class='t6' x='31.91' y='19.33'>|</text>
-<text class='t5' x='37.45' y='19.33'>x</text>
-<text class='t6' x='45.91' y='19.33'>←</text>
-<text class='t5' x='58.64' y='19.33'>t,<tspan x='66.66'>x</tspan></text>
-<text class='t6' x='75.13' y='19.33'>≥</text>
-<text class='t1' x='85.64' y='19.33'>0</text>
-<text class='t6' x='90.62' y='19.33'>}</text></svg></div><pre class="fx-s"><code>v = {x | x &lt;- t, x &gt;= 0}</code></pre></div>
+<div class="fx nb both" id="c-85a610f4" data-kind="code" data-example="Overview.Expression.comprehension.filter"><div class="fx-r"><svg class="tx" data-d="49" viewBox="9.36 11.26 96.80 11.16" width="9.680em" height="1.116em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>v</text>
+<text class='t1' x='17.92' y='19.33'>=</text>
+<text class='t6' x='28.43' y='19.33'>{</text>
+<text class='t5' x='33.41' y='19.33'>x</text>
+<text class='t6' x='41.88' y='19.33'>|</text>
+<text class='t5' x='47.41' y='19.33'>x</text>
+<text class='t6' x='55.87' y='19.33'>←</text>
+<text class='t5' x='68.6' y='19.33'>t,<tspan x='76.63'>x</tspan></text>
+<text class='t6' x='85.09' y='19.33'>≥</text>
+<text class='t1' x='95.6' y='19.33'>0</text>
+<text class='t6' x='100.59' y='19.33'>}</text></svg></div><pre class="fx-s"><code>v = {x | x &lt;- t, x &gt;= 0}</code></pre></div>
 <p id="p-2029d60b" class="nb">There is a comprehension expression for every form of aggregate expression. For example, here is a list comprehension in Fortress:</p>
-<div class="fx nb both" id="c-8164c10d" data-kind="code" data-example="Overview.Expression.comprehension.l"><div class="fx-r"><svg class="tx" data-d="50" viewBox="4.38 11.26 75.74 11.16" width="7.574em" height="1.116em" fill="currentColor"><text class='t5' x='4.98' y='19.33'>l</text>
-<text class='t1' x='10.92' y='19.33'>=</text>
-<text class='t6' x='21.43' y='19.33'></text>
-<text class='t1' x='26.97' y='19.33'>2</text>
-<text class='t5' x='33.61' y='19.33'>x</text>
-<text class='t6' x='42.07' y='19.33'>|</text>
-<text class='t5' x='47.61' y='19.33'>x</text>
-<text class='t6' x='56.07' y='19.33'>←</text>
-<text class='t5' x='68.8' y='19.33'>v</text>
-<text class='t6' x='75.64' y='19.33'></text></svg></div><pre class="fx-s"><code>  l = &lt;| 2 x | x &lt;- v |&gt;</code></pre></div>
+<div class="fx nb both" id="c-8164c10d" data-kind="code" data-example="Overview.Expression.comprehension.l"><div class="fx-r"><svg class="tx" data-d="50" viewBox="21.32 11.26 74.08 11.16" width="7.408em" height="1.116em" fill="currentColor"><text class='t5' x='21.92' y='19.33'>l</text>
+<text class='t1' x='27.85' y='19.33'>=</text>
+<text class='t6' x='38.37' y='19.33'></text>
+<text class='t1' x='43.9' y='19.33'>2</text>
+<text class='t5' x='48.89' y='19.33'>x</text>
+<text class='t6' x='57.35' y='19.33'>|</text>
+<text class='t5' x='62.88' y='19.33'>x</text>
+<text class='t6' x='71.34' y='19.33'>←</text>
+<text class='t5' x='84.07' y='19.33'>v</text>
+<text class='t6' x='90.92' y='19.33'></text></svg></div><pre class="fx-s"><code>  l = &lt;| 2 x | x &lt;- v |&gt;</code></pre></div>
 <p id="p-77260a08" class="nb">The elements of this list consist of all elements of the set <span class="m"><i>v</i></span> multiplied by <span class="m">2</span>.</p>
 <p id="p-f9bf31cb" class="nb">In the case of an array comprehension, the expression to the left of the bar includes a tuple indexing the elements of the array. For example, the following comprehension describes a <span class="m">3 × 3</span> array, all of whose elements are zero.</p>
 <div class="fx nb both" id="c-27c503fd" data-kind="code"><div class="fx-r"><svg class="tx" data-d="51" viewBox="9.36 11.26 170.30 11.16" width="17.030em" height="1.116em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>[(</text>
@@ -1140,16 +1116,16 @@ end</code></pre></div>
 <section class="sec" data-num="2.13" data-title="Summations and Products">
 <h2 id="s-summations-and-products" class="nb"><span class="num">2.13</span> Summations and Products</h2>
 <p id="p-9d2c25fd" class="nb">As with mathematical notation, Fortress provides syntactic support for summations and productions (and other big operations) over the elements of a collection. For example, an alternative definition of <span class="m"><i>factorial</i></span> is as follows:</p>
-<div class="fx nb both" id="c-19c256f2" data-kind="code" data-example="Overview.Expression.big"><div class="fx-r"><svg class="tx" data-d="54" viewBox="-0.60 10.36 93.93 23.42" width="9.393em" height="2.342em" fill="currentColor"><text class='t2' x='0' y='21.42'>factorial</text>
-<text class='t1' x='37.06' y='21.42'>(</text>
-<text class='t5' x='40.93' y='21.42'>n</text>
-<text class='t1' x='46.91' y='21.42'>)<tspan x='53.55'>=</tspan></text>
-<text class='t11' x='68.66' y='11.96'></text>
-<text class='t8' x='64.07' y='33.17'>i</text>
-<text class='t14' x='66.89' y='33.17'>←</text>
-<text class='t7' x='74.83' y='33.17'>1:</text>
-<text class='t8' x='81.06' y='33.17'>n</text>
-<text class='t5' x='89.3' y='21.42'>i</text></svg></div><pre class="fx-s"><code>factorial(n) = PROD[i &lt;- 1:n] i</code></pre></div>
+<div class="fx nb both" id="c-19c256f2" data-kind="code" data-example="Overview.Expression.big"><div class="fx-r"><svg class="tx" data-d="54" viewBox="9.36 11.26 94.49 17.44" width="9.449em" height="1.744em" fill="currentColor"><text class='t2' x='9.96' y='19.33'>factorial</text>
+<text class='t1' x='47.02' y='19.33'>(</text>
+<text class='t5' x='50.89' y='19.33'>n</text>
+<text class='t1' x='56.87' y='19.33'>)<tspan x='63.51'>=</tspan></text>
+<text class='t11' x='80.28' y='11.86'></text>
+<text class='t8' x='74.03' y='28.09'>i</text>
+<text class='t14' x='76.85' y='28.09'>←</text>
+<text class='t7' x='84.79' y='28.09'>1:</text>
+<text class='t8' x='91.02' y='28.09'>n</text>
+<text class='t5' x='99.82' y='19.33'>i</text></svg></div><pre class="fx-s"><code>factorial(n) = PROD[i &lt;- 1:n] i</code></pre></div>
 <p id="p-f7518b26" class="nb">This function definition can be written in ASCII as follows:</p>
 <pre class="vb nb" id="c-19c256f2-2" data-kind="code"><code>factorial(n) = PROD[i &lt;- 1:n] i</code></pre>
 <p id="p-bad91fa2" class="nb">The character <span class="m"><span class="big">∏</span></span> is written <span class="tt">PROD</span>. Likewise, <span class="m"><span class="big">∑</span></span> is written <span class="tt">SUM</span>. As with comprehensions, the values in the iteration are generated from specified collections.</p>
@@ -1157,36 +1133,30 @@ end</code></pre></div>
 <section class="sec" data-num="2.14" data-title="Tests and Properties">
 <h2 id="s-tests-and-properties" class="nb"><span class="num">2.14</span> Tests and Properties</h2>
 <p id="p-48de137d" class="nb">Fortress includes support for automated program testing. A new test in a component can be defined using the <span class="m"><span class="kw">test</span></span> modifier on a top-level function definition with type “<span class="m">() → ()</span>”. For example, here is a test function that calls the <span class="m"><i>factorial</i></span> function on some representative values and checks that the calls result in values greater than or equal to what was provided:</p>
-<div class="fx nb both" id="c-dc4d84e3" data-kind="code" data-example="Overview.Tests"><div class="fx-r"><svg class="tx" data-d="55" viewBox="-0.60 11.26 272.99 111.09" width="27.299em" height="11.109em" fill="currentColor"><text class='t0' x='0' y='19.33'>test</text>
-<text class='t2' x='23.69' y='19.33'>factorialR<tspan x='66.47'>esultL</tspan><tspan x='92.07'>ar</tspan><tspan x='100.85'>ger</tspan></text>
-<text class='t1' x='115.29' y='19.33'>(<tspan x='119.58'>)</tspan><tspan x='126.22'>=</tspan></text>
-<text class='t0' x='136.74' y='19.33'>do</text>
-<text class='t2' x='8.86' y='39.85'>assert</text>
-<text class='t11' x='35.13' y='31.78'></text>
-<text class='t1' x='39.7' y='39.85'>0</text>
-<text class='t6' x='47.45' y='39.85'>≤</text>
-<text class='t2' x='57.96' y='39.85'>factorial</text>
-<text class='t1' x='95.02' y='39.85'>(0)</text>
-<text class='t11' x='107.75' y='31.78'></text>
-<text class='t2' x='8.86' y='60.37'>assert</text>
-<text class='t11' x='35.13' y='52.3'></text>
-<text class='t1' x='39.7' y='60.37'>1</text>
-<text class='t6' x='47.45' y='60.37'>≤</text>
-<text class='t2' x='57.96' y='60.37'>factorial</text>
-<text class='t1' x='95.02' y='60.37'>(1)</text>
-<text class='t11' x='107.75' y='52.3'></text>
-<text class='t2' x='8.86' y='80.9'>assert</text>
-<text class='t11' x='35.13' y='72.83'></text>
-<text class='t1' x='39.7' y='80.9'>10</text>
-<text class='t6' x='52.43' y='80.9'>≤</text>
-<text class='t2' x='62.95' y='80.9'>factorial</text>
-<text class='t1' x='100' y='80.9'>(10)</text>
-<text class='t11' x='117.71' y='72.83'></text>
-<text class='t2' x='8.86' y='101.32'>println</text>
-<text class='t3' x='41.79' y='101.32'>“</text>
-<text class='t4' x='46.22' y='101.32'>Test<tspan x='76.1'>factorialResultLarger</tspan><tspan x='207.61'>succeeded.</tspan></text>
-<text class='t3' x='267.39' y='101.32'>”</text>
-<text class='t0' x='0' y='121.74'>end</text></svg></div><pre class="fx-s"><code>test factorialResultLarger() = do
+<div class="fx nb both" id="c-dc4d84e3" data-kind="code" data-example="Overview.Tests"><div class="fx-r"><svg class="tx" data-d="55" viewBox="9.36 11.26 278.86 68.45" width="27.886em" height="6.845em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>test</text>
+<text class='t2' x='35.87' y='19.33'>factorialR<tspan x='78.65'>esultL</tspan><tspan x='104.25'>ar</tspan><tspan x='113.03'>ger</tspan></text>
+<text class='t1' x='127.47' y='19.33'>()<tspan x='137.99'>=</tspan></text>
+<text class='t0' x='148.5' y='19.33'>do</text>
+<text class='t2' x='21.92' y='31.28'>assert</text>
+<text class='t1' x='48.2' y='31.28'>(0</text>
+<text class='t6' x='59.82' y='31.28'>≤</text>
+<text class='t2' x='70.33' y='31.28'>factorial</text>
+<text class='t1' x='107.39' y='31.28'>(0))</text>
+<text class='t2' x='21.92' y='43.24'>assert</text>
+<text class='t1' x='48.2' y='43.24'>(1</text>
+<text class='t6' x='59.82' y='43.24'>≤</text>
+<text class='t2' x='70.33' y='43.24'>factorial</text>
+<text class='t1' x='107.39' y='43.24'>(1))</text>
+<text class='t2' x='21.92' y='55.19'>assert</text>
+<text class='t1' x='48.2' y='55.19'>(10</text>
+<text class='t6' x='64.8' y='55.19'>≤</text>
+<text class='t2' x='75.32' y='55.19'>factorial</text>
+<text class='t1' x='112.37' y='55.19'>(10))</text>
+<text class='t2' x='21.92' y='67.15'>println</text>
+<text class='t3' x='57.62' y='67.15'>“</text>
+<text class='t4' x='62.05' y='67.15'>Test<tspan x='91.93'>factorialResultLarger</tspan><tspan x='223.44'>succeeded.</tspan></text>
+<text class='t3' x='283.22' y='67.15'>”</text>
+<text class='t0' x='9.96' y='79.1'>end</text></svg></div><pre class="fx-s"><code>test factorialResultLarger() = do
   assert(0 &lt;= factorial(0))
   assert(1 &lt;= factorial(1))
   assert(10 &lt;= factorial(10))
@@ -1225,59 +1195,58 @@ end</code></pre></div>
 </section>
 <section class="sec" data-num="2.15" data-title="Objects and Traits">
 <h2 id="sec-overview-objects-traits" class="nb"><span class="num">2.15</span> Objects and Traits</h2>
-<p id="p-5025a777" class="nb">A great deal of programming can be done simply through the use of functions, top-level variables, and standard types. However, Fortress also includes a trait and object system for defining new types, as well as objects that belong to them. Traits in Fortress exist in a multiple inheritance hierarchy rooted at the traits <span class="m"><span class="ty">Object</span></span> and <span class="m"><span class="ty">Index</span></span>.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
-<p id="p-ef7fcce4" class="nb">The Working Draft of February 2011 rooted the hierarchy at <span class="m"><span class="ty">Object</span></span>; <span class="m"><span class="ty">Index</span></span>, which the revival adds to the library, extends only <span class="m"><span class="ty">Any</span></span> (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->).</p></aside>
-<p id="p-fa267a07" class="nb">A trait declaration includes a set of method declarations, some of which may be abstract. For example, here is a declaration of a simple trait named <span class="m"><span class="ty">Moving</span></span>:</p>
-<a id="movingDim"></a><div class="fx nb both" id="c-c38ec1e8" data-kind="code" data-example="Overview.Moving"><div class="fx-r"><svg class="tx" data-d="58" viewBox="-0.60 11.26 189.47 70.42" width="18.947em" height="7.042em" fill="currentColor"><text class='t0' x='0' y='19.33'>trait</text>
-<text class='t1' x='28.92' y='19.33'>Mo<tspan x='42.76'>ving</tspan></text>
-<text class='t0' x='64.2' y='19.33'>extends</text>
-<text class='t6' x='103.58' y='19.33'>{</text>
-<text class='t1' x='110.22' y='19.33'>T<tspan x='116.59'>angible</tspan></text>
-<text class='t5' x='147.58' y='19.33'>,</text>
-<text class='t1' x='152.01' y='19.33'>Ob<tspan x='165.85'>ject</tspan></text>
-<text class='t6' x='183.28' y='19.33'>}</text>
-<text class='t2' x='8.86' y='39.99'>p<tspan x='13.44'>osition</tspan></text>
-<text class='t1' x='43.48' y='39.99'>(<tspan x='47.77'>):</tspan></text>
-<text class='t12' x='56.07' y='39.99'>R</text>
-<text class='t7' x='63.27' y='35.88'>3</text>
-<text class='t2' x='8.86' y='60.65'>velo<tspan x='25.15'>city</tspan></text>
-<text class='t1' x='41.82' y='60.65'>(<tspan x='46.11'>):</tspan></text>
-<text class='t12' x='54.41' y='60.65'>R</text>
-<text class='t7' x='61.6' y='56.54'>3</text>
-<text class='t0' x='0' y='81.08'>end</text></svg></div><pre class="fx-s"><code>trait Moving extends { Tangible, Object }
+<p id="p-c5b925ed" class="nb">A great deal of programming can be done simply through the use of functions, top-level variables, and standard types. However, Fortress also includes a trait and object system for defining new types, as well as objects that belong to them. Traits in Fortress exist in a multiple inheritance hierarchy rooted at trait <span class="m"><span class="ty">Object</span></span>. A trait declaration includes a set of method declarations, some of which may be abstract. For example, here is a declaration of a simple trait named <span class="m"><span class="ty">Moving</span></span>:</p>
+<a id="movingDim"></a><div class="fx nb both" id="c-c38ec1e8" data-kind="code" data-example="Overview.Moving"><div class="fx-r"><svg class="tx" data-d="58" viewBox="9.36 11.26 191.68 44.54" width="19.168em" height="4.454em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>Mo<tspan x='54.93'>ving</tspan></text>
+<text class='t0' x='76.38' y='19.33'>extends</text>
+<text class='t6' x='115.76' y='19.33'>{</text>
+<text class='t1' x='122.4' y='19.33'>T<tspan x='128.77'>angible</tspan></text>
+<text class='t5' x='159.76' y='19.33'>,</text>
+<text class='t1' x='164.19' y='19.33'>Ob<tspan x='178.03'>ject</tspan></text>
+<text class='t6' x='195.46' y='19.33'>}</text>
+<text class='t2' x='21.92' y='31.28'>p<tspan x='26.5'>osition</tspan></text>
+<text class='t1' x='56.54' y='31.28'>():</text>
+<text class='t12' x='68.72' y='31.28'>R</text>
+<text class='t7' x='75.92' y='27.67'>3</text>
+<text class='t2' x='21.92' y='43.24'>velo<tspan x='38.21'>city</tspan></text>
+<text class='t1' x='54.88' y='43.24'>():</text>
+<text class='t12' x='67.06' y='43.24'>R</text>
+<text class='t7' x='74.25' y='39.62'>3</text>
+<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>trait Moving extends { Tangible, Object }
   position(): RR^3
   velocity(): RR^3
 end</code></pre></div>
 <p id="p-5ef2c079" class="nb">The set of traits extended by trait <span class="m"><span class="ty">Moving</span></span> are listed in braces after <span class="m"><span class="kw">extends</span></span>. Trait <span class="m"><span class="ty">Moving</span></span> inherits all methods declared by each trait it extends. The two methods <span class="m"><i>position</i></span> and <span class="m"><i>velocity</i></span> declared in trait <span class="m"><span class="ty">Moving</span></span> are <em>abstract</em>; they contain no body. Their return types are vectors of length 3, whose elements are of type <span class="m">ℝ</span>. As in mathematical notation, a vector of length <span class="m"><i>n</i></span> with element type <span class="m"><i>T</i></span> is written <span class="m"><i>T</i><sup><i>n</i></sup></span>.</p>
 <p id="p-bc1d2c53" class="nb">Traits can also declare concrete methods, as in the following example:</p>
-<a id="fastDim"></a><div class="fx nb both" id="c-9802ec6c" data-kind="code" data-example="Overview.Fast"><div class="fx-r"><svg class="tx" data-d="59" viewBox="-0.60 11.92 130.33 48.85" width="13.033em" height="4.885em" fill="currentColor"><text class='t0' x='0' y='19.33'>trait</text>
-<text class='t1' x='28.92' y='19.33'>F<tspan x='34.59'>ast</tspan></text>
-<text class='t0' x='50.14' y='19.33'>extends</text>
-<text class='t1' x='89.52' y='19.33'>Mo<tspan x='103.36'>ving</tspan></text>
-<text class='t2' x='8.86' y='39.75'>velo<tspan x='25.15'>city</tspan></text>
-<text class='t1' x='41.82' y='39.75'>(<tspan x='46.11'>)</tspan><tspan x='52.75'>=</tspan><tspan x='63.26'>[0</tspan><tspan x='73.78'>0</tspan><tspan x='81.53'>299792458]</tspan></text>
-<text class='t0' x='0' y='60.17'>end</text></svg></div><pre class="fx-s"><code>trait Fast extends Moving
+<a id="fastDim"></a><div class="fx nb both" id="c-9802ec6c" data-kind="code" data-example="Overview.Fast"><div class="fx-r"><svg class="tx" data-d="59" viewBox="9.36 11.92 133.01 31.92" width="13.301em" height="3.192em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>F<tspan x='46.77'>ast</tspan></text>
+<text class='t0' x='62.32' y='19.33'>extends</text>
+<text class='t1' x='103.92' y='19.33'>Mo<tspan x='117.75'>ving</tspan></text>
+<text class='t2' x='21.92' y='31.28'>velo<tspan x='38.21'>city</tspan></text>
+<text class='t1' x='54.88' y='31.28'>()<tspan x='65.39'>=</tspan><tspan x='75.91'>[0</tspan><tspan x='86.43'>0</tspan><tspan x='94.18'>299792458]</tspan></text>
+<text class='t0' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>trait Fast extends Moving
   velocity() = [0 0 299792458]
 end</code></pre></div>
 <p id="p-d187284d" class="nb">Trait <span class="m"><span class="ty">Fast</span></span> extends a single trait, <span class="m"><span class="ty">Moving</span></span>. (Because it extends only one trait, we can elide the braces in its <span class="m"><span class="kw">extends</span></span> clause.) It inherits both abstract methods defined in <span class="m"><span class="ty">Moving</span></span>, and it provides a concrete body for method <span class="m"><i>velocity</i></span>.</p>
 <p id="p-94dc4966" class="nb">Trait declarations can be extended by other trait declarations, as well as by <em>object declarations</em>. There are two kinds of object declarations: <em>singleton declarations</em> and <em>constructor declarations</em>.</p>
 <p id="p-f2a2967f" class="nb">A singleton declaration declares a sole, stand-alone, <em>singleton object</em>. For example:</p>
-<div class="fx nb both" id="c-524d6dfc" data-kind="code" data-example="Overview.Sol"><div class="fx-r"><svg class="tx" data-d="60" viewBox="-0.60 11.26 169.26 90.37" width="16.926em" height="9.037em" fill="currentColor"><text class='t0' x='0' y='19.33'>object</text>
-<text class='t1' x='34.15' y='19.33'>Sol</text>
-<text class='t0' x='50.2' y='19.33'>extends</text>
-<text class='t6' x='89.58' y='19.33'>{</text>
-<text class='t1' x='96.22' y='19.33'>Mo<tspan x='110.06'>ving</tspan></text>
-<text class='t5' x='128.74' y='19.33'>,</text>
-<text class='t1' x='133.17' y='19.33'>Stellar</text>
-<text class='t6' x='163.08' y='19.33'>}</text>
-<text class='t2' x='8.86' y='39.75'>sp<tspan x='17.51'>e</tspan><tspan x='21.59'>ctr</tspan><tspan x='33.17'>alClass</tspan></text>
-<text class='t1' x='67.31' y='39.75'>=<tspan x='77.82'>G2</tspan></text>
-<text class='t2' x='8.86' y='60.17'>p<tspan x='13.44'>osition</tspan></text>
-<text class='t1' x='43.48' y='60.17'>(<tspan x='47.77'>)</tspan><tspan x='54.41'>=</tspan><tspan x='64.93'>[0</tspan><tspan x='75.44'>0</tspan><tspan x='83.19'>0]</tspan></text>
-<text class='t2' x='8.86' y='80.6'>velo<tspan x='25.15'>city</tspan></text>
-<text class='t1' x='41.82' y='80.6'>(<tspan x='46.11'>)</tspan><tspan x='52.75'>=</tspan><tspan x='63.26'>[0</tspan><tspan x='73.78'>0</tspan><tspan x='81.53'>0]</tspan></text>
-<text class='t0' x='0' y='101.02'>end</text></svg></div><pre class="fx-s"><code>object Sol extends { Moving, Stellar }
+<div class="fx nb both" id="c-524d6dfc" data-kind="code" data-example="Overview.Sol"><div class="fx-r"><svg class="tx" data-d="60" viewBox="9.36 11.26 171.48 56.49" width="17.148em" height="5.649em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>object</text>
+<text class='t1' x='46.33' y='19.33'>Sol</text>
+<text class='t0' x='62.38' y='19.33'>extends</text>
+<text class='t6' x='101.76' y='19.33'>{</text>
+<text class='t1' x='108.4' y='19.33'>Mo<tspan x='122.24'>ving</tspan></text>
+<text class='t5' x='140.92' y='19.33'>,</text>
+<text class='t1' x='145.34' y='19.33'>Stellar</text>
+<text class='t6' x='175.26' y='19.33'>}</text>
+<text class='t2' x='21.92' y='31.28'>sp<tspan x='30.57'>e</tspan><tspan x='34.65'>ctr</tspan><tspan x='46.23'>alClass</tspan></text>
+<text class='t1' x='80.37' y='31.28'>=</text>
+<text class='t5' x='90.89' y='31.28'>G</text>
+<text class='t7' x='98.72' y='32.78'>2</text>
+<text class='t2' x='21.92' y='43.24'>p<tspan x='26.5'>osition</tspan></text>
+<text class='t1' x='56.54' y='43.24'>()<tspan x='67.06'>=</tspan><tspan x='77.58'>[0</tspan><tspan x='88.09'>0</tspan><tspan x='95.84'>0]</tspan></text>
+<text class='t2' x='21.92' y='55.19'>velo<tspan x='38.21'>city</tspan></text>
+<text class='t1' x='54.88' y='55.19'>()<tspan x='65.39'>=</tspan><tspan x='75.91'>[0</tspan><tspan x='86.43'>0</tspan><tspan x='94.18'>0]</tspan></text>
+<text class='t0' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>object Sol extends { Moving, Stellar }
   spectralClass = G2
   position() = [0 0 0]
   velocity() = [0 0 0]
@@ -1296,70 +1265,70 @@ end</code></pre></div>
 <p id="p-7033b7b2" class="nb">In fact, all accesses to a field from outside the object to which the field belongs must go through the getter of the field, and all assignments to it must go through the setter. (There is simply no other way syntactically to refer to the field.)</p>
 <p id="p-6c566493" class="nb">If a field includes modifier <span class="m"><span class="kw">hidden</span></span>, no implicit getter is defined for the object.</p>
 <p id="p-567e5495" class="nb">The self parameter of a method can be given a position other than the default position. For example, here is a definition of a type where the self parameters appear in nonstandard positions:</p>
-<div class="fx nb both" id="c-111a534e" data-kind="code" data-example="Overview.List"><div class="fx-r"><svg class="tx" data-d="63" viewBox="-0.60 11.92 126.19 69.28" width="12.619em" height="6.928em" fill="currentColor"><text class='t0' x='0' y='19.33'>trait</text>
-<text class='t1' x='28.92' y='19.33'>List</text>
-<text class='t2' x='8.86' y='39.75'>c<tspan x='12.93'>ons</tspan></text>
-<text class='t1' x='28.51' y='39.75'>(</text>
-<text class='t5' x='32.39' y='39.75'>x</text>
-<text class='t1' x='38.08' y='39.75'>:<tspan x='42.51'>Ob</tspan><tspan x='56.35'>ject</tspan></text>
-<text class='t5' x='72.12' y='39.75'>,</text>
-<text class='t0' x='76.55' y='39.75'>self</text>
-<text class='t1' x='97.47' y='39.75'>):<tspan x='105.77'>List</tspan></text>
-<text class='t2' x='8.86' y='60.17'>app<tspan x='23.62'>end</tspan></text>
-<text class='t1' x='39.93' y='60.17'>(</text>
-<text class='t2' x='43.8' y='60.17'>xs</text>
-<text class='t1' x='53.31' y='60.17'>:<tspan x='57.74'>List</tspan></text>
-<text class='t5' x='74.54' y='60.17'>,</text>
-<text class='t0' x='78.97' y='60.17'>self</text>
-<text class='t1' x='99.89' y='60.17'>):<tspan x='108.19'>List</tspan></text>
-<text class='t0' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>trait List
+<div class="fx nb both" id="c-111a534e" data-kind="code" data-example="Overview.List"><div class="fx-r"><svg class="tx" data-d="63" viewBox="9.36 11.92 129.29 43.87" width="12.929em" height="4.387em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>List</text>
+<text class='t2' x='21.92' y='31.28'>c<tspan x='25.99'>ons</tspan></text>
+<text class='t1' x='41.58' y='31.28'>(</text>
+<text class='t5' x='45.45' y='31.28'>x</text>
+<text class='t1' x='51.14' y='31.28'>:<tspan x='55.57'>Ob</tspan><tspan x='69.41'>ject</tspan></text>
+<text class='t5' x='85.18' y='31.28'>,</text>
+<text class='t0' x='89.61' y='31.28'>self</text>
+<text class='t1' x='110.53' y='31.28'>):<tspan x='118.83'>List</tspan></text>
+<text class='t2' x='21.92' y='43.24'>app<tspan x='36.68'>end</tspan></text>
+<text class='t1' x='52.99' y='43.24'>(</text>
+<text class='t2' x='56.86' y='43.24'>xs</text>
+<text class='t1' x='66.38' y='43.24'>:<tspan x='70.81'>List</tspan></text>
+<text class='t5' x='87.6' y='43.24'>,</text>
+<text class='t0' x='92.03' y='43.24'>self</text>
+<text class='t1' x='112.95' y='43.24'>):<tspan x='121.25'>List</tspan></text>
+<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>trait List
   cons(x: Object, self): List
   append(xs: List, self): List
 end</code></pre></div>
 <p id="p-556c3ad9" class="nb">In both methods <span class="m"><i>cons</i></span> and <span class="m"><i>append</i></span>, the self parameter occurs as the second parameter. Calls to these methods look more like function calls than method calls. For example, in the following call to <span class="m"><i>append</i></span>, the receiver of the call is <span class="m"><i>l</i><sub>2</sub></span>:</p>
-<div class="fx nb both" id="c-1c53d56a" data-kind="code" data-example="Overview.append"><div class="fx-r"><svg class="tx" data-d="64" viewBox="4.38 11.26 59.33 11.16" width="5.933em" height="1.116em" fill="currentColor"><text class='t2' x='4.98' y='19.33'>app<tspan x='19.75'>end</tspan></text>
-<text class='t1' x='36.05' y='19.33'>(</text>
-<text class='t5' x='39.93' y='19.33'>l</text>
-<text class='t7' x='42.9' y='20.82'>1</text>
-<text class='t5' x='47.37' y='19.33'>,<tspan x='51.8'>l</tspan></text>
-<text class='t7' x='54.77' y='20.82'>2</text>
-<text class='t1' x='59.24' y='19.33'>)</text></svg></div><pre class="fx-s"><code>  append(l1, l2)</code></pre></div>
+<div class="fx nb both" id="c-1c53d56a" data-kind="code" data-example="Overview.append"><div class="fx-r"><svg class="tx" data-d="64" viewBox="21.32 11.26 59.33 11.16" width="5.933em" height="1.116em" fill="currentColor"><text class='t2' x='21.92' y='19.33'>app<tspan x='36.68'>end</tspan></text>
+<text class='t1' x='52.99' y='19.33'>(</text>
+<text class='t5' x='56.86' y='19.33'>l</text>
+<text class='t7' x='59.84' y='20.82'>1</text>
+<text class='t5' x='64.31' y='19.33'>,<tspan x='68.73'>l</tspan></text>
+<text class='t7' x='71.71' y='20.82'>2</text>
+<text class='t1' x='76.18' y='19.33'>)</text></svg></div><pre class="fx-s"><code>  append(l1, l2)</code></pre></div>
 <p id="p-a7e868bf" class="nb">A constructor declaration declares an <em>object constructor</em>. In contrast to singleton declarations, a constructor declaration includes value parameters in its header, as in the following example: <a id="particleDim"></a></p>
-<div class="fx nb both" id="c-897a8057" data-kind="code" data-example="Overview.Particle"><div class="fx-r"><svg class="tx" data-d="65" viewBox="-0.60 10.36 180.95 50.65" width="18.095em" height="5.065em" fill="currentColor"><text class='t0' x='0' y='19.57'>object</text>
-<text class='t1' x='34.15' y='19.57'>P<tspan x='40.65'>article</tspan><tspan x='67.8'>(</tspan></text>
-<text class='t2' x='71.68' y='19.57'>p<tspan x='76.26'>osition</tspan></text>
-<text class='t1' x='106.3' y='19.57'>:</text>
-<text class='t12' x='110.73' y='19.57'>R</text>
-<text class='t7' x='117.92' y='15.45'>3</text>
-<text class='t5' x='122.39' y='19.57'>,</text>
-<text class='t2' x='126.82' y='19.57'>velo<tspan x='143.12'>city</tspan></text>
-<text class='t1' x='159.78' y='19.57'>:</text>
-<text class='t12' x='164.21' y='19.57'>R</text>
-<text class='t7' x='171.41' y='15.45'>3</text>
-<text class='t1' x='175.87' y='19.57'>)</text>
-<text class='t0' x='8.86' y='39.99'>extends</text>
-<text class='t1' x='48.24' y='39.99'>Mo<tspan x='62.07'>ving</tspan></text>
-<text class='t0' x='0' y='60.41'>end</text></svg></div><pre class="fx-s"><code>object Particle(position: RR^3, velocity: RR^3)
+<div class="fx nb both" id="c-897a8057" data-kind="code" data-example="Overview.Particle"><div class="fx-r"><svg class="tx" data-d="65" viewBox="9.36 10.62 183.16 33.22" width="18.316em" height="3.322em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>object</text>
+<text class='t1' x='46.33' y='19.33'>P<tspan x='52.83'>article</tspan><tspan x='79.98'>(</tspan></text>
+<text class='t2' x='83.85' y='19.33'>p<tspan x='88.43'>osition</tspan></text>
+<text class='t1' x='118.48' y='19.33'>:</text>
+<text class='t12' x='122.91' y='19.33'>R</text>
+<text class='t7' x='130.1' y='15.71'>3</text>
+<text class='t5' x='134.57' y='19.33'>,</text>
+<text class='t2' x='139' y='19.33'>velo<tspan x='155.29'>city</tspan></text>
+<text class='t1' x='171.96' y='19.33'>:</text>
+<text class='t12' x='176.39' y='19.33'>R</text>
+<text class='t7' x='183.58' y='15.71'>3</text>
+<text class='t1' x='188.05' y='19.33'>)</text>
+<text class='t0' x='21.92' y='31.28'>extends</text>
+<text class='t1' x='63.51' y='31.28'>Mo<tspan x='77.35'>ving</tspan></text>
+<text class='t0' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>object Particle(position: RR^3, velocity: RR^3)
   extends Moving
 end</code></pre></div>
 <p id="p-692a398b" class="nb">Every call to the constructor of <span class="m"><span class="ty">Particle</span></span> yields a new object. For example:</p>
-<div class="fx nb both" id="c-f9dc3703" data-kind="code" data-example="Overview.p1"><div class="fx-r"><svg class="tx" data-d="66" viewBox="4.38 10.36 97.10 53.38" width="9.710em" height="5.338em" fill="currentColor"><text class='t2' x='4.98' y='19.57'>p<tspan x='9.56'>os</tspan></text>
-<text class='t1' x='19.55' y='19.57'>:</text>
-<text class='t12' x='23.98' y='19.57'>R</text>
-<text class='t7' x='31.17' y='15.45'>3</text>
-<text class='t1' x='38.41' y='19.57'>=<tspan x='48.92'>[3</tspan><tspan x='59.44'>2</tspan><tspan x='67.19'>5]</tspan></text>
-<text class='t2' x='4.98' y='40.23'>vel</text>
-<text class='t1' x='17.72' y='40.23'>:</text>
-<text class='t12' x='22.15' y='40.23'>R</text>
-<text class='t7' x='29.35' y='36.12'>3</text>
-<text class='t1' x='36.58' y='40.23'>=<tspan x='47.1'>[1</tspan><tspan x='57.61'>0</tspan><tspan x='65.36'>0]</tspan></text>
-<text class='t5' x='4.98' y='60.65'>p</text>
-<text class='t7' x='9.99' y='62.15'>1</text>
-<text class='t1' x='17.23' y='60.65'>=<tspan x='27.75'>P</tspan><tspan x='34.25'>article</tspan><tspan x='61.4'>(</tspan></text>
-<text class='t2' x='65.27' y='60.65'>p<tspan x='69.86'>os</tspan></text>
-<text class='t5' x='79.84' y='60.65'>,</text>
-<text class='t2' x='84.27' y='60.65'>vel</text>
-<text class='t1' x='97.01' y='60.65'>)</text></svg></div><pre class="fx-s"><code>  pos: RR^3 = [3 2 5]
+<div class="fx nb both" id="c-f9dc3703" data-kind="code" data-example="Overview.p1"><div class="fx-r"><svg class="tx" data-d="66" viewBox="21.32 10.62 97.10 35.71" width="9.710em" height="3.571em" fill="currentColor"><text class='t2' x='21.92' y='19.33'>p<tspan x='26.5'>os</tspan></text>
+<text class='t1' x='36.48' y='19.33'>:</text>
+<text class='t12' x='40.91' y='19.33'>R</text>
+<text class='t7' x='48.11' y='15.71'>3</text>
+<text class='t1' x='55.34' y='19.33'>=<tspan x='65.86'>[3</tspan><tspan x='76.38'>2</tspan><tspan x='84.12'>5]</tspan></text>
+<text class='t2' x='21.92' y='31.28'>vel</text>
+<text class='t1' x='34.66' y='31.28'>:</text>
+<text class='t12' x='39.09' y='31.28'>R</text>
+<text class='t7' x='46.28' y='27.67'>3</text>
+<text class='t1' x='53.52' y='31.28'>=<tspan x='64.03'>[1</tspan><tspan x='74.55'>0</tspan><tspan x='82.3'>0]</tspan></text>
+<text class='t5' x='21.92' y='43.24'>p</text>
+<text class='t7' x='26.93' y='44.73'>1</text>
+<text class='t1' x='34.17' y='43.24'>=<tspan x='44.68'>P</tspan><tspan x='51.19'>article</tspan><tspan x='78.33'>(</tspan></text>
+<text class='t2' x='82.21' y='43.24'>p<tspan x='86.79'>os</tspan></text>
+<text class='t5' x='96.78' y='43.24'>,</text>
+<text class='t2' x='101.2' y='43.24'>vel</text>
+<text class='t1' x='113.94' y='43.24'>)</text></svg></div><pre class="fx-s"><code>  pos: RR^3 = [3 2 5]
   vel: RR^3 = [1 0 0]
   p1 = Particle(pos, vel)</code></pre></div>
 <p id="p-a981f5d9" class="nb">The parameters to an object constructor implicitly define fields of the object, along with their getters (by default). These parameters can include all of the modifiers that an ordinary field can. For example, a parameter can include the modifier <span class="m"><span class="kw">hidden</span></span>, in which case a getter is not implicitly defined for the field.</p>
@@ -1498,18 +1467,18 @@ v.position</code></pre></div>
 <section class="sec" data-num="2.16.3" data-title="Operator Overloading">
 <h3 id="s-operator-overloading" class="nb"><span class="num">2.16.3</span> Operator Overloading</h3>
 <p id="p-a9418d46" class="nb">Operators in Fortress can be overloaded with new definitions. Here is an alternative definition of the <span class="m"><i>factorial</i></span> function, defined as a postfix operator:</p>
-<div class="fx nb both" id="c-c71224e3" data-kind="code" data-example="Overview.factorial"><div class="fx-r"><svg class="tx" data-d="72" viewBox="-0.60 10.36 99.69 23.42" width="9.969em" height="2.342em" fill="currentColor"><text class='t0' x='0' y='21.42'>opr</text>
-<text class='t1' x='18.46' y='21.42'>(</text>
-<text class='t5' x='22.33' y='21.42'>n</text>
-<text class='t1' x='28.31' y='21.42'>:</text>
-<text class='t12' x='32.74' y='21.42'>Z</text>
-<text class='t1' x='39.38' y='21.42'>32)!<tspan x='60.97'>=</tspan></text>
-<text class='t11' x='76.08' y='11.96'></text>
-<text class='t8' x='71.48' y='33.17'>i</text>
-<text class='t14' x='74.3' y='33.17'>←</text>
-<text class='t7' x='82.25' y='33.17'>1:</text>
-<text class='t8' x='88.47' y='33.17'>n</text>
-<text class='t5' x='95.06' y='21.42'>i</text></svg></div><pre class="fx-s"><code>opr (n: ZZ32)! = PROD[i &lt;- 1:n]i</code></pre></div>
+<div class="fx nb both" id="c-c71224e3" data-kind="code" data-example="Overview.factorial"><div class="fx-r"><svg class="tx" data-d="72" viewBox="9.36 11.26 97.48 17.44" width="9.748em" height="1.744em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>opr</text>
+<text class='t1' x='28.42' y='19.33'>(</text>
+<text class='t5' x='32.3' y='19.33'>n</text>
+<text class='t1' x='38.28' y='19.33'>:</text>
+<text class='t12' x='42.7' y='19.33'>Z</text>
+<text class='t1' x='49.34' y='19.33'>32)!<tspan x='68.72'>=</tspan></text>
+<text class='t11' x='85.48' y='11.86'></text>
+<text class='t8' x='79.23' y='28.09'>i</text>
+<text class='t14' x='82.05' y='28.09'>←</text>
+<text class='t7' x='89.99' y='28.09'>1:</text>
+<text class='t8' x='96.22' y='28.09'>n</text>
+<text class='t5' x='102.81' y='19.33'>i</text></svg></div><pre class="fx-s"><code>opr (n: ZZ32)! = PROD[i &lt;- 1:n]i</code></pre></div>
 <p id="p-4aa5b794" class="nb">As with mathematical notation, Fortress allows operators to be defined as prefix, postfix, and infix. More exotic operators can even be defined as subscripting (i.e., applications of the operators look like subscripts), and as bracketing (i.e., applications of the operators look like the operands have been simply enclosed in brackets).</p>
 </section>
 <section class="sec" data-num="2.16.4" data-title="Definition of New Syntax">
@@ -1519,8 +1488,9 @@ v.position</code></pre></div>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="intro.html"><span>Previous</span> 1. Introduction</a><a class="next" href="programs.html"><span>Next</span> 3. Programs</a></nav>
-<footer class="colophon">Converted from <code>Specification/preliminaries/overview.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/preliminaries/overview.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/overview.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

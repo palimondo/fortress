@@ -22,11 +22,11 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..', '..'))
-PAGES = os.path.join(ROOT, 'docs', 'specification')
+PAGES = os.path.join(ROOT, 'docs', 'specification', 'revival')    # the revised edition; --pages and --pdf name another
 PDF = os.path.join(ROOT, 'Specification', 'fortress.pdf')
 K = 10            # length of a run of characters
 LIMIT = 0.75      # share of a block's runs that the PDF must hold
-SKIP_PAGES = {'index', 'notes', 'references'}
+SKIP_PAGES = {'index', 'notes', 'references', 'editions'}
 # Blocks that differ from the PDF for a reason that README.md gives: (page, first characters of the reduced block)
 KNOWN = [('preface', 'aboutthisworkingdraft')]     # the reader's own title of the front matter
 
@@ -61,7 +61,7 @@ def blocks(page):
     s = s[s.index('<section class="sec chapter"'):] if '<section class="sec chapter"' in s else s
     s = re.sub(r'<nav class="(parts|pager)".*?</nav>', '', s, flags=re.S)
     s = re.sub(r'<footer.*?</footer>', '', s, flags=re.S)
-    s = re.sub(r'<p class="(standfirst|legend|label)".*?</p>', '', s, flags=re.S)
+    s = re.sub(r'<p class="(standfirst|legend|label|edline|edline top)".*?</p>', '', s, flags=re.S)
     s = re.sub(r'<a class="ed[^>]*>.*?</a>', '', s, flags=re.S)
     s = re.sub(r'<pre class="fx-s">.*?</pre>', '', s, flags=re.S)        # the source form is not in the PDF
     s = re.sub(r'<span class="num">.*?</span>', '', s, flags=re.S)
@@ -85,7 +85,18 @@ def blocks(page):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith('-')]
+    global PAGES, PDF
+    argv = sys.argv[1:]
+    for opt in ('--pages', '--pdf'):       # --pages FOLDER --pdf FILE: another edition against its PDF
+        if opt in argv:
+            i = argv.index(opt)
+            value = os.path.abspath(argv[i + 1])
+            del argv[i:i + 2]
+            if opt == '--pages':
+                PAGES = value
+            else:
+                PDF = value
+    args = [a for a in argv if not a.startswith('-')]
     verbose = '-v' in sys.argv
     runs, whole = pdf_runs()
     names = args or sorted(f[:-5] for f in os.listdir(PAGES) if f.endswith('.html') and f[:-5] not in SKIP_PAGES)

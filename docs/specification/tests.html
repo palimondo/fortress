@@ -8,22 +8,21 @@
 <link rel="stylesheet" href="tex-fonts.css">
 <style>
 svg.tx text.t0{font-family:cmtt10;font-size:9.96px}
-svg.tx text.t1{font-family:cmti10;font-size:9.96px}
+svg.tx text.t1{font-family:cmmi10;font-size:9.96px}
 svg.tx text.t2{font-family:cmr7;font-size:6.97px}
 svg.tx text.t3{font-family:cmr10;font-size:9.96px}
-svg.tx text.t4{font-family:cmex10;font-size:9.96px}
+svg.tx text.t4{font-family:cmti10;font-size:9.96px}
 svg.tx text.t5{font-family:ptmr8r;font-size:9.93px}
 svg.tx text.t6{font-family:pcrr8r;font-size:9.93px}
 svg.tx text.t7{font-family:phvr8r;font-size:9.93px}
 svg.tx text.t8{font-family:ptmri8r;font-size:9.93px}
-svg.tx text.t9{font-family:cmmi10;font-size:9.96px}
-svg.tx text.t10{font-family:cmsy7;font-size:6.97px}
-svg.tx text.t11{font-family:cmsy10;font-size:9.96px}
-svg.tx text.t12{font-family:msbm10;font-size:9.96px}
-svg.tx text.t13{font-family:stmary10;font-size:9.96px}
+svg.tx text.t9{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t10{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t11{font-family:msbm10;font-size:9.96px}
+svg.tx text.t12{font-family:stmary10;font-size:9.96px}
 </style>
 </head>
-<body data-page="chapter" data-slug="tests" data-chapter="19. Tests and Properties">
+<body data-page="chapter" data-slug="tests" data-chapter="19. Tests and Properties" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">19. Tests and Properties</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -47,28 +46,26 @@ svg.tx text.t13{font-family:stmary10;font-size:9.96px}
 <p id="p-513ea745" class="nb">A limited form of tests are supported by the interpreter as follows:</p>
 <p id="p-0b5955ef" class="nb">To help make programs more robust, the <span class="m"><span class="kw">test</span></span> modifier can appear on a top-level function definition with type “<span class="m">() → ()</span>”. Functions with modifier <span class="m"><span class="kw">test</span></span> must not be overloaded with functions that do not have modifier <span class="m"><span class="kw">test</span></span>. The collection of all functions in a program that include modifier <span class="m"><span class="kw">test</span></span> are referred to collectively as the program’s <em>tests</em>. Tests can refer to non-tests but it is a static error for a non-test to refer to any test. Tests can refer to non-tests but non-tests must not refer to any test.</p>
 <p id="p-3398da85" class="nb">For example, we can write the following test function:</p>
-<div class="fx nb both" id="c-c871b59a" data-kind="code" data-example="TestFactorial"><div class="fx-r"><svg class="tx" data-d="1" viewBox="-0.60 11.26 189.55 90.57" width="18.955em" height="9.057em" fill="currentColor"><text class='t0' x='0' y='19.33'>test</text>
-<text class='t1' x='23.69' y='19.33'>testF<tspan x='44.7'>actorial</tspan></text>
-<text class='t2' x='78.7' y='20.82'>1</text>
-<text class='t3' x='83.17' y='19.33'>(<tspan x='87.46'>)</tspan><tspan x='94.1'>=</tspan></text>
-<text class='t0' x='104.62' y='19.33'>do</text>
-<text class='t1' x='13.28' y='39.85'>assert</text>
-<text class='t4' x='39.56' y='31.78'></text>
-<text class='t1' x='44.13' y='39.85'>fact</text>
-<text class='t3' x='61.11' y='39.85'>(0)<tspan x='76.61'>=</tspan><tspan x='87.13'>1</tspan></text>
-<text class='t4' x='92.11' y='31.78'></text>
-<text class='t1' x='13.28' y='60.37'>assert</text>
-<text class='t4' x='39.56' y='52.3'></text>
-<text class='t1' x='44.13' y='60.37'>fact</text>
-<text class='t3' x='61.11' y='60.37'>(5)<tspan x='76.61'>=</tspan><tspan x='87.13'>120</tspan></text>
-<text class='t4' x='102.07' y='52.3'></text>
-<text class='t1' x='13.28' y='80.8'>println</text>
-<text class='t3' x='43.45' y='80.8'>(</text>
-<text class='t5' x='47.33' y='80.8'>“</text>
-<text class='t6' x='51.75' y='80.8'>testFactorial1<tspan x='141.42'>passed</tspan></text>
-<text class='t5' x='177.28' y='80.8'>”</text>
-<text class='t3' x='181.7' y='80.8'>);</text>
-<text class='t0' x='0' y='101.22'>end</text></svg></div><pre class="fx-s"><code>test testFactorial1() = do
+<div class="fx nb both" id="c-c871b59a" data-kind="code" data-example="TestFactorial"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.26 194.20 56.49" width="19.420em" height="5.649em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>test</text>
+<text class='t1' x='33.65' y='19.33'>testF<tspan x='57.95'>actor</tspan><tspan x='80.72'>ial</tspan></text>
+<text class='t2' x='92.59' y='20.82'>1</text>
+<text class='t3' x='97.06' y='19.33'>()<tspan x='107.57'>=</tspan></text>
+<text class='t0' x='118.09' y='19.33'>do</text>
+<text class='t4' x='27.9' y='31.28'>assert</text>
+<text class='t3' x='54.17' y='31.28'>(</text>
+<text class='t4' x='58.05' y='31.28'>fact</text>
+<text class='t3' x='75.03' y='31.28'>(0)<tspan x='90.53'>=</tspan><tspan x='101.05'>1)</tspan></text>
+<text class='t4' x='27.9' y='43.24'>assert</text>
+<text class='t3' x='54.17' y='43.24'>(</text>
+<text class='t4' x='58.05' y='43.24'>fact</text>
+<text class='t3' x='75.03' y='43.24'>(5)<tspan x='90.53'>=</tspan><tspan x='101.05'>120)</tspan></text>
+<text class='t4' x='27.9' y='55.19'>println</text>
+<text class='t3' x='58.07' y='55.19'>(</text>
+<text class='t5' x='61.94' y='55.19'>“</text>
+<text class='t6' x='66.36' y='55.19'>testFactorial1<tspan x='156.03'>passed</tspan></text>
+<text class='t5' x='191.89' y='55.19'>”</text>
+<text class='t3' x='196.32' y='55.19'>);</text>
+<text class='t0' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>test testFactorial1() = do
    assert(fact(0) = 1)
    assert(fact(5) = 120)
    println("testFactorial1 passed");
@@ -95,25 +92,25 @@ end</code></pre></div>
 <text class='t5' x='125.31' y='40.76'>::=</text>
 <text class='t8' x='148.42' y='40.76'>Gener<tspan x='173.17'>atorBinding</tspan></text>
 <text class='t5' x='221.33' y='40.76'>(</text>
-<text class='t9' x='224.65' y='40.76'>,</text>
+<text class='t1' x='224.65' y='40.76'>,</text>
 <text class='t8' x='231.56' y='40.76'>Gener<tspan x='256.31'>atorClause</tspan></text>
 <text class='t5' x='300.6' y='40.76'>)</text>
-<text class='t10' x='303.91' y='37.14'>∗</text>
+<text class='t9' x='303.91' y='37.14'>∗</text>
 <text class='t8' x='25.9' y='52.71'>Gener<tspan x='50.65'>atorBinding</tspan></text>
 <text class='t5' x='125.31' y='52.71'>::=</text>
 <text class='t8' x='148.42' y='52.71'>BindIdOrBindIdT<tspan x='218.72'>uple</tspan></text>
-<text class='t11' x='235.87' y='52.71'>←</text>
+<text class='t10' x='235.87' y='52.71'>←</text>
 <text class='t8' x='247.5' y='52.71'>Expr<tspan x='25.9' y='64.67'>Gener</tspan><tspan x='50.65'>atorClause</tspan></text>
 <text class='t5' x='125.31' y='64.67'>::=</text>
 <text class='t8' x='148.42' y='64.67'>Gener<tspan x='173.17'>atorBinding</tspan></text>
-<text class='t11' x='125.31' y='76.62'>|</text>
+<text class='t10' x='125.31' y='76.62'>|</text>
 <text class='t8' x='148.42' y='76.62'>Expr<tspan x='25.9' y='88.58'>BindIdOrBindIdT</tspan><tspan x='96.2'>uple</tspan></text>
 <text class='t5' x='125.31' y='88.58'>::=</text>
 <text class='t8' x='148.42' y='88.58'>BindId</text>
-<text class='t11' x='125.31' y='100.53'>|</text>
+<text class='t10' x='125.31' y='100.53'>|</text>
 <text class='t6' x='148.42' y='100.53'>(</text>
 <text class='t8' x='156.89' y='100.53'>BindId</text>
-<text class='t9' x='184.28' y='100.53'>,</text>
+<text class='t1' x='184.28' y='100.53'>,</text>
 <text class='t8' x='191.2' y='100.53'>BindIdList</text>
 <text class='t6' x='235.94' y='100.53'>)</text></svg></div>
 <p id="p-0c21a817" class="nb">A test declaration begins with <span class="m"><span class="kw">test</span></span> followed by an identifier, a list of zero or more generators (described in <a class="xref" href="expressions.html#sec-generators">Section 13.14</a><!--nc-->) enclosed in square brackets, the token <span class="m">=</span>, and a subexpression. When a test is <em>run</em> (See <a class="xref" href="components.html#sec-basicops">Section 22.8</a><!--nc-->), the subexpression is evaluated in each extension of the enclosing environment corresponding to each point in the cross product of bindings determined by the generators in the generator list.</p>
@@ -121,23 +118,23 @@ end</code></pre></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-f1698d4c" class="nb">The fortify has some problems here...</p></aside>
 <div class="fx nb" id="c-3b2b5959" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="15.34 11.26 252.71 11.16" width="25.271em" height="1.116em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>test</text>
-<text class='t1' x='39.63' y='19.33'>fxL<tspan x='53.05'>essThanFy</tspan></text>
+<text class='t4' x='39.63' y='19.33'>fxL<tspan x='53.05'>essThanFy</tspan></text>
 <text class='t3' x='100.91' y='19.33'>[</text>
-<text class='t9' x='103.68' y='19.33'>x</text>
-<text class='t11' x='112.14' y='19.33'>←</text>
-<text class='t9' x='124.87' y='19.33'>E<tspan x='132.8'>,</tspan><tspan x='137.23'>y</tspan></text>
-<text class='t11' x='145.24' y='19.33'>←</text>
-<text class='t9' x='157.97' y='19.33'>F</text>
+<text class='t1' x='103.68' y='19.33'>x</text>
+<text class='t10' x='112.14' y='19.33'>←</text>
+<text class='t1' x='124.87' y='19.33'>E<tspan x='132.8'>,</tspan><tspan x='137.23'>y</tspan></text>
+<text class='t10' x='145.24' y='19.33'>←</text>
+<text class='t1' x='157.97' y='19.33'>F</text>
 <text class='t3' x='165.76' y='19.33'>]<tspan x='171.29'>=</tspan></text>
-<text class='t1' x='181.81' y='19.33'>assert</text>
+<text class='t4' x='181.81' y='19.33'>assert</text>
 <text class='t3' x='208.08' y='19.33'>(</text>
-<text class='t9' x='211.96' y='19.33'>f</text>
+<text class='t1' x='211.96' y='19.33'>f</text>
 <text class='t3' x='217.91' y='19.33'>(</text>
-<text class='t9' x='221.78' y='19.33'>x</text>
+<text class='t1' x='221.78' y='19.33'>x</text>
 <text class='t3' x='227.48' y='19.33'>)</text>
-<text class='t9' x='234.12' y='19.33'>&lt;<tspan x='244.63'>f</tspan></text>
+<text class='t1' x='234.12' y='19.33'>&lt;<tspan x='244.63'>f</tspan></text>
 <text class='t3' x='250.58' y='19.33'>(</text>
-<text class='t9' x='254.46' y='19.33'>y</text>
+<text class='t1' x='254.46' y='19.33'>y</text>
 <text class='t3' x='259.7' y='19.33'>))</text></svg></div></div>
 <p id="p-13f99517" class="nb">checks that, for each value <span class="m"><i>x</i></span> supplied by generator <span class="m"><i>E</i></span>, and for each value <span class="m"><i>y</i></span> supplied by generator <span class="m"><i>F</i></span>, <span class="m"><i>f</i>(<i>x</i>)</span> is less than <span class="m"><i>f</i>(<i>y</i>)</span>.</p>
 </section>
@@ -146,31 +143,31 @@ end</code></pre></div>
 <p id="p-a73693ed" class="nb">The <span class="m"><span class="kw">test</span></span> modifier can also appear on a function definition, trait definition, object definition, or top-level variable definition. In these contexts, the modifier indicates that the program construct it modifies can be referred to by a test. Functions with modifier <span class="m"><span class="kw">test</span></span> must not be overloaded with functions that do not have modifier <span class="m"><span class="kw">test</span></span>, and traits with modifier <span class="m"><span class="kw">test</span></span> must not be extended by traits or objects that do not have modifier <span class="m"><span class="kw">test</span></span>. The collection of all constructs in a program that include modifier <span class="m"><span class="kw">test</span></span> are referred to collectively as the program’s <em>tests</em>. Tests can refer to non-tests but it is a static error for a non-test to refer to any test.</p>
 <p id="p-45cb61f0" class="nb">For example, we can write the following helper function:</p>
 <div class="fx nb both" id="c-b51d7eab" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="15.34 11.26 182.99 140.18" width="18.299em" height="14.018em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>test</text>
-<text class='t1' x='39.63' y='19.33'>ensur<tspan x='62.92'>eApplic</tspan><tspan x='94.77'>ationF</tspan><tspan x='122.66'>ails</tspan></text>
+<text class='t4' x='39.63' y='19.33'>ensur<tspan x='62.92'>eApplic</tspan><tspan x='94.77'>ationF</tspan><tspan x='122.66'>ails</tspan></text>
 <text class='t3' x='138.25' y='19.33'>(</text>
-<text class='t9' x='142.12' y='19.33'>g<tspan x='147.23'>,</tspan><tspan x='151.66'>x</tspan></text>
+<text class='t1' x='142.12' y='19.33'>g<tspan x='147.23'>,</tspan><tspan x='151.66'>x</tspan></text>
 <text class='t3' x='157.35' y='19.33'>)<tspan x='163.99'>=</tspan></text>
 <text class='t0' x='174.51' y='19.33'>do</text>
-<text class='t1' x='27.9' y='31.28'>applic<tspan x='52.85'>ationSuc</tspan><tspan x='90.02'>c</tspan><tspan x='94.09'>e</tspan><tspan x='98.16'>e</tspan><tspan x='102.24'>de</tspan><tspan x='111.4'>d</tspan></text>
+<text class='t4' x='27.9' y='31.28'>applic<tspan x='52.85'>ationSuc</tspan><tspan x='90.02'>c</tspan><tspan x='94.09'>e</tspan><tspan x='98.16'>e</tspan><tspan x='102.24'>de</tspan><tspan x='111.4'>d</tspan></text>
 <text class='t3' x='120.29' y='31.28'>:<tspan x='123.06'>=</tspan></text>
-<text class='t1' x='133.58' y='31.28'>false</text>
+<text class='t4' x='133.58' y='31.28'>false</text>
 <text class='t0' x='27.9' y='43.24'>try</text>
-<text class='t9' x='39.85' y='55.19'>g</text>
+<text class='t1' x='39.85' y='55.19'>g</text>
 <text class='t3' x='44.96' y='55.19'>(</text>
-<text class='t9' x='48.83' y='55.19'>x</text>
+<text class='t1' x='48.83' y='55.19'>x</text>
 <text class='t3' x='54.53' y='55.19'>)</text>
-<text class='t1' x='39.85' y='67.15'>applic<tspan x='64.8'>ationSuc</tspan><tspan x='101.97'>c</tspan><tspan x='106.05'>e</tspan><tspan x='110.12'>e</tspan><tspan x='114.19'>de</tspan><tspan x='123.36'>d</tspan></text>
+<text class='t4' x='39.85' y='67.15'>applic<tspan x='64.8'>ationSuc</tspan><tspan x='101.97'>c</tspan><tspan x='106.05'>e</tspan><tspan x='110.12'>e</tspan><tspan x='114.19'>de</tspan><tspan x='123.36'>d</tspan></text>
 <text class='t3' x='132.25' y='67.15'>:<tspan x='135.02'>=</tspan></text>
-<text class='t1' x='145.53' y='67.15'>true</text>
+<text class='t4' x='145.53' y='67.15'>true</text>
 <text class='t0' x='27.9' y='79.1'>catch</text>
-<text class='t9' x='56.81' y='79.1'>e</text>
+<text class='t1' x='56.81' y='79.1'>e</text>
 <text class='t3' x='39.85' y='91.06'>Exception</text>
-<text class='t11' x='86.2' y='91.06'>⇒</text>
+<text class='t10' x='86.2' y='91.06'>⇒</text>
 <text class='t3' x='98.93' y='91.06'>()</text>
 <text class='t0' x='27.9' y='103.01'>end<tspan x='27.9' y='114.97'>if</tspan></text>
-<text class='t1' x='41.12' y='114.97'>applic<tspan x='66.07'>ationSuc</tspan><tspan x='103.25'>c</tspan><tspan x='107.32'>e</tspan><tspan x='111.39'>e</tspan><tspan x='115.47'>de</tspan><tspan x='124.63'>d</tspan></text>
+<text class='t4' x='41.12' y='114.97'>applic<tspan x='66.07'>ationSuc</tspan><tspan x='103.25'>c</tspan><tspan x='107.32'>e</tspan><tspan x='111.39'>e</tspan><tspan x='115.47'>de</tspan><tspan x='124.63'>d</tspan></text>
 <text class='t0' x='133.52' y='114.97'>then</text>
-<text class='t1' x='39.85' y='126.92'>fail</text>
+<text class='t4' x='39.85' y='126.92'>fail</text>
 <text class='t5' x='57.4' y='126.92'>“</text>
 <text class='t6' x='61.82' y='126.92'>Application<tspan x='133.55'>succeeded!</tspan></text>
 <text class='t5' x='193.33' y='126.92'>”</text>
@@ -202,30 +199,30 @@ end</code></pre></div>
 <p id="p-888963e2" class="nb">The convenience object <span class="m"><span class="ty">TestSuite</span></span> is defined in the Fortress standard libraries. An instance of this object contains a set of test functions that can all be called by invoking the method <span class="m"><i>run</i></span>:</p>
 <div class="fx nb both" id="c-4d28201a" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="15.34 11.26 195.36 88.37" width="19.536em" height="8.837em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>test<tspan x='42.4'>object</tspan></text>
 <text class='t3' x='76.55' y='19.33'>T<tspan x='82.91'>estSuite</tspan><tspan x='117.28'>(</tspan></text>
-<text class='t1' x='121.16' y='19.33'>testF<tspan x='142.17'>unctions</tspan></text>
+<text class='t4' x='121.16' y='19.33'>testF<tspan x='142.17'>unctions</tspan></text>
 <text class='t3' x='182.42' y='19.33'>=</text>
-<text class='t11' x='192.94' y='19.33'>{}</text>
+<text class='t10' x='192.94' y='19.33'>{}</text>
 <text class='t3' x='202.9' y='19.33'>)</text>
-<text class='t1' x='27.9' y='35.27'>add</text>
+<text class='t4' x='27.9' y='35.27'>add</text>
 <text class='t3' x='44.2' y='35.27'>(</text>
-<text class='t9' x='48.08' y='35.27'>f</text>
+<text class='t1' x='48.08' y='35.27'>f</text>
 <text class='t3' x='54.03' y='35.27'>:<tspan x='58.45'>()</tspan></text>
-<text class='t11' x='68.97' y='35.27'>→</text>
+<text class='t10' x='68.97' y='35.27'>→</text>
 <text class='t3' x='81.7' y='35.27'>())<tspan x='96.09'>=</tspan></text>
-<text class='t1' x='109.37' y='35.27'>testF<tspan x='130.39'>unctions</tspan></text>
-<text class='t9' x='167.87' y='35.27'>.</text>
-<text class='t1' x='170.64' y='35.27'>insert</text>
+<text class='t4' x='109.37' y='35.27'>testF<tspan x='130.39'>unctions</tspan></text>
+<text class='t1' x='167.87' y='35.27'>.</text>
+<text class='t4' x='170.64' y='35.27'>insert</text>
 <text class='t3' x='196.4' y='35.27'>(</text>
-<text class='t9' x='200.28' y='35.27'>f</text>
+<text class='t1' x='200.28' y='35.27'>f</text>
 <text class='t3' x='206.23' y='35.27'>)</text>
-<text class='t1' x='27.9' y='51.21'>run</text>
+<text class='t4' x='27.9' y='51.21'>run</text>
 <text class='t3' x='43.81' y='51.21'>()<tspan x='54.32'>=</tspan></text>
 <text class='t0' x='39.85' y='63.16'>for</text>
-<text class='t9' x='58.31' y='63.16'>t</text>
-<text class='t11' x='64.67' y='63.16'>←</text>
-<text class='t1' x='77.4' y='63.16'>testF<tspan x='98.42'>unctions</tspan></text>
+<text class='t1' x='58.31' y='63.16'>t</text>
+<text class='t10' x='64.67' y='63.16'>←</text>
+<text class='t4' x='77.4' y='63.16'>testF<tspan x='98.42'>unctions</tspan></text>
 <text class='t0' x='144.2' y='63.16'>do</text>
-<text class='t9' x='51.81' y='75.12'>t</text>
+<text class='t1' x='51.81' y='75.12'>t</text>
 <text class='t3' x='55.4' y='75.12'>()</text>
 <text class='t0' x='39.85' y='87.07'>end<tspan x='15.94' y='99.03'>end</tspan></text></svg></div><pre class="fx-s"><code>  add(f: () -&gt; ()) = testFunctions.insert(f)
 
@@ -246,13 +243,13 @@ end</code></pre></div>
 <text class='t8' x='169.15' y='28.8'>Id</text>
 <text class='t3' x='181.87' y='28.8'>=</text>
 <text class='t5' x='191.28' y='28.8'>)?<tspan x='202.11'>(</tspan></text>
-<text class='t11' x='205.42' y='28.8'>∀</text>
+<text class='t10' x='205.42' y='28.8'>∀</text>
 <text class='t8' x='213.45' y='28.8'>V<tspan x='218.43'>alP</tspan><tspan x='231.47'>ar</tspan><tspan x='240.18'>am</tspan></text>
 <text class='t5' x='252.35' y='28.8'>)?</text>
 <text class='t8' x='263.18' y='28.8'>Expr<tspan x='25.9' y='40.76'>V</tspan><tspan x='30.88'>alP</tspan><tspan x='43.93'>ar</tspan><tspan x='52.63'>am</tspan></text>
 <text class='t5' x='95.06' y='40.76'>::=</text>
 <text class='t8' x='118.18' y='40.76'>BindId</text>
-<text class='t11' x='95.06' y='52.71'>|</text>
+<text class='t10' x='95.06' y='52.71'>|</text>
 <text class='t6' x='118.18' y='52.71'>(</text>
 <text class='t8' x='124.15' y='52.71'>P<tspan x='129.44'>ar</tspan><tspan x='138.15'>ams</tspan></text>
 <text class='t5' x='154.2' y='52.71'>?</text>
@@ -260,39 +257,39 @@ end</code></pre></div>
 <text class='t8' x='25.9' y='64.67'>P<tspan x='31.19'>ar</tspan><tspan x='39.9'>ams</tspan></text>
 <text class='t5' x='95.06' y='64.67'>::=<tspan x='118.18'>(</tspan></text>
 <text class='t8' x='121.49' y='64.67'>P<tspan x='126.78'>ar</tspan><tspan x='135.49'>am</tspan></text>
-<text class='t9' x='147.67' y='64.67'>,</text>
+<text class='t1' x='147.67' y='64.67'>,</text>
 <text class='t5' x='152.09' y='64.67'>)</text>
-<text class='t10' x='155.41' y='61.05'>∗</text>
+<text class='t9' x='155.41' y='61.05'>∗</text>
 <text class='t5' x='162.48' y='64.67'>(</text>
 <text class='t8' x='165.8' y='64.67'>V<tspan x='170.78'>ar</tspan><tspan x='179.49'>ar</tspan><tspan x='187.98'>gs</tspan></text>
-<text class='t9' x='196.83' y='64.67'>,</text>
+<text class='t1' x='196.83' y='64.67'>,</text>
 <text class='t5' x='201.26' y='64.67'>)?</text>
 <text class='t8' x='212.09' y='64.67'>K<tspan x='218.39'>e</tspan><tspan x='222.51'>ywor</tspan><tspan x='242.07'>d</tspan></text>
 <text class='t5' x='247.32' y='64.67'>(</text>
-<text class='t9' x='250.63' y='64.67'>,</text>
+<text class='t1' x='250.63' y='64.67'>,</text>
 <text class='t8' x='255.06' y='64.67'>K<tspan x='261.36'>e</tspan><tspan x='265.48'>ywor</tspan><tspan x='285.04'>d</tspan></text>
 <text class='t5' x='290.29' y='64.67'>)</text>
-<text class='t10' x='293.61' y='61.05'>∗</text>
-<text class='t11' x='95.06' y='76.62'>|</text>
+<text class='t9' x='293.61' y='61.05'>∗</text>
+<text class='t10' x='95.06' y='76.62'>|</text>
 <text class='t5' x='118.18' y='76.62'>(</text>
 <text class='t8' x='121.49' y='76.62'>P<tspan x='126.78'>ar</tspan><tspan x='135.49'>am</tspan></text>
-<text class='t9' x='147.67' y='76.62'>,</text>
+<text class='t1' x='147.67' y='76.62'>,</text>
 <text class='t5' x='152.09' y='76.62'>)</text>
-<text class='t10' x='155.41' y='73.01'>∗</text>
+<text class='t9' x='155.41' y='73.01'>∗</text>
 <text class='t8' x='162.48' y='76.62'>V<tspan x='167.46'>ar</tspan><tspan x='176.17'>ar</tspan><tspan x='184.66'>gs</tspan></text>
-<text class='t11' x='95.06' y='88.58'>|</text>
+<text class='t10' x='95.06' y='88.58'>|</text>
 <text class='t8' x='118.18' y='88.58'>P<tspan x='123.47'>ar</tspan><tspan x='132.17'>am</tspan></text>
 <text class='t5' x='144.35' y='88.58'>(</text>
-<text class='t9' x='147.67' y='88.58'>,</text>
+<text class='t1' x='147.67' y='88.58'>,</text>
 <text class='t8' x='154.58' y='88.58'>P<tspan x='159.87'>ar</tspan><tspan x='168.58'>am</tspan></text>
 <text class='t5' x='180.76' y='88.58'>)</text>
-<text class='t10' x='184.07' y='84.96'>∗</text>
+<text class='t9' x='184.07' y='84.96'>∗</text>
 <text class='t8' x='25.9' y='100.53'>V<tspan x='30.88'>ar</tspan><tspan x='39.59'>ar</tspan><tspan x='48.08'>gsP</tspan><tspan x='62.23'>ar</tspan><tspan x='70.93'>am</tspan></text>
 <text class='t5' x='95.06' y='100.53'>::=</text>
 <text class='t8' x='118.18' y='100.53'>BindId</text>
 <text class='t3' x='145.56' y='100.53'>:</text>
 <text class='t8' x='149.99' y='100.53'>T<tspan x='154.79'>ype</tspan></text>
-<text class='t9' x='168.62' y='100.53'>...</text>
+<text class='t1' x='168.62' y='100.53'>...</text>
 <text class='t8' x='25.9' y='112.49'>V<tspan x='30.88'>ar</tspan><tspan x='39.59'>ar</tspan><tspan x='48.08'>gs</tspan></text>
 <text class='t5' x='95.06' y='112.49'>::=</text>
 <text class='t8' x='118.18' y='112.49'>V<tspan x='123.16'>ar</tspan><tspan x='131.86'>ar</tspan><tspan x='140.35'>gsP</tspan><tspan x='154.5'>ar</tspan><tspan x='163.21'>am</tspan><tspan x='25.9' y='124.44'>K</tspan><tspan x='32.2'>e</tspan><tspan x='36.32'>ywor</tspan><tspan x='55.88'>d</tspan></text>
@@ -303,7 +300,7 @@ end</code></pre></div>
 <text class='t5' x='95.06' y='136.4'>::=</text>
 <text class='t8' x='118.18' y='136.4'>BindId<tspan x='148.05'>IsT</tspan><tspan x='160.05'>ype</tspan></text>
 <text class='t5' x='173.88' y='136.4'>?</text>
-<text class='t11' x='95.06' y='148.35'>|</text>
+<text class='t10' x='95.06' y='148.35'>|</text>
 <text class='t8' x='118.18' y='148.35'>T<tspan x='122.98'>ype</tspan><tspan x='25.9' y='160.31'>P</tspan><tspan x='31.19'>ar</tspan><tspan x='39.9'>am</tspan></text>
 <text class='t5' x='95.06' y='160.31'>::=</text>
 <text class='t8' x='118.18' y='160.31'>PlainP<tspan x='145.06'>ar</tspan><tspan x='153.76'>am</tspan></text></svg></div>
@@ -312,88 +309,89 @@ end</code></pre></div>
 <p id="p-161bf519" class="nb">Property functions and methods can be referred to in a program’s tests. If the result of a call to a property function or method is not <span class="m"><i>true</i></span>, a <span class="m"><span class="ty">TestFailure</span></span> exception is thrown. For example, we can write:</p>
 <div class="fx nb" id="c-2cf09c06" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="15.34 11.26 276.27 11.16" width="27.627em" height="1.116em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>property</text>
 <text class='t3' x='60.55' y='19.33'>fIsMonotonic<tspan x='120.1'>=</tspan></text>
-<text class='t11' x='130.62' y='19.33'>∀</text>
+<text class='t10' x='130.62' y='19.33'>∀</text>
 <text class='t3' x='136.16' y='19.33'>(</text>
-<text class='t9' x='140.03' y='19.33'>x</text>
+<text class='t1' x='140.03' y='19.33'>x</text>
 <text class='t3' x='145.72' y='19.33'>:</text>
-<text class='t12' x='150.15' y='19.33'>Z</text>
-<text class='t9' x='156.79' y='19.33'>,<tspan x='161.22'>y</tspan></text>
+<text class='t11' x='150.15' y='19.33'>Z</text>
+<text class='t1' x='156.79' y='19.33'>,<tspan x='161.22'>y</tspan></text>
 <text class='t3' x='166.46' y='19.33'>:</text>
-<text class='t12' x='170.89' y='19.33'>Z</text>
+<text class='t11' x='170.89' y='19.33'>Z</text>
 <text class='t3' x='177.53' y='19.33'>)<tspan x='184.17'>(</tspan></text>
-<text class='t9' x='188.05' y='19.33'>x<tspan x='196.51'>&lt;</tspan><tspan x='207.03'>y</tspan></text>
+<text class='t1' x='188.05' y='19.33'>x<tspan x='196.51'>&lt;</tspan><tspan x='207.03'>y</tspan></text>
 <text class='t3' x='212.27' y='19.33'>)</text>
-<text class='t11' x='218.91' y='19.33'>→</text>
+<text class='t10' x='218.91' y='19.33'>→</text>
 <text class='t3' x='231.64' y='19.33'>(</text>
-<text class='t9' x='235.51' y='19.33'>f</text>
+<text class='t1' x='235.51' y='19.33'>f</text>
 <text class='t3' x='241.46' y='19.33'>(</text>
-<text class='t9' x='245.34' y='19.33'>x</text>
+<text class='t1' x='245.34' y='19.33'>x</text>
 <text class='t3' x='251.03' y='19.33'>)</text>
-<text class='t9' x='257.67' y='19.33'>&lt;<tspan x='268.19'>f</tspan></text>
+<text class='t1' x='257.67' y='19.33'>&lt;<tspan x='268.19'>f</tspan></text>
 <text class='t3' x='274.14' y='19.33'>(</text>
-<text class='t9' x='278.01' y='19.33'>y</text>
+<text class='t1' x='278.01' y='19.33'>y</text>
 <text class='t3' x='283.26' y='19.33'>))</text></svg></div></div>
 <div class="fx nb" id="c-d94f7154" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="15.34 11.26 285.55 35.07" width="28.555em" height="3.507em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>test</text>
-<text class='t9' x='39.63' y='19.33'>s</text>
+<text class='t1' x='39.63' y='19.33'>s</text>
 <text class='t3' x='47.07' y='19.33'>:<tspan x='52.6'>Set</tspan></text>
-<text class='t13' x='66.44' y='19.33'></text>
-<text class='t12' x='70.45' y='19.33'>Z</text>
-<text class='t13' x='77.09' y='19.33'></text>
+<text class='t12' x='66.44' y='19.33'></text>
+<text class='t11' x='70.45' y='19.33'>Z</text>
+<text class='t12' x='77.09' y='19.33'></text>
 <text class='t3' x='83.87' y='19.33'>=</text>
-<text class='t11' x='94.39' y='19.33'>{−</text>
+<text class='t10' x='94.39' y='19.33'>{−</text>
 <text class='t3' x='107.12' y='19.33'>2000</text>
-<text class='t9' x='127.04' y='19.33'>,</text>
+<text class='t1' x='127.04' y='19.33'>,</text>
 <text class='t3' x='131.47' y='19.33'>0</text>
-<text class='t9' x='136.45' y='19.33'>,</text>
+<text class='t1' x='136.45' y='19.33'>,</text>
 <text class='t3' x='140.88' y='19.33'>1</text>
-<text class='t9' x='145.86' y='19.33'>,</text>
+<text class='t1' x='145.86' y='19.33'>,</text>
 <text class='t3' x='150.29' y='19.33'>7</text>
-<text class='t9' x='155.27' y='19.33'>,</text>
+<text class='t1' x='155.27' y='19.33'>,</text>
 <text class='t3' x='159.7' y='19.33'>42</text>
-<text class='t9' x='169.66' y='19.33'>,</text>
+<text class='t1' x='169.66' y='19.33'>,</text>
 <text class='t3' x='174.09' y='19.33'>59</text>
-<text class='t9' x='184.05' y='19.33'>,</text>
+<text class='t1' x='184.05' y='19.33'>,</text>
 <text class='t3' x='188.48' y='19.33'>100</text>
-<text class='t9' x='203.42' y='19.33'>,</text>
+<text class='t1' x='203.42' y='19.33'>,</text>
 <text class='t3' x='207.85' y='19.33'>1000</text>
-<text class='t9' x='227.78' y='19.33'>,</text>
+<text class='t1' x='227.78' y='19.33'>,</text>
 <text class='t3' x='232.21' y='19.33'>5697</text>
-<text class='t11' x='252.13' y='19.33'>}</text>
+<text class='t10' x='252.13' y='19.33'>}</text>
 <text class='t0' x='15.94' y='31.28'>test</text>
-<text class='t1' x='39.63' y='31.28'>fIsMonotonicOverS</text>
+<text class='t4' x='39.63' y='31.28'>fIsMonotonicOverS</text>
 <text class='t3' x='124.76' y='31.28'>[</text>
-<text class='t9' x='127.52' y='31.28'>x</text>
-<text class='t11' x='135.99' y='31.28'>←</text>
-<text class='t9' x='148.72' y='31.28'>s,<tspan x='157.81'>y</tspan></text>
-<text class='t11' x='165.82' y='31.28'>←</text>
-<text class='t9' x='178.55' y='31.28'>s</text>
+<text class='t1' x='127.52' y='31.28'>x</text>
+<text class='t10' x='135.99' y='31.28'>←</text>
+<text class='t1' x='148.72' y='31.28'>s,<tspan x='157.81'>y</tspan></text>
+<text class='t10' x='165.82' y='31.28'>←</text>
+<text class='t1' x='178.55' y='31.28'>s</text>
 <text class='t3' x='183.22' y='31.28'>]<tspan x='188.76'>=</tspan></text>
-<text class='t1' x='199.27' y='31.28'>fIsMonotonic</text>
+<text class='t4' x='199.27' y='31.28'>fIsMonotonic</text>
 <text class='t3' x='257.17' y='31.28'>(</text>
-<text class='t9' x='261.04' y='31.28'>x,<tspan x='271.16'>y</tspan></text>
+<text class='t1' x='261.04' y='31.28'>x,<tspan x='271.16'>y</tspan></text>
 <text class='t3' x='276.4' y='31.28'>)</text>
 <text class='t0' x='15.94' y='43.24'>test</text>
-<text class='t1' x='39.63' y='43.24'>fIsMonotonicHairy</text>
+<text class='t4' x='39.63' y='43.24'>fIsMonotonicHairy</text>
 <text class='t3' x='122.43' y='43.24'>[</text>
-<text class='t9' x='125.2' y='43.24'>x</text>
-<text class='t11' x='133.66' y='43.24'>←</text>
-<text class='t9' x='146.39' y='43.24'>s,<tspan x='155.49'>y</tspan></text>
-<text class='t11' x='163.5' y='43.24'>←</text>
-<text class='t9' x='176.23' y='43.24'>s</text>
+<text class='t1' x='125.2' y='43.24'>x</text>
+<text class='t10' x='133.66' y='43.24'>←</text>
+<text class='t1' x='146.39' y='43.24'>s,<tspan x='155.49'>y</tspan></text>
+<text class='t10' x='163.5' y='43.24'>←</text>
+<text class='t1' x='176.23' y='43.24'>s</text>
 <text class='t3' x='180.9' y='43.24'>]<tspan x='186.43'>=</tspan></text>
-<text class='t1' x='196.95' y='43.24'>fIsMonotonic</text>
+<text class='t4' x='196.95' y='43.24'>fIsMonotonic</text>
 <text class='t3' x='254.84' y='43.24'>(</text>
-<text class='t9' x='258.71' y='43.24'>x,<tspan x='268.84'>x</tspan></text>
+<text class='t1' x='258.71' y='43.24'>x,<tspan x='268.84'>x</tspan></text>
 <text class='t2' x='274.53' y='39.62'>2</text>
 <text class='t3' x='281.21' y='43.24'>+</text>
-<text class='t9' x='291.18' y='43.24'>y</text>
+<text class='t1' x='291.18' y='43.24'>y</text>
 <text class='t3' x='296.42' y='43.24'>)</text></svg></div></div>
 <p id="p-fc6f6f0f" class="nb">The test <span class="m"><i>fIsMonotonicOverS</i></span> tests that function <span class="m"><i>f</i></span> is monotonic over all values in set <span class="m"><i>s</i></span>. The test <span class="m"><i>fIsMonotonicHairy</i></span> tests that <span class="m"><i>f</i></span> is monotonic with respect to the values in <span class="m"><i>s</i></span> compared to the set of values corresponding to all the ways in which we can choose an element of <span class="m"><i>s</i></span>, square it, and add it to another element of <span class="m"><i>s</i></span>.</p>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="dimunits.html"><span>Previous</span> 18. Dimensions and Units</a><a class="next" href="type-inference.html"><span>Next</span> 20. Type Inference</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic/tests.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic/tests.tex</code> with nothing added to its text. The Fortress revival of 2026 did not change this chapter; its revised edition, kept apart, has <a href="revival/tests.html">the same chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

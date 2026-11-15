@@ -20,7 +20,7 @@ svg.tx text.t9{font-family:ptmr8r;font-size:9.93px}
 svg.tx text.t10{font-family:pcrr8r;font-size:9.93px}
 </style>
 </head>
-<body data-page="chapter" data-slug="internal-document" data-chapter="J. Internal Document">
+<body data-page="chapter" data-slug="internal-document" data-chapter="J. Internal Document" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">J. Internal Document</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -46,7 +46,7 @@ svg.tx text.t10{font-family:pcrr8r;font-size:9.93px}
 <li><p id="p-7750efa1" class="nb">Spawn is considered an IO operation. Why is that?</p>
 <p id="p-6e7135f1" class="nb">We did this because we don’t want you to use spawn within an atomic expression. A lot of tricky issues arise when you do this, and we just want to avoid them for now. Eventually, we will probably relax this restriction (as we may also want to do for IO operations more generally).</p></li>
 <li><p id="p-92dce612" class="nb">How can a programmer create variable-sized arrays in Fortress, and how to take advantage of the static bounds checking offered by the language at the same time?</p>
-<p id="p-3e0943be" class="nb"><code>http://projectfortress.sun.com/Projects/Community/wiki/AnySizeArrays</code><a class="ed arch" href="https://web.archive.org/web/2008/http://projectfortress.sun.com/Projects/Community/wiki/AnySizeArrays" title="This edition’s link to a copy of the page in the Internet Archive">archived copy</a></p></li>
+<p id="p-3e0943be" class="nb"><code>http://projectfortress.sun.com/Projects/Community/wiki/AnySizeArrays</code></p></li>
 <li><p id="p-8215a234" class="nb">Why does Fortress have a multiple dispatch instead of a single dispatch?</p>
 <p id="p-a39e8fa3" class="nb">We want to disallow ambiguous calls such as the following:</p>
 <div class="fx nb both" id="c-258bb931" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="15.34 11.92 95.81 94.18" width="9.581em" height="9.418em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>trait</text>
@@ -424,9 +424,7 @@ end</code></pre></div>
  opr[r:Range[\I\]]: Indexed[\E, I\]
  ...
 end</code></pre></div>
-<p id="p-f473bbd1" class="nb">The above overloaded declarations are not really a valid overloading. We want to say that the type variable <span class="m"><i>I</i></span> extends a type, say, <span class="m"><span class="ty">Index</span></span> which either excludes <span class="m"><span class="ty">Range</span>⟦<i>I</i>⟧</span> or is a supertype of <span class="m"><span class="ty">Range</span>⟦<i>I</i>⟧</span>. However, we cannot say that because when we invoke that subscripting method, we write <span class="m"><i>a</i>[1, 2, 3]</span> where the arguments are passed as a tuple, <span class="m">(1, 2, 3)</span>. If we want to use <span class="m"><span class="ty">Index</span></span>, we need a magic to convert that tuple argument expression to something of type <span class="m"><span class="ty">Index</span></span>.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
-<p id="p-df19caae" class="nb">Done, by subtyping in place of a conversion: the library declares <span class="m"><span class="kw">trait</span> <span class="ty">Index</span> <span class="kw">extends</span> <span class="ty">Any</span></span>, <span class="m">ℤ32</span> extends <span class="m"><span class="ty">Index</span></span>, <span class="m"><span class="ty">Range</span></span> excludes it, and every index parameter of the library’s generic indexed types is bounded <span class="m"><i>I</i> <span class="kw">extends</span> <span class="ty">Index</span></span>; a tuple type whose element types are all subtypes of <span class="m"><span class="ty">Index</span></span> is a subtype of <span class="m"><span class="ty">Index</span></span> (<a class="xref" href="types.html#sec-tuple-types">Section 6.5</a>), so <span class="m"><i>a</i>[1, 2, 3]</span> passes its tuple as before.</p></aside></li>
+<p id="p-f473bbd1" class="nb">The above overloaded declarations are not really a valid overloading. We want to say that the type variable <span class="m"><i>I</i></span> extends a type, say, <span class="m"><span class="ty">Index</span></span> which either excludes <span class="m"><span class="ty">Range</span>⟦<i>I</i>⟧</span> or is a supertype of <span class="m"><span class="ty">Range</span>⟦<i>I</i>⟧</span>. However, we cannot say that because when we invoke that subscripting method, we write <span class="m"><i>a</i>[1, 2, 3]</span> where the arguments are passed as a tuple, <span class="m">(1, 2, 3)</span>. If we want to use <span class="m"><span class="ty">Index</span></span>, we need a magic to convert that tuple argument expression to something of type <span class="m"><span class="ty">Index</span></span>.</p></li>
 <li><p id="p-e778d972" class="nb">Do we want to allow object trait types to appear in <span class="m"><span class="kw">extends</span></span> clauses? (Jan’s email titled “Re: Question about not_passing_yet/extendsParam.fss” sent on 14 Nov 2007)</p></li>
 <li><p id="p-11378471" class="nb">Type variables in <span class="m"><span class="kw">excludes</span></span> clauses</p>
 <div class="fx nb" id="c-9e218c90" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.26 381.30 32.58" width="38.130em" height="3.258em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
@@ -546,9 +544,7 @@ end</code></pre></div>
 <text class='t1' x='181.38' y='31.28'>T</text>
 <text class='t2' x='188.59' y='31.28'>)<tspan x='194.12'>:</tspan></text>
 <text class='t1' x='198.55' y='31.28'>T</text></svg></div></div></li>
-</ul>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
-<p id="p-ca084506" class="nb">Done: declarations of one name may have different static parameters, under the rules of <a class="xref" href="overloaded-declarations.html#sec-overloading-static-params">Section 24.5</a><!--nc-->. Jan’s pair is still not a valid overloading, since the two declarations have the same parameter type, each applicable to every call to which the other is, which the No Duplicates Rule refuses; the Fortress standard libraries write it as one factory, <span class="m"><i>array</i><sub>1</sub>⟦<i>T</i>, <span class="kw">nat</span> <i>s</i><sub>0</sub>⟧()</span>, which chooses its result by a <span class="m"><span class="kw">typecase</span></span> on its type argument, a <span class="m"><span class="ty">Vector</span></span> where the argument is one of the eight number types <span class="m"><span class="ty">ZZ32</span></span>, <span class="m"><span class="ty">ZZ64</span></span>, <span class="m"><span class="ty">NN32</span></span>, <span class="m"><span class="ty">NN64</span></span>, <span class="m"><span class="ty">ZZ</span></span>, <span class="m"><span class="ty">QQ</span></span>, <span class="m"><span class="ty">RR32</span></span> and <span class="m"><span class="ty">RR64</span></span>, and a plain array where it is any other type, <span class="m"><span class="ty">Number</span></span> among them, since a <span class="m"><span class="ty">Vector</span></span> of <span class="m"><span class="ty">Number</span></span> is not well-formed under the bound that the Fortress standard libraries give the element type of a <span class="m"><span class="ty">Vector</span></span> (<a class="xref" href="trait-parameters.html#sec-type-param">Section 12.1</a><!--nc-->).</p></aside></li>
+</ul></li>
 <li><p id="p-c0bb17f5" class="nb">Overloaded functionals with different <span class="m"><span class="kw">throws</span></span> clauses</p></li>
 <li><p id="p-456ece6a" class="nb">Overloading with static parameters</p>
 <ul>
@@ -556,9 +552,7 @@ end</code></pre></div>
 <li><p id="p-263466fa" class="nb">Victor’s email titled “Re: Overloading and the open world assumption” sent on 11/08/07</p></li>
 <li><p id="p-4c1283a5" class="nb">What is the exclusion rule for a pair of overloaded declarations with different static parameters?</p></li>
 <li><p id="p-e20dcac3" class="nb">Do we want to consider only the exclusion between ground types or also the exclusion between the bounds of static parameters?</p></li>
-</ul>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
-<p id="p-2b7f88fd" class="nb">Answered by the existential reduction of <a class="xref" href="overloaded-declarations.html#sec-overloading-static-params">Section 24.5</a><!--nc-->: each static parameter stands for any type within its bound, and where the two parameter types, or their elements at one position, are or extend instances of one parameterized trait, instantiation exclusion lets them meet only where the static arguments of those instances are the same. Whether a bound that rules out the only static arguments at which two parameter types could meet makes them exclude each other is not settled (<a class="xref" href="spec-changes.html#sec-revival-notrevised">Section I.1.52</a><!--nc-->).</p></aside></li>
+</ul></li>
 <li><p id="p-1eedb114" class="nb">Identifying the intersection of any two types with <span class="m"><span class="kw">comprises</span></span> clauses with the union of their common subtypes</p>
 <div class="fx nb" id="c-c3630a25" data-kind="code"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 11.26 170.11 56.49" width="17.011em" height="5.649em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
 <text class='t1' x='41.1' y='19.33'>S</text>
@@ -589,13 +583,9 @@ end</code></pre></div>
 <text class='t0' x='54.66' y='67.15'>extends</text>
 <text class='t1' x='96.25' y='67.15'>T</text>
 <text class='t0' x='106.22' y='67.15'>end</text></svg></div></div>
-<p id="p-7ede2fe3" class="nb"><span class="tt">S&amp;T</span> <code>~~</code> <span class="tt">V</span> We agreed to revise the Meet rule to address this with the coverage check.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-meet">Section I.1.35</a><!--nc--></span></p>
-<p id="p-f9cbe7cc" class="nb">Done: <span class="m"><span class="ty">V</span></span> covers the intersection of <span class="m"><span class="ty">S</span></span> and <span class="m"><span class="ty">T</span></span> (<a class="xref" href="types.html#sec-internal-types">Section 6.10</a>), and the Meet Rule is also satisfied by declarations that together cover the intersection of two parameter types (<a class="xref" href="overloaded-declarations.html#sec-more-specific-rule">Section 24.4</a><!--nc-->).</p></aside></li>
+<p id="p-7ede2fe3" class="nb"><span class="tt">S&amp;T</span> <code>~~</code> <span class="tt">V</span> We agreed to revise the Meet rule to address this with the coverage check.</p></li>
 <li><p id="p-e3fe682b" class="nb">overloading in multiple scopes</p></li>
-<li><p id="p-7572a11d" class="nb">overloading with different static parameters</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
-<p id="p-cd1e5c43" class="nb">Done (<a class="xref" href="overloaded-declarations.html#sec-overloading-static-params">Section 24.5</a><!--nc-->).</p></aside></li>
+<li><p id="p-7572a11d" class="nb">overloading with different static parameters</p></li>
 <li><p id="p-33e4e08c" class="nb">exporting partial overloading</p>
 <p id="p-8fbc15e0" class="nb">I’m hoping we export all of an overloading, or none of it. – Jan</p>
 <p id="p-03619b1e" class="nb">This a reasonable restriction that I’m happy to back, unless someone has both a use case and a soundness proof for a less restrictive rule. :-) – Eric</p>
@@ -1799,8 +1789,6 @@ end</code></pre></div>
 <text class='t7' x='257.51' y='19.33'></text>
 <text class='t1' x='261.52' y='19.33'>.</text></svg></div></div>
 <p id="p-b8c01f01" class="nb"><span class="m"><i>bar</i>()</span> then becomes a legal overloading if, “<span class="m">$<i>i</i></span> = Right OR <span class="m">$<i>i</i></span> = Wrong”. Later, the call to <span class="m"><i>foo</i>()</span> forces the issue: <span class="m">$<i>i</i></span> must be “Right”, but unless we kept both possibilities alive, our program might not typecheck correctly.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-internal">Section I.1.9</a><!--nc--></span></p>
-<p id="p-82e02954" class="nb">Under instantiation exclusion the program’s premise is not allowed: <span class="m"><span class="ty">Parent</span></span> may not extend both <span class="m"><span class="ty">Plussable</span>⟦<span class="ty">Right</span>⟧</span> and <span class="m"><span class="ty">Plussable</span>⟦<span class="ty">Wrong</span>⟧</span> (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>, <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->), so the disjunction does not arise for this program.</p></aside>
 </section>
 <section class="sec" data-num="J.3.10" data-title="Weirdness with Multiple Inheritance and Polymorphism">
 <h3 id="s-weirdness-with-multiple-inheritance-and-polymorphism" class="nb"><span class="num">J.3.10</span> Weirdness with Multiple Inheritance and Polymorphism</h3>
@@ -1900,8 +1888,6 @@ end</code></pre></div>
 <text class='t4' x='141.39' y='258.43'>fo<tspan x='149.03'>o</tspan></text>
 <text class='t2' x='154.75' y='258.43'>())</text>
 <text class='t0' x='9.96' y='274.37'>end</text></svg></div></div>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-internal">Section I.1.9</a><!--nc--></span></p>
-<p id="p-3b945f25" class="nb">This is the case instantiation exclusion answers: <span class="m"><i>badChild</i></span> may not extend both <span class="m"><span class="ty">Parent</span>⟦ℤ32⟧</span> and <span class="m"><span class="ty">Parent</span>⟦<span class="ty">String</span>⟧</span> (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>, <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->), so the question of what <span class="m"><i>foo</i>()</span> returns does not arise.</p></aside>
 </section>
 <section class="sec" data-num="J.3.11" data-title="where Clauses on Methods">
 <h3 id="s-where-clauses-on-methods" class="nb"><span class="num">J.3.11</span> <span class="m"><span class="kw">where</span></span> Clauses on Methods</h3>
@@ -2490,8 +2476,6 @@ end</code></pre></div>
               where { NOT nan } }
     where { ninf OR lt OR eq OR gt OR pinf OR nan }
 end</code></pre></div>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-internal">Section I.1.9</a><!--nc--></span></p>
-<p id="p-07b3bc19" class="nb">Under instantiation exclusion this declaration is not allowed, for the reason the covariance example of <a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc--> is not: its <span class="m"><span class="kw">extends</span></span> clause names <span class="m"><span class="ty">RationalQuantity</span></span> with <span class="m"><span class="kw">where</span></span>-clause variables as static arguments. The chapter that describes the same design is kept as a superseded design (<a class="xref" href="spec-changes.html#sec-revival-superseded">Section I.1.14</a><!--nc-->).</p></aside>
 </section>
 <section class="sec" data-num="J.3.13" data-title="No Wrapped Fields Whose Types Are Naked Type Variables">
 <h3 id="s-no-wrapped-fields-whose-types-are-naked-type-variables" class="nb"><span class="num">J.3.13</span> No Wrapped Fields Whose Types Are Naked Type Variables</h3>
@@ -2757,8 +2741,9 @@ f[\RR\](1) = f[\RR\](1)</code></pre></div>
 <ol><li id="fn-1">This formulation of floating-point types follows a proposal under consideration by the IEEE 754 committee. <a href="#fnref-1" aria-label="Back to the text">↩</a></li></ol></section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="spec-changes.html"><span>Previous</span> I. Changes Since Fortress 1.0 Specifications</a><a class="next" href="index.html"><span>Next</span> Contents</a></nav>
-<footer class="colophon">Converted from <code>Specification/appendices/internal-document.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/appendices/internal-document.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/internal-document.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

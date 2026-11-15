@@ -19,7 +19,7 @@ svg.tx text.t8{font-family:cmmi7;font-size:6.97px}
 svg.tx text.t9{font-family:cmti7;font-size:6.97px}
 </style>
 </head>
-<body data-page="chapter" data-slug="lib-algebraic-constraints" data-chapter="40. Algebraic Constraints">
+<body data-page="chapter" data-slug="lib-algebraic-constraints" data-chapter="40. Algebraic Constraints" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">40. Algebraic Constraints</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -1649,8 +1649,6 @@ end</code></pre></div>
 <text class='t0' x='9.96' y='142.79'>end</text></svg></div><pre class="fx-s"><code>  property FORALL (a: T, b: T) (a TCMP b) = (BIG LEXICO[i &lt;- a.indices INTERSECTION b.indices] (a[i] XCMP b[i])) LEXICO (|a| CMP |b|)
 end</code></pre></div>
 <p id="p-860e0acf" class="nb">The <span class="m"><span class="ty">Comparison</span></span> trait provides an associative operator <span class="m"><span class="op">LEXICO</span></span> whose principal use is in defining lexicographic order on sequences of elements, which may be partial or total depending on whether the ordering of the elements is partial or total.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-conditional">Section I.1.3</a><!--nc--></span></p>
-<p id="p-7609bb60" class="nb">The Fortress standard libraries declare only the total lexicographic order of lists: a list is ordered only where its element type is totally ordered (<a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), and no partial lexicographic order of lists is declared, so on the compiled type checker a list of floating-point numbers has no order, while its <span class="m">=</span> still compares element by element. The interpreter still orders every list (row 774 of the revival’s gap ledger).</p></aside>
 <p id="p-d5db5724" class="nb">A set of lexicographic partial order operators <span class="m">⊏, ⊑, ≡, ⊒, ⊐, <span class="op">TCMP</span></span> may be defined in terms of a partial order on the elements of the sequence with operators <svg class="tx il" data-d="27" viewBox="-0.60 -0.60 81.34 9.48" width="8.134em" height="0.948em" fill="currentColor" style="vertical-align:-0.254em"><text class='t4' x='0' y='6.34'>≺</text>
 <text class='t3' x='7.75' y='6.34'>,</text>
 <text class='t7' x='12.18' y='6.34'></text>
@@ -6225,8 +6223,9 @@ end</code></pre></div>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="lib-convenience.html"><span>Previous</span> 39. Convenience Functions and Types</a><a class="next" href="lib-numbers-advanced.html"><span>Next</span> 41. Numbers</a></nav>
-<footer class="colophon">Converted from <code>Specification/advanced-lib/algebraic-constraints.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/advanced-lib/algebraic-constraints.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/lib-algebraic-constraints.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

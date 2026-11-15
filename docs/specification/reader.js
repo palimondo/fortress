@@ -4,8 +4,16 @@
 (function () {
   'use strict';
   var BASE = 'https://palimondo.github.io/fortress/specification/';
-  var K_NOTES = 'fortress-spec.notes.v1', K_PLACE = 'fortress-spec.place.v1', K_CODE = 'fortress-spec.code.v1';
   var body = document.body, kind = body.getAttribute('data-page'), slug = body.getAttribute('data-slug');
+  /* each edition keeps its own notes and place: the page names its storage, and a page that names none has the first one */
+  var NS = body.getAttribute('data-store') || 'fortress-spec', EDITION = body.getAttribute('data-edition') || '';
+  var K_NOTES = NS + '.notes.v1', K_PLACE = NS + '.place.v1', K_CODE = NS + '.code.v1';
+  /* the blocks that only the revised edition has, by chapter (revised-only.js, which the build writes) */
+  var REV = window.FORTRESS_REVISED_ONLY || {};
+  function revisedOnly(n) { return (' ' + (REV[n.page] || '') + ' ').indexOf(' ' + n.anchor + ' ') >= 0; }
+  /* in the Working Draft: a note whose passage is in the revised edition */
+  function inRevised(n) { return EDITION === 'draft' && revisedOnly(n); }
+  function hrefOf(n) { return (inRevised(n) ? 'revival/' : '') + n.page + '.html#' + n.anchor; }
   var chapterTitle = body.getAttribute('data-chapter');
 
   /* ---------- storage, with a fallback in memory ---------- */
@@ -31,6 +39,20 @@
   }
   function notes() { var n = load(K_NOTES, []); return Array.isArray(n) ? n : []; }
   function saveNotes(list) { var ok = save(K_NOTES, list); updateCount(); return ok; }
+  /* the revised edition, once: it takes a copy of the notes that were written, before the editions were
+     parted, on passages that only it has; they also stay where they were */
+  if (EDITION === 'revised' && storageOK && window.FORTRESS_REVISED_ONLY && !load(NS + '.adopted.v1', false)) {
+    (function () {
+      var old = load('fortress-spec.notes.v1', []), mine = notes(), n = 0;
+      (Array.isArray(old) ? old : []).forEach(function (o) {
+        if (!o || !revisedOnly(o) || mine.some(function (m) { return m.id === o.id; })) return;
+        mine.push(o);
+        n++;
+      });
+      if (n) save(K_NOTES, mine);
+      save(NS + '.adopted.v1', true);
+    })();
+  }
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -142,7 +164,7 @@
       return (a.created || '') < (b.created || '') ? -1 : 1;
     });
   }
-  function linkOf(n) { return BASE + n.page + '.html#' + n.anchor; }
+  function linkOf(n) { return BASE + hrefOf(n); }
   function sectionLine(n) {
     if (n.secNum && n.secNum.indexOf('.') < 0) return "(the chapter's opening)";
     return ((n.secNum ? n.secNum + ' ' : '') + (n.secTitle || '')).trim() || "(the chapter's opening)";
@@ -156,6 +178,7 @@
       out.push('Chapter: ' + (n.chapter || n.page));
       out.push('Section: ' + sectionLine(n));
       out.push('Link: ' + linkOf(n));
+      if (inRevised(n)) out.push('Edition: the passage of this note is in the revised edition');
       out.push('Passage (' + (n.kind || 'paragraph') + '): ' + (n.excerpt || ''));
       out.push('Written: ' + (n.updated || n.created || ''));
       out.push('Id: ' + n.id);
@@ -230,9 +253,10 @@
     c.setAttribute('data-note', note.id);
     if (withPlace) {
       var w = el('p', 'where'), a = el('a', null, sectionLine(note));
-      a.href = note.page + '.html#' + note.anchor;
+      a.href = hrefOf(note);
       w.appendChild(a);
       c.appendChild(w);
+      if (inRevised(note)) c.appendChild(el('p', 'excerpt', 'The passage of this note is in the revised edition.'));
       c.appendChild(el('p', 'excerpt', '“' + note.excerpt + '”'));
     }
     c.appendChild(el('p', 'text', note.text));
@@ -336,10 +360,12 @@
       mine.forEach(function (n) {
         var li = el('li'), a = el('a', null, sectionLine(n));
         if (lost.indexOf(n) < 0) a.href = '#' + n.anchor;
+        else if (inRevised(n)) a.href = hrefOf(n);
         li.appendChild(a);
         li.appendChild(document.createTextNode(': ' + words(n.text, 12)));
         if (lost.indexOf(n) >= 0) {
-          li.appendChild(el('div', 'excerpt', 'The passage of this note has changed since it was written: “' + n.excerpt + '”'));
+          li.appendChild(el('div', 'excerpt', (inRevised(n) ? 'The passage of this note is in the revised edition: “'
+            : 'The passage of this note has changed since it was written: “') + n.excerpt + '”'));
           li.appendChild(card(n, render, false));
         }
         ol.appendChild(li);

@@ -28,7 +28,7 @@ svg.tx text.t17{font-family:cmsy5;font-size:4.98px}
 svg.tx text.t18{font-family:stmary7;font-size:6.97px}
 </style>
 </head>
-<body data-page="chapter" data-slug="calculi" data-chapter="A. Fortress Calculi">
+<body data-page="chapter" data-slug="calculi" data-chapter="A. Fortress Calculi" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">A. Fortress Calculi</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -42,8 +42,6 @@ svg.tx text.t18{font-family:stmary7;font-size:6.97px}
 <section class="sec" data-num="A.1" data-title="Basic Core Fortress">
 <h2 id="basic-calculus" class="nb"><span class="num">A.1</span> Basic Core Fortress</h2>
 <p id="p-b7b79039" class="nb">In this section, we define a basic core calculus for Fortress. We call this calculus <em>Basic Core Fortress</em>. Following the precedent set by prior core calculi such as Featherweight Generic Java [<a class="cite" href="references.html#ref-fgj">fgj</a>], we have abided by the restriction that all valid Basic Core Fortress programs are valid Fortress programs.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-calculi">Section I.1.10</a><!--nc--></span></p>
-<p id="p-686e6972" class="nb">This calculus predates instantiation exclusion (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>, <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->). Its only condition on multiple inheritance is that every visible method have one owner, so an object that extends two different instantiations of a parameterized trait declaring no method is a valid Basic Core Fortress program; under the rule it is not a valid Fortress program, and the sentence above no longer holds for every program. The calculus, its rules and its soundness claim are as the team wrote and proved them, and are not changed.</p></aside>
 <section class="sec" data-num="A.1.1" data-title="Syntax">
 <h3 id="basic-syntax" class="nb"><span class="num">A.1.1</span> Syntax</h3>
 <p id="p-2380f610" class="nb">A syntax for Basic Core Fortress is provided in Figure <a class="xref" href="#fig-basic-syntax">A.1</a><!--nc-->. We use the following notational conventions:</p>
@@ -1699,8 +1697,6 @@ svg.tx text.t18{font-family:stmary7;font-size:6.97px}
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-e29a3c44" class="nb">Where clauses are not yet supported.</p></aside>
 <p id="p-49486397" class="nb">In this section, we define a Fortress core calculus with <span class="m"><span class="kw">where</span></span> clauses. We call this calculus <em>Core Fortress with Where Clauses</em>. Core Fortress with Where Clauses is an extension of Basic Core Fortress with <span class="m"><span class="kw">where</span></span> clauses.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-calculi">Section I.1.10</a><!--nc--></span></p>
-<p id="p-a0d34716" class="nb">This calculus predates instantiation exclusion (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>, <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->) and the rule that a <span class="m"><span class="kw">where</span></span>-clause variable may not appear as a static argument in an <span class="m"><span class="kw">extends</span></span> clause (<a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->). It lets a <span class="m"><span class="kw">where</span></span>-clause variable occur in a supertype of a trait or object definition, and its subtyping rule <span class="bf"><span class="sc"> [S-Tapp]</span></span> then makes the definition a subtype of one instantiation of that supertype for each witness of the variable: the shape of the declarations marked “Not allowed” in <a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->. The calculus, its rules and its soundness claim are as the team wrote and proved them, and are not changed.</p></aside>
 <section class="sec" data-num="A.2.1" data-title="Syntax">
 <h3 id="where-syntax" class="nb"><span class="num">A.2.1</span> Syntax</h3>
 <p id="p-503e7c85" class="nb">The syntax for Core Fortress with Where Clauses is provided in Figure <a class="xref" href="#fig-where-syntax">A.6</a><!--nc-->. For simplicity, we use the following notational conventions:</p>
@@ -4957,8 +4953,6 @@ svg.tx text.t18{font-family:stmary7;font-size:6.97px}
 <section class="sec" data-num="A.3" data-title="Core Fortress with Overloading">
 <h2 id="app-overloading-calculus" class="nb"><span class="num">A.3</span> Core Fortress with Overloading</h2>
 <p id="p-fe7fe42e" class="nb">In this section, we define a Fortress core calculus with overloading for dotted methods and first-order functions. We call this calculus <em>Core Fortress with Overloading</em>. Core Fortress with Overloading is an extension of Basic Core Fortress with overloading.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-calculi">Section I.1.10</a><!--nc--></span></p>
-<p id="p-1660e6eb" class="nb">This calculus predates instantiation exclusion (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>, <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->). Its only condition on multiple inheritance is its rule <span class="bf"><span class="sc"> [ValidMeth]</span></span>, which constrains pairs of visible methods of one name, so, as in Basic Core Fortress, an object that extends two different instantiations of a parameterized trait declaring no method is well typed, and its subtyping rule <span class="bf"><span class="sc"> [S-Tapp]</span></span> makes the object a subtype of both instantiations; under the rule it is not a valid Fortress program. The calculus, its rules and its soundness claim are as the team wrote and proved them, and are not changed.</p></aside>
 <section class="sec" data-num="A.3.1" data-title="Syntax">
 <h3 id="sec-overloading-syntax" class="nb"><span class="num">A.3.1</span> Syntax</h3>
 <p id="p-d341c161" class="nb">The syntax for Core Fortress with Overloading is provided in <a class="xref" href="#fig-overloading-syntax">Figure A.13</a><!--nc-->.</p>
@@ -7179,8 +7173,6 @@ svg.tx text.t18{font-family:stmary7;font-size:6.97px}
 <section class="sec" data-num="A.4" data-title="Acyclic Core Fortress with Field Definitions">
 <h2 id="acffd-calculus" class="nb"><span class="num">A.4</span> Acyclic Core Fortress with Field Definitions</h2>
 <p id="p-c0bf8741" class="nb">In this section, we define a Fortress core calculus with acyclic type hierarchy and field definitions inside object definitions. We call this calculus <em>Acyclic Core Fortress with Field Definitions</em>. Acyclic Core Fortress with Field Definitions is an extension of Basic Core Fortress with acyclic type hierarchy and field definitions inside object definitions.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-calculi">Section I.1.10</a><!--nc--></span></p>
-<p id="p-6feeb5e1" class="nb">This calculus predates instantiation exclusion (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>, <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->). Conditions (2) and (3) of its rule <span class="bf"><span class="sc"> [Acyclic]</span></span> admit one self-extension, whose static arguments may be the parameters’ own bounds, so that a trait that extends an instantiation of itself at its parameter’s bound, such as <span class="m"><span class="kw">trait</span> <span class="ty">T</span>⟦<i>X</i> <span class="kw">extends</span> <span class="ty">Object</span>⟧ <span class="kw">extends</span> <span class="ty">T</span>⟦<span class="ty">Object</span>⟧ <span class="kw">end</span></span>, is well formed, and <span class="m"><span class="ty">T</span>⟦<i>A</i>⟧</span> is then a subtype of <span class="m"><span class="ty">T</span>⟦<span class="ty">Object</span>⟧</span> for every <span class="m"><i>A</i></span>; Fortress no longer allows such a trait, for the reason the covariance example of <a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc--> is not allowed. The calculus, its rules and its soundness claim are as the team wrote and proved them, and are not changed.</p></aside>
 <section class="sec" data-num="A.4.1" data-title="Syntax">
 <h3 id="acffd-syntax" class="nb"><span class="num">A.4.1</span> Syntax</h3>
 <p id="p-6e975abf" class="nb">The syntax for Acyclic Core Fortress with Field Definitions is provided in Figure <a class="xref" href="#fig-acffd-syntax">A.19</a><!--nc-->.</p>
@@ -9492,8 +9484,9 @@ svg.tx text.t18{font-family:stmary7;font-size:6.97px}
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="lib-binary.html"><span>Previous</span> 43. Memory Sequences and Binary Words</a><a class="next" href="overloaded-functional.html"><span>Next</span> B. Overloaded Functional Declarations</a></nav>
-<footer class="colophon">Converted from <code>Specification/appendices/calculi/calculi.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/appendices/calculi/calculi.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/calculi.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

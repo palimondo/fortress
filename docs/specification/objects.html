@@ -20,10 +20,9 @@ svg.tx text.t9{font-family:cmr7;font-size:6.97px}
 svg.tx text.t10{font-family:cmti10;font-size:9.96px}
 svg.tx text.t11{font-family:msbm10;font-size:9.96px}
 svg.tx text.t12{font-family:stmary10;font-size:9.96px}
-svg.tx text.t13{font-family:cmex10;font-size:9.96px}
 </style>
 </head>
-<body data-page="chapter" data-slug="objects" data-chapter="11. Objects">
+<body data-page="chapter" data-slug="objects" data-chapter="11. Objects" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">11. Objects</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -35,16 +34,10 @@ svg.tx text.t13{font-family:cmex10;font-size:9.96px}
 <h1 id="top" class="nb"><a id="chap-objects"></a><span class="num">Chapter 11</span> Objects</h1>
 <nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-object-decls">11.1 Object Declarations</a></li><li><a href="#sec-fields">11.2 Field Declarations</a></li><li><a href="#sec-value-objects">11.3 Value Objects</a></li><li><a href="#sec-equivalence">11.4 Object Equivalence</a></li></ol></nav>
 <aside class="draft"><p class="label">Draft note</p>
-<p id="p-903edf99" class="nb">Properties are not yet supported. Of value objects, only strict equivalence is supported: the interpreter and the compiled code compare two value objects of one type field by field (<a class="xref" href="#sec-equivalence">Section 11.4</a><!--nc-->).</p></aside>
+<p id="p-44f18853" class="nb">Value objects and properties are not yet supported.</p></aside>
 <p id="p-b609d746" class="nb"><em>Objects</em> are values that have object trait types described in <a class="xref" href="types.html#sec-object-traits">Section 6.3.1</a>. Objects contain <em>methods</em> (described in <a class="xref" href="traits.html#sec-methods">Section 10.2</a><!--nc-->) and <em>fields</em> (described in <a class="xref" href="#sec-fields">Section 11.2</a><!--nc-->).</p>
 <p id="p-e23ed9b6" class="nb">An object is a <em>value object</em>, a <em>reference object</em>, or a <em>function object</em>: It is a function object if it has an arrow type, a reference object if it has an object trait type that is not declared with the <span class="m"><span class="kw">value</span></span> modifier (see <a class="xref" href="#sec-value-objects">Section 11.3</a><!--nc-->), and a value object otherwise (i.e., if it has a tuple type, the type (), or an object trait type declared with the <span class="m"><span class="kw">value</span></span> modifier).</p>
-<p id="p-0126663d" class="nb">A value object cannot have mutable fields, and it is completely determined by its type, environment and its fields: Value objects with the same type, environment and fields are indistinguishable. Thus, an implementation may freely copy value objects. Most objects with simple standard types, such as booleans, numeric literals, IEEE floating-point numbers, integers of every precision, and rational numbers are value objects. In contrast, reference objects are thought to “reside in memory”, and are identified by an <em>object reference</em>. A new object reference is created whenever a reference object is constructed, so that reference objects constructed separately are always distinct. What about reference objects that have no mutable fields? Reference objects include strings and aggregates such as arrays, lists and sets.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-object-kinds">Section I.1.41</a><!--nc--></span></p>
-<p id="p-6968eb31" class="nb">The Working Draft of February 2011 named arbitrary-precision numbers among the reference objects and gave strings no kind. The revival decided on 6 November 2026 that the values of the arbitrary-precision integer and rational types are value objects, as the Fortress standard libraries declare them, and on 6 and 7 November 2026 that strings are reference objects: two strings are strictly equivalent only when they are one object, and their text equality is their <span class="m">=</span>.</p></aside>
-<p id="p-24af0795" class="nb">Two string literals of the same text denote one object, so that a string literal evaluated twice, and two literals of one text, are strictly equivalent; a string that a program builds as it runs is another object than a literal of the same text, unless the operation that builds it answers an existing string (<a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->).</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-string-literals">Section I.1.51</a><!--nc--></span></p>
-<p id="p-441fab29" class="nb">The Working Draft of February 2011 did not say whether a string literal denotes one object. The revival decided on 8 November 2026 that two string literals of one text are one object, on both implementations; strings remain reference objects.</p></aside>
-<p id="p-8db38e7f" class="nb">Function objects are immutable and have no fields. Identity is not well-defined for function objects, and attempting to check whether two functions are equivalent returns an approximate result. <a class="xref" href="#sec-equivalence">Section 11.4</a><!--nc--> describes object equivalence in further detail.</p>
+<p id="p-6635e68f" class="nb">A value object cannot have mutable fields, and it is completely determined by its type, environment and its fields: Value objects with the same type, environment and fields are indistinguishable. Thus, an implementation may freely copy value objects. Most objects with simple standard types, such as booleans, numeric literals, IEEE floating-point numbers, and integers are value objects. In contrast, reference objects are thought to “reside in memory”, and are identified by an <em>object reference</em>. A new object reference is created whenever a reference object is constructed, so that reference objects constructed separately are always distinct. What about reference objects that have no mutable fields? Reference objects include arbitrary-precision numbers and aggregates such as arrays, lists and sets. Function objects are immutable and have no fields. Identity is not well-defined for function objects, and attempting to check whether two functions are equivalent returns an approximate result. <a class="xref" href="#sec-equivalence">Section 11.4</a><!--nc--> describes object equivalence in further detail.</p>
 <section class="sec" data-num="11.1" data-title="Object Declarations">
 <h2 id="sec-object-decls" class="nb"><span class="num">11.1</span> Object Declarations</h2>
 <aside class="draft"><p class="label">Draft note</p>
@@ -201,88 +194,86 @@ svg.tx text.t13{font-family:cmex10;font-size:9.96px}
 <p id="p-62a90bf3" class="nb">There are two kinds of object declarations: singleton declarations and constructor declarations. A singleton declaration declares a sole, stand-alone, singleton object. It may have static parameters but it does not have a list of value parameters; every instantiation of such an object with the same static arguments yields the same singleton object. A constructor declaration declares an object constructor function. It may have static parameters and it includes a list of value parameters; every call to the constructor of such an object with the same argument yields a new object. Initialization of singleton objects is nondeterministic as described in <a class="xref" href="evaluation.html">Chapter 5</a>. The type of an object constructor function is an arrow type consisting of the object’s value parameter type followed by the token <span class="m">→</span>, followed by the object trait type.</p>
 <p id="p-9ae89ba1" class="nb">A constructor declaration has a (possibly empty) parenthesized list of value parameters. Each value parameter of a constructor declaration may be preceded by the special modifier <span class="m"><span class="kw">transient</span></span> or by a sequence of field modifiers. A value parameter preceded by the modifier <span class="m"><span class="kw">transient</span></span> does not correspond to a field in an instantiation of the object: <span class="m"><span class="kw">transient</span></span> parameters are not in scope in the object’s method declarations, but are in scope when the initial-value expressions of the fields are evaluated during object creation.</p>
 <p id="p-7d0aa9ae" class="nb">For example, the following leaf object extending trait <span class="m"><span class="ty">Tree</span></span>:</p>
-<div class="fx nb both" id="c-e367a36d" data-kind="code" data-example="Object.Decl.Leaf"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 11.81 150.49 69.39" width="15.049em" height="6.939em" fill="currentColor"><text class='t3' x='0' y='19.33'>object</text>
-<text class='t8' x='34.15' y='19.33'>Leaf</text>
-<text class='t3' x='56.37' y='19.33'>extends</text>
-<text class='t8' x='95.75' y='19.33'>T<tspan x='102.12'>ree</tspan></text>
-<text class='t10' x='8.86' y='39.75'>printT<tspan x='36.48'>r</tspan><tspan x='40.17'>e</tspan><tspan x='44.24'>e</tspan></text>
-<text class='t8' x='49.58' y='39.75'>(<tspan x='53.87'>):</tspan><tspan x='62.17'>(</tspan><tspan x='66.46'>)</tspan><tspan x='73.1'>=</tspan></text>
-<text class='t10' x='83.61' y='39.75'>println</text>
-<text class='t2' x='116.55' y='39.75'>“</text>
-<text class='t4' x='120.98' y='39.75'>leaf</text>
-<text class='t2' x='144.89' y='39.75'>”</text>
-<text class='t3' x='8.86' y='60.17'>opr</text>
-<text class='t7' x='28.97' y='60.17'>|</text>
-<text class='t3' x='31.74' y='60.17'>self</text>
-<text class='t7' x='52.66' y='60.17'>|</text>
-<text class='t8' x='57.09' y='60.17'>:</text>
-<text class='t11' x='61.52' y='60.17'>Z</text>
-<text class='t8' x='68.16' y='60.17'>32<tspan x='80.89'>=</tspan><tspan x='91.41'>0</tspan></text>
-<text class='t3' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>object Leaf extends Tree
+<div class="fx nb both" id="c-e367a36d" data-kind="code" data-example="Object.Decl.Leaf"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.81 157.19 43.98" width="15.719em" height="4.398em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>object</text>
+<text class='t8' x='46.33' y='19.33'>Leaf</text>
+<text class='t3' x='68.55' y='19.33'>extends</text>
+<text class='t8' x='110.14' y='19.33'>T<tspan x='116.51'>ree</tspan></text>
+<text class='t10' x='21.92' y='31.28'>printT<tspan x='49.54'>r</tspan><tspan x='53.23'>e</tspan><tspan x='57.31'>e</tspan></text>
+<text class='t8' x='62.64' y='31.28'>()<tspan x='72.05'>:</tspan><tspan x='76.48'>()</tspan><tspan x='86.99'>=</tspan></text>
+<text class='t10' x='97.51' y='31.28'>println</text>
+<text class='t2' x='133.21' y='31.28'>“</text>
+<text class='t4' x='137.64' y='31.28'>leaf</text>
+<text class='t2' x='161.55' y='31.28'>”</text>
+<text class='t3' x='21.92' y='43.24'>opr</text>
+<text class='t7' x='40.38' y='43.24'>|</text>
+<text class='t3' x='43.14' y='43.24'>self</text>
+<text class='t7' x='64.06' y='43.24'>|</text>
+<text class='t8' x='69.6' y='43.24'>:</text>
+<text class='t11' x='77.35' y='43.24'>Z</text>
+<text class='t8' x='83.99' y='43.24'>32<tspan x='96.72'>=</tspan><tspan x='107.24'>0</tspan></text>
+<text class='t3' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>object Leaf extends Tree
   printTree():() = println "leaf"
   opr |self| : ZZ32 = 0
 end</code></pre></div>
 <p id="p-c572aa97" class="nb">has no fields and two methods.</p>
 <p id="p-1a899f9b" class="nb">Here is an example of a <span class="m"><span class="ty">Cons</span></span> object constructor extending trait <span class="m"><span class="ty">List</span>⟦<i>T</i>⟧</span>:</p>
-<div class="fx nb both" id="c-e137f279" data-kind="code" data-example="Object.Decl.Cons"><div class="fx-r"><svg class="tx" data-d="3" viewBox="-0.60 10.36 192.71 91.46" width="19.271em" height="9.146em" fill="currentColor"><text class='t3' x='0' y='19.43'>object</text>
-<text class='t8' x='34.15' y='19.43'>Cons</text>
-<text class='t12' x='55.79' y='19.43'></text>
-<text class='t5' x='59.8' y='19.43'>T</text>
-<text class='t12' x='67.01' y='19.43'></text>
-<text class='t13' x='71.02' y='11.36'></text>
-<text class='t10' x='75.59' y='19.43'>ﬁrst</text>
-<text class='t8' x='95.38' y='19.43'>:</text>
-<text class='t5' x='99.81' y='19.43'>T<tspan x='106.46'>,</tspan></text>
-<text class='t10' x='110.89' y='19.43'>r<tspan x='114.58'>est</tspan></text>
-<text class='t8' x='127.49' y='19.43'>:<tspan x='131.92'>List</tspan></text>
-<text class='t12' x='148.72' y='19.43'></text>
-<text class='t5' x='152.73' y='19.43'>T</text>
-<text class='t12' x='159.93' y='19.43'></text>
-<text class='t13' x='163.95' y='11.36'></text>
-<text class='t3' x='8.86' y='39.85'>extends</text>
-<text class='t8' x='48.24' y='39.85'>List</text>
-<text class='t12' x='65.03' y='39.85'></text>
-<text class='t5' x='69.05' y='39.85'>T</text>
-<text class='t12' x='76.25' y='39.85'></text>
-<text class='t10' x='8.86' y='60.27'>c<tspan x='12.93'>ons</tspan></text>
-<text class='t8' x='28.51' y='60.27'>(</text>
-<text class='t5' x='32.39' y='60.27'>x</text>
-<text class='t8' x='38.08' y='60.27'>)<tspan x='44.72'>=</tspan><tspan x='55.24'>Cons</tspan><tspan x='76.88'>(</tspan></text>
-<text class='t5' x='80.76' y='60.27'>x,</text>
-<text class='t3' x='90.88' y='60.27'>self</text>
-<text class='t8' x='111.8' y='60.27'>)</text>
-<text class='t10' x='8.86' y='80.8'>app<tspan x='23.62'>end</tspan></text>
-<text class='t8' x='39.93' y='80.8'>(</text>
-<text class='t10' x='43.8' y='80.8'>xs</text>
-<text class='t8' x='53.31' y='80.8'>)<tspan x='59.96'>=</tspan><tspan x='70.47'>Cons</tspan></text>
-<text class='t13' x='92.11' y='72.73'></text>
-<text class='t10' x='96.68' y='80.8'>ﬁrst</text>
-<text class='t5' x='114.81' y='80.8'>,</text>
-<text class='t10' x='119.24' y='80.8'>r<tspan x='122.93'>est</tspan></text>
-<text class='t5' x='135.84' y='80.8'>.</text>
-<text class='t10' x='138.61' y='80.8'>app<tspan x='153.38'>end</tspan></text>
-<text class='t8' x='169.68' y='80.8'>(</text>
-<text class='t10' x='173.56' y='80.8'>xs</text>
-<text class='t8' x='183.07' y='80.8'>)</text>
-<text class='t13' x='186.94' y='72.73'></text>
-<text class='t3' x='0' y='101.22'>end</text></svg></div><pre class="fx-s"><code>object Cons[\T\](first:T, rest:List[\T\])
+<div class="fx nb both" id="c-e137f279" data-kind="code" data-example="Object.Decl.Cons"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 194.42 56.49" width="19.442em" height="5.649em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>object</text>
+<text class='t8' x='46.33' y='19.33'>Cons</text>
+<text class='t12' x='67.97' y='19.33'></text>
+<text class='t5' x='71.98' y='19.33'>T</text>
+<text class='t12' x='79.19' y='19.33'></text>
+<text class='t8' x='83.2' y='19.33'>(</text>
+<text class='t10' x='87.07' y='19.33'>ﬁrst</text>
+<text class='t8' x='106.86' y='19.33'>:</text>
+<text class='t5' x='111.29' y='19.33'>T<tspan x='117.94'>,</tspan></text>
+<text class='t10' x='122.37' y='19.33'>r<tspan x='126.06'>est</tspan></text>
+<text class='t8' x='140.63' y='19.33'>:<tspan x='145.06'>List</tspan></text>
+<text class='t12' x='161.86' y='19.33'></text>
+<text class='t5' x='165.87' y='19.33'>T</text>
+<text class='t12' x='173.08' y='19.33'></text>
+<text class='t8' x='177.09' y='19.33'>)</text>
+<text class='t3' x='21.92' y='31.28'>extends</text>
+<text class='t8' x='63.51' y='31.28'>List</text>
+<text class='t12' x='80.31' y='31.28'></text>
+<text class='t5' x='84.32' y='31.28'>T</text>
+<text class='t12' x='91.53' y='31.28'></text>
+<text class='t10' x='21.92' y='43.24'>c<tspan x='25.99'>ons</tspan></text>
+<text class='t8' x='41.58' y='43.24'>(</text>
+<text class='t5' x='45.45' y='43.24'>x</text>
+<text class='t8' x='51.14' y='43.24'>)<tspan x='57.79'>=</tspan><tspan x='68.3'>Cons</tspan><tspan x='89.94'>(</tspan></text>
+<text class='t5' x='93.82' y='43.24'>x,</text>
+<text class='t3' x='103.94' y='43.24'>self</text>
+<text class='t8' x='124.86' y='43.24'>)</text>
+<text class='t10' x='21.92' y='55.19'>app<tspan x='36.68'>end</tspan></text>
+<text class='t8' x='52.99' y='55.19'>(</text>
+<text class='t10' x='56.86' y='55.19'>xs</text>
+<text class='t8' x='66.38' y='55.19'>)<tspan x='73.02'>=</tspan><tspan x='83.54'>Cons</tspan><tspan x='105.18'>(</tspan></text>
+<text class='t10' x='109.05' y='55.19'>ﬁrst</text>
+<text class='t5' x='127.18' y='55.19'>,</text>
+<text class='t10' x='131.61' y='55.19'>r<tspan x='135.3'>est</tspan></text>
+<text class='t5' x='148.21' y='55.19'>.</text>
+<text class='t10' x='150.98' y='55.19'>app<tspan x='165.75'>end</tspan></text>
+<text class='t8' x='182.05' y='55.19'>(</text>
+<text class='t10' x='185.93' y='55.19'>xs</text>
+<text class='t8' x='195.44' y='55.19'>))</text>
+<text class='t3' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>object Cons[\T\](first:T, rest:List[\T\])
   extends List[\T\]
   cons(x) = Cons(x,self)
   append(xs) = Cons(first,rest.append(xs))
 end</code></pre></div>
 <p id="p-1f9d8858" class="nb">Note that this declaration introduces the “factory” function <span class="m"><span class="ty">Cons</span>⟦<i>T</i>⟧(<i>first</i> : <i>T</i>, <i>rest</i> : <span class="ty">List</span>⟦<i>T</i>⟧) : <span class="ty">Cons</span>⟦<i>T</i>⟧</span> which is used in the body of the object declaration to define the <span class="m"><i>cons</i></span> and <span class="m"><i>append</i></span> methods. Multiple factory functions can be defined by overloading an object constructor with functions. For example:</p>
-<div class="fx nb both" id="c-871b184e" data-kind="code" data-example="Object.Decl.ConsFn"><div class="fx-r"><svg class="tx" data-d="4" viewBox="-0.60 11.26 209.92 11.16" width="20.992em" height="1.116em" fill="currentColor"><text class='t8' x='0' y='19.33'>Cons</text>
-<text class='t12' x='21.64' y='19.33'></text>
-<text class='t5' x='25.65' y='19.33'>T</text>
-<text class='t12' x='32.86' y='19.33'></text>
-<text class='t8' x='36.87' y='19.33'>(</text>
-<text class='t10' x='40.75' y='19.33'>ﬁrstitem</text>
-<text class='t8' x='79.45' y='19.33'>:</text>
-<text class='t5' x='83.88' y='19.33'>T</text>
-<text class='t8' x='91.09' y='19.33'>)<tspan x='97.73'>=</tspan><tspan x='108.24'>Cons</tspan><tspan x='129.88'>(</tspan></text>
-<text class='t10' x='133.76' y='19.33'>ﬁrstitem</text>
-<text class='t5' x='170.8' y='19.33'>,</text>
-<text class='t8' x='175.23' y='19.33'>Empt<tspan x='199.45'>y</tspan><tspan x='204.84'>)</tspan></text></svg></div><pre class="fx-s"><code>Cons[\T\](firstitem:T) = Cons(firstitem,Empty)</code></pre></div>
+<div class="fx nb both" id="c-871b184e" data-kind="code" data-example="Object.Decl.ConsFn"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.26 209.92 11.16" width="20.992em" height="1.116em" fill="currentColor"><text class='t8' x='9.96' y='19.33'>Cons</text>
+<text class='t12' x='31.6' y='19.33'></text>
+<text class='t5' x='35.62' y='19.33'>T</text>
+<text class='t12' x='42.82' y='19.33'></text>
+<text class='t8' x='46.83' y='19.33'>(</text>
+<text class='t10' x='50.71' y='19.33'>ﬁrstitem</text>
+<text class='t8' x='89.41' y='19.33'>:</text>
+<text class='t5' x='93.84' y='19.33'>T</text>
+<text class='t8' x='101.05' y='19.33'>)<tspan x='107.69'>=</tspan><tspan x='118.21'>Cons</tspan><tspan x='139.85'>(</tspan></text>
+<text class='t10' x='143.72' y='19.33'>ﬁrstitem</text>
+<text class='t5' x='180.77' y='19.33'>,</text>
+<text class='t8' x='185.19' y='19.33'>Empt<tspan x='209.41'>y</tspan><tspan x='214.8'>)</tspan></text></svg></div><pre class="fx-s"><code>Cons[\T\](firstitem:T) = Cons(firstitem,Empty)</code></pre></div>
 </section>
 <section class="sec" data-num="11.2" data-title="Field Declarations">
 <h2 id="sec-fields" class="nb"><span class="num">11.2</span> Field Declarations</h2>
@@ -482,8 +473,9 @@ end</code></pre></div></aside>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="traits.html"><span>Previous</span> 10. Traits</a><a class="next" href="trait-parameters.html"><span>Next</span> 12. Static Parameters</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic/objects.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic/objects.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/objects.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

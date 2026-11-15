@@ -15,7 +15,7 @@ svg.tx text.t4{font-family:cmti10;font-size:9.96px}
 svg.tx text.t5{font-family:stmary10;font-size:9.96px}
 </style>
 </head>
-<body data-page="chapter" data-slug="lib-exception" data-chapter="35. Exceptions">
+<body data-page="chapter" data-slug="lib-exception" data-chapter="35. Exceptions" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">35. Exceptions</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -28,9 +28,7 @@ svg.tx text.t5{font-family:stmary10;font-size:9.96px}
 <nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-the-trait-fortress-standard-exception">35.1 The Trait Fortress.Standard.Exception</a></li><li><a href="#s-the-trait-fortress-standard-checkedexception">35.2 The Trait Fortress.Standard.CheckedException</a></li><li><a href="#s-the-trait-fortress-standard-uncheckedexception">35.3 The Trait Fortress.Standard.UncheckedException</a></li></ol></nav>
 <section class="sec" data-num="35.1" data-title="The Trait Fortress.Standard.Exception">
 <h2 id="s-the-trait-fortress-standard-exception" class="nb"><span class="num">35.1</span> The Trait Fortress.Standard.Exception</h2>
-<p id="p-61afc722" class="nb">The trait <span class="m"><span class="ty">Exception</span></span> is a single root of the exception hierarchy; every exception in Fortress has trait <span class="m"><span class="ty">Exception</span></span>. An exception is either a <span class="m"><span class="ty">CheckedException</span></span> or an <span class="m"><span class="ty">UncheckException</span></span>. Every exception has optional fields: a message and a chained exception. These fields are default to <span class="m"><span class="ty">Nothing</span>⟦<span class="ty">String</span>⟧</span> and <span class="m"><span class="ty">Nothing</span>⟦<span class="ty">Exception</span>⟧</span> where an optional value <span class="m"><i>v</i></span> of type <span class="m"><span class="ty">Maybe</span>⟦<i>T</i>⟧</span> is either <span class="m"><span class="ty">Nothing</span>⟦<i>T</i>⟧</span> or <span class="m"><span class="ty">Just</span>(<i>v</i>)</span> as declared in <a class="xref" href="lib-convenience.html#sec-convenience-types">Section 39.2</a><!--nc-->.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-nothing">Section I.1.7</a><!--nc--></span></p>
-<p id="p-814c8ed6" class="nb">The Working Draft of February 2011 wrote both defaults as a bare <span class="m"><span class="ty">Nothing</span></span>.</p></aside>
+<p id="p-6fba0cb9" class="nb">The trait <span class="m"><span class="ty">Exception</span></span> is a single root of the exception hierarchy; every exception in Fortress has trait <span class="m"><span class="ty">Exception</span></span>. An exception is either a <span class="m"><span class="ty">CheckedException</span></span> or an <span class="m"><span class="ty">UncheckException</span></span>. Every exception has optional fields: a message and a chained exception. These fields are default to <span class="m"><span class="ty">Nothing</span></span> where an optional value <span class="m"><i>v</i></span> is either <span class="m"><span class="ty">Nothing</span></span> or <span class="m"><span class="ty">Just</span>(<i>v</i>)</span> as declared in <a class="xref" href="lib-convenience.html#sec-convenience-types">Section 39.2</a><!--nc-->.</p>
 <div class="fx nb both" id="c-7a92f3d2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="15.34 11.26 313.67 44.54" width="31.367em" height="4.454em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>trait</text>
 <text class='t1' x='44.86' y='19.33'>Exception</text>
 <text class='t0' x='91.21' y='19.33'>comprises</text>
@@ -97,8 +95,9 @@ end</code></pre></div>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="lib-negated-relational-operators.html"><span>Previous</span> 34. Negated Relational Operators</a><a class="next" href="lib-thread.html"><span>Next</span> 36. Threads</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic-lib/exception.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic-lib/exception.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/lib-exception.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

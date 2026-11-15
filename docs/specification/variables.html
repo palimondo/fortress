@@ -24,7 +24,7 @@ svg.tx text.t13{font-family:cmmi7;font-size:6.97px}
 svg.tx text.t14{font-family:cmr5;font-size:4.98px}
 </style>
 </head>
-<body data-page="chapter" data-slug="variables" data-chapter="8. Variables">
+<body data-page="chapter" data-slug="variables" data-chapter="8. Variables" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">8. Variables</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -186,73 +186,73 @@ svg.tx text.t14{font-family:cmr5;font-size:4.98px}
 <p id="p-b83988e8" class="nb">This notation is especially helpful when a function application returns a tuple of values.</p>
 <p id="p-83487244" class="nb">The initializer expressions of top-level variable declarations can refer to variables declared later in textual order. <a id="decl-io"></a> Evaluation of top-level initializer expressions cannot call functionals with the modifier <span class="m"><span class="kw">io</span></span>.</p>
 <p id="p-0f607c95" class="nb">Here are some simple examples of variable declarations:</p>
-<div class="fx nb both" id="c-73db45b0" data-kind="code" data-example="Var.Top.a"><div class="fx-r"><svg class="tx" data-d="9" viewBox="-0.60 12.31 357.04 7.62" width="35.704em" height="0.762em" fill="currentColor"><text class='t5' x='0' y='19.33'>π</text>
-<text class='t4' x='8.8' y='19.33'>=<tspan x='19.32'>3</tspan></text>
-<text class='t5' x='24.3' y='19.33'>.</text>
-<text class='t4' x='27.07' y='19.33'>141592653589793238462643383279502884197169399375108209749445923078</text></svg></div><pre class="fx-s"><code>pi = 3.141592653589793238462643383279502884197169399375108209749445923078</code></pre></div>
+<div class="fx nb both" id="c-73db45b0" data-kind="code" data-example="Var.Top.a"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 12.31 357.04 7.62" width="35.704em" height="0.762em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>π</text>
+<text class='t4' x='18.77' y='19.33'>=<tspan x='29.28'>3</tspan></text>
+<text class='t5' x='34.26' y='19.33'>.</text>
+<text class='t4' x='37.03' y='19.33'>141592653589793238462643383279502884197169399375108209749445923078</text></svg></div><pre class="fx-s"><code>pi = 3.141592653589793238462643383279502884197169399375108209749445923078</code></pre></div>
 <p id="p-5a639d01" class="nb">declares the variable <span class="m">π</span> to be an approximate representation of the mathematical object <span class="m">π</span>. It is also legal to write:</p>
-<div class="fx nb both" id="c-559116cd" data-kind="code" data-example="Var.Top.b"><div class="fx-r"><svg class="tx" data-d="10" viewBox="-0.60 11.86 378.62 8.06" width="37.862em" height="0.806em" fill="currentColor"><text class='t5' x='0' y='19.33'>π</text>
-<text class='t4' x='6.04' y='19.33'>:</text>
-<text class='t11' x='10.46' y='19.33'>R</text>
-<text class='t4' x='17.66' y='19.33'>64<tspan x='30.39'>=</tspan><tspan x='40.91'>3</tspan></text>
-<text class='t5' x='45.89' y='19.33'>.</text>
-<text class='t4' x='48.65' y='19.33'>141592653589793238462643383279502884197169399375108209749445923078</text></svg></div><pre class="fx-s"><code>pi: RR64 = 3.141592653589793238462643383279502884197169399375108209749445923078</code></pre></div>
+<div class="fx nb both" id="c-559116cd" data-kind="code" data-example="Var.Top.b"><div class="fx-r"><svg class="tx" data-d="10" viewBox="9.36 11.86 378.62 8.06" width="37.862em" height="0.806em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>π</text>
+<text class='t4' x='16' y='19.33'>:</text>
+<text class='t11' x='20.43' y='19.33'>R</text>
+<text class='t4' x='27.62' y='19.33'>64<tspan x='40.35'>=</tspan><tspan x='50.87'>3</tspan></text>
+<text class='t5' x='55.85' y='19.33'>.</text>
+<text class='t4' x='58.62' y='19.33'>141592653589793238462643383279502884197169399375108209749445923078</text></svg></div><pre class="fx-s"><code>pi: RR64 = 3.141592653589793238462643383279502884197169399375108209749445923078</code></pre></div>
 <p id="p-692241db" class="nb">This definition enforces that <span class="m">π</span> has static type <span class="m">ℝ64</span>.</p>
 <p id="p-c1a00c86" class="nb">The following example declares multiple variables using tuple notation:</p>
-<div class="fx nb both" id="c-be566ecf" data-kind="code" data-example="Var.Top.c"><div class="fx-r"><svg class="tx" data-d="11" viewBox="-0.60 11.26 113.06 11.16" width="11.306em" height="1.116em" fill="currentColor"><text class='t7' x='0' y='19.33'>var</text>
-<text class='t4' x='18.46' y='19.33'>(</text>
-<text class='t5' x='22.33' y='19.33'>x,<tspan x='32.45'>y</tspan></text>
-<text class='t4' x='37.7' y='19.33'>):</text>
-<text class='t11' x='46' y='19.33'>Z</text>
-<text class='t4' x='52.64' y='19.33'>64</text>
-<text class='t5' x='62.6' y='19.33'>.<tspan x='67.03'>.</tspan><tspan x='71.46'>.</tspan></text>
-<text class='t4' x='79.21' y='19.33'>=<tspan x='89.72'>(5</tspan></text>
-<text class='t5' x='98.58' y='19.33'>,</text>
-<text class='t4' x='103.01' y='19.33'>6)</text></svg></div><pre class="fx-s"><code>var (x, y): ZZ64... = (5, 6)</code></pre></div>
+<div class="fx nb both" id="c-be566ecf" data-kind="code" data-example="Var.Top.c"><div class="fx-r"><svg class="tx" data-d="11" viewBox="9.36 11.26 112.51 11.16" width="11.251em" height="1.116em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>var</text>
+<text class='t4' x='28.42' y='19.33'>(</text>
+<text class='t5' x='32.3' y='19.33'>x,<tspan x='42.42'>y</tspan></text>
+<text class='t4' x='47.66' y='19.33'>):</text>
+<text class='t11' x='55.96' y='19.33'>Z</text>
+<text class='t4' x='62.6' y='19.33'>64</text>
+<text class='t5' x='74.23' y='19.33'>.<tspan x='78.65'>.</tspan><tspan x='83.08'>.</tspan></text>
+<text class='t4' x='88.62' y='19.33'>=<tspan x='99.13'>(5</tspan></text>
+<text class='t5' x='107.99' y='19.33'>,</text>
+<text class='t4' x='112.42' y='19.33'>6)</text></svg></div><pre class="fx-s"><code>var (x, y): ZZ64... = (5, 6)</code></pre></div>
 <p id="p-144bba58" class="nb">The following three declarations are equivalent:</p>
-<div class="fx nb both" id="c-509ffcf6" data-kind="code" data-example="Var.Top.d"><div class="fx-r"><svg class="tx" data-d="12" viewBox="-0.60 11.26 149.49 11.16" width="14.949em" height="1.116em" fill="currentColor"><text class='t4' x='0' y='19.33'>(</text>
-<text class='t5' x='3.87' y='19.33'>x,<tspan x='14'>y</tspan><tspan x='19.24'>,</tspan><tspan x='23.67'>z</tspan></text>
-<text class='t4' x='28.74' y='19.33'>):<tspan x='37.04'>(</tspan></text>
-<text class='t11' x='40.91' y='19.33'>Z</text>
-<text class='t4' x='47.56' y='19.33'>64</text>
-<text class='t5' x='57.52' y='19.33'>,</text>
-<text class='t11' x='61.95' y='19.33'>Z</text>
-<text class='t4' x='68.59' y='19.33'>64</text>
-<text class='t5' x='78.55' y='19.33'>,</text>
-<text class='t11' x='82.98' y='19.33'>Z</text>
-<text class='t4' x='89.62' y='19.33'>64)<tspan x='106.22'>=</tspan><tspan x='116.74'>(0</tspan></text>
-<text class='t5' x='125.6' y='19.33'>,</text>
-<text class='t4' x='130.02' y='19.33'>1</text>
-<text class='t5' x='135.01' y='19.33'>,</text>
-<text class='t4' x='139.43' y='19.33'>2)</text></svg></div><pre class="fx-s"><code>(x, y, z): (ZZ64, ZZ64, ZZ64) = (0, 1, 2)</code></pre></div>
-<div class="fx nb both" id="c-21f12630" data-kind="code" data-example="Var.Top.e"><div class="fx-r"><svg class="tx" data-d="13" viewBox="-0.60 11.26 141.74 11.16" width="14.174em" height="1.116em" fill="currentColor"><text class='t4' x='0' y='19.33'>(</text>
-<text class='t5' x='3.87' y='19.33'>x</text>
-<text class='t4' x='9.57' y='19.33'>:</text>
-<text class='t11' x='14' y='19.33'>Z</text>
-<text class='t4' x='20.64' y='19.33'>64</text>
-<text class='t5' x='30.6' y='19.33'>,<tspan x='35.03'>y</tspan></text>
-<text class='t4' x='40.27' y='19.33'>:</text>
-<text class='t11' x='44.7' y='19.33'>Z</text>
-<text class='t4' x='51.34' y='19.33'>64</text>
-<text class='t5' x='61.3' y='19.33'>,<tspan x='65.73'>z</tspan></text>
-<text class='t4' x='70.8' y='19.33'>:</text>
-<text class='t11' x='75.23' y='19.33'>Z</text>
-<text class='t4' x='81.87' y='19.33'>64)<tspan x='98.48'>=</tspan><tspan x='108.99'>(0</tspan></text>
-<text class='t5' x='117.85' y='19.33'>,</text>
-<text class='t4' x='122.28' y='19.33'>1</text>
-<text class='t5' x='127.26' y='19.33'>,</text>
-<text class='t4' x='131.68' y='19.33'>2)</text></svg></div><pre class="fx-s"><code>(x: ZZ64, y: ZZ64, z: ZZ64) = (0, 1, 2)</code></pre></div>
-<div class="fx nb both" id="c-db2b2934" data-kind="code" data-example="Var.Top.f"><div class="fx-r"><svg class="tx" data-d="14" viewBox="-0.60 11.26 113.51 11.16" width="11.351em" height="1.116em" fill="currentColor"><text class='t4' x='0' y='19.33'>(</text>
-<text class='t5' x='3.87' y='19.33'>x,<tspan x='14'>y</tspan><tspan x='19.24'>,</tspan><tspan x='23.67'>z</tspan></text>
-<text class='t4' x='28.74' y='19.33'>):</text>
-<text class='t11' x='37.04' y='19.33'>Z</text>
-<text class='t4' x='43.68' y='19.33'>64</text>
-<text class='t5' x='53.64' y='19.33'>.<tspan x='58.07'>.</tspan><tspan x='62.5'>.</tspan></text>
-<text class='t4' x='70.25' y='19.33'>=<tspan x='80.76'>(0</tspan></text>
-<text class='t5' x='89.62' y='19.33'>,</text>
-<text class='t4' x='94.05' y='19.33'>1</text>
+<div class="fx nb both" id="c-509ffcf6" data-kind="code" data-example="Var.Top.d"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 11.26 149.49 11.16" width="14.949em" height="1.116em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>(</text>
+<text class='t5' x='13.84' y='19.33'>x,<tspan x='23.96'>y</tspan><tspan x='29.2'>,</tspan><tspan x='33.63'>z</tspan></text>
+<text class='t4' x='38.7' y='19.33'>):<tspan x='47'>(</tspan></text>
+<text class='t11' x='50.88' y='19.33'>Z</text>
+<text class='t4' x='57.52' y='19.33'>64</text>
+<text class='t5' x='67.48' y='19.33'>,</text>
+<text class='t11' x='71.91' y='19.33'>Z</text>
+<text class='t4' x='78.55' y='19.33'>64</text>
+<text class='t5' x='88.51' y='19.33'>,</text>
+<text class='t11' x='92.94' y='19.33'>Z</text>
+<text class='t4' x='99.58' y='19.33'>64)<tspan x='116.19'>=</tspan><tspan x='126.7'>(0</tspan></text>
+<text class='t5' x='135.56' y='19.33'>,</text>
+<text class='t4' x='139.99' y='19.33'>1</text>
+<text class='t5' x='144.97' y='19.33'>,</text>
+<text class='t4' x='149.4' y='19.33'>2)</text></svg></div><pre class="fx-s"><code>(x, y, z): (ZZ64, ZZ64, ZZ64) = (0, 1, 2)</code></pre></div>
+<div class="fx nb both" id="c-21f12630" data-kind="code" data-example="Var.Top.e"><div class="fx-r"><svg class="tx" data-d="13" viewBox="9.36 11.26 141.74 11.16" width="14.174em" height="1.116em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>(</text>
+<text class='t5' x='13.84' y='19.33'>x</text>
+<text class='t4' x='19.53' y='19.33'>:</text>
+<text class='t11' x='23.96' y='19.33'>Z</text>
+<text class='t4' x='30.6' y='19.33'>64</text>
+<text class='t5' x='40.56' y='19.33'>,<tspan x='44.99'>y</tspan></text>
+<text class='t4' x='50.23' y='19.33'>:</text>
+<text class='t11' x='54.66' y='19.33'>Z</text>
+<text class='t4' x='61.3' y='19.33'>64</text>
+<text class='t5' x='71.27' y='19.33'>,<tspan x='75.69'>z</tspan></text>
+<text class='t4' x='80.76' y='19.33'>:</text>
+<text class='t11' x='85.19' y='19.33'>Z</text>
+<text class='t4' x='91.83' y='19.33'>64)<tspan x='108.44'>=</tspan><tspan x='118.95'>(0</tspan></text>
+<text class='t5' x='127.81' y='19.33'>,</text>
+<text class='t4' x='132.24' y='19.33'>1</text>
+<text class='t5' x='137.22' y='19.33'>,</text>
+<text class='t4' x='141.65' y='19.33'>2)</text></svg></div><pre class="fx-s"><code>(x: ZZ64, y: ZZ64, z: ZZ64) = (0, 1, 2)</code></pre></div>
+<div class="fx nb both" id="c-db2b2934" data-kind="code" data-example="Var.Top.f"><div class="fx-r"><svg class="tx" data-d="14" viewBox="9.36 11.26 112.96 11.16" width="11.296em" height="1.116em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>(</text>
+<text class='t5' x='13.84' y='19.33'>x,<tspan x='23.96'>y</tspan><tspan x='29.2'>,</tspan><tspan x='33.63'>z</tspan></text>
+<text class='t4' x='38.7' y='19.33'>):</text>
+<text class='t11' x='47' y='19.33'>Z</text>
+<text class='t4' x='53.64' y='19.33'>64</text>
+<text class='t5' x='65.27' y='19.33'>.<tspan x='69.69'>.</tspan><tspan x='74.12'>.</tspan></text>
+<text class='t4' x='79.66' y='19.33'>=<tspan x='90.17'>(0</tspan></text>
 <text class='t5' x='99.03' y='19.33'>,</text>
-<text class='t4' x='103.46' y='19.33'>2)</text></svg></div><pre class="fx-s"><code>(x, y, z): ZZ64... = (0, 1, 2)</code></pre></div>
+<text class='t4' x='103.46' y='19.33'>1</text>
+<text class='t5' x='108.44' y='19.33'>,</text>
+<text class='t4' x='112.87' y='19.33'>2)</text></svg></div><pre class="fx-s"><code>(x, y, z): ZZ64... = (0, 1, 2)</code></pre></div>
 </section>
 <section class="sec" data-num="8.2" data-title="Local Variable Declarations">
 <h2 id="sec-local-var-decls" class="nb"><span class="num">8.2</span> Local Variable Declarations</h2>
@@ -358,14 +358,14 @@ end</code></pre></div></aside>
 <text class='t10' x='32.85' y='19.33'>id</text>
 <text class='t4' x='44.79' y='19.33'>:<tspan x='50.33'>T</tspan><tspan x='57.25'>yp</tspan><tspan x='68.32'>e</tspan></text></svg></div></div>
 <p id="p-a3ddae67" class="nb">declares a variable without giving it an initial value (where mutability is determined by the presence of the <span class="m"><span class="kw">var</span></span> modifier). It is a static error if such a variable is referred to before it has been given a value; an immutable variable is initialized by another variable declaration and a mutable variable is initialized by assignment. It is also a static error if an immutable variable is initialized more than once. Whenever a variable bound in this manner is assigned a value, the type of that value must be a subtype of its declared type. This form allows declaration of the types of variables to be separated from definitions, and it allows programmers to delay assigning to a variable before a sensible value is known. In the following example, the declaration of the type of a variable and its definition are separated:</p>
-<div class="fx nb both" id="c-d8f939bf" data-kind="code" data-example="Var.Local"><div class="fx-r"><svg class="tx" data-d="18" viewBox="4.38 11.86 357.04 28.49" width="35.704em" height="2.849em" fill="currentColor"><text class='t5' x='4.98' y='19.33'>π</text>
-<text class='t4' x='11.02' y='19.33'>:</text>
-<text class='t11' x='15.45' y='19.33'>R</text>
-<text class='t4' x='22.64' y='19.33'>64</text>
-<text class='t5' x='4.98' y='39.75'>π</text>
-<text class='t4' x='13.79' y='39.75'>=<tspan x='24.3'>3</tspan></text>
-<text class='t5' x='29.28' y='39.75'>.</text>
-<text class='t4' x='32.05' y='39.75'>141592653589793238462643383279502884197169399375108209749445923078</text></svg></div><pre class="fx-s"><code>  pi: RR64
+<div class="fx nb both" id="c-d8f939bf" data-kind="code" data-example="Var.Local"><div class="fx-r"><svg class="tx" data-d="18" viewBox="21.32 11.86 357.04 20.02" width="35.704em" height="2.002em" fill="currentColor"><text class='t5' x='21.92' y='19.33'>π</text>
+<text class='t4' x='27.95' y='19.33'>:</text>
+<text class='t11' x='32.38' y='19.33'>R</text>
+<text class='t4' x='39.58' y='19.33'>64</text>
+<text class='t5' x='21.92' y='31.28'>π</text>
+<text class='t4' x='30.72' y='31.28'>=<tspan x='41.24'>3</tspan></text>
+<text class='t5' x='46.22' y='31.28'>.</text>
+<text class='t4' x='48.99' y='31.28'>141592653589793238462643383279502884197169399375108209749445923078</text></svg></div><pre class="fx-s"><code>  pi: RR64
   pi = 3.141592653589793238462643383279502884197169399375108209749445923078</code></pre></div></li>
 <li><p id="p-cc721755" class="nb">Special syntax for declaring local variables as parts of a matrix is provided as described in <a class="xref" href="#sec-unpasting">Section 8.3</a><!--nc-->.</p></li>
 </ul>
@@ -890,8 +890,9 @@ end</code></pre></div></aside>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="declarations.html"><span>Previous</span> 7. Names and Declarations</a><a class="next" href="functions.html"><span>Next</span> 9. Functions</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic/variables.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic/variables.tex</code> with nothing added to its text. The Fortress revival of 2026 did not change this chapter; its revised edition, kept apart, has <a href="revival/variables.html">the same chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

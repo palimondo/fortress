@@ -19,11 +19,9 @@ svg.tx text.t8{font-family:pcrr8r;font-size:9.93px}
 svg.tx text.t9{font-family:cmr10;font-size:9.96px}
 svg.tx text.t10{font-family:stmary10;font-size:9.96px}
 svg.tx text.t11{font-family:cmti10;font-size:9.96px}
-svg.tx text.t12{font-family:msbm10;font-size:9.96px}
-svg.tx text.t13{font-family:cmex10;font-size:9.96px}
 </style>
 </head>
-<body data-page="chapter" data-slug="traits" data-chapter="10. Traits">
+<body data-page="chapter" data-slug="traits" data-chapter="10. Traits" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">10. Traits</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -245,11 +243,7 @@ svg.tx text.t13{font-family:cmex10;font-size:9.96px}
 <p id="p-2fa78697" class="nb">A trait with an <span class="m"><span class="kw">extends</span></span> clause <em>explicitly extends</em> those traits listed in its <span class="m"><span class="kw">extends</span></span> clause.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-6c467413" class="nb">Victor: It is possible for a trait to explicitly extend itself using hidden type variables. In particular, the straightforward interpretation of covariant/contravariant declarations has this property. (But we could just rule this a special case, since it is special in other ways already.)</p></aside>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-where">Section I.1.2</a><!--nc--></span></p>
-<p id="p-717c5023" class="nb">The revival rules on this note and on the one below: a <span class="m"><span class="kw">where</span></span>-clause variable may not appear as a static argument in an <span class="m"><span class="kw">extends</span></span> clause (<a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), so no trait extends itself through a hidden type variable and explicit extension has no self cycles.</p></aside>
-<p id="p-1987fca4" class="nb">In addition, every trait except <span class="m"><span class="ty">Any</span></span>, <span class="m"><span class="ty">Object</span></span> and <span class="m"><span class="ty">Index</span></span> implicitly extends the trait <span class="m"><span class="ty">Object</span></span> if it does not do so explicitly. The trait <span class="m"><span class="ty">Index</span></span> of the library, the trait of the types that a subscript takes, extends only <span class="m"><span class="ty">Any</span></span>, as <span class="m"><span class="ty">Object</span></span> does: a tuple type whose element types are all subtypes of <span class="m"><span class="ty">Index</span></span> is a subtype of <span class="m"><span class="ty">Index</span></span> (<a class="xref" href="types.html#sec-tuple-types">Section 6.5</a>), and no tuple is an <span class="m"><span class="ty">Object</span></span>. A trait that extends <span class="m"><span class="ty">Index</span></span> and no other trait but <span class="m"><span class="ty">Any</span></span> implicitly extends <span class="m"><span class="ty">Object</span></span> too. We define the extension relation to be the transitive closure of implicit and explicit extension. That is, trait <span class="m"><i>T</i></span> <em>extends</em> trait <span class="m"><i>U</i></span> if and only if <span class="m"><i>T</i></span> explicitly or implicitly extends <span class="m"><i>U</i></span> or if there is some trait <span class="m"><i>S</i></span> that <span class="m"><i>T</i></span> explicitly extends and that extends <span class="m"><i>U</i></span>. The extension relation induced by a program is the smallest relation satisfying these conditions. This relation must form an acyclic hierarchy rooted at the traits <span class="m"><span class="ty">Object</span></span> and <span class="m"><span class="ty">Index</span></span>.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
-<p id="p-870fead1" class="nb">The Working Draft of February 2011 named only <span class="m"><span class="ty">Any</span></span> and <span class="m"><span class="ty">Object</span></span> as the traits that do not implicitly extend <span class="m"><span class="ty">Object</span></span>, and rooted the hierarchy at <span class="m"><span class="ty">Object</span></span>; <span class="m"><span class="ty">Index</span></span>, which the revival adds to the library, is the third.</p></aside>
+<p id="p-cce1a0e6" class="nb">In addition, every trait except <span class="m"><span class="ty">Any</span></span> and <span class="m"><span class="ty">Object</span></span> implicitly extends the trait <span class="m"><span class="ty">Object</span></span> if it does not do so explicitly. We define the extension relation to be the transitive closure of implicit and explicit extension. That is, trait <span class="m"><i>T</i></span> <em>extends</em> trait <span class="m"><i>U</i></span> if and only if <span class="m"><i>T</i></span> explicitly or implicitly extends <span class="m"><i>U</i></span> or if there is some trait <span class="m"><i>S</i></span> that <span class="m"><i>T</i></span> explicitly extends and that extends <span class="m"><i>U</i></span>. The extension relation induced by a program is the smallest relation satisfying these conditions. This relation must form an acyclic hierarchy rooted at trait <span class="m"><span class="ty">Object</span></span>.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-13cbace0" class="nb">Victor: Technically, there may be self cycles in explicit extension due to hidden type variables, as described above.</p></aside>
 <p id="p-09d5a10e" class="nb">If a trait <span class="m"><i>T</i></span> extends trait <span class="m"><i>U</i></span>, or if <span class="m"><i>T</i></span> and <span class="m"><i>U</i></span> are the same trait, we say that <span class="m"><i>T</i></span> is a subtrait of <span class="m"><i>U</i></span> and that <span class="m"><i>U</i></span> is a supertrait of <span class="m"><i>T</i></span>.</p>
@@ -260,60 +254,23 @@ svg.tx text.t13{font-family:cmex10;font-size:9.96px}
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-59db8ff9" class="nb">Victor: this belongs in the type chapter.</p></aside>
 <p id="p-99dcbbf2" class="nb">A trait with an <span class="m"><span class="kw">excludes</span></span> clause excludes every trait listed in its <span class="m"><span class="kw">excludes</span></span> clause. If a trait <span class="m"><i>T</i></span> excludes a trait <span class="m"><i>U</i></span>, the two traits are mutually exclusive: neither can extend the other, and no trait can extend them both. As discussed in <a class="xref" href="types.html#sec-type-relations">Section 6.2</a>, the exclusion relation is symmetric. Thus, if <span class="m"><i>T</i></span> excludes <span class="m"><i>U</i></span> then <span class="m"><i>U</i></span> excludes <span class="m"><i>T</i></span> whether or not <span class="m"><i>T</i></span> is listed in an <span class="m"><span class="kw">excludes</span></span> clause in the declaration of <span class="m"><i>U</i></span>.</p>
-<p id="p-912faa2e" class="nb">If a trait declaration of <span class="m"><i>T</i></span> includes a <span class="m"><span class="kw">comprises</span></span> clause then every type listed in its <span class="m"><span class="kw">comprises</span></span> clause extends <span class="m"><i>T</i></span>, and every value of type <span class="m"><i>T</i></span> is a value of one of the listed types. A listed type may be an instantiation of a parameterized trait, provided that every static variable that occurs in its static arguments is a static parameter of <span class="m"><i>T</i></span> or a <span class="m"><span class="kw">where</span></span>-clause variable of the declaration of <span class="m"><i>T</i></span> (<a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), which the listed type then holds at every value of: a trait declared <span class="m"><span class="kw">trait</span> <span class="ty">NatParam</span> <span class="kw">comprises</span> {<i>N</i>⟦<i>n</i>⟧} <span class="kw">where</span> ⟦<span class="kw">nat</span> <i>n</i>⟧</span> lists <span class="m"><i>N</i>⟦<i>n</i>⟧</span> at every <span class="m"><span class="kw">nat</span></span> value of <span class="m"><i>n</i></span>. A trait or object that explicitly extends <span class="m"><i>T</i></span> must be a subtype of a listed type, unless it is a trait with a <span class="m"><span class="kw">comprises</span></span> clause of its own each of whose listed types meets this requirement, or a trait with static parameters such that at least one trait or object extends it and every trait or object that extends it is a subtype of a listed type. If <span class="m"><i>T</i></span> has static parameters, these statements hold of each instantiation of <span class="m"><i>T</i></span>, with the static parameters of <span class="m"><i>T</i></span> in the listed types replaced by the corresponding static arguments.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-comprises">Section I.1.21</a><!--nc--></span></p>
-<p id="p-0ffac1cd" class="nb">The Working Draft of February 2011 said here, in a draft note, that the traits listed in a <span class="m"><span class="kw">comprises</span></span> clause are exactly the traits that immediately extend <span class="m"><i>T</i></span> and that each of them must list <span class="m"><i>T</i></span> in its <span class="m"><span class="kw">extends</span></span> clause. The revival states the reading of the team’s later Types chapter (Luchangco, 2012) and of the type group’s calculus Welterweight Fortress (2012): the clause says to which types the values of <span class="m"><i>T</i></span> belong. A parameterized trait with a static parameter that <span class="m"><i>T</i></span> does not have can be listed only at particular static arguments; it may stand unlisted between <span class="m"><i>T</i></span> and the listed types, adding no value outside them, when at least one trait or object extends it and every one that does is a subtype of a listed type. This also answers the third question of the draft note on trait identifiers above, whether an instantiation of a parameterized trait may be listed: it may. A <span class="m"><span class="kw">where</span></span>-clause variable of the declaration of <span class="m"><i>T</i></span> may also occur in a listed type, as in the clause of the trait <span class="m"><span class="ty">NatParam</span></span> of the Fortress standard libraries, which the team wrote as a comment and the revival restores.</p></aside>
 <aside class="draft"><p class="label">Draft note</p>
-<p id="p-e98ee4db" class="nb">If the <span class="m"><span class="kw">comprises</span></span> clause of a trait <span class="m"><i>T</i></span> includes “<span class="m">…</span>” (and must therefore be in an API), then in a component exporting the enclosing API, other traits may explicitly extend <span class="m"><i>T</i></span>, but these traits may not be declared or imported by the API (see <a class="xref" href="components.html#sec-apis">Section 22.3</a><!--nc-->).</p></aside>
-<p id="p-17fcfa9d" class="nb">A trait declaration of <span class="m"><i>T</i></span> that has no <span class="m"><span class="kw">comprises</span></span> clause, or one that lists no type but “<span class="m">…</span>”, may have a <em>self-type parameter</em>: a static parameter <span class="m"><i>X</i></span> of <span class="m"><i>T</i></span> whose bounds include <span class="m"><i>T</i></span> at its own static parameters, as in <span class="m"><span class="kw">trait</span> <i>T</i>⟦<i>X</i> <span class="kw">extends</span> <i>T</i>⟦<i>X</i>⟧⟧</span>, or include an instantiation of a trait with a self-type parameter that <span class="m"><i>T</i></span> also lists in its <span class="m"><span class="kw">extends</span></span> clause, with <span class="m"><i>X</i></span> as the static argument for that self-type parameter. In the bodies of the methods of <span class="m"><i>T</i></span>, <span class="m"><span class="kw">self</span></span> then has the type <span class="m"><i>T</i> ∩ <i>X</i></span> (<a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->). A trait or object declaration, or an object expression, that extends an instantiation of <span class="m"><i>T</i></span> must be a subtype of the static argument of that instantiation for the self-type parameter of <span class="m"><i>T</i></span>; for a trait declaration the requirement is on the type of <span class="m"><span class="kw">self</span></span> in the bodies of its methods (<a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->), the intersection of its type with the types its <span class="m"><span class="kw">comprises</span></span> clause lists, or with its own self-type parameter <span class="m"><i>Y</i></span>. It is a static error otherwise. An object declaration has no self-type parameter. For example, given the declarations:</p>
-<div class="fx nb" id="c-422206c7" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.26 179.25 23.12" width="17.925em" height="2.312em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
-<text class='t9' x='41.1' y='19.33'>Shap<tspan x='62.96'>e</tspan></text>
-<text class='t10' x='67.39' y='19.33'></text>
-<text class='t7' x='71.4' y='19.33'>S</text>
-<text class='t3' x='80.85' y='19.33'>extends</text>
-<text class='t9' x='120.23' y='19.33'>Shap<tspan x='142.09'>e</tspan></text>
-<text class='t10' x='146.52' y='19.33'></text>
-<text class='t7' x='150.53' y='19.33'>S</text>
-<text class='t10' x='157.22' y='19.33'></text>
-<text class='t3' x='168.01' y='19.33'>end<tspan x='9.96' y='31.28'>object</tspan></text>
-<text class='t9' x='46.33' y='31.28'>P<tspan x='52.83'>oin</tspan><tspan x='65.84'>t</tspan></text>
-<text class='t3' x='72.48' y='31.28'>extends</text>
-<text class='t9' x='111.86' y='31.28'>Shap<tspan x='133.72'>e</tspan></text>
-<text class='t10' x='138.15' y='31.28'></text>
-<text class='t9' x='142.16' y='31.28'>P<tspan x='148.66'>oin</tspan><tspan x='161.67'>t</tspan></text>
-<text class='t10' x='165.55' y='31.28'></text>
-<text class='t3' x='172.33' y='31.28'>end</text></svg></div></div>
-<p id="p-a5ed7887" class="nb">the following object declaration is not allowed:</p>
-<div class="fx nb both" id="c-20d638e4" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.26 179.14 23.12" width="17.914em" height="2.312em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>(</text>
-<text class='t5' x='13.84' y='19.33'>∗</text>
-<text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
-<text class='t5' x='76.4' y='19.33'>∗</text>
-<text class='t9' x='81.38' y='19.33'>)</text>
-<text class='t3' x='9.96' y='31.28'>object</text>
-<text class='t9' x='46.33' y='31.28'>Mark</text>
-<text class='t3' x='72.37' y='31.28'>extends</text>
-<text class='t9' x='111.75' y='31.28'>Shap<tspan x='133.61'>e</tspan></text>
-<text class='t10' x='138.04' y='31.28'></text>
-<text class='t9' x='142.05' y='31.28'>P<tspan x='148.55'>oin</tspan><tspan x='161.56'>t</tspan></text>
-<text class='t10' x='165.43' y='31.28'></text>
-<text class='t3' x='172.21' y='31.28'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)</code></pre></div>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-self-type">Section I.1.43</a><!--nc--></span></p>
-<p id="p-0fa6ccb4" class="nb">The self-type parameter and the rule on the declarations that extend a trait with one are new. The Working Draft of February 2011 typed <span class="m"><span class="kw">self</span></span> as the type of the enclosing trait, or, with a <span class="m"><span class="kw">comprises</span></span> clause, as its intersection with the listed types (<a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->). The revival also reads the type of <span class="m"><span class="kw">self</span></span> from the bound of a self-type parameter, and refuses, as Scala refuses a class whose self type does not conform to the self types of the classes it inherits, a declaration that does not conform to it, so that inside <span class="m"><i>T</i></span> every value of <span class="m"><span class="kw">self</span></span> is an <span class="m"><i>X</i></span>.</p></aside>
+<p id="p-bb6cf94f" class="nb">If a trait declaration of <span class="m"><i>T</i></span> includes a <span class="m"><span class="kw">comprises</span></span> clause then the traits listed in its <span class="m"><span class="kw">comprises</span></span> clause are exactly the traits that immediately extend <span class="m"><i>T</i></span> and they must explicitly extend <span class="m"><i>T</i></span> (i.e., list <span class="m"><i>T</i></span> in their <span class="m"><span class="kw">extends</span></span> clause). If the <span class="m"><span class="kw">comprises</span></span> clause of a trait <span class="m"><i>T</i></span> includes “<span class="m">…</span>” (and must therefore be in an API), then in a component exporting the enclosing API, other traits may explicitly extend <span class="m"><i>T</i></span>, but these traits may not be declared or imported by the API (see <a class="xref" href="components.html#sec-apis">Section 22.3</a><!--nc-->).</p></aside>
 <p id="p-1a30b23d" class="nb">For example, the following trait declaration:</p>
-<div class="fx nb both" id="c-06497da8" data-kind="code" data-example="Trait.Decl"><div class="fx-r"><svg class="tx" data-d="6" viewBox="-0.60 11.81 142.77 48.97" width="14.277em" height="4.897em" fill="currentColor"><text class='t3' x='0' y='19.33'>trait</text>
-<text class='t9' x='28.92' y='19.33'>Catalyst</text>
-<text class='t3' x='68.55' y='19.33'>extends</text>
-<text class='t9' x='107.93' y='19.33'>Ob<tspan x='121.76'>ject</tspan></text>
-<text class='t11' x='8.86' y='39.75'>c<tspan x='12.93'>atalyze</tspan></text>
-<text class='t9' x='43.21' y='39.75'>(</text>
-<text class='t11' x='47.09' y='39.75'>r<tspan x='50.78'>e</tspan><tspan x='54.85'>action</tspan></text>
-<text class='t9' x='82.35' y='39.75'>:<tspan x='86.78'>Reaction</tspan><tspan x='125.1'>):</tspan><tspan x='133.41'>(</tspan><tspan x='137.7'>)</tspan></text>
-<text class='t3' x='0' y='60.17'>end</text></svg></div><pre class="fx-s"><code>trait Catalyst extends Object
+<div class="fx nb both" id="c-06497da8" data-kind="code" data-example="Trait.Decl"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.81 145.45 32.03" width="14.545em" height="3.203em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t9' x='41.1' y='19.33'>Catalyst</text>
+<text class='t3' x='80.72' y='19.33'>extends</text>
+<text class='t9' x='122.32' y='19.33'>Ob<tspan x='136.16'>ject</tspan></text>
+<text class='t11' x='21.92' y='31.28'>c<tspan x='25.99'>atalyze</tspan></text>
+<text class='t9' x='56.27' y='31.28'>(</text>
+<text class='t11' x='60.15' y='31.28'>r<tspan x='63.84'>e</tspan><tspan x='67.91'>action</tspan></text>
+<text class='t9' x='95.41' y='31.28'>:<tspan x='99.84'>Reaction</tspan><tspan x='138.17'>):</tspan><tspan x='146.47'>()</tspan></text>
+<text class='t3' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>trait Catalyst extends Object
   catalyze(reaction: Reaction): ()
 end</code></pre></div>
 <p id="p-cdfbd215" class="nb">declares a trait <span class="m"><span class="ty">Catalyst</span></span> with no modifiers, no static parameters, and no <span class="m"><span class="kw">excludes</span></span> clauses, no <span class="m"><span class="kw">comprises</span></span> clauses, and no <span class="m"><span class="kw">where</span></span> clauses. Trait <span class="m"><span class="ty">Catalyst</span></span> extends a trait named <span class="m"><span class="ty">Object</span></span>. A single method (named <span class="m"><i>catalyze</i></span>) is declared, which has a parameter of type <span class="m"><span class="ty">Reaction</span></span> and the return type <span class="m"><span class="ty">()</span></span>.</p>
 <p id="p-21a69aa7" class="nb">The following example trait:</p>
-<div class="fx nb both" id="c-fd59918c" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="9.36 11.26 290.89 32.58" width="29.089em" height="3.258em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<div class="fx nb both" id="c-fd59918c" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.26 290.89 32.58" width="29.089em" height="3.258em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
 <text class='t9' x='38.88' y='19.33'>Molecule</text>
 <text class='t3' x='80.12' y='19.33'>comprises</text>
 <text class='t5' x='129.96' y='19.33'>{</text>
@@ -326,7 +283,7 @@ end</code></pre></div>
 <text class='t3' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>  mass(): Mass
 end</code></pre></div>
 <p id="p-4b89e4af" class="nb">comprises of two traits: <span class="m"><span class="ty">OrganicMolecule</span></span> and <span class="m"><span class="ty">InorganicMolecule</span></span>. Therefore, the following trait declaration is not allowed:</p>
-<div class="fx nb both" id="c-20d638e4-2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 11.26 208.53 20.63" width="20.853em" height="2.063em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>(</text>
+<div class="fx nb both" id="c-20d638e4" data-kind="code"><div class="fx-r"><svg class="tx" data-d="6" viewBox="9.36 11.26 208.53 20.63" width="20.853em" height="2.063em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>(</text>
 <text class='t5' x='13.84' y='19.33'>∗</text>
 <text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
 <text class='t5' x='76.4' y='19.33'>∗</text>
@@ -337,7 +294,7 @@ end</code></pre></div>
 <text class='t9' x='160.37' y='31.28'>Molecule</text>
 <text class='t3' x='201.6' y='31.28'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)</code></pre></div>
 <p id="p-c6e2f5d1" class="nb">Traits <span class="m"><span class="ty">OrganicMolecule</span></span> and <span class="m"><span class="ty">InorganicMolecule</span></span> may be exclusive:</p>
-<div class="fx nb" id="c-b8b51f7d" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.81 328.55 26.00" width="32.855em" height="2.600em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<div class="fx nb" id="c-b8b51f7d" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="9.36 11.81 328.55 26.00" width="32.855em" height="2.600em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
 <text class='t9' x='38.88' y='19.33'>OrganicMolecule</text>
 <text class='t3' x='114.46' y='19.33'>extends</text>
 <text class='t9' x='153.84' y='19.33'>Molecule</text>
@@ -349,7 +306,7 @@ end</code></pre></div>
 <text class='t9' x='160.2' y='35.27'>Molecule</text>
 <text class='t3' x='201.44' y='35.27'>end</text></svg></div></div>
 <p id="p-b37b4c23" class="nb"><span class="m"><span class="ty">OrganicMolecule</span></span> and <span class="m"><span class="ty">InorganicMolecule</span></span> exclude each other, even though only <span class="m"><span class="ty">OrganicMolecule</span></span> has an <span class="m"><span class="kw">excludes</span></span> clause. For example, the following trait declaration is not allowed:</p>
-<div class="fx nb both" id="c-20d638e4-3" data-kind="code"><div class="fx-r"><svg class="tx" data-d="10" viewBox="9.36 11.26 336.86 23.12" width="33.686em" height="2.312em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>(</text>
+<div class="fx nb both" id="c-20d638e4-2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 11.26 336.86 23.12" width="33.686em" height="2.312em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>(</text>
 <text class='t5' x='13.84' y='19.33'>∗</text>
 <text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
 <text class='t5' x='76.4' y='19.33'>∗</text>
@@ -363,38 +320,8 @@ end</code></pre></div>
 <text class='t9' x='247.71' y='31.28'>OrganicMolecule</text>
 <text class='t5' x='322.18' y='31.28'>}</text>
 <text class='t3' x='329.93' y='31.28'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)</code></pre></div>
-<p id="p-0f19d170" class="nb">For the same reason, a trait or object may not extend two instantiations of one parameterized trait that exclude each other by instantiation exclusion (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>), directly or through its supertraits: any two instantiations of one parameterized trait that it extends must have the same static arguments, operator arguments excepted. For example, the following object declaration is not allowed:</p>
-<div class="fx nb both" id="c-20d638e4-4" data-kind="code"><div class="fx-r"><svg class="tx" data-d="11" viewBox="9.36 11.26 256.96 35.07" width="25.696em" height="3.507em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
-<text class='t9' x='41.1' y='19.33'>P<tspan x='47.6'>aren</tspan><tspan x='66.17'>t</tspan></text>
-<text class='t10' x='70.04' y='19.33'></text>
-<text class='t7' x='74.06' y='19.33'>T</text>
-<text class='t10' x='81.26' y='19.33'></text>
-<text class='t3' x='88.04' y='19.33'>end</text>
-<text class='t9' x='9.96' y='31.28'>(</text>
-<text class='t5' x='13.84' y='31.28'>∗</text>
-<text class='t2' x='21.59' y='31.28'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
-<text class='t5' x='76.4' y='31.28'>∗</text>
-<text class='t9' x='81.38' y='31.28'>)</text>
-<text class='t3' x='9.96' y='43.24'>object</text>
-<text class='t9' x='46.33' y='43.24'>Child</text>
-<text class='t3' x='72.89' y='43.24'>extends</text>
-<text class='t5' x='112.27' y='43.24'>{</text>
-<text class='t9' x='118.91' y='43.24'>P<tspan x='125.42'>aren</tspan><tspan x='143.99'>t</tspan></text>
-<text class='t10' x='147.86' y='43.24'></text>
-<text class='t12' x='151.87' y='43.24'>Z</text>
-<text class='t9' x='158.52' y='43.24'>32</text>
-<text class='t10' x='168.48' y='43.24'></text>
-<text class='t7' x='172.49' y='43.24'>,</text>
-<text class='t9' x='176.92' y='43.24'>P<tspan x='183.42'>aren</tspan><tspan x='201.99'>t</tspan></text>
-<text class='t10' x='205.87' y='43.24'></text>
-<text class='t9' x='209.88' y='43.24'>String</text>
-<text class='t10' x='236.61' y='43.24'></text>
-<text class='t5' x='242.29' y='43.24'>}</text>
-<text class='t3' x='250.03' y='43.24'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)</code></pre></div>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-rule">Section I.1.1</a><!--nc--></span></p>
-<p id="p-9047217d" class="nb">The rule on declarations is new. The Working Draft of February 2011 allowed a trait to extend two different instantiations of one parameterized trait; the compiled type checker refuses such a declaration when the arguments that differ are types or numerals (<a class="xref" href="spec-changes.html#sec-revival-rule">Section I.1.1</a><!--nc--> states the exceptions), reporting that the two instantiations exclude each other. The team’s later Types chapter (Luchangco, 2012) states the rule as: a trait that extends two instantiations of a generic type, directly or indirectly, must extend an expressible instantiation that is a subtype of both. Where every static parameter is invariant, as in this specification, that is the rule stated above.</p></aside>
 <p id="p-e9bc0344" class="nb">A trait is allowed to have multiple immediate supertraits. The following trait has two immediate supertraits:</p>
-<div class="fx nb" id="c-df0fe017" data-kind="code"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 11.26 252.84 11.16" width="25.284em" height="1.116em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<div class="fx nb" id="c-df0fe017" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.26 252.84 11.16" width="25.284em" height="1.116em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
 <text class='t9' x='38.88' y='19.33'>Enzyme</text>
 <text class='t3' x='76.38' y='19.33'>extends</text>
 <text class='t5' x='115.76' y='19.33'>{</text>
@@ -413,7 +340,7 @@ end</code></pre></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-66a8cb60" class="nb">Getters must always be called with the special syntax: <span class="m"><i>receiver</i>.<i>getterName</i></span></p>
 <p id="p-d3e24f8b" class="nb">A getter is required to have a type consistent with a corresponding setter.</p></aside>
-<div class="tw nb gr" id="g-4bea11ba" data-kind="grammar"><svg class="tx" data-d="13" viewBox="-5.58 10.45 474.60 427.92" width="47.460em" height="42.792em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<div class="tw nb gr" id="g-4bea11ba" data-kind="grammar"><svg class="tx" data-d="10" viewBox="-5.58 10.45 474.60 427.92" width="47.460em" height="42.792em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
 <text class='t1' x='25.9' y='28.8'>MdDecl</text>
 <text class='t2' x='131.12' y='28.8'>::=</text>
 <text class='t1' x='154.23' y='28.8'>MdDef</text>
@@ -584,7 +511,7 @@ end</code></pre></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-fdc81779" class="nb">The following description is too confusing. Reword it!!!</p></aside>
 <p id="p-03647897" class="nb">If such a field exists, there is no implicit getter for the field. An explicitly declared getter method must take no arguments and return a result of the field’s type. A getter method must not throw any checked exception. Getter names may not overlap ordinary method names. A getter method must be invoked with the field access syntax:</p>
-<div class="fx nb both" id="c-a50c1098" data-kind="code"><div class="fx-r"><svg class="tx" data-d="14" viewBox="9.36 11.81 32.71 10.06" width="3.271em" height="1.006em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>expr</text>
+<div class="fx nb both" id="c-a50c1098" data-kind="code"><div class="fx-r"><svg class="tx" data-d="11" viewBox="9.36 11.81 32.71 10.06" width="3.271em" height="1.006em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>expr</text>
 <text class='t7' x='29.53' y='19.33'>.</text>
 <text class='t11' x='32.3' y='19.33'>id</text></svg></div><pre class="fx-s"><code>expr.id</code></pre></div>
 <p id="p-5afdedee" class="nb">where <span class="m"><i>id</i></span> is the name of the getter method.</p>
@@ -592,7 +519,7 @@ end</code></pre></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-fdc81779-2" class="nb">The following description is too confusing. Reword it!!!</p></aside>
 <p id="p-60d0fbf9" class="nb">If such a field exists, there is no implicit setter for the field. An explicitly declared setter method must take a single argument—the value being set—and return <span class="m">()</span>. A setter method must not throw any checked exception. Setter names may not overlap ordinary method names. A setter method must be invoked with the <em>assignment syntax</em>:</p>
-<div class="fx nb both" id="c-a2b920ea" data-kind="code"><div class="fx-r"><svg class="tx" data-d="15" viewBox="9.36 11.81 77.87 10.55" width="7.787em" height="1.055em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>expr</text>
+<div class="fx nb both" id="c-a2b920ea" data-kind="code"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 11.81 77.87 10.55" width="7.787em" height="1.055em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>expr</text>
 <text class='t6' x='30.08' y='21.76'>1</text>
 <text class='t7' x='34.55' y='19.33'>.</text>
 <text class='t11' x='37.32' y='19.33'>id</text>
@@ -601,128 +528,121 @@ end</code></pre></div>
 <text class='t6' x='82.66' y='21.76'>2</text></svg></div><pre class="fx-s"><code>expr1.id := expr2</code></pre></div>
 <p id="p-ad357be9" class="nb">We say that a method declaration <em>occurs</em> in a trait declaration. A trait declaration <em>declares</em> a method declaration that occurs in that trait declaration. A trait declaration <em>inherits</em> method declarations from the declarations of its immediate supertraits except those method declarations that are <em>overridden</em> (as described later in this section) or whose parameter type (not including the type of the self parameter) is equal to the parameter type of a method declaration that occurs in the trait declaration. A trait declaration <em>provides</em> the method declarations that it declares or inherits.</p>
 <p id="p-d0311149" class="nb">There are two sorts of method declarations: <em>dotted method</em> declarations and <em>functional method</em> declarations. Syntactically, a dotted method declaration is identical to a function declaration. When a method is invoked, a special self parameter is bound to the object on which it is invoked.</p>
-<p id="p-f0623a27" class="nb">A functional method declaration has a parameter named <span class="m"><span class="kw">self</span></span> at an arbitrary position in its parameter list. This parameter is not given a type and implicitly has the type of the enclosing trait or object.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-self-type">Section I.1.43</a><!--nc--></span></p>
-<p id="p-5a5ea997" class="nb">In a trait <span class="m"><i>T</i></span> with a self-type parameter <span class="m"><i>X</i></span> (<a class="xref" href="#sec-trait-decls">Section 10.1</a><!--nc-->), this remains the type of the <span class="m"><span class="kw">self</span></span> parameter in the declaration’s signature, which overloading and the choice of a declaration at a call read, save the test of whether two overloaded declarations’ parameter types exclude each other, which reads it as <span class="m"><i>T</i> ∩ <i>X</i></span>; in the method’s body <span class="m"><span class="kw">self</span></span> has the type <span class="m"><i>T</i> ∩ <i>X</i></span> (<a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->).</p></aside>
-<p id="p-61ae26a9" class="nb">Semantically, functional method declarations can be viewed as top-level function declarations. For example, the following overloaded functional method <span class="m"><i>f</i></span> declared within a trait declaration <span class="m"><i>A</i></span>:</p>
-<div class="fx nb both" id="c-09dc0110" data-kind="code" data-example="Trait.Method.a"><div class="fx-r"><svg class="tx" data-d="16" viewBox="-0.60 11.92 92.32 69.28" width="9.232em" height="6.928em" fill="currentColor"><text class='t3' x='0' y='19.33'>trait</text>
-<text class='t7' x='28.92' y='19.33'>A<tspan x='13.28' y='39.75'>f</tspan></text>
-<text class='t9' x='19.23' y='39.75'>(</text>
-<text class='t3' x='23.11' y='39.75'>self</text>
-<text class='t7' x='44.03' y='39.75'>,<tspan x='48.46'>t</tspan></text>
-<text class='t9' x='53.71' y='39.75'>:</text>
-<text class='t7' x='58.14' y='39.75'>T</text>
-<text class='t9' x='65.35' y='39.75'>)<tspan x='71.99'>=</tspan></text>
-<text class='t7' x='82.51' y='39.75'>e</text>
-<text class='t6' x='87.14' y='41.25'>1</text>
-<text class='t7' x='13.28' y='60.17'>f</text>
-<text class='t9' x='19.23' y='60.17'>(</text>
-<text class='t7' x='23.11' y='60.17'>s</text>
-<text class='t9' x='29.44' y='60.17'>:</text>
-<text class='t7' x='33.87' y='60.17'>S<tspan x='40'>,</tspan></text>
-<text class='t3' x='44.42' y='60.17'>self</text>
-<text class='t9' x='65.34' y='60.17'>)<tspan x='71.99'>=</tspan></text>
-<text class='t7' x='82.5' y='60.17'>e</text>
-<text class='t6' x='87.14' y='61.67'>2</text>
-<text class='t3' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>trait A
+<p id="p-e2757fc8" class="nb">A functional method declaration has a parameter named <span class="m"><span class="kw">self</span></span> at an arbitrary position in its parameter list. This parameter is not given a type and implicitly has the type of the enclosing trait or object. Semantically, functional method declarations can be viewed as top-level function declarations. For example, the following overloaded functional method <span class="m"><i>f</i></span> declared within a trait declaration <span class="m"><i>A</i></span>:</p>
+<div class="fx nb both" id="c-09dc0110" data-kind="code" data-example="Trait.Method.a"><div class="fx-r"><svg class="tx" data-d="13" viewBox="9.36 11.92 96.97 43.87" width="9.697em" height="4.387em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t7' x='41.1' y='19.33'>A<tspan x='27.9' y='31.28'>f</tspan></text>
+<text class='t9' x='33.85' y='31.28'>(</text>
+<text class='t3' x='37.72' y='31.28'>self</text>
+<text class='t7' x='58.64' y='31.28'>,<tspan x='63.07'>t</tspan></text>
+<text class='t9' x='68.33' y='31.28'>:</text>
+<text class='t7' x='72.75' y='31.28'>T</text>
+<text class='t9' x='79.96' y='31.28'>)<tspan x='86.6'>=</tspan></text>
+<text class='t7' x='97.12' y='31.28'>e</text>
+<text class='t6' x='101.76' y='32.78'>1</text>
+<text class='t7' x='27.9' y='43.24'>f</text>
+<text class='t9' x='33.85' y='43.24'>(</text>
+<text class='t7' x='37.72' y='43.24'>s</text>
+<text class='t9' x='44.05' y='43.24'>:</text>
+<text class='t7' x='48.48' y='43.24'>S<tspan x='54.61'>,</tspan></text>
+<text class='t3' x='59.04' y='43.24'>self</text>
+<text class='t9' x='79.96' y='43.24'>)<tspan x='86.6'>=</tspan></text>
+<text class='t7' x='97.11' y='43.24'>e</text>
+<text class='t6' x='101.75' y='44.73'>2</text>
+<text class='t3' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>trait A
    f(self, t:T) = e1
    f(s:S, self) = e2
 end</code></pre></div>
-<div class="fx nb both" id="c-614d4e80" data-kind="code" data-example="Trait.Method.b"><div class="fx-r"><svg class="tx" data-d="17" viewBox="-0.60 11.26 28.19 11.16" width="2.819em" height="1.116em" fill="currentColor"><text class='t7' x='0' y='19.33'>f</text>
-<text class='t9' x='5.95' y='19.33'>(</text>
-<text class='t7' x='9.82' y='19.33'>a,<tspan x='19.52'>t</tspan></text>
-<text class='t9' x='23.12' y='19.33'>)</text></svg></div><pre class="fx-s"><code>f(a, t)</code></pre></div>
+<div class="fx nb both" id="c-614d4e80" data-kind="code" data-example="Trait.Method.b"><div class="fx-r"><svg class="tx" data-d="14" viewBox="9.36 11.26 28.19 11.16" width="2.819em" height="1.116em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>f</text>
+<text class='t9' x='15.91' y='19.33'>(</text>
+<text class='t7' x='19.79' y='19.33'>a,<tspan x='29.48'>t</tspan></text>
+<text class='t9' x='33.08' y='19.33'>)</text></svg></div><pre class="fx-s"><code>f(a, t)</code></pre></div>
 <p id="p-4f96a687" class="nb">may be rewritten as top-level functions as follows:</p>
-<div class="fx nb both" id="c-64a69019" data-kind="code" data-example="Trait.Method.c"><div class="fx-r"><svg class="tx" data-d="18" viewBox="-0.60 11.92 133.99 116.60" width="13.399em" height="11.660em" fill="currentColor"><text class='t3' x='0' y='19.33'>trait</text>
-<text class='t7' x='28.92' y='19.33'>A</text>
-<text class='t11' x='13.28' y='39.75'>internalF</text>
-<text class='t9' x='55.1' y='39.75'>(</text>
-<text class='t7' x='58.98' y='39.75'>t</text>
-<text class='t9' x='64.23' y='39.75'>:</text>
-<text class='t7' x='68.66' y='39.75'>T</text>
-<text class='t9' x='75.87' y='39.75'>)<tspan x='82.51'>=</tspan></text>
-<text class='t7' x='93.02' y='39.75'>e</text>
-<text class='t6' x='97.66' y='41.25'>1</text>
-<text class='t11' x='13.28' y='60.17'>internalF</text>
-<text class='t9' x='55.1' y='60.17'>(</text>
-<text class='t7' x='58.98' y='60.17'>s</text>
-<text class='t9' x='65.31' y='60.17'>:</text>
-<text class='t7' x='69.73' y='60.17'>S</text>
-<text class='t9' x='76.42' y='60.17'>)<tspan x='83.06'>=</tspan></text>
-<text class='t7' x='93.57' y='60.17'>e</text>
-<text class='t6' x='98.21' y='61.67'>2</text>
-<text class='t3' x='0' y='80.6'>end</text>
-<text class='t7' x='0' y='105.01'>f</text>
-<text class='t6' x='4.88' y='106.5'>1</text>
-<text class='t9' x='9.35' y='105.01'>(</text>
-<text class='t7' x='13.22' y='105.01'>a</text>
-<text class='t9' x='20.15' y='105.01'>:</text>
-<text class='t7' x='24.58' y='105.01'>A,<tspan x='36.48'>t</tspan></text>
-<text class='t9' x='41.73' y='105.01'>:</text>
-<text class='t7' x='46.16' y='105.01'>T</text>
-<text class='t9' x='53.37' y='105.01'>)<tspan x='60.01'>=</tspan></text>
-<text class='t7' x='70.52' y='105.01'>a.</text>
-<text class='t11' x='78.56' y='105.01'>internalF</text>
-<text class='t9' x='120.38' y='105.01'>(</text>
-<text class='t7' x='124.25' y='105.01'>t</text>
-<text class='t9' x='127.85' y='105.01'>)</text>
-<text class='t7' x='0' y='125.43'>f</text>
-<text class='t6' x='4.88' y='126.92'>2</text>
-<text class='t9' x='9.35' y='125.43'>(</text>
-<text class='t7' x='13.22' y='125.43'>s</text>
-<text class='t9' x='19.55' y='125.43'>:</text>
-<text class='t7' x='23.98' y='125.43'>S<tspan x='30.11'>,</tspan><tspan x='34.54'>a</tspan></text>
-<text class='t9' x='41.46' y='125.43'>:</text>
-<text class='t7' x='45.89' y='125.43'>A</text>
-<text class='t9' x='53.36' y='125.43'>)<tspan x='60.01'>=</tspan></text>
-<text class='t7' x='70.52' y='125.43'>a.</text>
-<text class='t11' x='78.55' y='125.43'>internalF</text>
-<text class='t9' x='120.37' y='125.43'>(</text>
-<text class='t7' x='124.25' y='125.43'>s</text>
-<text class='t9' x='128.92' y='125.43'>)</text></svg></div><pre class="fx-s"><code>trait A
+<div class="fx nb both" id="c-64a69019" data-kind="code" data-example="Trait.Method.c"><div class="fx-r"><svg class="tx" data-d="15" viewBox="9.36 11.92 133.99 74.26" width="13.399em" height="7.426em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t7' x='41.1' y='19.33'>A</text>
+<text class='t11' x='27.9' y='31.28'>internalF</text>
+<text class='t9' x='69.71' y='31.28'>(</text>
+<text class='t7' x='73.59' y='31.28'>t</text>
+<text class='t9' x='78.85' y='31.28'>:</text>
+<text class='t7' x='83.27' y='31.28'>T</text>
+<text class='t9' x='90.48' y='31.28'>)<tspan x='97.12'>=</tspan></text>
+<text class='t7' x='107.64' y='31.28'>e</text>
+<text class='t6' x='112.28' y='32.78'>1</text>
+<text class='t11' x='27.9' y='43.24'>internalF</text>
+<text class='t9' x='69.71' y='43.24'>(</text>
+<text class='t7' x='73.59' y='43.24'>s</text>
+<text class='t9' x='79.92' y='43.24'>:</text>
+<text class='t7' x='84.35' y='43.24'>S</text>
+<text class='t9' x='91.03' y='43.24'>)<tspan x='97.67'>=</tspan></text>
+<text class='t7' x='108.19' y='43.24'>e</text>
+<text class='t6' x='112.83' y='44.73'>2</text>
+<text class='t3' x='9.96' y='55.19'>end</text>
+<text class='t7' x='9.96' y='71.13'>f</text>
+<text class='t6' x='14.84' y='72.63'>1</text>
+<text class='t9' x='19.31' y='71.13'>(</text>
+<text class='t7' x='23.18' y='71.13'>a</text>
+<text class='t9' x='30.11' y='71.13'>:</text>
+<text class='t7' x='34.54' y='71.13'>A,<tspan x='46.44'>t</tspan></text>
+<text class='t9' x='51.7' y='71.13'>:</text>
+<text class='t7' x='56.12' y='71.13'>T</text>
+<text class='t9' x='63.33' y='71.13'>)<tspan x='69.97'>=</tspan></text>
+<text class='t7' x='80.49' y='71.13'>a.</text>
+<text class='t11' x='88.52' y='71.13'>internalF</text>
+<text class='t9' x='130.34' y='71.13'>(</text>
+<text class='t7' x='134.21' y='71.13'>t</text>
+<text class='t9' x='137.81' y='71.13'>)</text>
+<text class='t7' x='9.96' y='83.09'>f</text>
+<text class='t6' x='14.84' y='84.58'>2</text>
+<text class='t9' x='19.31' y='83.09'>(</text>
+<text class='t7' x='23.18' y='83.09'>s</text>
+<text class='t9' x='29.51' y='83.09'>:</text>
+<text class='t7' x='33.94' y='83.09'>S<tspan x='40.07'>,</tspan><tspan x='44.5'>a</tspan></text>
+<text class='t9' x='51.43' y='83.09'>:</text>
+<text class='t7' x='55.85' y='83.09'>A</text>
+<text class='t9' x='63.33' y='83.09'>)<tspan x='69.97'>=</tspan></text>
+<text class='t7' x='80.48' y='83.09'>a.</text>
+<text class='t11' x='88.52' y='83.09'>internalF</text>
+<text class='t9' x='130.34' y='83.09'>(</text>
+<text class='t7' x='134.21' y='83.09'>s</text>
+<text class='t9' x='138.88' y='83.09'>)</text></svg></div><pre class="fx-s"><code>trait A
    internalF(t:T) = e1
    internalF(s:S) = e2
 end
 
 f1(a:A, t:T) = a.internalF(t)
 f2(s:S, a:A) = a.internalF(s)</code></pre></div>
-<div class="fx nb both" id="c-8b837ddd" data-kind="code" data-example="Trait.Method.d"><div class="fx-r"><svg class="tx" data-d="19" viewBox="-0.60 11.26 31.59 11.16" width="3.159em" height="1.116em" fill="currentColor"><text class='t7' x='0' y='19.33'>f</text>
-<text class='t6' x='4.88' y='20.82'>1</text>
-<text class='t9' x='9.35' y='19.33'>(</text>
-<text class='t7' x='13.22' y='19.33'>a,<tspan x='22.92'>t</tspan></text>
-<text class='t9' x='26.51' y='19.33'>)</text></svg></div><pre class="fx-s"><code>f1(a, t)</code></pre></div>
+<div class="fx nb both" id="c-8b837ddd" data-kind="code" data-example="Trait.Method.d"><div class="fx-r"><svg class="tx" data-d="16" viewBox="9.36 11.26 31.59 11.16" width="3.159em" height="1.116em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>f</text>
+<text class='t6' x='14.84' y='20.82'>1</text>
+<text class='t9' x='19.31' y='19.33'>(</text>
+<text class='t7' x='23.18' y='19.33'>a,<tspan x='32.88'>t</tspan></text>
+<text class='t9' x='36.48' y='19.33'>)</text></svg></div><pre class="fx-s"><code>f1(a, t)</code></pre></div>
 <p id="p-11115eab" class="nb">where <span class="m"><i>internalF</i></span> is a freshly generated name. Functional method declarations may be overloaded with top-level function declarations. An abstract function declaration (described in <a class="xref" href="functions.html#sec-abstractFunctionDeclarations">Section 9.3</a><!--nc-->) can be provided also for overloaded functional method declarations. See <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc--> for a discussion of overloaded functionals in Fortress.</p>
-<p id="p-e2d6a96e" class="nb">When a method declaration includes a body expression, it is called a <em>method definition</em>. A method declaration that does not have its body expression is referred to as an <em>abstract method declaration</em>. An abstract method declaration declares an <em>abstract method</em>; any object inheriting an abstract method must define a body expression for the method: a method definition with the same name and the self parameter (if any) at the same position whose parameter type, not counting the type of the self parameter, is that of the abstract method declaration, or definitions whose parameter types are subtypes of it and together cover it (<a class="xref" href="types.html#sec-internal-types">Section 6.10</a>), or it is a static error.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-covering">Section I.1.34</a><!--nc--></span></p>
-<p id="p-d6ad4028" class="nb">The Working Draft of February 2011 said only that any object inheriting an abstract method must define a body expression for the method. The object defines the method by a body at its parameter type, or by bodies at narrower parameter types that together cover it, <span class="m"><span class="kw">comprises</span></span> clauses read at the level of values (<a class="xref" href="#sec-trait-decls">Section 10.1</a><!--nc-->), as <a class="xref" href="functions.html#sec-abstractFunctionDeclarations">Section 9.3</a><!--nc--> asks of the concrete declarations for an abstract function declaration; one body at a narrower parameter type that does not cover the abstract method’s does not define it. This is the rule of the type group’s compiled type checker (2012) and of its calculus Welterweight Fortress (2012). The requirement of <a class="xref" href="objects.html#sec-object-decls">Section 11.1</a><!--nc--> that an object define all abstract methods inherited from its supertraits is unchanged: it defines them in this sense.</p></aside>
-<p id="p-e73a6dbb" class="nb">An abstract method declaration may include the modifier <span class="m"><span class="kw">abstract</span></span>. It may elide parameter names but parameter types cannot be omitted except for the self parameter.</p>
+<p id="p-2aa84171" class="nb">When a method declaration includes a body expression, it is called a <em>method definition</em>. A method declaration that does not have its body expression is referred to as an <em>abstract method declaration</em>. An abstract method declaration declares an <em>abstract method</em>; any object inheriting an abstract method must define a body expression for the method. An abstract method declaration may include the modifier <span class="m"><span class="kw">abstract</span></span>. It may elide parameter names but parameter types cannot be omitted except for the self parameter.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-2af42acb" class="nb">Method declarations that are overridden by some declaration are not accessible. They are not considered for overloading checks.</p>
 <p id="p-61c96218" class="nb">Partial overriding of an overloaded functional is allowed but partial overriding of a functional declaration is not allowed.</p></aside>
 <p id="p-fcc5d33b" class="nb">A method declaration may have the modifier <span class="m"><span class="kw">override</span></span>. Such a declaration <em>overrides</em> any inherited declaration with the same name and the self parameter (if any) at the same position, whose parameter type, not counting the type of the self parameter, is a strict subtype of the overriding declaration’s parameter type. The return type of the overriding declaration must be subtype of that of the overridden declaration to preserve type safety. A declaration with the modifier <span class="m"><span class="kw">override</span></span> must override some inherited declaration. It is a static error if a declaration with the modifier <span class="m"><span class="kw">override</span></span> does not override any inherited declaration.</p>
 <p id="p-7afd0341" class="nb">Here is an example trait <span class="m"><span class="ty">Enzyme</span></span> which provides methods <span class="m"><i>reactionSpeed</i></span> and <span class="m"><i>catalyze</i></span>:</p>
-<div class="fx nb both" id="c-93882062" data-kind="code" data-example="Trait.Method.e"><div class="fx-r"><svg class="tx" data-d="20" viewBox="-0.60 11.26 257.36 70.04" width="25.736em" height="7.004em" fill="currentColor"><text class='t3' x='0' y='19.33'>trait</text>
-<text class='t9' x='28.92' y='19.33'>Enzyme</text>
-<text class='t3' x='66.42' y='19.33'>extends</text>
-<text class='t5' x='105.8' y='19.33'>{</text>
-<text class='t9' x='112.44' y='19.33'>OrganicMolecule</text>
-<text class='t7' x='185.25' y='19.33'>,</text>
-<text class='t9' x='189.68' y='19.33'>Catalyst</text>
-<text class='t5' x='228.2' y='19.33'>}</text>
-<text class='t11' x='8.86' y='39.75'>r<tspan x='12.55'>e</tspan><tspan x='16.62'>actionSp</tspan><tspan x='53.54'>e</tspan><tspan x='57.61'>e</tspan><tspan x='61.68'>d</tspan></text>
-<text class='t9' x='67.81' y='39.75'>(<tspan x='72.1'>):</tspan><tspan x='80.4'>Sp</tspan><tspan x='91.74'>eed</tspan></text>
-<text class='t11' x='8.86' y='60.27'>c<tspan x='12.93'>atalyze</tspan></text>
-<text class='t9' x='43.21' y='60.27'>(</text>
-<text class='t11' x='47.09' y='60.27'>r<tspan x='50.78'>e</tspan><tspan x='54.85'>action</tspan></text>
-<text class='t9' x='82.35' y='60.27'>)<tspan x='88.99'>=</tspan></text>
-<text class='t11' x='99.51' y='60.27'>r<tspan x='103.2'>e</tspan><tspan x='107.27'>action</tspan></text>
-<text class='t7' x='134.77' y='60.27'>.</text>
-<text class='t11' x='137.54' y='60.27'>ac<tspan x='146.7'>c</tspan><tspan x='150.77'>eler</tspan><tspan x='166.18'>ate</tspan></text>
-<text class='t13' x='179.91' y='52.2'></text>
-<text class='t11' x='184.48' y='60.27'>r<tspan x='188.17'>e</tspan><tspan x='192.24'>actionSp</tspan><tspan x='229.16'>e</tspan><tspan x='233.23'>e</tspan><tspan x='237.31'>d</tspan></text>
-<text class='t9' x='243.43' y='60.27'>(<tspan x='247.72'>)</tspan></text>
-<text class='t13' x='251.59' y='52.2'></text>
-<text class='t3' x='0' y='80.7'>end</text></svg></div><pre class="fx-s"><code>trait Enzyme extends { OrganicMolecule, Catalyst }
+<div class="fx nb both" id="c-93882062" data-kind="code" data-example="Trait.Method.e"><div class="fx-r"><svg class="tx" data-d="17" viewBox="9.36 11.26 258.66 44.54" width="25.866em" height="4.454em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t9' x='41.1' y='19.33'>Enzyme</text>
+<text class='t3' x='78.59' y='19.33'>extends</text>
+<text class='t5' x='117.97' y='19.33'>{</text>
+<text class='t9' x='124.62' y='19.33'>OrganicMolecule</text>
+<text class='t7' x='197.43' y='19.33'>,</text>
+<text class='t9' x='201.85' y='19.33'>Catalyst</text>
+<text class='t5' x='240.38' y='19.33'>}</text>
+<text class='t11' x='21.92' y='31.28'>r<tspan x='25.61'>e</tspan><tspan x='29.68'>actionSp</tspan><tspan x='66.6'>e</tspan><tspan x='70.67'>e</tspan><tspan x='74.75'>d</tspan></text>
+<text class='t9' x='80.87' y='31.28'>():<tspan x='93.05'>Sp</tspan><tspan x='104.39'>eed</tspan></text>
+<text class='t11' x='21.92' y='43.24'>c<tspan x='25.99'>atalyze</tspan></text>
+<text class='t9' x='56.27' y='43.24'>(</text>
+<text class='t11' x='60.15' y='43.24'>r<tspan x='63.84'>e</tspan><tspan x='67.91'>action</tspan></text>
+<text class='t9' x='95.41' y='43.24'>)<tspan x='102.05'>=</tspan></text>
+<text class='t11' x='112.57' y='43.24'>r<tspan x='116.26'>e</tspan><tspan x='120.33'>action</tspan></text>
+<text class='t7' x='147.83' y='43.24'>.</text>
+<text class='t11' x='150.6' y='43.24'>ac<tspan x='159.76'>c</tspan><tspan x='163.84'>eler</tspan><tspan x='179.24'>ate</tspan></text>
+<text class='t9' x='192.97' y='43.24'>(</text>
+<text class='t11' x='196.85' y='43.24'>r<tspan x='200.54'>e</tspan><tspan x='204.61'>actionSp</tspan><tspan x='241.53'>e</tspan><tspan x='245.6'>e</tspan><tspan x='249.68'>d</tspan></text>
+<text class='t9' x='255.8' y='43.24'>())</text>
+<text class='t3' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>trait Enzyme extends { OrganicMolecule, Catalyst }
   reactionSpeed(): Speed
   catalyze(reaction) = reaction.accelerate(reactionSpeed())
 end</code></pre></div>
@@ -730,7 +650,7 @@ end</code></pre></div>
 </section>
 <section class="sec" data-num="10.3" data-title="Abstract Field Declarations">
 <h2 id="sec-abstract-fields" class="nb"><span class="num">10.3</span> Abstract Field Declarations</h2>
-<div class="tw nb gr" id="g-7571143b" data-kind="grammar"><svg class="tx" data-d="21" viewBox="-5.58 10.45 324.45 117.09" width="32.445em" height="11.709em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<div class="tw nb gr" id="g-7571143b" data-kind="grammar"><svg class="tx" data-d="18" viewBox="-5.58 10.45 324.45 117.09" width="32.445em" height="11.709em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
 <text class='t1' x='25.9' y='28.8'>AbsFldDecl</text>
 <text class='t2' x='97.44' y='28.8'>::=</text>
 <text class='t1' x='120.56' y='28.8'>AbsFldMods</text>
@@ -787,7 +707,7 @@ end</code></pre></div>
 <p id="p-be374ab8" class="nb"><strong><span class="m"><span class="kw">settable</span></span>:</strong>  A field declaration with the modifier <span class="m"><span class="kw">settable</span></span> has an implicit setter method unless there is an explicit setter declared in the enclosing trait. An implicit setter method takes a parameter (with no default expression) whose type is the type of the field, and returns <span class="m">()</span>. When called, the implicit setter rebinds the corresponding field to its argument. If a field declaration includes the modifier <span class="m"><span class="kw">settable</span></span> and <span class="m"><span class="kw">hidden</span></span>, only an abstract setter is declared. If a field declaration includes the modifier <span class="m"><span class="kw">hidden</span></span> without <span class="m"><span class="kw">settable</span></span>, it is a static error. If an abstract field declaration includes the modifier <span class="m"><span class="kw">settable</span></span>, it is mutable. Because the <span class="m"><span class="kw">settable</span></span> modifier implies <span class="m"><span class="kw">var</span></span>, and the <span class="m"><span class="kw">var</span></span> modifier without <span class="m"><span class="kw">settable</span></span> only affects implementations, abstract field declarations do not include the <span class="m"><span class="kw">var</span></span> modifier.</p>
 <p id="p-46b71288" class="nb"><strong><span class="m"><span class="kw">wrapped</span></span>:</strong>  If a field declaration of <span class="m"><i>f</i></span> has the modifier <span class="m"><span class="kw">wrapped</span></span> and the type of <span class="m"><i>f</i></span> is trait type <span class="m"><i>T</i></span>, and <span class="m"><i>T</i></span> is not a naked type variable, then the enclosing trait <span class="m"><i>S</i></span> implicitly includes “forwarding methods” for all methods in <span class="m"><i>T</i></span> that are also inherited from any supertrait of <span class="m"><i>S</i></span>. Each of these methods simply calls the corresponding method on the trait referred to by field <span class="m"><i>f</i></span>. If the trait declaration enclosing <span class="m"><i>f</i></span> explicitly declares a method <span class="m"><i>m</i></span> that conflicts with an implicitly declared forwarding method <span class="m"><i>m</i>′</span>, then the enclosing trait contains only method <span class="m"><i>m</i></span>, not <span class="m"><i>m</i>′</span>. If the trait declaration enclosing <span class="m"><i>f</i></span> inherits a concrete method <span class="m"><i>m</i></span> that conflicts with an implicitly declared forwarding method <span class="m"><i>m</i>′</span>, then the enclosing trait contains only method <span class="m"><i>m</i></span>, not <span class="m"><i>m</i>′</span>. Because wrapped fields do not change declarations of methods but change definitions of methods, they only affect implementations; APIs do not include wrapped fields.</p>
 <p id="p-2b9f70ba" class="nb">For example, in the following declarations:</p>
-<div class="fx nb both" id="c-04047f43" data-kind="code"><div class="fx-r"><svg class="tx" data-d="22" viewBox="9.36 11.26 234.82 96.34" width="23.482em" height="9.634em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<div class="fx nb both" id="c-04047f43" data-kind="code"><div class="fx-r"><svg class="tx" data-d="19" viewBox="9.36 11.26 234.82 96.34" width="23.482em" height="9.634em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
 <text class='t9' x='38.88' y='19.33'>Dictionary</text>
 <text class='t10' x='85.13' y='19.33'></text>
 <text class='t7' x='89.14' y='19.33'>T</text>
@@ -828,7 +748,7 @@ trait WrappedDictionary[\T\] extends Dictionary[\T\]
   get(): T
 end</code></pre></div>
 <p id="p-d01c3f86" class="nb">the parametric trait <span class="m"><span class="ty">WrappedDictionary</span></span> implicitly includes the following forwarding method:</p>
-<div class="fx nb" id="c-31b74c52" data-kind="code"><div class="fx-r"><svg class="tx" data-d="23" viewBox="9.36 11.26 86.77 11.16" width="8.677em" height="1.116em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>put</text>
+<div class="fx nb" id="c-31b74c52" data-kind="code"><div class="fx-r"><svg class="tx" data-d="20" viewBox="9.36 11.26 86.77 11.16" width="8.677em" height="1.116em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>put</text>
 <text class='t9' x='24.66' y='19.33'>(</text>
 <text class='t7' x='28.53' y='19.33'>x</text>
 <text class='t9' x='34.22' y='19.33'>)<tspan x='40.87'>=</tspan></text>
@@ -839,7 +759,7 @@ end</code></pre></div>
 <text class='t7' x='85.97' y='19.33'>x</text>
 <text class='t9' x='91.66' y='19.33'>)</text></svg></div></div>
 <p id="p-ce72e71d" class="nb">If <span class="m"><i>get</i></span> were not explicitly declared in <span class="m"><span class="ty">WrappedDictionary</span></span>, then <span class="m"><span class="ty">WrappedDictionary</span></span> would also include the forwarding method:</p>
-<div class="fx nb" id="c-321571ec" data-kind="code"><div class="fx-r"><svg class="tx" data-d="24" viewBox="9.36 11.26 72.84 11.16" width="7.284em" height="1.116em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>get</text>
+<div class="fx nb" id="c-321571ec" data-kind="code"><div class="fx-r"><svg class="tx" data-d="21" viewBox="9.36 11.26 72.84 11.16" width="7.284em" height="1.116em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>get</text>
 <text class='t9' x='23.38' y='19.33'>()<tspan x='33.9'>=</tspan></text>
 <text class='t11' x='44.42' y='19.33'>val</text>
 <text class='t7' x='57.67' y='19.33'>.</text>
@@ -848,7 +768,7 @@ end</code></pre></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-3f5ee1c1" class="nb">Wrapped fields imply subtyping.</p>
 <p id="p-dcf3ef76" class="nb">what methods are implicitly defined?</p>
-<div class="fx nb both" id="c-37407061" data-kind="code"><div class="fx-r"><svg class="tx" data-d="25" viewBox="15.34 11.92 120.58 243.13" width="12.058em" height="24.313em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>trait</text>
+<div class="fx nb both" id="c-37407061" data-kind="code"><div class="fx-r"><svg class="tx" data-d="22" viewBox="15.34 11.92 120.58 243.13" width="12.058em" height="24.313em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>trait</text>
 <text class='t7' x='47.07' y='19.33'>T<tspan x='33.87' y='31.28'>f</tspan></text>
 <text class='t9' x='39.82' y='31.28'>(</text>
 <text class='t7' x='43.7' y='31.28'>x</text>
@@ -943,7 +863,7 @@ end</code></pre></div></aside>
 </section>
 <section class="sec" data-num="10.4" data-title="Method Contracts">
 <h2 id="sec-method-contracts" class="nb"><span class="num">10.4</span> Method Contracts</h2>
-<div class="tw nb gr" id="g-4b8ef0c4" data-kind="grammar"><svg class="tx" data-d="26" viewBox="-5.58 10.45 278.62 81.22" width="27.862em" height="8.122em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<div class="tw nb gr" id="g-4b8ef0c4" data-kind="grammar"><svg class="tx" data-d="23" viewBox="-5.58 10.45 278.62 81.22" width="27.862em" height="8.122em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
 <text class='t1' x='25.9' y='28.8'>Contr<tspan x='49.01'>act</tspan></text>
 <text class='t2' x='112.4' y='28.8'>::=</text>
 <text class='t1' x='135.51' y='28.8'>Requir<tspan x='162.26'>es</tspan></text>
@@ -994,7 +914,7 @@ end</code></pre></div></aside>
 </section>
 <section class="sec" data-num="10.5" data-title="Value Traits">
 <h2 id="sec-value-traits" class="nb"><span class="num">10.5</span> Value Traits</h2>
-<div class="tw nb gr" id="g-b27d45de" data-kind="grammar"><svg class="tx" data-d="27" viewBox="-5.58 10.45 132.73 20.38" width="13.273em" height="2.038em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<div class="tw nb gr" id="g-b27d45de" data-kind="grammar"><svg class="tx" data-d="24" viewBox="-5.58 10.45 132.73 20.38" width="13.273em" height="2.038em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
 <text class='t1' x='25.9' y='30.16'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitMod</tspan></text>
 <text class='t2' x='75.63' y='30.16'>::=</text>
 <text class='t3' x='100.4' y='30.16'>value</text></svg></div>
@@ -1002,8 +922,9 @@ end</code></pre></div></aside>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="functions.html"><span>Previous</span> 9. Functions</a><a class="next" href="objects.html"><span>Next</span> 11. Objects</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic/traits.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic/traits.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/traits.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

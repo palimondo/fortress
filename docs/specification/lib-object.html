@@ -14,11 +14,10 @@ svg.tx text.t3{font-family:msbm10;font-size:9.96px}
 svg.tx text.t4{font-family:cmsy10;font-size:9.96px}
 svg.tx text.t5{font-family:cmmi10;font-size:9.96px}
 svg.tx text.t6{font-family:cmr7;font-size:6.97px}
-svg.tx text.t7{font-family:ptmr8r;font-size:9.93px}
-svg.tx text.t8{font-family:stmary10;font-size:9.96px}
+svg.tx text.t7{font-family:stmary10;font-size:9.96px}
 </style>
 </head>
-<body data-page="chapter" data-slug="lib-object" data-chapter="31. Objects">
+<body data-page="chapter" data-slug="lib-object" data-chapter="31. Objects" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">31. Objects</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -31,9 +30,7 @@ svg.tx text.t8{font-family:stmary10;font-size:9.96px}
 <nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-the-trait-fortress-core-any">31.1 The Trait Fortress.Core.Any</a></li><li><a href="#s-the-trait-fortress-core-object">31.2 The Trait Fortress.Core.Object</a></li><li><a href="#sec-core-tuple">31.3 The Trait Fortress.Core.Tuple</a></li></ol></nav>
 <section class="sec" data-num="31.1" data-title="The Trait Fortress.Core.Any">
 <h2 id="s-the-trait-fortress-core-any" class="nb"><span class="num">31.1</span> The Trait Fortress.Core.Any</h2>
-<p id="p-2a6cf8b3" class="nb">The trait <span class="m"><span class="ty">Any</span></span> is the single root of the type hierarchy; every object in Fortress has trait <span class="m"><span class="ty">Any</span></span> and therefore every object implements the methods of this trait. The immediate subtypes of the trait <span class="m"><span class="ty">Any</span></span> are <span class="m"><span class="ty">Object</span></span>, <span class="m"><span class="ty">Tuple</span></span>, <span class="m"><span class="ty">()</span></span>, and <span class="m"><span class="ty">Index</span></span>, the trait of the types that a subscript takes (<a class="xref" href="types.html#sec-type-relations">Section 6.2</a>).</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
-<p id="p-766b0dae" class="nb">The Working Draft of February 2011 named <span class="m"><span class="ty">Object</span></span>, <span class="m"><span class="ty">Tuple</span></span> and <span class="m"><span class="ty">()</span></span> only; <span class="m"><span class="ty">Index</span></span>, which extends <span class="m"><span class="ty">Any</span></span> and not <span class="m"><span class="ty">Object</span></span>, is new.</p></aside>
+<p id="p-9400e694" class="nb">The trait <span class="m"><span class="ty">Any</span></span> is the single root of the type hierarchy; every object in Fortress has trait <span class="m"><span class="ty">Any</span></span> and therefore every object implements the methods of this trait. The immediate subtypes of the trait <span class="m"><span class="ty">Any</span></span> are <span class="m"><span class="ty">Object</span></span>, <span class="m"><span class="ty">Tuple</span></span>, and <span class="m"><span class="ty">()</span></span>.</p>
 <div class="fx nb both" id="c-8edd5277" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.92 258.33 187.34" width="25.833em" height="18.734em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
 <text class='t1' x='41.1' y='19.33'>An<tspan x='53.83'>y</tspan></text>
 <text class='t0' x='21.92' y='31.28'>getter</text>
@@ -215,9 +212,7 @@ end</code></pre></div>
 </section>
 <section class="sec" data-num="31.1.2" data-title="opr ≣(self, other: Any): Boolean">
 <h3 id="s-opr-self-other-any-boolean" class="nb"><span class="num">31.1.2</span> <span class="m"><span class="kw">opr</span> ≣(<span class="kw">self</span>, <i>other</i>: <span class="ty">Any</span>): <span class="ty">Boolean</span></span></h3>
-<p id="p-302b1ebf" class="nb">The infix operator <span class="m">≣</span> (object equivalence) is used to decide whether two objects are “the same object” in the strictest sense possible; this is described in detail in <a class="xref" href="objects.html#sec-equivalence">Section 11.4</a><!--nc-->. Note that the properties of trait <span class="m"><span class="ty">Any</span></span> assert that <span class="m">≣</span> is an equivalence relation.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-object">Section I.1.8</a><!--nc--></span></p>
-<p id="p-a4925070" class="nb">The Working Draft of February 2011 added that in <span class="m"><span class="ty">Object</span></span> this property is asserted abstractly using the algebraic constraints of <a class="xref" href="lib-algebraic-constraints.html">Chapter 40</a><!--nc-->; <span class="m"><span class="ty">Object</span></span> no longer does so (<a class="xref" href="spec-changes.html#sec-revival-object">Section I.1.8</a><!--nc-->).</p></aside>
+<p id="p-ec9bfbf9" class="nb">The infix operator <span class="m">≣</span> (object equivalence) is used to decide whether two objects are “the same object” in the strictest sense possible; this is described in detail in <a class="xref" href="objects.html#sec-equivalence">Section 11.4</a><!--nc-->. Note that the properties of trait <span class="m"><span class="ty">Any</span></span> assert that <span class="m">≣</span> is an equivalence relation. In <span class="m"><span class="ty">Object</span></span> this property is asserted abstractly using the algebraic constraints of <a class="xref" href="lib-algebraic-constraints.html">Chapter 40</a><!--nc-->.</p>
 <p id="p-0da6b6ec" class="nb">For <span class="m">≣̸</span> see <a class="xref" href="lib-negated-relational-operators.html#sec-operator-NSEQV">Section 34.1.1</a><!--nc-->.</p>
 </section>
 <section class="sec" data-num="31.1.3" data-title="opr IDENTITY(self): Any">
@@ -238,62 +233,53 @@ end</code></pre></div>
 </section>
 <section class="sec" data-num="31.2" data-title="The Trait Fortress.Core.Object">
 <h2 id="s-the-trait-fortress-core-object" class="nb"><span class="num">31.2</span> The Trait Fortress.Core.Object</h2>
-<p id="p-18586e3e" class="nb">The trait <span class="m"><span class="ty">Object</span></span> is the root of the type hierarchy for all user-constructed objects and functions. The <span class="m"><span class="ty">Object</span></span> type does not have any additional methods; the properties of the existing operators, such as <span class="m">≣</span>, are those stated in trait <span class="m"><span class="ty">Any</span></span>.</p>
-<div class="fx nb both" id="c-1d849071" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.81 124.43 32.03" width="12.443em" height="3.203em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<p id="p-94822634" class="nb">The trait <span class="m"><span class="ty">Object</span></span> is the root of the type hierarchy for all user-constructed objects and functions. The <span class="m"><span class="ty">Object</span></span> type does not have any additional methods, but uses algebraic constraints (see <a class="xref" href="lib-algebraic-constraints.html">Chapter 40</a><!--nc-->) to describe the properties of the existing operators more abstractly.</p>
+<div class="fx nb both" id="c-1d849071" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.26 394.03 32.58" width="39.403em" height="3.258em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
 <text class='t1' x='41.1' y='19.33'>Ob<tspan x='54.93'>ject</tspan></text>
 <text class='t0' x='73.47' y='19.33'>extends</text>
-<text class='t1' x='115.07' y='19.33'>An<tspan x='127.8'>y</tspan></text>
+<text class='t4' x='112.85' y='19.33'>{</text>
+<text class='t1' x='119.5' y='19.33'>An<tspan x='132.23'>y</tspan></text>
+<text class='t5' x='137.62' y='19.33'>,</text>
+<text class='t1' x='142.05' y='19.33'>Equiv<tspan x='167.09'>alenceRelation</tspan></text>
+<text class='t7' x='230.33' y='19.33'></text>
+<text class='t1' x='234.34' y='19.33'>Ob<tspan x='248.18'>ject</tspan></text>
+<text class='t5' x='263.95' y='19.33'>,</text>
+<text class='t4' x='268.38' y='18.36'>≡<tspan x='268.38' y='20.29'>≡</tspan></text>
+<text class='t7' x='276.13' y='19.33'></text>
+<text class='t5' x='280.14' y='19.33'>,</text>
+<text class='t1' x='284.57' y='19.33'>Iden<tspan x='303.39'>tit</tspan><tspan x='313.63'>yOp</tspan><tspan x='332.45'>erator</tspan></text>
+<text class='t7' x='358.52' y='19.33'></text>
+<text class='t1' x='362.53' y='19.33'>Ob<tspan x='376.37'>ject</tspan></text>
+<text class='t7' x='392.14' y='19.33'></text>
+<text class='t4' x='397.81' y='19.33'>}</text>
 <text class='t0' x='33.87' y='31.28'>excludes</text>
 <text class='t4' x='78.48' y='31.28'>{</text>
 <text class='t1' x='85.12' y='31.28'>T<tspan x='91.49'>uple</tspan></text>
 <text class='t4' x='111.42' y='31.28'>}</text>
 <text class='t0' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>    excludes { Tuple }
 end</code></pre></div>
-<p id="p-94fca8ea" class="nb">The following declaration, which describes those properties with the algebraic constraints of <a class="xref" href="lib-algebraic-constraints.html">Chapter 40</a><!--nc-->, is not allowed:</p>
-<div class="fx nb both" id="c-02d86f52" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 394.03 44.54" width="39.403em" height="4.454em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>(</text>
-<text class='t4' x='13.84' y='19.33'>∗</text>
-<text class='t7' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
-<text class='t4' x='76.4' y='19.33'>∗</text>
-<text class='t1' x='81.38' y='19.33'>)</text>
-<text class='t0' x='9.96' y='31.28'>trait</text>
-<text class='t1' x='41.1' y='31.28'>Ob<tspan x='54.93'>ject</tspan></text>
-<text class='t0' x='73.47' y='31.28'>extends</text>
-<text class='t4' x='112.85' y='31.28'>{</text>
-<text class='t1' x='119.5' y='31.28'>An<tspan x='132.23'>y</tspan></text>
-<text class='t5' x='137.62' y='31.28'>,</text>
-<text class='t1' x='142.05' y='31.28'>Equiv<tspan x='167.09'>alenceRelation</tspan></text>
-<text class='t8' x='230.33' y='31.28'></text>
-<text class='t1' x='234.34' y='31.28'>Ob<tspan x='248.18'>ject</tspan></text>
-<text class='t5' x='263.95' y='31.28'>,</text>
-<text class='t4' x='268.38' y='30.32'>≡<tspan x='268.38' y='32.25'>≡</tspan></text>
-<text class='t8' x='276.13' y='31.28'></text>
-<text class='t5' x='280.14' y='31.28'>,</text>
-<text class='t1' x='284.57' y='31.28'>Iden<tspan x='303.39'>tit</tspan><tspan x='313.63'>yOp</tspan><tspan x='332.45'>erator</tspan></text>
-<text class='t8' x='358.52' y='31.28'></text>
-<text class='t1' x='362.53' y='31.28'>Ob<tspan x='376.37'>ject</tspan></text>
-<text class='t8' x='392.14' y='31.28'></text>
-<text class='t4' x='397.81' y='31.28'>}</text>
-<text class='t0' x='33.87' y='43.24'>excludes</text>
-<text class='t4' x='78.48' y='43.24'>{</text>
-<text class='t1' x='85.12' y='43.24'>T<tspan x='91.49'>uple</tspan></text>
-<text class='t4' x='111.42' y='43.24'>}</text>
-<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)
-trait Object extends { Any, EquivalenceRelation[\Object,===\], IdentityOperator[\Object\] }
-    excludes { Tuple }
-end</code></pre></div>
-<p id="p-ff0bddfa" class="nb">Every trait other than <span class="m"><span class="ty">Any</span></span>, <span class="m"><span class="ty">Object</span></span> and <span class="m"><span class="ty">Index</span></span> extends <span class="m"><span class="ty">Object</span></span> (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->), and the algebraic constraints make each commutative algebraic type <span class="m"><i>T</i></span> an <span class="m"><span class="ty">EquivalenceRelation</span>⟦<i>T</i>, =⟧</span> (<a class="xref" href="lib-algebraic-constraints.html">Chapter 40</a><!--nc-->); such a type would extend two instantiations of <span class="m"><span class="ty">EquivalenceRelation</span></span> whose type arguments differ, which instantiation exclusion forbids (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>).</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-object">Section I.1.8</a><!--nc--></span></p>
-<p id="p-045823f0" class="nb">The Working Draft of February 2011 declared <span class="m"><span class="ty">Object</span></span> with the declaration marked “Not allowed”, and said that <span class="m"><span class="ty">Object</span></span> uses algebraic constraints to describe the properties of the existing operators more abstractly. The declaration <span class="m"><span class="kw">trait</span> <span class="ty">Object</span> <span class="kw">extends</span> <span class="ty">Any</span></span> is the library’s.</p></aside>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
-<p id="p-dc1c0747" class="nb">The Working Draft of February 2011 named only <span class="m"><span class="ty">Any</span></span> and <span class="m"><span class="ty">Object</span></span> as the traits that do not extend <span class="m"><span class="ty">Object</span></span>; <span class="m"><span class="ty">Index</span></span>, which the revival adds to the library, is the third.</p></aside>
 </section>
 <section class="sec" data-num="31.3" data-title="The Trait Fortress.Core.Tuple">
 <h2 id="sec-core-tuple" class="nb"><span class="num">31.3</span> The Trait Fortress.Core.Tuple</h2>
-<p id="p-a0a8b88c" class="nb">The trait <span class="m"><span class="ty">Tuple</span></span> is the root of the type hierarchy for all tuple types (see <a class="xref" href="types.html#sec-tuple-types">Section 6.5</a>). No user-defined object can be a subtype of <span class="m"><span class="ty">Tuple</span></span>. As with the type <span class="m"><span class="ty">Object</span></span>, the properties of its existing operators are those stated in trait <span class="m"><span class="ty">Any</span></span>.</p>
-<div class="fx nb both" id="c-4520de47" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.81 119.45 43.98" width="11.945em" height="4.398em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<p id="p-4f880aec" class="nb">The trait <span class="m"><span class="ty">Tuple</span></span> is the root of the type hierarchy for all tuple types (see <a class="xref" href="types.html#sec-tuple-types">Section 6.5</a>). No user-defined object can be a subtype of <span class="m"><span class="ty">Tuple</span></span>. As with the type <span class="m"><span class="ty">Object</span></span>, the type <span class="m"><span class="ty">Tuple</span></span> uses algebraic constraints to describe its existing methods.</p>
+<div class="fx nb both" id="c-4520de47" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 379.09 44.54" width="37.909em" height="4.454em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
 <text class='t1' x='41.1' y='19.33'>T<tspan x='47.46'>uple</tspan></text>
 <text class='t0' x='68.49' y='19.33'>extends</text>
-<text class='t1' x='110.09' y='19.33'>An<tspan x='122.82'>y</tspan></text>
+<text class='t4' x='107.87' y='19.33'>{</text>
+<text class='t1' x='114.51' y='19.33'>An<tspan x='127.24'>y</tspan></text>
+<text class='t5' x='132.64' y='19.33'>,</text>
+<text class='t1' x='137.07' y='19.33'>Equiv<tspan x='162.11'>alenceRelation</tspan></text>
+<text class='t7' x='225.35' y='19.33'></text>
+<text class='t1' x='229.36' y='19.33'>T<tspan x='235.73'>uple</tspan></text>
+<text class='t5' x='253.99' y='19.33'>,</text>
+<text class='t4' x='258.42' y='18.36'>≡<tspan x='258.42' y='20.29'>≡</tspan></text>
+<text class='t7' x='266.17' y='19.33'></text>
+<text class='t5' x='270.18' y='19.33'>,</text>
+<text class='t1' x='274.61' y='19.33'>Iden<tspan x='293.43'>tit</tspan><tspan x='303.67'>yOp</tspan><tspan x='322.48'>erator</tspan></text>
+<text class='t7' x='348.55' y='19.33'></text>
+<text class='t1' x='352.57' y='19.33'>T<tspan x='358.93'>uple</tspan></text>
+<text class='t7' x='377.2' y='19.33'></text>
+<text class='t4' x='382.87' y='19.33'>}</text>
 <text class='t0' x='33.87' y='31.28'>excludes</text>
 <text class='t4' x='78.48' y='31.28'>{</text>
 <text class='t1' x='85.12' y='31.28'>Ob<tspan x='98.96'>ject</tspan></text>
@@ -303,8 +289,6 @@ end</code></pre></div>
 <text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>    excludes { Object }
   toString(): String
 end</code></pre></div>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-object">Section I.1.8</a><!--nc--></span></p>
-<p id="p-8955356a" class="nb">The Working Draft of February 2011 gave <span class="m"><span class="ty">Tuple</span></span> the same algebraic supertraits as <span class="m"><span class="ty">Object</span></span>, at <span class="m"><span class="ty">Tuple</span></span>, and said that it uses algebraic constraints to describe its existing methods. No tuple type extends a trait, so the rule does not refuse that declaration; it follows <span class="m"><span class="ty">Object</span></span>’s.</p></aside>
 <section class="sec" data-num="31.3.1" data-title="toString(): String">
 <h3 id="s-tostring-string-2" class="nb"><span class="num">31.3.1</span> <span class="m"><i>toString</i>(): <span class="ty">String</span></span></h3>
 <p id="p-ba860e81" class="nb">The <span class="m"><i>toString</i></span> method returns a string <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str"></span></span>”</span></span></span> concatenated as follows:</p>
@@ -323,8 +307,9 @@ end</code></pre></div>
 </section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="optional-libraries.html"><span>Previous</span> 30. Additional Libraries Available to Fortress Programmers</a><a class="next" href="lib-booleans.html"><span>Next</span> 32. Booleans and Boolean Intervals</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic-lib/objects.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic-lib/objects.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/lib-object.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

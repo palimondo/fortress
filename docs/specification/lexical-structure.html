@@ -13,8 +13,8 @@ svg.tx text.t2{font-family:cmsy10;font-size:9.96px}
 svg.tx text.t3{font-family:cmr10;font-size:9.96px}
 svg.tx text.t4{font-family:cmmi10;font-size:9.96px}
 svg.tx text.t5{font-family:pcrr8r;font-size:9.93px}
-svg.tx text.t6{font-family:cmti10;font-size:9.96px}
-svg.tx text.t7{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t6{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t7{font-family:cmti10;font-size:9.96px}
 svg.tx text.t8{font-family:cmr7;font-size:6.97px}
 svg.tx text.t9{font-family:cmtt10;font-size:9.96px}
 svg.tx text.t10{font-family:ptmr8r;font-size:8.93px}
@@ -22,7 +22,7 @@ svg.tx text.t11{font-family:ptmri8r;font-size:9.93px}
 svg.tx text.t12{font-family:ptmr8r;font-size:7.15px}
 </style>
 </head>
-<body data-page="chapter" data-slug="lexical-structure" data-chapter="4. Lexical Structure">
+<body data-page="chapter" data-slug="lexical-structure" data-chapter="4. Lexical Structure" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">4. Lexical Structure</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -327,15 +327,15 @@ svg.tx text.t12{font-family:ptmr8r;font-size:7.15px}
 <h2 id="sec-words" class="nb"><span class="num">4.2</span> Words and Chunks</h2>
 <p id="p-67afdbed" class="nb">In a sequence of characters, a <em>chunk</em> is a nonempty contiguous subsequence. A <em>word</em> is a maximal chunk consisting of only word characters (letters, digits, underscore, connecting punctuation, prime characters, and apostrophe); that is, a word is one or more consecutive word characters delimited by characters other than word characters (or the beginning or end of the entire sequence). A <em>restricted word</em> is a maximal chunk that has only restricted-word characters (ASCII letters and digits and underscore characters). Note that a restricted word is <em>not</em> a word if it is delimited by word characters.</p>
 <p id="p-33f2c16d" class="nb">For example, in the sequence</p>
-<div class="fx nb both" id="c-a1420489" data-kind="code" data-example="LexStr.Words"><div class="fx-r"><svg class="tx" data-d="11" viewBox="4.38 10.74 83.29 11.13" width="8.329em" height="1.113em" fill="currentColor"><text class='t6' x='4.98' y='19.33'>A</text>
-<text class='t7' x='12.39' y='15.21'></text>
-<text class='t6' x='15.18' y='19.33'>b<tspan x='19.26'>c</tspan></text>
-<rect x='25' y='18.93' height='.4' width='2.99'/>
-<text class='t6' x='28.82' y='19.33'>123a</text>
-<text class='t4' x='49.95' y='19.33'>.</text>
-<text class='t6' x='52.72' y='19.33'>def</text>
-<text class='t4' x='69.22' y='19.33'>φ</text>
-<text class='t8' x='75.16' y='20.82'>456</text></svg></div><pre class="fx-s"><code>  A'bc_123a.def phi456</code></pre></div>
+<div class="fx nb both" id="c-a1420489" data-kind="code" data-example="LexStr.Words"><div class="fx-r"><svg class="tx" data-d="11" viewBox="21.32 11.24 83.08 10.63" width="8.308em" height="1.063em" fill="currentColor"><text class='t4' x='21.92' y='19.33'>A</text>
+<text class='t6' x='29.39' y='15.71'></text>
+<text class='t7' x='32.18' y='19.33'>b<tspan x='36.26'>c</tspan></text>
+<rect x='42' y='18.93' height='.4' width='2.99'/>
+<text class='t7' x='44.99' y='19.33'>123a</text>
+<text class='t4' x='66.12' y='19.33'>.</text>
+<text class='t7' x='68.89' y='19.33'>def</text>
+<text class='t4' x='85.95' y='19.33'>φ</text>
+<text class='t8' x='91.88' y='20.82'>456</text></svg></div><pre class="fx-s"><code>  A'bc_123a.def phi456</code></pre></div>
 <p id="p-642f437a" class="nb">there are three words (<span class="tt">A'bc_123</span>, <span class="tt">def</span> and <span class="tt"><span class="m">φ</span>456</span>), and four restricted words (<span class="tt">A</span>, <span class="tt">bc_123</span>, <span class="tt">def</span> and <span class="tt">456</span>).</p>
 </section>
 <section class="sec" data-num="4.3" data-title="Lines, Pages and Position">
@@ -414,10 +414,7 @@ svg.tx text.t12{font-family:ptmr8r;font-size:7.15px}
 <p id="p-52b64538" class="nb">What if it is preceded by a backslash? (should be illegal)</p></aside>
 <p id="p-d92b0114" class="nb">In either case, the character literal ends with the nearest apostrophe or right single quotation mark <em>after</em> the first character following the opening mark. In particular, an apostrophe or right single quotation mark immediately following the opening mark of a character literal is <em>not</em> a closing mark. Thus, for example, the sequence <span class="tt">'''</span> is a single character literal with one enclosed character <span class="tt">'</span>.</p>
 <p id="p-1a255cc7" class="nb">It is a static error if any of the enclosed characters of a character literal is a line feed, form feed, carriage return, line separator, paragraph separator, or any character forbidden outside comments in a Fortress program (see <a class="xref" href="#sec-characters">Section 4.1</a>), or if there is exactly one enclosed character and it is a backslash (U+005C). It is also a static error if any of the enclosed characters is a string literal delimiter that is not immediately preceded by a backslash (i.e., an <em>unescaped</em> string literal delimiter). This last restriction is necessary to prevent ASCII conversion from changing the boundaries of string literals (see <a class="xref" href="ascii-unicode.html">Appendix E</a><!--nc-->).</p>
-<p id="p-47f0e22c" class="nb">The sequence of enclosed characters may be a single character (e.g., ‘<span class="tt">a</span>’, <span class="tt">'$'</span>, ‘<span class="tt"><span class="m">α</span></span>’, ‘<span class="tt"><span class="m">⊕</span></span>’), a sequence of four or more hexadecimal digits identifying the code point of a Unicode character (e.g., ‘<span class="tt">001C</span>’, ‘<span class="tt">FBAB</span>’, ‘<span class="tt">1D11E</span>’), a single character as above, followed by a space and a sequence of four or more hexadecimal digits identifying the code point of that same character (e.g., ‘<span class="tt"><span class="m">α</span> 03B1</span>’, ‘<span class="tt"><span class="m">⊕</span> 2295</span>’), one of <span class="tt">TAB</span>, <span class="tt">NEWLINE</span> or <span class="tt">RETURN</span>, a sequence of ASCII characters that would be converted by the second step of ASCII conversion to a single Unicode character (see <a class="xref" href="ascii-unicode.html#sec-preprocessing-unicode-names">Section E.2</a><!--nc-->), the official Unicode 5.0 name or an alternative name of a Unicode character with spaces and hyphens intact (e.g., ‘<span class="tt">PLUS-MINUS SIGN</span>’), or a <em>character-literal escape sequence</em>.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-char-redundant-literal">Section I.1.48</a><!--nc--></span></p>
-<p id="p-7deeda1b" class="nb">The Working Draft of February 2011 did not list the form of a single character followed by a space and its code point in hexadecimal digits, which the parser has read since 2011. The list now names it, since the text by which a character writes itself as a literal uses it for most printable characters outside ASCII.</p></aside>
-<p id="p-70f172ea" class="nb">The character-literal escape sequences, and the characters such character literals evaluate to, are:</p>
+<p id="p-8f06249b" class="nb">The sequence of enclosed characters may be a single character (e.g., ‘<span class="tt">a</span>’, <span class="tt">'$'</span>, ‘<span class="tt"><span class="m">α</span></span>’, ‘<span class="tt"><span class="m">⊕</span></span>’), a sequence of four or more hexadecimal digits identifying the code point of a Unicode character (e.g., ‘<span class="tt">001C</span>’, ‘<span class="tt">FBAB</span>’, ‘<span class="tt">1D11E</span>’), one of <span class="tt">TAB</span>, <span class="tt">NEWLINE</span> or <span class="tt">RETURN</span>, a sequence of ASCII characters that would be converted by the second step of ASCII conversion to a single Unicode character (see <a class="xref" href="ascii-unicode.html#sec-preprocessing-unicode-names">Section E.2</a><!--nc-->), the official Unicode 5.0 name or an alternative name of a Unicode character with spaces and hyphens intact (e.g., ‘<span class="tt">PLUS-MINUS SIGN</span>’), or a <em>character-literal escape sequence</em>. The character-literal escape sequences, and the characters such character literals evaluate to, are:</p>
 <div class="tw nb" id="t-7ae7a29b" data-kind="table"><svg class="tx" data-d="15" viewBox="5.38 1.04 216.05 104.89" width="21.605em" height="10.489em" fill="currentColor"><text class='t1' x='5.98' y='8.37'>\b</text>
 <text class='t0' x='28.69' y='8.37'>U+0008</text>
 <text class='t1' x='75.6' y='8.37'>BACKSPACE<tspan x='5.98' y='20.32'>\t</tspan></text>
@@ -607,8 +604,9 @@ svg.tx text.t12{font-family:ptmr8r;font-size:7.15px}
 <ol><li id="fn-1">Note that a single Unicode abstract character may have multiple encodings. Fortress does not distinguish between different encodings of the same character that may be used in representing source code, and it treats canonically equivalent characters as identical. See the Unicode Standard [<a class="cite" href="references.html#ref-Unicode">Unicode</a>] for a full discussion of encoding and canonical equivalence. <a href="#fnref-1" aria-label="Back to the text">↩</a></li><li id="fn-2">There are sixty-five “control characters”, which do not have proper names. However, many of them have <em>Unicode 1.0 names</em>, or other standard names specified in the Unicode Character Database, which we use instead. <a href="#fnref-2" aria-label="Back to the text">↩</a></li><li id="fn-3">Of course, an IDE may actually do the conversion and manipulate the converted program, in which case, the page, line and position of characters will reflect the conversion. <a href="#fnref-3" aria-label="Back to the text">↩</a></li><li id="fn-4">See <a class="xref" href="ascii-unicode.html">Appendix E</a><!--nc--> for the precise notion of equivalence guaranteed by ASCII conversion. <a href="#fnref-4" aria-label="Back to the text">↩</a></li><li id="fn-5">Fortress has a facility for defining new syntax, discussed in <a class="xref" href="declarations.html#chap-syntax-expanders">Chapter 7.1</a><!--nc-->. However, except for that chapter, this specification describes the Fortress language only for programs that use the standard Fortress syntax without using this facility. <a href="#fnref-5" aria-label="Back to the text">↩</a></li><li id="fn-6">The value denoted by a digit is specified by the Unicode Standard [<a class="cite" href="references.html#ref-Unicode">Unicode</a>]. The value denoted by the letters are as follows: <span class="tt">A</span> or <span class="tt">a</span>: 10; <span class="tt">B</span> or <span class="tt">b</span>: 11; <span class="tt">C</span> or <span class="tt">c</span>: 12; <span class="tt">D</span> or <span class="tt">d</span>: 13; <span class="tt">E</span> or <span class="tt">e</span>: 11 if the radix is 12, 14 otherwise; <span class="tt">F</span> or <span class="tt">f</span>: 15; <span class="tt">X</span> or <span class="tt">x</span>: 10. <a href="#fnref-6" aria-label="Back to the text">↩</a></li></ol></section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="programs.html"><span>Previous</span> 3. Programs</a><a class="next" href="evaluation.html"><span>Next</span> 5. Evaluation</a></nav>
-<footer class="colophon">Converted from <code>Specification/basic/lexical-structure.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/basic/lexical-structure.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/lexical-structure.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>

@@ -23,7 +23,6 @@
 @font-face{font-family:cmr5;src:url(fonts/cmr5-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7A,U+A8,U+2DC-2DD,U+2013-2014,U+2018}
 @font-face{font-family:cmr7;src:url(fonts/cmr7-0.woff2) format("woff2");font-display:block;unicode-range:U+60,U+AF,U+B4,U+B8,U+C6,U+D8,U+DF,U+E6,U+F8,U+131,U+152-153,U+2C7,U+2D8,U+2DA,U+393,U+398,U+39B,U+39E,U+3A0,U+3A3,U+3A5-3A6,U+3A8,U+2126,U+2206,U+E011,U+FB00-FB04}
 @font-face{font-family:cmr7;src:url(fonts/cmr7-1.woff2) format("woff2");font-display:block;unicode-range:U+21,U+23-26,U+28-3B,U+3D,U+3F,U+A1,U+BF,U+2019,U+201D,U+E020}
-@font-face{font-family:cmr7;src:url(fonts/cmr7-2.woff2) format("woff2");font-display:block;unicode-range:U+40-5B,U+5D,U+2C6,U+2D9,U+201C}
 @font-face{font-family:cmr7;src:url(fonts/cmr7-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7A,U+A8,U+2DC-2DD,U+2013-2014,U+2018}
 @font-face{font-family:cmss10;src:url(fonts/cmss10-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7A,U+A8,U+2DC-2DD,U+2013-2014,U+2018}
 @font-face{font-family:cmsy10;src:url(fonts/cmsy10-0.woff2) format("woff2");font-display:block;unicode-range:U+B1,U+B7,U+D7,U+F7,U+2022,U+2212-2213,U+2217,U+223C,U+2248,U+2261,U+2264-2265,U+227A,U+2282-2283,U+2286-2287,U+2295,U+2297,U+25E6,U+E005,U+E009,U+E00B-E00D,U+E010,U+E016-E017,U+E01C-E01D,U+E01F}
@@ -42,13 +41,10 @@
 @font-face{font-family:cmti10;src:url(fonts/cmti10-1.woff2) format("woff2");font-display:block;unicode-range:U+21,U+23,U+25-26,U+28-3B,U+3D,U+3F,U+A1,U+A3,U+BF,U+2019,U+201D,U+E020}
 @font-face{font-family:cmti10;src:url(fonts/cmti10-2.woff2) format("woff2");font-display:block;unicode-range:U+40-5B,U+5D,U+2C6,U+2D9,U+201C}
 @font-face{font-family:cmti10;src:url(fonts/cmti10-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7A,U+A8,U+2DC-2DD,U+2013-2014,U+2018}
-@font-face{font-family:cmti7;src:url(fonts/cmti7-0.woff2) format("woff2");font-display:block;unicode-range:U+60,U+AF,U+B4,U+B8,U+C6,U+D8,U+DF,U+E6,U+F8,U+131,U+152-153,U+2C7,U+2D8,U+2DA,U+393,U+398,U+39B,U+39E,U+3A0,U+3A3,U+3A5-3A6,U+3A8,U+2126,U+2206,U+E011,U+FB00-FB04}
 @font-face{font-family:cmti7;src:url(fonts/cmti7-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7A,U+A8,U+2DC-2DD,U+2013-2014,U+2018}
 @font-face{font-family:cmtt10;src:url(fonts/cmtt10-1.woff2) format("woff2");font-display:block;unicode-range:U+21-26,U+28-3F,U+2019,U+E020}
 @font-face{font-family:cmtt10;src:url(fonts/cmtt10-2.woff2) format("woff2");font-display:block;unicode-range:U+40-5F}
 @font-face{font-family:cmtt10;src:url(fonts/cmtt10-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7E,U+A8,U+2018}
-@font-face{font-family:cmtt12;src:url(fonts/cmtt12-2.woff2) format("woff2");font-display:block;unicode-range:U+40-5F}
-@font-face{font-family:cmtt8;src:url(fonts/cmtt8-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7E,U+A8,U+2018}
 @font-face{font-family:msam10;src:url(fonts/msam10-0.woff2) format("woff2");font-display:block;unicode-range:U+21D2,U+21D4,U+2666,U+E000-E005,U+E007-E011,U+E014-E01F}
 @font-face{font-family:msam10;src:url(fonts/msam10-1.woff2) format("woff2");font-display:block;unicode-range:U+2234-2235,U+2276-2277,U+E020-E028,U+E02B-E036,U+E038-E03E}
 @font-face{font-family:msam10;src:url(fonts/msam10-2.woff2) format("woff2");font-display:block;unicode-range:U+221D,U+2220,U+E040-E05B,U+E05D-E05E}
@@ -58,7 +54,6 @@
 @font-face{font-family:msbm10;src:url(fonts/msbm10-2.woff2) format("woff2");font-display:block;unicode-range:U+41-5A,U+E040,U+E05B-E05E}
 @font-face{font-family:msbm10;src:url(fonts/msbm10-3.woff2) format("woff2");font-display:block;unicode-range:U+6B,U+F0,U+3BA,U+5D2,U+223C,U+2248,U+E060-E061,U+E066,U+E068-E069,U+E06B-E072,U+E075-E07A,U+E07D-E07F}
 @font-face{font-family:msbm7;src:url(fonts/msbm7-0.woff2) format("woff2");font-display:block;unicode-range:U+226E-226F,U+2280,U+E000-E003,U+E007-E01F}
-@font-face{font-family:msbm7;src:url(fonts/msbm7-2.woff2) format("woff2");font-display:block;unicode-range:U+41-5A,U+E040,U+E05B-E05E}
 @font-face{font-family:pcrr8r;src:url(fonts/pcrr8r-1.woff2) format("woff2");font-display:block;unicode-range:U+20-26,U+28-3F,U+2019}
 @font-face{font-family:pcrr8r;src:url(fonts/pcrr8r-2.woff2) format("woff2");font-display:block;unicode-range:U+40-5F}
 @font-face{font-family:pcrr8r;src:url(fonts/pcrr8r-3.woff2) format("woff2");font-display:block;unicode-range:U+61-7E,U+2018}

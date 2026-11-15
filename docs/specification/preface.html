@@ -6,7 +6,7 @@
 <title>About this working draft · Fortress specification</title>
 <link rel="stylesheet" href="reader.css">
 </head>
-<body data-page="chapter" data-slug="preface" data-chapter="About this working draft">
+<body data-page="chapter" data-slug="preface" data-chapter="About this working draft" data-edition="draft" data-store="fortress-spec">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">About this working draft</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
 <header class="masthead">
@@ -16,14 +16,13 @@
 <div id="chapter-notes"></div>
 <section class="sec chapter" data-num="" data-title="About this working draft">
 <h1 id="top" class="nb">About this working draft</h1>
-<p class="standfirst">These pages stand before the table of contents in the specification, with no heading of their own.</p>
-<p class="legend"><strong>The notation of this edition.</strong> <span class="rv">Text on a tinted ground, like this,</span> is the 2026 revival’s: a paragraph that it added, its note on a passage that it revised, its link to an archived copy of a page that is gone. All other text is the authors’.</p>
+<p class="edline">This edition: these pages stand before the table of contents in the specification, with no heading of their own.</p>
+
 <div class="fig"><p id="p-0f0a79f3" class="nb">The Fortress Language Specification, Version 1.0[<a class="cite" href="references.html#ref-Fortress">Fortress</a>] was the first to be released in tandem with a compliant interpreter (as of March 31, 2008), available as open source and online at:</p>
-<div class="center"><p id="p-0ea553b6" class="nb"><span class="tt">http://projectfortress.sun.com</span><a class="ed arch" href="https://web.archive.org/web/2008/http://projectfortress.sun.com" title="This edition’s link to a copy of the page in the Internet Archive">archived copy</a></p></div>
+<div class="center"><p id="p-0ea553b6" class="nb"><span class="tt">http://projectfortress.sun.com</span></p></div>
 <p id="p-03201e20" class="nb">Our tandem release of a specification and matching interpreter was a major milestone for the project. Our reference implementation has been evolving gradually, in parallel with the evolution of the language specification and the development of the core libraries. In order to synchronize the specification with the implementation, it was necessary both to add features to the implementation and to drop features from the specification. All Fortress source code appearing in the specification has been tested by executing it with the open source Fortress implementation. Moreover, all code has been rendered automatically with the tool <em>Fortify</em>, also included with the standard Fortress distribution. Fortify is an open source tool for converting Fortress source code to LaTeX.</p>
 <p id="p-c808bd49" class="nb">Since the release, we have incrementally added back features taken out of the specification as they have been implemented. In particular, we have been building a Fortress compiler with a static type checker and various static constraints checker. We also made considerable amount of modification and evolution of the language design.</p>
-<p id="p-d33dcf23" class="nb">This specification is a working draft; it is meant to include all language features included in the Fortress Language Specification, Version 1.0<span class="m">β</span> (perhaps with additional ) and any language changes since then. This version of the specification is not yet for a release; it may include wild ideas that require additional research before they can be implemented reliably. This specification includes descriptions of unimplemented features in boxes at the beginning of sections, and informal comments and notes in boxes in the margin.</p>
-<p id="p-033235cb" class="nb rv">In 2026 the Fortress revival revised this working draft where a decision taken for the implementation it is completing would otherwise leave the text and the implementation in disagreement. The first such revision states the type group’s rule that no type is a subtype of two different instantiations of one parameterized trait, which the compiled type checker enforces for type arguments and numerals, with the exceptions <a class="xref" href="spec-changes.html">Appendix I</a><!--nc--> names, and this draft had not stated, and rewrites the examples that the rule refuses. Each revised passage carries a box headed “Revised by the 2026 revival”; <a class="xref" href="spec-changes.html">Appendix I</a><!--nc--> lists every change with its reason, the original text, and the alternative not taken.</p></div>
+<p id="p-d33dcf23" class="nb">This specification is a working draft; it is meant to include all language features included in the Fortress Language Specification, Version 1.0<span class="m">β</span> (perhaps with additional ) and any language changes since then. This version of the specification is not yet for a release; it may include wild ideas that require additional research before they can be implemented reliably. This specification includes descriptions of unimplemented features in boxes at the beginning of sections, and informal comments and notes in boxes in the margin.</p></div>
 <div class="fig"><p id="p-7520c395" class="nb">The not-yet-supported features include:</p>
 <ul>
 <li><p id="p-f85a28b6" class="nb">widening coercion</p></li>
@@ -54,8 +53,8 @@
 <li><p id="p-b71e0a03" class="nb">abstract function declarations</p></li>
 <li><p id="p-ae1019af" class="nb">checked exceptions, deferred exceptions, and chained exceptions</p></li>
 <li><p id="p-4b0fd8bc" class="nb">contract checking (overloaded functionals and method overriding)</p></li>
-<li><p id="p-3618187d" class="nb">static expressions beyond the folding of numerals and of string literals, static range types, and some range operations</p></li>
-<li><p id="p-319b9e65" class="nb">some types (<span class="m"><span class="ty">HeapSequence</span></span>, <span class="m"><span class="ty">LinearSequence</span></span>, <span class="m">ℚ</span>, <span class="m">ℤ</span>, <span class="m">ℕ</span>, <span class="m">ℚ</span>, ...)</p></li>
+<li><p id="p-9f109b06" class="nb">static expressions, static range types, and some range operations</p></li>
+<li><p id="p-2a654283" class="nb">some types (<span class="m"><span class="ty">HeapSequence</span></span>, <span class="m"><span class="ty">LinearSequence</span></span>, <span class="m">ℚ</span>, <span class="m"><span class="ty">Numeral</span></span>, <span class="m">ℤ</span>, <span class="m">ℕ</span>, <span class="m">ℚ</span>, ...)</p></li>
 <li><p id="p-d63a5dd0" class="nb">some operators on aggregate expressions</p></li>
 <li><p id="p-f17187a1" class="nb">some functions in <a class="xref" href="expressions.html#sec-other-expressions">Section 13.33</a><!--nc--></p></li>
 <li><p id="p-51cb6e87" class="nb">tail-call optimization</p></li>
@@ -65,8 +64,9 @@
 </ul></div>
 </section>
 <nav class="pager" aria-label="Chapters"><span></span><a class="next" href="intro.html"><span>Next</span> 1. Introduction</a></nav>
-<footer class="colophon">Converted from <code>Specification/fortress/preamble.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+<footer class="colophon">This edition: the Working Draft of 2 February 2011 as the Fortress team left it, converted from <code>Specification-1.0-frozen/fortress/preamble.tex</code> with nothing added to its text. The Fortress revival of 2026 changed this chapter in its revised edition, kept apart: <a href="revival/preface.html">the revised chapter</a>. <a href="editions.html">The editions</a>.</footer>
 </div>
+<script src="revised-only.js"></script>
 <script src="reader.js"></script>
 </body>
 </html>
