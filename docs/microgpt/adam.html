@@ -18,7 +18,7 @@
 <section class="sec chapter" data-num="7" data-title="Adam and the training loop">
 <h1 id="top" class="nb"><span class="num">Part 7</span> Adam and the training loop</h1>
 <p class="standfirst">How the gradient changes the parameters: the plain rule first, then Adam's three lines with the real numbers of one parameter, the learning rate, the loop, and the loss of one name before and after one step.</p>
-<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-the-plain-rule-first">7.1 The plain rule first</a></li><li><a href="#s-adam">7.2 Adam</a></li><li><a href="#s-the-learning-rate">7.3 The learning rate</a></li><li><a href="#s-the-training-loop">7.4 The training loop</a></li><li><a href="#s-what-one-step-does-to-the-numbers">7.5 What one step does to the numbers</a></li><li><a href="#s-what-the-program-leaves-out">7.6 What the program leaves out</a></li></ol></nav>
+<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-the-plain-rule-first">7.1 The plain rule first</a></li><li><a href="#s-adam">7.2 Adam</a></li><li><a href="#s-the-learning-rate">7.3 The learning rate</a></li><li><a href="#s-the-training-loop">7.4 The training loop</a></li><li><a href="#s-what-one-step-does-to-the-numbers">7.5 What one step does to the numbers</a></li><li><a href="#s-what-the-program-leaves-out">7.6 What the program leaves out</a></li><li><a href="#s-sources">7.7 Sources</a></li></ol></nav>
 <section class="sec" data-num="7.1" data-title="The plain rule first">
 <h2 id="s-the-plain-rule-first" class="nb"><span class="num">7.1</span> The plain rule first</h2>
 <p id="p-7eabae9d" class="nb">The gradient says, for each parameter, which way the loss goes when the parameter goes up. Training moves each parameter the other way. The plainest rule takes the same small fraction of every gradient entry:</p>
@@ -50,11 +50,19 @@ text.qe1ea453d34f5 {font-family:qe1ea453d34-cmr10;font-size:9.96264px}
 <li><p id="p-744eff97" class="nb"><span class="m"><i>p</i></span> is the vector of parameters, <span class="m"><i>g</i></span> the gradient, and <span class="m"><i>p</i>'</span> the new parameters.</p></li>
 <li><p id="p-15a34955" class="nb"><code>lr</code> is a small positive number, the learning rate.</p></li>
 </ul>
-<p id="p-72eddb3b" class="nb">The weakness of this rule is that gradient entries differ widely in size. In the step on <code>yuheng</code>, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.</p>
-<p id="p-10c56d51" class="nb">The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam. Karpathy's microGPT uses it too: the project's note on his program lists "Adam with bias correction and linear LR decay" (<a href="https://github.com/palimondo/fortress/blob/main/explorations/microgpt-port.md#L10">explorations/microgpt-port.md, line 10</a>). Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.</p>
+<p id="p-f9dc2b2a" class="nb">The weakness of this rule is that gradient entries differ widely in size. In the step on <code>yuheng</code>, parameter 500 has the entry -0.0926. The stored gradient that the quick check of Part 8 compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.</p>
+<p id="p-1a86a94f" class="nb">The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam, short for adaptive moment estimation. Karpathy's microGPT uses it too. Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.</p>
 </section>
 <section class="sec" data-num="7.2" data-title="Adam">
 <h2 id="s-adam" class="nb"><span class="num">7.2</span> Adam</h2>
+<p id="p-9c320fd4" class="nb">Adam's constants are in line 18 of <code>MicroGptFlat.fss</code>:</p>
+<div class="fx nb src" id="c-50ce1a15" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L18" title="MicroGptFlat.fss, line 18">18</a></span>(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)</span></code></pre></div>
+<ul>
+<li><p id="p-fd5a0c19" class="nb"><code>beta1</code> is 0.85 and <code>beta2</code> is 0.99. They are the shares of the old value that the two averages keep at each step.</p></li>
+<li><p id="p-c1634e5e" class="nb"><code>epsilon_A</code>, Adam's epsilon, is <code>10.0^(-8)</code>, which is 0.00000001. Adam adds it to a number before it divides by that number.</p></li>
+<li><p id="p-da48b033" class="nb"><code>lr0</code> is 0.01, the learning rate at step 0. <code>nSteps</code> is 1,000, the number of steps over which the learning rate falls to 0.</p></li>
+<li><p id="p-fc0c1275" class="nb"><code>epsilon</code>, the first name, is not Adam's. It is the 0.00001 of <code>rmsn</code> in Part 3.</p></li>
+</ul>
 <div class="fx nb src" id="c-8c166ba8" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L74" title="MicroGptFlat.fss, line 74">74</a></span>(* --------------------- Adam: three whole-vector expressions over p, m, v -- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L75" title="MicroGptFlat.fss, line 75">75</a></span>adam(p: Array[\RR64,ZZ32\], m: Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\], g: Array[\RR64,ZZ32\], t: ZZ32, lr: RR64):</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L76" title="MicroGptFlat.fss, line 76">76</a></span>    (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L77" title="MicroGptFlat.fss, line 77">77</a></span>    m' = beta1 m + (1 - beta1) g</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L78" title="MicroGptFlat.fss, line 78">78</a></span>    v' = beta2 v + (1 - beta2) (g × g)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L79" title="MicroGptFlat.fss, line 79">79</a></span>    p' = p - (lr (m' / (1 - beta1^t))) / (SQRT (v' / (1 - beta2^t)) + epsilon_A)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L80" title="MicroGptFlat.fss, line 80">80</a></span>    (p', m', v')</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L81" title="MicroGptFlat.fss, line 81">81</a></span>  end</span></code></pre></div>
 <p id="p-442b3317" class="nb">Lines 75 and 76 are the header. It is long, so the result type stands on a line of its own.</p>
 <ul>
@@ -69,7 +77,7 @@ text.qe1ea453d34f5 {font-family:qe1ea453d34-cmr10;font-size:9.96264px}
 <p id="p-28013a05" class="nb">Line 79 is the move. It has three pieces.</p>
 <ul>
 <li><p id="p-e544b1eb" class="nb"><code>m' / (1 - beta1^t)</code> corrects the first average for its start. <code>m</code> starts as 0, so after the first step <code>m'</code> is only 15 parts in 100 of the gradient. At <code>t</code> = 1 the divisor is 1 minus 0.85, which is 0.15, and the division gives the whole gradient back. At <code>t</code> = 3 the divisor is 0.386. As <code>t</code> grows, the divisor goes to 1, and the correction changes less and less.</p></li>
-<li><p id="p-d1e2051b" class="nb"><code>v' / (1 - beta2^t)</code> is the same correction for the second average. <code>SQRT</code> takes the root of every element. <code>+ epsilon_A</code> adds 0.00000001 to every element, so that the division that follows never divides by 0.</p></li>
+<li><p id="p-1822608c" class="nb"><code>v' / (1 - beta2^t)</code> is the same correction for the second average. <code>SQRT</code> takes the root of every element. <code>+ epsilon_A</code> adds 0.00000001 to every element. A root is 0 or more, so every element is then at least 0.00000001, and the division that follows never divides by 0.</p></li>
 <li><p id="p-3ba33374" class="nb">The first piece times <code>lr</code>, divided by the second piece, element by element, is the move. Line 79 subtracts it from <code>p</code>.</p></li>
 </ul>
 <p id="p-5d55ff54" class="nb">Line 80 is the block's value, the triple. The comment in line 74 says "three whole-vector expressions": the function has no loop and no index. It changes none of its arguments.</p>
@@ -169,16 +177,16 @@ index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delt
 <li><p id="p-4f13343d" class="nb">Parameter 1100 has a positive entry, a third the size of the first one. It moves down, also by 0.01.</p></li>
 <li><p id="p-565fe228" class="nb">Parameter 0 lies in the row of <code>wte</code> for the token <code>a</code>. Its entry is 0, and it does not move: 0 divided by <code>epsilon_A</code> is 0.</p></li>
 </ul>
-<p id="p-7abebe56" class="nb">In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about <code>lr</code> in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less. This follows from the three lines. No run in this text shows it.</p>
-<p id="p-4560e2b0" class="nb">The parentheses in line 79 fix the order of the float operations: first <code>lr</code> times the corrected average, then the division. The project's note on this line says that the order is NumPy's, because the reference values of the check are NumPy's (<a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/tour.md">explorations/run-c4/tour.md, row 27</a>).</p>
+<p id="p-8497e3c4" class="nb">In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about <code>lr</code> in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less.</p>
+<p id="p-a153cf4b" class="nb">The parentheses in line 79 fix the order of the float operations: first <code>lr</code> times the corrected average, then the division. The order is that of the reference program in NumPy, whose values the quick check of Part 8 compares with.</p>
 </section>
 <section class="sec" data-num="7.3" data-title="The learning rate">
 <h2 id="s-the-learning-rate" class="nb"><span class="num">7.3</span> The learning rate</h2>
 <div class="fx nb src" id="c-06f6bbc5" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L82" title="MicroGptFlat.fss, line 82">82</a></span>learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)</span></code></pre></div>
 <p id="p-18bf4df5" class="nb">The learning rate falls in a straight line from <code>lr0</code>, 0.01, at step 0, towards 0 at step <code>nSteps</code>, 1,000. A run printed three values:</p>
 <pre class="vb nb out" id="o-065fde2f" data-kind="output"><code>lr(0) = 0.01 lr(1) = 0.00999 lr(999) = 1.000000000000001E-5</code></pre>
-<p id="p-56a86649" class="nb"><code>lr0 (...)</code> is a number beside a number: the product. <code>1.0 s</code> turns the integer <code>s</code> into a float. The line needs it. In Fortress, <code>/</code> between two integers gives an exact fraction, a value of the type <code>QQ</code> (the gap ledger's row 174 records this as the rule): for <code>s</code> = 3, a run printed <code>s / nSteps</code> as <code>3/1000</code>. The library has no product of a float and such a fraction, and the line without <code>1.0</code> stops with "Failed to find any matching overload". With the float on the left, the division gives a float.</p>
-<p id="p-c911774b" class="nb">The schedule is made for 1,000 steps, the number that the reference program of Part 8 was run with (<a href="https://github.com/palimondo/fortress/blob/main/explorations/experiment/run-c-goldens/make_goldens.py#L21">explorations/experiment/run-c-goldens/make_goldens.py, line 21</a>). The loop below runs five.</p>
+<p id="p-df59ba96" class="nb"><code>lr0 (...)</code> is a number beside a number: the product. <code>1.0 s</code> turns the integer <code>s</code> into a float. The line needs it. In Fortress, <code>/</code> between two integers gives an exact fraction, a value of the type <code>QQ</code>: for <code>s</code> = 3, a run printed <code>s / nSteps</code> as <code>3/1000</code>. The library has no product of a float and such a fraction, and the line without <code>1.0</code> stops with "Failed to find any matching overload". With the float on the left, the division gives a float.</p>
+<p id="p-e036b524" class="nb">The schedule is made for 1,000 steps, the number that the reference program of Part 8 was run with. The loop below runs five.</p>
 <aside class="limit"><p class="label">A limit of today's tree</p>
 <p id="p-9780a17b" class="nb"><code>1.0 s</code> runs under walk. The compiled path's checker refuses it today when it checks against the interpreter's library: it finds two products that fit only after a conversion, of two floats and of two fractions, and cannot choose (the gap ledger's row 989).</p></aside>
 </section>
@@ -188,8 +196,8 @@ index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delt
 <p id="p-242d2842" class="nb">Line 85 declares <code>run</code>, the function that the api <code>Executable</code> asks for. Its result type <code>()</code> is the empty tuple: the function returns nothing.</p>
 <p id="p-68acff02" class="nb">Line 86 prints a line. <code>println</code> takes one argument. Here the argument is built by juxtaposition: a string beside any value is their text joined together. A run printed:</p>
 <pre class="vb nb out" id="o-862535eb" data-kind="output"><code>microgpt flat | params 4192 | corpus 2000 x 17 | batch 1, 5 steps</code></pre>
-<p id="p-5d7f1562" class="nb">Line 87 sets the size of a batch, one document.</p>
-<p id="p-e21fdb97" class="nb">Lines 88 to 90 declare three variables that the loop changes. A declaration of the form <code>name: Type := value</code> makes a mutable variable. <code>loadParams</code> reads the nine files of starting values, in the order of the layout table, into one vector (<a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L93">FlatData.fss, lines 93 to 101</a>). <code>zeros(n)</code> is the vocabulary's vector of <code>n</code> zeros.</p>
+<p id="p-4fd7ee98" class="nb">Line 87 sets <code>bsz</code>, the batch's size, to one document.</p>
+<p id="p-abfe969a" class="nb">Lines 88 to 90 declare three variables that the loop changes. A declaration of the form <code>name: Type := value</code> makes a mutable variable. <code>loadParams</code>, a function of <code>FlatData.fss</code>, reads the nine files of starting values, in the order of the layout table, into one vector. <code>zeros(n)</code>, a function of <code>FlatArrays.fss</code>, makes a vector of <code>n</code> zeros.</p>
 <aside class="limit"><p class="label">A limit of today's tree</p>
 <p id="p-7a58708a" class="nb">The type in lines 88 to 90 is there because walk demands it. The grammar allows a mutable variable without a type, <code>var p = ...</code>, and the parser's checks refuse it: "The type of p is required" (the gap ledger's row 177). The project tested every other written type of the model: each can be left out and the five losses stay the same.</p></aside>
 <aside class="limit"><p class="label">A limit of today's tree</p>
@@ -198,7 +206,7 @@ index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delt
 <ul>
 <li><p id="p-9629ce34" class="nb">Line 91 opens a loop over the steps 0 to 4. The range is wrapped in <code>seq</code>, so the steps run in order. They must: each step needs the parameters that the step before it made.</p></li>
 <li><p id="p-5e01eaa3" class="nb">Line 92 reads the clock.</p></li>
-<li><p id="p-e874c098" class="nb">Line 93 calls the model. Its second argument is the batch. <code>keys(n, f)</code> is the vocabulary's vector of <code>n</code> integers, filled from a function of the index. Here it holds the numbers of the documents <code>s bsz + i</code>, each taken <code>MOD</code> the number of documents, so that the numbers start again at 0 after the last document. With a batch of one, step <code>s</code> learns from document <code>s</code>. The left side binds the step's two results to <code>l</code> and <code>g</code>.</p></li>
+<li><p id="p-60d1dcee" class="nb">Line 93 calls the model. Its second argument is the batch. <code>keys(n, f)</code>, a function of <code>FlatArrays.fss</code>, makes a vector of <code>n</code> integers and fills it from a function of the index. Here it holds the numbers of the documents <code>s bsz + i</code>, each taken <code>MOD</code> the number of documents, so that the numbers start again at 0 after the last document. With a batch of one, step <code>s</code> learns from document <code>s</code>. The left side binds the step's two results to <code>l</code>, the loss, and <code>g</code>, the gradient.</p></li>
 <li><p id="p-95e0a7f7" class="nb">Line 94 calls Adam and assigns its three results to the three variables at once. <code>:=</code> with a tuple on the left assigns to each name. The step count <code>t</code> is <code>s + 1</code>.</p></li>
 <li><p id="p-2a8ae7a6" class="nb">Line 95 prints the step's number, its loss, and the time that it took in milliseconds. <code>DIV</code> is division of integers without a remainder.</p></li>
 <li><p id="p-8617069b" class="nb">Line 96 closes the loop, and line 97 closes <code>run</code>.</p></li>
@@ -209,7 +217,7 @@ step 2 loss 3.4242727838717717
 step 3 loss 3.177802125458052
 step 4 loss 3.0663556842241975
 step 5 loss 3.2208830897506235</code></pre>
-<p id="p-f576c611" class="nb">Each line also ended with the step's time. This text leaves the times out. They are walk's, and by your ruling walk's speed says nothing about how fast Fortress is.</p>
+<p id="p-ab3d3b5b" class="nb">Each line also ended with the step's time, left out here. The times are walk's, and by your ruling walk's speed says nothing about how fast Fortress is.</p>
 <p id="p-4210a0d8" class="nb">The five losses go up and down. They cannot be compared with each other: each is measured on a different name, <code>yuheng</code>, <code>diondre</code>, <code>xavien</code>, <code>jori</code>, <code>juanluis</code>, and each is measured before that step's own change to the parameters.</p>
 </section>
 <section class="sec" data-num="7.5" data-title="What one step does to the numbers">
@@ -222,7 +230,7 @@ step 5 loss 3.2208830897506235</code></pre>
 <p id="p-110ad826" class="nb">The same change helped a little on a name that the step did not see. The loss on document 1, <code>diondre</code>, with the old and with the new parameters:</p>
 <pre class="vb nb out" id="o-ebaa9a31" data-kind="output"><code>loss doc 1 with p0 3.4265763956879174 with p1 3.4242727838717717</code></pre>
 <p id="p-760a6d87" class="nb">The second number is the loss that the program printed for step 2.</p>
-<p id="p-07b0a0d5" class="nb">The whole step on <code>yuheng</code>, in the numbers of this text:</p>
+<p id="p-8d444a4d" class="nb">The whole step on <code>yuheng</code>, in numbers:</p>
 <ol>
 <li><p id="p-21646a1c" class="nb">The keys. The name becomes 16 rows of tokens, of which 7 count: <code>ids</code>, <code>tg</code>, <code>vm</code>, <code>pos</code>.</p></li>
 <li><p id="p-46a55f88" class="nb">The forward pass. From the keys and the 4,192 parameters it computes a matrix of 16 by 27 probabilities. The seven right answers have probabilities between 0.027 and 0.046. The loss is 3.366.</p></li>
@@ -234,9 +242,22 @@ step 5 loss 3.2208830897506235</code></pre>
 <section class="sec" data-num="7.6" data-title="What the program leaves out">
 <h2 id="s-what-the-program-leaves-out" class="nb"><span class="num">7.6</span> What the program leaves out</h2>
 <ul>
-<li><p id="p-fa0c180b" class="nb">It never makes a name. The project's port of Karpathy's program ends with a loop that does (<a href="https://github.com/palimondo/fortress/blob/main/explorations/microgpt.fss#L262">explorations/microgpt.fss, lines 262 to 289</a>): it gives the model the mark, makes probabilities from the scores of that position, draws a token by them, appends the token, and repeats until the mark is drawn or the block's positions are used. The flat program stops after training. Its <code>pr</code> holds probabilities of the kind that such a loop draws from.</p></li>
+<li><p id="p-7dba913d" class="nb">It never makes a name. Karpathy's program ends with a loop that does: it gives the model the mark, makes probabilities from the scores of that position, draws a token by them, appends the token, and repeats until the mark is drawn or the block's positions are used. The flat program stops after training. Its <code>pr</code> holds probabilities of the kind that such a loop draws from.</p></li>
 <li><p id="p-9151964b" class="nb">It runs five steps, where the learning rate's schedule is made for 1,000. The five steps are enough to compare the program's numbers with the stored values, which is the program's use today.</p></li>
 <li><p id="p-e69381fe" class="nb">Its batch is one document. The step itself takes a batch of any size: every matrix then has 16 rows for each document, and the planes of attention keep the documents apart.</p></li>
+</ul>
+</section>
+<section class="sec" data-num="7.7" data-title="Sources">
+<h2 id="s-sources" class="nb"><span class="num">7.7</span> Sources</h2>
+<ul>
+<li><p id="p-9ad710a4" class="nb">Every value in an Output box: runs under walk of <code>MicroGptFlat.fss</code> and of copies of it with print lines added.</p></li>
+<li><p id="p-ac052988" class="nb">Adam in Karpathy's program: <a href="https://github.com/palimondo/fortress/blob/main/explorations/microgpt-port.md#L10">explorations/microgpt-port.md, line 10</a>. The name's long form is the field's and is in no file of the repository.</p></li>
+<li><p id="p-5f6b6f2a" class="nb">The stored gradient: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c/goldens/grad_step0.txt">explorations/run-c/goldens/grad_step0.txt</a>.</p></li>
+<li><p id="p-2397b705" class="nb">The order of the operations in line 79: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/tour.md">explorations/run-c4/tour.md, row 27</a>.</p></li>
+<li><p id="p-e9fbb6db" class="nb"><code>/</code> between two integers as a fraction: the gap ledger's row 174.</p></li>
+<li><p id="p-0e1f5f72" class="nb">The 1,000 steps of the reference run: <a href="https://github.com/palimondo/fortress/blob/main/explorations/experiment/run-c-goldens/make_goldens.py#L21">explorations/experiment/run-c-goldens/make_goldens.py, line 21</a>.</p></li>
+<li><p id="p-cee762cb" class="nb"><code>loadParams</code>: <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L93">FlatData.fss, lines 93 to 101</a>.</p></li>
+<li><p id="p-5d712da3" class="nb">The loop that makes names, in the project's port of Karpathy's program: <a href="https://github.com/palimondo/fortress/blob/main/explorations/microgpt.fss#L262">explorations/microgpt.fss, lines 262 to 289</a>.</p></li>
 </ul>
 </section>
 </section>

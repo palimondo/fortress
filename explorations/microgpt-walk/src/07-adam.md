@@ -12,11 +12,20 @@ $$
 - $p$ is the vector of parameters, $g$ the gradient, and $p'$ the new parameters.
 - `lr` is a small positive number, the learning rate.
 
-The weakness of this rule is that gradient entries differ widely in size. In the step on `yuheng`, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.
+The weakness of this rule is that gradient entries differ widely in size. In the step on `yuheng`, parameter 500 has the entry -0.0926. The stored gradient that the quick check of Part 8 compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.
 
-The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam. Karpathy's microGPT uses it too: the project's note on his program lists "Adam with bias correction and linear LR decay" ([explorations/microgpt-port.md, line 10](src:explorations/microgpt-port.md#L10)). Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.
+The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam, short for adaptive moment estimation. Karpathy's microGPT uses it too. Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.
 
 ## Adam
+
+Adam's constants are in line 18 of `MicroGptFlat.fss`:
+
+@src 18
+
+- `beta1` is 0.85 and `beta2` is 0.99. They are the shares of the old value that the two averages keep at each step.
+- `epsilon_A`, Adam's epsilon, is `10.0^(-8)`, which is 0.00000001. Adam adds it to a number before it divides by that number.
+- `lr0` is 0.01, the learning rate at step 0. `nSteps` is 1,000, the number of steps over which the learning rate falls to 0.
+- `epsilon`, the first name, is not Adam's. It is the 0.00001 of `rmsn` in Part 3.
 
 @src 74-81
 
@@ -36,7 +45,7 @@ Line 78 is the average of the squares. `g × g` multiplies the gradient with its
 Line 79 is the move. It has three pieces.
 
 - `m' / (1 - beta1^t)` corrects the first average for its start. `m` starts as 0, so after the first step `m'` is only 15 parts in 100 of the gradient. At `t` = 1 the divisor is 1 minus 0.85, which is 0.15, and the division gives the whole gradient back. At `t` = 3 the divisor is 0.386. As `t` grows, the divisor goes to 1, and the correction changes less and less.
-- `v' / (1 - beta2^t)` is the same correction for the second average. `SQRT` takes the root of every element. `+ epsilon_A` adds 0.00000001 to every element, so that the division that follows never divides by 0.
+- `v' / (1 - beta2^t)` is the same correction for the second average. `SQRT` takes the root of every element. `+ epsilon_A` adds 0.00000001 to every element. A root is 0 or more, so every element is then at least 0.00000001, and the division that follows never divides by 0.
 - The first piece times `lr`, divided by the second piece, element by element, is the move. Line 79 subtracts it from `p`.
 
 Line 80 is the block's value, the triple. The comment in line 74 says "three whole-vector expressions": the function has no loop and no index. It changes none of its arguments.
@@ -75,9 +84,9 @@ index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delt
 - Parameter 1100 has a positive entry, a third the size of the first one. It moves down, also by 0.01.
 - Parameter 0 lies in the row of `wte` for the token `a`. Its entry is 0, and it does not move: 0 divided by `epsilon_A` is 0.
 
-In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about `lr` in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less. This follows from the three lines. No run in this text shows it.
+In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about `lr` in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less.
 
-The parentheses in line 79 fix the order of the float operations: first `lr` times the corrected average, then the division. The project's note on this line says that the order is NumPy's, because the reference values of the check are NumPy's ([explorations/run-c4/tour.md, row 27](src:explorations/run-c4/tour.md)).
+The parentheses in line 79 fix the order of the float operations: first `lr` times the corrected average, then the division. The order is that of the reference program in NumPy, whose values the quick check of Part 8 compares with.
 
 ## The learning rate
 
@@ -89,9 +98,9 @@ The learning rate falls in a straight line from `lr0`, 0.01, at step 0, towards 
 lr(0) = 0.01 lr(1) = 0.00999 lr(999) = 1.000000000000001E-5
 ```
 
-`lr0 (...)` is a number beside a number: the product. `1.0 s` turns the integer `s` into a float. The line needs it. In Fortress, `/` between two integers gives an exact fraction, a value of the type `QQ` (the gap ledger's row 174 records this as the rule): for `s` = 3, a run printed `s / nSteps` as `3/1000`. The library has no product of a float and such a fraction, and the line without `1.0` stops with "Failed to find any matching overload". With the float on the left, the division gives a float.
+`lr0 (...)` is a number beside a number: the product. `1.0 s` turns the integer `s` into a float. The line needs it. In Fortress, `/` between two integers gives an exact fraction, a value of the type `QQ`: for `s` = 3, a run printed `s / nSteps` as `3/1000`. The library has no product of a float and such a fraction, and the line without `1.0` stops with "Failed to find any matching overload". With the float on the left, the division gives a float.
 
-The schedule is made for 1,000 steps, the number that the reference program of Part 8 was run with ([explorations/experiment/run-c-goldens/make_goldens.py, line 21](src:explorations/experiment/run-c-goldens/make_goldens.py#L21)). The loop below runs five.
+The schedule is made for 1,000 steps, the number that the reference program of Part 8 was run with. The loop below runs five.
 
 !!! limit
 `1.0 s` runs under walk. The compiled path's checker refuses it today when it checks against the interpreter's library: it finds two products that fit only after a conversion, of two floats and of two fractions, and cannot choose (the gap ledger's row 989).
@@ -109,9 +118,9 @@ Line 86 prints a line. `println` takes one argument. Here the argument is built 
 microgpt flat | params 4192 | corpus 2000 x 17 | batch 1, 5 steps
 ```
 
-Line 87 sets the size of a batch, one document.
+Line 87 sets `bsz`, the batch's size, to one document.
 
-Lines 88 to 90 declare three variables that the loop changes. A declaration of the form `name: Type := value` makes a mutable variable. `loadParams` reads the nine files of starting values, in the order of the layout table, into one vector ([FlatData.fss, lines 93 to 101](src:explorations/run-c4/src/FlatData.fss#L93)). `zeros(n)` is the vocabulary's vector of `n` zeros.
+Lines 88 to 90 declare three variables that the loop changes. A declaration of the form `name: Type := value` makes a mutable variable. `loadParams`, a function of `FlatData.fss`, reads the nine files of starting values, in the order of the layout table, into one vector. `zeros(n)`, a function of `FlatArrays.fss`, makes a vector of `n` zeros.
 
 !!! limit
 The type in lines 88 to 90 is there because walk demands it. The grammar allows a mutable variable without a type, `var p = ...`, and the parser's checks refuse it: "The type of p is required" (the gap ledger's row 177). The project tested every other written type of the model: each can be left out and the five losses stay the same.
@@ -125,7 +134,7 @@ The type in lines 88 to 90 is there because walk demands it. The grammar allows 
 
 - Line 91 opens a loop over the steps 0 to 4. The range is wrapped in `seq`, so the steps run in order. They must: each step needs the parameters that the step before it made.
 - Line 92 reads the clock.
-- Line 93 calls the model. Its second argument is the batch. `keys(n, f)` is the vocabulary's vector of `n` integers, filled from a function of the index. Here it holds the numbers of the documents `s bsz + i`, each taken `MOD` the number of documents, so that the numbers start again at 0 after the last document. With a batch of one, step `s` learns from document `s`. The left side binds the step's two results to `l` and `g`.
+- Line 93 calls the model. Its second argument is the batch. `keys(n, f)`, a function of `FlatArrays.fss`, makes a vector of `n` integers and fills it from a function of the index. Here it holds the numbers of the documents `s bsz + i`, each taken `MOD` the number of documents, so that the numbers start again at 0 after the last document. With a batch of one, step `s` learns from document `s`. The left side binds the step's two results to `l`, the loss, and `g`, the gradient.
 - Line 94 calls Adam and assigns its three results to the three variables at once. `:=` with a tuple on the left assigns to each name. The step count `t` is `s + 1`.
 - Line 95 prints the step's number, its loss, and the time that it took in milliseconds. `DIV` is division of integers without a remainder.
 - Line 96 closes the loop, and line 97 closes `run`.
@@ -140,7 +149,7 @@ step 4 loss 3.0663556842241975
 step 5 loss 3.2208830897506235
 ```
 
-Each line also ended with the step's time. This text leaves the times out. They are walk's, and by your ruling walk's speed says nothing about how fast Fortress is.
+Each line also ended with the step's time, left out here. The times are walk's, and by your ruling walk's speed says nothing about how fast Fortress is.
 
 The five losses go up and down. They cannot be compared with each other: each is measured on a different name, `yuheng`, `diondre`, `xavien`, `jori`, `juanluis`, and each is measured before that step's own change to the parameters.
 
@@ -168,7 +177,7 @@ loss doc 1 with p0 3.4265763956879174 with p1 3.4242727838717717
 
 The second number is the loss that the program printed for step 2.
 
-The whole step on `yuheng`, in the numbers of this text:
+The whole step on `yuheng`, in numbers:
 
 1. The keys. The name becomes 16 rows of tokens, of which 7 count: `ids`, `tg`, `vm`, `pos`.
 2. The forward pass. From the keys and the 4,192 parameters it computes a matrix of 16 by 27 probabilities. The seven right answers have probabilities between 0.027 and 0.046. The loss is 3.366.
@@ -178,6 +187,17 @@ The whole step on `yuheng`, in the numbers of this text:
 
 ## What the program leaves out
 
-- It never makes a name. The project's port of Karpathy's program ends with a loop that does ([explorations/microgpt.fss, lines 262 to 289](src:explorations/microgpt.fss#L262)): it gives the model the mark, makes probabilities from the scores of that position, draws a token by them, appends the token, and repeats until the mark is drawn or the block's positions are used. The flat program stops after training. Its `pr` holds probabilities of the kind that such a loop draws from.
+- It never makes a name. Karpathy's program ends with a loop that does: it gives the model the mark, makes probabilities from the scores of that position, draws a token by them, appends the token, and repeats until the mark is drawn or the block's positions are used. The flat program stops after training. Its `pr` holds probabilities of the kind that such a loop draws from.
 - It runs five steps, where the learning rate's schedule is made for 1,000. The five steps are enough to compare the program's numbers with the stored values, which is the program's use today.
 - Its batch is one document. The step itself takes a batch of any size: every matrix then has 16 rows for each document, and the planes of attention keep the documents apart.
+
+## Sources
+
+- Every value in an Output box: runs under walk of `MicroGptFlat.fss` and of copies of it with print lines added.
+- Adam in Karpathy's program: [explorations/microgpt-port.md, line 10](src:explorations/microgpt-port.md#L10). The name's long form is the field's and is in no file of the repository.
+- The stored gradient: [explorations/run-c/goldens/grad_step0.txt](src:explorations/run-c/goldens/grad_step0.txt).
+- The order of the operations in line 79: [explorations/run-c4/tour.md, row 27](src:explorations/run-c4/tour.md).
+- `/` between two integers as a fraction: the gap ledger's row 174.
+- The 1,000 steps of the reference run: [explorations/experiment/run-c-goldens/make_goldens.py, line 21](src:explorations/experiment/run-c-goldens/make_goldens.py#L21).
+- `loadParams`: [FlatData.fss, lines 93 to 101](src:explorations/run-c4/src/FlatData.fss#L93).
+- The loop that makes names, in the project's port of Karpathy's program: [explorations/microgpt.fss, lines 262 to 289](src:explorations/microgpt.fss#L262).
