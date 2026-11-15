@@ -1,0 +1,158 @@
+Notes on the Fortress Language Specification
+Exported: 2026-11-15T17:39:35.613Z
+Reader: https://palimondo.github.io/fortress/specification/
+Notes: 15
+
+=== Note 1 of 15 ===
+Chapter: About this working draft
+Section: About this working draft
+Link: https://palimondo.github.io/fortress/specification/preface.html#p-0ea553b6
+Passage (paragraph): http://projectfortress.sun.com
+Written: 2026-11-10T16:58:03.751Z
+Id: nmwaxon6vddg9
+Note:
+  This should probably link to Wayback machine’s snapshot of the page from when it existed. This is some port processing layer, which enhances the original specification text?
+
+=== Note 2 of 15 ===
+Chapter: About this working draft
+Section: About this working draft
+Link: https://palimondo.github.io/fortress/specification/preface.html#p-033235cb
+Passage (paragraph): In 2026 the Fortress revival revised this working draft where a decision taken for …
+Written: 2026-11-10T17:01:29.435Z
+Id: nmwaxt1wbcjjx
+Note:
+  You said that our additions to the specification are marked in red delete this opening. Paragraph addendum is also one such case so it should get the same treatment like distinct presentation but very very very how do you say very subtle shit some some light colored background or slight tint of course it must work in both dark and light mode and this open section should introduce this graphical element. You know like an opening of books. They’re in the preamble of a book. They show how these notations are used the document so that kind of language very brief.
+
+=== Note 3 of 15 ===
+Chapter: About this working draft
+Section: About this working draft
+Link: https://palimondo.github.io/fortress/specification/preface.html#p-f85a28b6
+Passage (paragraph): widening coercion
+Written: 2026-11-10T21:33:50.753Z
+Id: nmwb7jaxto231
+Note:
+  Didn’t were implement this in the revival always?
+
+=== Note 4 of 15 ===
+Chapter: About this working draft
+Section: About this working draft
+Link: https://palimondo.github.io/fortress/specification/preface.html#p-0ee6a8b8
+Passage (paragraph): some modifiers (override, io, atomic, value, ...)
+Written: 2026-11-10T21:36:15.379Z
+Id: nmwb7mej7qw8c
+Note:
+  Aren’t atomic and value already implemented?
+
+=== Note 5 of 15 ===
+Chapter: About this working draft
+Section: About this working draft
+Link: https://palimondo.github.io/fortress/specification/preface.html#p-56c0c623
+Passage (paragraph): Non-type static parameters
+Written: 2026-11-10T21:39:29.485Z
+Id: nmwb7qkb102dx
+Note:
+  Is this `nat` that we implemented already, or something else?
+
+=== Note 6 of 15 ===
+Chapter: About this working draft
+Section: About this working draft
+Link: https://palimondo.github.io/fortress/specification/preface.html#p-3e0c2dfb
+Passage (paragraph): where clauses and conditional extension
+Written: 2026-11-10T21:40:10.619Z
+Id: nmwb7rg1nc3vz
+Note:
+  I think I saw us using work clothes and type definitions. Is there something else?
+
+=== Note 7 of 15 ===
+Chapter: 1. Introduction
+Section: (the chapter's opening)
+Link: https://palimondo.github.io/fortress/specification/intro.html#p-f9d62312
+Passage (paragraph): The name “Fortress” is derived from the intent to produce a “secure Fortran”, i.e., …
+Written: 2026-11-10T22:25:12.652Z
+Id: nmwb9dcy4g5i7
+Note:
+  “unprecedented combination of performance”… that’s a visionary level of politic license… but they didn’t say “high”, so I might be judging them on the wrong axis
+
+=== Note 8 of 15 ===
+Chapter: 1. Introduction
+Section: 1.1 Fortress in a Nutshell
+Link: https://palimondo.github.io/fortress/specification/intro.html#p-284c2aab
+Passage (paragraph): Although Fortress is statically and nominally typed, types are not specified for all fields, …
+Written: 2026-11-10T21:55:16.006Z
+Id: nmwb85pe89837
+Note:
+  What does it mean that the language is “nominally typed”? I know how type inference works for variables, but how does it work for methods and return types? Do I omit tap, declaration and method signature of its parameters and return types and what it gets inferred from return type could be inferred from the body, but why would I do that and how would I admit it from parameters? This seems like a weird ambition for language design. Do they have examples where this is a good idea? because it doesn’t seem like one to me from my experiences from Scala and Swift.
+
+=== Note 9 of 15 ===
+Chapter: 1. Introduction
+Section: 1.1 Fortress in a Nutshell
+Link: https://palimondo.github.io/fortress/specification/intro.html#p-edfaffe1
+Passage (paragraph): These design decisions are motivated in part by our goal of making the scientist/programmer’s …
+Written: 2026-11-10T21:58:17.087Z
+Id: nmwb8eqdbdhpi
+Note:
+  In a nested function definition, I can imagine this working like in python where you omit the types declarations, but they could get inferred from the context of the body where the function is nest but on a component level, I cannot see. How would you fix a type would you default to any everywhere from contacts? You would say that a method returns or accept any and then what? you have no operations you can call or you try to call something and depending on what you are called what methods are calling you in for which trade might supply them??!?
+
+=== Note 10 of 15 ===
+Chapter: 1. Introduction
+Section: 1.1 Fortress in a Nutshell
+Link: https://palimondo.github.io/fortress/specification/intro.html#p-a3cd883e
+Passage (paragraph): In addition to objects and traits, Fortress allows the programmer to define top-level functions. …
+Written: 2026-11-10T21:59:48.175Z
+Id: nmwb8gonju4v3
+Note:
+  I need a primer on multiple dynamic dispatch
+
+=== Note 11 of 15 ===
+Chapter: 2. Overview
+Section: 2.1 The Fortress Programming Environment
+Link: https://palimondo.github.io/fortress/specification/overview.html#p-136580aa
+Passage (paragraph): After issuing this command, we can no longer refer to HelloWorld component when issuing …
+Written: 2026-11-10T22:10:23.896Z
+Id: nmwb8ub6hlfyd
+Note:
+  I am confused by the concept of resident Fortress. It mentions compilation into caches that are the parsed trees?
+
+=== Note 12 of 15 ===
+Chapter: 2. Overview
+Section: 2.1 The Fortress Programming Environment
+Link: https://palimondo.github.io/fortress/specification/overview.html#p-18267c77
+Passage (paragraph): The first line is an export statement; we ignore it for the moment. The …
+Written: 2026-11-15T17:16:45.883Z
+Id: nmwb91hw8wop2
+Note:
+  So the perimeter args is silent in the definition like it is inferred it just says run () parentheses so where are the args? Is executable a trait that by exporting we declare to implemented in full, and therefore the run must have args params? What’s something last year during the translation from latter to HTML here? But it looks the same in PDF, so is this a bug in the current Working Draft? Did earlier versions include run(args)?
+
+=== Note 13 of 15 ===
+Chapter: 2. Overview
+Section: 2.1 The Fortress Programming Environment
+Link: https://palimondo.github.io/fortress/specification/overview.html#p-ade874e1
+Passage (paragraph): It can be compiled. In this case, the Fortress program is compiled into a …
+Written: 2026-11-15T17:34:43.716Z
+Id: nmwi3ln9srm7s
+Note:
+  Resident? Why? Should this connote something clarifying that I am missing? Only thing that pops into my mind is “resident programs”, like something that stays in the memory, running in the background, but that is some ancient DOS reference, so hardly relevant.
+  
+  The opening sentence just says that the file **can** be compiled. But there is not sufficient right in the current information nation you must first compile in order to use run otherwise he must explicitly say walk in order to executed in the interpreter or am I missing something? Is there a gap between the specification and the current implementation’s behavior?
+  
+  Or does the invoking the fortress command with without a sub-command and just the file name of the source execute `compile` and then `run`? That’s not what I recall from our earlier discussions about how it behaves…
+
+=== Note 14 of 15 ===
+Chapter: 2. Overview
+Section: 2.1 The Fortress Programming Environment
+Link: https://palimondo.github.io/fortress/specification/overview.html#p-e17a0706
+Passage (paragraph): As a result of this command, a component named “HelloWorld” is stored in the …
+Written: 2026-11-15T17:22:48.095Z
+Id: nmwi3rpungcfo
+Note:
+  Seems that suffix here is referring to the file extension?
+
+=== Note 15 of 15 ===
+Chapter: 2. Overview
+Section: 2.1 The Fortress Programming Environment
+Link: https://palimondo.github.io/fortress/specification/overview.html#p-ffe59943
+Passage (paragraph): fortress compile HelloWorld2.fss
+Written: 2026-11-15T17:39:17.744Z
+Id: nmwi41hnad351
+Note:
+  Why does Fortress require here a full file name including the .fss extension? Or would a component’s name suffice? But that’s probably the answer… component name matches file name only if the content does not use the component keyword. Or rather the other way around. There’s no 1:1 filename:component correspondence.

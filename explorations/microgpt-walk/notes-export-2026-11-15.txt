@@ -1,0 +1,181 @@
+Notes on the microGPT walk-through
+Exported: 2026-11-15T17:39:58.754Z
+Reader: https://palimondo.github.io/fortress/microgpt/
+Notes: 15
+
+=== Note 1 of 15 ===
+Chapter: 2. Vectors, matrices and the nine weight matrices
+Section: 2.4 The transpose, and lines 21 to 24
+Link: https://palimondo.github.io/fortress/microgpt/arrays.html#p-395f9455
+Passage (paragraph): The comment in lines 21 and 22 gives the reason for these two lines. …
+Written: 2026-11-14T06:18:38.283Z
+Id: nmwg0lqvgrnbd
+Note:
+  Sounds like a priority fix, if that’s not against the speculation!
+
+=== Note 2 of 15 ===
+Chapter: 2. Vectors, matrices and the nine weight matrices
+Section: 2.6 One vector of parameters, nine matrices
+Link: https://palimondo.github.io/fortress/microgpt/arrays.html#p-499b9ee0
+Passage (paragraph): matCount is the number of elements of matrix i. The block binds the pair …
+Written: 2026-11-14T08:39:33.195Z
+Id: nmwg5myq3z00f
+Note:
+  This is utterly stupid. Doesn’t matrix have something inherited from raid that just tells the erase size. Why is this needed?
+
+=== Note 3 of 15 ===
+Chapter: 2. Vectors, matrices and the nine weight matrices
+Section: 2.6 One vector of parameters, nine matrices
+Link: https://palimondo.github.io/fortress/microgpt/arrays.html#c-98c767d7
+Passage (code): 43matOffset(i: ZZ32): ZZ32 = SUM[\ZZ32\][j <- 0#i] matCount(j)
+Written: 2026-11-14T08:48:51.123Z
+Id: nmwg5p6hiiypk
+Note:
+  Why is everything here explicitly typed? Even the SUM operator?!? Ok. The limits of the three explains it below… but is this still the case?!? Do we still have such large gaps in the type inference?
+
+=== Note 4 of 15 ===
+Chapter: 2. Vectors, matrices and the nine weight matrices
+Section: 2.6 One vector of parameters, nine matrices
+Link: https://palimondo.github.io/fortress/microgpt/arrays.html#p-a5db0607
+Passage (paragraph): reflect runs only under walk today. A size made from a number that is …
+Written: 2026-11-15T05:31:05.632Z
+Id: nmwg65ulrs4gq
+Note:
+  When we were discussing the switchover and reflection, this requirement of mGPT did not come up!?! Why is this even needed? Can’t we restructure C4 such that all array sizes are know at compile time? The hyper parameters are fixed and should propagate to matrix static dimensions via constant folding!
+  
+  Packing all parameters into single vector might make sense for on disk storage, but seem counter to cache tile efficiency, unless all of our views are accidentally aligned with 64(?) multiples. Seems all wrong (currently optimizing wrong problem)!
+  
+  Also, replica just seems to create a new (empty?) array2 without copying anything… that probably isn’t in line with library’s intent, is it?
+
+=== Note 5 of 15 ===
+Chapter: 2. Vectors, matrices and the nine weight matrices
+Section: 2.6 One vector of parameters, nine matrices
+Link: https://palimondo.github.io/fortress/microgpt/arrays.html#p-d3cd24b1
+Passage (paragraph): The first brackets, [\ZZ32\], tell SUM the type of its result. Walk finds this …
+Written: 2026-11-15T05:33:39.629Z
+Id: nmwhefoaob8m3
+Note:
+  Haven’t we fixed the row 731 yet?
+
+=== Note 6 of 15 ===
+Chapter: 2. Vectors, matrices and the nine weight matrices
+Section: 2.7 The first forward line: looking rows up
+Link: https://palimondo.github.io/fortress/microgpt/arrays.html#p-adab5a87
+Passage (paragraph): gather takes a matrix and a vector of keys. It returns a matrix with …
+Written: 2026-11-15T05:59:31.799Z
+Id: nmwga8sk0b6uc
+Note:
+  Overall, it would help the explanations of your descriptions of variables spelled out their abbreviations: my guess is that wte stands for weights, token embedding; wpe are weights, positional embedding? Same with weights for queries, keys etc.
+
+=== Note 7 of 15 ===
+Chapter: 2. Vectors, matrices and the nine weight matrices
+Section: 2.7 The first forward line: looking rows up
+Link: https://palimondo.github.io/fortress/microgpt/arrays.html#c-556747bc
+Passage (code): 168(* the rows of m at the keys: m[ks;]; the elements of v at …
+Written: 2026-11-15T06:31:22.329Z
+Id: nmwhg3wetcbpm
+Note:
+  So… this is a copying operation that returns a new array filled with elements from matrix m mixed according to values in k?
+  Doesn’t look like generic Array operation… maybe a matrix operation? 
+  
+  Overall, I think we are misapplying the static parameters by passing them at runtime. I guess I must go and read the specification’s chapters in arrays, static parameters and nats. These “reference designs” that we are aiming for, look like a deep misunderstanding of the Fortress way (not that I claim to know what it is, just that your interpretation, Claude, smells fishy).
+  
+  I’m guessing that the gather is supposed to be a technique from Hsu that uses a bit map (an APL style technique) to pick certain values from a source array. You have it typed as ZZ32, but I don’t fully understand how it works on matmul level, so I would need a primer. I suppose the ks values, as explained below, are either 0 or 1, which… ah, no, I misunderstood, it is indexing into the matrix using values in ks, as illustrated in the small example fellow. Picking the 0th row once in the middle and 1st row twice at the start and the end of the iteration. But it is copying the values from `m`s rows selected by index in each of the value in keys in order into a new (temporary?) array.
+
+=== Note 8 of 15 ===
+Chapter: 2. Vectors, matrices and the nine weight matrices
+Section: 2.7 The first forward line: looking rows up
+Link: https://palimondo.github.io/fortress/microgpt/arrays.html#p-d5cbd125
+Passage (paragraph): So gather(wte, ids) is a matrix of 16 by 16. Its row r is …
+Written: 2026-11-15T06:53:31.179Z
+Id: nmwhgo35wntdb
+Note:
+  OK, now that explains it. Gathers are building the context window, for each input token we get using the token id its token embedding from wte and using its position we get corresponding position embeddings from wpe.
+  
+  Here I struggle with mental models a bit. Addition is translating values along a number line. For multi-dimensional “objects” we are now moving them in multi-dimensional space. And the values by how much these get translated along these many aces are learned from the position embedding during training, initiated from random values?!?!? Up until now, I thought that positional embedding were defined using some kind of formulas, something with sin/cos in case of rotation embedding (RoPe?). Or does wpe simply hold precomputed values from these functions?
+  
+  What does this positional embedding do?! Is it like monologically increasing function that shifts the value embedding further from origin? What is it doing in large context window? With so RoPe the name seems to imply that there some kind of rotation involved somewhere… Modern architectures have replaced that with NoPe, IIRC? Is that like No positional embedding? That we learned that it is not needed? Or is position now encoded differently? How?
+
+=== Note 9 of 15 ===
+Chapter: 3. Two functions on a row: rmsn and sm
+Section: 3.1 rmsn: bring a row to a standard size
+Link: https://palimondo.github.io/fortress/microgpt/norm-softmax.html#p-2e2d0176
+Passage (paragraph): epsilon + ... adds 0.00001, the constant of line 18.
+Written: 2026-11-15T16:10:55.080Z
+Id: nmwhicdzdhvjm
+Note:
+  Line 18 where? rmsnorm was on line 83, rmsn on line 27… where should I look for context that this is referring to?
+  
+  OK after digging around, you were referring to value `10.0^(-5)` defined as tuple destructuring at line 18 of explorations/run-c4/src/MicroGptFlat.fss. This was confusing, not clarifying, FFS!
+  
+  How about you explain here why it’s needed. I assume this is to prevent division by zero? How does it actually do that? Yeah later part mentions this. I don’t know whether this is just how I process the text or is this sub optimal pedagogical route like you are using stuff before introducing the definitions or why do I need this in this place so you’re like hanging check offs guns all over the place which makes it hard for me to focus on the explanation because there are loose threads everywhere. I fucking hate it.
+
+=== Note 10 of 15 ===
+Chapter: 3. Two functions on a row: rmsn and sm
+Section: 3.1 rmsn: bring a row to a standard size
+Link: https://palimondo.github.io/fortress/microgpt/norm-softmax.html#p-55b6e4d2
+Passage (paragraph): x / ... divides every element of x by that root. An array divided …
+Written: 2026-11-15T07:24:56.699Z
+Id: nmwhievaza11n
+Note:
+  > An array divided by a number is an operator of the vocabulary
+  
+  ?!?
+
+=== Note 11 of 15 ===
+Chapter: 3. Two functions on a row: rmsn and sm
+Section: 3.1 rmsn: bring a row to a standard size
+Link: https://palimondo.github.io/fortress/microgpt/norm-softmax.html#p-ca80e2b8
+Passage (paragraph): That is the function's job in the model: it removes the overall size of …
+Written: 2026-11-15T16:09:05.361Z
+Id: nmwi14x8x3he6
+Note:
+  > This text did not test what the model does without it.⁠
+  
+  Is this a new Fable 5.2 Claudism? Who asked? Why was this caveat necessary? WTF?!?
+
+=== Note 12 of 15 ===
+Chapter: 3. Two functions on a row: rmsn and sm
+Section: 3.1 rmsn: bring a row to a standard size
+Link: https://palimondo.github.io/fortress/microgpt/norm-softmax.html#p-9ad7664a
+Passage (paragraph): n is |x|, the number of elements.
+Written: 2026-11-15T16:31:19.941Z
+Id: nmwi19jiwvutb
+Note:
+  I’m not sure whether I recall this correctly, but from my work on swift benchmarks, I recall the this is a pretty naïve way to compute means because they can overflow the sum of squares can overflow and there is an algorithm that accumulated such that it minimize the error and does not like minimize the chance of overflowing is this not a risk here enlarge mattresses because the numbers are so small?
+  
+  OK, I refreshed my recollection of what I was using in the swift benchmarking suit. There was a compute Welford’s online computation of mean and variance. Is this relevant here or not at all?
+
+=== Note 13 of 15 ===
+Chapter: 3. Two functions on a row: rmsn and sm
+Section: 3.1 rmsn: bring a row to a standard size
+Link: https://palimondo.github.io/fortress/microgpt/norm-softmax.html#p-5b55c835
+Passage (paragraph): ε is epsilon. If every element of x were 0, the mean square would …
+Written: 2026-11-15T16:32:41.747Z
+Id: nmwi1za50lx6i
+Note:
+  So it is not possible that the sum would come out equal to minus epsilon so that the division by zero could still occur? How does this prevent it?
+
+=== Note 14 of 15 ===
+Chapter: 3. Two functions on a row: rmsn and sm
+Section: 3.2 rows: a function on every row
+Link: https://palimondo.github.io/fortress/microgpt/norm-softmax.html#p-afc698aa
+Passage (paragraph): rows belongs to the vocabulary. It takes a function and a matrix. It applies …
+Written: 2026-11-15T16:39:56.754Z
+Id: nmwi23kiimfd2
+Note:
+  > rows belongs to the vocabulary
+  
+  What does this mean as in Fortress library Rose is a free function that operates on matrixes or is it a function that is currently in scope what does it mean? “`rows` belongs to the vocabulary” — this sounds like a fucking Claudism.
+  
+  OMFG, next line below in this explainer is a definition of the `rows` free function. So that line above is a total fucking Claudism. Obfuscating reflexive essayist quirk that hinders readability and comprehension. Fable 5.2 apparently was not through the de-Claudism training like Opus 5.5 was… let’s see if this shit comes more often.
+
+=== Note 15 of 15 ===
+Chapter: 3. Two functions on a row: rmsn and sm
+Section: 3.2 rows: a function on every row
+Link: https://palimondo.github.io/fortress/microgpt/norm-softmax.html#c-767fdf10
+Passage (code): 142rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -> Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do143 (n, d) …
+Written: 2026-11-15T16:54:37.100Z
+Id: nmwi2ezhhfeh8
+Note:
+  This here again, reinforces my deep suspicion that we are miss using the net parameters. Where are we choosing a dynamically to extracted here when we are calling the factory method of array and then we are imperatively iterating over rows. This is where the tabulate method of arrays would do the same thing or am I mistaken? OK now looked at the flat race file and the views that we are defining there for the it feels so wrong. It also feels so wrong. I guess we we are creating views that confirmed to matrix inspector but for example, the way we are implementing the replica operation from the trait am I mistaken or we are just creating empty or erase without copying the values all of the replica methods seem to be wrong to me.
