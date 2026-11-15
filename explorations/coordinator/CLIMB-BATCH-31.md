@@ -1,4 +1,5 @@
 <!-- The record of climb batch 31, in two runs (climb batch 31 and climb batch 31b), for the coordinating session, the curator and the batch's workers: the walls between today's tree and a compiled program on the interpreter's library that a test against the compiler's prelude can show and repair today, with three pieces kept from the unlaunched run 2 of climb batch 30 and the model program's top-level tuple binding. Drafted 2026-11-13 by a planning worker on Fable against `main` at `840a4056c1`, whose code is the base build's, `/home/user/fortress-base33` at `84f1c37190` (`git diff --stat 84f1c37190 main -- . ':!explorations' ':!docs'` prints nothing), and the code of `832f7d0d91`, on which the rehearsal and probe Y ran. It proposes seven rungs: M, K, L, A and N in run 1, T and D in run 2, after run 1 lands. **The batch has no go: the curator asked on 2026-11-13 for it to be planned and said that its start is not authorized. This record launches nothing.** It has one consequential fork, W (section 2), and seventeen forks with defaults (section 3). It replaces run 2 of `CLIMB-BATCH-30.md` (climb batch 30b), which was planned and never launched. -->
+<!-- **Amended 2026-11-15: rungs N (the numeral rule) and D (the top-level tuple binding) moved to climb batch 32, `CLIMB-BATCH-32.md`, at the curator's request of that day, with their manifest entries, their sections, their forks (N1 to N4, D1, D2) and fork W, which stands there at (a). This record keeps M, L, A and K in run 1 and T in run 2. Its scope, measure and estimate are corrected for that below; nothing else of its design changed. Its generator, `compile-ladder/plan-31/manifest/`, and the two blocks kept beside it are left as they were, for seven rungs: they are regenerated from this record when this batch is prepared for launch.** -->
 <!-- Sources: the planner's brief (`<scratchpad>/batch31/planner-brief.md`); `compile-ladder/plan-31/probes/switch-rehearsal.md` (the rehearsal, walls W1 to W16); `reviews/plan-review-2026-11-10.md`, sections 7.1, 7.2 and 7.5; `compile-ladder/plan-31/probes/probe-y.md`; `reviews/carriers-ways-2026-11-13.md`, whose "Points to report" bind how the rehearsal is read; `reviews/numeral-equality-ways-2026-11-10.md`; `reviews/batch-30-review.md`, Part 5 and "The steps due before the next batch"; `compile-ladder/plan-31/probes/model-closure-check.md`; `CLIMB-BATCH-30.md`, rungs Y and C, and for the form; POSITIONS P-46, P-49, P-173, P-59, P-12, P-37, P-9, P-87, P-47, P-60, P-146, P-156, P-169, P-175; FACTS F-34, F-53, F-19; the ledger rows named in section 1; the `coordinator` skill's `references/batch.md`; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; the code at the sites. -->
 <!-- Checked 2026-11-13 by a fresh reader on Fable, before the launch: `coordinator/climb-batch-31-review.md`. Its corrections of fact are in place here (its section 2): F-34's present text, the rows filed since, row 315's reproducers, rung A's value parameters, fork W's difference under walk, the test owed, the 27 classes. It changed no design. -->
 <!-- The planner's probes: `compile-ladder/plan-31/PROBES.md`, with their programs in `compile-ladder/plan-31/probes/planner/`, run in a worktree of the planner's own, `/home/user/fortress-p31`, seeded from the base build and removed after. No suite and no stage of the gate was run. -->
@@ -7,68 +8,23 @@
 
 ## 1. The manifest, rung by rung
 
-The batch's generator writes each run's manifest from this section. Each rung's `section` is its section 4 heading, word for word without its backticks. Run 1, climb batch 31, holds N, M, L, A and K in that order; run 2, climb batch 31b, holds T and D. The expected minutes order the scatter only. REC stands for `doc:explorations/coordinator/CLIMB-BATCH-31.md#`, REH for `doc:explorations/compile-ladder/plan-31/probes/switch-rehearsal.md#`, PRB for `doc:explorations/compile-ladder/plan-31/PROBES.md#`, NEQ for `doc:explorations/reviews/numeral-equality-ways-2026-11-10.md#`, MCC for `doc:explorations/compile-ladder/plan-31/probes/model-closure-check.md#`, SPEC for `doc:Specification/`, and SRC for `code:ProjectFortress/src/com/sun/fortress/`. A briefing key marked (check) is also in the rung's `checks` list, which its skeptic, a judge and a repair round read. Every key was checked with `facts-extract.sh --check` on `main` (PROBES, section 4).
+The batch's generator writes each run's manifest from this section. Each rung's `section` is its section 4 heading, word for word without its backticks. Run 1, climb batch 31, holds M, L, A and K in that order; run 2, climb batch 31b, holds T. Rungs N and D moved to climb batch 32 on 2026-11-15, at the curator's request: their manifest entries and sections are in `CLIMB-BATCH-32.md`, and the generator of this record is regenerated when this batch is prepared for launch. The expected minutes order the scatter only. REC stands for `doc:explorations/coordinator/CLIMB-BATCH-31.md#`, REH for `doc:explorations/compile-ladder/plan-31/probes/switch-rehearsal.md#`, PRB for `doc:explorations/compile-ladder/plan-31/PROBES.md#`, NEQ for `doc:explorations/reviews/numeral-equality-ways-2026-11-10.md#`, MCC for `doc:explorations/compile-ladder/plan-31/probes/model-closure-check.md#`, SPEC for `doc:Specification/`, and SRC for `code:ProjectFortress/src/com/sun/fortress/`. A briefing key marked (check) is also in the rung's `checks` list, which its skeptic, a judge and a repair round read. Every key was checked with `facts-extract.sh --check` on `main` (PROBES, section 4).
 
 | run | id | slug | title | expected minutes |
 |---|---|---|---|---|
-| 1 | N | `rung-numeral-most-specific` | A numeral at a call goes to the most specific declaration that takes it | 210 |
 | 1 | M | `rung-method-forwarders` | The methods that a class inherits: one method once, and a body inherited through an api's trait | 220 |
 | 1 | L | `rung-label-exit` | `label` and `exit` on the compiled path | 180 |
 | 1 | A | `rung-atomic-expr-field` | `atomic` as an expression, and a mutable field inside a transaction | 170 |
 | 1 | K | `rung-comprises-cast` | The cast where a trait's value stands for the type that its `comprises` clause lists | 150 |
 | 2 | T | `rung-tuple-parameter` | A method whose one parameter is a tuple, and a tuple as an operator's operand | 220 |
-| 2 | D | `rung-tuple-binding` | A top-level tuple binding | 170 |
 
-Fields common to the seven rungs:
+Fields common to the five rungs:
 
 - **path:** `/home/user/fortress-<slug without its rung- prefix>`, as `/home/user/fortress-method-forwarders`; **branch:** `wip/<slug>`.
-- **writes state:** no. **joins the gate:** none, but the specification's build at the gather of run 1, for N's and K's text, and of run 2, for T's. **expected moves:** none.
-- **lands only with:** none. In each run every rung lands on its own. T and D are written on run 1's landed tree: T edits the forwarding code that M owns in run 1.
-- **its test is the stage:** no. **the stages:** N and D run the count stage and the distance stage once on their final trees, with the checker's timing (P-148), N because it edits the checker and the one library, D because it edits the checker. M, L, A, K and T run neither and list their files (`STAGE_BLIND`); each of them runs the distance stage's shadow patch once on its final tree, since that tool edits a copy of `CodeGen.java` (section 4, "The rule the rungs keep").
+- **writes state:** no. **joins the gate:** none, but the specification's build at the gather of run 1, for K's text, and of run 2, for T's. **expected moves:** none.
+- **lands only with:** none. In each run every rung lands on its own. T is written on run 1's landed tree: it edits the forwarding code that M owns in run 1.
+- **its test is the stage:** no. **the stages:** no rung runs the count stage or the distance stage, since none edits the checker or the one library. M, L, A, K and T list their files (`STAGE_BLIND`); each of them runs the distance stage's shadow patch once on its final tree, since that tool edits a copy of `CodeGen.java` (section 4, "The rule the rungs keep").
 - **expected checker count:** none declared; the count stays 0 and the distance 0 with `#crash none`, as climb batch 30's gate left them (F-53). **expected checker crash:** none.
-
-### N
-- **slug:** `rung-numeral-most-specific`
-- **worktree:** `/home/user/fortress-numeral-most-specific`
-- **section:** `N. A numeral at a call goes to the most specific declaration that takes it, by its own conversion if need be, its default the last resort: u = 0 is true for a zero u of NN32, on both paths (P-46, P-49, P-173)`
-- **blurb:** the decision on record for a numeral at a call (P-46): a numeral is applicable to a parameter that fixes no type, at its default, and to a parameter whose type declares a coercion from the numeral's type, by that coercion; among the applicable declarations the most specific runs, and where two are not ordered, the one that the default fits. Built in the compiled checker and, by fork W's default, in walk; the one library's Equality gains =/= so that u =/= 0 follows; the two expected-failure walk tests are promoted (rows 973 and 966, their kin 975 and 976); row 390's numeral case and row 989 close under the prelude, and the two model lines that row 989 names pass the checker against the one library; the specification's coercion chapter and the Effect of Appendix I's numerals are brought in line.
-- **points to report:**
-  - The rule as built in the checker and in walk, by declaration, and what each does where two applicable declarations are not ordered.
-  - The one library's overload sets in which a numeral now reaches another declaration than on the base, each with a call that shows it; any such call on a model line, which is reserved.
-  - Every existing test whose verdict, output or pinned message changed, with its line before and after; every line of a team test changed.
-  - `k(5)` beside `k(x: Any)` and `k(x: NN32)`, and `mul(1.0, f)` of row 989, on each path, before and after; the two model lines under the distance stage's driver, before and after.
-  - Row 390: what closes and what stays, with the row's whole new line.
-  - What walk answers for `a = 0`, `a: Any` holding an `NN32` zero, and what the checker answers.
-  - The count and distance tables on your final tree, the commit they ran on, their seconds, and P-148's runs.
-  - Each sentence of the specification changed, before and after; each sentence your change makes false that this section does not name.
-  - A file edited beyond those named.
-- **briefing** (26 keys, 19 checks):
-  - P-46 (check): the decision you build, with the numeral's rule and its tie.
-  - P-49 (check): the checker's order of attempts, and its exception for a numeral.
-  - P-173 (check): where a numeral converts, and its default as the last resort.
-  - P-174 (check): the numeral types; no `=` ties one to a number type.
-  - P-176: one value for each place where a numeral is written.
-  - P-168 (check): the library's `=` over `Any`, which stays.
-  - P-165: which pairs of number types compare by `=`.
-  - P-59 (check): walk chooses a coercion by the run-time value; fork W reads it.
-  - P-12: walk runs the checker only after the switch-over.
-  - P-148 (check): the checker's timing for your edit.
-  - P-37: the prelude is not changed for this.
-  - ledger:973 (check): `u = 0` under walk, which closes.
-  - ledger:966 (check): `u =/= 0` under walk, which closes.
-  - ledger:975 (check): the `case` clause, its kin.
-  - ledger:976 (check): a program's own number type, its kin.
-  - ledger:390 (check): the dispatcher at `Any` that is never emitted; its numeral case is yours.
-  - ledger:989 (check): the float numeral beside a value, two declarations by coercion.
-  - NEQ `Way B. A numeral goes to the most specific declaration that takes it; the default is the last resort` (check): the way, what it sees, keeps and bends.
-  - NEQ `2.3 The one thing measured: the checker against the one library` (check): what the checker chooses today, call by call.
-  - `doc:explorations/reviews/batch-30-review.md#Part 5. What changes run 2's plan`: the sites in walk and the checker that the last landing left.
-  - MCC `2. A line of the model that the checker refuses against the one library`: the model line and its driver.
-  - SPEC `basic/conversions-coercions.tex#Coercion Resolution` (check): the specification's rule and the sentences you change.
-  - SRC `scala_src/typechecker/impls/Functionals.scala#def typedApplication(` (check): the checker's attempts at a call.
-  - SRC `interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchForNumerals` (check): walk's choice for a call with a numeral.
-  - `code:Library/FortressLibrary.fss#trait Equality`: where `=/=` goes.
-  - REC `Forks the batch takes` (check): the defaults you build.
 
 ### M
 - **slug:** `rung-method-forwarders`
@@ -206,33 +162,6 @@ Fields common to the seven rungs:
   - `map:compile-path-walkthrough.md#5. Code generation`: how the code generator walks a method and a call.
   - REC `Forks the batch takes` (check): the defaults you build.
 
-### D
-- **slug:** `rung-tuple-binding`
-- **worktree:** `/home/user/fortress-tuple-binding`
-- **section:** `D. A top-level tuple binding on the compiled path: the checker types each name by its element, and the code generator declares each name (rows 988 and 474)`
-- **blurb:** a top-level binding of several names to a tuple, the form of the model program's hyperparameters, stops the compile: the checker leaves a node that it should have replaced (row 988), types each name so that it is accepted anywhere (row 474), and behind it the code generator has no case for a left side of more than one name. The rung types each name by its element and compiles the binding.
-- **points to report:**
-  - Where the names' types were lost in the checker, and the repair.
-  - The binding as compiled: when the right side is evaluated, how many times, and what each name is.
-  - Row 988's reproducer and row 474's cases, before and after; a numeral element's type at each name; a `var` tuple binding, a typed one, and one whose right side is a call that returns a tuple.
-  - The model's lines 17 to 19 under the distance stage's driver, before and after.
-  - The count and distance tables on your final tree, the commit they ran on, their seconds, and P-148's runs.
-  - Each sentence of the specification that your change makes false, or none.
-  - A file edited beyond those named.
-- **briefing** (12 keys, 9 checks):
-  - P-9 (check): the model writes its hyperparameters as tuple bindings.
-  - P-87: a model line does not change.
-  - P-173 (check): the default type of a numeral where nothing fixes one, which each name of such a binding takes.
-  - P-148 (check): the checker's timing for your edit.
-  - ledger:988 (check): the stop, which closes.
-  - ledger:474 (check): the names typed so that they are accepted anywhere, which closes.
-  - ledger:175: the single-binding form, the workaround that the model does not take.
-  - MCC `3. The model's hyperparameter lines do not compile under either library` (check): the runs and the code generator's site.
-  - SPEC `basic/variables.tex#Top-Level Variable Declarations` (check): the tuple notation.
-  - SRC `compiler/codegen/CodeGen.java#private void forVarDeclPrePass` (check): the code generator's case.
-  - `map:compile-path-walkthrough.md#3. The checker`: how the checker types top-level variables.
-  - REC `Forks the batch takes` (check): the defaults you build.
-
 ## 2. For the curator
 
 ### The words this record uses
@@ -247,35 +176,19 @@ Fields common to the seven rungs:
 
 ### The go
 
-You asked for this batch to be planned, and said that its start is not authorized. Nothing here launches. The batch waits for your go, and for your answer to one question.
+You asked for this batch to be planned, and said that its start is not authorized. Nothing here launches. The batch waits for your go.
 
-### The one question before the launch
+**Moved on 2026-11-15.** At your request of that day, rungs N and D are now in climb batch 32, the model's notation (`CLIMB-BATCH-32.md`). They are the two rungs of this batch that close a limit of the model program. This batch keeps five rungs: M, L, A and K in run 1, and T in run 2.
 
-**Fork W. Does walk get the numeral rule now, or when it runs the checker?**
+### Fork W moved with rung N
 
-You decided how a numeral at a call chooses its declaration: it goes to the most specific one that takes it (P-46). So `u = 0` is `true` for a zero `u` of type `NN32`. Rung N builds that in the checker. The question is walk.
+Fork W asked whether walk gets the numeral rule now, or when it runs the checker. It was this batch's one question before a launch. It moved with rung N to climb batch 32 (`CLIMB-BATCH-32.md`, section 2, "Your choices", and section 3). It stands there at (a), walk now, and is named to you there. This batch has no question that a launch waits on.
 
-- Walk has no checker until after the switch-over (P-12). It chooses at run time.
-- P-59 says that walk chooses a coercion by the run-time value, and that walk "is not changed for it before the switch-over". The rule for numerals changes which declaration walk runs for a call with a numeral.
-
-The ways:
-
-- **(a) Walk now, in rung N.** Walk's choice for a call with a numeral follows the same rule. Under walk `u = 0` becomes `true` and `u =/= 0` becomes `false`. Rows 973 and 966 close on both paths. Cost: about a third of rung N's work. One difference appears: for `a: Any` that holds an `NN32` zero, walk then answers `a = 0` with `true`, because it sees the value, where it answers `false` today; the checker answers `false`. P-59 already accepts that kind of difference.
-- **(b) Walk waits.** Rung N builds the checker's half and the library's `=/=` only. Under walk `u = 0` stays `false` until walk runs the checker, some batches after the switch-over. microGPT runs only under walk today, so every program written until then meets the wrong answer. The two expected-failure tests stay.
-
-**Recommended: (a).** The reasons: you said that no answer but `true` is accepted. P-59 is about a value's coercion, chosen by its run-time type; a numeral is not a value, and walk already converts numerals place by place (P-173). The ways review recommended both paths in one rung. I judge the fork consequential, because (a) reads P-59's sentence more narrowly than its words. The record is written for (a). For (b), step 2 of rung N's section is struck, with its two promotions.
-
-### The scope: two runs, seven rungs
+### The scope: two runs, five rungs
 
 Each rung is given as what a Fortress programmer could not compile before and can after.
 
 **Run 1, climb batch 31:**
-
-- **N, the numeral rule.** Today the compiled program dies when it runs, and walk prints `any`. After: `nn32` on both paths.
-
-      k(x: Any): String = "any"
-      k(x: NN32): String = "nn32"
-      run(): () = println(k(5))
 
 - **M, inherited methods.** `Tord` gives `mx` a body, and so does `Mmx`, which it extends. Today the compiled class holds `mx` twice and fails when it loads. The one library has this shape in 27 classes, its number types among them. After: it runs, and `Tord`'s own `mx` is the one called.
 
@@ -315,14 +228,9 @@ Each rung is given as what a Fortress programmer could not compile before and ca
       object A2 extends Arr[\ZZ32, (ZZ32, ZZ32)\]
           get(t: (ZZ32, ZZ32)): ZZ32 = 7 end
 
-- **D, the hyperparameter line.** Today the compile stops with an internal error. After: it compiles, and no model line changes.
+**Why two runs.** M and T both edit the code that writes forwarders. Two workers in one run would edit the same declarations, and the gather could not merge them. M goes first because the duplicated methods stop the library's first load, and its second half is the wall of `DOT`. T then builds the matrix's method on M's landed code.
 
-      (nEmbd, blockSize) = (16, 4)
-      run(): () = println(nEmbd + blockSize)
-
-**Why two runs.** M and T both edit the code that writes forwarders. Two workers in one run would edit the same declarations, and the gather could not merge them. M goes first because the duplicated methods stop the library's first load, and its second half is the wall of `DOT`. T then builds the matrix's method on M's landed code. D goes with T: both are the model's own needs, and run 1 already has four rungs in the code generator's main file.
-
-**Why five rungs in run 1.** Each owns whole declarations of the code generator, far apart (section 4, "The rule the rungs keep"). N edits no file of the code generator.
+**Why four rungs in run 1.** Each owns whole declarations of the code generator, far apart (section 4, "The rule the rungs keep").
 
 ### The measure
 
@@ -343,12 +251,11 @@ The count of declarations of the one library's fourteen components that the code
 
 ### The forks you may want to see
 
-Besides fork W, no fork of section 3 is consequential by the `coordinator` skill's rule. Each lands at its default and goes on the review list. Four that you may want first:
+No fork of section 3 is consequential by the `coordinator` skill's rule. Each lands at its default and goes on the review list. Three that you may want first:
 
 - **Fork S, the code generator's output order.** Probe Y found that the order of methods in a class follows the JVM's identity hashes, and asked whether to make it stable first. Default: no rung of its own in this batch. Rung M makes its choice between two bodies by rule, not by order, and shows its tests under two hash modes. A rung for the whole order comes in the batch after, when M and T have landed in the same code. Without it, two compiles of one tree still give different bytes, so jars cannot be compared; no test is known to depend on it once M lands.
 - **Fork A1, a `var` field.** It is kept in a cell, as a top-level `var` is, and pays the check before each access that every mutable variable pays (row 641). An immutable field is unchanged. Neither microGPT program declares a `var` field.
 - **Fork L1, `exit` out of a loop.** A loop's body can run as several tasks. An `exit` ends the loop: the tasks already started are joined, as P-175 asks, and then the label's block ends with the exit's value.
-- **Fork N2, the tie.** `1.0 s`, with `s` an integer variable, fits the float product and the rational product, each only by a conversion. P-46 says that the one that the numeral's default fits runs: the float product. That is what walk does today, and what the two model lines need.
 
 ### The carriers
 
@@ -374,20 +281,23 @@ Two walls wait for a program compiled against the one library, since a test of t
 
 ### Before the batch runs
 
-- **Your go, and your answer to fork W.**
+- **Your go.**
 - **The Fable review of this record** (`references/batch.md`, "The go").
-- **The manifest's generator,** `compile-ladder/plan-31/manifest/`, made by the coordinator from `plan-30/manifest/` with this record's values, for two runs.
+- **The manifest's generator,** `compile-ladder/plan-31/manifest/`, made by the coordinator from `plan-30/manifest/` with this record's values, for two runs. It is still as it was for seven rungs, and is regenerated from this record when the batch is prepared for launch.
 - **The script's list of atomic programs,** with A's two names.
 - **The base build:** `/home/user/fortress-base33` at `84f1c37190`, built, clean and marked by `.base-ready` (PROBES, section 1). Run 1's base is `main`'s head at the launch; while `main` changes only under `explorations/` and `docs/`, its code is the base build's. Run 2 needs a base build of its own at run 1's landing.
-- **The disk.** The script stops under 1.5 G a rung plus 4 G: 11.5 G for run 1's five rungs, 7 G for run 2's two. Free on 2026-11-13: 17,867,576 KB by `df -P /home/user`, about 17.0 G (PROBES, section 5). `/home/user/fortress-base32`, `/home/user/fortress-probe-y` and `/home/user/fortress-merge` stand beside the base build; another probe's worktree may still grow.
+- **The disk.** The script stops under 1.5 G a rung plus 4 G: 10 G for run 1's four rungs, 5.5 G for run 2's one. Free on 2026-11-13: 17,867,576 KB by `df -P /home/user`, about 17.0 G (PROBES, section 5). `/home/user/fortress-base32`, `/home/user/fortress-probe-y` and `/home/user/fortress-merge` stand beside the base build; another probe's worktree may still grow.
 
 ### Cost
 
-- **Run 1, about 4.6M tokens written, from 3.7M to 5.9M; about 7 hours at two agents at a time.**
-  - Workers, about 2.0M: N 0.5M, M 0.5M, L 0.4M, A 0.3M, K 0.3M. Skeptics, about 1.2M; N's runs the count stage itself.
-  - The fixed roles, about 1.1M: the disk check, the gather with five rungs and one specification build, the merged-diff review, the gate, the commit stage. A judge and a repair round, about 0.3M.
-  - Minutes: N 210, M 220, L 180, A 170, K 150.
-- **Run 2, about 2.6M, from 2.1M to 3.4M; about 5 hours.** Workers about 0.9M (T 0.5M, D 0.4M), skeptics 0.5M, the fixed roles 1.0M, a judge and a repair round 0.2M. Minutes: T 220, D 170.
+Corrected on 2026-11-15 for the five rungs that stay.
+
+- **Run 1, about 3.9M tokens written, from 3.1M to 5.0M; about 5 hours at two agents at a time.**
+  - Workers, about 1.5M: M 0.5M, L 0.4M, A 0.3M, K 0.3M. Skeptics, about 1.0M.
+  - The fixed roles, about 1.1M: the disk check, the gather with four rungs and one specification build, the merged-diff review, the gate, the commit stage. A judge and a repair round, about 0.3M.
+  - Minutes: M 220, L 180, A 170, K 150.
+- **Run 2, about 1.9M, from 1.5M to 2.4M; about 4 hours.** The worker about 0.5M (T), its skeptic 0.3M, the fixed roles 0.9M, a judge and a repair round 0.2M. Minutes: T 220.
+- **Before the move:** run 1 about 4.6M with N, run 2 about 2.6M with D.
 - **The evidence.** Climb batch 30's three rungs and fixed roles wrote 3.13M by the harness's count, 2.92M by its review, 47 % under its estimate (`reviews/batch-30-review.md`, title). Every agent runs on Fable at medium effort (`FABLE_WEEK`).
 
 ## 3. The forks, with their defaults
@@ -396,63 +306,29 @@ Two walls wait for a program compiled against the one library, since a test of t
 
 ### The consequential fork
 
-**W, walk's half of the numeral rule now or when walk runs the checker:** section 2, "The one question before the launch". Default for the record: (a), walk now. It is consequential because P-59 says that walk "is not changed for it before the switch-over", and (a) reads that sentence as about a value's coercion only.
+None. **Fork W,** walk's half of the numeral rule now or when walk runs the checker, moved with rung N to climb batch 32 on 2026-11-15: `CLIMB-BATCH-32.md`, section 3, "The consequential forks", where it stands at (a), walk now.
 
 ### Forks the batch takes
 
 None of the forks below is consequential: each builds within a decision on record or chooses where the record leaves an implementation open, and each can be undone.
 
-1. **B1. One record, two runs.** Run 1 is N, M, L, A and K; run 2 is T and D on run 1's landed tree. **Default: so.** Way not taken: one run of seven rungs, in which M and T would edit `CodeGen.generateForwardingFor` and `dumpMethodChaining` together. The reason: `references/batch.md`, "The go".
+1. **B1. One record, two runs.** Run 1 is M, L, A and K; run 2 is T on run 1's landed tree. **Default: so.** Way not taken: one run of five rungs, in which M and T would edit `CodeGen.generateForwardingFor` and `dumpMethodChaining` together. The reason: `references/batch.md`, "The go".
 2. **B2. A's two compiled tests join the atomic runs.** **Default: `AtomicExprCompiled` and `AtomicFieldCompiled`, three runs each at four threads.** The reason: each is a test of a race.
 3. **V. Varargs is left out.** **Default: so; first rung once a program compiles against the one library.** Way not taken: a rung that compiles only a declaration whose body does not read the parameter, which no line of the library has. The reason: PROBES, section 2.
 4. **S. The stable order of the code generator's output is not a rung of this batch.** **Default: so; M's choice is made by rule and shown under two hash modes; the order's own rung is in the batch after.** Way not taken: a sixth rung in run 1, which would edit the loop that M repairs and `OverloadSet`'s order. What it would cost: one rung, about 0.6M. What breaks without it: jars of two compiles cannot be compared byte for byte; no test is known to pass or fail by the order once M lands.
-5. **N1. The prelude is not changed.** It declares no `=` over `Any`, and its `=/=` is each type's own, so the compiled `u = 0` is already `true` there. **Default: so.** The reason: P-37.
-6. **N2. Where two applicable declarations are not ordered, the one that the numeral's default fits runs,** whether they differ only at the numeral's position or elsewhere too. **Default: so.** The reason: P-46's words; walk's answer for `1.0 s` and for row 989's reproducer.
-7. **N3. `Equality[\T\]` gains `opr =/=(self, other: T): Boolean = NOT (self = other)`.** The library's `=/=` over `Any` stays, and so do the three types' own `=/=`. **Default: so.** The reason: the ways review; the Working Draft's sentence that `e =/= e'` is `NOT (e = e')`.
-8. **N4. Row 390's other case stays.** A value's coercion beside `Any` (`p(NarrowOf(1))`) is not the numeral's rule. **Default: the row's whole new line, its numeral case gone.**
-9. **M1. A trait's own declaration replaces an inherited body at the same parameter types.** The class's method forwards to the trait's own body, and no second method is written. **Default: so.** The reason: the specification's method declarations; P-47 relies on it; walk runs the trait's own.
-10. **M2. A method that an api declares without `abstract` has a body in its component,** so an object that inherits it gets a forwarder to the trait's class. **Default: so.** The reason: with the trait first in the `extends` clause the same call runs today.
-11. **L1. An `exit` leaves through the loop's body as an abrupt completion that names its label,** each evaluation of a label block having its own identity; a parallel loop joins the arms that it forked first. **Default: so.** The reason: walk's `forLabel` and `forExit`; P-175.
-12. **L2. The closure class written twice (row 315) is left out.** **Default: so; it waits with varargs for a program compiled against the one library.** Way not taken: a repair of the name in rung L with the measure as its only check. The reason: the row's two programs pass on `84f1c37190`, the library's form cannot be written under the prelude, and no test can fail first (`climb-batch-31-review.md`, B1). An `exit` out of an `atomic` block is rung L's to test: the specification retains the block's writes (`Specification/basic/expressions/atomic.tex:60-63`), the compiled handler discards them for every abrupt completion, and the handler's code is no rung's of this run; so L builds it if its own files reach it, and else leaves an expected-failure test and a new row.
-13. **A1. A `var` field is kept in a cell, as a top-level `var` is;** a `var` value parameter too. **Default: so.** Way not taken: a location keyed by the object and the field. The reason: the code's own way for a mutable variable (run 2 of `CLIMB-BATCH-30.md`, fork Y2). The one library's `var` fields are of both forms: `OneShot(var canTryIt: Boolean)` and the generic `Box[\T\](var val: T)` as value parameters, and `String.fss`'s as fields of an object's body; a cell holds any of them.
-14. **K1. The cast is emitted only where the value's static type is not a subtype of the declared type by the `extends` clauses,** so a call that verifies today keeps its bytecode. **Default: so.**
-15. **T1. A tuple-typed parameter keeps today's convention, its elements as separate JVM parameters, and a bridge method joins the instantiated signature to it.** **Default: so, if the worker's reading of row 832 allows it; else the worker reports the other way before building it.** Way not taken: one boxed tuple everywhere, which changes every compiled method with a tuple parameter. The reason: 1,558 compiled tests run on today's convention.
-16. **D1. Each name of a tuple binding is a top-level variable of its element's type; the right side is evaluated once.** A numeral element takes its default at an untyped name (P-173). **Default: so.** The reason: `variables.tex`, the tuple notation; walk.
-17. **D2. D's code-generator half is built only for a top-level binding.** A local tuple binding already compiles (row 474). **Default: so.**
+5. **M1. A trait's own declaration replaces an inherited body at the same parameter types.** The class's method forwards to the trait's own body, and no second method is written. **Default: so.** The reason: the specification's method declarations; P-47 relies on it; walk runs the trait's own.
+6. **M2. A method that an api declares without `abstract` has a body in its component,** so an object that inherits it gets a forwarder to the trait's class. **Default: so.** The reason: with the trait first in the `extends` clause the same call runs today.
+7. **L1. An `exit` leaves through the loop's body as an abrupt completion that names its label,** each evaluation of a label block having its own identity; a parallel loop joins the arms that it forked first. **Default: so.** The reason: walk's `forLabel` and `forExit`; P-175.
+8. **L2. The closure class written twice (row 315) is left out.** **Default: so; it waits with varargs for a program compiled against the one library.** Way not taken: a repair of the name in rung L with the measure as its only check. The reason: the row's two programs pass on `84f1c37190`, the library's form cannot be written under the prelude, and no test can fail first (`climb-batch-31-review.md`, B1). An `exit` out of an `atomic` block is rung L's to test: the specification retains the block's writes (`Specification/basic/expressions/atomic.tex:60-63`), the compiled handler discards them for every abrupt completion, and the handler's code is no rung's of this run; so L builds it if its own files reach it, and else leaves an expected-failure test and a new row.
+9. **A1. A `var` field is kept in a cell, as a top-level `var` is;** a `var` value parameter too. **Default: so.** Way not taken: a location keyed by the object and the field. The reason: the code's own way for a mutable variable (run 2 of `CLIMB-BATCH-30.md`, fork Y2). The one library's `var` fields are of both forms: `OneShot(var canTryIt: Boolean)` and the generic `Box[\T\](var val: T)` as value parameters, and `String.fss`'s as fields of an object's body; a cell holds any of them.
+10. **K1. The cast is emitted only where the value's static type is not a subtype of the declared type by the `extends` clauses,** so a call that verifies today keeps its bytecode. **Default: so.**
+11. **T1. A tuple-typed parameter keeps today's convention, its elements as separate JVM parameters, and a bridge method joins the instantiated signature to it.** **Default: so, if the worker's reading of row 832 allows it; else the worker reports the other way before building it.** Way not taken: one boxed tuple everywhere, which changes every compiled method with a tuple parameter. The reason: 1,558 compiled tests run on today's convention.
+
+Forks N1 to N4, D1 and D2 moved with their rungs to `CLIMB-BATCH-32.md`, section 3.
 
 ## 4. The rungs
 
-Each rung's section is its worker's brief. The briefing keys of section 1 give the decisions, rows and code that the rung rests on. A line citation is the base build's, `84f1c37190`. Run 2's sections are read again against run 1's landed tree before run 2's launch. The record's forks are section 3's. The reproducers are in `explorations/compile-ladder/plan-31/probes/planner/`; a test is written new in the test folders, and no file is moved from there.
-
-### N. A numeral at a call goes to the most specific declaration that takes it, by its own conversion if need be, its default the last resort: `u = 0` is `true` for a zero `u` of `NN32`, on both paths (P-46, P-49, P-173)
-
-**The mission.** A numeral has no value of its own when a program runs: it becomes a value of the type that its place fixes, or of its default. At a call, a numeral fits a parameter of type `Any` at its default, so the library's `=` over `(Any, Any)` took `u = 0` before `NN32`'s own `=` was tried, and answered `false`. The decision on record changes the rule for a numeral at a call (P-46, P-49). You build it.
-
-**The decisions this rung builds.** P-46, P-49, P-173; P-174, P-168 and P-165, which stay; P-59 as fork W reads it; P-148 for your checker edit. Section 3's fork W at its default and forks N1 to N4.
-
-**What you build, in order.**
-1. **The checker.** In `scala_src/typechecker/impls/Functionals.scala`, a call with a numeral argument compares the attempt by subtyping with the attempt by the numeral's own coercion: the most specific applicable declaration runs; of two not ordered, the one that the numeral's default fits. A value's coercion stays as it is. Tests first, compiled, under the prelude:
-   - `ProjectFortress/compiler_tests/NumeralMostSpecificCompiled.test`: `k(5)` for `k(x: Any)` beside `k(x: NN32)` prints `nn32` (today the run dies, 'NoSuchMethodError … \=k{…}(fortress.AnyType$Any)', row 390's numeral case); a program's `same(a: Any, b: Any)` beside `same(a: NN32, b: NN32)` on `(u, 0)` and `(0, u)`; `k(a)` for `a: Any` still runs the `Any` declaration; `gg(5, w)` of P-173 still runs the `ZZ32` declaration; `x^2` for `x: RR64` still runs the prelude's `RR64` power with a `ZZ32` exponent, the numeral a `ZZ32`, shown by a result that the `RR64` exponent's power would round otherwise or by the checked tree.
-   - `ProjectFortress/compiler_tests/NumeralTieDefaultCompiled.test`: row 989's program prints `rr64` (today 'Ambiguous coercion in call to function mul').
-   - `compiler_tests/NumeralStaticDesignCompiled` is a guard.
-2. **Walk** (fork W). In `interpreter/evaluator/values/OverloadedFunction.java`, `bestMatchForNumerals` and what it calls follow the same rule, and the dispatch cache's keys tell apart what the rule tells apart. Tests first: `tests/XXXNumeralEqualsNumberWalk.fss` and `tests/XXXNotEqualNumeral.fss` promoted, the first with `h: QQ = 1/2`, `h = 0.5` and `0.5 = h` added (PLAN's line on the test owed); `tests/NumeralMostSpecificWalk.fss` with step 1's programs, a `case u of 0 => …` (row 975) and a program's own number type (row 976).
-3. **The library.** `Equality[\T\]` in `Library/FortressLibrary.fss` and its api gains `=/=` (fork N3). Study first how the library's order traits give an operator beside a catch-all.
-4. **The list.** Before step 1's edit lands in your tree, list the one library's overload sets where one position has a type that fixes no type for a numeral and another declaration has a number type other than the default's there, since each changes its choice. Report it. A changed choice on a model line is reserved.
-5. **The model lines.** `explorations/compile-ladder/plan-31/probes/model-closure/run.sh check <out> <dir> NumeralLine.fss`, on the base and on your tree: three refusals, then none. It is a run to report, not a gated test.
-6. **The whole suites** where the skill's `tests-running.md`, "When to run a whole suite", asks for them: your edits reach every call with a numeral on both paths.
-7. **The stages and the timing,** once on your final tree: the count stage and the distance stage against climb batch 30's gate (`explorations/compile-ladder/climb-batch-30/gate/`), 0 and 0 with `#crash none`, and P-148's runs.
-
-**Rows.** Read each with `ledger.py show N` first. Close 973, 966, 975, 976 and 989. Row 390's whole new line (fork N4).
-
-**Specification.** Your change makes these false; bring them in line, and build the specification as the skill's `specification.md` gives it:
-- `Specification/basic/conversions-coercions.tex:111-117`, "At a call, a numeral is applicable without coercion to a parameter of its default type and to a parameter of a type that fixes no type for it; its conversion into any other type is a coercion", and the example after it;
-- the Effect of Appendix I's `revival-numerals`, `Specification/appendices/changes.tex:5286-5298`, the clause of rows 966 and 973, and the sentence on `=/=` near `:3813-3825`.
-
-**Files.** `scala_src/typechecker/impls/Functionals.scala` and what it calls in `scala_src/typechecker/`; `interpreter/evaluator/values/OverloadedFunction.java`, `Coercions.java`, `Numerals.java`; `Library/FortressLibrary.fss` and `.fsi`, `Equality` only; your tests; the specification's sentences named. Not: `compiler/codegen/`, the prelude, microGPT.
-
-**Reserved points.** A model line. A change of what a value's coercion chooses. A change of the default.
-
-**Overlaps by file.** None with M, L, A or K.
+Each rung's section is its worker's brief. The briefing keys of section 1 give the decisions, rows and code that the rung rests on. A line citation is the base build's, `84f1c37190`. Run 2's section is read again against run 1's landed tree before run 2's launch. Rung N's and rung D's sections moved to `CLIMB-BATCH-32.md`, section 4, on 2026-11-15. The record's forks are section 3's. The reproducers are in `explorations/compile-ladder/plan-31/probes/planner/`; a test is written new in the test folders, and no file is moved from there.
 
 ### M. The methods that a trait's or an object's class inherits: one method written once where a generic trait gives a body to a method that it also inherits with a body, and a forwarder for a body inherited through an api's trait that is not first, a generic method's among them (rows 990, 732 and 571)
 
@@ -569,45 +445,23 @@ A cast that is needed at a field, whose code is rung A's (`forObjectDeclPrePass`
 
 **Specification.** `Specification/appendices/changes.tex:3204` names row 832: bring its sentence in line.
 
-**Files.** `compiler/codegen/CodeGen.java`: `generateForwardingFor`, `forMethodInvocation`, `receiverPrependedDomainType`, the operator application's call; `compiler/NamingCzar.java`, the methods' signatures; your tests. Not: `forVarDeclPrePass`, which is D's; the one library; microGPT.
+**Files.** `compiler/codegen/CodeGen.java`: `generateForwardingFor`, `forMethodInvocation`, `receiverPrependedDomainType`, the operator application's call; `compiler/NamingCzar.java`, the methods' signatures; your tests. Not: `forVarDeclPrePass`, which is rung D's of climb batch 32; the one library; microGPT.
 
 **Reserved points.** A model line: none. A change of a compiled method's JVM parameters where no tuple-typed parameter stands.
 
-**Overlaps by file.** D edits `CodeGen.java` in `forVarDeclPrePass` only.
-
-### D. A top-level tuple binding on the compiled path: the checker types each name by its element, and the code generator declares each name (rows 988 and 474)
-
-**The mission.** The model program binds its hyperparameters as tuples, `(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)`, the form that the decisions on record keep for it (P-9). Under walk it runs. On the compiled path it stops under either library: 'Result of typechecking still contains intermediate nodes' (row 988); the checker types each such name so that it is accepted anywhere (row 474); and the code generator throws 'tupled lhs not handled' (`CodeGen.forVarDeclPrePass`).
-
-**The decisions this rung builds.** P-9, P-87, P-173; P-148 for your checker edit. Section 3's forks D1 and D2.
-
-**What you build, in order.**
-1. **The checker** (rows 988 and 474). Each name of a top-level tuple binding has its element's type. Tests first: `ProjectFortress/compiler_tests/TopLevelTupleBindingCompiled.test` (`compile`, `link`, `run`), from `explorations/compile-ladder/plan-31/probes/model-closure/TupleTopPlain.fss`: integers and floats, used in arithmetic; a typed binding; a right side that is a call; and a checker test, `z: String = headDim` refused, which row 474 says passes today.
-2. **The code generator** (fork D1). Each name is declared as a top-level variable is; the right side is evaluated once.
-3. **The model's lines.** `explorations/compile-ladder/plan-31/probes/model-closure/run.sh check` over `MicroGptFlat.fss`'s closure, as `model-closure-check.md` gives the command, before and after: lines 17 to 19. A run to report.
-4. **The stages and the timing,** once on your final tree: the count stage and the distance stage against run 1's gate, and P-148's runs.
-
-**Rows.** Close 988 and 474.
-
-**Specification.** List each sentence your change makes false, or none.
-
-**Files.** `scala_src/typechecker/`, where top-level variables are typed (`Thunker.scala` and what it calls); `compiler/codegen/CodeGen.java`, `forVarDeclPrePass` and its caller; your tests. Not: the rest of `CodeGen.java`; walk; microGPT.
-
-**Reserved points.** A model line. A change of how a single top-level binding or a local tuple binding is typed.
-
-**Overlaps by file.** T edits `CodeGen.java` outside `forVarDeclPrePass`.
+**Overlaps by file.** None: T is run 2's one rung.
 
 ### The rule the rungs keep, and how they meet
 
-- **Run 1.** N shares no file with the other four. M, L, A and K share `compiler/codegen/CodeGen.java`, by declaration:
+- **Run 1.** M, L, A and K share `compiler/codegen/CodeGen.java`, by declaration:
   - M: `dumpTraitDecls` through the code before `genParallelExprs` (`:769-1690`); a new member goes directly above `dumpMethodChaining` (`:926`).
   - L: new members directly above `defaultCase` (`:1776`).
   - A: a new member directly below `forAtomicBlock` (`:1868`); the value parameters and the fields in `forObjectDeclPrePass` (`:4813-4862`).
   - K: `conditionallyCastParameter` (`:7208-7240`), the returned value in `generateFunctionalBody` (`:2880`), a new member directly above `conditionallyCastParameter`.
-  - The gather's order is the script's: of two rungs that share a file, the one whose lowest edited line is lower goes first (`climb-batch-workflow.md`, "Gather", "The order"). The expected order is N, M, K, L, A, since two callers of `conditionallyCastParameter` stand in `genParallelExprs` (`:1756`, `:1768`), above L's new members; it is a forecast, and the hunks do not overlap in either order.
+  - The gather's order is the script's: of two rungs that share a file, the one whose lowest edited line is lower goes first (`climb-batch-workflow.md`, "Gather", "The order"). The expected order is M, K, L, A, since two callers of `conditionallyCastParameter` stand in `genParallelExprs` (`:1756`, `:1768`), above L's new members; it is a forecast, and the hunks do not overlap in either order.
 - **The distance stage's shadow patch** (`explorations/coordinator/tools/distance/shadow-patch.py`) edits a copy of `CodeGen.java` by text. A rung that edits `CodeGen.java` runs it once and reports its exit; if it no longer applies, the rung reports the lines, and the gather repairs the tool.
-- **Run 2.** T and D share `CodeGen.java` only, in declarations far apart. The gather applies T, then D.
-- **They meet on the merged tree:** the suites, the atomic runs with A's two programs, the ladder and the two stages; the gather's 52 demos; the commit stage's microGPT quick checks, which read N's rule under walk.
+- **Run 2.** T is alone. If climb batch 32 has not landed, T keeps out of `forVarDeclPrePass`, which that batch's rung D edits.
+- **They meet on the merged tree:** the suites, the atomic runs with A's two programs, the ladder and the two stages; the gather's 52 demos; the commit stage's microGPT quick checks.
 
 ## 5. The candidates, the probes, and what waits
 
@@ -623,8 +477,8 @@ The planner's brief, piece by piece, with its home here. "Under the prelude" say
 - **The bridge for a method over a tuple index type (row 832's kind):** T, in run 2, as row 992. Under the prelude: yes, as a `VerifyError`.
 - **A generic method inherited from another component's trait (rows 495, 496 and 732's kind):** M. It is row 732's defect; rows 495 and 496 are another one, the dispatch among overloaded generic methods, and are not in this batch. Under the prelude: yes.
 - **The other refused kinds:** row 875 in A; row 819 in T; rows 822 and 812, and row 540, in the batch after. Rows 812, 819 and 540 name reproducers under the prelude; row 822 is not reproduced apart from the library.
-- **From run 2 of climb batch 30:** `atomic` as an expression and a field inside a transaction, A; a number `=` a numeral, N; the rest waits (section 2, "What the batch leaves out").
-- **The top-level tuple binding:** D, in run 2; row 988 filed.
+- **From run 2 of climb batch 30:** `atomic` as an expression and a field inside a transaction, A; a number `=` a numeral, rung N, now of climb batch 32; the rest waits (section 2, "What the batch leaves out").
+- **The top-level tuple binding:** rung D, now of climb batch 32; row 988 filed.
 - **The measure:** section 2, "The measure", and PROBES, section 3.
 
 ### The planner's probes
@@ -651,43 +505,42 @@ The batch runs on the workflow of climb batches 22 to 30: `coordinator/climb-bat
 
 `compile-ladder/plan-31/manifest/` is the coordinator's, made from `plan-30/manifest/`, with `--run 1` and `--run 2` choosing the block's rungs:
 
-- run 1: `BATCH` `31`, the folder `compile-ladder/climb-batch-31/`, the rungs N, M, L, A, K in that order; run 2: `BATCH` `31b`, `compile-ladder/climb-batch-31b/`, the rungs T, D;
+- run 1: `BATCH` `31`, the folder `compile-ladder/climb-batch-31/`, the rungs M, L, A, K in that order; run 2: `BATCH` `31b`, `compile-ladder/climb-batch-31b/`, the rung T;
 - no `landsOnlyWith`;
 - the briefings and checks of section 1, with their reasons; no key holds a backtick or a double quote;
 - no rung declaring a count, a crash or a move;
-- N's and D's sections naming the two stages; M, L, A, K and T `STAGE_BLIND`.
+- M, L, A, K and T `STAGE_BLIND`, no section naming the two stages;
+- the generator on `main` is still the one made for seven rungs, with `--fork-w`: it is regenerated from this record, without N, D and fork W, when this batch is prepared for launch, and the two blocks kept beside it (`block-run1-fork-w-a.js`, `block-run1-fork-w-b.js`) are then replaced.
 
 ### What every agent reads first
 
 **Run 1.** This run is climb batch 31, the first of the two runs of the record CLIMB-BATCH-31.md: the walls between today's tree and a compiled program on the interpreter's library that a test against the compiler's prelude can show today. A wall is a place where the compiler or the compiled library stops; a probe that switched a scratch tree onto the interpreter's library met sixteen, and these rungs repair those that need no switch to be seen. Its rungs:
 
-- N, a numeral at a call goes to the most specific declaration that takes it, on both paths, so that u = 0 is true for a zero u of NN32;
 - M, the methods that a class inherits: one method written once where a generic trait gives a body to a method that it also inherits, and a forwarder for a body inherited through an api's trait that is not first;
 - L, label and exit on the compiled path;
 - A, atomic as an expression, and a mutable field inside a transaction;
 - K, the cast where a trait's value stands for the type that its comprises clause lists.
 
-Each rung has tests that fail on the base and pass after, compiled against the prelude. M, L, A and K share CodeGen.java by declaration: each keeps to its own, as its section says. N runs the count stage and the distance stage once on its final tree, with the checker's timing; the others run neither. microGPT changes no line, and its quick checks under walk stay 7 of 7. The gather applies the rungs in the script's order, expected N, M, K, L, A, builds the specification once, and runs the 52 team demos on the merged tree. The gate's atomic runs hold two new programs.
+Each rung has tests that fail on the base and pass after, compiled against the prelude. M, L, A and K share CodeGen.java by declaration: each keeps to its own, as its section says. No rung runs the count stage or the distance stage. microGPT changes no line, and its quick checks under walk stay 7 of 7. The gather applies the rungs in the script's order, expected M, K, L, A, builds the specification once, and runs the 52 team demos on the merged tree. The gate's atomic runs hold two new programs.
 
-**Run 2.** This run is climb batch 31b, the second of the two runs of the record CLIMB-BATCH-31.md, after climb batch 31, which landed rungs N, M, L, A and K. Its rungs:
+**Run 2.** This run is climb batch 31b, the second of the two runs of the record CLIMB-BATCH-31.md, after climb batch 31, which landed rungs M, L, A and K. Its rung:
 
-- T, a method whose one parameter is a tuple: an object's body at a tuple type implements its generic trait's method over a type parameter, the wall of every array of rank 2;
-- D, a top-level tuple binding, the form of the model program's hyperparameters.
+- T, a method whose one parameter is a tuple: an object's body at a tuple type implements its generic trait's method over a type parameter, the wall of every array of rank 2.
 
-T and D share CodeGen.java in declarations far apart. D runs the count stage and the distance stage once on its final tree, with the checker's timing; T runs neither. microGPT changes no line. The gather applies T, then D.
+T runs neither the count stage nor the distance stage. microGPT changes no line.
 
 ### Before the launch
 
 The coordinator, for run 1, after the curator's go:
 
-1. **Fork W:** the curator's answer. At (a), N's section stands as written. At (b), step 2 of N's section is struck, with rows 973, 966, 975 and 976 left open and their clauses of the specification kept.
+1. **The order with climb batch 32.** If climb batch 32 has landed, sections 1 and 4 are read again against the landed tree: the line citations of `CodeGen.java`, which its rung D edits in `forVarDeclPrePass`, and the gate's comparands, which are then climb batch 32's.
 2. **The Fable review of this record,** its changes in place.
-3. **The script:** A's two programs in the atomic list; then the generator, its checks and the splice, as the manual's "Before the launch", step 4, gives them. The base is `main`'s head after that commit.
+3. **The script:** A's two programs in the atomic list; then the generator, brought in line with this record first, its checks and the splice, as the manual's "Before the launch", step 4, gives them. The base is `main`'s head after that commit.
 4. **The base build:** `/home/user/fortress-base33`, if `git diff --stat 84f1c37190 <base> -- . ':!explorations' ':!docs'` prints nothing; its trial seed and the old code's run.
-5. **The disk:** 11.5 G or more free; `git status --porcelain` empty in the main tree.
-6. **Check-ins** for about 7 hours, 45 minutes apart (`<scratchpad>/batch31/checkins.txt`).
+5. **The disk:** 10 G or more free; `git status --porcelain` empty in the main tree.
+6. **Check-ins** for about 5 hours, 45 minutes apart (`<scratchpad>/batch31/checkins.txt`).
 
-For run 2, after run 1's landing and its routing: sections T and D read again against the landed tree; a base build at that tree; then steps 3 to 6 with `--run 2`, 7 G free, about 5 hours.
+For run 2, after run 1's landing and its routing: section T read again against the landed tree; a base build at that tree; then steps 3 to 6 with `--run 2`, 5.5 G free, about 4 hours.
 
 ### The launch arguments
 
@@ -697,10 +550,10 @@ For run 2, after run 1's landing and its routing: sections T and D read again ag
 
 The comparands for run 1 are climb batch 30's `summary.txt`, `checker-count.txt` (0) and `distance.txt` (0, `#crash none`), in `compile-ladder/climb-batch-30/gate/`; for run 2, run 1's.
 
-- `testSystem`: the comparand's count, with N's one new walk test; N's two promotions keep the count.
-- `testFast`: the compiler track's count plus N's two, M's two, L's one, A's two and K's one new tests, and L's expected failure if its step 2 leaves one, with the promotions keeping the count; the library track unchanged.
+- `testSystem`: the comparand's count.
+- `testFast`: the compiler track's count plus M's two, L's one, A's two and K's one new tests, and L's expected failure if its step 2 leaves one, with the promotions keeping the count; the library track unchanged.
 - The atomic runs: the comparand's programs and A's two, each three times `PASS`.
-- The ladder: no rung declares a move. N's rule reaches its programs' calls with numerals: a changed output is traced to N.
+- The ladder: no rung declares a move.
 - The checker count: 0; the distance: 0, `#crash none`; reported, never red.
 - The 52 team demos at the gather. microGPT's quick pair at the commit stage, 7 of 7 each.
 - **The measure,** once after each run's landing, by the coordinator or the post-batch reviewer in a scratch worktree: `explorations/compile-ladder/plan-31/probes/planner/codegen-measure.sh <scratch-worktree> <out-dir>`. Before: 24 in 8 kinds. If a rung's edit of `NamingCzar.java` stops the measure's patch from applying, the patch's hunk is brought in line by hand.
@@ -709,13 +562,13 @@ The comparands for run 1 are climb batch 30's `summary.txt`, `checker-count.txt`
 
 New rows go into the ledger only through `ledger.py add`, by the gather.
 
-- **Run 1, closed:** 973, 966, 975, 976, 989 (N); 990, 732, and 571 if it passes (M); 81 (L); 875, 319 (A); 991, and 695 if the cast reaches it (K). **Rewritten:** 390 (N).
-- **Run 2, closed:** 992, 832, 819 (T); 988, 474 (D).
+- **Run 1, closed:** 990, 732, and 571 if it passes (M); 81 (L); 875, 319 (A); 991, and 695 if the cast reaches it (K).
+- **Run 2, closed:** 992, 832, 819 (T).
 
 ### After the landing
 
-- **PLAN:** phase 4's F-34 line with the new count and its kinds by row, rows 81, 315 and 540 on it; a line that varargs waits for a program compiled against the one library; phase 5's lines for the tuple binding and the model's line 82 (the plan review's 6.2, lines 2 and 3) answered by D and N; climb batch 30b's line replaced by this record's two runs and what waits behind the first compiled matrix.
-- **The review queue:** this record's forks as new items; fork W's answer.
+- **PLAN:** phase 4's F-34 line with the new count and its kinds by row, rows 81, 315 and 540 on it; a line that varargs waits for a program compiled against the one library; climb batch 30b's line replaced by this record's two runs and what waits behind the first compiled matrix.
+- **The review queue:** this record's forks as new items.
 - **The post-batch review** of each run.
 
 ### For the record-landing workflow
@@ -723,11 +576,10 @@ New rows go into the ledger only through `ledger.py add`, by the gather.
 The batch edits no FACTS or POSITIONS entry. After run 1, these are false:
 
 - **F-34:** "refuses 24 declarations of the fourteen components … in 8 kinds", and its kinds by row (its text since `5064f7f80b`); the new figure is the measure's after the landing.
-- **P-46:** its sentence "Rows 973 and 966: walk answers `false` for `u = 0`, and `true` for `u =/= 0`", with fork W at (a). **P-173:** "rows 973 and 966 hold where walk departs", the same.
-- **P-59,** if fork W lands at (a): it gains the numeral's case, that walk's choice for a call with a numeral follows P-46 before the switch-over.
 - **F-19** and the entries that name rows 319 and 875 as open: a mutable field is inside the transaction, and the atomic expression compiles.
-- The entries that name rows 81, 732 and 695 as open; F-349's sentence that walk's rule on a declaration that fits a numeral as it is "is apart from it".
-- After run 2: P-9's and PLAN's sentences that the tuple binding does not compile, if any names it; the entries that name rows 474, 832 and 819 as open.
+- The entries that name rows 81, 732 and 695 as open.
+- After run 2: the entries that name rows 832 and 819 as open.
+- The entries that rungs N and D make false are listed in `CLIMB-BATCH-32.md`, section 6.
 
 ### For the skill writer: the sentences of `fortress-repo` this batch makes false
 
@@ -735,22 +587,18 @@ The batch writes no skill text. After the landings, the record-landing workflow'
 
 After run 1:
 
-- `references/revival-changes.md`, "Numbers": "Under walk it is `false` (row 973): bind the numeral at the value's type first, as `z: NN32 = 0`, then write `u = z`." (N, with fork W at (a))
-- `references/revival-changes.md`, "Numbers": "Where the tied declarations differ only at the positions of the call's numerals, both paths read the numeral as its default.": the tie also holds where they differ elsewhere (N).
-- `references/revival-changes.md`, "Dispatch and overloading" and `SKILL.md`, "Fortress as a language": "A conversion never changes which declaration runs when one already fits.": a numeral's own conversion does (N).
 - `references/compiler.md`, "What the compiled path cannot compile yet": "`label` and `exit`, `spawn`, and `atomic` used as an expression" in the list of constructs without a case: `spawn` alone stays (L, A).
 - `references/compiler.md`, "The runtime": "The compiled code keeps each mutable variable in a cell …": a `var` field is such a variable too (A).
 - `references/compiler.md`, "Traps of the compiled path": the two calls that "die at run time with `NoSuchMethodError`", its first item, if K's step 3 promotes row 815's case.
 - `references/revival-changes.md`, "Traits and objects": "A compiled body of `T` that returns `self` fails the JVM's verification when its class loads (row 695).", if K's step 2 lands; "Static parameters": "A compiled call fails the JVM's verification if it passes a value of such a trait where a listed type is expected (row 307).", only if `XXXNatOpenRun` passes.
 - `references/gate.md`, "The atomic runs": the count and the list of names, with A's two.
-- `references/interpreter.md`, walk's departures from "Numbers": the items of rows 973, 966, 975 and 976 (N, with fork W at (a)).
 
 After run 2:
 
-- `references/compiler.md`: no sentence names rows 992, 832 or 819; a sentence that advises single bindings for a top-level tuple, if one stands by then (D).
+- `references/compiler.md`: no sentence names rows 992, 832 or 819.
 
 ## 7. Files cited, with their links
 
-- Records: [POSITIONS.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/POSITIONS.md), [FACTS.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/FACTS.md), [PLAN.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/PLAN.md), [the gap ledger](https://github.com/palimondo/fortress/blob/main/explorations/fortress-gap-ledger.md), [CLIMB-BATCH-30.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/CLIMB-BATCH-30.md), [the rehearsal](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-31/probes/switch-rehearsal.md), [probe Y](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-31/probes/probe-y.md), [the plan review](https://github.com/palimondo/fortress/blob/main/explorations/reviews/plan-review-2026-11-10.md), [the carriers' ways](https://github.com/palimondo/fortress/blob/main/explorations/reviews/carriers-ways-2026-11-13.md), [the numeral ways](https://github.com/palimondo/fortress/blob/main/explorations/reviews/numeral-equality-ways-2026-11-10.md), [climb batch 30's review](https://github.com/palimondo/fortress/blob/main/explorations/reviews/batch-30-review.md), [the model's closure check](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-31/probes/model-closure-check.md), [this planner's probes](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-31/PROBES.md), [the probe programs](https://github.com/palimondo/fortress/tree/main/explorations/compile-ladder/plan-31/probes/planner), [climb-batch-workflow.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/climb-batch-workflow.md).
+- Records: [CLIMB-BATCH-32.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/CLIMB-BATCH-32.md), [POSITIONS.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/POSITIONS.md), [FACTS.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/FACTS.md), [PLAN.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/PLAN.md), [the gap ledger](https://github.com/palimondo/fortress/blob/main/explorations/fortress-gap-ledger.md), [CLIMB-BATCH-30.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/CLIMB-BATCH-30.md), [the rehearsal](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-31/probes/switch-rehearsal.md), [probe Y](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-31/probes/probe-y.md), [the plan review](https://github.com/palimondo/fortress/blob/main/explorations/reviews/plan-review-2026-11-10.md), [the carriers' ways](https://github.com/palimondo/fortress/blob/main/explorations/reviews/carriers-ways-2026-11-13.md), [the numeral ways](https://github.com/palimondo/fortress/blob/main/explorations/reviews/numeral-equality-ways-2026-11-10.md), [climb batch 30's review](https://github.com/palimondo/fortress/blob/main/explorations/reviews/batch-30-review.md), [the model's closure check](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-31/probes/model-closure-check.md), [this planner's probes](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-31/PROBES.md), [the probe programs](https://github.com/palimondo/fortress/tree/main/explorations/compile-ladder/plan-31/probes/planner), [climb-batch-workflow.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/climb-batch-workflow.md).
 - Code: [CodeGen.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java), [VarCodeGen.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/compiler/codegen/VarCodeGen.java), [NamingCzar.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java), [Functionals.scala](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala), [OverloadedFunction.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java), [Evaluator.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java), [FortressLibrary.fss](https://github.com/palimondo/fortress/blob/main/Library/FortressLibrary.fss), [OneShotFlag.fss](https://github.com/palimondo/fortress/blob/main/Library/OneShotFlag.fss).
 - Specification: [label.tex](https://github.com/palimondo/fortress/blob/main/Specification/basic/expressions/label.tex), [atomic.tex](https://github.com/palimondo/fortress/blob/main/Specification/basic/expressions/atomic.tex), [traits.tex](https://github.com/palimondo/fortress/blob/main/Specification/basic/traits.tex), [variables.tex](https://github.com/palimondo/fortress/blob/main/Specification/basic/variables.tex), [conversions-coercions.tex](https://github.com/palimondo/fortress/blob/main/Specification/basic/conversions-coercions.tex), [changes.tex](https://github.com/palimondo/fortress/blob/main/Specification/appendices/changes.tex).

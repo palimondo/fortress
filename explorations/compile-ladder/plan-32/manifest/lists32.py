@@ -7,14 +7,21 @@
 # record marks it (check): the checks list, read by the skeptic, a repair round and a judge, is those keys in order.
 # No key holds a backslash, a backtick, a dollar sign or a double quote, which the script refuses; facts-extract
 # matches a heading without its backticks.
-# Changed from lists31.py: the record has one run, climb batch 32, the rungs P, S, C, F and B, and no fork that a
-# launch waits on, so there is no --run and no --fork-w. The keys are each rung's briefing bullets in section 1, in
-# their order, each as the record writes it, its backticks dropped and REC, REV, PRB, SPEC and SRC spelled out as
+# Changed from lists31.py: the record has one run, climb batch 32, the rungs P, S, C, F and B (and, since the
+# amendment below, N and D), so there is no --run. The keys are each rung's briefing bullets in section 1, in
+# their order, each as the record writes it, its backticks dropped and REC, REV, PRB, NEQ, MCC, SPEC and SRC spelled out as
 # section 1's opening paragraph gives them, each with the record's reason, its first letter capitalized unless the
 # reason opens with code; a check is marked on its entry. The forks: the record's one forks key, REC "Forks the
 # batch takes", section 3's forks whole, in every briefing once, as a check (added to the record by the check of
 # 2026-11-15, coordinator/climb-batch-32-review.md, change 10). Rung P's four keys on row 177, the type on a mutable
 # local, went with the row, which the coordinator's ruling of 2026-11-15 took out of the rung.
+# Amended 2026-11-15: rungs N and D, with their lists as plan-31/manifest/lists31.py has them, moved into this
+# batch with their sections (the record's head); their forks key is this record's, and NEQ and MCC are spelled out.
+# Fork W (the record's section 3, "The consequential forks") stands at (a), walk now, and the lists are the record's.
+# lists(ids, fork_w='b') gives rung N's lists for way (b), walk waits, as lists31.py did: the key of walk's choice for
+# a call with a numeral, which the rung then does not edit, is left out, and the reasons of P-59 and of rows 973 and
+# 966 say that walk stays (W_B, below); gen32.py --fork-w b makes the same changes in a copy of the record, so that
+# check32.js --fork-w b finds the two alike. `python3 -B lists32.py [--fork-w a|b]` checks the keys for that answer.
 # lists(ids) gives the lists of the rungs ids, a rung left out by --without dropping from the block; LISTS and REASONS
 # are lists(IDS).
 # `python3 -B lists32.py` checks every key with facts-extract.sh --check (each must match exactly one place) and
@@ -25,6 +32,8 @@ SRC = 'ProjectFortress/src/com/sun/fortress/'
 REC = "doc:explorations/coordinator/CLIMB-BATCH-32.md#"
 REV = "doc:explorations/reviews/c4-fortress-way-2026-11-15.md#"
 PRB = "doc:explorations/compile-ladder/plan-32/PROBES.md#"
+NEQ = "doc:explorations/reviews/numeral-equality-ways-2026-11-10.md#"
+MCC = "doc:explorations/compile-ladder/plan-31/probes/model-closure-check.md#"
 SPEC = "doc:Specification/"
 _ROOT = os.environ.get('FORTRESS_HOME', os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../..')))
 CHECK = True
@@ -118,19 +127,76 @@ B_BRIEFING = [
   (FORKS_SECTION, "The defaults you build.", CHECK),
 ]
 
+N_BRIEFING = [
+  ('P-46', "The decision you build, with the numeral's rule and its tie.", CHECK),
+  ('P-49', "The checker's order of attempts, and its exception for a numeral.", CHECK),
+  ('P-173', "Where a numeral converts, and its default as the last resort.", CHECK),
+  ('P-174', "The numeral types; no = ties one to a number type.", CHECK),
+  ('P-176', "One value for each place where a numeral is written."),
+  ('P-168', "The library's = over Any, which stays.", CHECK),
+  ('P-165', "Which pairs of number types compare by =."),
+  ('P-59', "Walk chooses a coercion by the run-time value; fork W reads it.", CHECK),
+  ('P-12', "Walk runs the checker only after the switch-over."),
+  ('P-148', "The checker's timing for your edit.", CHECK),
+  ('P-37', "The prelude is not changed for this."),
+  ('ledger:973', "u = 0 under walk, which closes.", CHECK),
+  ('ledger:966', "u =/= 0 under walk, which closes.", CHECK),
+  ('ledger:975', "The case clause, its kin.", CHECK),
+  ('ledger:976', "A program's own number type, its kin.", CHECK),
+  ('ledger:390', "The dispatcher at Any that is never emitted; its numeral case is yours.", CHECK),
+  ('ledger:989', "The float numeral beside a value, two declarations by coercion.", CHECK),
+  (NEQ + 'Way B. A numeral goes to the most specific declaration that takes it; the default is the last resort', "The way, what it sees, keeps and bends.", CHECK),
+  (NEQ + '2.3 The one thing measured: the checker against the one library', "What the checker chooses today, call by call.", CHECK),
+  ("doc:explorations/reviews/batch-30-review.md#Part 5. What changes run 2's plan", "The sites in walk and the checker that the last landing left."),
+  (MCC + '2. A line of the model that the checker refuses against the one library', "The model line and its driver."),
+  (SPEC + 'basic/conversions-coercions.tex#Coercion Resolution', "The specification's rule and the sentences you change.", CHECK),
+  ('code:' + SRC + 'scala_src/typechecker/impls/Functionals.scala#def typedApplication(', "The checker's attempts at a call.", CHECK),
+  ('code:' + SRC + 'interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchForNumerals', "Walk's choice for a call with a numeral.", CHECK),
+  ('code:Library/FortressLibrary.fss#trait Equality', "Where =/= goes."),
+  (FORKS_SECTION, "The defaults you build.", CHECK),
+]
+
+D_BRIEFING = [
+  ('P-9', "The model writes its hyperparameters as tuple bindings.", CHECK),
+  ('P-87', "A model line does not change."),
+  ('P-173', "The default type of a numeral where nothing fixes one, which each name of such a binding takes.", CHECK),
+  ('P-148', "The checker's timing for your edit.", CHECK),
+  ('ledger:988', "The stop, which closes.", CHECK),
+  ('ledger:474', "The names typed so that they are accepted anywhere, which closes.", CHECK),
+  ('ledger:175', "The single-binding form, the workaround that the model does not take."),
+  (MCC + "3. The model's hyperparameter lines do not compile under either library", "The runs and the code generator's site.", CHECK),
+  (SPEC + 'basic/variables.tex#Top-Level Variable Declarations', "The tuple notation.", CHECK),
+  ('code:' + SRC + 'compiler/codegen/CodeGen.java#private void forVarDeclPrePass', "The code generator's case.", CHECK),
+  ('map:compile-path-walkthrough.md#3. The checker', "How the checker types top-level variables."),
+  (FORKS_SECTION, "The defaults you build.", CHECK),
+]
+
+# Fork W at (b), walk waits: what changes in rung N's lists. A key in W_B_DROP is left out; a key in W_B_REASON takes
+# the reason given here. gen32.py's W_B_RECORD holds the same changes of the record's bullets.
+W_B_DROP = ('code:' + SRC + 'interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchForNumerals',)
+W_B_REASON = {
+  'P-59': 'Walk chooses a coercion by the run-time value; by the answer to fork W, walk is not changed in this rung.',
+  'ledger:973': 'u = 0 under walk, which stays open.',
+  'ledger:966': 'u =/= 0 under walk, which stays open.',
+}
+
 # The one run of the record, in the manifest's order (section 1's table).
-ORDER = ('P', 'S', 'C', 'F', 'B')
-_B = {'P': P_BRIEFING, 'S': S_BRIEFING, 'C': C_BRIEFING, 'F': F_BRIEFING, 'B': B_BRIEFING}
+ORDER = ('P', 'S', 'C', 'F', 'B', 'N', 'D')
+_B = {'P': P_BRIEFING, 'S': S_BRIEFING, 'C': C_BRIEFING, 'F': F_BRIEFING, 'B': B_BRIEFING, 'N': N_BRIEFING, 'D': D_BRIEFING}
 IDS = tuple(r for r in ORDER if _B[r])
 assert all([e[0] for e in _B[r]].count(FORKS_SECTION) == 1 for r in IDS), 'each briefing names the forks once'
+assert all(k in [e[0] for e in N_BRIEFING] for k in W_B_DROP + tuple(W_B_REASON)), 'fork W names keys of rung N'
 
 
-def lists(ids=IDS):
+def lists(ids=IDS, fork_w='a'):
     """(LISTS, REASONS) for the rungs ids: LISTS[r] is (briefing keys, checks keys), REASONS[r] the (key, reason) pairs."""
     assert all(r in IDS for r in ids), ids
+    assert fork_w in ('a', 'b'), fork_w
     out_l, out_r = {}, {}
     for r in ids:
         es = [(e[0], e[1], len(e) > 2 and e[2]) for e in _B[r]]
+        if r == 'N' and fork_w == 'b':
+            es = [(k, W_B_REASON.get(k, why), c) for k, why, c in es if k not in W_B_DROP]
         out_l[r] = ([k for k, _, _ in es], [k for k, _, c in es if c])
         out_r[r] = [(k, why) for k, why, _ in es]
     return out_l, out_r
@@ -156,7 +222,10 @@ if __name__ == '__main__':
     root = _ROOT
     bad = 0
     print('tree', root)
-    print('rungs', ', '.join(IDS), '(one run)')
+    fork_w = sys.argv[sys.argv.index('--fork-w') + 1] if '--fork-w' in sys.argv else 'a'
+    assert fork_w in ('a', 'b'), 'usage: lists32.py [--fork-w a|b]'
+    print('rungs', ', '.join(IDS), '(one run)', '| fork W at (' + fork_w + ')')
+    LISTS, REASONS = lists(IDS, fork_w)
 
     def check(keys):
         r = subprocess.run(['bash', 'explorations/coordinator/tools/facts-extract.sh', '--check'] + list(keys), capture_output=True, text=True, cwd=root)

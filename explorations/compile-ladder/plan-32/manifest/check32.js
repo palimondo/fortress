@@ -16,24 +16,29 @@
 // the agents read naming a path under .claude/skills/ or revival-changes.md, which tools/workflow-scenarios.js
 // refuses in every brief.
 // Changed from check31.js:
-// - One run: BATCH 32, rungs P, S, C, F, B, of the record CLIMB-BATCH-32.md and the lists lists32.py, under $OUT32;
-//   no --run and no --fork-w. The common fields are the "Fields common to the five rungs". The abbreviations of a
-//   key are REC, REV, PRB, SPEC and SRC.
+// - One run: BATCH 32, rungs P, S, C, F, B, N, D, of the record CLIMB-BATCH-32.md and the lists lists32.py, under
+//   $OUT32; no --run. The common fields are the "Fields common to the seven rungs". The abbreviations of a key are
+//   REC, REV, PRB, NEQ, MCC, SPEC and SRC.
+// - Rungs N and D moved here from climb batch 31's record on 2026-11-15, and --fork-w a|b with them, as check31.js
+//   has it: at (b) the record that is checked is the one gen32.py --fork-w b wrote, and the block is
+//   manifest32-fork-w-b.js.
 // - The atomic runs: this batch adds no program to the gate's atomic runs. The splice changes no line outside the
 //   block, and one check says that the spliced script's two atomic lists are the tracked script's.
-// - Section 4's rule: P and S share parser/Expression.rats by production, each section's "Overlaps by file." naming
-//   the other and the rule; C alone edits scala_src/; C, F and B each say "None with" the other four.
-// - The stages (section 1's common fields; section 6, "The generator"): P, S and C name the count stage and the
-//   distance stage in a step of their sections, "once on your final tree", C with P-148's runs; F and B open "The
-//   stages." with "None" and list their files (STAGE_BLIND), and name neither stage nor P-148. No rung runs the
-//   distance stage's shadow patch: F and B edit files under interpreter/ only.
+// - Section 4's rule: P and S share parser/Expression.rats by production, C and N Functionals.scala by declaration,
+//   N and F OverloadedFunction.java by member; each of those sections' "Overlaps by file." names the other and the
+//   rule; B and D say "None with" the other six.
+// - The stages (section 1's common fields; section 6, "The generator"): P, S, C, N and D name the count stage and
+//   the distance stage in a step of their sections, "once on your final tree", C, N and D with P-148's runs; F and B
+//   open "The stages." with "None" and list their files (STAGE_BLIND), and name neither stage nor P-148. No rung
+//   runs the distance stage's shadow patch: F and B edit files under interpreter/ only, and D, which edits
+//   CodeGen.java, runs the distance stage itself.
 // - The intro is the whole of section 6's "What every agent reads first": it names the batch, says which rungs run
 //   the two stages and which run neither, and that the gather applies the rungs in the script's order.
 // The script's paths built from the batch's name (BATCH_DIR climb-batch-32, GATE_DIR, LOG_DIR, GATE_OUT, SPEC_PDF)
 // take the name whole, and every other use of BATCH after the block is a concatenation or a field, never a number;
 // the record and the lists the block names are on disk. Its last lines say whether the tracked script's block
 // equals the generated one, and count the problems; it exits 1 on any, and --write then writes nothing.
-//   node check32.js [--without <rung>]... [--write] [RECORD]
+//   node check32.js [--fork-w a|b] [--without <rung>]... [--write] [RECORD]
 // --without <rung> checks the block that gen32.py writes with the same argument: the run's rungs less that one.
 const fs = require('fs')
 const cp = require('child_process')
@@ -44,8 +49,10 @@ const SRC = path.join(ROOT, 'explorations/coordinator/climb-batch-workflow.js')
 const argv = process.argv.slice(2)
 const WRITE = argv.includes('--write')
 const WITHOUT = argv.map((a, i) => argv[i - 1] === '--without' ? a : null).filter(a => a !== null)
+const FORK_W = argv.includes('--fork-w') ? argv[argv.indexOf('--fork-w') + 1] : 'a'
+if (!['a', 'b'].includes(FORK_W)) { console.log('usage: node check32.js [--fork-w a|b] [--without <rung>]... [--write] [RECORD]'); process.exit(2) }
 const BATCH_NAME = '32'
-const SUFFIX = ''
+const SUFFIX = FORK_W === 'b' ? '-fork-w-b' : ''
 const RECORD_PATH = 'explorations/coordinator/CLIMB-BATCH-32.md'
 const LISTS_PATH = 'explorations/compile-ladder/plan-32/manifest/lists32.py'
 const idsPy = cp.spawnSync('python3', ['-B', '-c', 'import json, sys; sys.path.insert(0, sys.argv[1]); from lists32 import IDS; print(json.dumps({"ids": IDS}))', __dirname], { encoding: 'utf8' })
@@ -56,16 +63,18 @@ const RUN_IDS = THIS_RUN.filter(x => !WITHOUT.includes(x))
 if (WITHOUT.some(x => !THIS_RUN.includes(x))) { console.log('--without names a rung not in the run'); process.exit(2) }
 const STAGE_RUNGS = []
 // The rungs that run the count stage and the distance stage once on their final trees (section 1's common fields):
-// P and S, which edit the parser that both measures read the library through, and C, which edits the checker, with
-// P-148's runs. F and B edit files under interpreter/ only, run neither and list their files.
-const STAGES_RUNGS = ['P', 'S', 'C']
-const TIMED_RUNGS = ['C']
+// P and S, which edit the parser that both measures read the library through, and C, N and D, which edit the
+// checker, each with P-148's runs. F and B edit files under interpreter/ only, run neither and list their files.
+const STAGES_RUNGS = ['P', 'S', 'C', 'N', 'D']
+const TIMED_RUNGS = ['C', 'N', 'D']
 // The characters outside ASCII that a section keeps from the record, as gen32.py's KEPT: none.
 const KEPT = ''
 const nonAscii = (t, keep) => [...t].filter(c => c.charCodeAt(0) > 127 && !(keep || '').includes(c))
 // No rung lands only with another (section 1's common fields: "lands only with: none").
 const LANDS_ONLY_WITH = Object.fromEntries(ALL_IDS.map(x => [x, []]))
-const REC = argv.filter((a, i) => !a.startsWith('--') && argv[i - 1] !== '--without')[0] || path.join(ROOT, RECORD_PATH)
+// At fork W (b) the record that is checked is the one gen32.py --fork-w b wrote, the record with W_B_RECORD's changes.
+const REC = argv.filter((a, i) => !a.startsWith('--') && argv[i - 1] !== '--without' && argv[i - 1] !== '--fork-w')[0] ||
+  (FORK_W === 'b' ? path.join(HERE, 'CLIMB-BATCH-32-fork-w-b.md') : path.join(ROOT, RECORD_PATH))
 const block = fs.readFileSync(path.join(HERE, 'manifest' + BATCH_NAME + SUFFIX + '.js'), 'utf8')
 const orig = fs.readFileSync(SRC, 'utf8')
 const recText = fs.readFileSync(REC, 'utf8')
@@ -177,9 +186,9 @@ if (r) {
   // The record's section 1: the abbreviations of its opening paragraph, the table's row of one rung, and its ### block.
   const s1 = rec.slice(rec.indexOf('\n## 1. The manifest, rung by rung\n'), rec.indexOf('\n## 2. '))
   const ABBR = {}
-  for (const m of s1.slice(0, s1.indexOf('\n|')).matchAll(/\b(REC|REV|PRB|SPEC|SRC) (?:stands )?for `([^`]+)`/g)) ABBR[m[1]] = m[2]
-  say(['REC', 'REV', 'PRB'].every(k => ABBR[k] && /^doc:[^#]+#$/.test(ABBR[k])) && ABBR.REC === 'doc:' + RECORD_PATH + '#' && ABBR.SPEC === 'doc:Specification/' && ABBR.SRC === 'code:ProjectFortress/src/com/sun/fortress/',
-    'section 1 spells out REC, REV, PRB, SPEC and SRC: ' + Object.entries(ABBR).map(([k, v]) => k + ' ' + v).join(', '))
+  for (const m of s1.slice(0, s1.indexOf('\n|')).matchAll(/\b(REC|REV|PRB|NEQ|MCC|SPEC|SRC) (?:stands )?for `([^`]+)`/g)) ABBR[m[1]] = m[2]
+  say(['REC', 'REV', 'PRB', 'NEQ', 'MCC'].every(k => ABBR[k] && /^doc:[^#]+#$/.test(ABBR[k])) && ABBR.REC === 'doc:' + RECORD_PATH + '#' && ABBR.SPEC === 'doc:Specification/' && ABBR.SRC === 'code:ProjectFortress/src/com/sun/fortress/',
+    'section 1 spells out REC, REV, PRB, NEQ, MCC, SPEC and SRC: ' + Object.entries(ABBR).map(([k, v]) => k + ' ' + v).join(', '))
   const REC_KEY = ABBR.REC || 'doc:' + RECORD_PATH + '#'
   const rungNames = (t) => t.replace(/\s*\(.*?\)\.?$/, '').replace(/\.$/, '').split(/,\s*|\s+and\s+/).map(s => s.trim()).filter(Boolean)
   function tableRow(id) {
@@ -199,7 +208,7 @@ if (r) {
     const br = sub('- **briefing**')
     const cm = br && /^- \*\*briefing\*\* \(([0-9]+) keys, ([0-9]+) checks\):$/.exec(br.head)
     const keys = br ? br.items.map(it => {
-      const k = /^(`[^`]+`|(REC|REV|PRB|SPEC|SRC) `([^`]+)`|ledger:[0-9]+|[PF]-[0-9]+)( \(check\))?: (.*)$/.exec(it)
+      const k = /^(`[^`]+`|(REC|REV|PRB|NEQ|MCC|SPEC|SRC) `([^`]+)`|ledger:[0-9]+|[PF]-[0-9]+)( \(check\))?: (.*)$/.exec(it)
       if (!k || (k[2] && !ABBR[k[2]])) return { bad: it }
       const key = k[2] ? ABBR[k[2]] + k[3] : k[1].replace(/`/g, '')
       return { key, check: !!k[4], reason: k[5] }
@@ -207,16 +216,16 @@ if (r) {
     return { slug: field('slug'), worktree: field('worktree'), section: field('section'), blurb: field('blurb'), landsOnlyWith: field('lands only with'),
       points: pts ? pts.items.map(p => asAscii(p.trim())) : [], counts: cm ? [+cm[1], +cm[2]] : null, keys }
   }
-  const common = (() => { const a = s1.indexOf('\nFields common to the five rungs:\n'); return a < 0 ? '' : s1.slice(a, s1.indexOf('\n### ', a)) })()
-  say(/\*\*writes state:\*\* no\./.test(common) && /\*\*its test is the stage:\*\* no\./.test(common) && /\*\*joins the gate:\*\* none, but the specification's build at the gather, for C's text\./.test(common) &&
+  const common = (() => { const a = s1.indexOf('\nFields common to the seven rungs:\n'); return a < 0 ? '' : s1.slice(a, s1.indexOf('\n### ', a)) })()
+  say(/\*\*writes state:\*\* no\./.test(common) && /\*\*its test is the stage:\*\* no\./.test(common) && /\*\*joins the gate:\*\* none, but the specification's build at the gather, for C's and N's text\./.test(common) &&
     /\*\*expected moves:\*\* none\./.test(common) && /\*\*expected checker count:\*\* none declared/.test(common) && /\*\*expected checker crash:\*\* none\./.test(common) &&
     /^- \*\*lands only with:\*\* none\. Every rung lands on its own\./m.test(common) &&
-    /\*\*the stages:\*\* P, S and C run the count stage and the distance stage once on their final trees: [^\n]*C because it edits the checker, with the checker's timing \(P-148\)\. F and B edit files under `interpreter\/` only, run neither and list their files \(`STAGE_BLIND`\)\./.test(common),
-    'the record\'s fields common to the five rungs: no state, no stage as the test, no gate step (the specification\'s build at the gather), no move, no count or crash declared, no rung landing only with another, P, S and C running the two stages, C with the checker\'s timing, F and B neither')
+    /\*\*the stages:\*\* P, S, C, N and D run the count stage and the distance stage once on their final trees: [^\n]*C, N and D because they edit the checker, [^\n]*each of the three with the checker's timing \(P-148\)\. F and B edit files under `interpreter\/` only, run neither and list their files \(`STAGE_BLIND`\)\./.test(common),
+    'the record\'s fields common to the seven rungs: no state, no stage as the test, no gate step (the specification\'s build at the gather), no move, no count or crash declared, no rung landing only with another, P, S, C, N and D running the two stages, C, N and D with the checker\'s timing, F and B neither')
   say(ALL_IDS.every(x => !!tableRow(x)), 'section 1\'s table gives each rung of lists32.py a row in run 1: ' + ALL_IDS.join(', '))
   // lists32.py's briefings, reasons and checks, for the rungs of the block.
   const py = cp.spawnSync('python3', ['-B', '-c', 'import json, sys; sys.path.insert(0, sys.argv[1]); from lists32 import lists; ' +
-    'L, R = lists(tuple(sys.argv[2].split(","))); print(json.dumps({r: {"briefing": L[r][0], "checks": L[r][1], "reasons": [x for _, x in R[r]]} for r in L}))', __dirname, RUN_IDS.join(',')], { encoding: 'utf8' })
+    'L, R = lists(tuple(sys.argv[2].split(",")), sys.argv[3]); print(json.dumps({r: {"briefing": L[r][0], "checks": L[r][1], "reasons": [x for _, x in R[r]]} for r in L}))', __dirname, RUN_IDS.join(','), FORK_W], { encoding: 'utf8' })
   const lists = py.status === 0 ? JSON.parse(py.stdout) : null
   say(!!lists, 'lists32.py read' + (lists ? '' : ': ' + py.stderr.trim().slice(0, 300)))
   // Section 3's forks: the record's one forks key, whole, for every rung; a numbered list led by each fork's label.
@@ -230,10 +239,25 @@ if (r) {
   // Section 4's rule, and each section's "Overlaps by file.", for this run.
   const rule = (() => { const a = s4.indexOf('\n### The rule the rungs keep'); return a < 0 ? '' : s4.slice(a) })()
   const overlaps = (id) => (/\*\*Overlaps by file\.\*\* ([^\n]*)/.exec(section(id) || '') || [, ''])[1]
-  say(/^- \*\*P and S share `parser\/Expression\.rats`, by production:\*\* S owns [^\n]*; P owns [^\n]* The gather's order is the script's: /m.test(rule) && /^- \*\*C alone edits `scala_src\/`\.\*\* F and B edit different files under `interpreter\/evaluator\/`\./m.test(rule),
-    'section 4\'s rule: P and S share parser/Expression.rats by production, the gather\'s order the script\'s; C alone edits scala_src/; F and B edit different files of walk')
-  const wantOverlaps = { P: 'parser/Expression.rats with S: "The rule the rungs keep".', S: 'parser/Expression.rats with P: "The rule the rungs keep".', C: 'None with P, S, F or B.', F: 'None with P, S, C or B.', B: 'None with P, S, C or F.' }
-  say(RUN_IDS.every(x => overlaps(x) === wantOverlaps[x]), 'each section\'s "Overlaps by file.": P and S name each other and the rule; C, F and B none with the other four')
+  say(/^- \*\*P and S share `parser\/Expression\.rats`, by production:\*\* S owns [^\n]*; P owns [^\n]* The gather's order is the script's: /m.test(rule) &&
+    /^- \*\*C and N share `scala_src\/typechecker\/impls\/Functionals\.scala`, by declaration:\*\*$/m.test(rule) && /^  - C: `checkApplicableWithInference` /m.test(rule) && /^  - N: `checkApplicable` /m.test(rule) &&
+    /^  - `typedApplicationOfChecked` calls both rungs' code: /m.test(rule) &&
+    /^- \*\*N and F share `interpreter\/evaluator\/values\/OverloadedFunction\.java`, by member:\*\*$/m.test(rule) && /^  - N: the dispatch cache /m.test(rule) && /^  - F: the members from the inner class `Factory` /m.test(rule) &&
+    /^- \*\*C alone edits `scala_src\/types\/TypeAnalyzer\.scala`\. D alone edits `scala_src\/typechecker\/Thunker\.scala` and `impls\/Decls\.scala`,\*\*/m.test(rule) &&
+    /^- \*\*F and B edit different files under `interpreter\/evaluator\/`\.\*\*/m.test(rule) && /^No two rungs edit one declaration\./m.test(rule.split('\n').slice(2).join('\n')),
+    'section 4\'s rule: no two rungs edit one declaration; P and S share parser/Expression.rats by production, C and N Functionals.scala by declaration, each with its line and the function that calls both, N and F OverloadedFunction.java by member; C alone edits TypeAnalyzer.scala, D alone Thunker.scala, Decls.scala and CodeGen.java; F and B edit different files of walk')
+  // Each rung's "Not" list names the other's part of a shared file: no two rungs edit one declaration.
+  const files = (id) => (/\*\*Files\.\*\* ([^\n]*)/.exec(section(id) || '') || [, ''])[1]
+  const notOf = (id) => { const f = files(id), i = f.indexOf(' Not: '); return i < 0 ? '' : f.slice(i) }
+  say(/rung P's/.test(notOf('S')) && /rung S's/.test(notOf('P')) && /rungs N's and C's/.test(notOf('S')) && /rung D's/.test(notOf('S')) &&
+    /typedApplicationOfChecked with its numeralTie/.test(notOf('C')) && /rung N's/.test(notOf('C')) && /rung D's/.test(notOf('C')) &&
+    /rung C's/.test(notOf('N')) && /rung D's/.test(notOf('N')) && (FORK_W === 'b' ? /Not: interpreter\//.test(notOf('N')) : /rung F's/.test(notOf('N'))) &&
+    /rung N's/.test(notOf('F')) && /rungs N's and C's/.test(notOf('D')) && /Not: the compiled path/.test(notOf('B')),
+    'each "Not" list names the other rungs\' parts: P and S each other\'s productions; S the declarations of N, C and D; C those of N and D; N those of C, D and ' + (FORK_W === 'b' ? 'every file of walk' : 'F') + '; F those of N; D those of N and C; B the compiled path')
+  const wantOverlaps = { P: 'parser/Expression.rats with S: "The rule the rungs keep".', S: 'parser/Expression.rats with P: "The rule the rungs keep".',
+    C: 'Functionals.scala with N: "The rule the rungs keep".', F: FORK_W === 'b' ? 'None with P, S, C, B, N or D.' : 'OverloadedFunction.java with N: "The rule the rungs keep".', B: 'None with P, S, C, F, N or D.',
+    N: FORK_W === 'b' ? 'Functionals.scala with C: "The rule the rungs keep".' : 'Functionals.scala with C, and OverloadedFunction.java with F: "The rule the rungs keep".', D: 'None with P, S, C, F, B or N.' }
+  say(RUN_IDS.every(x => overlaps(x) === wantOverlaps[x]), 'each section\'s "Overlaps by file.": P and S name each other and the rule, C and N each other, N and F each other' + (FORK_W === 'b' ? ' but at fork W (b), where N edits no file of walk' : '') + '; B and D none with the other six')
   const rerun = /sees? it fail again|re-?run by the skeptic|skeptic re-?runs|run the stage yourself|skeptic rebuilds|re-anchor/i
   for (const x of r.RUNGS) {
     const want = section(x.id)
@@ -300,9 +324,14 @@ if (r) {
     'the spliced script\'s atomic lists are the tracked script\'s: ' + ((listOf(s.ls, 'ATOMIC_COMPILER') || '') + ' ' + (listOf(s.ls, 'ATOMIC_OTHER') || '')).split(' ').filter(Boolean).length + ' programs, none new')
   say(introSentences.filter(t => /P-148|speed pass|pass for speed/.test(t)).length === 0, 'the intro names no P-148 and no pass for speed')
   say(/^This run is climb batch 32, the one run of the record CLIMB-BATCH-32\.md/.test(r.BATCH_INTRO) && RUN_IDS.every(x => new RegExp('^- ' + x + ', ', 'm').test(r.BATCH_INTRO)),
-    'the intro: the one run of the record, its five rungs')
-  say(/P, S and C run the count stage and the distance stage once on their final trees, C with the checker's timing; F and B run neither\./.test(r.BATCH_INTRO) && /The gather applies the rungs in the script's order/.test(r.BATCH_INTRO),
-    'the intro: P, S and C run the two stages once on their final trees, C with the checker\'s timing, F and B neither; the gather applies the rungs in the script\'s order')
+    'the intro: the one run of the record, its seven rungs')
+  say(/P, S, C, N and D run the count stage and the distance stage once on their final trees, C, N and D with the checker's timing; F and B run neither\./.test(r.BATCH_INTRO) && /The gather applies the rungs in the script's order/.test(r.BATCH_INTRO),
+    'the intro: P, S, C, N and D run the two stages once on their final trees, C, N and D with the checker\'s timing, F and B neither; the gather applies the rungs in the script\'s order')
+  // Fork W: at (a) rung N's section holds walk's step and its promotions; at (b) it holds neither, and no file of walk.
+  const nSec = (r.RUNGS.find(x => x.id === 'N') || {}).section
+  if (nSec !== undefined) say(FORK_W === 'b' ? /2\. \*\*Walk: not in this rung\.\*\*/.test(nSec) && !/bestMatchForNumerals/.test(nSec) && /Rows 973, 966, 975 and 976 stay open\./.test(nSec)
+    : /2\. \*\*Walk\*\* \(fork W\)\./.test(nSec) && /bestMatchForNumerals/.test(nSec) && /Close 973, 966, 975, 976 and 989\./.test(nSec),
+    'fork W at (' + FORK_W + '): rung N\'s section ' + (FORK_W === 'b' ? 'strikes walk\'s step, leaves rows 973, 966, 975 and 976 open and names no member of walk' : 'holds walk\'s step, its promotions and the five rows it closes'))
   const paths = r.RUNGS.map(x => x.path), slugs = r.RUNGS.map(x => x.slug)
   say(new Set(paths).size === paths.length && new Set(slugs).size === slugs.length, 'every rung has its own worktree and branch')
   say(!/[^\x00-\x7f]/.test(spliced) && !/[^\x00-\x7f]/.test(block), 'the block and the spliced script hold no character outside ASCII: the kept ones are \\u escapes')
