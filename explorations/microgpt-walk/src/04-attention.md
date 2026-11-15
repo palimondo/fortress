@@ -38,7 +38,7 @@ One head gives each position one set of attention weights. Four heads give it fo
 
 @src 54-55
 
-These two lines stand at the top of the function `step`, before the forward pass. They declare two functions inside the function `step`. A local function can use the names around it, and is declared like a top-level one.
+These two lines stand at the top of the function `step`, before the forward pass. They declare two local functions. A local function can use the names around it, and is declared like a top-level one.
 
 - `h`, short for heads, takes a matrix and returns an array with three indices. The program's comments call such an array a rank-3 array. Its type is `Array[\RR64,(ZZ32,ZZ32,ZZ32)\]`: the index is a triple. It holds several matrices of one size, in a fixed order. Each of these matrices is a plane, and the three indices are the plane, the row and the column.
 - `u`, short for unheads, goes the other way, from a rank-3 array to a matrix.
