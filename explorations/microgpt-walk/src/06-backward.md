@@ -5,7 +5,7 @@
 
 The loss depends on all 4,192 parameters. Change one parameter a little, and the loss changes a little. The gradient is a vector of 4,192 numbers. Its entry for a parameter is a rate: the change of the loss for each unit of change of that parameter, while the others stay as they are.
 
-A run shows this on parameter 500. It lies in `wpe`, which starts at 432: it is element `[4, 4]` of the position table. Its value is 0.0626. The step's gradient has -0.0926 at place 500. The run then called `step` twice more: once with parameter 500 raised by 0.00001, once with it lowered by 0.00001.
+A run shows this on parameter 500. It lies in `wpe`, the table of the position embeddings, which starts at place 432 of the parameter vector: it is element `[4, 4]` of that table. Its value is 0.0626. The step's gradient has -0.0926 at place 500. The run then called `step` twice more: once with parameter 500 raised by 0.00001, once with it lowered by 0.00001.
 
 ```out
 index 500 p 0.06258901428847981 g -0.09262792010673876 loss+ 3.365966021326099 loss- 3.365967873884501 fd -0.09262792011188735
@@ -18,7 +18,7 @@ index 500 p 0.06258901428847981 g -0.09262792010673876 loss+ 3.365966021326099 l
 
 The entry is negative: raising this parameter lowers the loss. Training uses exactly this fact. It moves each parameter against the sign of its gradient entry.
 
-The same experiment on parameter 1100, which is element `[25, 12]` of `lm`:
+The same experiment on parameter 1100, which is element `[25, 12]` of `lm`, the last weight matrix, which makes the 27 scores:
 
 ```out
 index 1100 p 0.03654080103626847 g 0.031736131393025356 loss+ 3.3659672649481087 loss- 3.3659666302254805 fd 0.03173613141171927
@@ -26,9 +26,9 @@ index 1100 p 0.03654080103626847 g 0.031736131393025356 loss+ 3.3659672649481087
 
 Here the entry is positive: raising the parameter raises the loss.
 
-The experiment needs two forward passes for one parameter. For all the parameters that is 8,384 forward passes. The backward pass gets all 4,192 entries in one pass. The project's write-up of run B uses the field's name for it, backpropagation ([explorations/run-b/article.md, line 13](src:explorations/run-b/article.md#L13)).
+The experiment needs two forward passes for one parameter. For all the parameters that is 8,384 forward passes. The backward pass gets all 4,192 entries in one pass. The field's name for it is backpropagation.
 
-Karpathy's microGPT does not write a backward pass by hand. The same line of the write-up says of his program: "every number in the forward pass is a `Value` with a mutable `grad` field". The gradient is found by going back through those objects. The flat program has no such objects. Its backward pass is written out by hand, in lines 63 to 70.
+Karpathy's microGPT does not write a backward pass by hand. In his program, every number of the forward pass is an object of the class `Value`, with a field `grad` that can change. The gradient is found by going back through those objects. The flat program has no such objects. Its backward pass is written out by hand, in lines 63 to 70.
 
 ## The names and the rules
 
@@ -36,7 +36,7 @@ Karpathy's microGPT does not write a backward pass by hand. The same line of the
 
 The comment states the plan. The backward pass takes the forward declarations in reverse order, from the loss back to the embeddings.
 
-The names follow one pattern. For a forward value such as `x4`, the backward value `dX4` has the same size. Each of its elements is a rate: the change of the loss for each unit of change of the same element of `x4`. This text calls `dX4` the gradient at `x4`. For a weight matrix such as `lm`, the gradient is named `gLM`. The nine `g` matrices are the pieces of the result.
+The names follow one pattern. For a forward value such as `x4`, the backward value is `dX4`, with a `d` in front. It has the same size. Each of its elements is a rate: the change of the loss for each unit of change of the same element of `x4`. `dX4` is the gradient at `x4`. For a weight matrix such as `lm`, the gradient is named `gLM`, with a `g` for gradient. The nine `g` matrices are the pieces of the result.
 
 At every forward declaration, the backward pass knows the gradient at the declared value and computes the gradient at the values that it was made from. Four rules are enough.
 
@@ -62,15 +62,15 @@ The smallest case of rule 4 uses numbers from Part 2. Let `A` be the one row 5, 
 - Raise the 5 by one unit: the product rises by 1, the element of `B` that the 5 meets. Raise the 6: the product rises by 3. So the gradient at `A` is the row 1, 3. That is `B^T`.
 - Raise the 1 by one unit: the product rises by 5. Raise the 3: it rises by 6. So the gradient at `B` is the column 5, 6. That is `A^T`.
 
-A larger product is many such sums. Each element of `A` enters several elements of `Y`, and by rule 2 its parts add. Written out, the additions give the two formulas above. The sizes are a check that you can make at every line: `dY B^T` has the size of `A`, and `A^T dY` has the size of `B`. The project's write-up of run B writes its backward maps in the same two forms, `G Bᵀ` and `Aᵀ G` ([explorations/run-b/article.md, line 158](src:explorations/run-b/article.md#L158)). The experiment of the last section is the check by a run: it agrees with the gradient that these rules give.
+A larger product is many such sums. Each element of `A` enters several elements of `Y`, and by rule 2 its parts add. Written out, the additions give the two formulas above. The sizes are a check that you can make at every line: `dY B^T` has the size of `A`, and `A^T dY` has the size of `B`. The experiment of the last section is the check by a run: it agrees with the gradient that these rules give.
 
 ## From the loss to the scores
 
 @src 63: dL = diag(vm / nv) (pr - onehot(tg, vocabSize))
 
-`dL` is the gradient at the 27 scores of every row, the matrix `x4 lm^T` that the forward pass handed to `sm`. The line goes back through two forward steps at once, the loss and `sm`, because together they have a simple gradient: for a row that counts, the probabilities, minus 1 at the right answer, divided by `nv`.
+`dL` is the gradient at the 27 scores of every row, the matrix `x4 lm^T` that the forward pass handed to `sm`, the softmax. The line uses four names of the forward pass: `pr`, the probabilities; `tg`, the targets; `vm`, which holds 1.0 for a row that counts and 0.0 for the others; and `nv`, the number of rows that count, 7. The line goes back through two forward steps at once, the loss and `sm`, because together they have a simple gradient: for a row that counts, the probabilities, minus 1 at the right answer, divided by `nv`.
 
-`onehot(tg, vocabSize)` is a matrix of 16 by 27. Row `r` holds 1.0 in the column `tg[r]` and 0.0 elsewhere. A small case, with the keys 1, 0, 1 and a width of 3:
+`onehot` is a function of `FlatArrays.fss`. `onehot(tg, vocabSize)` is a matrix of 16 by 27, since `vocabSize` is 27. Row `r` holds 1.0 in the column `tg[r]` and 0.0 elsewhere. A small case, with the keys 1, 0, 1 and a width of 3:
 
 ```out
 onehot([1 0 1], 3) (3 x 3):
@@ -90,7 +90,7 @@ diag(d3) x (3 x 2):
     0.0 0.0
 ```
 
-`Diag` is an object of the vocabulary that extends `Matrix`. It never builds the 16 by 16 matrix: it has its own method for the product, which scales the rows ([FlatArrays.fss, lines 33 to 44](src:explorations/run-c4/src/FlatArrays.fss#L33)).
+`diag` is a function of `FlatArrays.fss`. It makes an object of the type `Diag`, which extends `Matrix`. The object never builds the 16 by 16 matrix. It has its own method for the product, `mul`, which multiplies each row of the other matrix by one element of the vector.
 
 A run printed row 0 of `dL`, its sum, and the start of row 9:
 
@@ -120,7 +120,7 @@ Three numbers from Part 3 confirm the formula. The scores 1, 2, 3 give the proba
 @src 63: gLM = dL^T x4
 @src 63: dX4 = dL lm
 
-The forward declaration is `x4 lm^T`. In rule 4, `A` is `x4`, `B` is `lm^T`, and `dY` is `dL`.
+The forward declaration is `x4 lm^T`: every row of `x4`, the result of the feed-forward block, through the last weight matrix, `lm`. In rule 4, `A` is `x4`, `B` is `lm^T`, and `dY` is `dL`.
 
 - The gradient at `A` is `dY B^T`. The transpose of `lm^T` is `lm`. So `dX4 = dL lm`.
 - The gradient at `B` is `A^T dY`, which is `x4^T dL`. That is the gradient at `lm^T`. The gradient at `lm` itself is its transpose, and the transpose of `x4^T dL` is `dL^T x4`.
@@ -140,24 +140,24 @@ sizes dL (16,27) gLM (27,16) dX4 (16,16)
 @src 64: gF1 = dM0^T x3
 @src 64: dX3 = dM0 f1
 
-The forward declarations were `m0 = x3 f1^T`, `mr = 0.0 MAX m0` and `x4 = x2 + mr f2^T`. The backward line takes them last to first.
+The forward declarations were `m0 = x3 f1^T`, `mr = 0.0 MAX m0` and `x4 = x2 + mr f2^T`. `f1` and `f2` are the block's two weight matrices, `m0` is the matrix of 16 by 64 between them, and `mr` is `m0` with its negative numbers set to 0. The backward line takes the declarations last to first.
 
 - `gF2` is rule 4 for `mr f2^T`: the transposed gradient of the result, times the input `mr`.
 - `dX4 f2` is the other half of rule 4: the gradient at `mr`.
-- `× (m0 > 0.0)` goes back through `MAX`. Where an element of `m0` was positive, `mr` is that element, and the rate passes unchanged. Where it was negative, `mr` is 0 whatever the element does, and the rate is 0. `m0 > 0.0` is an array of ones and zeros: the vocabulary declares `>` between an array and a number so. `×` is the vocabulary's product of two arrays element by element. It is a different operator from juxtaposition, which between matrices is the matrix product.
+- `× (m0 > 0.0)` goes back through `MAX`. Where an element of `m0` was positive, `mr` is that element, and the rate passes unchanged. Where it was negative, `mr` is 0 whatever the element does, and the rate is 0. `m0 > 0.0` is an array of ones and zeros: `FlatArrays.fss` declares `>` between an array and a number so. `×` is the product of two arrays element by element, also declared in `FlatArrays.fss`. It is a different operator from juxtaposition, which between matrices is the matrix product.
 - `gF1` and `dX3` are rule 4 for `x3 f1^T`.
 
 @src 65: dX2 = dX4 + rows(rmsn_b, dX3, x2)
 
-`x2` was used twice in the forward pass: `x4` adds it directly, and `x3` is `rmsn` of it. By rule 2 its gradient has two parts. The first is `dX4`, by rule 3. The second goes back through `rmsn`, row by row, with the function of the next section. This `rows` is the form with two matrices: it gives the function row `i` of the first and row `i` of the second ([FlatArrays.fss, lines 148 to 153](src:explorations/run-c4/src/FlatArrays.fss#L148)).
+`x2` was used twice in the forward pass: `x4` adds it directly, and `x3` is `rmsn` of it. By rule 2 its gradient has two parts. The first is `dX4`, by rule 3. The second goes back through `rmsn`, row by row, with the function `rmsn_b` of the next section. Lines 148 to 153 of `FlatArrays.fss` declare this form of `rows`, with two matrices: it gives the function row `i` of the first and row `i` of the second.
 
 ## rmsn_b: back through rmsn
 
 @src 30-33
 
-`rmsn_b` takes `dy`, the gradient at the result of `rmsn`, and `x`, the vector that `rmsn` was applied to. It returns the gradient at `x`.
+The `_b` stands for backward. `rmsn_b` takes `dy`, the gradient at the result of `rmsn`, and `x`, the vector that `rmsn` was applied to. It returns the gradient at `x`.
 
-- Line 31 computes again what `rmsn` computed: the root `r`, and the result `y`.
+- Line 31 computes again what `rmsn` computed: the root `r` of the mean square plus `epsilon`, which is 0.00001, and the result `y`.
 - Line 32 is the gradient. It has two parts, because a change of one element of `x` does two things.
 - First, the element's own result changes: `y` is `x / r`, so one unit more of an element is `1 / r` more of its result. This part is `dy / r`.
 - Second, the root `r` changes a little, and every element of `y` changes with it. This part is the term that line 32 subtracts: `y`, times the number `(y DOT dy) / |y|`, divided by `r`.
@@ -186,7 +186,13 @@ The first number says: one unit more of the 3 raises the first result at the rat
 
 ## Back through attention
 
-The forward declarations, from last to first, were `x2 = xp + hc wo^T`, `hc = u(a vh)`, `a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))`, the cut into heads, and the three products with `wq`, `wk` and `wv`.
+The forward declarations, from last to first, were `x2 = xp + hc wo^T`, `hc = u(a vh)`, `a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))`, the cut into heads, and the three products with `wq`, `wk` and `wv`. The names, from Part 4:
+
+- `wq`, `wk`, `wv` and `wo` are attention's weight matrices for the query, the key, the value and the output.
+- `qh`, `kh` and `vh` are the queries, the keys and the values, cut into four heads: 4 planes of 16 by 4.
+- `a` holds the attention weights: 4 planes of 16 by 16.
+- `hc` holds the four heads' results, side by side: 16 by 16.
+- `h` cuts a matrix into heads, and `u` puts the heads side by side again.
 
 @src 65: gWO = dX2^T hc
 @src 65: dh = h(dX2 wo)
@@ -205,7 +211,7 @@ The attention weights came from `sm`, row by row. `rows(sm_b, a, dh vh^T)` goes 
 
 @src 34
 
-`sm_b` takes `p`, a row of attention weights that `sm` returned, and `dy`, the gradient at those attention weights. It returns the gradient at the scores that `sm` was given.
+`sm_b` is `sm`, backward. It takes `p`, a row of attention weights that `sm` returned, and `dy`, the gradient at those attention weights. It returns the gradient at the scores that `sm` was given.
 
 $$
 \c{sm\_b}(p,\,dy)_j = p_j\,\bigl(dy_j - p \cdot dy\bigr)
@@ -247,19 +253,19 @@ The forward pass cut `q`, `k` and `v` into heads with `h`. The backward pass put
 @src 68: (gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1)
 @src 68: dX1 = dQ wq + dK wk + dV wv
 
-These are rule 4 three times, for `x1 wq^T`, `x1 wk^T` and `x1 wv^T`. `x1` went into all three products, so by rule 2 its gradient is the sum of three parts.
+These are rule 4 three times, for `x1 wq^T`, `x1 wk^T` and `x1 wv^T`. `x1` is the matrix that attention read. It went into all three products, so by rule 2 its gradient is the sum of three parts.
 
 ## Back to the two tables
 
 @src 69: dXp = dX2 + rows(rmsn_b, dX1, xp)
 @src 69: dX = rows(rmsn_b, dXp, x)
 
-`xp` was used twice: `x2` adds it directly, and `x1` is `rmsn` of it. So `dXp` has two parts, as `dX2` had. Then `dX` goes back through the first `rmsn`. It is the gradient at `x`, the summed embeddings.
+`x` holds the summed embeddings, `xp` is `x` after one `rmsn`, and `x1` is `xp` after a second. `xp` was used twice: `x2` adds it directly, and `x1` is `rmsn` of it. So `dXp` has two parts, as `dX2` had. Then `dX` goes back through the first `rmsn`. It is the gradient at `x`.
 
 @src 70: gWTE = transpose(onehot(ids, vocabSize)) dX
 @src 70: gWPE = transpose(onehot(pos, blockSize)) dX
 
-Row `r` of `x` was row `ids[r]` of `wte` plus row `pos[r]` of `wpe`. So the gradient at row `t` of `wte` is the sum of the rows of `dX` at which the token `t` was read. The product in line 70 computes exactly that. `onehot(ids, vocabSize)` has a 1 in row `r` and column `ids[r]`. Its transpose has 27 rows and 16 columns, with a 1 in row `t` wherever the token `t` was read. Its product with `dX` adds up those rows of `dX`.
+`wte` is the token table and `wpe` the position table. `ids` holds each row's token and `pos` each row's position. Row `r` of `x` was row `ids[r]` of `wte` plus row `pos[r]` of `wpe`. So the gradient at row `t` of `wte` is the sum of the rows of `dX` at which the token `t` was read. The product in line 70 computes exactly that. `onehot(ids, vocabSize)` has a 1 in row `r` and column `ids[r]`. Its transpose has 27 rows and 16 columns, with a 1 in row `t` wherever the token `t` was read. Its product with `dX` adds up those rows of `dX`.
 
 A run printed the starts of some rows:
 
@@ -295,7 +301,7 @@ The comment in line 62 says "one line under each forward line, bottom-up". This 
 
 @src 71-72
 
-The value of the step is a pair: the loss, and the nine gradient matrices made into one vector. `flat` belongs to the vocabulary. It takes any number of matrices and writes their elements, row after row, into one vector ([FlatArrays.fss, lines 179 to 189](src:explorations/run-c4/src/FlatArrays.fss#L179)). A small case, with the matrices `m` and `n` of Part 2:
+The value of the step is a pair: the loss, and the nine gradient matrices made into one vector. `flat` is a function of `FlatArrays.fss`. It takes any number of matrices and copies their elements, row after row, into one new vector. A small case, with the matrices `m` and `n` of Part 2:
 
 ```out
 flat(m, n) (8): 1.0 2.0 3.0 4.0 0.0 1.0 1.0 0.0
@@ -319,3 +325,10 @@ zero rows of gWPE: 7 8 9 10 11 12 13 14 15
 ```
 
 `yuheng` uses seven tokens: the mark, 26, and the letters `e`, `g`, `h`, `n`, `u`, `y`, which are 4, 6, 7, 13, 20, 24. The other twenty rows of `gWTE` are 0: 20 times 16 is 320 entries. The name fills positions 0 to 6. Rows 7 to 15 of `gWPE` are 0: 9 times 16 is 144 entries. 320 plus 144 is 464. Every entry of the other seven matrices is different from 0.
+
+## Sources
+
+- Every value in an Output box: runs under walk of a file of small array examples, and of copies of `MicroGptFlat.fss` with print lines added.
+- Backpropagation, and the `Value` objects of Karpathy's program: [explorations/run-b/article.md, line 13](src:explorations/run-b/article.md#L13).
+- The two forms of rule 4 in the project's write-up of run B: [explorations/run-b/article.md, line 158](src:explorations/run-b/article.md#L158).
+- `Diag` and its product: [FlatArrays.fss, lines 33 to 44](src:explorations/run-c4/src/FlatArrays.fss#L33). `rows` with two matrices: [lines 148 to 153](src:explorations/run-c4/src/FlatArrays.fss#L148). `flat`: [lines 179 to 189](src:explorations/run-c4/src/FlatArrays.fss#L179).
