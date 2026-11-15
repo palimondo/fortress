@@ -1,4 +1,4 @@
-<!-- The record of climb batch 32, in one run, for the coordinating session, the curator and the batch's workers: the model's notation, that is the gaps of today's tree that keep a line of microGPT's flat program (C4, `explorations/run-c4/src/MicroGptFlat.fss`) or of its helper file (`FlatArrays.fss`) from the form that the specification allows. Drafted 2026-11-15 by a planning worker on Fable against `main` at `3fc1ac6e78`, whose code is the base build's, `/home/user/fortress-base33` at `84f1c37190` (`git diff --stat 84f1c37190 main -- . ':!explorations' ':!docs'` prints nothing). It proposes five rungs in one run: P, S, B, F and C. **The batch has no go. It is planned beside climb batch 31, which is planned and not launched; the curator chooses the order of the two. This record launches nothing.** It has no fork that must be answered before a launch, one question for the curator that a later run hangs on (array comprehensions, row 50, section 2), and twelve forks with defaults (section 3). No rung changes a line of the model program or of its helper file: the diffs that each rung makes possible are listed for the curator (section 2), and applying them is his word, after the landing (P-87). -->
+<!-- The record of climb batch 32, in one run, for the coordinating session, the curator and the batch's workers: the model's notation, that is the gaps of today's tree that keep a line of microGPT's flat program (C4, `explorations/run-c4/src/MicroGptFlat.fss`) or of its helper file (`FlatArrays.fss`) from the form that the specification allows. Drafted 2026-11-15 by a planning worker on Fable against `main` at `3fc1ac6e78`, whose code is the base build's, `/home/user/fortress-base33` at `84f1c37190` (`git diff --stat 84f1c37190 main -- . ':!explorations' ':!docs'` prints nothing). It proposes five rungs in one run: P, S, B, F and C. **The batch has no go. It is planned beside climb batch 31, which is planned and not launched; the curator chooses the order of the two. This record launches nothing.** It has no fork that must be answered before a launch, two questions for the curator that no launch waits on (array comprehensions, row 50, and the type on a mutable local, row 177, which the check of 2026-11-15 and the coordinator's ruling took out of rung P; section 2), and ten forks with defaults (section 3). No rung changes a line of the model program or of its helper file: the diffs that each rung makes possible are listed for the curator (section 2), and applying them is his word, after the landing (P-87). -->
 <!-- Sources: the planner's brief (`<scratchpad>/batch31/planner-32-brief.md`), with the curator's words of 2026-11-15; `reviews/c4-fortress-way-2026-11-15.md`, the review of each limit, whose section 1 is the list of limits; `CLIMB-BATCH-31.md`, for the form and for what the two batches share; POSITIONS P-87, P-78, P-51, P-48, P-55, P-9, P-12, P-26, P-79, P-148, P-173; FACTS F-53, F-59, F-221, F-285; the ledger rows named in section 1; the `coordinator` skill's `references/batch.md`; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; the specification and the code at the sites. -->
 <!-- The planner's probes: `compile-ladder/plan-32/PROBES.md`, with their programs in `compile-ladder/plan-32/probes/`, run in a worktree of the planner's own, `/home/user/fortress-plan32`, seeded from the base build and removed after. No suite and no stage of the gate was run. -->
 
@@ -10,7 +10,7 @@ The batch's generator writes the run's manifest from this section. Each rung's `
 
 | run | id | slug | title | expected minutes |
 |---|---|---|---|---|
-| 1 | P | `rung-parser-declarations` | Three forms that the grammar gives and the parser refuses | 200 |
+| 1 | P | `rung-parser-declarations` | Two forms that the grammar gives and the parser refuses | 200 |
 | 1 | S | `rung-superscript-after` | A superscript after a dotted access and after a parenthesised call | 200 |
 | 1 | C | `rung-static-argument-inferred` | Two static arguments that the checker leaves open today | 240 |
 | 1 | F | `rung-generic-function-value` | A generic function passed as a value under walk | 220 |
@@ -27,30 +27,25 @@ Fields common to the five rungs:
 ### P
 - **slug:** `rung-parser-declarations`
 - **worktree:** `/home/user/fortress-parser-declarations`
-- **section:** `P. Three forms that the grammar gives and the parser refuses: a postfix operator declared in an api, a mutable local without its type, and the signs for sum and product as accumulators (rows 133, 177 and 5)`
-- **blurb:** three gaps of the parser, each a form that the specification's grammar gives. An api cannot declare a postfix operator whose sign is an exponent operator, as opr (m)^T, because the api's rule lacks one alternative that the component's rule has (row 133). A mutable local without its type, var p = e, is refused by a check after the parse, though both paths run it once the check is gone (row 177). The signs for sum and product, U+2211 and U+220F, are read as prefix operators and never as accumulators, so only the ASCII SUM and PROD begin a reduction (row 5). The rung repairs the three on both paths, since both read the same parser.
+- **section:** `P. Two forms that the grammar gives and the parser refuses: a postfix operator declared in an api, and the signs for sum and product as accumulators (rows 133 and 5)`
+- **blurb:** two gaps of the parser, each a form that the specification's grammar gives. An api cannot declare a postfix operator whose sign is an exponent operator, as opr (m)^T, because the api's rule lacks one alternative that the component's rule has (row 133). The signs for sum and product, U+2211 and U+220F, are read as prefix operators and never as accumulators, so only the ASCII SUM and PROD begin a reduction (row 5). The rung repairs the two on both paths, since both read the same parser. A mutable local without its type (row 177) is not in the rung: the team's chapter and the team's check ask for the type.
 - **points to report:**
   - Each form failing on the base and passing after, under walk and compiled.
   - Row 5: the productions changed; what a program that declares or applies U+2211 or U+220F as an operator of its own meets after the change; every existing test or library line that the change reaches.
-  - Row 177: every form of a mutable local without its type that you tried (a numeral, a call, a tuple of names, an array literal), with what each path does; a form that still fails, with its row.
   - Every existing test whose pinned message changed; every line of a team test changed.
   - The count and distance tables on your final tree, and the commit they ran on.
   - Each sentence of the specification that your change makes false, or none.
   - A file edited beyond those named.
-- **briefing** (15 keys, 11 checks):
+- **briefing** (11 keys, 8 checks):
   - P-87 (check): no line of the model or of its helper file changes in this batch.
-  - P-173: the default type that a numeral takes at an untyped binding, which `var p = 3` meets.
   - ledger:133 (check): the api's rule, which closes.
-  - ledger:177 (check): the check that refuses the untyped mutable local; its `:=` half is the grammar's and stays.
   - ledger:5 (check): the sum sign as a prefix operator, which closes.
   - ledger:166: the `null` before the file name in the message, a neighbour that is not yours.
   - PRB `3. One trial build` (check): what a one-line edit of each site gave, and what it left for row 5.
   - SPEC `basic/expressions/reductions.tex#Summations and Other Reduction Expressions` (check): the accumulator's grammar.
-  - SPEC `basic/variables.tex#Local Variable Declarations` (check): the local declaration's forms.
   - SRC `parser/Parameter.rats#FnHeaderFront AbsOpHeaderFront` (check): the api's rule.
   - SRC `parser/Parameter.rats#FnHeaderFront OpHeaderFront`: the component's rule, the precedent.
   - SRC `parser/Symbol.rats#transient Op Accumulator` (check): the accumulator.
-  - SRC `parser_util/SyntaxChecker.java#public void forLocalVarDeclOnly` (check): the check.
   - `map:modules-and-phases.md#B.2 Rats! parsing`: how the grammars are built and what a grammar edit makes stale.
   - REC `Forks the batch takes` (check): the defaults you build.
 
@@ -88,6 +83,7 @@ Fields common to the five rungs:
 - **blurb:** two places where the compiled checker has no instance for a static parameter that the program's text fixes. In a reduction with generators that writes no static argument, as SUM[j <- 0#i] f(j), a big operator whose bound names its own parameter has no instance at its bound, and the reduction is refused (row 731); the rung fixes the argument from the reduction's declared type, else from its body. A generic function passed as a value, as useOne(count), stops the checker with an internal error (row 758); the rung instantiates the reference at the arrow type that receives it. The first frees the model's line 43; the second is the compiled half of the model's row lift, whose walk half is rung F.
 - **points to report:**
   - The rule as built for the reduction: what fixes the static argument, in which order, and what the checker answers where the declared type and the body's type differ; the same program under walk.
+  - Each place where your rule gives a reduction another type than walk gives the same program (a method's return type, a top-level variable, a field, an assignment, a call's argument), with the program and both paths' values.
   - The rule as built for the function reference: where the arrow type comes from, what happens where it leaves a static parameter open, and an overloaded name whose declarations are generic.
   - Row 731's reproducer and row 758's, failing on the base and passing after; the library's three written sites and the model's line 43 with the argument removed, under the distance stage's driver, as runs to report.
   - Every existing test whose verdict, output or pinned message changed.
@@ -126,7 +122,8 @@ Fields common to the five rungs:
 - **blurb:** under walk a function with static parameters has no type as a value, so passing it as an argument fails at the call with a unification error, a missing-type error or a Java NullPointerException (row 156). The specification says that a reference to a generic function takes its static arguments from its context. The rung gives such a value a type under walk: it is instantiated at the arrow type of the parameter that receives it, and where that type leaves a static parameter open, at its first application, as a direct call is today.
 - **points to report:**
   - The rule as built: when the value is instantiated, from what, and what walk answers where no instance fits.
-  - Each of row 156's three failures, failing on the base and passing after; a function generic in a type, in one size and in two sizes; an overloaded name with a generic declaration; a generic function bound to a local variable and then called.
+  - Each of row 156's three failures, failing on the base and passing after; a function generic in a type, in one size and in two sizes; an overloaded name with a generic declaration.
+  - As runs to report, not tests: a generic function bound to an untyped local variable and then called, and one passed where the arrow type leaves a static parameter open, with what walk does; rung C's checker refuses both.
   - The row lift with sized functions: `rows(rmsn, x)` for `rmsn[\nat n\](x: Vector[\RR64,n\])` and a `rows` whose arrow parameter is sized, in a test program of your own.
   - Every existing test whose verdict, output or pinned message changed.
   - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
@@ -150,18 +147,18 @@ Fields common to the five rungs:
 ### B
 - **slug:** `rung-toplevel-array-literal`
 - **worktree:** `/home/user/fortress-toplevel-array-literal`
-- **section:** `B. An array literal at the top level is an array under walk, with its declared type or without one (row 142)`
-- **blurb:** under walk an array literal that is the value of a top-level variable is never built into an array: with a declared type the binding fails with a type mismatch against a tuple, and without one the name holds a tuple of tuples (row 142). In a function body the same literal is built where it has a declared type, and without one it stops with an error (row 49). The rung builds it at the top level too, so that a table of the model can be a literal.
+- **section:** `B. An array literal with a declared type at the top level is an array under walk (row 142)`
+- **blurb:** under walk an array literal that is the value of a top-level variable is never built into an array: with a declared type the binding fails with a type mismatch against a tuple (row 142). In a function body the same literal is built where it has a declared type. The rung builds the typed literal at the top level too, so that a table of the model can be a literal. A literal without a declared type is row 49's, in a function body too, and is left out.
 - **points to report:**
-  - Row 142's four probes and the untyped form, failing on the base and passing after; a literal of rank 1 and 2, of numerals, of names and expressions, of strings; a literal at a `var` top-level variable.
-  - What an untyped top-level literal's type is, and whether it differs from the same literal's in a function body.
+  - Row 142's typed probes, failing on the base and passing after; a literal of rank 1 and 2, of numerals, of names and expressions, of strings; a literal at a `var` top-level variable.
+  - What an untyped top-level literal does on your tree, as a run to report: it is row 49's and is not repaired here.
   - Every existing test whose verdict, output or pinned message changed; a top-level binding of a pasted tuple that a program relied on.
   - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
 - **briefing** (11 keys, 8 checks):
   - P-87 (check): no line of the model changes.
   - P-173 (check): where a numeral converts, which the elements of a typed literal meet.
   - ledger:142 (check): the binding, which closes.
-  - ledger:49: a sibling on the array literal, whose error the untyped literal meets in a function body.
+  - ledger:49: the untyped literal, in a function body too, which is left out.
   - ledger:104: a sibling on the array literal.
   - SPEC `basic/expressions/aggregate.tex#Array Expressions` (check): the literal and its type.
   - SPEC `basic/variables.tex#Top-Level Variable Declarations` (check): the top-level declaration.
@@ -184,7 +181,7 @@ Fields common to the five rungs:
 
 ### The go
 
-You asked for the notation's gaps to come first. This batch is planned and has no go. Nothing here launches.
+You asked whether the work should focus on the notation's gaps first. You said that where the specification allows a terse form and an implementation gap compromises it, "these should obviously be priority fixes". The order of this batch and climb batch 31 is your choice, and it is not made yet. This batch is planned and has no go. Nothing here launches.
 
 ### Your choices
 
@@ -194,13 +191,17 @@ You asked for the notation's gaps to come first. This batch is planned and has n
   - **(b) The size comes from the declared type.** `mask: RR64[16,16] = [(i, j) ↦ ... ]`. This is how the plain array literal works today. It needs sized types in the model, which is your open decision D. About 2 rungs.
   - **(c) The size comes from the generators.** Where each index is a plain loop variable over a range, the array spans those ranges. Any other shape needs a declared type. This serves today's unsized lines. The overview's two examples read so ("describes a 3 × 3 array"); the rule itself would be ours, written into the specification. About 2 rungs.
   - **Recommended: (a) now, and (c) or (b) with your answer on static sizes** (question 3 of the review). The two questions decide each other.
+- **A mutable variable without its type, `var p = e` (row 177): one question.** It is not in this batch.
+  - The chapter on variables gives a mutable variable its type: `var id: Type = expr`, or `id: Type := expr`. The team's parser refuses `var p = e` on purpose, with the message "The type of p is required."
+  - The grammar appendix, the list of all syntax rules at the end of the specification, allows `var p = e`.
+  - The batch leaves the rule as the team's check has it. Lines 88 to 90 of the model keep their types. If you want the appendix's form, it is one small rung.
 - **The diffs to the model.** No rung changes a model line. Each rung makes a diff possible. They are listed below. Applying each is your word, after the landing (P-87).
 
 ### The scope: one run, five rungs
 
 Each rung is given as the line of the model that it frees, before and after, and a program that fails today.
 
-- **P, three forms that the parser refuses.**
+- **P, two forms that the parser refuses.**
   - *`^T` declared in the helper file's api (row 133).* Lines 21 to 24 leave the model:
 
         - opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = transpose(m)
@@ -211,17 +212,6 @@ Each rung is given as the line of the model that it frees, before and after, and
         api A
         opr (x: ZZ32)^T: ZZ32
         end
-
-  - *A mutable variable without its type (row 177).* Lines 88 to 90:
-
-        - p: Array[\RR64,ZZ32\] := loadParams(weightsDir, matName, 9, nParams())
-        + var p = loadParams(weightsDir, matName, 9, nParams())
-
-    and the same for `m` and `v`. Fails today: `The type of p is required.`
-
-        run(): () = do
-            var p = 3
-            p := p + 1 end
 
   - *`∑` for `SUM` (row 5).* Lines 28, 43 and 52 could write `∑`. Fails today: `Operator prefix SUM is not defined.`
 
@@ -283,18 +273,18 @@ Each rung is given as the line of the model that it frees, before and after, and
 
 **Why one run.** No two rungs edit one declaration. P and S share one grammar file in productions 200 lines apart. C alone edits the checker. F and B edit different files of walk.
 
-**Why five rungs and not nine.** The parser's three small forms are one rung, because each grammar edit costs a full rebuild. The checker's two inferences are one rung, because both are in one file. The two `^T` gaps are one rung, because they are one subject.
+**Why five rungs and not eight.** The parser's two small forms are one rung, because each grammar edit costs a full rebuild. The checker's two inferences are one rung, because both are in one file. The two `^T` gaps are one rung, because they are one subject.
 
 ### The measure
 
 Two counts, from the review's section 1.
 
 - **Boxed limits of the walk-through that are gaps and still open. Before: 12.** They are the tuple bindings (row 988), the unsized vector functions (156), `^T` in the model (133), the `if` chains (142), `SUM[\ZZ32\]` (731), the sizes through `reflect` (307), the rank-3 product (292), `transpose(onehot(...))` (158), `1.0 s` (989), the type on a mutable variable (177), the float reader and line scanner (140, 141), and `SUM` in capitals (5).
-- **After this batch: 5.** Seven close: rows 156, 133, 142, 731, 158, 177 and 5. Of the five left, climb batch 31 closes two (988 and 989). Three wait on your decisions or on the switch-over (307, 292, 140 with 141).
+- **After this batch: 6.** Six close: rows 156, 133, 142, 731, 158 and 5. Of the six left, climb batch 31 closes two (988 and 989). Three wait on your decisions or on the switch-over (307, 292, 140 with 141). One is your question above: the type on a mutable variable (177), which the team's chapter and check ask for.
 - **Lines that an open gap shapes. Before: 20 of the model's 98, and 14 of the helper file's 190.**
   - The model: lines 21 to 24, 27, 28, 30, 34, 37 to 41, 43, 45, 52, 70, 88 to 90.
   - The helper file: lines 47 to 51 (`transpose` as functions), 64, 95 and 108 (`reflect`), 142, 148, 154 and 160 (the row lift's unsized functions), 181 and 182.
-- **After, once you apply the diffs: 1 of the model's lines** (line 45, which calls the helper file's `view`, whose line 64 uses `reflect`) **and 3 of the helper file's** (the three `reflect` lines). Without decision D, the four vector functions and the four row-lift lines stay: 5 and 7.
+- **After, once you apply the diffs: 4 of the model's lines** (line 45, which calls the helper file's `view`, whose line 64 uses `reflect`, and lines 88 to 90, the types on the mutable variables) **and 4 of the helper file's** (the three `reflect` lines and line 182, a typed mutable variable). Without decision D, the four vector functions and the four row-lift lines stay: 8 and 8.
 - Line 29 (`mask`, row 50), line 51 (the unsized arrays of `step`, decision D) and line 42 (which rung B's diff rewrites with line 45) are not in the count either way: the count holds the lines that a boxed gap of this batch shapes, and line 45.
 - Lines 17 to 19 and line 82 are not in the count. Their text is already the short form. Only the compiled path refuses them, and climb batch 31 repairs that.
 - The checker's count and the distance stay 0 and 0 (F-53). microGPT's quick checks under walk stay 7 of 7 for both programs, with no line of either changed.
@@ -312,7 +302,7 @@ Two counts, from the review's section 1.
 
 No fork of section 3 is consequential by the `coordinator` skill's rule. Each lands at its default and goes on the review list. Three that you may want first:
 
-- **Fork C1, what fixes a sum's type in the checker.** Walk takes the declared type that receives the sum, and else the type of its elements. The checker will do the same: the declared type first, else the body's type. So `x: RR64 = SUM[j <- 0#n] f(j)` sums in `RR64` on both paths. This does not bend your decision P-78. P-78 says that the argument is written "where nothing at the call fixes the element type", and calls the checker's refusal a gap with a workaround. The repair removes the need for the workaround. The library's own written sites stay as they are.
+- **Fork C1, what fixes a sum's type in the checker.** Walk takes the declared type that receives the sum, and else the type of its elements. The checker will do the same: the declared type first, else the body's type. Where walk reads a declared type, at a local variable and at a function's return type, both paths answer alike: `x: RR64 = SUM[j <- 0#n] f(j)` in a function body sums in `RR64` on both. Walk does not read the declared type of a method's return, a top-level variable, a field, an assignment or a call's argument (F-228). There the checker would sum in the declared type and walk in the type of the elements, and convert after. The worker reports each such place. This does not bend your decision P-78. P-78 says that the argument is written "where nothing at the call fixes the element type", and calls the checker's refusal a gap with a workaround. The repair removes the need for the workaround. The library's own written sites stay as they are.
 - **Fork P1, `∑` and `∏`.** After the repair, `∑` at the start of an expression is the sum's sign, exactly as `SUM`. A program can no longer use `∑` as a prefix operator of its own. No program or library file in the tree does.
 - **Fork S1, `a.m(x)^T`.** A superscript after a method call with a dot applies to the call's result. The specification says that a form with a dot is read from left to right. `f(x)^T`, without a dot, stays refused.
 
@@ -323,6 +313,7 @@ No fork of section 3 is consequential by the `coordinator` skill's rule. Each la
 - **The library rungs that hang on them:** the float reader (row 140), the line scanner (141), a slice as a vector (54), the rank-3 product (292).
 - **Sizes made from a number at run time, compiled (row 307):** after the switch-over, or never if the sizes become static.
 - **Array comprehensions (row 50):** your question above.
+- **A mutable variable without its type (row 177):** your question above. **An array literal without a declared type (row 49):** not built, at the top level or in a function body.
 - **The language's own rules:** a call followed directly by `^T` (row 144), `/` on two integers (174), a variable as a size (25). I found no reason to call any of them a gap.
 
 ### Before the batch runs
@@ -347,47 +338,44 @@ No fork of section 3 is consequential by the `coordinator` skill's rule. Each la
 
 ### The consequential forks
 
-None that a launch waits on. One question is the curator's and is not taken: whether array comprehensions (row 50) are built, and by which rule for the array's size (section 2, "Your choices"). It chooses among ways that the specification's text leaves open and that decide the form of model lines, so it is consequential; its default, (a), builds nothing and reverses nothing.
+None that a launch waits on. Two questions are the curator's and are not taken (section 2, "Your choices"). Whether array comprehensions (row 50) are built, and by which rule for the array's size: it chooses among ways that the specification's text leaves open and that decide the form of model lines, so it is consequential; its default, (a), builds nothing and reverses nothing. And whether `var p = e` (row 177) is the language: the appendix's grammar gives it (`Specification-1.0-frozen/appendices/grammars/concrete-syntax.tex:1125-1126`), the chapter's grammar and prose give a mutable variable its type (`Specification/basic/variables.tex:76-96`, `:174-181`, the same in the Working Draft), and the team's check refuses the form on purpose (`parser_util/SyntaxChecker.java:178-181`); the batch leaves the rule as the check has it, by the coordinator's ruling of 2026-11-15 on the check's finding 1 (`climb-batch-32-review.md`). It was fork P2 of the plan, and fork P3 went with it.
 
 ### Forks the batch takes
 
 None of the forks below is consequential: each builds within a decision on record or the specification's text, or chooses where the record leaves an implementation open, and each can be undone.
 
-1. **R1. One run of five rungs.** **Default: so.** Ways not taken: nine rungs, one a row, which the disk floor does not hold (17.5 G) and which pays a grammar rebuild and a skeptic four times for one-line repairs; two runs, which nothing needs, since no two rungs share a declaration. The reason: `references/batch.md`, "The go".
+1. **R1. One run of five rungs.** **Default: so.** Ways not taken: eight rungs, one a row, which leaves the disk less than 1 G above its floor (16 G) and pays a grammar rebuild and a skeptic three times for one-line repairs; two runs, which nothing needs, since no two rungs share a declaration. The reason: `references/batch.md`, "The go".
 2. **R2. Row 758 is in the batch, as rung C's second step.** Rows 731 and 758 are not one repair. They are one rung because both are in `Functionals.scala`, in the code that infers a call's static arguments. **Default: so; step 2 lands if it fits, and else the rung lands step 1 and reports.** Way not taken: 758 in a second run of one rung, about 1.0M of fixed roles for it.
 3. **R3. Row 50 is left out** until the curator's answer. **Default: so.** The text gives the form and the desugaring, `do a = array(); a[i1] := e1, gs1; ...; a end` (`Specification/advanced/parallelism-locality/defining-generators.tex:241-266`), and says that the comprehension need not define every cell (`Specification/basic/expressions/comprehensions.tex:15-19`). It leaves open: the array's size and lower bounds, since `array()` takes none; its element type and its static type for the checker; and its two notations, `↦` in the chapter and `=` in the overview (`Specification/preliminaries/overview.tex:974-990`). The overview's examples do name a size: a comprehension over `x ← 0:2, y ← 0:2` "describes a 3 × 3 array" (`overview.tex:976`, `:991`, the same in the Working Draft), so the team's examples read the size from the generators, with no rule written.
 4. **P1. The signs U+2211 and U+220F are accumulators wherever `SUM` and `PROD` are,** in an expression and in an operator's declaration, and are no longer prefix operators. **Default: so.** The reason: the specification's grammar, `Accumulator ::= ∑ | ∏ | BIG (Encloser | Op)`; `Operators.java` already names them `SUM` and `PROD`. The other Unicode big operators that the grammar reads through `BIG` are not touched.
-5. **P2. `var p = e` takes the type of `e`,** a numeral its default (P-173). **Default: so.** The reason: `LocalVarDecl ::= [var] VarMayTypes = Expr`; both paths already run it once the check is gone (PROBES, section 3). The `:=` form without a declaration stays refused: the grammar asks for a type there. The production is the appendix's (`Specification-1.0-frozen/appendices/grammars/concrete-syntax.tex:1125-1126`); the chapter's own grammar and prose give an untyped local no `var` (`Specification/basic/variables.tex:76-96`, `:174-181`, the same in the Working Draft), and the check's own comment asks for the type on purpose: the check of 2026-11-15 puts this to the coordinator (`climb-batch-32-review.md`, finding 1).
-6. **P3. An untyped mutable local whose value is an array literal** stops under walk with "Can't infer element type for array construction" (PROBES, section 3). **Default: P reports it; row 49 holds it (an array literal with no declared type is not built under walk); not repaired here.**
-7. **S1. A superscript after any dotted primary applies to the whole primary to its left,** a method call's result included. **Default: so.** The reason: "A tight juxtaposition is always left-associated if it contains any dot" (`Specification/basic/operators/juxtameaning.tex:130-131`).
-8. **S2. `f(x)^T` stays a static error on both paths** (row 144). **Default: so; S's tests pin it.**
-9. **C1. The checker fixes a reduction's unwritten static argument by the reduction's declared type where it has one that fits the bound, and else by the type of its body.** **Default: so.** Way not taken: the body's type first, which is the plain sentence of the revival's revised text, not of the Working Draft ("a sum is desugared with the reduction for the type N of the expression", `Specification/basic/expressions/reductions.tex:27-29`, in the box `revival-reductions`) and which would sum `x: RR64 = SUM[j <- 0#n] f(j)` in `ZZ32` when compiled and in `RR64` under walk. The reason: walk's rule as landed (F-59), and one answer on both paths. P-78 is not bent: its written argument is row 731's workaround by its own words, and its history shows the workaround entering with the gap (`POSITIONS-history.md`, P-78, the blocks of 2026-10-22).
-10. **C2. No library line and no test is unwritten.** The library's sites keep their static arguments (F-285), and so do the team's tests. **Default: so.** The team demos that leave the argument out (P-79) then need no respelling: C reports which of them the checker now accepts, if its probe reaches them.
-11. **F1. Under walk a generic function value is instantiated at the arrow type of the parameter or variable that receives it; where that leaves a static parameter open, it stays generic and is instantiated at its first application from the arguments' run-time types,** as a direct call is. **Default: so.** The reason: `var-ref.tex`, "the static arguments are statically inferred from the context"; walk has no static types (P-12), so the context it has is the receiving type and the call.
-12. **B1. An untyped array literal at the top level is the array that the same literal is in a function body.** **Default: so.** The reason: `aggregate.tex`, "Array Expressions"; one meaning for one form.
+5. **S1. A superscript after any dotted primary applies to the whole primary to its left,** a method call's result included. **Default: so.** The reason: "A tight juxtaposition is always left-associated if it contains any dot" (`Specification/basic/operators/juxtameaning.tex:130-131`).
+6. **S2. `f(x)^T` stays a static error on both paths** (row 144). **Default: so; S's tests pin it.**
+7. **C1. The checker fixes a reduction's unwritten static argument by the reduction's declared type where it has one that fits the bound, and else by the type of its body.** **Default: so.** Way not taken: the body's type first, which is the plain sentence of the revival's revised text, not of the Working Draft ("a sum is desugared with the reduction for the type N of the expression", `Specification/basic/expressions/reductions.tex:27-29`, in the box `revival-reductions`) and which would sum `x: RR64 = SUM[j <- 0#n] f(j)`, a local variable, in `ZZ32` when compiled and in `RR64` under walk. The reason: walk's rule as landed (F-59, F-228). The two paths answer alike where walk reads a declared type: a local variable's, and a top-level or local function's return type. They would differ where the checker has an expected type that walk does not read: a method's return type, a top-level variable, a field, an assignment, a call's argument; there walk sums at the join of its elements' run-time types and converts the value after, and the checker sums in the declared type. Rung C reports each such place; walk is not changed here. P-78 is not bent: its written argument is row 731's workaround by its own words, and its history shows the workaround entering with the gap (`POSITIONS-history.md`, P-78, the blocks of 2026-10-22).
+8. **C2. No library line and no test is unwritten.** The library's sites keep their static arguments (F-285), and so do the team's tests. **Default: so.** The team demos that leave the argument out (P-79) then need no respelling: C reports which of them the checker now accepts, if its probe reaches them.
+9. **F1. Under walk a generic function value is instantiated at the arrow type of the parameter or variable that receives it; where that leaves a static parameter open, it stays generic and is instantiated at its first application from the arguments' run-time types,** as a direct call is. **Default: so.** The reason: `var-ref.tex`, "the static arguments are statically inferred from the context"; walk has no static types (P-12), so the context it has is the receiving type and the call. Rung C's checker refuses a reference whose receiving type leaves a static parameter open, and one with no receiving type, since nothing static fixes it. So rung F's tests assert only the programs that the checker accepts after rung C; what walk does with the others is a run to report, not a test, because walk runs them only for want of static types.
+10. **B1. A typed array literal at the top level is the array that the same literal is in a function body.** **Default: so.** The reason: `aggregate.tex`, "Array Expressions"; one meaning for one form. An array literal without a declared type is row 49's, in a function body too, and is left out.
 
 ## 4. The rungs
 
 Each rung's section is its worker's brief. The briefing keys of section 1 give the decisions, rows and code that the rung rests on. A line citation is the base build's, `84f1c37190`. The record's forks are section 3's. The reproducers are in `explorations/compile-ladder/plan-32/probes/`; a test is written new in the test folders, and no file is moved from there. No rung edits `explorations/run-c4/` or `explorations/apl/`.
 
-### P. Three forms that the grammar gives and the parser refuses: a postfix operator declared in an api, a mutable local without its type, and the signs for sum and product as accumulators (rows 133, 177 and 5)
+### P. Two forms that the grammar gives and the parser refuses: a postfix operator declared in an api, and the signs for sum and product as accumulators (rows 133 and 5)
 
-**The mission.** The parser is shared by walk and the compiled path. Three forms that the specification's grammar gives are refused before either path sees them, and each one shapes lines of the model program: the model declares `^T` itself because its helper file's api cannot; its three mutable variables carry types that nothing else needs; and its sums are written `SUM`. You repair the three, each on both paths.
+**The mission.** The parser is shared by walk and the compiled path. Two forms that the specification's grammar gives are refused before either path sees them, and each one shapes lines of the model program: the model declares `^T` itself because its helper file's api cannot, and its sums are written `SUM`. You repair the two, each on both paths.
 
-**The decisions this rung builds.** P-87, which keeps the model's lines as they are. Section 3's forks P1, P2 and P3.
+**The decisions this rung builds.** P-87, which keeps the model's lines as they are. Section 3's fork P1.
 
 **What you build, in order.** Each test is seen failing on the base first.
 1. **Row 133.** In `parser/Parameter.rats`, `AbsOpHeaderFront` takes what `OpHeaderFront` takes after its value parameter: `Op`, `ExponentOp` or a caret. Tests: `ProjectFortress/tests/ApiPostfixExponentOp.fss` with its api and component beside it, as the probes `P133Api.fsi`, `P133Api.fss` and `P133.fss` are, the operator declared in the api, defined in the component and applied in the importing program, on a plain value and with static parameters as the model's `opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]` has them; and a compiled test of the same shape under the prelude, `ProjectFortress/compiler_tests/ApiPostfixExponentOpCompiled.test`. Seen failing on the base: `Syntax Error` at column 1 of the line after the declaration.
-2. **Row 177.** In `parser_util/SyntaxChecker.java`, `forLocalVarDeclOnly` asks for a type only where the grammar does: a declaration without a right side. Tests: `tests/MutableLocalUntyped.fss` and `compiler_tests/MutableLocalUntypedCompiled.test`: `var p = 3`, then `p := p + 1`, prints 4; a call's result; a tuple of names; an assignment of another type refused as for a typed variable; `p := e` without a declaration still refused. Report every form that still fails (fork P3).
-3. **Row 5.** U+2211 and U+220F begin a reduction wherever `SUM` and `PROD` do, with and without a static argument and a generator clause list, and name the same operators in a declaration (fork P1). The alternative in `parser/Symbol.rats` alone is not enough (PROBES, section 3): find where the sign is taken as an operator first. Tests: `tests/SumSignAccumulator.fss`, each form of `tests/` that `SUM` and `PROD` take, written with the signs, with the same values; a compiled test under the prelude with the prelude's own sum.
-4. **The whole suites** where the skill's `tests-running.md`, "When to run a whole suite", asks for them: a grammar edit reaches every program on both paths.
-5. **The stages,** once on your final tree: the count stage and the distance stage against climb batch 30's gate (`explorations/compile-ladder/climb-batch-30/gate/`), 0 and 0 with `#crash none`.
+2. **Row 5.** U+2211 and U+220F begin a reduction wherever `SUM` and `PROD` do, with and without a static argument and a generator clause list, and name the same operators in a declaration (fork P1). The alternative in `parser/Symbol.rats` alone is not enough (PROBES, section 3): find where the sign is taken as an operator first. Tests: `tests/SumSignAccumulator.fss`, each form of `tests/` that `SUM` and `PROD` take, written with the signs, with the same values; a compiled test under the prelude with the prelude's own sum.
+3. **The whole suites** where the skill's `tests-running.md`, "When to run a whole suite", asks for them: a grammar edit reaches every program on both paths.
+4. **The stages,** once on your final tree: the count stage and the distance stage against climb batch 30's gate (`explorations/compile-ladder/climb-batch-30/gate/`), 0 and 0 with `#crash none`.
 
-**Rows.** Read each with `ledger.py show N` first. Close 133 and 5. Row 177: close it if every form of step 2 runs; else its whole new line.
+**Rows.** Read each with `ledger.py show N` first. Close 133 and 5. Row 177, the type on a mutable local, is not yours: change nothing of it.
 
 **Specification.** No Effect of Appendix I and no note names these rows (a grep of `Specification/` on `main`). List each sentence your change makes false, or none.
 
-**Files.** `parser/Parameter.rats`, `AbsOpHeaderFront` and the operator headers at `:116-131`; `parser/MethodParam.rats:62`, `:82`; `parser/Symbol.rats`, `SUM`, `PROD`, `Accumulator`; `parser/Expression.rats:685-720` and `parser/NoNewlineExpr.rats:35`, the productions that use `Accumulator`; `parser_util/SyntaxChecker.java`, `forLocalVarDeclOnly`; your tests. Not: `parser/Expression.rats:380-680`, which is rung S's; the library; microGPT.
+**Files.** `parser/Parameter.rats`, `AbsOpHeaderFront` and the operator headers at `:116-131`; `parser/MethodParam.rats:62`, `:82`; `parser/Symbol.rats`, `SUM`, `PROD`, `Accumulator`; `parser/Expression.rats:685-720` and `parser/NoNewlineExpr.rats:35`, the productions that use `Accumulator`; your tests. Not: `parser_util/SyntaxChecker.java`, whose check on a mutable local stays; `parser/Expression.rats:380-680`, which is rung S's; the library; microGPT.
 
 **Reserved points.** A model line. A program or a library line that reads U+2211 or U+220F as an operator of its own. A change of what `SUM` or `PROD` in ASCII parses to.
 
@@ -422,8 +410,8 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 **The decisions this rung builds.** P-78, whose written argument is row 731's workaround; P-51 and P-48, whose retry and bound stay for every call that they serve today; P-148 for your checker edit. Section 3's forks C1, C2 and R2.
 
 **What you build, in order.** Each test is compiled under the prelude and seen failing on the base first.
-1. **Row 731.** In `scala_src/typechecker/impls/Functionals.scala`, a big operator's call that is the first argument of a reduction's desugared call, and whose static parameter nothing fixes and whose bound gives no instance, is instantiated by the reduction's declared type where it has one that fits the bound, and else by the type of the reduction's body (fork C1). Tests: `compiler_tests/InferBigOperatorSelfBound.test`, from `compiler_tests/InferBigOperatorExpectedType.fss` with the big operator and its object bounded by a self-typed trait of the prelude, as the probe `P731b.fss` is: a reduction with a declared type; one without, whose body fixes it; one whose declared type and body differ, with the value that walk gives for the same program; a written argument, which still wins; a list comprehension under a declared `List[\E\]` if the prelude can write one. `compiler_tests/InferBigOperatorExpectedType` and `InferBigOperatorUnwritten` are guards. Seen failing on the base: "is not applicable to an argument of type ()".
-2. **Row 758.** A reference to a generic function, where an arrow type is expected (an argument at a parameter of arrow type, a typed binding), is instantiated by that arrow type; the kind environment holds the function's own static parameters while its type is read. Tests: `compiler_tests/GenericFunctionAsValueCompiled.test`: the row's program prints its value; a function generic in a size, `half[\nat n\]`, at a parameter of a sized arrow type; a reference whose expected arrow leaves a parameter open, refused with a message and not a crash; a typed local binding. Seen failing on the base: "F is not in the kind env [][][]". If this step does not fit, land step 1, and report what remains with row 758's whole new line.
+1. **Row 731.** In `scala_src/typechecker/impls/Functionals.scala`, a big operator's call that is the first argument of a reduction's desugared call, and whose static parameter nothing fixes and whose bound gives no instance, is instantiated by the reduction's declared type where it has one that fits the bound, and else by the type of the reduction's body (fork C1). Tests: `compiler_tests/InferBigOperatorSelfBound.test`, from `compiler_tests/InferBigOperatorExpectedType.fss` with the big operator and its object bounded by a self-typed trait of the prelude, as the probe `P731b.fss` is: a reduction with a declared type; one without, whose body fixes it; one whose declared type and body differ, with the value that walk gives for the same program; a written argument, which still wins; a list comprehension under a declared `List[\E\]` if the prelude can write one. `compiler_tests/InferBigOperatorExpectedType` and `InferBigOperatorUnwritten` are guards. Walk reads a declared type only at a local variable and at a top-level or local function's return type (F-228): report each other place where your rule gives the reduction another type than walk gives the same program, with both values, and change nothing of walk. Seen failing on the base: "is not applicable to an argument of type ()".
+2. **Row 758.** A reference to a generic function, where an arrow type is expected (an argument at a parameter of arrow type, a typed binding), is instantiated by that arrow type; the kind environment holds the function's own static parameters while its type is read. Tests: `compiler_tests/GenericFunctionAsValueCompiled.test`: the row's program prints its value; a function generic in a size, `half[\nat n\]`, at a parameter of a sized arrow type; a reference whose expected arrow leaves a parameter open, and one with no expected type, as at an untyped binding, each refused with a message and not a crash (walk runs both, rung F's fork F1, and rung F does not assert them); a typed local binding. Seen failing on the base: "F is not in the kind env [][][]". If this step does not fit, land step 1, and report what remains with row 758's whole new line.
 3. **Runs to report, not gated tests:** the library's three sites that row 731 names and `explorations/run-c4/src/MicroGptFlat.fss:43`, each with its static argument removed in a scratch copy, under the distance stage's driver, on the base and on your tree.
 4. **The whole compiled suite once,** `ant testFast`: your edit reaches every reduction and every function reference.
 5. **The stages and the timing,** once on your final tree: the count stage and the distance stage against climb batch 30's gate, 0 and 0 with `#crash none`, and P-148's runs.
@@ -448,7 +436,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 **The decisions this rung builds.** P-48 and P-12; P-87, which keeps the model's lines. Section 3's fork F1.
 
 **What you build, in order.** Each test is seen failing on the base first.
-1. **The value.** A generic function passed where a parameter or a typed variable of arrow type receives it is instantiated at that arrow type, the callee's own static parameters being fixed first from its other arguments; where the receiving type leaves a static parameter of the function open, or there is no receiving type, the value stays generic and is instantiated at its first application from the arguments' run-time types, as a direct call is (`EvaluatorBase.inferAndInstantiateGenericFunction`). No instance: the refusal that a direct call with those arguments gives. Tests: `tests/GenericFunctionAsValueWalk.fss`: row 156's three failures, each now with its value (the probe `P156.fss` is the first); a function generic in a type, in one size and in two; `app(half[\3\], v)`, which runs today, as a guard; a generic function bound to an untyped local and called twice at two sizes; an overloaded name one of whose declarations is generic.
+1. **The value.** A generic function passed where a parameter or a typed variable of arrow type receives it is instantiated at that arrow type, the callee's own static parameters being fixed first from its other arguments; where the receiving type leaves a static parameter of the function open, or there is no receiving type, the value stays generic and is instantiated at its first application from the arguments' run-time types, as a direct call is (`EvaluatorBase.inferAndInstantiateGenericFunction`). No instance: the refusal that a direct call with those arguments gives. Tests: `tests/GenericFunctionAsValueWalk.fss`: row 156's three failures, each now with its value (the probe `P156.fss` is the first); a function generic in a type, in one size and in two; `app(half[\3\], v)`, which runs today, as a guard; an overloaded name one of whose declarations is generic. Every program of the test is one that the checker accepts after rung C: the receiving arrow type fixes each static parameter. A generic function bound to an untyped local and called at two sizes, and one whose receiving type leaves a parameter open, are runs to report, not tests: the checker refuses both (rung C, step 2), and walk runs them only for want of static types.
 2. **The row lift.** In a test program of your own, not in `explorations/`: a `rows[\nat r, nat c\](f: Vector[\RR64,c\] -> Vector[\RR64,c\], m: Matrix[\RR64,r,c\])` called as `rows(half, m)`, the callee's `c` fixed by `m`.
 3. **The whole walk suite once,** as the skill gives it: your edit reaches every call that passes a function.
 
@@ -464,19 +452,19 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Overlaps by file.** None with P, S, C or B.
 
-### B. An array literal at the top level is an array under walk, with its declared type or without one (row 142)
+### B. An array literal with a declared type at the top level is an array under walk (row 142)
 
-**The mission.** The model program holds two tables, the names and the shapes of its nine matrices, as chains of `if` in two functions, because under walk an array literal at the top level is not built into an array: with a declared type the binding fails against a tuple, and without one the name holds a tuple of tuples (row 142). In a function body the same literal is an array where it has a declared type, with numerals, names or expressions as its elements; without a declared type it stops there with "Can't infer element type for array construction" (row 49, seen again by the check of 2026-11-15, `climb-batch-32-review.md`, finding 2). You make the top level do what the body does.
+**The mission.** The model program holds two tables, the names and the shapes of its nine matrices, as chains of `if` in two functions, because under walk an array literal at the top level is not built into an array: with a declared type the binding fails against a tuple (row 142). In a function body the same literal is an array where it has a declared type, with numerals, names or expressions as its elements. You make the top level do what the body does for a literal with a declared type. A literal without a declared type stops in a function body with "Can't infer element type for array construction" (row 49); it is left out, at the top level too.
 
 **The decisions this rung builds.** P-87; P-173 for the elements of a typed literal. Section 3's fork B1.
 
 **What you build, in order.** Each test is seen failing on the base first.
-1. **The binding.** In `interpreter/evaluator/BuildEnvironments.java`, `forVarDecl4` builds a top-level array literal as `LHSEvaluator.forLValue` builds a local one, typed and untyped. Tests: `tests/TopLevelArrayLiteral.fss`: `shp: ZZ32[3] = [27 16 27]` and `shp[1]`; rank 2 with `;`, typed `ZZ32[3,2]`, and `shp[2,0]`; the untyped forms of both, with the same values and the type that the literal has in a body (fork B1); elements that are top-level names and expressions, as `[vocabSize nEmbd; (4 nEmbd) nEmbd]`, the names bound by a tuple binding above; a `String[9]`; a `Vector[\ZZ32,3\]`; a literal at a top-level `var`; a size that does not match its declared type, refused.
+1. **The binding.** In `interpreter/evaluator/BuildEnvironments.java`, `forVarDecl4` builds a top-level array literal that has a declared type as `LHSEvaluator.forLValue` builds a local one. Tests: `tests/TopLevelArrayLiteral.fss`: `shp: ZZ32[3] = [27 16 27]` and `shp[1]`; rank 2 with `;`, typed `ZZ32[3,2]`, and `shp[2,0]`; elements that are top-level names and expressions, as `[vocabSize nEmbd; (4 nEmbd) nEmbd]`, the names bound by a tuple binding above; a `String[9]`; a `Vector[\ZZ32,3\]`; a literal at a top-level `var`; a size that does not match its declared type, refused. No test of an untyped literal (fork B1): report what it does on your tree.
 2. **The whole walk suite once,** as the skill gives it: your edit reaches every top-level variable.
 
 **The stages.** None. List your files (`STAGE_BLIND`).
 
-**Rows.** Close 142. Rows 49 and 104: a note only if a test of theirs changed.
+**Rows.** Close 142; if the untyped top-level literal still binds a tuple of tuples, say so in row 142's close. Rows 49 and 104: a note only if a test of theirs changed.
 
 **Specification.** No Effect of Appendix I and no note names row 142. `Specification/basic/variables.tex:16` and `aggregate.tex:15`, "matrix unpasting ... not yet supported", stay true. List each sentence your change makes false, or none.
 
@@ -500,7 +488,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 The planner's brief, candidate by candidate, with its home here. Each was reproduced on the base's code (PROBES, section 2).
 
 - **Row 133,** `opr (m)^T` in an api: P. A one-line edit of the grammar made the probe run (PROBES, section 3).
-- **Row 177,** `var p = e`: P. With the check gone, both paths ran the probe.
+- **Row 177,** `var p = e`: out. With the check gone, both paths ran the probe, but the check is the team's rule: the chapter and the check ask for the type, and only the appendix's grammar gives the form. The curator's question (section 2).
 - **Row 5,** the sum's and the product's signs: P. The row has the sum's sign; the grammar's rule gives the product's beside it, and the other big operators are written with `BIG`, which parses today.
 - **Row 84,** `p.wq^T`: S, with row 158, as one subject.
 - **Row 158,** `(f(x))^T`: S. The compiled path runs the form today, so the repair is walk's alone, and its compiled test is a guard.
@@ -520,11 +508,11 @@ The planner's brief, candidate by candidate, with its home here. Each was reprod
 
 ### Rows filed by plan
 
-None. Every defect met is in a row. Fork P3's neighbour, an untyped mutable local whose value is an array literal, is row 49's. A rung's new rows go in its `record.md` as `NEW-<rung>-<n>`.
+None. Every defect met is in a row. A rung's new rows go in its `record.md` as `NEW-<rung>-<n>`.
 
 ### Left out, each with its home
 
-Section 2, "What the batch leaves out". Their homes: rows 140, 141, 54 and 292, the curator's questions 2 to 4 and 6 of `reviews/c4-fortress-way-2026-11-15.md`; row 307, after the switch-over; row 50, the curator's question in section 2; decision D, P-87 and P-85.
+Section 2, "What the batch leaves out". Their homes: rows 140, 141, 54 and 292, the curator's questions 2 to 4 and 6 of `reviews/c4-fortress-way-2026-11-15.md`; row 307, after the switch-over; rows 50 and 177, the curator's questions in section 2; row 49, no home yet; decision D, P-87 and P-85.
 
 ## 6. How it is run
 
@@ -544,7 +532,7 @@ The batch runs on the workflow of climb batches 22 to 30: `coordinator/climb-bat
 
 This run is climb batch 32, the one run of the record CLIMB-BATCH-32.md: the model's notation. The project's model program, microGPT, is written around gaps of today's tree: forms that the specification gives and that the parser, the interpreter or the compiled checker refuses. These rungs repair the gaps that need no decision, so that each line of the model can later be written in the specification's short form. No rung changes a line of the model program or of its helper file. Its rungs:
 
-- P, three forms that the parser refuses: a postfix operator declared in an api, a mutable local without its type, and the signs for sum and product as accumulators;
+- P, two forms that the parser refuses: a postfix operator declared in an api, and the signs for sum and product as accumulators;
 - S, a superscript after a dotted access, on both paths, and after a parenthesised call, under the interpreter;
 - C, two static arguments that the compiled checker leaves open: a big operator's in a reduction that does not write it, and a generic function's where the function is passed as a value;
 - F, a generic function passed as a value under the interpreter;
@@ -571,18 +559,18 @@ The coordinator, after the curator's go:
 
 The comparands are climb batch 30's `summary.txt`, `checker-count.txt` (0) and `distance.txt` (0, `#crash none`), in `compile-ladder/climb-batch-30/gate/`, or climb batch 31's if it landed first.
 
-- `testSystem`: the comparand's count, with the new walk tests: P's three, S's two, F's one or two, B's one.
-- `testFast`: the compiler track's count plus P's three, S's guard and its row 84 test, and C's two; the library track unchanged.
+- `testSystem`: the comparand's count, with the new walk tests: P's two, S's two, F's one or two, B's one.
+- `testFast`: the compiler track's count plus P's two, S's guard and its row 84 test, and C's two; the library track unchanged.
 - The ladder: no rung declares a move. P's and S's grammar reaches every program: a changed output is traced to its rung.
 - The checker count: 0; the distance: 0, `#crash none`; reported, never red.
 - The 52 team demos at the gather. microGPT's quick pair at the commit stage, 7 of 7 each, with `git diff <base> -- explorations/run-c4 explorations/apl` empty.
-- **The measure,** after the landing: 12 boxed gaps open before, 5 after; the lines are freed only by the curator's diffs.
+- **The measure,** after the landing: 12 boxed gaps open before, 6 after; the lines are freed only by the curator's diffs.
 
 ### The ledger
 
 New rows go into the ledger only through `ledger.py add`, by the gather.
 
-- **Closed:** 133, 5, and 177 if every form runs (P); 84, 158 (S); 731, and 758 if step 2 lands (C); 156 (F); 142 (B).
+- **Closed:** 133, 5 (P); 84, 158 (S); 731, and 758 if step 2 lands (C); 156 (F); 142 (B). Row 177 stays open as it is; its class, an implementation gap of the parser, is the coordinator's to change once the curator has answered.
 
 ### After the landing
 
@@ -600,7 +588,7 @@ The batch edits no FACTS or POSITIONS entry. After the landing, these are false:
 - **F-59:** its title's second half, "and the compiled checker needs that argument written in every clause form", and the sentences on row 731; "the refusal is row 731's, and no test pins it".
 - **F-221:** "an F-bounded one is still refused (row 731)".
 - **F-285:** "while row 731's checker gap stays for user programs and the team demos"; the library's written sites stand.
-- The entries that name rows 133, 177, 5, 84, 158, 156, 142 and 758 as open, if any does by then: none does at `3fc1ac6e78` by a grep of FACTS and POSITIONS for those rows.
+- The entries that name rows 133, 5, 84, 158, 156, 142 and 758 as open, if any does by then: none does at `3fc1ac6e78` by a grep of FACTS and POSITIONS for those rows.
 
 ### For the skill writer: the sentences of `fortress-repo` this batch makes false
 
@@ -608,7 +596,7 @@ The batch writes no skill text. After the landing, the record-landing workflow's
 
 - `references/revival-changes.md`, "Reductions and comprehensions": "**Only walk infers the static argument of `SUM`, `PROD`, `BIG MAX` and `BIG MIN`.** The checker does not, because their bound names the parameter (row 731). Write it in every clause form of these four, as `SUM[\ZZ32\][j <- 0#n] f(j)`." (C)
 - `references/library.md`, the item on `SUM` and `PROD`: "Write the element type wherever generators stand in brackets, also where the generators, the body or a declared type fix it: `SUM[\ZZ32\][j <- 0#n] f(j)`. The checker refuses a call without it (ledger row 731)." (C)
-- `SKILL.md`, "Parallelism and mutable state": "`x = e` declares an immutable variable. `var x: T = e` and `x: T := e` declare a mutable one": true still, and incomplete once `var x = e` runs (P).
+- `SKILL.md`, "Parallelism and mutable state": "`x = e` declares an immutable variable. `var x: T = e` and `x: T := e` declare a mutable one": true still, since `var x = e` stays refused.
 - `references/revival-changes.md`, "Static parameters, `where` clauses and sizes", and `references/interpreter.md`, where walk's handling of a generic function is given: no sentence says that a generic function cannot be passed; one that says how walk instantiates a generic function at a call gains the value's case (F), if the writer judges it a rule.
 - `references/compiler.md`, "What the compiled path cannot compile yet": no sentence names rows 758, 84 or 133.
 

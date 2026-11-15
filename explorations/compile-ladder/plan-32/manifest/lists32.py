@@ -13,7 +13,8 @@
 # section 1's opening paragraph gives them, each with the record's reason, its first letter capitalized unless the
 # reason opens with code; a check is marked on its entry. The forks: the record's one forks key, REC "Forks the
 # batch takes", section 3's forks whole, in every briefing once, as a check (added to the record by the check of
-# 2026-11-15, coordinator/climb-batch-32-review.md, change 10).
+# 2026-11-15, coordinator/climb-batch-32-review.md, change 10). Rung P's four keys on row 177, the type on a mutable
+# local, went with the row, which the coordinator's ruling of 2026-11-15 took out of the rung.
 # lists(ids) gives the lists of the rungs ids, a rung left out by --without dropping from the block; LISTS and REASONS
 # are lists(IDS).
 # `python3 -B lists32.py` checks every key with facts-extract.sh --check (each must match exactly one place) and
@@ -32,18 +33,14 @@ FORKS_SECTION = REC + 'Forks the batch takes'
 
 P_BRIEFING = [
   ('P-87', "No line of the model or of its helper file changes in this batch.", CHECK),
-  ('P-173', "The default type that a numeral takes at an untyped binding, which var p = 3 meets."),
   ('ledger:133', "The api's rule, which closes.", CHECK),
-  ('ledger:177', "The check that refuses the untyped mutable local; its := half is the grammar's and stays.", CHECK),
   ('ledger:5', "The sum sign as a prefix operator, which closes.", CHECK),
   ('ledger:166', "The null before the file name in the message, a neighbour that is not yours."),
   (PRB + '3. One trial build', "What a one-line edit of each site gave, and what it left for row 5.", CHECK),
   (SPEC + 'basic/expressions/reductions.tex#Summations and Other Reduction Expressions', "The accumulator's grammar.", CHECK),
-  (SPEC + 'basic/variables.tex#Local Variable Declarations', "The local declaration's forms.", CHECK),
   ('code:' + SRC + 'parser/Parameter.rats#FnHeaderFront AbsOpHeaderFront', "The api's rule.", CHECK),
   ('code:' + SRC + 'parser/Parameter.rats#FnHeaderFront OpHeaderFront', "The component's rule, the precedent."),
   ('code:' + SRC + 'parser/Symbol.rats#transient Op Accumulator', "The accumulator.", CHECK),
-  ('code:' + SRC + 'parser_util/SyntaxChecker.java#public void forLocalVarDeclOnly', "The check.", CHECK),
   ('map:modules-and-phases.md#B.2 Rats! parsing', "How the grammars are built and what a grammar edit makes stale."),
   (FORKS_SECTION, "The defaults you build.", CHECK),
 ]
@@ -111,7 +108,7 @@ B_BRIEFING = [
   ('P-87', "No line of the model changes.", CHECK),
   ('P-173', "Where a numeral converts, which the elements of a typed literal meet.", CHECK),
   ('ledger:142', "The binding, which closes.", CHECK),
-  ('ledger:49', "A sibling on the array literal, whose error the untyped literal meets in a function body."),
+  ('ledger:49', "The untyped literal, in a function body too, which is left out."),
   ('ledger:104', "A sibling on the array literal."),
   (SPEC + 'basic/expressions/aggregate.tex#Array Expressions', "The literal and its type.", CHECK),
   (SPEC + 'basic/variables.tex#Top-Level Variable Declarations', "The top-level declaration.", CHECK),

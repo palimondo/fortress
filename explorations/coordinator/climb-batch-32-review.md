@@ -182,3 +182,14 @@ By the rule of the `coordinator` skill's `SKILL.md`, "The curator's role and dec
 - `explorations/compile-ladder/plan-32/manifest/`: `lists32.py` (the briefing keys, each checked with `facts-extract.sh --check`: 0 bad lists), `gen32.py` (the block from the record's sections 1, 4 and 6), `check32.js` (the block's checks on a spliced scratch copy: 115 ok, 0 problems), and `block32.js`, the block as generated from the record at this commit.
 - `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced scratch copy: 0 problems.
 - The block is not installed in `climb-batch-workflow.js`, and `FABLE_WEEK` is as it was. To install it after the go: run `lists32.py`, `gen32.py` and `check32.js`, then `check32.js --write`, then the scenario checker on the tracked script, as the manual's "Before the launch", step 4, gives them. If the record changes first (findings 1 and 3), the generator reads it again; a changed briefing bullet needs the same change in `lists32.py`.
+
+## After the coordinator's rulings
+
+The coordinator ruled on findings 1 and 3 to 5 and on the curator's words on 2026-11-15, and the record, the lists and the block were brought in line. The sections above describe the record as it was checked.
+
+- Row 177 is out of rung P, which is rows 133 and 5. Forks P2 and P3 left section 3, and `var p = e` is a question for the curator in section 2. The measure is 12 to 6; after the diffs, 4 lines of the model and 4 of the helper file stay shaped.
+- Rung B builds the typed literal only. An untyped literal is row 49's, in a function body too, and is left out.
+- Fork C1 names where the two paths answer alike and where they would differ, and rung C reports each such place.
+- Rung C's step 2 stays. Rung F's test changed: it asserts only programs that the checker accepts after rung C, and the two cases that the checker refuses are runs to report, because walk runs them only for want of static types.
+- The curator's words replace "You asked for the notation's gaps to come first".
+- Checked again: `lists32.py` 0 bad lists (P has 11 keys and 8 checks); `check32.js` 115 ok, 0 problems; the scenario checker 0 problems on the spliced scratch copy. `block32.js` is the block of the record at this commit, not installed.

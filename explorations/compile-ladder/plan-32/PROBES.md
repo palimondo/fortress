@@ -34,7 +34,7 @@ Under walk, `bin/fortress P.fss` from `probes/`, with the call set up as the ski
 Three edits in the planner's worktree, then `ant compileAll` (`BUILD SUCCESSFUL`, 55 s), the library order, and the programs again. The edits are scratch; no rung copies them unread.
 
 - **Row 133.** `parser/Parameter.rats:171`: the `/` that the component's rule has at `:141`, added before `caret`. `P133.fss` then printed `103` under walk: the api's declaration parses, and the importing program's `y^T` runs it. Nothing stands behind the row under walk.
-- **Row 177.** `parser_util/SyntaxChecker.java:179`: `|| lvb.isMutable()` taken out of the condition. `P177.fss` printed `4` under walk; `C177.fss`, the same program, compiled and printed `4`. So both paths already run an untyped mutable local, and the check is all that refuses it. One neighbour showed: `P177b.fss`, `var q = [1.0 2.0]`, stopped under walk with `Can't infer element type for array construction`, which is the array literal's own need of a declared type at a local, not the `var`'s.
+- **Row 177.** `parser_util/SyntaxChecker.java:179`: `|| lvb.isMutable()` taken out of the condition. `P177.fss` printed `4` under walk; `C177.fss`, the same program, compiled and printed `4`. So both paths already run an untyped mutable local, and the check is all that refuses it. One neighbour showed: `P177b.fss`, `var q = [1.0 2.0]`, stopped under walk with `Can't infer element type for array construction`, which is the array literal's own need of a declared type at a local, not the `var`'s (row 49). After these probes the check of 2026-11-15 (`coordinator/climb-batch-32-review.md`, finding 1) found that the refusal is the team's rule and no gap: the chapter on variables and the check's own comment ask for the type, and only the appendix's grammar gives the form. Row 177 is out of the batch, a question for the curator (the record, section 2).
 - **Row 5.** `parser/Symbol.rats:252`, `:254`: `"SUM"` made `("SUM" / "∑")`, and `PROD` likewise with `"∏"`. `P5d.fss`, `∑[\ZZ32\][i <- 1#3] i`, then gave `Syntax Error` at the `[` after `∑`. So the alternative is not enough: `∑` is taken as an operator before the accumulator's rule is reached, and the rung has the expression grammar's order to repair (`parser/Expression.rats:685-707`).
 
 ## 4. Where each gap lies, by file and declaration
@@ -50,7 +50,7 @@ Three edits in the planner's worktree, then `ant compileAll` (`BUILD SUCCESSFUL`
 
 ## 5. The briefing keys
 
-Every key of the record's section 1 was passed to `explorations/coordinator/tools/facts-extract.sh --check` on `main` at `3fc1ac6e78`, 61 distinct keys in one call: each matched one place, and the tool reported none as not found. The key into this file was checked after it was written.
+Every key of the record's section 1 was passed to `explorations/coordinator/tools/facts-extract.sh --check` on `main` at `3fc1ac6e78`, 61 distinct keys in one call: each matched one place, and the tool reported none as not found. The check of 2026-11-15 found one key that matched two declarations, rung F's `EvaluatorBase.java#static Simple_fcn inferAndInstantiateGenericFunction(List<FValue> args,`; the record now has the public declaration's key. The key into this file was checked after it was written.
 
 ## 6. The disk
 
