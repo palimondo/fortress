@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Run a program that writes ℤ32","toolUseId":"toolu_013N64n3yWWS7X9BPULwJBoD","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"fable","effort":"low","pickedEffortModel":"claude-fable-5-2","finished":true}
