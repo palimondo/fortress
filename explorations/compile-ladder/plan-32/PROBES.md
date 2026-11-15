@@ -26,7 +26,7 @@ Under walk, `bin/fortress P.fss` from `probes/`, with the call set up as the ski
 | 158 | `P158.fss`: `(f(3))^T d`; `P158b.fss`: `(f(3))^T` | both `Syntax Error: a function argument should not be immediately followed by a non-expression element.` |
 | 158 | `C158.fss`, the second form, `fortress compile` and `run` on the base | `104`: the compiled path reads it right; the gap is walk's alone |
 | 50 | `P50.fss`: `a: ZZ32[3] = [i \|-> 2 i \| i <- 0#3]`; `P50b.fss`, two indices | `Variable i is not defined.` |
-| 731 | `P731.fss`: `compiler_tests/InferBigOperatorExpectedType.fss` with its big operator's bound made `StandardTotalOrder[\T\]`, `fortress compile` | `Could not check call to operator BIG LAST - [\T extends CompilerAlgebra.StandardTotalOrder[\T\]\]()->Red[\T\] is not applicable to an argument of type ().` (the first error printed, on `Last[\T\]`, is the probe's own: the object's bound was left `Number`) |
+| 731 | `P731b.fss`: `compiler_tests/InferBigOperatorExpectedType.fss` with every bound `Number` made `StandardTotalOrder[\T\]`, `fortress compile` | `P731b.fss:30:15-39: Could not check call to operator BIG LAST - [\T extends CompilerAlgebra.StandardTotalOrder[\T\]\]()->Red[\T\] is not applicable to an argument of type ().`, the one error. `P731.fss`, an earlier form with the object's bound left `Number`, prints an error of its own first. |
 | 758 | `P758.fss`: `useOne(count)` for `count[\F extends Object\](b: Box[\F\]): ZZ32`, `fortress compile` | `P758.fss:4:8-22: F is not in the kind env [][][]` |
 
 ## 3. One trial build: what stands behind rows 133, 177 and 5
