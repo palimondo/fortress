@@ -3,9 +3,9 @@
 
 ## What is compared with what
 
-Every number in this text rests on the model being right. The project does not take that on trust. A second program, `MicroGptFlatQuick.fss`, runs the model and compares its results with values that another program computed.
+A second program, `MicroGptFlatQuick.fss`, checks that the model computes the right numbers. It runs the model and compares its results with values that another program computed.
 
-The other program is written in Python with NumPy: [microgpt_flat.py](src:explorations/apl/reference/hsu-flat/microgpt_flat.py). It has the same data layout, and it starts from the same parameter files. A script ran it once and stored its results as text files, one number on each line, in the folder [explorations/run-c/goldens](src:explorations/run-c/goldens). The record calls these stored values goldens.
+The other program is written in Python with NumPy. Its file, `microgpt_flat.py`, is not in the repository. It has the same data layout, and it starts from the same parameter files. A script, [make_goldens.py](src:explorations/experiment/run-c-goldens/make_goldens.py), ran it once and stored its results as text files, one number on each line, in the folder [explorations/run-c/goldens](src:explorations/run-c/goldens). The record calls these stored values goldens.
 
 A run of the quick check under walk printed this. The times are left out, as in Part 7.
 
@@ -31,9 +31,9 @@ The seven checks:
 6. The parameters after one Adam step. The largest difference is 0.00000000000000028.
 7. The loss of the step on document 1 with the new parameters: 3.42427278387177 in both, with a difference in the sixteenth digit.
 
-The differences in checks 4, 6 and 7 are near 0.0000000000000001. This text takes them for differences of rounding between the two programs, and did not trace them.
+The differences in checks 4, 6 and 7 are near 0.0000000000000001, the last digit that an `RR64` keeps. The check's tolerance is 0.000000000001, ten thousand times larger.
 
-Checks 3, 5 and 7 are numbers that this text has met: the loss of Part 5, the zeros of Part 6, and the second loss of the training loop in Part 7.
+Checks 3, 5 and 7 are numbers of earlier parts: the loss of Part 5, the zeros of Part 6, and the second loss of the training loop in Part 7.
 
 ## The file
 
@@ -51,7 +51,7 @@ The component exports only `Executable`: it is a program and offers nothing to o
 @src MicroGptFlatQuick.fss 31-42
 
 - Line 34 reads the parameters, as the model's own `run` does.
-- Line 36 is check 1. `readVector` reads a file with one number on each line.
+- Line 36 is check 1. `readVector`, a function of `FlatData.fss`, reads a file with one number on each line.
 - Lines 37 to 42 are check 2. The body of the outer `BIG MAX` is a block, from `do` to `end`. For each of the 16 documents it parses the stored line and compares its numbers with `corpus.token` and `corpus.length`.
 
 @src MicroGptFlatQuick.fss 43-59
@@ -74,4 +74,10 @@ cd explorations/run-c4/src
 
 The project's script `explorations/coordinator/tools/mg-run.sh` does the same from an empty cache and keeps the output in a file. By your ruling, the check of microGPT after a batch of work on the tree must take less than a minute. This program is that check.
 
-A longer program beside it, `MicroGptFlatCheck.fss`, makes 40 checks. It runs five Adam steps, a batch of four documents, and the experiment of Part 6 on eleven parameters: it changes one parameter, calls the model twice, and compares the measured rate with the gradient's entry. This text did not run it.
+A longer program beside it, `MicroGptFlatCheck.fss`, makes 40 checks. It runs five Adam steps, a batch of four documents, and the experiment of Part 6 on eleven parameters: it changes one parameter, calls the model twice, and compares the measured rate with the gradient's entry.
+
+## Sources
+
+- The Output box: a run of `MicroGptFlatQuick.fss` under walk.
+- The stored values and the script that made them: [explorations/run-c/goldens](src:explorations/run-c/goldens), [explorations/experiment/run-c-goldens/make_goldens.py](src:explorations/experiment/run-c-goldens/make_goldens.py).
+- The longer check: [MicroGptFlatCheck.fss](src:explorations/run-c4/src/MicroGptFlatCheck.fss).
