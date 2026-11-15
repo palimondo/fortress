@@ -154,7 +154,7 @@ Results of 2026-11-15, on both editions:
 
 - `check.js`: all pass on the Working Draft (45 checks) and on the revised edition (42).
 - `pdfcheck.py`, the revised edition: 6,845 blocks, 8 not found, as on 2026-11-13. The Working Draft against the PDF of `414b790e3f`: 5,680 blocks, 18 not found: 7 displays of chapter 29, whose listing is the library of February 2011 where that PDF lists the library of August 2026, and 11 blocks at 58–75 % of their runs, dense with symbols or holding a draft note.
-- `compare.js`: see the report of the run; it takes about fifteen minutes for each edition when both run at once.
+- `compare.js` (about fifteen minutes for each edition when both run at once): the Working Draft, 1,177 displays compared, 3 differ; the revised edition, 1,229 compared, 4 differ; none by a fault of the page. The three of chapter 16 are those of 2026-11-13, in both editions. The fourth, display 1 of chapter 26 in the revised edition, holds a reference: the second LaTeX run frames it as hyperref frames a link, which makes its picture seven pixels wider.
 
 Results of 2026-11-13, on the 54 pages (then one edition, the revised one):
 
