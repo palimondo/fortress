@@ -5,7 +5,7 @@
 
 @src 26-27
 
-Line 26 is the heading comment for lines 27 to 34. Lines 30 to 34 are the "backward" functions, which Part 6 reads.
+Line 26 is the heading comment for lines 27 to 34. Lines 30 to 34 hold two more functions, `rmsn_b` and `sm_b`, with which the model computes its gradient. Part 6 reads them.
 
 Line 27 declares a function. The form is `name(parameter: Type): ResultType = expression`. This one takes a vector of floats and returns a vector of floats. `rmsn` is short for RMS norm, and RMS for root mean square: the function divides a vector by the root of the mean of its squares.
 
