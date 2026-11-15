@@ -1,0 +1,16 @@
+component XXXGenericFunctionTopLevelVariableWalk
+export Executable
+
+(* A top-level variable of arrow type receives a generic function at that type, so a call of it at another size is refused (var-ref.tex, section "Identifier References"). *)
+
+half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x + x
+
+g: Vector[\RR64,3\] -> Vector[\RR64,3\] = half
+
+w: Vector[\RR64,2\] = vector[\RR64,2\](1.5)
+
+r: Vector[\RR64,2\] = g(w)
+
+run(): () = println("done")
+
+end
