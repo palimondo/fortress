@@ -95,7 +95,7 @@ Fields common to the five rungs:
   - Each sentence of the specification changed, before and after; each sentence your change makes false that this section does not name.
   - Step 2 not landed: what remains, and row 758's whole new line.
   - A file edited beyond those named.
-- **briefing** (22 keys, 15 checks):
+- **briefing** (22 keys, 16 checks):
   - P-78 (check): the reduction's decision; the written argument is row 731's workaround.
   - P-51 (check): a call written as an argument is typed again against each parameter type.
   - P-48 (check): a type parameter that a call does not fix takes its bound.
@@ -143,7 +143,7 @@ Fields common to the five rungs:
   - SPEC `basic/expressions/var-ref.tex#Identifier References` (check): the static arguments of a reference come from its context.
   - SPEC `basic/functions.tex#Function Declarations` (check): a function is a value.
   - SRC `interpreter/evaluator/values/Fcn.java#public FType type()` (check): the value's missing type.
-  - SRC `interpreter/evaluator/EvaluatorBase.java#static Simple_fcn inferAndInstantiateGenericFunction(List<FValue> args,` (check): how a direct call fixes the static arguments.
+  - SRC `interpreter/evaluator/EvaluatorBase.java#public static Simple_fcn inferAndInstantiateGenericFunction(List<FValue> args,` (check): how a direct call fixes the static arguments.
   - `map:modules-and-phases.md#B.8 The interpreter tail`: where walk binds and applies.
   - REC `Forks the batch takes` (check): the defaults you build.
 
@@ -403,7 +403,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 1. **Row 158, walk.** In `interpreter/evaluator/Evaluator.java`, the postfix branch of `forOpExpr` and `forTightJuxt` tell a parenthesised call from a call followed directly by a non-expression element. Tests: `tests/SuperscriptAfterParenthesisedCall.fss`: `(f(3))^T`, `(f(3))^T d`, `((f(3))^T) d`, `(f(3))^2`, each with the value that the compiled path gives; `f(3)^T` still refused, in a test that expects the refusal as the skill's `tests-writing.md` gives it. A compiled guard of the same forms, `compiler_tests/SuperscriptAfterParenthesisedCallCompiled.test`, which passes on the base.
 2. **Row 84, the parser.** In `parser/Expression.rats`, a dotted primary takes the math items that `MathPrimary` takes after its front (fork S1). Tests, under walk and compiled: the row's seven probes as one program each way, `x.v^T`, `B.data^T`, `B.n^2`, `B.data^*`, after a getter, after a method call, and `p.wq^T x` with a juxtaposed operand, each with its value; `B.data[5]` and `B.data!`, which run today, as guards.
 3. **The whole suites** where the skill asks for them: your grammar edit reaches every dotted expression on both paths.
-4. **The stages,** once on your final tree, as rung P's step 5.
+4. **The stages,** once on your final tree: the count stage and the distance stage against climb batch 30's gate (`explorations/compile-ladder/climb-batch-30/gate/`), 0 and 0 with `#crash none`.
 
 **Rows.** Close 84 and 158. Row 144 stays; read it, and change nothing of it.
 

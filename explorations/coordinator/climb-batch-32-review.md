@@ -31,7 +31,7 @@ What I found.
 - **The counts hold.** 12 boxed gaps are open today and 5 would stay open. If `var p = e` is not a gap, it is 6. The line counts match the two files. Three lines of the model that another open gap shapes are outside the count; the record now says so.
 - **The merge is clean as planned.** No two repairs edit the same declaration. Climb batch 31 can run before or after. Whichever runs second only needs its line numbers read again.
 
-What I changed in the plan. Nine small corrections: one line number, one row number, two sentences on the table literal, two on the specification's text, one on your decision P-87, one on the counts, and one added key in each worker's reading list. The list is below.
+What I changed in the plan. Twelve small corrections: one line number, one row number, two sentences on the table literal, two on the specification's text, one on your decision P-87, one on the counts, one added key in each worker's reading list, one key that matched two places, and one step that pointed a worker at text it does not read. The list is below.
 
 ## Findings that would change a decision of the curator's
 
@@ -173,4 +173,12 @@ By the rule of the `coordinator` skill's `SKILL.md`, "The curator's role and dec
 7. Fork P2: one sentence that the production is the appendix's, and that the chapter and the check differ.
 8. "What it shares with climb batch 31": `appendices/changes.tex`.
 9. "The measure": line 45's reason, and the three lines outside the count.
-10. Section 1: each rung's briefing gains the key REC `Forks the batch takes` as a check, as climb batch 31's briefings have it, since each rung's section names section 3's forks and no other key carries them. The counts go to 15 and 11 (P), 13 and 11 (S), 22 and 15 (C), 15 and 9 (F), 11 and 8 (B).
+10. Section 1: each rung's briefing gains the key REC `Forks the batch takes` as a check, as climb batch 31's briefings have it, since each rung's section names section 3's forks and no other key carries them. The counts go to 15 and 11 (P), 13 and 11 (S), 22 and 16 (C), 15 and 9 (F), 11 and 8 (B). Rung C's count of checks was 14 for 15 marked keys.
+11. Rung S's step 4 read "as rung P's step 5". A worker reads only its own section, so the step now names the two stages and their comparand itself.
+12. Rung F's key for `EvaluatorBase.inferAndInstantiateGenericFunction` matched two declarations (`EvaluatorBase.java:72` and `:86`), so `facts-extract.sh --check` refused it; PROBES, section 5, says that each key matched one place. The key is now the public declaration's, which is the one that a direct call enters and which calls the other.
+
+## The manifest generator (task 2)
+
+- `explorations/compile-ladder/plan-32/manifest/`: `lists32.py` (the briefing keys, each checked with `facts-extract.sh --check`: 0 bad lists), `gen32.py` (the block from the record's sections 1, 4 and 6), `check32.js` (the block's checks on a spliced scratch copy: 115 ok, 0 problems), and `block32.js`, the block as generated from the record at this commit.
+- `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced scratch copy: 0 problems.
+- The block is not installed in `climb-batch-workflow.js`, and `FABLE_WEEK` is as it was. To install it after the go: run `lists32.py`, `gen32.py` and `check32.js`, then `check32.js --write`, then the scenario checker on the tracked script, as the manual's "Before the launch", step 4, gives them. If the record changes first (findings 1 and 3), the generator reads it again; a changed briefing bullet needs the same change in `lists32.py`.
