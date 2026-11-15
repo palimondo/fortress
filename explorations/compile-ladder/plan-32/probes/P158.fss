@@ -1,0 +1,6 @@
+component P158
+export Executable
+opr (x: ZZ32)^T: ZZ32 = x + 100
+f(x: ZZ32): ZZ32 = x + 1
+run(): () = do d: ZZ32 = 2; println((f(3))^T d) end
+end

@@ -1,0 +1,7 @@
+component P50
+export Executable
+run(): () = do
+    a: ZZ32[3] = [i |-> 2 i | i <- 0#3]
+    println(a[2])
+  end
+end

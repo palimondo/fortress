@@ -1,0 +1,8 @@
+component C177
+export Executable
+run(): () = do
+    var p = 3
+    p := p + 1
+    println(p)
+  end
+end

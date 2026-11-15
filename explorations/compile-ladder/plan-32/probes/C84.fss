@@ -1,0 +1,5 @@
+component C84
+export Executable
+object B(v: ZZ32) end
+run(): () = do b = B(3); println(b.v^2) end
+end

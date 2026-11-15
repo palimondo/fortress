@@ -1,0 +1,9 @@
+component P142c
+export Executable
+(vocabSize, nEmbd) = (27, 16)
+run(): () = do
+    shp: ZZ32[3,2] = [vocabSize nEmbd; (4 nEmbd) nEmbd; nEmbd (4 nEmbd)]
+    nm: String[2] = ["wte" "wpe"]
+    println(shp[1,0] " " nm[1])
+  end
+end

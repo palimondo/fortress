@@ -1,0 +1,5 @@
+component P133Api
+export P133Api
+opr (x: ZZ32)^T: ZZ32 = x + 100
+bump(x: ZZ32): ZZ32 = x + 1
+end

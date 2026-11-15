@@ -1,0 +1,6 @@
+component P156
+export Executable
+half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x + x
+app(f: Vector[\RR64,3\] -> Vector[\RR64,3\], v: Vector[\RR64,3\]): Vector[\RR64,3\] = f(v)
+run(): () = do v: Vector[\RR64,3\] = [2.0 2.0 2.0]; println(app(half, v)) end
+end

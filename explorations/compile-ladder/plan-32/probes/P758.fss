@@ -1,0 +1,7 @@
+component P758
+export Executable
+object Box[\F extends Object\](v: F) end
+count[\F extends Object\](b: Box[\F\]): ZZ32 = 1
+useOne(g: Box[\ZZ32\] -> ZZ32): ZZ32 = do z: ZZ32 = 7; g(Box[\ZZ32\](z)) end
+run(): () = println(useOne(count))
+end

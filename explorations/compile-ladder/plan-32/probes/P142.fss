@@ -1,0 +1,5 @@
+component P142
+export Executable
+shp: ZZ32[3] = [27 16 27]
+run(): () = println(shp[1])
+end

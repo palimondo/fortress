@@ -1,0 +1,5 @@
+component P133
+import P133Api.{...}
+export Executable
+run(): () = do y: ZZ32 = 3; println(y^T) end
+end

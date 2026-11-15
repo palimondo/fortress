@@ -1,0 +1,5 @@
+component P142b
+export Executable
+shp = [27 16; 16 16; 27 16]
+run(): () = println(shp[2,0])
+end

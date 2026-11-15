@@ -1,0 +1,4 @@
+component P5
+export Executable
+run(): () = println(∑[i <- 1#3] i)
+end
