@@ -250,7 +250,7 @@ OVERRIDES = [
     dict(src=r'(m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]', fortify=r'^{T\llbracket\KWD{nat} r, \KWD{nat} c\rrbracket}',
          fixed=r'^{T}\llbracket\KWD{nat} r, \KWD{nat} c\rrbracket',
          why='Fortify sets the declaration\'s static parameters inside the exponent, beside T; they are not '
-             'part of the operator.'),
+             'part of the operator (the gap ledger\'s row 1002).'),
     dict(src=r'^T[\nat a, nat b, nat c\]', fortify=r'^{T\llbracket\KWD{nat} a, \KWD{nat} b, \KWD{nat} c\rrbracket}',
          fixed=r'^{T}\llbracket\KWD{nat} a, \KWD{nat} b, \KWD{nat} c\rrbracket',
          why='The same, in the declaration for a rank-3 array.'),

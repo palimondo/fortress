@@ -67,7 +67,7 @@ Fortify sets a comment over several lines as one ruled paragraph that it fills a
 |---|---|---|---|
 | `g0[i]` | `g_0_{i}` | `g_0[i]` | LaTeX refuses a second subscript ("Double subscript") and prints 0 and i side by side; the index keeps its brackets, as Fortify sets an index of two (the gap ledger's row 62). |
 | `BIG MAX` | `\BIGOPR{MAX}` | `\mathop{\mathtt{BIG\ MAX}}` | Fortify sets the big operator as one large MAX: the word BIG, which the program types and the text names, is not on the page. |
-| `(m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]` | `^{T\llbracket\KWD{nat} r, \KWD{nat} c\rrbracket}` | `^{T}\llbracket\KWD{nat} r, \KWD{nat} c\rrbracket` | Fortify sets the declaration's static parameters inside the exponent, beside T; they are not part of the operator. |
+| `(m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]` | `^{T\llbracket\KWD{nat} r, \KWD{nat} c\rrbracket}` | `^{T}\llbracket\KWD{nat} r, \KWD{nat} c\rrbracket` | Fortify sets the declaration's static parameters inside the exponent, beside T; they are not part of the operator (the gap ledger's row 1002). |
 | `^T[\nat a, nat b, nat c\]` | `^{T\llbracket\KWD{nat} a, \KWD{nat} b, \KWD{nat} c\rrbracket}` | `^{T}\llbracket\KWD{nat} a, \KWD{nat} b, \KWD{nat} c\rrbracket` | The same, in the declaration for a rank-3 array. |
 | `⍤` | `\FortressUnknownCharacter{U+2364}` | `\(\ddot{\circ}\)` | Fortify prints a box with the code point for APL's rank sign, in a comment; the sign is drawn as a small circle under two dots. |
 | `⌷` | `\FortressUnknownCharacter{U+2337}` | `{\fboxsep=0pt\fbox{\phantom{l}}}` | The same for APL's index sign, in a comment; the sign is drawn as an upright box. |

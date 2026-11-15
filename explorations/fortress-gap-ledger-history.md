@@ -10301,3 +10301,9 @@ rewritten
 rewritten
 
 | 315 | the code generator emits two closure classes with one name when two function-typed nodes share a source position, and the compile dies with `ZipException: duplicate entry`: `5 :OP: 6` over three overloads of `opr OP`, and `sz(fn () => 2147483646 + 1)` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/conversions-coercions.tex`, "Coercion Invocations" | none | ladder rung 4 | The name comes from the source position alone (`NamingCzar.gensymArrowClassName`, `compiler/NamingCzar.java:891-892`, used by `CodeGen.forFnExpr`, `CodeGen.java:3531`), so a second `FnExpr` there collides in `ByteCodeWriter.writeJarredFile`. The two nodes are coercion thunks. At c124c6b65, bin/fortress compile on a copy of `ProjectFortress/tests/ConditionalOpTruncation.fss` (a passing walk test) dies: 'duplicate entry: ConditionalOpTruncation$\=fn@20\!15.class'. In the one library two closures of one `BIG AND` collide in `LexicographicOrder` (`Library/FortressLibrary.fss:2227`), which `CMP`'s dispatch names: every program meets it. full text: history, row 315 |
+
+### Row 62
+
+note added
+
+| 62 | Fortify typesets `x_h[t]` as `x_{\mathrm{h}}_{t}`, which LaTeX refuses with `! Double subscript` | NEGATIVE-VERIFIED | typesetter (tools) | `Specification-1.0-frozen/basic/lexical-structure.tex:1506-1516`, "Rendering of Fortress Programs", "Identifiers" (an underscore makes a subscript) | none | blinded, astra | Workaround: rename to `xh`, or bind the row first. Probe `explorations/gap-ledger-probes/g14.fss` and its output `g14.tex` (run `latex` on the fragment), in the parent of `e879b6a44`. |
