@@ -193,3 +193,107 @@ The coordinator ruled on findings 1 and 3 to 5 and on the curator's words on 202
 - Rung C's step 2 stays. Rung F's test changed: it asserts only programs that the checker accepts after rung C, and the two cases that the checker refuses are runs to report, because walk runs them only for want of static types.
 - The curator's words replace "You asked for the notation's gaps to come first".
 - Checked again: `lists32.py` 0 bad lists (P has 11 keys and 8 checks); `check32.js` 115 ok, 0 problems; the scenario checker 0 problems on the spliced scratch copy. `block32.js` is the block of the record at this commit, not installed.
+
+## The check of the joined record, 2026-11-15
+
+A second check, by a fresh reader on Fable, of the record after commit `5d33905471`. That commit moved rungs N and D into it from climb batch 31's record. The five rungs were checked above. N and D were checked in `climb-batch-31-review.md` (section 5.2 ran their reproducers on the same base). This check ran no reproducer again. It checked the join.
+
+### For the curator
+
+What this is. A rung is one repair, built by one worker. The batch now has seven rungs in one run. Two of them, N and D, came from the other planned batch. I checked that the move lost nothing and that seven workers can build at once without getting in each other's way. Nothing was launched.
+
+What I checked.
+
+- The move. N's and D's parts say what they said in climb batch 31's record.
+- Fork W. A fork is a choice between two ways. Fork W is whether the interpreter gets the new rule for numerals now. The record says that the coordinator chose "now" from your words of 10 November, and names it to you. It does not say that you chose it.
+- Each pair of rungs that edits one file. I read the code. Each rung keeps to its own functions.
+- The manifest. That is the list of rungs that the batch script reads. It matches the record.
+- The counts, the disk and the cost.
+- One trial copy of the built tree, with one run of today's code in it. Both worked. The copy is removed.
+
+What I found.
+
+- **The check is clean. Nothing holds the launch, and nothing changes a decision of yours.**
+- **The move lost nothing.** N's and D's manifest entries are the same, word for word. Their sections differ only where the join needs it: which other rungs' files they must leave alone, and which earlier gate D compares with.
+- **The seven rungs can be merged.** No two edit one function. No test of one rung needs another rung's repair to pass.
+- **One thing was missing.** Two rungs, C and N, edit the type checker's file for calls. Their functions call each other in six places. If one worker changed how such a function is called, the merged file would not compile, though the merge itself would be clean. The record now tells both workers to keep those six as they are.
+- **Rung C can still close its two gaps** without editing rung N's functions. I read the path of each gap through the code.
+- **The disk is tight.** 16.3 G are free and the batch needs 14.5 G. Three old working copies take 1.7 G. The coordinator removes them first.
+
+What I changed in the record.
+
+- Your go, in your words with their time, in place of the "no go" sentences.
+- The lists of files that rungs S, F and B must leave alone now name the other rungs' files.
+- The sentence on the six calls, in rung C's and rung N's parts.
+- The record said that the two batches share one file. They share two. The second is a file of the specification, at different entries.
+- The disk figure.
+
+### Changes that I made
+
+1. **The go.** The header's "The batch has no go ..." and section 2's "This batch is planned and has no go. Nothing here launches." are replaced by the curator's words, as the brief gives them: "Go for the joined batch after the check is clean.", 2026-11-15, between 23:10 and 23:19 UTC. "Before the batch runs" names the go and this check. The bullet on the order with climb batch 31 says that the go puts this batch first.
+2. **Six calls cross between C's and N's declarations of `Functionals.scala`, and no sentence kept their signatures.** Read on the base, `84f1c37190`: N's `checkApplicable` calls C's `checkApplicableWithInference` (`:167`); N's `typedApplicationOfChecked` calls C's `retypedApplication` (`:789`); C's `checkApplicableWithInference` calls N's `preDefault` (`:198`) and `defaultAtUnfixedEach` (`:279`); C's `typedApplicationOfArg` calls N's `typedApplication` (`:641`); C's `retypedApplication` calls N's `typedApplicationOfChecked` (`:936`). A changed parameter list on either side merges cleanly and does not compile. The record had this rule for `Coercions.java` and `Numerals.java` only. Added: one sentence in C's section, one clause in N's "Not" list, one sub-bullet in "The rule the rungs keep". The coordinator may strike them; they change no repair.
+3. **Three "Not" lists left another rung's files open through "what it calls".**
+   - B's "Files" line is "`forVarDecl4` and what it calls". `forVarDecl4` calls `Coercions.coerce` (`BuildEnvironments.java:762`), and `LHSEvaluator.forLValue` does too (`:222`). `Coercions.java` is N's alone. B's "Not" list named no file of walk. It now names N's two files, S's `Evaluator.java`, and F's `EvaluatorBase.java` and function values.
+   - S's "Files" line allows "what the checker or the code generator needs". Its "Not" list named `Functionals.scala` and `forVarDeclPrePass`, and not `TypeAnalyzer.scala` (C's alone), `Thunker.scala` and `impls/Decls.scala` (D's alone), nor any file of walk but its own. It now does.
+   - F's "Not" list named N's files only. It now names S's `Evaluator.java` and B's `BuildEnvironments.java` and `LHSEvaluator.java`, as "The rule the rungs keep" already said ("F and B edit different files").
+4. **"The two batches share one file"** (section 2, "Your choices"). They share two. Climb batch 31's rung K names `appendices/changes.tex:4312` and its rung T `:3204` (`CLIMB-BATCH-31.md`, their "Specification." lines); this batch's C edits `:1256-1264` and `:2434`, and N `:5286-5298` and `:3813-3825`. Corrected there, in "How the seven rungs meet" and in "Against climb batch 31".
+5. **The disk.** 17,049,176 KB free by `df -P /home/user` after the trial seed was removed, about 16.3 G, 1.8 G above the floor of 14.5 G. The record had 17,195,288 KB.
+6. **The generator.** `gen32.py`'s substitution for fork W at (b) holds N's "Files" line word for word, so it gained the same clause as change 2. `block32.js` and `block32-fork-w-b.js` are generated again from the record at this commit.
+
+### Points for the coordinator
+
+1. **Rung F's rule names a typed variable, and its sites are rung B's.** F's step 1: a generic function "passed where a parameter or a typed variable of arrow type receives it is instantiated at that arrow type". Under walk a typed local is bound in `LHSEvaluator.forLValue` (`:212-228`) and a typed top-level variable in `BuildEnvironments.forVarDecl4` (`:750-790`), both B's, through `Coercions.coerce`, N's. None of F's listed tests binds a typed variable; rung C's test does, compiled. With change 3, F reports such a need and does not edit there. If the typed variable must work under walk in this batch, it needs an owner.
+2. **Rung N has no "reported, not built" sentence for C's declarations.** C's `checkApplicableWithInference` holds three places that handle numerals (`:198`, `:279`, `:287-290`). N's "Not" list keeps N out of them. I read that N can build its rule in the attempts of `typedApplicationOfChecked` and in `checkApplicable`, both its own. If N's worker finds otherwise, its section does not say what to do, as C's does.
+3. **Where row 731 stops today.** The record's example of what C must not edit is the retry's call (`:787-789`). The reduction's check stops earlier: `typedApplication` returns at `partitionArgs` (`:703`), N's, because the inner call `BIG +()` has no type (`rung-argument-context/REPORT.md`, section 5). C does not need that line: see "Whether C can close its rows".
+4. **`basic/inference.tex`.** The record gives the file to C alone. Its section "A Numeral Whose Conversions Tie" (`:302-345`) states the numeral's tie. N's section names no sentence of it, so N only reports a sentence there that its rule makes false. C's edit is in "The Static Arguments of a Call" (`:45`), apart from it.
+5. **The record's own line in `INDEX.md`** (`:644`) still says "with no go". It is outside the paths that this check may edit.
+6. **Before the launch.** `git status --porcelain` in the main tree is not empty: another worker has uncommitted files under `explorations/microgpt-walk/`. The base build's status shows `?? .base-ready`; the seed accepts it. A seeded worktree takes 357 MB today, not 206 MB. Free space fell by 0.14 G during this check.
+
+### Points that would change a decision of the curator's, or hold the launch
+
+None.
+
+### The move
+
+- **The manifest entries.** N's block of section 1 (the slug, the blurb, nine points to report, 26 keys and 19 checks) and D's (seven points, 12 keys and 9 checks) are byte for byte those of `git show 5d33905471^:explorations/coordinator/CLIMB-BATCH-31.md` (`diff` prints nothing).
+- **The sections.** N's differs in two lines: its "Not" list, which gained C's, D's and F's parts, and "Overlaps by file.". D's differs in three: the gate that its stages are compared with (climb batch 30's, where it was run 1's), its "Not" list, and "Overlaps by file.". Every step, test, row and line citation is unchanged.
+- **The forks.** N1 to N4, D1 and D2 are word for word the old record's. Its "For the record-landing workflow" and "For the skill writer" items for N and D are here, with the clause for P-46 that climb batch 31's check asked for (its section 4).
+- **Fork W.** The record says "The coordinator takes the answer from your words of 2026-11-10" (section 2) and "by the coordinator's reading" (the header). It quotes "of course this needs to answer true" and "is out of the question"; both stand in `POSITIONS-history.md`, P-46, the block of 2026-11-13 23:12Z. It names the one new difference between the paths, `a = 0` for `a: Any` holding an `NN32` zero, as climb batch 31's check has it (A5), and the sentence of P-59 that (a) reads narrowly. It keeps (b) at one run of the generator. It does not present (a) as the curator's answer.
+
+### The pairs, read on the base's code
+
+- **N and C, `Functionals.scala`: one rung for each declaration; merges cleanly; no test of one depends on the other.** The ranges of "The rule the rungs keep" are the file's: `checkApplicable` `:120-183`, `checkApplicableWithInference` `:185-292`, the first `checkApplication` and `typedApplicationOfArg` `:616-648`, the second through `typedApplicationOfChecked` `:650-888`, the retry's three `:890-976`, `signalAmbiguity` through `signalNumeralRanges` `:978-1243`, the reference's and the application's arms `:1464-1589`, the operator's arm from `:1591`. A blank line or a comment stands between each two neighbours. C's tests call no function with a numeral where two declarations compete; N's tests pass no function and write no reduction. With change 2 the merged file also compiles.
+- **N and F, `OverloadedFunction.java`: one rung for each member; merges cleanly.** `bestMatch` (`:2275`), `bestMatchForNumerals` (`:2306`), `convertedCall` (`:2581`) and `argsMatchTypes` (`:2737`) are N's; `Factory` (`:2777`) to the end (`:2866`) is F's. F's test passes functions and N's passes none.
+- **D and C: no shared file.** D types top-level variables in `Thunker.scala` (`:42-90`) and edits `CodeGen.forVarDeclPrePass` (`:6472`). C edits `Functionals.scala` and `TypeAnalyzer.scala`.
+- **D and B: no shared file, and B's test does not need D.** B's test binds names by a tuple under walk, which the model's lines 17 to 19 do today. D edits the checker and the code generator, which walk does not run.
+- **N and C, `changes.tex`: no shared entry** (change 4 has the lines).
+- **P and S, `Expression.rats`:** as checked above ("The merge, and climb batch 31").
+- **Found by the "Files" lines:** B with N, S with C and D, F with B and S (change 3).
+
+### Whether C can close its rows without editing N's declarations
+
+Yes, by reading.
+
+- **Row 731.** The desugarer makes a reduction the call `__bigOperator(BIG +(), fn ...)` (`compiler/desugarer/PreTypeCheckDesugaringVisitor.java:402-415`). The checker meets it in the function application's arm (`Functionals.scala:1520`), which is C's. There C can give the inner operator call its static argument, from the expected type or the body, before it calls `typedApplicationOfArg`. The inner call is then typed as a written one is today. The harder half is the body's type, since the body is a function expression that is not yet checked; it stays inside C's arm or a new member.
+- **Row 758.** The crash is in `TypeAnalyzer.staticParam`, C's alone. Once the subtype test of a generic arrow no longer crashes, no attempt is kept, and the retry's call that already stands in `typedApplicationOfChecked` (`:788-789`) runs C's `retypedApplication`. C's `retypable` (`:955`) decides which arguments it checks again, and C's reference arm (`:1464`) instantiates the reference at the expected arrow type.
+
+### The manifest
+
+- `lists32.py`: 0 bad lists; every briefing key and every check key passes `facts-extract.sh --check`.
+- `gen32.py`, then `check32.js` without `--write`: 151 ok, 0 problems, at (a) and at (b), before and after the changes above.
+- `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced scratch copy: 55 ok, 0 problems, at (a) and at (b).
+- `climb-batch-workflow.js` is as it was. The block is not installed.
+
+### The forks, the measure, the gate, the disk and the cost
+
+- **The forks.** W is consequential by the skill's rule, since it reads P-59 anew; it can be undone, and it is named to the curator. N1 to N4, D1 and D2 are not consequential, as climb batch 31's check sorted them (its section 5.5); N2 is P-46's own sentence, "where two are not ordered, the one that the default fits".
+- **The measure.** The twelve boxed gaps are rows 988, 156, 133, 142, 731, 307, 292, 158, 989, 177, 140 with 141, and 5. Eight close: 156, 133, 142, 731, 158 and 5 by the five rungs, 989 by N and 988 by D. Four stay: 307, 292, 140 with 141, and 177.
+- **The gate.** The new tests in "The gate, and what it should show" are those of the seven sections. No rung adds an atomic run: the spliced script's lists hold the tracked script's 22 programs. The specification is built once, for C's and N's text.
+- **The disk floor.** The script computes 1.5 G for each of 7 rungs and 4 G: 14.5 G (`DISK_FLOOR_G`).
+- **The cost.** The workers' figures sum to 3.0M and the four groups to 6.2M. The expected minutes sum to 1,390; the five-rung record gave 7 hours for 1,010, so about 10 hours follows.
+
+### Before the launch: what a worker can do
+
+- **The trial seed.** `seed-worktree.sh /home/user/fortress-base33 /home/user/fortress-seedcheck - 15b2af60a6`: seeded in 10 s. The old code ran `ProjectFortress/tests/BooleanOps.fss` under walk with a private caches folder, in the trial worktree and not from the main tree as the manual has it: exit 0 in 4.6 s. The worktree is removed.
+- **The base build.** `git diff --stat 84f1c37190 main -- . ':!explorations' ':!docs'` prints nothing at `15b2af60a6`, so `/home/user/fortress-base33` serves.
+- **The install commands and the launch arguments of the record's section 6 stand:** `lists32.py`, `gen32.py`, `check32.js`, `check32.js --write`, the scenario checker on the tracked script, the commit; then `args.base` the full hash of `main` after that commit and `args.baseBuild` `/home/user/fortress-base33`.
