@@ -1,0 +1,6 @@
+(* A component that binds its exported names by top-level tuple bindings. *)
+component TopLevelTupleBindingApi
+export TopLevelTupleBindingApi
+(width, title) = (41, "wide")
+var (tally, unseen): (ZZ32, ZZ32) = (0, 9)
+end

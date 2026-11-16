@@ -1,0 +1,14 @@
+(* A top-level initializer may refer to a variable declared later, also
+   through a function that it calls and where the variable is mutable
+   (variables.tex, section "Top-Level Variable Declarations"). *)
+component XXXInitializerCallReadsLaterMutableWalk
+export Executable
+
+early = next()
+var counter: ZZ32 = 5
+
+next(): ZZ32 = counter + 1
+
+run(): () = assert(early, 6, "an initializer's call reads a later mutable variable")
+
+end

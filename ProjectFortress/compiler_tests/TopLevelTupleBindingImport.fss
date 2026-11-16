@@ -1,0 +1,17 @@
+(* Each name of a top-level tuple binding is exported and imported as a
+   top-level variable is (variables.tex, section "Top-Level Variable
+   Declarations"; source-code.tex, subsection "Export Statements"). *)
+component TopLevelTupleBindingImport
+import TopLevelTupleBindingApi.{...}
+export Executable
+
+run(): () = do
+    assert(width, 41, "an immutable name of a tuple binding, imported")
+    assert(title, "wide", "its neighbour")
+    assert(tally, 0, "a mutable name of a tuple binding, imported")
+    tally += width
+    assert(tally + 1, 42, "assigned through the api")
+    println("PASS")
+end
+
+end

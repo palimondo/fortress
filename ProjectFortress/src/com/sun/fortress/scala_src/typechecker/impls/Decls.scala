@@ -269,8 +269,12 @@ trait Decls { self: STypeChecker with Common =>
             }
           })
         val (newLhses, newRhses) = (pairs.map(_._1), pairs.map(_._2))
+        // The new tuple has the type of its checked elements: each name's
+        // thunk reads its own type out of it (Thunker.primeVariables).
+        val newTypes = newRhses.map(getType(_).getOrElse(return node))
+        val newTuple = EF.makeTupleExpr(NU.getSpan(rhs), toJavaList(newRhses))
         SVarDecl(info, newLhses,
-                 Some(EF.makeTupleExpr(NU.getSpan(rhs), toJavaList(newRhses))))
+                 Some(addType(newTuple, NF.makeTupleType(NU.getSpan(rhs), toJavaList(newTypes)))))
     }
 
     case d@SVarDecl(info, lhses, Some(rhs)) => {

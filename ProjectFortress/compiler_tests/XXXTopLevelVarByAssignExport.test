@@ -1,0 +1,3 @@
+tests=XXXTopLevelVarByAssignExport
+compile
+compile_err_contains=due to different modifiers
