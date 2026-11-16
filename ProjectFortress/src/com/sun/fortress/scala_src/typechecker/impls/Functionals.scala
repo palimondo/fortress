@@ -794,22 +794,24 @@ trait Functionals { self: STypeChecker with Common =>
                            (implicit errorFactory: ApplicationErrorFactory)
                             : Option[(List[AppCandidate], Type)] = {
 
+    // A reduction's desugared call is checked with its big operator's static
+    // argument where it needs one; any other call, and a reduction that is
+    // refused, using the args extrapolated from arg.
+    val reduction = reductionApplication(preCandidates, arg, context, fallBackWithoutContext)
+    val args = getArgList(reduction.flatMap(_.left.toOption).getOrElse(arg))
+    val typed = reduction.flatMap(_.toOption).orElse(
+      typedApplication(preCandidates, args, context, None, fallBackWithoutContext))
+
     // The value of a variable whose type is a generic function's, which no
-    // arrow type instantiated, has no place for the static arguments of a call.
-    if (preCandidates.exists(pc => pc.overloading.isEmpty && hasStaticParams(pc.arrow, true))) {
+    // arrow type instantiated: the call has no place for its static arguments.
+    if (typed.exists(_._1.headOption.exists(c => c.overloading.isEmpty && c.sargs.nonEmpty))) {
       signal(errorFactory.app, "The applicand is the value of a generic function that no arrow type received: " +
                                "a reference to a generic function takes its static arguments from the arrow type " +
                                "that receives it, as the declared type of the variable it is bound to, or writes them.")
       return None
     }
 
-    // A reduction's desugared call is checked with its big operator's static
-    // argument where it needs one; any other call, and a reduction that is
-    // refused, using the args extrapolated from arg.
-    val reduction = reductionApplication(preCandidates, arg, context, fallBackWithoutContext)
-    val args = getArgList(reduction.flatMap(_.left.toOption).getOrElse(arg))
-    reduction.flatMap(_.toOption).orElse(
-      typedApplication(preCandidates, args, context, None, fallBackWithoutContext)) map { case (candidates, callType) =>
+    typed map { case (candidates, callType) =>
 
       // Combine the separated args back into a single arg in the resulting app
       // candidate.
