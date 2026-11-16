@@ -648,7 +648,10 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   private val normalizeVarTypeMemo = new scala.collection.mutable.HashMap[Id, Any]()
   private val normalizeTraitTypeMemo = new scala.collection.mutable.HashMap[(Id, List[StaticArg]), Any]()
   private val normalizeTupleTypeMemo = new scala.collection.mutable.HashMap[(List[Type], Option[Type]), Any]()
-  private val normalizeArrowTypeMemo = new scala.collection.mutable.HashMap[(Type, Type, Effect, Boolean), Any]()
+  // An arrow type's key holds its static parameters: a generic function's type and the
+  // arrow type of one of its instances can be written alike.
+  private val normalizeArrowTypeMemo =
+    new scala.collection.mutable.HashMap[(Type, Type, Effect, Boolean, List[StaticParam]), Any]()
   private val normalizeOtherTypeMemo = new scala.collection.mutable.HashMap[Any, Any]()
   // The normalize memos' keys whose value was computed by reading the context: a hit on one
   // is a read of the context too.
@@ -744,15 +747,17 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       def walkArrowType(t: ArrowType) = {
         if (cacheNormalizeArrow)
           t match { case SArrowType(_, d, r, e, i, _) =>
-              normalizeArrowTypeMemo.get((d, r, e, i)) match {
-                case Some(v) => noteNorm((d, r, e, i)); v
+              val sps = toListFromImmutable(t.getInfo.getStaticParams)
+              normalizeArrowTypeMemo.get((d, r, e, i, sps)) match {
+                case Some(v) => noteNorm((d, r, e, i, sps)); v
                 case _ =>
                   val before = traits.contextReads
                   walkArrowTypeInner(t) match {
                     case result@SArrowType(_, dd, rr, ee, ii, _) =>
-                      normalizeArrowTypeMemo += ((d, r, e, i) -> result)
-                      normalizeArrowTypeMemo += ((dd, rr, ee, ii) -> result)
-                      markNorm(before, (d, r, e, i), (dd, rr, ee, ii))
+                      val spp = toListFromImmutable(result.getInfo.getStaticParams)
+                      normalizeArrowTypeMemo += ((d, r, e, i, sps) -> result)
+                      normalizeArrowTypeMemo += ((dd, rr, ee, ii, spp) -> result)
+                      markNorm(before, (d, r, e, i, sps), (dd, rr, ee, ii, spp))
                       result
                   }
               }
@@ -1075,11 +1080,20 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     excludes ++ transitively
   }
 
-  /** Whether the arrow type carries static parameters that the kind environment does not bind. */
+  /**
+   * Whether the arrow type carries static parameters that the kind environment
+   * does not bind: one whose name it does not hold, and one of the function's
+   * own whose name it holds for another declaration's static parameter, as
+   * where the function is named inside a generic declaration that calls its
+   * static parameter the same.
+   */
   private def carriesOwnStaticParams(t: ArrowType): Boolean =
     !t.getInfo.getStaticParams.isEmpty && {
       traits.readContext()
-      toListFromImmutable(t.getInfo.getStaticParams).exists(sp => env.staticParam(sp.getName).isEmpty)
+      toListFromImmutable(t.getInfo.getStaticParams).exists(sp => env.staticParam(sp.getName) match {
+        case None => true
+        case Some(bound) => !sp.isLifted && NU.getSpan(bound) != NU.getSpan(sp)
+      })
     }
 
   // Accessor method for kind env

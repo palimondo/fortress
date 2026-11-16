@@ -1,0 +1,24 @@
+(* A reference to a generic function, written inside a generic function whose static parameter has the same name, is instantiated by the arrow type that receives it. *)
+component GenericFunctionAsValueSameNameCompiled
+export Executable
+
+object Box[\F extends Object\](v: F) end
+count[\F extends Object\](b: Box[\F\]): ZZ32 = 1
+useG[\G extends Object\](g: Box[\G\] -> ZZ32, b: Box[\G\]): ZZ32 = g(b)
+written[\F extends Object\](b: Box[\F\]): ZZ32 = useG[\F\](count, b)
+inferred[\F extends Object\](b: Box[\F\]): ZZ32 = useG(count, b)
+
+object Sized[\nat n\](v: ZZ32) end
+half[\nat n\](b: Sized[\n\]): ZZ32 = n DIV 2
+useN[\nat m\](g: Sized[\m\] -> ZZ32, b: Sized[\m\]): ZZ32 = g(b)
+sized[\nat n\](b: Sized[\n\]): ZZ32 = useN[\n\](half, b)
+
+run(): () = do
+    z: ZZ32 = 7
+    assert(written(Box[\ZZ32\](z)), 1, "useG[\\F\\](count, b) inside written[\\F\\]: count is instantiated at the F of written; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    assert(inferred(Box[\String\]("s")), 1, "useG(count, b) inside inferred[\\F\\]: count is instantiated at the F of inferred")
+    assert(sized(Sized[\6\](1)), 3, "useN[\\n\\](half, b) inside sized[\\nat n\\]: half is instantiated at the size n of sized")
+    println("PASS")
+  end
+
+end
