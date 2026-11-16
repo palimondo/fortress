@@ -42,7 +42,7 @@ GREEK = dict(alpha='α', beta='β', gamma='γ', delta='δ', epsilon='ε', zeta='
              chi='χ', psi='ψ', omega='ω', GAMMA='Γ', DELTA='Δ', THETA='Θ', LAMBDA='Λ', XI='Ξ', PI='Π', SIGMA='Σ',
              PHI='Φ', PSI='Ψ', OMEGA='Ω')
 # short names of operators (Specification/appendices/operators.tex) and of non-operator characters
-WORDS = dict(DOT='·', SQRT='√', SUM='∑', PROD='∏', TIMES='×', BY='×', CROSS='×', DIV='÷', LE='≤', GE='≥', NE='≠',
+WORDS = dict(DOT='·', SQRT='√', SUM='∑', PROD='∏', TIMES='×', BY='×', CROSS='⨯', DIV='÷', LE='≤', GE='≥', NE='≠',
              AND='∧', OR='∨', NOT='¬', CUP='∪', CAP='∩', IN='∈', NOTIN='∉', SUBSET='⊂', SUBSETEQ='⊆', EMPTYSET='∅',
              INF='∞', OPLUS='⊕', OTIMES='⊗', CIRC='∘', FORALL='∀', EXISTS='∃')
 # ASCII shorthand, longest first (Appendix "ASCII to Unicode", "Converting ASCII Symbol Sequences"; <- in operators.tex)
@@ -330,6 +330,7 @@ class Fonts:
                 subprocess.run(['dvisvgm', '--bbox=min', '--page=1-', '--font-format=' + fmt, '-o', pat, 's.dvi'],
                                cwd=folder, capture_output=True)
             stamp.write_text(key)
+        widthless = {}       # family -> the characters whose glyph has no width
         pieces = {}          # family -> [(woff2 bytes, set of code points)]
         for f in sorted(folder.glob('s*.svg'), key=lambda f: int(re.sub(r'\D', '', f.stem) or 0)):
             t = folder / ('t' + f.name[1:])
@@ -341,8 +342,14 @@ class Fonts:
                            t.read_text())
             if not m or not tt:
                 continue
-            cmap = TTFont(io.BytesIO(base64.b64decode(tt.group(2)))).getBestCmap()
+            font = TTFont(io.BytesIO(base64.b64decode(tt.group(2))))
+            cmap = font.getBestCmap()
             pieces.setdefault(m.group(1), []).append((base64.b64decode(m.group(2)), set(cmap)))
+            # a glyph of no width (the slash of \not, the bar of \mapsto) alone in its <text> is a piece of text of
+            # no width, which a browser may leave unpainted: the specification reader draws such a glyph as a path
+            # (draw_widthless in spec2html.py); these pages use none, and the build says so if that changes
+            widthless.setdefault(m.group(1), set()).update(
+                chr(c) for c, g in cmap.items() if font['hmtx'][g][0] == 0 and font['glyf'][g].numberOfContours)
         fdir = Path(out) / 'fonts'
         if fdir.is_dir():
             shutil.rmtree(fdir)
@@ -368,6 +375,10 @@ class Fonts:
                 css.append('@font-face{font-family:%s;src:url(fonts/%s) format("woff2");font-display:block;unicode-range:%s}\n'
                            % (fam, fname, ','.join('U+%X' % a if a == b else 'U+%X-%X' % (a, b) for a, b in rng)))
             missing = sorted(ord(c) for c in self.used[fam] if ord(c) not in have and c not in ' \n\t')
+            bare = sorted(ord(c) for c in self.used[fam] if c in widthless.get(fam, ()))
+            if bare:
+                problems.append('font %s: the pages leave %d glyphs of no width to the browser\'s text, which a browser '
+                                'may not paint: %s' % (fam, len(bare), ' '.join('U+%04X' % c for c in bare)))
             if missing:
                 problems.append('font %s lacks %d characters that the pages use: %s'
                                 % (fam, len(missing), ' '.join('U+%04X' % c for c in missing[:12])))
