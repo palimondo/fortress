@@ -75,3 +75,78 @@ Each key of the record's section 1 was checked with `facts-extract.sh --check` o
 - `exit` out of a parallel `for` under the prelude: the rung's first test.
 - The one library's overload sets in which a numeral's own conversion reaches a more specific declaration than the one that runs today: the equality rung's first step.
 - Rows 812, 822, 819 and 540 apart from the library: the measure above is their evidence, and rows 812, 819 and 540 name their own reproducers under the prelude.
+
+<!-- Sections 6 to 11: the probes of 2026-11-16, by the planner that brought the record in line with the landed tree of climb batch 32 and added rungs V, X, O and E, in a worktree of its own, `/home/user/fortress-p31b`, seeded from the base build `/home/user/fortress-base34` (`c0c35b4f9e`) and removed after. Machine: nproc 4, OpenJDK 25, `FORTRESS_THREADS=1` unless a line says four; a skill writer ran beside these, so no time here is a measurement. No suite and no stage of the gate was run. -->
+
+## 6. The rungs' reproducers on the landed tree
+
+Each program of section 2 again, compiled and run under the prelude on `c0c35b4f9e`.
+
+| rung | program | result |
+|---|---|---|
+| L | `PLabel.fss` | the compile stops: 'Can't compile Label at …PLabel.fss:3.23' |
+| A | `PAtomicExpr.fss` | the compile stops: 'Can't compile AtomicExpr at …PAtomicExpr.fss:5.9' |
+| A | `PFieldAtomic.fss`, four threads, two runs | 36374 and 36931 of 40,000 |
+| M | `PDupMethod3.fss` | compiles; the run dies: 'ClassFormatError: Duplicate method name "mx?0" with signature "(LPDupMethod3$Z;)LPDupMethod3$Z;"' |
+| M | `GenApi`, `PGenUse4.fss` | compiles; the run dies: 'AbstractMethodError: Receiver class PGenUse4$Rng does not define or inherit an implementation of the resolved method … map …' |
+| K | `PComprisesCast.fss` | compiles; the run dies: 'VerifyError: Bad type on operand stack … PComprisesCast$Q$DefaultTraitMethods.fin' |
+| T | `PTupleIndex.fss` | compiles; the run dies: 'VerifyError: Bad type on operand stack … PTupleIndex$A2.get(…FZZ32;…FZZ32;)' |
+| E | `P1014.fss`, row 1014's program | compiles; the run dies: 'NoClassDefFoundError: fortress/CompilerBuiltin$v', at `fortress.CompilerBuiltin$coerce_ZZ32[\1,10,4\]` as an arrow from `NaturalNumeral[\n,r,v\]` to `FZZ32`, `the_function` |
+
+The lines that the record cites hold on that tree: `CodeGen.java` `dumpTraitDecls` `:769`, `dumpMethodChaining` `:926`, `genParallelExprs` `:1692` with its two calls of `conditionallyCastParameter` at `:1756` and `:1768`, `defaultCase` `:1776`, `forAtomicBlock` `:1835`, `generateFunctionalBody` `:2880`, the value parameters' `FieldVar` at `:4822` and the fields' `MutableFieldVar` at `:4860`, `receiverPrependedDomainType` `:7078`, `conditionallyCastParameter` `:7289` and `:7297`; `OverloadedFunction.java` `:511`, `:772`, `:1165`; `FTraitOrObject.java:97-104`. On `main`, `Specification/appendices/changes.tex` gained 743 lines at `:5714` and after, below every line that the record cites: `:1734` (row 307), `:3101` (row 542), `:3323` (row 832), `:4434` (row 695), `:4812-4815` and `:4847` (the interpreter's objects), `:5421-5427` (the Effect on `u = 0`).
+
+## 7. The measure on the landed tree
+
+`probes/planner/codegen-measure.sh /home/user/fortress-p31b <out>`, 179 s for the probe:
+
+    refused declarations 24 | emitted (OK lines) 742 | component failures 0
+    kinds 8
+      7  Can't compile VarArgs yet  [String 3, FortressLibrary 2, List 1, FlatString 1]
+      4  Can't compile Label  [FortressLibrary 3, String 1]
+      4  <X> is not in the kind env  [List 2, FortressLibrary 1, CovariantCollection 1]
+      4  Error trying to close method scope  [FortressLibrary 4]
+      2  java.util.zip.ZipException: duplicate entry: <closure class>  [FortressLibrary 1, List 1]
+      1  ClassCastException: IntersectionType to NamedType  [FortressLibrary 1]
+      1  OptionUnwrapException at edu.rice.cs.plt.tuple.Null.unwrap:58  [Stream 1]
+      1  Can't compile AtomicExpr  [OneShotFlag 1]
+
+The same 24 in the same 8 kinds as on `84f1c37190`; 742 declarations emitted where that tree gave 745.
+
+## 8. The prelude with `value object ZZ32`
+
+The question: what the compiled path does when the compiler's prelude declares a built-in number type as P-178 gives it. One change, in `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:210` and `CompilerBuiltin.fss:662`: `trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excludes { ZZ64, RR32, RR64 }` became `value object ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] }`, its body unchanged. Then the library order's four compiles of the prelude.
+
+- All four compile, with no message.
+- The jar of `CompilerBuiltin` holds `fortress/CompilerBuiltin$ZZ32.class` of 18,915 bytes, the object's class, and no `CompilerBuiltin$ZZ32$DefaultTraitMethods.class`; the base build's jar holds an interface of 4,161 bytes and the springboard of 21,264.
+- Row 866's program, `compiler_tests/XXXObjectExtendsZZ32Compiled.fss`, `object MyNum extends ZZ32 end`: the compile stops, 'Invalid type in extends clause: ZZ32'. On the base it compiles and dies when it runs.
+- A program that binds `k: ZZ32 = 3` and prints `k + 4` compiles, and its run dies: 'IncompatibleClassChangeError: class com.sun.fortress.compiler.runtimeValues.FZZ32 can not implement fortress.CompilerBuiltin$ZZ32, because it is not an interface'. With the prelude restored it prints 7.
+
+So the checker takes the form and gives the decision's answer, and the code generator does not: the hand-written run-time class of a carried type (`compiler/runtimeValues/FZZ32.java:14-15`) extends the springboard and implements the interface that the code generator writes only for a trait. Two ways are open, neither probed: the code generator writes for a carried object of the prelude what it writes for a trait; or a value object gets a JVM payload in the code generator, the carriers' review's way C in its second form (`reviews/carriers-ways-2026-11-13.md`). The prelude's files were restored with `git checkout` and its four jars compiled again.
+
+## 9. The merge's two repairs, the walk programs and the two routed steps
+
+Under walk, on `c0c35b4f9e`:
+
+| program | result |
+|---|---|
+| `P997.fss`, `Holder[\RR32\]().held()` (row 997) | 'T@…P997.fss:7:1-57: non-value subtype of value type RR32' |
+| `P998.fss`, the invalid pair at `NN32` (row 998) | loads and prints `plain` |
+| `P551.fss`, `object Mine extends ZZ32` with no `asFloat` | refused: 'Object Mine does not define an abstract method declared in type ZZ32: … asFloat():RR64' |
+| the same with `asFloat(self): RR64 = 0.0` | loads and prints `Mine` (row 551) |
+| `PInt.fss`, `typecase x of Int => "Int" else => "other"` on 3 and on "s" | `Int other` |
+| `PArrowRet.fss`, a generic function returned at `Vector[\RR64,3\] -> Vector[\RR64,3\]` and called on a `Vector[\RR64,2\]` | 'ran at size 2' |
+| `PArrowField.fss`, the same function bound to a field of that type in an object's body | 'ran at size 2' |
+| `PEqNum.fss`, `u = 0` and `u =/= 0` for a zero of `NN32`, `NN64` and `RR32` | `true`, `false`, three times |
+
+Compiled, under the prelude:
+
+- `PArrowRetC.fss`, the return-type form over a program's own `object Sz[\nat n\]()`: the compile stops, 'Sz[\3\]->Sz[\3\] is not applicable to an argument of type Sz[\2\]', the rule's answer. Walk runs the same program and prints 'ran at size 2'. Row 1036 holds the two walk forms.
+- `PEqNum.fss`: the compile stops at `c =/= 0` for `c: RR32`, 'Could not check call to operator NE', with no declaration of `=/=` that takes an `RR32`; it reports no other line. So the Effect of `revival-numerals` (`Specification/appendices/changes.tex:5421-5427`) says more than the prelude does for `RR32`'s `=/=`.
+
+## 10. The briefing keys
+
+Each key of the record's section 1 is checked by `python3 -B explorations/compile-ladder/plan-31/manifest/lists31.py` on `main`, which runs `facts-extract.sh --check` on every briefing and checks list: each matches one place.
+
+## 11. The disk
+
+`df -P /home/user` on 2026-11-16 with the planner's worktree still in place: 16,504,904 KB available, about 15.7 G. The script's floor is 1.5 G a rung and 4 G: 13 G for run 1's six rungs, 8.5 G for run 2's three. A seeded worktree with its build is 320 MB before its work.
