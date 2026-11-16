@@ -2075,9 +2075,15 @@ class Converter:
                 if name != '!':
                     self.expand(name)
                 self.skip_space()
-            t = self.next()
+            t, wrap = self.next(), None
+            if t and t[0] == 'cs' and t[1] in ('mathrel', 'mathbin', 'mathord', 'mathop'):
+                # \not\excludes: the tree's macro is \mathrel{\lozenge}, and the slash goes over the sign inside
+                wrap = {'mathrel': 'rel', 'mathbin': 'bin', 'mathord': 'ord', 'mathop': 'op'}[t[1]]
+                inner = [a for a in self.read_arg() if a[1].strip()]
+                t = inner[0] if len(inner) == 1 else None
             if t and t[0] == 'cs' and t[1] in SYM:
                 ch, cls = SYM[t[1]]
+                cls = wrap or cls
             elif t:
                 ch, cls = t[1], 'rel'
             else:
