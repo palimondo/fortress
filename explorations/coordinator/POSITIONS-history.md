@@ -4148,3 +4148,7 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-11-16 15:39Z · rewritten · by coordinator: the clause on the examples and their names cut: he has not said that the names stay
 
 - P-179 **The opening chapters of the revised specification keep the team's wording, and change only what is not true of the tree.** The preface and chapters 1 and 2 introduce the language to a new reader, who follows them with the implementation in the repository, so they must not describe what it does not do. A sentence that is true stays word for word, with the team's examples and their names. A sentence that is not true is cut, or changed only as far as makes it true. The revival adds no prose of its own there, and nothing on building the implementation, which the repository's `README.md` holds. Each change takes the revision form (P-96 gives its parts). Why: text that describes what the implementation does not do misleads the reader, and a free rewrite puts the revival's text in the place of the team's.
+
+### P-179
+
+2026-11-16 15:40Z · noted · correcting the block of 2026-11-16 15:38Z · by coordinator: that block gives the time of his second message as 15:4x UTC; the transcript has it at 15:38:01Z, and the first at 15:30:33Z
