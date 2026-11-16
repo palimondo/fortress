@@ -378,11 +378,25 @@ constant PureList<Expr> Primary =
    / PrimaryItem ;
 
 /* PrimaryItem ::=
-     LeftAssociatedPrimary
+     LeftAssociatedPrimary MathItem*
    | MathPrimary
+   A primary expression with a dot is left-associated, so the math items
+   that follow it apply to the whole of it: it is their front.
  */
 constant PureList<Expr> PrimaryItem =
-     a1:(LeftAssociatedPrimary / MathPrimary)
+     a1:LeftAssociatedPrimary a2s:MathItem*
+     { Span span = createSpan(yyStart,yyCount);
+       List<MathItem> mis = a2s.list();
+       Expr e;
+       if (mis.size() == 0)
+           e = a1;
+       else if (mis.size() == 1)
+           e = ExprFactory.simplifyMathPrimary(span, a1, mis.get(0));
+       else // mis.size() > 1
+           e = ExprFactory.makeMathPrimary(span, a1, mis);
+       yyValue = PureList.make(e);
+     }
+   / a1:MathPrimary
      { yyValue = PureList.make(a1); };
 
 /* LeftAssociatedPrimary ::=

@@ -1,0 +1,26 @@
+(*******************************************************************************
+    Copyright 2012, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component SuperscriptAfterCallRefused
+export Executable
+
+(* A call followed directly by a superscript is a static error:
+   juxtameaning.tex, section "Juxtaposition". *)
+
+opr (x: ZZ32)^T: ZZ32 = x + 100
+
+f(x: ZZ32): ZZ32 = x + 1
+
+r: ZZ32 = f(3)^T
+
+run(): () = println(r)
+
+end

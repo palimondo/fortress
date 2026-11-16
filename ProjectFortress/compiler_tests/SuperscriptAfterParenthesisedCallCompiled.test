@@ -1,0 +1,4 @@
+tests=SuperscriptAfterParenthesisedCallCompiled
+link
+run
+run_out_WIcontains=PASS
