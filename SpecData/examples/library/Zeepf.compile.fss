@@ -1,0 +1,20 @@
+(** COPYRIGHT **)
+(*******************************************************************************
+    Copyright 2008, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+(** END COPYRIGHT **)
+
+(** EXAMPLE **)
+component Zeepf
+  export Zeepf
+  foo(x: String): () = println x
+  baz(x: String): String = x
+end
+(** END EXAMPLE **)

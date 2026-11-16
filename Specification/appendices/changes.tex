@@ -5720,23 +5720,72 @@ For example, ``\txt{foo}''\EXP{\|}''\txt{bar}'' yields ``\txt{foobar}''.
 \begin{description}
 \item[Affected sections] \secref{programming-env}, \secref{overview:apis} and
 \secref{apitool}; the head of \chapref{components}.
-\item[Change] The three sections are rewritten to show how a program is
-written and run with the implementation in the revival's repository: a
-program run under the interpreter; the same program compiled and run; an API
-and two components, run under the interpreter, then linked and run; an API
-generated from a component.
-The sections assume an installed implementation, and name the file of the
-repository that says how to build one; they do not describe the build.
-Each command was issued as printed, with a built implementation of the
-repository, in a folder that held the files of the examples, and each output
-is printed as that run gave it.
-The text says ``file extension'' where the Working Draft said
-``suffix'', and states once for a component and once for an API that a file
-holds exactly one, whose name is the file's name without its file extension,
-with the message that the implementation prints when the names differ.
-The function \VAR{run} takes no parameter in any example or sentence.
-The commands \txt{remove}, \txt{removeApi}, \txt{upgrade} and \txt{upgradeAll}
-are not in the chapter.
+\item[Change] The three sections keep the Working Draft's text.
+A sentence that is true of the implementation in the revival's repository
+stands word for word; a sentence that is not true of it is cut, or changed
+only in the words that were not true.
+Of the 123 sentences of the three sections, 66 stand, 25 are changed and 32
+are cut.
+
+The changed sentences.
+The text says ``file extension'' where the Working Draft said ``suffix''.
+A program is executed with \txt{fortress walk}, which \txt{fortress}
+abbreviates, where the Working Draft said \txt{fortress run}; and
+\txt{fortress run} takes the name of a compiled component, not of its file.
+The function \VAR{run} takes no parameter, and its type is
+\EXP{() \rightarrow ()}; the sentences on the elided type of the parameter
+\VAR{args} speak of the elided return type of \VAR{run}.
+The cached code of a compiled program is used ``even if'' its source file
+changed, and the program is ``not'' recompiled before execution.
+The example of shadowing compiles a second file \txt{HelloWorld.fss} in
+another directory, where the Working Draft named the files
+\txt{HelloWorld3.fss} and \txt{HelloWorld4.fss}.
+The imports of a component are resolved to other components, without the
+words ``to form a new compound component''.
+The component that implements the API \TYP{Zeepf} is named \TYP{Zeepf},
+where the Working Draft named it \TYP{Ralph}, in its file name, in the
+commands and in the sentences after them.
+The command that generates an API is \txt{fortress api -out Zeepf.fsi
+Zeepf.fss}; the generated API declares all definitions without the modifier
+\KWD{private}, without the words ``that are not declared in other APIs
+exported by $C$''; and where a file of the API's name exists, ``no error is
+signaled, and the file is replaced''.
+The last sentence of \secref{apitool} ends without the words ``except as
+constituents of compound components''.
+
+The cut sentences: the parameter of \VAR{run} as a varargs parameter, with its
+three calls; a file of several component declarations, with the example
+\txt{HelloWorld3.fss}; the command \txt{fortress remove}; the paragraph on
+compiling an API of a name already defined, with the command
+\txt{fortress removeApi}; everything on the compound component \TYP{Gary}, on
+encapsulation and on the commands \txt{fortress upgrade} and
+\txt{fortress upgradeAll}; and the generation of APIs from a file of several
+components.
+
+The examples.
+The API \TYP{Zeepf} is printed with the declarations of two functions,
+\EXP{\VAR{foo}(x\COLON \TYP{String})\COLON ()} and
+\EXP{\VAR{baz}(x\COLON \TYP{String})\COLON \TYP{String}}, where the Working
+Draft's example declared \VAR{foo} and \VAR{baz} with arrow types.
+The Working Draft printed no component in the place of \txt{Ralph.fss}; its
+draft note there said ``The example is commented out because it is not
+supported yet nor run by the interpreter.''
+The component \TYP{Zeepf} that is printed there is the team's own, of the
+file \nolinkurl{ProjectFortress/test_library/Zeepf.fss}, with the return types
+of its two functions written out, which \txt{fortress api} requires.
+The example of shadowing declares \VAR{run} without the parameter \VAR{args}.
+The three examples are rendered from files, as the other examples of the
+specification are: the changed
+\nolinkurl{SpecData/examples/preliminaries/Zeepf.fsi}, and the new
+\nolinkurl{SpecData/examples/library/Zeepf.compile.fss} and
+\nolinkurl{SpecData/examples/library/HelloWorld.shadow.fss}.
+
+One sentence is added, after the three commands of \secref{overview:apis}:
+``The reference implementation resolves an API only to a component of the
+same name.''
+Without it, the sentence before it on the resolution of imports would let a
+reader name the component otherwise.
+
 One box at the head of \secref{programming-env} covers the three sections.
 Two draft notes at the head of the chapter are taken out with the text that
 they spoke of: the sentence ``From \secref{programming-env} to
@@ -5745,28 +5794,29 @@ fortresses, both quoted below.
 The text of \chapref{components} is unchanged; a box at its head says which of
 its operations the implementation has.
 \item[Rationale] This change does not follow from route~A; it follows the
-decision of 16~November 2026, of the curator of the revival, that the
-revival's edition of this specification describes the implementation as it is,
-so that a reader who follows \chapref{overview} can run a program with it,
-and his word of the same day that the specification describes how Fortress is
-run, and not how the implementation is built.
+decision of 16~November 2026, of the curator of the revival, that the opening
+chapters of the revival's edition keep the team's wording and change only
+what is not true of the implementation, so that a reader who follows
+\chapref{overview} with the implementation is not misled.
 The Working Draft's text of these sections is a splice of two editions that
 the team made on 5~November 2009 and marked ``out of date'' in the same
 commit.
-It describes a \emph{fortress}, a persistent store of compiled components that
-performs the operations on them, which the team did not build, and it gives
-commands that the implementation does not have or that mean another thing
-there: \txt{fortress run} on a source file, \txt{fortress} as an abbreviation
-of \txt{fortress run}, \txt{fortress remove}, \txt{fortress removeApi},
-\txt{fortress upgrade} and \txt{fortress upgradeAll}.
-Its sentences on \VAR{run} speak of a parameter \VAR{args} that the team took
-out of the API \TYP{Executable} on 13~March 2009; its examples
-\txt{HelloWorld3.fss} and \txt{HelloWorld4.fss} still declare it.
-It says that a source file must contain exactly one component declaration, and
+The text defines a \emph{fortress} as ``a hidden persistent cache maintained
+by the implementation'', the definition of Version 1.0 of the specification.
+The implementation has such a cache, and the sentences that speak of the
+fortress in that sense stand.
+The sentences that are changed or cut gave commands that the implementation
+does not have or that mean another thing there: \txt{fortress run} on a
+source file, \txt{fortress} as an abbreviation of \txt{fortress run},
+\txt{fortress remove}, \txt{fortress removeApi}, \txt{fortress upgrade} and
+\txt{fortress upgradeAll}.
+Its sentences on \VAR{run} spoke of a parameter \VAR{args} that the team took
+out of the API \TYP{Executable} on 13~March 2009.
+It said that a source file must contain exactly one component declaration, and
 in the next sentence that a compiled file may include several.
 The splice also lost a command.
-The text speaks of a compound component \TYP{Gary} that no command of it
-makes.
+The text spoke of a compound component \TYP{Gary} that no command of it
+made.
 Version 1.0$\beta$ of the specification (6~March 2007, section 2.2) printed
 the command, after the two commands that compile \txt{Ralph.fss} and
 \txt{Blargh.fss}:
@@ -5785,30 +5835,41 @@ command:
 With that command in the place of the Working Draft's third command,
 \txt{fortress run Blargh.fss}, and of the paragraph after it, the original
 text below reads whole.
-The design of fortresses with the operations upgrade, extract and install is
-not pursued now: the revival's present goal is a program compiled to bytecode
-that runs on the Java Virtual Machine.
+The implementation makes no compound component, so the text does not take
+the command back, and \TYP{Gary} leaves the text.
+Each command that stands was issued as printed, with a built implementation
+of the repository, in a folder that held the files of the examples.
 A reversal would restore the text below, with its draft notes.
 The evidence is in
 \nolinkurl{explorations/reviews/fortresses-intent-2026-11-16.md} and in notes
 11 to 15 of
 \nolinkurl{explorations/coordinator/tools/spec-html/answers-2026-11-15.md} in
 the revival's repository.
-\item[Effect] The three sections say only what the implementation does.
-The implementation has the operations compile, link, run and the generation
-of an API.
-It has no fortress, no compound component, and none of the operations
-upgrade, upgrade of all components, removal, extraction, installation, hiding
-and constraining that \chapref{components} describes.
+\item[Effect] The three sections say nothing that the implementation does not
+do, with the departures below.
+The implementation has the operations compile, run and the generation of an
+API, and a command \txt{fortress link} that the three sections do not use.
+Its fortress is a cache of compiled components and no more: it has no
+compound component, and none of the operations upgrade, upgrade of all
+components, removal, extraction, installation, hiding and constraining that
+\chapref{components} describes (row~1033 of the revival's gap ledger).
 The interpreter does not compare a component with the APIs that it exports
-(row~841 of the revival's gap ledger).
+(row~841), so the sentence that a component must provide a definition for
+every construct of an API that it exports holds for a compiled component.
 Neither implementation finds a component that implements an API under another
 name than the API's (row~320).
+A compiled component that imports an API which declares a function as a
+variable of an arrow type, as the Working Draft's \TYP{Zeepf} did, does not
+run: no class is found for the variable; the interpreter runs it.
+The two sentences of \secref{overview:apis} on the names that \TYP{Blargh}
+imports stand as the Working Draft has them, beside an example that imports
+all names of \TYP{Zeepf} with \EXP{\KWD{import} \TYP{Zeepf}.\{\ldots\}}.
 The command \txt{fortress api} departs from the Working Draft's
-\secref{apitool}: it prints the API and writes a file only with the option
-\txt{-out}, it replaces an existing file without an error, and it also
-declares the definitions that another exported API declares, as \VAR{run}
-(row~1034).
+\secref{apitool}: it writes a file only with the option \txt{-out} and
+prints the API without it, it replaces an existing file without an error,
+it also declares the definitions that another exported API declares, as
+\VAR{run} (row~1034), and it requires a declared return type of every
+function.
 \item[Original text] In the chapter's first draft note,
 \nolinkurl{Specification-1.0-frozen/preliminaries/overview.tex}, line 23:
 \begin{quote}
@@ -6273,11 +6334,11 @@ In the preface's list of features not yet supported, an item that works in
 part in the implementation in the revival's repository names the part that
 does not work; the modifier \KWD{value} leaves its item; the item on some
 types no longer names the rational type twice, and no longer names
-\EXP{\mathbb{Z}}; and the item on widening coercion points to
-\secref{widening}.
+\EXP{\mathbb{Z}}.
 An item that does not work stands as it was.
 In the introduction, the sentence on keyword parameters and variable size
-argument lists says what is built.
+argument lists no longer names keyword parameters, and says ``under the
+interpreter''.
 Each passage has a box.
 \item[Rationale] This change does not follow from route~A; it follows the
 decision of 16~November 2026, of the curator of the revival, that the

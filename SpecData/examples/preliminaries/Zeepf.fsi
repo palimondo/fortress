@@ -13,7 +13,7 @@
 
 (** EXAMPLE **)
 api Zeepf
-  foo: String -> ()
-  baz: String -> String
+  foo(x: String): ()
+  baz(x: String): String
 end
 (** END EXAMPLE **)
