@@ -4098,3 +4098,163 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 4096,2026-11-13 22:50:28Z,162295499,986,803736,329368,111719,352226,805940,329487,111787,352347,,"Boot note: the merge probe's time by the clock, the coordinator's reading marked as its own"
 4097,2026-11-13 22:55:50Z,a5257f232,986,803736,329368,111719,353003,805940,329487,111787,353124,,"Probe Y: one build serves the compiled path with either library, in a scratch tree"
 4098,2026-11-13 22:57:05Z,53c057540,986,803736,329368,111719,353003,805940,329487,111787,353124,,"Climb batch 30's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
+4099,2026-11-13 22:58:25Z,84f1c3719,986,803736,329368,111719,353003,805940,329487,111787,353124,,"Revival page: where it stands at the landing of climb batch 30, the record chart regenerated"
+4100,2026-11-13 23:00:50Z,a0a3c2fd9,986,803736,329368,111719,353003,805940,329487,111787,353124,,"Boot note: his gos for the reader and the walk-through, the planner of climb batch 31, the record-landing run's end, pro"
+4101,2026-11-13 23:05:40Z,7943035ca,986,803736,329368,111719,353003,805940,329487,111787,353124,,"Probe of way D: the five number traits merged with their objects, first version of the report"
+4102,2026-11-13 23:07:08Z,c0f43ee67,986,803736,329368,111719,353544,805940,329487,111787,353665,,"Docket of the curator's answers on the road to the switch-over, with its INDEX line"
+4103,2026-11-13 23:07:09Z,4a0a6881b,986,803736,329368,111719,353544,805940,329487,111787,353665,,"Orientation quiz: case 33, a numeral that rounds to an infinity at a typed place, from climb batch 30's update"
+4104,2026-11-13 23:09:12Z,003ecbfef,986,803736,329368,111719,353544,805940,329487,111787,353665,,Boot note: he is asleep; the record writer for his two decisions of 11-10 runs
+4105,2026-11-13 23:09:21Z,fbaa952e1,986,803736,329368,111719,353544,805940,329487,111787,353665,,Boot note: the record writer's launch time by the clock
+4106,2026-11-13 23:12:10Z,1c6a9db46,986,803736,329368,114874,353544,805940,329487,114942,353665,,"POSITIONS: his two decisions of 2026-11-10: a number = a numeral (P-46, P-49, P-173), Reflect's 28 bindings as P-58's ex"
+4107,2026-11-13 23:14:01Z,11fce28e8,986,803736,329368,114874,353544,805940,329487,114942,353665,,PLAN and the review queue: items 437 and 487 answered by his decisions of 2026-11-10
+4108,2026-11-13 23:14:41Z,89db279cf,986,803736,329368,114874,353956,805940,329487,114942,354077,,"microGPT walk-through: the reader pages' build, and Part 1 (the task, the tokens, the program's frame)"
+4109,2026-11-13 23:15:39Z,bf77fca8c,986,803736,329368,114663,353956,805940,329487,114731,354077,,"P-177: the clause on the reflective test cut, since his words on it were a question"
+4110,2026-11-13 23:15:55Z,c54a57a13,986,803736,329368,114663,353956,805940,329487,114731,354077,,"Boot note: the record writer's result, checked against his words"
+4111,2026-11-13 23:17:34Z,ad20fc203,986,803736,329368,114663,353956,805940,329487,114731,354077,,"Climb batch 31's planner: the probe programs that reproduce the walls under the compiler's prelude, and the measure of t"
+4112,2026-11-13 23:17:52Z,840a4056c,991,809585,329368,114663,353956,811821,329487,114731,354077,,"Gap ledger: rows 988 to 992, filed by climb batch 31's planner: the top-level tuple binding, the numeral beside a value "
+4113,2026-11-13 23:24:02Z,857ed60ab,991,809585,329368,114663,353956,811821,329487,114731,354077,,"microGPT walk-through: Parts 2 to 5 (arrays and the nine weight matrices, rmsn and sm, attention, the feed-forward block"
+4114,2026-11-13 23:25:05Z,98dbf519e,991,809585,329368,114663,355435,811821,329487,114731,355556,,"Climb batch 31's record, planned with no go: seven rungs in two runs on the walls that the prelude can show, with the pl"
+4115,2026-11-13 23:27:28Z,657772b45,991,809585,329368,114663,356277,811821,329487,114731,356398,,"Probe of way D: the five number traits merged with their objects, the report, the patch and the INDEX line"
+4116,2026-11-13 23:29:48Z,ceded9698,991,809585,329368,114663,356277,811821,329487,114731,356398,,"microGPT walk-through: Parts 6 and 7 (the backward pass, Adam and the training loop); every line of MicroGptFlat.fss is "
+4117,2026-11-13 23:30:13Z,82f8ae913,991,809585,329368,114663,356277,811821,329487,114731,356398,,"Boot note: climb batch 31 is planned with no go, the merge probe's result, the check and the second record writer run"
+4118,2026-11-13 23:34:59Z,081afda73,999,818503,329368,114663,356277,820747,329487,114731,356398,,"Gap ledger: rows 993 to 1000 from the probes of 2026-11-10 to 2026-11-13, with notes on rows 874, 942 and 81 and rows 62"
+4119,2026-11-13 23:36:30Z,138b9448f,999,818503,329368,114663,356277,820747,329487,114731,356398,,"microGPT walk-through: Parts 8 and 9 (the quick check, the program as Fortress), one word for attention weights, and a S"
+4120,2026-11-13 23:38:20Z,e0cbf1a90,999,818503,329368,114663,356277,820747,329487,114731,356398,,"microGPT walk-through: the start page's how-to folded, plainer words in several places"
+4121,2026-11-13 23:39:18Z,5064f7f80,999,818503,344271,114663,356277,820747,344392,114731,356398,,"FACTS: the probes of 2026-11-10 to 2026-11-13 filed: F-34's measure on today's code, F-18 and F-58 corrected, F-290's tw"
+4122,2026-11-13 23:40:28Z,48282a117,999,818503,344271,114663,356277,820747,344392,114731,356398,,"microGPT walk-through: Part 10 (every name of the step and the words of the text), the pairing of forward and backward l"
+4123,2026-11-13 23:42:46Z,72d43aa90,999,818503,344271,114663,356277,820747,344392,114731,356398,,"microGPT walk-through: where the 464 zeros lie, from a run; the ledger's rows on model lines that the compiled path refu"
+4124,2026-11-13 23:44:35Z,6c43750b7,999,818503,344271,114663,356277,820747,344392,114731,356398,,PLAN and the review queue: the probes of 2026-11-10 to 2026-11-13 filed; climb batch 31 in place of climb batch 30b; ite
+4125,2026-11-13 23:44:43Z,c1bb43519,999,818503,344271,114663,356872,820747,344392,114731,356993,,"The check of climb batch 31's record before the launch: the review, its eight corrections of fact in the record, and the"
+4126,2026-11-13 23:44:49Z,f2765fd82,999,818503,344271,114663,356872,820747,344392,114731,356993,,"microGPT walk-through: the two operators that do name sizes, plainer wording in Part 5"
+4127,2026-11-13 23:45:52Z,cc1388ae6,999,818503,344271,114663,356872,820747,344392,114731,356993,,Boot note: the second record writer's filings
+4128,2026-11-13 23:46:14Z,6e47783e5,999,818503,344271,114663,356872,820747,344392,114731,356993,,"microGPT walk-through: how to run the model, in Part 1; the README says what the pages rely on in the reader"
+4129,2026-11-13 23:47:57Z,36dc552f7,999,818503,344271,114663,356872,820747,344392,114731,356993,,microGPT walk-through: three clearer sentences in Part 4
+4130,2026-11-13 23:49:19Z,b91ecf45d,999,818503,344271,114663,356872,820747,344392,114731,356993,,"microGPT walk-through: the ledger's two new rows marked at their lines (the tuple bindings, 1.0 s); the step count tied "
+4131,2026-11-13 23:51:08Z,32a247f76,999,818503,344271,114663,356872,820747,344392,114731,356993,,"Climb batch 31's manifest generator for run 1, checked and not installed: the lists, the generator for both answers to f"
+4132,2026-11-13 23:52:41Z,098742f77,999,818503,344271,114663,356872,820747,344392,114731,356993,,"Specification reader: the whole specification, with every display set by LaTeX and converted to SVG"
+4133,2026-11-13 23:54:00Z,ab244f1f6,999,818503,344271,114663,356872,820747,344392,114731,356993,,"microGPT walk-through: the reader's stylesheet of the rebuilt specification reader, copied unchanged"
+4134,2026-11-13 23:55:07Z,3749af6a9,999,818503,344271,114663,356872,820747,344392,114731,356993,,"Boot note: the check of climb batch 31's record, the coordinator's rulings on its five points"
+4135,2026-11-13 23:55:43Z,6e9a58848,999,818503,344271,114663,356872,820747,344392,114731,356993,,Boot note: the specification reader's whole run ended
+4136,2026-11-13 23:56:30Z,026dbf911,999,818503,344271,114663,356872,820747,344392,114731,356993,,Boot note: the walk-through of microGPT's flat program is written and public
+4137,2026-11-13 23:56:32Z,be216fe46,999,818552,344271,114663,356872,820796,344392,114731,356993,,"Climb batch 31's record after its check: the closure class struck from rung L and held with varargs, an exit out of an a"
+4138,2026-11-13 23:58:22Z,d93634b9f,999,818552,344271,114663,356872,820796,344392,114731,356993,,Climb batch 31's manifest generator and both blocks brought in line with the record after the coordinator's rulings; run
+4139,2026-11-13 23:58:50Z,be457a516,999,818552,344271,114663,356872,820796,344392,114731,356993,,Boot note: climb batch 31's record and manifest blocks are ready for his go
+4140,2026-11-14 00:02:55Z,248444cde,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through: every sentence about Karpathy's program now names the file of the tree that it rests on, or says "
+4141,2026-11-14 00:07:52Z,6195c1f07,999,818552,344271,114663,356872,820796,344392,114731,356993,,Boot note: nothing runs; what the morning message holds
+4142,2026-11-14 00:08:04Z,634969add,999,818552,344271,114663,356872,820796,344392,114731,356993,,Boot note: the time by the clock
+4143,2026-11-15 17:43:29Z,9e72129ba,999,818552,344271,114663,356872,820796,344392,114731,356993,,"His notes of 2026-11-15 on the specification reader and on the walk-through, word for word, and his points of the evenin"
+4144,2026-11-15 17:46:25Z,ec8866da5,999,818552,344271,114663,356872,820796,344392,114731,356993,,Boot note: he is back with notes and four points; four workers run; the ask on the specification's split
+4145,2026-11-15 17:48:38Z,e6a574597,999,818552,344271,114663,356872,820796,344392,114731,356993,,Boot note: he is away for two hours; the specification's split and the queue's triage run
+4146,2026-11-15 17:49:34Z,93f181a13,999,818552,344271,114663,356872,820796,344392,114731,356993,,Boot note: the specification's split has his go
+4147,2026-11-15 17:50:19Z,3503968f7,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through, start page and Part 1, by his notes of 2026-11-15: every short name spelled out, each constant ex"
+4148,2026-11-15 17:52:04Z,ecda34b73,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through, Parts 2 and 3, by his notes of 2026-11-15: what adding the position's row does, with two position"
+4149,2026-11-15 17:52:15Z,e47285768,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through: the start page's list of sections, rebuilt"
+4150,2026-11-15 17:56:11Z,7a28ab2a5,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through, Part 4, by his notes of 2026-11-15: each short name spelled out at its first use, FlatArrays.fss "
+4151,2026-11-15 17:56:11Z,032c7dd82,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through, Part 5, by his notes of 2026-11-15: names spelled out, the sources in a list at the end, no sente"
+4152,2026-11-15 17:56:11Z,4b4cfefbc,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through, Part 6, by his notes of 2026-11-15: the names of each forward stage restated where the backward p"
+4153,2026-11-15 17:56:12Z,16012e806,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through, Part 7, by his notes of 2026-11-15: Adam's constants quoted and explained before Adam's lines, no"
+4154,2026-11-15 17:56:12Z,d9918f909,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through, Parts 8 to 10, by his notes of 2026-11-15: the reference program's file said to be outside the re"
+4155,2026-11-15 17:57:00Z,51fa337fb,999,818552,344271,114663,356872,820796,344392,114731,356993,,"microGPT walk-through, Part 4: one repeated phrase cut"
+4156,2026-11-15 17:57:02Z,62372f086,999,818552,344271,114663,357403,820796,344392,114731,357524,,"Decision docket of 2026-11-15: the review queue's 200 open items in five bins, eight questions for the curator in order,"
+4157,2026-11-15 17:57:20Z,cd503864c,999,818552,344271,114663,357403,820796,344392,114731,357524,,"microGPT walk-through, Part 3: the backward functions named where the heading comment mentions them"
+4158,2026-11-15 18:00:01Z,2a04370e0,1000,819709,344271,114663,357403,821953,344392,114731,357524,,Answers to the curator's notes 3 to 15 on the specification's preface and chapters 1 and 2; gap ledger row 1001
+4159,2026-11-15 18:03:43Z,615eac60a,1000,819709,344271,114663,358014,821953,344392,114731,358135,,"Review for the curator's notes of 2026-11-15: C4's limits one by one, his points against the specification, the library "
+4160,2026-11-15 18:04:05Z,3fc1ac6e7,1000,819709,344271,114663,358014,821953,344392,114731,358135,,"The specification reader in two editions: the team's Working Draft of February 2011 at docs/specification/, the revival'"
+4161,2026-11-15 18:09:18Z,316871ab8,1000,819709,344271,114663,358014,821953,344392,114731,358135,,Specification reader: the results of compare.js on the two editions
+4162,2026-11-15 18:10:54Z,b518a5572,1000,819709,344271,114663,358014,821953,344392,114731,358135,,"Boot note: the split is public, the program review, the answers, the prototype and the docket are in; the planner of cli"
+4163,2026-11-15 18:19:49Z,2545c8e43,1000,819709,344271,114663,359122,821953,344392,114731,359243,,"Climb batch 32's record, planned with no go: the model's notation in one run of five rungs (rows 133, 177, 5; 84, 158; 7"
+4164,2026-11-15 18:20:41Z,b14d8753a,1000,819709,344271,114663,359122,821953,344392,114731,359243,,"Climb batch 32's probes: row 731's reproducer with every bound self-referential, its one error the row's"
+4165,2026-11-15 18:22:19Z,cb2c7c574,1000,819709,344271,114663,359122,821953,344392,114731,359243,,"Boot note: climb batch 32 is planned with no go, its check runs, the direction page is published"
+4166,2026-11-15 18:29:32Z,8cd248e41,1000,819709,344271,114663,359952,821953,344392,114731,360073,,"Climb batch 32's record checked before any launch: the review, with its corrections of the record in place"
+4167,2026-11-15 18:33:48Z,60d8db72b,1000,819709,344271,114663,359952,821953,344392,114731,360073,,"Climb batch 32's manifest generator, with its block kept beside it and not installed; three more corrections of the reco"
+4168,2026-11-15 18:36:59Z,93ea39cca,1000,819709,344271,114663,359952,821953,344392,114731,360073,,"Climb batch 32's record after the coordinator's rulings: row 177 out of rung P, rung B the typed literal only, fork C1's"
+4169,2026-11-15 18:37:33Z,3db9da8ed,1000,819709,344271,114663,359952,821953,344392,114731,360073,,"Boot note: both batches are planned and checked, nothing runs, the summary for his return"
+4170,2026-11-15 20:18:38Z,584043218,1000,819709,344271,114663,359952,821953,344392,114731,360073,,"Boot note: rewritten after the compaction of 20:1x on 11-15; nothing runs, one ask open (which batch first), both batche"
+4171,2026-11-15 22:54:11Z,7efab2cff,1000,819709,344271,114663,359952,821953,344392,114731,360073,,Boot note: the notation switch's prototype is a private page for his check
+4172,2026-11-15 22:56:36Z,90c81179c,1000,819709,344271,114663,359952,821953,344392,114731,360073,,Boot note: rungs N and D join the notation batch at his request; a worker amends the records; fork W taken at (a) by the
+4173,2026-11-15 23:08:04Z,40272e802,1000,819709,344271,114663,359952,821953,344392,114731,360073,,Boot note: a worker finishes and publishes the notation switch; his question on the blackboard Z answered from the speci
+4174,2026-11-15 23:09:23Z,edd6a820f,1000,819709,344271,114663,359952,821953,344392,114731,360073,,"Boot note: his go for the joined notation batch, after a clean check"
+4175,2026-11-15 23:09:44Z,5d3390547,1000,819709,344271,114663,360388,821953,344392,114731,360509,,"Climb batch 32 joined with rungs N and D of climb batch 31, at the curator's request: one run of seven rungs, fork W at "
+4176,2026-11-15 23:11:04Z,4a78f877e,1000,819709,344271,114663,360388,821953,344392,114731,360509,,"Boot note: the join is done, the check of the joined record runs"
+4177,2026-11-15 23:17:29Z,15b2af60a,1000,819709,344271,114663,360388,821953,344392,114731,360509,,Held list: his word on the blackboard letters and type aliases
+4178,2026-11-15 23:22:51Z,5d6379593,1000,819709,344271,114663,360388,821953,344392,114731,360509,,"microGPT walk-through: the code in three notations, Typeset, Unicode and ASCII"
+4179,2026-11-15 23:23:23Z,c7d8f2232,1001,820740,344271,114663,360388,822984,344392,114731,360509,,"Gap ledger: row 1002, Fortify sets a postfix operator declaration's static parameters inside the exponent; row 62 also h"
+4180,2026-11-15 23:23:45Z,efd1024fe,1001,820740,344271,114663,360673,822984,344392,114731,360794,,Climb batch 32's joined record checked before its launch: the curator's go written in his words; the six calls that cros
+4181,2026-11-15 23:24:05Z,b71e0627b,1001,820740,344271,114663,360673,822984,344392,114731,360794,,Boot note: the notation switch is built and pushed
+4182,2026-11-15 23:25:42Z,db352c177,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"Climb batch 32: the manifest block of its seven rungs installed, at the curator's go after the clean check; two small co"
+4183,2026-11-15 23:26:45Z,3044f8761,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"Boot note: climb batch 32 runs, launched at 23:25 UTC on his go; the check-in file"
+4184,2026-11-15 23:33:16Z,b6b2400b5,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Held list: his words on Fortify's form and on the typeset lines' breaks
+4185,2026-11-15 23:41:32Z,ff7b4739c,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"Held list and boot note: his decisions on the notation switch (no breaks, Fortify's form, the sum sign in the Unicode vi"
+4186,2026-11-15 23:43:12Z,0386df494,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"microGPT walk-through: one typeset line for each source line, BIG MAX in Fortify's form, the sum sign in the Unicode for"
+4187,2026-11-15 23:43:21Z,7a924a7ed,1001,820740,344271,114663,360729,822984,344392,114731,360850,,microGPT walk-through: the font piece of the large MAX
+4188,2026-11-15 23:43:43Z,38bd7fed4,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: his three corrections of the notation switch are built and pushed
+4189,2026-11-15 23:56:00Z,f766cd0d1,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: every check-in of climb batch 32 is armed
+4190,2026-11-16 00:14:39Z,0f40426a3,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: a worker repairs the lost glyph that he found in the specification reader
+4191,2026-11-16 00:19:55Z,14f2c50b3,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: a compaction and a light boot at his word; what the light boot reads
+4192,2026-11-16 00:21:02Z,2efd6e4d2,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"Specification reader: a glyph of no width is drawn as a path, not left to the browser's text"
+4193,2026-11-16 00:23:16Z,c4f979f2d,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: the light boot taken after the compaction
+4194,2026-11-16 00:27:29Z,3ae5596f7,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"Specification reader: the slash of \not over a relation that a macro wraps, inside a sentence"
+4195,2026-11-16 00:32:04Z,6ff21149d,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"Specification reader: the curator's note of 2026-11-16 on the lost slash, the places, the README"
+4196,2026-11-16 00:32:05Z,aeb01a095,1001,820740,344271,114663,360729,822984,344392,114731,360850,,microGPT walk-through: a check of the Unicode view's table against the specification; CROSS is U+2A2F
+4197,2026-11-16 00:32:53Z,58b6c1721,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: the reader's lost slash is repaired; his phone has to confirm it
+4198,2026-11-16 00:35:34Z,33928eec4,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"Boot note: a scout fetches his earlier words on the built-in number types, at his order"
+4199,2026-11-16 00:38:33Z,8152a0425,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: his phone confirms the repaired slash of the specification reader
+4200,2026-11-16 00:38:41Z,f5c5b60c6,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: the time of his confirmation corrected
+4201,2026-11-16 00:45:06Z,099c0ba18,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"Held list and boot note: his earlier words on the two names of a built-in number type, found by a scout; the question is"
+4202,2026-11-16 00:55:21Z,8c2cb91bb,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Held list and boot note: his decision that walk's five native number objects go; the scout's second pass
+4203,2026-11-16 01:01:30Z,b6aac9946,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: Eric Allen's repository gained the team's full history; what a comparison shows
+4204,2026-11-16 01:08:05Z,4102ad924,1001,820740,344271,114663,360729,822984,344392,114731,360850,,"PLAN, held list, boot note: his word that the revival is rebased onto Eric Allen's history at the cleaner pass of main"
+4205,2026-11-16 01:17:23Z,b109f29b7,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Held list and boot note: the curator's memory of the agreement on the number objects is confirmed at the source; what th
+4206,2026-11-16 01:17:33Z,9dc4df856,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: a time corrected
+4207,2026-11-16 01:27:37Z,2a4d1be14,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Boot note: the machine restarted at 01:26 UTC; the batch run resumed
+4208,2026-11-16 01:30:28Z,5269f1be3,1001,820740,344271,114663,360729,822984,344392,114731,360850,,Held list and boot note: his decision that a built-in number type is a value object under its own name
+4209,2026-11-16 01:42:57Z,3b1ecb0b2,1001,820740,344271,116076,360729,822984,344392,116144,360850,,"POSITIONS: P-178, each built-in number type is one value object under its own name, and walk's five native number object"
+4210,2026-11-16 01:43:33Z,b04d4db3d,1001,820740,344271,116076,360729,822984,344392,116144,360850,,Boot note: P-178 written; a record worker for the rest; the skills' parts loaded at his question
+4211,2026-11-16 01:44:32Z,ad354f2ff,1001,820740,344271,116076,360729,822984,344392,116144,360850,,"Held list: for analysis at his order, the skills' parts not loaded after the compaction, the two parts on the record amo"
+4212,2026-11-16 01:44:42Z,7c7174b1c,1001,820740,344271,116076,360729,822984,344392,116144,360850,,Held list: the coordinator's guesses marked as its own
+4213,2026-11-16 01:44:48Z,9a69a5a25,1002,821839,344271,116076,360729,824083,344392,116144,360850,,"Gap ledger: row 1003, the five built-in number types are not yet the one value object of P-178"
+4214,2026-11-16 01:48:49Z,ef10203be,1002,821839,344271,116076,360729,824083,344392,116144,360850,,"Held list: for later analysis, whether a brief's named parts suppress the worker skill's own loading of parts"
+4215,2026-11-16 01:48:59Z,d51088e9a,1002,821839,344271,116076,360729,824083,344392,116144,360850,,"PLAN, the review queue and the decision docket: items 371, 372 and 515 answered by P-178, items 513 and 514 reworded to "
+4216,2026-11-16 01:51:04Z,4f6f0e0dd,1002,821839,344271,116293,360729,824083,344392,116361,360850,,POSITIONS: P-178 says no more than he decided on the compiler's prelude; P-164 and P-167 brought in line with it. Held l
+4217,2026-11-16 01:51:30Z,5c3bb21fe,1002,821839,344271,116338,360729,824083,344392,116406,360850,,"POSITIONS: P-178's clause on the two paths restored by his principle; P-37 names the second exception, for the number ty"
+4218,2026-11-16 01:51:43Z,68073b4e6,1002,821839,344271,116338,360729,824083,344392,116406,360850,,Boot note: the record worker's result; the pass after P-178; the second exception named in P-37
+4219,2026-11-16 01:55:02Z,8c88eb436,1002,821839,344271,116338,360729,824083,344392,116406,360850,,"Review queue and PLAN: items 513 and 514 no longer list decided types as open (the streams, the array stores, Boolean, C"
+4220,2026-11-16 01:57:15Z,0301fa605,1002,821839,344271,116338,360729,824083,344392,116406,360850,,"POSITIONS history and boot note: the second exception to P-37 is settled by his own words, not the coordinator's applica"
+4221,2026-11-16 02:04:15Z,849986b59,1002,821839,344271,116338,360729,824083,344392,116406,360850,,"Held list: for analysis, the record not searched before a statement on strings; his words"
+4222,2026-11-16 02:07:19Z,d78ae07e1,1002,821839,344271,116338,360729,824083,344392,116406,360850,,"Review queue, PLAN, held list, boot note: the string's class is no question and no new probe; the work is in the carrier"
+4223,2026-11-16 02:07:29Z,9cb5e119b,1002,821839,344271,116338,360729,824083,344392,116406,360850,,Held list: a time corrected
+4224,2026-11-16 02:15:03Z,bd3ae6d47,1002,821839,344271,116338,361298,824083,344392,116406,361419,,"Post-mortem work of 2026-11-16, at the curator's order: the night after the light boot, written down for a coordinator s"
+4225,2026-11-16 02:15:47Z,6d00b8559,1002,821839,344271,116338,361298,824083,344392,116406,361419,,Boot note: the state before his compaction; the full boot after it; the parts to load before their work
+4226,2026-11-16 02:16:58Z,84b80bdb8,1002,821839,344271,116338,361298,824083,344392,116406,361419,,"Boot note: the night's matters by pointer to their homes, not retold"
+4227,2026-11-16 02:22:22Z,e2a090b89,1002,821839,344271,116338,361298,824083,344392,116406,361419,,Boot note: the light boot of 02:21 UTC at his word; FACTS and POSITIONS are read whole at the landing
+4228,2026-11-16 04:25:44Z,5c8055dee,1003,822791,345276,116338,361298,825039,345401,116406,361419,,"An api declares a postfix exponent operator, and the signs for sum and product begin a reduction"
+4229,2026-11-16 04:28:16Z,a10f1cd59,1005,824823,347108,116338,361298,827071,347233,116406,361419,,"A superscript follows a dotted access on both paths, and a parenthesised call under walk"
+4230,2026-11-16 04:30:42Z,d159b7197,1014,834275,351283,116338,361298,836523,351408,116406,361419,,The compiled checker fixes a reduction's unwritten static argument and instantiates a generic function passed as a value
+4231,2026-11-16 04:33:48Z,b190b8eb2,1016,836452,353262,116338,361298,838700,353387,116406,361419,,"A numeral at a call goes to the most specific declaration that takes it, on both paths"
+4232,2026-11-16 04:35:56Z,754a0f29d,1020,840468,355131,116338,361298,842716,355256,116406,361419,,Under walk a generic function passed as a value is instantiated at the arrow type that receives it
+4233,2026-11-16 04:36:51Z,d58333512,1024,844573,356350,116338,361298,846823,356475,116406,361419,,Under walk a top-level array literal with a declared type is built into an array
+4234,2026-11-16 04:38:02Z,060f3ec09,1030,850721,358019,116338,361298,852975,358144,116406,361419,,"A top-level tuple binding compiles, each name typed by its element"
+4235,2026-11-16 04:42:35Z,700b9872d,1030,840924,358386,116338,361298,843175,358511,116406,361419,,Close the rows climb batch 32 fixed
+4236,2026-11-16 05:07:38Z,869802db6,1030,840924,358386,116338,361298,843175,358511,116406,361419,,Climb batch 32: the gather's record
+4237,2026-11-16 05:16:11Z,299b83862,1030,840924,358386,116338,361298,843175,358511,116406,361419,,Fold the review's corrections
+4238,2026-11-16 05:35:01Z,567c36dad,1030,840924,358385,116338,361298,843175,358510,116406,361419,batch 32,Record the gate's tables and the microGPT walk check
+4239,2026-11-16 05:41:44Z,a72c7ded1,1030,840924,358385,116338,361298,843175,358510,116406,361419,,"Boot note: climb batch 32 landed at 05:35 UTC; the landing in progress, the post-batch review running"
+4240,2026-11-16 05:42:37Z,8fa708ef2,1030,840924,358385,116338,361298,843175,358510,116406,361419,,Boot note: he is back and used a Fable reset; his client's reading
+4241,2026-11-16 05:59:02Z,c0c35b4f9,1030,840924,358385,116338,362370,843175,358510,116406,362491,,"Post-batch review of climb batch 32: the landed changes against the decisions, the seven defaults, the measure, the cost"
+4242,2026-11-16 06:02:07Z,1c55796eb,1030,840924,358385,116338,362370,843175,358510,116406,362491,,Boot note: the post-batch review is in; the record-landing workflow and a probe of the model's diffs run
+4243,2026-11-16 06:30:44Z,b0fdfeafa,1030,840924,358385,116338,362370,843175,358510,116406,362491,,Boot note: the probe of the model's diffs is in; the base build of the landed tree
+4244,2026-11-16 06:33:15Z,18a136d6b,1030,840924,358385,116338,362370,843175,358510,116406,362491,,"Held list and boot note: his budget strategy for the week; his worry about the batch's tests, the counts and the audit"
+4245,2026-11-16 06:33:33Z,2e6c1cefa,1030,840924,358385,116338,362370,843175,358510,116406,362491,,Held list and boot note: two times corrected
+4246,2026-11-16 06:42:46Z,be49b303c,1030,840924,358385,116338,362370,843175,358510,116406,362491,,Boot note: the audit of climb batch 32's tests; the coordinator's wrong first counts corrected
+4247,2026-11-16 06:44:58Z,9683fef67,1030,840924,358942,115970,362370,843175,359069,116038,362491,,Record: FACTS and POSITIONS in line with climb batch 32's landing
+4248,2026-11-16 06:44:58Z,35b4c2a02,1030,840924,358942,115970,362370,843175,359069,116038,362491,,"Record: PLAN, the review queue and the run's folder after climb batch 32's landing"
+4249,2026-11-16 06:58:07Z,266990be4,1030,840924,358942,115970,362370,843175,359069,116038,362491,,"Held list: his word on three decisions that climb batch 32 landed, and his three questions"
+4250,2026-11-16 07:10:10Z,3a9bf9f86,1030,840924,358942,115970,362370,843175,359069,116038,362491,,fortress-repo: the orientation's three sections after climb batch 32's landing
+4251,2026-11-16 07:13:31Z,5e8b33fd3,1030,840924,358942,115970,362370,843175,359069,116038,362491,,fortress-repo: the area parts after climb batch 32's landing
+4252,2026-11-16 07:15:30Z,fb3901a01,1030,840924,358942,115970,362370,843175,359069,116038,362491,,"Held list: his order to take the team's notice out of the revival's new tests, now"
+4253,2026-11-16 07:17:10Z,2a44581c8,1030,840924,358942,115970,362370,843175,359069,116038,362491,,Held list: his review of three landed choices closes their review items and enters no decision
+4254,2026-11-16 07:17:20Z,698bbe97b,1030,840924,358942,115970,362370,843175,359069,116038,362491,,Held list: a time corrected
+4255,2026-11-16 07:18:21Z,ec6096458,1030,840924,358942,115970,362370,843175,359069,116038,362491,,Seven superscript tests: the team's notice taken out
+4256,2026-11-16 07:19:21Z,f01e68397,1030,840924,358942,115970,362370,843175,359069,116038,362491,,fortress-repo: the cold read of climb batch 32's landing
+4257,2026-11-16 07:20:15Z,b7a00e569,1030,840924,358942,115970,363364,843175,359069,116038,363485,,"The probe of the model's four diffs on the landed tree, and the audit of climb batch 32's tests"
+4258,2026-11-16 07:29:07Z,f40f0dc73,1030,840924,358942,115970,363364,843175,359069,116038,363485,,"Climb batch 32's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
