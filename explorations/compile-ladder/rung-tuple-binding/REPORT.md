@@ -201,7 +201,7 @@ NEW-D-1 in detail. `DesugarerVisitor.forVarDecl` makes a temporary for the right
     B runs
     B runs
 
-Row 152 says of an earlier model program's `(corpusTokens, corpusLengths) = loadCorpus(corpusPath)` that "the corpus loads once, on import as on run"; by this defect it loads three times in each. Today's two model programs bind only tuples of literals this way (`explorations/run-c4/src/MicroGptFlat.fss:17-19`, `explorations/apl/mg/MicroGptApl.fss:26-28`), so they pay only the cost of `10.0^(-5)` seven times.
+Row 152 says of an earlier model program's `(corpusTokens, corpusLengths) = loadCorpus(corpusPath)` that "the corpus loads once, on import as on run"; by this defect that right side runs three times; I did not run that program, which is only in git history. Today's two model programs bind only tuples of literals this way (`explorations/run-c4/src/MicroGptFlat.fss:17-19`, `explorations/apl/mg/MicroGptApl.fss:26-28`), so they pay only the cost of `10.0^(-5)` seven times.
 
 ## Commands worked out
 
