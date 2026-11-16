@@ -217,7 +217,7 @@ Section 5 tells the main changes with their reasons. This section adds the other
 ### Numbers
 
 - `SUM` and `PROD` are each one generic declaration over the operators of the element type. The team's `SUM` relied on operators that `Number` declared for any two numbers, and the sibling number types have none.
-- An integer numeral has its own type, `IntLiteral`, which the number types convert from. This is the compiler library's design, since the specification's numeral types were unfinished. The interpreter still types a numeral by its value.
+- A numeral has a type of its own, which exists only while the program is compiled: the Working Draft's `NaturalNumeral`, or `RadixPointNumeral` for one with a point, as `0.5`. Each number type converts from it by a coercion. Where nothing fixes a type, a numeral is a `ZZ32`, a wider integer type if its value needs one, or an `RR64` with a point, in both implementations.
 
 ### Order and reductions
 

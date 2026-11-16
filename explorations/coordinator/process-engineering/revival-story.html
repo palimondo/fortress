@@ -264,7 +264,7 @@ details.words dl.gloss dd { margin-left: 1em; }
 <h3>Numbers</h3>
 <ul>
 <li><code>SUM</code> and <code>PROD</code> are each one generic declaration over the operators of the element type. The team's <code>SUM</code> relied on operators that <code>Number</code> declared for any two numbers, and the sibling number types have none.</li>
-<li>An integer numeral has its own type, <code>IntLiteral</code>, which the number types convert from. This is the compiler library's design, since the specification's numeral types were unfinished. The interpreter still types a numeral by its value.</li>
+<li>A numeral has a type of its own, which exists only while the program is compiled: the Working Draft's <code>NaturalNumeral</code>, or <code>RadixPointNumeral</code> for one with a point, as <code>0.5</code>. Each number type converts from it by a coercion. Where nothing fixes a type, a numeral is a <code>ZZ32</code>, a wider integer type if its value needs one, or an <code>RR64</code> with a point, in both implementations.</li>
 </ul>
 <h3>Order and reductions</h3>
 <ul>
