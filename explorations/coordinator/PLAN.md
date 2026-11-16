@@ -155,6 +155,16 @@ Not yet asked, from the parallelism review (`reviews/parallelism-foundations-202
 84. D2: is a compiled `atomic` block atomic with respect to a write made outside `atomic` (row 948; row 984 for a nested block)? Weak atomicity kept, plain writes that take the sequence lock, or the specification's shared and local objects; after it, a contention policy. No default on record. Review-queue item 510.
 85. Row 876, CONTESTED: the compiled `drandom` gives values that depend on the schedule above one thread; is that a defect to repair? No default on record. Review-queue item 511.
 
+Not yet asked, from the two notes of 2026-11-16 on the specification's text (`reviews/omitted-types-intent-2026-11-16.md`, "Decisions not taken"; `reviews/fortresses-intent-2026-11-16.md`, "Can the vision be finished from what the team left?"); each is a decision that its note names and does not take, and no planned work needs any of them:
+
+89. Does a method take the types that it leaves out from the declaration that it implements, as the Working Draft's `Enzyme` and `Cons` show and neither path builds (row 405)? The rule written and built on both paths, the method made to write its types and the two examples changed, or nothing changed. No default on record. Review-queue item 551.
+90. What does the specification say of a parameter whose type only its uses could give, as in `f(x) = x^2 + sin x - cos 2 x` (rows 405 and 1032)? The inference kept and designed, the type required, a new design that checks at each call or makes the function generic, or nothing changed. No default on record; row 1032 is contested until he answers. Review-queue item 552.
+91. Is the introduction's sentence on the types that a program leaves out revised? As it is, a box that says which cases are built, or its words changed. No default on record. Review-queue item 553.
+92. Does the revival's goal include the fortress operations of the components chapter, which no path builds (row 1033)? No default on record. Review-queue item 554.
+93. If it does: is the starting point the text of 2007, by which linking makes a new component, or the team's linker of 2012, which rewrites a component's jar in place? No default on record. Review-queue item 555.
+94. Does chapter 2 of the revision keep the spliced text with its note, restore the lost `link` command from 1.0β, or go back to the wording of the 1.0 release? No default on record. Review-queue item 556.
+95. Does row 1033, filed by the coordinating session's brief where the note left the filing to him, stand in the gap ledger? No default on record. Review-queue item 557.
+
 Before the switch-over:
 
 12. The dead sizes' diff: the 9 unused sizes (F-35, the api's 9 declarations with a dead size) and row 41 (the linker lookup) come with the switch-over's design. Review-queue item 36.
