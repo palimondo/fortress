@@ -262,8 +262,11 @@ where its value is applied (row~1010), and accepts a reference whose
 expected type is not an arrow type, as at a parameter of type \TYP{Any},
 which then stops the compiled program when it runs (row~1012); the
 interpreter, which has no static
-types, runs both forms that this paragraph refuses, instantiating the function
-at its first application (\secref{revival-expected-contexts}).}
+types, instantiates the function at the arrow type of the parameter, of the
+local variable or of the assigned variable that receives it, though not of an
+immutable top-level variable (row~1019), and runs both forms that this
+paragraph refuses, instantiating the function at each application (row~1021;
+\secref{revival-expected-contexts}).}
 
 \emph{Dispatch.}
 The call, with the coercions of its instance inserted, dispatches at run time

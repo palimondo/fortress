@@ -1,0 +1,74 @@
+component GenericFunctionAsValueWalk
+export Executable
+
+(* A generic function passed as a value takes its static arguments from the arrow type that receives it (var-ref.tex, section "Identifier References"). *)
+
+object Box[\F extends Object\](v: F) end
+
+half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x + x
+size[\nat n\](x: Vector[\RR64,n\]): ZZ32 = n
+sizes[\nat n, nat m\](x: Vector[\RR64,n\], y: Vector[\RR64,m\]): ZZ32 = 10 n + m
+ident[\T\](x: T): T = x
+count[\F extends Object\](b: Box[\F\]): ZZ32 = 1
+
+twice[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x + x
+twice(x: ZZ32): ZZ32 = x + x
+
+plain(x: Vector[\RR64,3\]): Vector[\RR64,3\] = x + x
+
+app(f: Vector[\RR64,3\] -> Vector[\RR64,3\], v: Vector[\RR64,3\]): Vector[\RR64,3\] = f(v)
+appSize(f: Vector[\RR64,3\] -> ZZ32, v: Vector[\RR64,3\]): ZZ32 = f(v)
+appSizes(f: (Vector[\RR64,3\], Vector[\RR64,2\]) -> ZZ32, v: Vector[\RR64,3\], w: Vector[\RR64,2\]): ZZ32 = f(v, w)
+appZ(f: ZZ32 -> ZZ32, x: ZZ32): ZZ32 = f(x)
+appS(f: String -> String, x: String): String = f(x)
+useOne(g: Box[\ZZ32\] -> ZZ32): ZZ32 = do z: ZZ32 = 7; g(Box[\ZZ32\](z)) end
+
+appN[\nat n\](f: Vector[\RR64,n\] -> Vector[\RR64,n\], v: Vector[\RR64,n\]): Vector[\RR64,n\] = f(v)
+
+appNM[\nat n, nat m\](f: Vector[\RR64,n\] -> Vector[\RR64,n\], v: Vector[\RR64,n\], w: Vector[\RR64,m\]): RR64 =
+    do r = f(v); r[0] + w[0] end
+
+run(): () = do
+    v: Vector[\RR64,3\] = [2.0 2.5 3.0]
+    w: Vector[\RR64,2\] = [1.0 1.5]
+    z: ZZ32 = 21
+
+    a = app(half, v)
+    assert(a[0], 4.0, "app(half, v)[0]")
+    assert(a[1], 5.0, "app(half, v)[1]")
+    assert(a[2], 6.0, "app(half, v)[2]")
+
+    p = appN(plain, v)
+    assert(p[0], 4.0, "appN(plain, v)[0]")
+    b = appN(half, v)
+    assert(b[1], 5.0, "appN(half, v)[1]")
+    c = appN(half, w)
+    assert(c[1], 3.0, "appN(half, w)[1]")
+
+    assert(appNM(half, v, w), 5.0, "appNM(half, v, w)")
+    assert(appNM(half, w, v), 4.0, "appNM(half, w, v)")
+
+    assert(appSize(size, v), 3, "appSize(size, v)")
+    assert(appSizes(sizes, v, w), 32, "appSizes(sizes, v, w)")
+
+    assert(appZ(ident, z), 21, "appZ(ident, z)")
+    assert(appS(ident, "ab"), "ab", "appS(ident, ab)")
+    assert(useOne(count), 1, "useOne(count)")
+
+    g: Vector[\RR64,3\] -> Vector[\RR64,3\] = half
+    d = g(v)
+    assert(d[2], 6.0, "g(v)[2]")
+
+    e = app(half[\3\], v)
+    assert(e[0], 4.0, "app(half at 3, v)[0]")
+
+    assert(appZ(twice, z), 42, "appZ(twice, z)")
+    t = app(twice, v)
+    assert(t[1], 5.0, "app(twice, v)[1]")
+    u = appN(twice, w)
+    assert(u[1], 3.0, "appN(twice, w)[1]")
+
+    println("done")
+end
+
+end

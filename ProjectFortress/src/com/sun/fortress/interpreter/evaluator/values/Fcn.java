@@ -19,6 +19,7 @@ import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.exceptions.UnificationError;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.types.FType;
+import com.sun.fortress.interpreter.evaluator.types.FTypeArrow;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
 import com.sun.fortress.nodes_util.NodeUtil;
 import com.sun.fortress.useful.HasAt;
@@ -55,20 +56,25 @@ abstract public class Fcn extends FValue implements FortressClosure {
     }
 
     /**
-     * Getter for ftype.  Should always be non-null, but right now
-     * FGenericFunction never calls setFtype and this returns null in
-     * that case.  This leads to extensive bugs particularly when a
-     * generic function is overloaded along with non-generic siblings,
-     * or when a generic function is passed as an argument to an
-     * overloaded function without providing an explicit type
-     * instantiation.  Delete "&& false" to enable checking if you're
-     * trying to fix this bug.
+     * Getter for ftype.  A function with static parameters has no ftype:
+     * GenericFunctionOrConstructor answers its own type as a value, and
+     * OverloadedFunction the types of all its overloads.
      */
     public FType type() {
-        if (ftype == null && false) {
-            throw new NullPointerException(errorMsg("No type information for ", this, " ", this.getClass()));
-        }
         return ftype;
+    }
+
+    /**
+     * The value that a parameter or a variable of type t receives for v,
+     * which t matches: for a function with static parameters at an arrow
+     * type, its instance at that type (GenericFunctionOrConstructor.instanceAt),
+     * and v itself where the arrow type leaves a static parameter open; any
+     * other value, and any value at another type, as it is.
+     */
+    public static FValue received(FType t, FValue v) {
+        if (!(v instanceof GenericFunctionOrConstructor) || !(t instanceof FTypeArrow)) return v;
+        Simple_fcn inst = ((GenericFunctionOrConstructor) v).instanceAt((FTypeArrow) t);
+        return inst == null ? v : inst;
     }
 
     /**

@@ -1,0 +1,38 @@
+component GenericFunctionRowLiftWalk
+export Executable
+
+(* A function generic in a size is lifted over the rows of a matrix: the matrix fixes the lift's sizes, and the lift's arrow parameter then fixes the function's (var-ref.tex, section "Identifier References"). *)
+
+epsilon: RR64 = 0.5
+
+half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x + x
+rmsn[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x.scale(1.0 / SQRT (epsilon + x.dot(x) / (1.0 n)))
+
+rows[\nat r, nat c\](f: Vector[\RR64,c\] -> Vector[\RR64,c\], m: Matrix[\RR64,r,c\]): Matrix[\RR64,r,c\] = do
+    res = matrix[\RR64,r,c\]()
+    for i <- seq(0#r) do
+        row = vector[\RR64,c\]()
+        for j <- seq(0#c) do row[j] := m[i,j] end
+        out = f(row)
+        for j <- seq(0#c) do res[i,j] := out[j] end
+    end
+    res
+end
+
+run(): () = do
+    m: Matrix[\RR64,2,3\] = [1.0 2.0 3.0; 4.0 5.0 6.0]
+    h = rows(half, m)
+    assert(h[0,0], 2.0, "rows(half, m)[0,0]")
+    assert(h[0,2], 6.0, "rows(half, m)[0,2]")
+    assert(h[1,1], 10.0, "rows(half, m)[1,1]")
+
+    x: Matrix[\RR64,2,2\] = [1.0 1.0; 3.0 4.0]
+    xp = rows(rmsn, x)
+    assert(|xp[0,0] - 1.0 / SQRT 1.5| < 0.000000000001, "rows(rmsn, x)[0,0]")
+    assert(|xp[1,0] - 3.0 / SQRT 13.0| < 0.000000000001, "rows(rmsn, x)[1,0]")
+    assert(|xp[1,1] - 4.0 / SQRT 13.0| < 0.000000000001, "rows(rmsn, x)[1,1]")
+
+    println("done")
+end
+
+end

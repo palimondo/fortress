@@ -2956,4 +2956,31 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     }
 
 
+    /** The type that type() last answered for the overloads' type it was built from. */
+    private volatile FType[] typeWithGenerics;
+
+    /**
+     * The type of the overloaded function as a value: the types of all its
+     * overloads, those with static parameters included, so that a place of
+     * arrow type that one of them can be received at receives the function.
+     * The value stays the whole overloaded function, and each application
+     * chooses a declaration by its arguments, as a direct call does.
+     */
+    @Override
+    public FType type() {
+        FType plain = super.type();
+        if (plain == null || !needsInference) return plain;
+        FType[] known = typeWithGenerics;
+        if (known == null || known[0] != plain) {
+            List<FType> all = new ArrayList<FType>();
+            for (Overload o : getOverloads()) {
+                FType ty = o.getFn().type();
+                if (ty != null) all.add(ty);
+            }
+            known = new FType[]{plain, FTypeOverloadedArrow.make(all)};
+            typeWithGenerics = known;
+        }
+        return known[1];
+    }
+
 }

@@ -2708,7 +2708,19 @@ its static parameters, and the compiled program stops when it runs
 It refuses a reference to a name with several declarations of which one has
 static parameters, where no declaration without static parameters has a type
 that fits the receiving arrow type (row~1009).
-The interpreter has no static types and is unchanged; it fixes no type
+The interpreter has no static types.
+Since 15~November 2026 it instantiates a reference to a generic function at
+the arrow type of the parameter that receives it, of a function or of a
+constructor, of a local variable declared with an arrow type, and of a
+variable of arrow type at an assignment
+(\nolinkurl{ProjectFortress/tests/GenericFunctionAsValueWalk.fss},
+\nolinkurl{GenericFunctionAssignedWalk.fss}); an immutable top-level variable
+of arrow type keeps the generic function (row~1019), a function is refused at
+an arrow type over a type parameter of the function called that only another
+argument's value fixes (row~1018), and a reference that no arrow type
+receives, or whose arrow type leaves a static parameter open, is not refused:
+it stays generic and is instantiated at each application (row~1021).
+Otherwise the interpreter fixes no type
 parameter by an expected type (\secref{static-arg-inference}), so that
 \EXP{\VAR{takes}(\VAR{mk}())} and \EXP{\VAR{takes}(\VAR{wrap}(3))} fail there
 when they run, \VAR{mk} instantiated at the bound of its type parameter and

@@ -270,6 +270,7 @@ public abstract class NonPrimitive extends Simple_fcn {
                     arg = c;
                 }
                 arg = Numerals.plain(arg.getValue()); // Strip asif, and a numeral's own type
+                arg = received(paramType, arg); // a function with static parameters, at an arrow type
                 try {
                     if (param.getMutable()) {
                         env.putValueRaw(param.getName(), arg, param.getType());
