@@ -1,0 +1,11 @@
+component PArrowRet
+export Executable
+half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x + x
+pick(): Vector[\RR64,3\] -> Vector[\RR64,3\] = half
+run(): () = do
+    w: Vector[\RR64,2\] = vector[\RR64,2\](1.5)
+    g = pick()
+    r = g(w)
+    println("ran at size 2")
+  end
+end

@@ -1,0 +1,14 @@
+component PEqNum
+export Executable
+run(): () = do
+    a: NN32 = 0
+    b: NN64 = 0
+    c: RR32 = 0
+    println(a = 0)
+    println(a =/= 0)
+    println(b = 0)
+    println(b =/= 0)
+    println(c = 0)
+    println(c =/= 0)
+  end
+end

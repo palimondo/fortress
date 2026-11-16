@@ -1,0 +1,12 @@
+component P997
+export Executable
+object Empty[\T\]() end
+trait Holds[\S extends Number\]
+    held[\T extends S\](): Empty[\T\] = Empty[\T\]()
+end
+object Holder[\S extends Number\]() extends Holds[\S\] end
+run(): () = do
+    e = Holder[\RR32\]().held()
+    println("PASS")
+  end
+end

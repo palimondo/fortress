@@ -1,0 +1,10 @@
+component PInt
+export Executable
+kind(x: Any): String = typecase x of
+    Int => "Int"
+    else => "other"
+  end
+run(): () = do
+    println(kind(3) || " " || kind("s"))
+  end
+end

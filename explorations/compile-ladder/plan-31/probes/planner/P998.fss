@@ -1,0 +1,9 @@
+component P998
+export Executable
+pickFirst[\T extends Number\](a: T, b: T): T = a
+pickFirst(a: NN32, b: NN32): String = "plain"
+run(): () = do
+    u: NN32 = 4
+    println(pickFirst(u, u))
+  end
+end

@@ -1,0 +1,12 @@
+component PArrowField
+export Executable
+half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x + x
+object Holder
+    g: Vector[\RR64,3\] -> Vector[\RR64,3\] = half
+end
+run(): () = do
+    w: Vector[\RR64,2\] = vector[\RR64,2\](1.5)
+    r = (Holder.g)(w)
+    println("ran at size 2")
+  end
+end

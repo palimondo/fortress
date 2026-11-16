@@ -1,0 +1,9 @@
+component P551
+export Executable
+object Mine extends ZZ32
+    getter asString(): String = "Mine"
+end
+run(): () = do
+    println(Mine.asString)
+  end
+end

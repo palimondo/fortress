@@ -1,0 +1,8 @@
+component P1014
+export Executable
+four(): ZZ32 = do
+    k: ZZ32 = 3
+    4
+  end
+run(): () = println(four())
+end

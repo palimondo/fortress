@@ -1,0 +1,11 @@
+component PArrowRetC
+export Executable
+object Sz[\nat n\]() end
+half[\nat n\](x: Sz[\n\]): Sz[\n\] = x
+pick(): Sz[\3\] -> Sz[\3\] = half
+run(): () = do
+    g = pick()
+    r = g(Sz[\2\]())
+    println("ran at size 2")
+  end
+end
