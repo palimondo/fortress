@@ -1,6 +1,4 @@
-(* A postfix operator whose sign is an exponent operator is declared in an
-   api, defined in its component and applied in a program that imports the
-   api: concrete-syntax.tex, section "Parameters", OpHeaderFront. *)
+(* A postfix operator whose sign is an exponent operator is declared in an api, defined in its component and applied by an importing program: concrete-syntax.tex, section "Parameters", AbsOpHeaderFront. *)
 component ApiPostfixExponentOpCompiled
 import ApiPostfixExponentOpCompiledApi.{...}
 export Executable

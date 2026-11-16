@@ -1,6 +1,4 @@
-(* The signs U+2211 and U+220F begin a reduction wherever SUM and PROD do,
-   and name the same operators in a declaration: reductions.tex, section
-   "Summations and Other Reduction Expressions", Accumulator. *)
+(* The signs U+2211 and U+220F begin a reduction wherever SUM and PROD do, and name the same operators in a declaration: reductions.tex, section "Summations and Other Reduction Expressions", Accumulator. *)
 component SumSignAccumulatorCompiled
 export Executable
 

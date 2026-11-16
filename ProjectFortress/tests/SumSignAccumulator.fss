@@ -1,6 +1,4 @@
-(* The signs U+2211 and U+220F begin a reduction wherever SUM and PROD do,
-   and name the same operators in a declaration: reductions.tex, section
-   "Summations and Other Reduction Expressions", Accumulator. *)
+(* The signs U+2211 and U+220F begin a reduction wherever SUM and PROD do, and name the same operators in a declaration: reductions.tex, section "Summations and Other Reduction Expressions", Accumulator. *)
 component SumSignAccumulator
 import List.{...}
 export Executable
@@ -17,7 +15,6 @@ total(n: ZZ32): ZZ32 = ∑[j <- 0#n] f(j)
 fact(n: ZZ32): ZZ32 = ∏[j <- 1#n] j
 
 run(): () = do
-    (* a static argument and a generator clause list *)
     assert(∑[\ZZ32\] [x <- 0#10] x, 45, "sum sign, static argument, clause")
     assert(∑[\ZZ32\][x <- 0#10] x, SUM[\ZZ32\][x <- 0#10] x, "sum sign as SUM")
     assert(∑[\ZZ32\] [x <- 0#10] 2 x + 1, 100, "the body is the whole expression")
@@ -26,27 +23,21 @@ run(): () = do
     assert(∑[\ZZ32\] [x <- 1#0] x, 0, "an empty sum")
     assert(∏[\ZZ32\][x <- 1#5] x, 120, "product sign, static argument, clause")
     assert(∏[\ZZ32\][x <- 1#5] x, PROD[\ZZ32\][x <- 1#5] x, "product sign as PROD")
-    (* a generator clause list alone *)
     assert(total(10), 100, "sum sign, clause, a declared return type")
     assert(fact(5), 120, "product sign, clause, a declared return type")
     s: ZZ32 = ∑[x <- 0#10] x
     assert(s, 45, "sum sign, clause, a declared local")
-    (* neither *)
     assert(∑ (0#10), 45, "sum sign, a generator")
     assert(∑ (5#0), 0, "sum sign, an empty generator")
     xs = <|[\ZZ32\] 1, 2, 3, 4 |>
     assert(∑ xs, 10, "sum sign, a list")
     assert(∏ xs, 24, "product sign, a list")
-    (* a static argument alone *)
     assert(∑[\ZZ32\] xs, 10, "sum sign, static argument, a list")
     assert(∏[\ZZ32\] xs, 24, "product sign, static argument, a list")
-    (* the Unicode brackets of a static argument *)
     assert(∑⟦ZZ32⟧[x ← 0#10] x, 45, "sum sign, white brackets")
-    (* inside a larger expression *)
     assert(1 + (∑[\ZZ32\][x <- 0#4] x) + 1, 8, "in parentheses")
     pre = <|[\ZZ32\] ∑[\ZZ32\] xs[0:i] | i <- (0#(|xs|)) |>
     assert(pre, <|[\ZZ32\] 1, 3, 6, 10 |>, "in a comprehension")
-    (* a declaration with the sign declares what SUM and PROD apply *)
     b = Bag(7)
     assert(∑ b, 1007, "the program's own declaration, by the sign")
     assert(SUM b, 1007, "the program's own declaration, by SUM")
