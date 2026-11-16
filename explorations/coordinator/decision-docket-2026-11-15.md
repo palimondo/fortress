@@ -1,4 +1,4 @@
-<!-- The decision docket of 2026-11-15: every open item of the review queue (`explorations/coordinator/review-queue.md`, 200 open, 83 consequential and 117 routine) sorted into five bins by what it is needed for under the curator's words of that evening (now; before the switch-over; for speed; whenever; stale), with the questions of the first bin in order for him, what the coordinator can close, the pairs that are one decision, and where the queue contradicts the record. Read on `main` at `e472857685`; nothing was built or run, and no entry, row, plan line or queue item was changed. -->
+<!-- The decision docket of 2026-11-15: every open item of the review queue (`explorations/coordinator/review-queue.md`, 200 open, 83 consequential and 117 routine) sorted into five bins by what it is needed for under the curator's words of that evening (now; before the switch-over; for speed; whenever; stale), with the questions of the first bin in order for him, what the coordinator can close, the pairs that are one decision, and where the queue contradicts the record. Read on `main` at `e472857685`; nothing was built or run, and no entry, row, plan line or queue item was changed. On 2026-11-16 his decision P-178 was marked at question 3, at items 371, 372, 513, 514 and 515 and at their group; the counts are those of 2026-11-15. -->
 
 # Decision docket, 2026-11-15
 
@@ -16,7 +16,7 @@ The eight questions, in order. No answer needs a later one.
 
 1. **Does the interpreter get your numeral rule now?** Your rule: `u = 0` is true for a zero `u` of type `NN32`. The next batch builds it in the compiler's type checker. Default: the interpreter gets it in the same batch. Waiting: the launch of the next batch. (Item 525, fork W.)
 2. **Go for the next batch as planned?** It has seven tasks. Two of them repair gaps at the model's lines: the hyperparameters bound as one tuple, and `1.0 s`. The other limits that the walk-through boxes are in no batch yet. Default: go as planned, and the other gaps are cut into the batch after it. Waiting: all compiled work. (The go of item 525; item 51, a `SUM` that must write its type.)
-3. **What is a built-in number on the compiled path?** You disliked "which class holds the value": it sounds like boxing. Put from the other side: is a number a plain JVM `double` or `int`, and an object only where it meets `Any` or a type parameter? The carriers' review recommends the way that leaves the library and the interpreter unchanged. Default: none, nothing is built. Waiting: the move of compiled programs onto the library's numbers, and how an array stores its numbers. (Items 513 and 514, one decision.)
+3. **What is a built-in number on the compiled path?** You disliked "which class holds the value": it sounds like boxing. Put from the other side: is a number a plain JVM `double` or `int`, and an object only where it meets `Any` or a type parameter? The carriers' review recommends the way that leaves the library and the interpreter unchanged. Default: none, nothing is built. Waiting: the move of compiled programs onto the library's numbers, and how an array stores its numbers. (Items 513 and 514, one decision.) **Answered on 2026-11-16 for the five number types (P-178):** each of `ZZ32`, `ZZ64`, `ZZ`, `NN64` and `RR64` is one `value object` under its own name, which compiled code can hold as a bare JVM `int`, `long` or `double`, and walk's `Int`, `Long`, `Float`, `BigNum` and `UnsignedLong` go, on both paths before the switch-over; his "They go." of 00:51 UTC and "Value object ZZ32 it is." of about 01:29 UTC. Not built yet (row 1003). Still open under this question: the other built-in types, `Boolean`, `Char`, `String` with `FlatString` and the Java-backed traits (items 513 and 514 as reworded in the queue).
 4. **Which order: the whole switch-over first, or microGPT's slice first?** Slice first means that the compile command can pick the interpreter's library, and a matrix runs compiled after 3 to 5 batches, not 6 to 10. You said on 10 November: probes first, then choose. The probes are done: one build can serve both libraries. Default: the approved order, the whole switch-over first. The plan review recommends the slice. Waiting: the batch after next. (Item 512.)
 5. **Does your design of the arrays start now?** On record the array work waits until after the switch-over, and only explainers come before. You want to design the arrays yourself, and to reconsider the one packed parameter array. Default on record: it waits. Waiting: every change to the model's layout. (Items 230 and 37, one decision.)
 6. **Is this your rule: every change of a model line is shown to you as a diff before it is built?** The record holds it as yours. You never said it as a rule. Default: kept. Waiting: how the gap repairs and a new layout reach you. (Item 223.)
@@ -47,8 +47,8 @@ Counts: bin 1, 14; bin 2, 32 (18 his, 14 the coordinator's); bin 3, 7; bin 4, 14
 - **320.** His lean toward the class loader for the store. Bin 1. Array decision A; one decision with 37's store.
 - **509.** D1: an array of unboxed numbers in a transaction (row 953). Bin 1. Inside his array design; it meets the arrays' store (docket, ask 9); no separate answer.
 - **512.** The order of the remaining work. Bin 1. The direction; the batch after climb batch 31 is cut by it.
-- **513.** What a built-in type is on the compiled path. Bin 1. Named by him on 11-13; the names work and the arrays' store wait on it.
-- **514.** The prelude's trait form under P-26. Bin 1. The ground of 513; one decision.
+- **513.** What a built-in type is on the compiled path. Bin 1. Named by him on 11-13; the names work and the arrays' store wait on it. Answered on 2026-11-16: P-178 for the five number types; open for the other built-in types.
+- **514.** The prelude's trait form under P-26. Bin 1. The ground of 513; one decision. Answered on 2026-11-16: P-178 for the five number types, which take the object and not the prelude's open trait; open for the other built-in types.
 - **525.** Fork W: walk gets the numeral rule now or later. Bin 1. Holds climb batch 31's launch (its record, section 2).
 
 ### Bin 2. Before the switch-over, and not before (32)
@@ -65,8 +65,8 @@ Counts: bin 1, 14; bin 2, 32 (18 his, 14 the coordinator's); bin 3, 7; bin 4, 14
 - **319.** `CompilerSystem` deleted at the switch-over. Bin 2, coordinator. The docket gives the call to the coordinator; the queue's default says nothing deletes it until he answers.
 - **339.** `char` of a code point out of range (row 857). Bin 2, coordinator. The docket's call is the exception; the queue's default is the value kept.
 - **360.** Walk refuses a helper parameter declared `String`. Bin 2, coordinator. As landed; the names batch aligns the checker's table (docket, part 2).
-- **371.** `value trait ZZ32` and the other number traits. Bin 2, his. Falls out of the answer on the built-in types (item 513's cost line).
-- **372.** Walk's five native number objects made private. Bin 2, his. Falls out of the answer on the built-in types (item 513's cost line).
+- **371.** `value trait ZZ32` and the other number traits. Bin 2, his. Falls out of the answer on the built-in types (item 513's cost line). Answered on 2026-11-16: P-178; it falls away, since each number type is a `value object` by its declaration. Closed in the queue.
+- **372.** Walk's five native number objects made private. Bin 2, his. Falls out of the answer on the built-in types (item 513's cost line). Answered on 2026-11-16: P-178; the five go. Closed in the queue.
 - **374.** A program's `+` beside the library's array `+` (row 918). Bin 2, coordinator. A checker gap, by the Meet Rule review; the coordinator's call (docket, part 2).
 - **375.** A call with an assumption at some arguments (row 818). Bin 2, coordinator. Built where the fourteen components need it (docket, part 2).
 - **376.** Generic forms under an assumption. Bin 2, coordinator. As 375 (docket, part 2).
@@ -77,7 +77,7 @@ Counts: bin 1, 14; bin 2, 32 (18 his, 14 the coordinator's); bin 3, 7; bin 4, 14
 - **496.** Climb batch 29b's forks A1 to A8, T1 to T3. Bin 2, coordinator. Fork A1's fold first reads the one library's coercions at the switch-over.
 - **504.** A nested `atomic` block against a plain write (row 984). Bin 2, his. One decision with 510.
 - **510.** D2: a compiled `atomic` block against a write outside it (row 948). Bin 2, his. From the switch-over the library's own `atomic` blocks run compiled (docket, ask 8); microGPT opens no transaction.
-- **515.** The five number traits merged with their objects (way D). Bin 2, his. Arises only after 513, as a second step.
+- **515.** The five number traits merged with their objects (way D). Bin 2, his. Arises only after 513, as a second step. Answered on 2026-11-16: P-178; the five are merged, before the switch-over. Closed in the queue; 516 to 520 below now arise, as the merge's open questions.
 - **516.** Where the five objects live after a merge. Bin 2, his. Arises only under 515.
 - **517.** Walk's two repairs (rows 997, 998) before a merge. Bin 2, his. Arises only under 515.
 - **518.** `round` of an `RR64`: `ZZ64` or `ZZ` (row 1000). Bin 2, his. A merge must keep one of the two declarations; with 515.
@@ -267,7 +267,7 @@ Whether the coordinator can close each group without him, by the rule of `.claud
 
 ### Pairs and groups that are one decision
 
-- 513 and 514: what a built-in type is on the compiled path, and its ground under P-26. 371 and 372 fall out of the answer (513's cost line). 515 is its second step, and 516, 517, 519 and 520 arise only under 515, with 518.
+- 513 and 514: what a built-in type is on the compiled path, and its ground under P-26. 371 and 372 fall out of the answer (513's cost line). 515 is its second step, and 516, 517, 519 and 520 arise only under 515, with 518. Since 2026-11-16 P-178 answers 371, 372 and 515, and 513 and 514 for the five number types; 513 and 514 stay one decision for the other built-in types.
 - 30 and 229, with decision D of 37: whether a size may be fixed only at run time (docket of 11-10, ask 3; way D4 of 37 is his "sizes static from the top").
 - 230 and the timing of 37: when the array design starts. 320 and decision A of 37: the store.
 - 525 and the go for climb batch 31. 51 joins the go: row 731 is one of the limits at the model's lines.
