@@ -1,0 +1,21 @@
+(* In a top-level tuple binding of a call, a name with a declared type takes its element at that type, beside names without one (variables.tex, section "Top-Level Variable Declarations"; conversions-coercions.tex, section "Coercions for Tuple and Arrow Types"). *)
+component TopLevelTupleBindingMixedTypes
+export Executable
+
+(total: ZZ64, part) = two()
+(plain, text: String) = named()
+
+two(): (ZZ32, ZZ32) = (7, 8)
+named(): (ZZ32, String) = (3, "three")
+
+run(): () = do
+    huge: ZZ64 = 3000000000
+    expected: ZZ64 = 3000000007
+    assert(total + huge = expected, "a name declared ZZ64 over a ZZ32 element")
+    assert(part, 8, "its neighbour without a type")
+    assert(plain, 3, "a name without a type")
+    assert(text, "three", "its neighbour declared String")
+    println("PASS")
+end
+
+end

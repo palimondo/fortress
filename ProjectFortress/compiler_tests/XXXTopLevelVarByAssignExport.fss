@@ -1,0 +1,5 @@
+(* A top-level variable declared mutable by := implements the api's var declaration: the modifier var is optional where := is used (variables.tex, section "Top-Level Variable Declarations"). *)
+component XXXTopLevelVarByAssignExport
+export XXXTopLevelVarByAssignExport
+tally: ZZ32 := 0
+end

@@ -1,0 +1,5 @@
+tests=TopLevelTupleBindingCompiled
+compile
+link
+run
+run_out_WIcontains=PASS

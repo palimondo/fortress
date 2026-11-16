@@ -6433,8 +6433,17 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     }
 
     /** Supposed to be called with nested codegen context. */
-    private void generateVarDeclInnerClass(VarDecl x, String classFile, String tyName, Expr exp,
+    private void generateVarDeclInnerClass(VarDecl x, String classFile, String tyName, final Expr exp,
                                            boolean isMutable) {
+        final CodeGen cg = this;
+        generateVarDeclInnerClass(x, classFile, tyName, isMutable,
+                                  new Runnable() { public void run() { exp.accept(cg); } });
+    }
+
+    /** Supposed to be called with nested codegen context.  pushValue emits
+     *  the code that leaves the variable's value on the stack. */
+    private void generateVarDeclInnerClass(VarDecl x, String classFile, String tyName,
+                                           boolean isMutable, Runnable pushValue) {
         // A mutable variable's singleton field holds a MutableFValue cell and
         // the value lives in the cell, so the field is written only here in
         // <clinit> and stays final (VarCodeGen.MutableStaticBinding).
@@ -6450,7 +6459,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                       NamingCzar.SINGLETON_FIELD_NAME, fieldDesc, null, null);
         mv = cw.visitCGMethod(ACC_STATIC,
                             "<clinit>", Naming.voidToVoid, null, null);
-        exp.accept(this);
+        pushValue.run();
         // Might condition cast-to on inequality of static types
         if (tyName.startsWith(Naming.TUPLE_OX) ||
                 tyName.startsWith(Naming.ARROW_OX)   ) {
@@ -6472,11 +6481,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     private void forVarDeclPrePass(VarDecl v) {
         List<LValue> lhs = v.getLhs();
         Option<Expr> oinit = v.getInit();
-        if (lhs.size() != 1) {
-            throw sayWhat(v,"VarDecl "+v+" tupled lhs not handled.");
-        }
         if (!oinit.isSome()) {
             debug("VarDecl ", v, " skipping abs var decl.");
+            return;
+        }
+        if (lhs.size() != 1) {
+            forTupleVarDeclPrePass(v);
             return;
         }
         LValue lv = lhs.get(0);
@@ -6490,16 +6500,87 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         new CodeGen(this).generateVarDeclInnerClass(v, classFile, tyName, exp, isMutable);
     }
 
-    /** The binding for a top-level variable, registered for the whole component
-     *  before any initializer is generated.  Declarations that
-     *  forVarDeclPrePass does not generate a class for are skipped here and
-     *  rejected there. */
-    private void addTopLevelVarBinding(VarDecl v) {
+    /** A name of a tuple binding written as the wildcard _, which binds
+     *  nothing. */
+    private static boolean isWildcard(LValue lv) {
+        return NodeUtil.isUnderscore(lv.getName());
+    }
+
+    /** The class of the hidden variable that holds the value of a top-level
+     *  tuple binding's right side, or null where every name is a wildcard.
+     *  It is named after the binding's first name, which no other
+     *  declaration of the component has, behind a prefix that no Fortress
+     *  identifier has. */
+    private String tupleVarDeclHolderClass(VarDecl v) {
+        for (LValue lv : v.getLhs()) {
+            if (!isWildcard(lv))
+                return NamingCzar.makeInnerClassName(packageAndClassName,
+                        "tuple$" + lv.getName().getText());
+        }
+        return null;
+    }
+
+    /** A top-level binding of several names to one right side, as
+     *  (a, b) = e.  The right side is the value of one hidden top-level
+     *  variable of its tuple type, so it is evaluated once, when the first
+     *  of the names is read; each name is a top-level variable like any
+     *  other, whose initializer takes its element out of that value. */
+    private void forTupleVarDeclPrePass(VarDecl v) {
         List<LValue> lhs = v.getLhs();
-        if (lhs.size() != 1 || !v.getInit().isSome()) {
+        Expr exp = v.getInit().unwrap();
+        Option<Type> oty = exp.getInfo().getExprType();
+        if (!oty.isSome() || !(oty.unwrap() instanceof TupleType) ||
+                ((TupleType) oty.unwrap()).getElements().size() != lhs.size()) {
+            throw sayWhat(v, "VarDecl "+v+" binds "+lhs.size()+
+                          " names to a right side that is no tuple of as many elements.");
+        }
+        TupleType tupleTy = (TupleType) oty.unwrap();
+        final String holderClass = tupleVarDeclHolderClass(v);
+        if (holderClass == null) {
+            debug("VarDecl ", v, " binds no name.");
             return;
         }
-        LValue lv = lhs.get(0);
+        String tupleTyName = NamingCzar.jvmBoxedTypeName(tupleTy, thisApi());
+        final String holderDesc = Naming.internalToDesc(tupleTyName);
+        final String tupleDesc = NamingCzar.makeTupleDescriptor(tupleTy, thisApi(), false);
+        String[] elementTypeDescs = NamingCzar.makeTupleElementDescriptors(tupleTy, thisApi());
+        debug("VarDeclPrePass tuple ", lhs, " : ", tupleTy, " = ", exp);
+        new CodeGen(this).generateVarDeclInnerClass(v, holderClass, tupleTyName, exp, false);
+        for (int i = 0; i < lhs.size(); i++) {
+            LValue lv = lhs.get(i);
+            if (isWildcard(lv)) continue;
+            Id var = lv.getName();
+            Type ty = (Type)lv.getIdType().unwrap();
+            String classFile = NamingCzar.jvmClassForToplevelDecl(var, packageAndClassName);
+            String tyName = NamingCzar.jvmBoxedTypeName(ty, thisApi());
+            final String getter = InstantiatingClassloader.TUPLE_TYPED_ELT_PFX + (Naming.TUPLE_ORIGIN + i);
+            final String getterDesc = "()" + Naming.internalToDesc(elementTypeDescs[i]);
+            final CodeGen cg = new CodeGen(this);
+            cg.generateVarDeclInnerClass(v, classFile, tyName, lv.isMutable(), new Runnable() {
+                public void run() {
+                    cg.mv.visitFieldInsn(GETSTATIC, holderClass,
+                                         NamingCzar.SINGLETON_FIELD_NAME, holderDesc);
+                    cg.mv.visitMethodInsn(INVOKEINTERFACE, tupleDesc, getter, getterDesc);
+                }
+            });
+        }
+    }
+
+    /** The binding for a top-level variable, registered for the whole component
+     *  before any initializer is generated.  Declarations that
+     *  forVarDeclPrePass does not generate a class for are skipped here. */
+    private void addTopLevelVarBinding(VarDecl v) {
+        if (!v.getInit().isSome()) {
+            return;
+        }
+        boolean tupled = v.getLhs().size() != 1;
+        for (LValue lv : v.getLhs()) {
+            if (tupled && isWildcard(lv)) continue;
+            addTopLevelVarBinding(lv);
+        }
+    }
+
+    private void addTopLevelVarBinding(LValue lv) {
         Id var = lv.getName();
         Type ty = (Type)lv.getIdType().unwrap();
         String classFile = NamingCzar.jvmClassForToplevelDecl(var, packageAndClassName);

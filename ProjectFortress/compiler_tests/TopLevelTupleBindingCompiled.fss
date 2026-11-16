@@ -1,0 +1,47 @@
+(* A top-level tuple binding declares each name as a variable of its element's type, and evaluates its right side once (variables.tex, section "Top-Level Variable Declarations"). *)
+component TopLevelTupleBindingCompiled
+export Executable
+
+(nEmbd, blockSize, nHead) = (16, 8, 4)
+(half, quarter) = (0.5, 0.25)
+(count: ZZ64, title: String) = (7, "seven")
+(lo, hi): (ZZ32, ZZ32) = (3, 5)
+(quotient, remainder) = divide(17, 5)
+var (ups, downs): (ZZ32, ZZ32) = (1, 2)
+(_, kept) = divide(9, 4)
+(_, alsoKept) = (0, 5)
+var calls: ZZ32 = 0
+(first, second) = pairOnce()
+
+divide(a: ZZ32, b: ZZ32): (ZZ32, ZZ32) = (a DIV b, a REM b)
+
+pairOnce(): (ZZ32, ZZ32) = do
+    calls += 1
+    (calls, 10 calls)
+end
+
+run(): () = do
+    width: ZZ32 = nEmbd
+    share: RR64 = half
+    assert(width, 16, "nEmbd")
+    assert(nEmbd blockSize + nHead, 132, "integer names in arithmetic")
+    assert(share + quarter = 0.75, "float names in arithmetic")
+    seven: ZZ64 = 7
+    assert(count = seven, "count")
+    assert(title, "seven", "title")
+    assert(hi - lo, 2, "one tuple type for both names")
+    assert(quotient, 3, "quotient")
+    assert(remainder, 2, "remainder")
+    assert(kept + alsoKept, 6, "names beside wildcards")
+    ups += 10
+    downs := downs - 5
+    assert(ups, 11, "ups")
+    assert(downs, -3, "downs")
+    assert(second, 10, "second")
+    assert(first, 1, "first")
+    assert(first + second, 11, "both again")
+    assert(calls, 1, "the right side ran once")
+    println("PASS")
+end
+
+end

@@ -7503,3 +7503,7 @@ pointer words refreshed in: F-24
 ### F-368
 
 2026-11-16 04:36Z · added · from `explorations/compile-ladder/rung-toplevel-array-literal/REPORT.md`, "What changed and why" · by climb batch 32 gather
+
+### F-369
+
+2026-11-16 04:37Z · added · from `explorations/compile-ladder/rung-tuple-binding/REPORT.md`, "The binding as compiled" · by climb batch 32 gather

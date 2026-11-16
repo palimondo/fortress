@@ -1,0 +1,3 @@
+tests=TopLevelTupleBindingType
+compile
+compile_err_contains=Right-hand side has type ZZ32, but declared type is String

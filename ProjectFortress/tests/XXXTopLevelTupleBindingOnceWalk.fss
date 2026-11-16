@@ -1,0 +1,19 @@
+(* The right side of a top-level tuple binding is evaluated once (variables.tex, section "Top-Level Variable Declarations"). *)
+component XXXTopLevelTupleBindingOnceWalk
+export Executable
+
+var calls: ZZ32 = 0
+(first, second) = pairOnce()
+
+pairOnce(): (ZZ32, ZZ32) = do
+    calls += 1
+    (calls, 10 calls)
+end
+
+run(): () = do
+    assert(calls, 1, "the right side ran once")
+    assert(first, 1, "first")
+    assert(second, 10, "second")
+end
+
+end
