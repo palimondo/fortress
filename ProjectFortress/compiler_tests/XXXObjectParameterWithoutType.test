@@ -1,0 +1,3 @@
+tests=XXXObjectParameterWithoutType
+compile
+compile_exception_contains=NoSuchElementException: None.get

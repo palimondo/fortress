@@ -1,0 +1,14 @@
+(* An object's value parameter that leaves out its type, and that no exported api declares, gets an answer from the compiler: the program compiles or is refused with a message (objects.tex, section "Object Declarations"; type-inference.tex, section "Type Inference for Components"). Today the checker stops with a Java exception. *)
+component XXXObjectParameterWithoutType
+export Executable
+
+object Pair(a, b)
+    sum(): ZZ32 = 2
+end
+
+run(): () = do
+    assert(Pair(1, 1).sum(), 2, "the method of an object whose parameters leave out their types")
+    println("PASS")
+end
+
+end
