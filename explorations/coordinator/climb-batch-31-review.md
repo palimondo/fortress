@@ -1,298 +1,168 @@
-<!-- The check of climb batch 31's record, `CLIMB-BATCH-31.md` (`98dbf519ed` on `main`), with its probe notes `compile-ladder/plan-31/PROBES.md`, before the launch of its first run, by a fresh reader on Fable on 2026-11-13: each citation at its source, each reproducer run once on the base's code, each rung against the decisions on record, the sources the plan was cut from, the forks sorted by the `coordinator` skill's rule, the merge of the four rungs that edit `CodeGen.java`, and the measure; with the changes made to the record in place. Its runs were in a worktree of its own, `/home/user/fortress-chk31`, seeded from the base build `/home/user/fortress-base33` (`84f1c37190`) and removed after. The batch has no go, and this check launches nothing. -->
+<!-- The check of climb batch 31's record, `CLIMB-BATCH-31.md` (`c72e195fd7` on `main`), with its probe notes `compile-ladder/plan-31/PROBES.md`, before the launch of run 1 on the curator's go of 2026-11-16 23:04 UTC, by a fresh reader on Fable that night: run 1's citations at their sources, its reproducers run once on the base build's code, each repair against the team's sources, each rung against the decisions on record, the 26 forks sorted by the `coordinator` skill's rule, the merge of run 1's six rungs, the measure and the estimate, and the section for the curator; with the changes made to the record in place. It replaces the check of 2026-11-13, which git keeps (`98dbf519ed` and after). -->
+<!-- Run in a worktree of the reader's own, `/home/user/fortress-check31b`, seeded from `/home/user/fortress-base34` (`c0c35b4f9e`) and removed after; `FORTRESS_THREADS=1` unless a line says four; another worker built a base build beside it. No suite, no stage of the gate and no measure was run. Of run 2 only the decisions, the forks and the merge were checked. -->
 
-# The check of climb batch 31's record, before the launch
+# The check of climb batch 31's record, before the launch of run 1
 
 ## 1. For the curator
 
-**What this is.** Climb batch 31 is a plan for seven changes to the compiler, in two runs. It has no go from you. I read the plan as a stranger and checked it against the code and against your decisions. I changed no design.
-
-**The words.**
-
-- **Walk** is the interpreter. The **compiled path** is the compiler: its **checker** checks types, its **code generator** writes Java bytecode.
-- The **prelude** is the compiler's own small library. The **one library** is the interpreter's library, which the compiler must learn to compile.
-- A **rung** is one change, built by one worker. A **reproducer** is a small program that shows a defect. A worker must see its test fail before it repairs anything.
-- A **numeral** is a number written in digits, such as `0`.
+**What this is.** You gave the go for climb batch 31 and went to sleep. The planner wrote the record that night. I read the record as a stranger, in place of your reading before the launch. I changed no design.
 
 **What I checked.**
 
-- Every file, line, ledger row and decision that the plan cites.
-- Every reproducer, run once on today's code.
-- Every rung against your decisions.
-- Whether four workers can edit the code generator's main file in one run.
-- The plan's way of counting progress.
+- Each line of code, of the specification and of the ledger that run 1 cites. I read each at its source.
+- Each program that run 1 says fails today. I ran each one once, on the code of the base build.
+- Each repair of run 1 against the specification, the paper of the team or the library.
+- Each rung of both runs against your decisions, with their histories.
+- Each of the 26 forks: does its default reverse or bend a decision of yours, or change a line of microGPT?
+- Whether the six rungs of run 1 can merge.
+- The measure, the estimate and the section that the record writes for you.
 
 **What I found.**
 
-- **The plan is sound in its main lines.** Eleven of its twelve reproducers fail today exactly as the plan says. Its citations hold, with eight small corrections.
-- **One step has no failing test.** Rung L has two halves. Its first half, `label` and `exit`, is fine. Its second half gives each closure class a name of its own. A closure is a function written inside an expression. The plan says that two old programs show this defect. I ran both. Both compile and run today. So a worker cannot see that test fail first. The defect is real in the one library, but nobody has a small program that shows it. This should be settled before the launch: either a short probe finds such a program, or that half waits.
-- **Your one question, fork W, is the right question.** It asks whether walk gets the new numeral rule now, or later. Now is way (a). Later is way (b). I agree that only you can answer it. I corrected one sentence in it. Details below.
-- **No other fork needs you.** I checked all seventeen by the rule. One, fork N2, comes nearest: it lets two lines of microGPT compile unchanged. Your decision P-173 already covers it.
-- **Four workers in one file can be merged.** Each keeps to its own part of the file. Three places need a word from the coordinator first. None needs you.
+- **No rung must be held out.** No default reverses or bends a decision of yours. No rung changes a line of microGPT or of its helper files.
+- **Every program fails as the record says,** with the message that the record gives. The planner did not run the program of rung X. I ran it, and it fails as the record says.
+- **One point in rung V needs care.** V makes walk accept one pair of declarations at `ZZ64`. Before the merge, `ZZ64` is a trait with one object below it. The pair is valid there only because the trait lists that one object. The record gave V a reading of the rule that is correct only for an object type. A worker who follows that reading alone makes walk accept a pair that the specification refuses. The suite has a test that catches this. I wrote the rule into V's section as the specification states it. Finding B1 holds the choice that is left.
+- **One fork is consequential by your rule: H2,** the way in which the prelude takes the form of your decision P-178. The record said so in one place and said the opposite in two places. I made the three places agree. H2 builds nothing, so it holds no rung.
+- **Four forks stand near a decision of yours.** None bends one. They are A1 (a `var` field costs one more object), O3 (`round` stays a `ZZ64` for now), O4 (an arm at a removed name takes every value until row 959 is repaired) and E2 (`=/=` at `RR32` stays refused under the prelude). O3, O4 and E2 are in run 2, which starts hours from now. Section C says what each one touches.
+- **The six rungs of run 1 can merge.** No pair changes one behaviour in two ways.
+- **The estimate fits:** 4.3 million tokens for six rungs, against 5.0 million for the seven rungs of climb batch 32.
 
-**Fork W, what each way leaves different between walk and the compiler.**
+**What I changed in the record.** Twelve changes, each for one reason (section A). Most are in your section: they define a term, state the cost of a fork, or correct a sentence. I changed no rung's design, no heading and no key of the manifest.
 
-- **Way (a), walk now.** `u = 0` is `true` on both. One new difference appears. Take a variable declared with the widest type, `a: Any`, that holds a zero of type `NN32`. Walk will say `a = 0` is `true`. The compiler will say `false`. Today both say `false`. The plan said that this difference "stays". It does not exist today, so I wrote "appears".
-- **Way (b), walk waits.** `u = 0` stays `false` under walk and `true` when compiled, as today. The same holds for `u =/= 0`, for `case u of 0`, and for a program's own number type. These are four known defects that stay open until walk runs the checker. The `a: Any` case stays the same on both.
-- **What your record says.** P-59 holds your words of 29 September: walk is not touched until the library is switched. They were about converting a value. Since then you decided twice that walk converts numerals by the new design before the switch (P-173, P-176). That supports way (a). It is still your sentence that is read more narrowly, so it is yours to say.
-- **One gap in way (b).** The plan says that under (b) one step of rung N is struck. More changes than that. The step that adds `=/=` to the library then has no test that can fail first. I list this for the coordinator.
+**What I did not check.** I ran no suite and no stage of the gate. I did not take the measure again. I did not read run 2's citations or run its programs: the record is read again before run 2.
 
-**What I changed in the plan.** Eight corrections of fact. No design.
+## 2. The findings, by what each needs
 
-- A figure in the record of facts was updated while the plan was written. The plan now cites the new text.
-- Three defects were filed as ledger rows after the plan was drafted. The plan now says so.
-- Rung L's closure test: the plan now says that its two programs do not fail today.
-- Rung A: the plan named the wrong piece of code for one kind of mutable field. I added the right one.
-- Fork W: "stays" became "appears".
-- A test that the plan owes had one of its two lines missing.
-- One sentence called 27 classes "number types". Some are not.
+### A. Changes of the record that I made
 
-## 2. Changes of the record that I made
+Each is in `CLIMB-BATCH-31.md` as committed with this review.
 
-Each is a citation, a count or a sentence that contradicted its source. All are in `CLIMB-BATCH-31.md` now, and its header names this review.
+1. **Section 3, "Forks the batch takes", its first sentence; and section 2, "Your review list", its first bullet.** They said that none of the 26 forks is consequential. Section 3's own paragraph "The consequential fork" names H2 as one that chooses among ways that the record does not settle. Now both say: only H2, whose default builds nothing. Reason: the record contradicted itself.
+2. **Section 4, rung V, step 2: four sentences added after the sentence on `validOnDeclaredDomains`.** The section told the worker to compare "at the instances that hold the plain one's domain". The specification's rule compares at every argument type to which the more specific declaration applies, and at every instance of the other that applies to it (`Specification/advanced/overloading.tex:555-559`). The two agree only at an object type. The added sentences state the rule, name the guard test `tests/XXXGenericBesidePlainReturnRule.fss`, and say that row 550's pair at `ZZ64` is valid on run 1's tree only through `trait ZZ64 comprises { Long }` (P-60). Reason: a sentence that said less than its source. Evidence: finding B1.
+3. **Section 4, rung X, the mission.** "the refusal reaches `ZZ32`, `ZZ64` and `RR64` in every program" became "reaches every such pair over `ZZ32`, `ZZ64` or `RR64`". Reason: row 542 refuses one kind of pair, not every program.
+4. **Section 2, "The go".** Two passive sentences made active. Reason: the register.
+5. **Section 2, the head of "Run 1, rung by rung": one paragraph added.** It says that each program is shortened, who ran it, and where the whole program is. Reason: M's, K's and A's programs are extracts that do not compile as shown, and the planner ran neither X's program nor the `for` form of L's that the section shows (the probe `PLabel.fss` has a `while`).
+6. **Section 2, rung L, "Today".** "Every string and every array of the one library has such a line" became a sentence on the trait `Indexed`, which they extend. Reason: the line is in `Indexed` (`Library/FortressLibrary.fss:2189-2195`), not in each string and array.
+7. **Section 2, fork L2.** The curator's section gave L2 as the `exit` out of an `atomic` block. Section 3's L2 is first "The closure class written twice (row 315) is left out". Now the curator's section gives both parts. Reason: one name for one thing.
+8. **Section 2, fork A1.** The word "cell" is defined, the cost is stated (one more object for each `var` field, one more step at each read), and "keys the transaction by" is in plain words. The helper files are named with the two programs: I searched `FlatArrays.fss` and `FlatArrays2.fss` too, and none of the four files has the word `var`. Reason: a reader new to compilers cannot follow the sentence, and the fork's cost is what he judges.
+9. **Section 2, rung V, the second program.** The Return Type Rule is defined and its place in the specification named; the sentence that this refusal is the one change of run 1 that stops a program that runs today; the two sentences on `ZZ64`. Reason: a term used and not defined, and finding B1.
+10. **Section 2, "The measure".** "Two of the four have a second wall" became a sentence that names the four and gives what 19 and 21 mean. Reason: the sentence did not say four of what.
+11. **The head comment's history.** One sentence on this check. Reason: the record's history names its checks.
+12. **`INDEX.md`, the record's line.** It named five rungs, no go, and "planned 2026-11-13 with no go". It is now the first sentences of the record's head comment. Reason: the line contradicted the record.
 
-### A1. F-34's text
+**The manifest.** No list of the manifest needs a change for these: I changed no heading and no key, and `python3 -B explorations/compile-ladder/plan-31/manifest/lists31.py` prints `bad lists 0` on the edited record (run twice; one run before them printed `bad lists 2` and other byte counts, and did not repeat: I do not know why). If the coordinator takes B1's first way, V's briefing gains P-60 as a check, in the record's section 1 and in `lists31.py`.
 
-The record cited F-34 as "38 in 10 kinds", "of older code" (section 2, "The measure"; section 6, "For the record-landing workflow"). F-34 was rewritten on `main` in `5064f7f80b`, after the draft: "refuses 24 declarations of the fourteen components … in 8 kinds". Both sentences now cite the present text.
+### B. Points for the coordinator to decide before the launch
 
-### A2. Rows filed since the draft
+**B1. Rung V, step 2: the valid pair at `ZZ64` in run 1.** The step promotes `tests/XXXGenericBesidePlainReturnParam.fss`: `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: ZZ64, b: ZZ64): ZZ64`. On run 1's tree `ZZ64` is `trait ZZ64 ... comprises { Long }`, and every `ZZ64` value is the object `Long`. By the specification's rule, two `Long` arguments select the generic declaration's instance at `Long`, which returns a `Long`; the plain declaration returns a `ZZ64`; so the pair is valid only if `ZZ64` is below `Long`, which holds by the `comprises` clause read at values (P-60) and by nothing else. Row 550's note, "Every instance whose domain holds two `ZZ64` has `T` at or above `ZZ64`", leaves that instance out. Evidence:
 
-Section 5 said "Not filed": `NN32`'s two getters, the code generator's order by identity hashes, the compile that writes no jar. `081afda73e` filed them: rows 993 and 996, and row 757 rewritten. The sentence now says so.
+- Walk's own code knows the case: `returnRuleAtEveryInstance` accepts only where the inner declaration "has at one of them an object type below which its return type lies" (`OverloadedFunction.java:1150-1163`, `:1200`, `t instanceof FTypeObject`), and its comment gives the counter-example, an argument below the domain that selects a lower instance.
+- The reading that the record gave, at a trait, accepts the specification's own refused pair, `ident[\T extends Shape\](x: T): T` beside `ident(x: Round): Round` (`overloading.tex:608-621`). Walk refuses it today: I ran it, 'fails the Return Type Rule'. `tests/XXXGenericBesidePlainReturnRule.fss` holds that refusal, so `ant testSystem` in V's step 4 would catch a loose repair, late.
+- After rung O, `ZZ64` is an object and the pair is valid with no clause read (F-361 saw the test pass in the merged scratch tree).
 
-### A3. Row 315's reproducers do not fail (finding B1)
+The ways: (1) V reads a `comprises` clause that lists one object as that object, in this check, and promotes the test in run 1: P-60 is the ground, and V's briefing gains P-60; (2) V leaves the test at `ZZ64` an expected failure, its valid pair at `NN32` is the positive test, and rung O promotes the `ZZ64` test in run 2. I recommend (2) if the coordinator wants no new reading in walk tonight: it costs one sentence in V's step 2 and one in O's step 1. The record as corrected leaves (1) open and names the guard; it does not choose.
 
-Rung L, step 2, said of row 315's two programs: "Seen failing on the base: 'ZipException: duplicate entry'." Section 5 said that they "run under the prelude". On the base's code both compile and run:
+**B2. Rung V, step 2: a plain declaration that writes no return type.** Row 785: walk's check refuses a pair whose more specific declaration writes no return type, at a trait, and at an object the shortcut of `:511` hides it. V takes that shortcut away for a generic declaration beside a plain one. I ran `pick[\T extends Number\](a: T): ZZ32 = 1` beside `pick(a: NN32) = 2` under walk: it loads today and prints 2. After V it may be refused for no rule of the team's. V's reserved point covers such a pair only where the library or an existing test holds one. A sentence for V's step 2 would close it: "A plain declaration that writes no return type beside a generic one still loads: test one." Not added: it extends the rung.
 
-    $ bin/fortress compile ClosurePos.fss ; bin/fortress run ClosurePos      # 5 :OP: 6 over three overloads of opr OP
-    3
-    $ unzip -l …/bytecode_cache/ClosurePos.jar | grep fn@
-    ClosurePos$\=fn@6\!21.class
-    ClosurePos$\=fn@6\!28.class
-    $ bin/fortress compile SkLitThunk.fss ; bin/fortress run SkLitThunk      # sz(fn () => 2147483646 + 1)
-    2147483647
+**B3. Run 2's forks O3 and O4 need no night's default.** Review-queue items 518 and 519 had no default on record. Run 2 launches after run 1 has landed, about five hours and a half from now. If the curator is back by then, put the two to him before run 2's launch; if not, the defaults stand, and neither bends a decision (section C).
 
-The first program is `ProjectFortress/tests/ConditionalOpTruncation.fss` with its result printed; the second is row 315's probe from the parent of `ab067d9b6`. Each of the two closures of the first now has its own numeral's position, and the second's sum folds before the checker (P-173). Both sentences of the record now state this. What follows from it is B1.
+**B4. The rule of the night, as the record words it.** Section 3 says that a rung is held out where a default would reverse or bend a decision. `references/batch.md`, "The go" (`:39`), says: "If that default would reverse a decision of the curator, hold that batch, and launch the repair batch". Tonight the two give the same answer, since no default reverses a decision. The record's wording is the coordinator's for this night; I left it.
 
-### A4. Rung A's `var` value parameter
+**B5. Before the launch, nothing else.** The base build, the script's atomic list and the splice are the record's own steps ("Before the launch"). The disk: `df` gave 16 G free with my worktree in place and the new base build being made; run 1's floor is 13 G.
 
-The record's reproducer `PFieldAtomic.fss` declares `object Ctr(var n: ZZ32)`: its `n` is a `var` value parameter, and so is `OneShot`'s `canTryIt` and `Box`'s `val`, the one library's sites. A value parameter is not a `MutableFieldVar`. `CodeGen.forObjectDeclPrePass` gives it a `VarCodeGen.FieldVar` (`compiler/codegen/CodeGen.java:4813-4831`) and declares its JVM field `ACC_PUBLIC + ACC_FINAL` (`:4827-4828`); `FieldVar.assignValue` writes it with a bare `PUTFIELD` (`compiler/codegen/VarCodeGen.java:174-200`). The record's "Files." and its briefing named only the body fields (`:4850-4862`) and `MutableFieldVar`. Changed:
+### C. Points that would change a decision of the curator's
 
-- rung A's "Files." and its line of "The rule the rungs keep": the value parameters' loop and `FieldVar` beside the body fields and `MutableFieldVar`;
-- step 2: `PFieldAtomic`'s `n` is called a value parameter, and the body field is the second case;
-- the briefing gains `SRC compiler/codegen/VarCodeGen.java#public static class FieldVar` as a check: 12 keys, 10 checks. The key matches one place (`facts-extract.sh --check`: `VarCodeGen.java:174-200`).
+**No rung must be held out.** The forks, one line each, by the rule of the `coordinator` skill ("The curator's role and decisions"):
 
-My run of `PFieldAtomic` at four threads printed 35,450 of 40,000.
+1. B1, two runs: not consequential. A choice of order.
+2. B2, A's two tests in the atomic runs: not consequential.
+3. B3, which offered rows wait: not consequential. A choice of order.
+4. H1, varargs left out: not consequential. No test can fail first under the prelude.
+5. **H2, the prelude's half of the merge waits: consequential.** It chooses among ways that the record does not settle. Its default builds nothing and is in no rung. It does not bend P-178, whose sentence is "both paths take this form before the switch-over", as long as the switch-over waits for it. What the wait costs is below.
+6. S, the stable order is not a rung: not consequential.
+7. M1, a trait's own declaration replaces an inherited body: not consequential. It is the specification's rule (`Specification/basic/traits.tex:584-590`).
+8. M2, an api's method without `abstract` has a body: not consequential.
+9. K1, the cast only where needed: not consequential.
+10. L1, an `exit` out of a parallel loop joins the arms first: not consequential. It builds P-175, and `Specification/basic/evaluation/parallelism.tex:95-100` allows it.
+11. L2, row 315 left out and the `exit` out of `atomic` as a test: not consequential. The specification's sentence is plain (`atomic.tex:60-63`), and the test records what the code does.
+12. A1, a `var` field in a cell: not consequential, and the nearest to it in run 1. It gives each `var` field a second object. P-169 keyed the array store by array and index so that an array keeps "one box an element, not two"; A1 takes the other device for fields, the code's own for a top-level `var`. No model or helper file has a `var`. It can be undone. Row 641 holds the cost.
+13. V1, the symbolic type passes the check of value types: not consequential.
+14. V2, both directions of the load check: not consequential. The pair refused after and loaded before, `P998.fss`, is refused by the specification's Return Type Rule (`overloading.tex:555-559`): the instance at `NN32` returns an `NN32`, and `String` is not below it. Finding B1 is on its other direction.
+15. V3, row 1036 as a test and a sentence: not consequential.
+16. X1, only the instances whose domain meets the plain one's: not consequential. It is the paper's rule (`Papers/Types/overloading-check.tick:167-184`, "with U not equivalent to Bottom" at `:180`) and the specification's ("for every argument type other than BottomType").
+17. T1, a bridge method: not consequential.
+18. O1, the five stay in `FortressLibrary`: not consequential. It can be done the other way later.
+19. O2, walk's repairs first: not consequential.
+20. O3, `round` stays a `ZZ64`: not consequential, and near P-68. P-68 gives `ZZ` and gives the change to one rung after the switch-over, which first counts the tests. The default keeps what runs and deletes the one declaration that has P-68's type, `round(self): ZZ` of `trait RR64` (`Library/FortressLibrary.fss:480`), which never ran. The other way does part of P-68's rung without its count. P-68's own clause on the two declarations becomes false, and the record lists it for the record-landing workflow.
+21. O4, the merge does not wait for row 959: not consequential, and the one default that leaves a silent wrong answer: after the merge an arm at `Int`, `Long`, `Float`, `BigNum` or `UnsignedLong` takes every value. No model or helper file names one of the five. One test of the tree does, and O changes it. P-167 and P-178 say that the names go; neither says what a program that still writes one sees.
+22. O5, row 542 as rung X: not consequential.
+23. O6, the constructor classes renamed, dead natives deleted: not consequential.
+24. O7, the bodies of `trait RR64` go: not consequential. The reserved point holds a team's test whose value changes.
+25. E1, the repair goes where the cause is: not consequential.
+26. E2, `c =/= 0` at `RR32` recorded and not repaired: not consequential, and near P-37. P-37's exception for the numerals exists "so that both paths do the same before the switch-over". Walk answers `false`; the compiled path refuses the line. The default reads the exception narrowly: it adds no `=/=` to the prelude. It answers nothing wrongly, and it can be undone.
 
-### A5. Fork W: the difference under way (a)
+**What H2's wait costs, for his review.** Until the prelude takes the form, the two paths differ at the five number types in more programs than today:
 
-Section 2 said: "One difference stays: for `a: Any` that holds an `NN32` zero, walk answers `a = 0` with `true`". Under walk today that call answers `false` (`reviews/numeral-equality-ways-2026-11-10.md`, section 2.1: "a = 0 (Any holding NN32): false"). So way (a) makes a difference between the paths that does not exist today. The sentence now reads "One difference appears … where it answers `false` today".
+- After run 1: walk loads the pair at `ZZ64` (rung V), and the compiled checker under the prelude refuses the same program. I ran it: 'the return type of (ZZ64, ZZ64)->ZZ64 ... should be a subtype of the return type of [\T extends Number\](T, T)->T'. That refusal is correct under the prelude, where `ZZ64` is an open trait. Today both paths refuse the program. P-45's sentence "Walk and the checker must accept the same pairs" is about the rules on one library, and V brings walk to the rule; the difference is the two libraries'.
+- After run 2: walk refuses `object Mine extends ZZ32`, and the compiled path compiles it and dies when it runs (row 866), as today.
 
-### A6. The test owed
+Both end with the prelude's half. The record puts that half first in the list for the batch after.
 
-Rung N, step 2, added `h: QQ = 1/2`, `h = 0.5` to the promoted test. PLAN's line on the test owed asks for both orders: "add `h: QQ = 1/2` with `h = 0.5` and `0.5 = h` asserted `true`" (`PLAN.md`, the line that opens "review-routed.2 of climb batch 29b's merged-diff review"). Added.
+**The premises stated as the curator's.** Each one that a rung's section or the curator's section names is in its entry or its history: P-178 (the entry, and its history's last block for "both paths", with his words of 2026-11-08 and 2026-11-09); P-37 and its two exceptions; P-160; P-164; P-167; P-45; P-46; P-152; P-87 and P-9, with no model line in any rung's files and "A model line: none" in each rung's reserved points; P-47, P-149, P-147 (M); P-60, P-146 (K); P-175 (L); P-169, whose slots are `TXReadSlot` and `TXWriteSlot` (A); P-148 (X, E); P-156 (T); P-68 (O); P-12 (V). P-173, P-176 and P-174 (E) I read in the skill's `revival-changes.md`, not in the entries. I found no premise without an entry.
 
-### A7. The 27 classes
+### D. The reproducers, rung by rung
 
-Section 2 said "The library's number types have this shape in 27 classes." The rehearsal counts 24 classes of `FortressLibrary`'s jar and 3 of `RangeInternals`', `narrowToRange` (`switch-rehearsal.md`, W6). Now: "The one library has this shape in 27 classes, its number types among them."
+Each on `c0c35b4f9e`'s build, once.
 
-### A8. The header
+- **M, `PDupMethod3.fss`:** compiles; the run dies, 'ClassFormatError: Duplicate method name "mx?0" with signature "(LPDupMethod3$Z;)LPDupMethod3$Z;"'. As the record says.
+- **M, `GenApi` and `PGenUse4.fss`:** compile; the run dies, 'AbstractMethodError: Receiver class PGenUse4$Rng does not define or inherit an implementation of the resolved method ... map ...'. As the record says.
+- **K, `PComprisesCast.fss`:** compiles; the run dies, 'VerifyError: Bad type on operand stack', at `PComprisesCast$Q$DefaultTraitMethods.fin`, "Type 'PComprisesCast$Q' ... is not assignable to 'PComprisesCast$R'". As the record says.
+- **L, `PLabel.fss`:** the compile stops, 'Can't compile Label at ...PLabel.fss:3.23'. The `for` form that the curator's section shows, which the planner did not run: the same message.
+- **A, `PAtomicExpr.fss`:** the compile stops, 'Can't compile AtomicExpr at ...PAtomicExpr.fss:5.9'. **`PFieldAtomic.fss`** at four threads: 31,268 of 40,000. As the record says.
+- **V, `P997.fss`:** 'T@...P997.fss:7:1-57: non-value subtype of value type RR32'. **`P998.fss`:** loads and prints `plain`. **Row 550's test at `ZZ64`:** refused, 'fails the Return Type Rule'. **`PArrowRet.fss`:** 'ran at size 2'. As the record says.
+- **X, the test's program and the three lines of the curator's section:** the compile stops, 'the return type of Circle->Circle @ ... should be a subtype of the return type of [\T\]T->T'. The row's second pair, with `object Box[\U\]`: refused in the same words. As the record says; the planner had not run it.
 
-One comment line names this review.
+Tests that cannot fail first, each a guard and none a finding against its rung: X's refusal test (`g[\T\](x: T): T` beside `g(x: Circle): String` is refused today, in the same words); V's valid pair at `NN32` (I ran it: it loads today and prints 5, through the shortcut that V removes); V's step 3, an expected failure by design. V's section says "each test ... seen failing through the harness first": for the pair at `NN32` that cannot be.
 
-## 3. Points for the coordinator to decide
+### E. The citations of run 1
 
-### B1. Rung L's closure half has no test that fails first
+Read at `c0c35b4f9e` for code and on `main` for the specification, the library and the tests. Every one holds:
 
-Row 315's two reproducers pass (A3). The library's form, two closures of one `BIG AND [(a,b) <- self.zip[\E\](other)] a = b` in a generic trait's method, cannot be written under the prelude (PROBES, section 2). I tried two forms under the prelude, a generic trait's method with a `BIG +` over one generator and over two: both run (6 and 15). So today:
+- `CodeGen.java`: `dumpTraitDecls` `:769`, `dumpMethodChaining` `:926`, `genParallelExprs` `:1692` with its calls at `:1756` and `:1768`, `defaultCase` `:1776`, `forAtomicBlock` `:1835-1868`, `generateFunctionalBody` `:2880`, `FieldVar` at `:4822` and `MutableFieldVar` at `:4860` inside `forObjectDeclPrePass` (`:4598`), `conditionallyCastParameter` `:7289` and `:7297`. `VarCodeGen.java`: the two classes at `:174` and `:202`.
+- `OverloadedFunction.java` `:511`, `:772`, `:1165`; `FTraitOrObject.java:97-104`; `OverloadingOracle.scala:77-83`; `BaseTask.java:285-314`.
+- `atomic.tex:60-63`; `overloading.tex`, "Declarations with Static Parameters" (`:531`); `traits.tex`, "Method Declarations"; `changes.tex:4434` (row 695), `:3101` (row 542), `:1734` and `inference.tex:509` (row 307), `inference.tex:264-268` (the box with row 1019).
+- `Library/FortressLibrary.fss:2189-2195`, `Library/String.fss:148-158`, `Library/OneShotFlag.fss:18`.
+- Ledger rows 990, 732, 991, 81, 875, 319, 997, 998, 550, 542, 697, 785, 1036; F-34, F-53, F-75, F-361; the rehearsal's W6 (27 classes, 244 methods), W7 (23 lines), W9, W16.
+- The tests that the sections promote or run exist under the names given.
+- `git diff --stat c0c35b4f9e main` over the code, the library and the build prints nothing.
 
-- the only evidence of the defect is the measure's two refused declarations, `LexicographicOrder` and `List`;
-- the cause at those two sites is not traced. The rehearsal says of them "315 by its text; not checked that the cause is the same". The refused class's name is 'FortressLibrary$\=fn@2227\!12-52??', the span of the whole comprehension;
-- rung L's step 2 breaks the skill's rule that a test is seen failing first, and its skeptic will say so.
+### F. Each repair against the team's sources
 
-The ways, none of them mine to take: a short probe that looks for a reproducer under the prelude before the launch; step 2 struck from L and held with varargs as a wall whose test needs the one library; or step 2 kept, with the measure as its only check, said so in the section. With step 2 struck, the measure's expectation after run 1 is 19 to 21, not 17 to 19.
+- **M.** `traits.tex:584-590`: a trait inherits a method except one "whose parameter type ... is equal to the parameter type of a method declaration that occurs in the trait declaration". It asks for M1. An api's method without `abstract` is a declaration with a body in its component: M2.
+- **K.** P-60 and P-146, which the specification states; the checker accepts the programs today, and the JVM refuses them. It asks for the cast.
+- **L.** `label.tex:51-65` and `:73` (a `finally` clause between); `parallelism.tex:95-100`; `atomic.tex:60-63`. It asks for the construct, and for the retained writes that L tests.
+- **A.** `atomic.tex`, "Atomic Expressions"; row 319's lost updates. It asks for both.
+- **V, step 2.** `overloading.tex:555-559`, the Return Type Rule, refuses `P998.fss`'s pair. It asks for the refusal. For the valid direction, finding B1.
+- **X.** The paper's theorem and proof (`overloading-check.tick:167-184`) and the specification's rule accept `ident[\T\](x: T): T` beside `ident(x: Circle): Circle`: below an object type is only the object, and each instance that takes a `Circle` returns a type at or above `Circle`. It asks for the repair. The specification's refused pair at `trait Round` stays refused by X1's rule, since the instance at `Circle` meets `Round`.
 
-Row 315 needs its whole new line: its two reproducers no longer fail at `84f1c37190`, and only the library's sites remain.
+### G. The merge of run 1
 
-### B2. An `exit` out of an `atomic` block has no owner
+**The gather can merge the six rungs.** V and X share no file with the others or with each other. M, K, L and A meet in `CodeGen.java` by declaration:
 
-The specification: "If it completes abruptly by exiting to an enclosing `label` expression, writes within the block are retained and become visible to other threads" (`Specification/basic/expressions/atomic.tex:60-63`). The compiled handler takes every exception and ends the transaction, "whose writes go with it" (`runtimeSystem/BaseTask.java:285-314`; F-351). By fork L1 an `exit` is an abrupt completion that travels as a throwable. So an `exit` out of a compiled `atomic` block will discard the block's writes.
+- M: `:769-1690`. K: `:7289-7321`, the returned value in `generateFunctionalBody` (`:2880`), and callers, two of them at `:1756` and `:1768`. L: new members above `:1776`. A: a new member below `:1868`, and `:4813-4862`.
+- The closest pair is K's caller at `:1768` and L's new members above `:1776`: seven unchanged lines lie between (`:1769-1775`), so the hunks do not touch.
+- M's range names more than M needs: `:1499-1690` holds `sayWhat`, `doStatements` and `joinForkedArms`, which no forwarder uses. L's section does not give L `joinForkedArms`; if L's `exit` out of a parallel loop needs an edit there, it is in M's range by the record's words, and M will not be there. No conflict follows.
+- In the specification: K at `changes.tex:4434`, X at `:3101`, V at `inference.tex:264-268`. Apart.
 
-Rung L may not edit `forAtomicBlock`, `BaseTask.java` or `Transaction.java`. Rung A may not edit `forAtomicBlock`'s body. L's section asks only for a report of "what a `finally` clause and an `atomic` block between the `exit` and its label do". It names no expected answer. Proposed: L's section names the specification's answer, and says that L writes the case as an expected-failure test with a new row if it cannot reach it. This is a pair that touches one behaviour (`references/batch.md`, "The go"); it needs no `landsOnlyWith`, since neither rung repairs it.
+**No pair changes one behaviour two ways, and none needs another's result.** V and X bring the two paths to one rule, each on its own path and with its own tests. K reports a cast that a forwarder or a field needs, and builds none there. Two things that only the merged tree shows, for the gather or the post-batch review: an `exit` out of an `atomic` expression, which is A's construct and L's, and which neither rung tests; and the distance stage's shadow patch on a `CodeGen.java` with four rungs' edits.
 
-### B3. The merge: three places to settle
+Run 2: T builds on M's forwarders, O needs V's repairs, and E may meet K at a returned value; the record puts the three after run 1 for these reasons, and no decision on record is against it.
 
-The verdict is in section 5.6. The three places:
+### H. The measure and the estimate
 
-1. **K beside L.** K's "Files." give it "`conditionallyCastParameter` and its callers' arguments to it". Two callers are in `genParallelExprs` (`CodeGen.java:1756`, `:1768`), which L is told not to edit and which ends 8 lines above L's new members (`:1776`). The hunks do not overlap, so `git apply --3way` takes both. But K's lowest edited line is then below L's and A's, and by the manual's rule the gather applies N, M, K, L, A. The record and the intro that every agent reads say "N, M, L, A, then K". The script decides the order, so the sentence is a forecast; it can turn out false.
-2. **K beside A.** K's points to report list "a field" among the places where a cast is emitted. K's "Files." name no field code. The field code is A's (`:4813-4862`), and A changes what a `var` field holds. K's section should say that a cast at a field is reported, not built.
-3. **K beside M.** Row 695's returned `self` is in a trait's default method. If the cast is needed in a forwarder, it is in `generateForwardingFor`, which is M's. The same word for K.
+- **The measure, 24.** The planner took it with `probes/planner/codegen-measure.sh` in a scratch worktree: the script applies `measure-hacks.patch` (the rehearsal's naming tables, the trait table's search and `NN32`'s two getters, F-34), builds, and runs `plan-25/probes/codegen.sh`. So it is the count of a patched tree, as F-34 says, and it counts a declaration at its first wall. It does not see the walls of M, K and T, whose classes are emitted and fail at load. The record says so. 24 − 4 (`label`) − 1 (the `atomic` expression) is 19, and 21 if two of the four meet a second wall; the figures agree. I did not run it again.
+- **The estimate, 4.3 million for run 1.** Climb batch 32 wrote 5.00M for seven rungs: the workers 2.35M, the skeptics 1.63M, the fixed roles 1.02M, with no judge and no repair round (`reviews/batch-32-review.md:152-164`). Six rungs at those rates: 2.0M, 1.4M and 1.0M, 4.4M. A line through climb batch 30 (three rungs, 2.9M) and climb batch 32 gives 4.5M. So 4.3M is a little low and well inside the record's range of 3.6M to 5.4M. The range holds no judge or repair round beyond its top. Five of the six rungs run a whole suite on four shared CPUs, so the time, five hours and a half, is the figure more likely to be passed.
 
-### B4. Fork W at (b): more than step 2 changes
+### I. The section for the curator
 
-The record says: "At (b), step 2 of N's section is struck, with rows 973, 966, 975 and 976 left open and their clauses of the specification kept." Also then false or without ground:
-
-- the section's heading and the blurb ("on both paths", "by fork W's default, in walk", "the two expected-failure walk tests are promoted");
-- three points to report that ask for walk's rule and walk's answers;
-- "Rows." ("Close 973, 966, 975, 976 and 989"), "Specification." (the Effect's clause of rows 966 and 973 stays true), "Files." (`OverloadedFunction.java`, `Coercions.java`, `Numerals.java`);
-- **step 3, the library's `=/=`, has no test that fails first.** Under walk at (b) `u =/= 0` still reaches `=/=` over `Any`, which the numeral fits as it is; compiled, the prelude's own `=/=` already answers `false` (fork N1). Only the checker's choice against the one library shows it, by the distance stage's driver, which is a run to report;
-- the gate's forecast (`testSystem`: "N's one new walk test"), the intro's first rung line, and the sentences for the record-landing workflow and the skill writer marked "with fork W at (a)".
-
-The generator of task 2 writes a block for (b) that makes the first three groups true by exact substitutions, each asserted (`plan-31/manifest/gen31.py --fork-w b`). Its words are a proposal of this check. The record itself is written for (a) and is not changed for (b).
-
-### B5. Smaller points
-
-- **A guard for `x^2`.** Way B says "`x^2` is unchanged: `^` over `(RR64, RR64)` is not more specific than `^` over `(RR64, AnyIntegral)`". N's tests hold `gg(5, w)` as a guard and not this one. The prelude has an `RR64` power with a `ZZ32` exponent, so the guard can be written there.
-- **The second walls.** The record expects 17 to 19 after run 1, for two declarations with varargs behind their first wall (`Generator2`, `List`). F-34 now names a third second wall: "behind `SubString`'s `label` stands the partial type assumption (row 818)". The rehearsal saw it in the real compile, not in the probe's count. If the probe shows it, the figure is 20.
-- **The disk.** `df -P /home/user` at this check: 16,641,572 KB available, about 15.9 G, with this check's worktree standing. The floor for run 1 is 11.5 G.
-- **`W9. `.** L's briefing key for the rehearsal's W9 ends in a space, because the heading has backticks after it. It matches one place. A longer prefix without backticks does not exist; it stays.
-- **The key sizes.** N's briefing prints 60,555 bytes, M's 52,750, K's 47,873 (`facts-extract.sh --check`).
-
-## 4. Points that would change a decision of the curator's
-
-**Fork W, and nothing else.** The record judges it consequential, and so do I: way (a) changes walk before the switch-over, where P-59 says that walk "is not changed for it before the switch-over".
-
-- **The entry and its history.** P-59's sentence is from his message of 2026-09-29 14:07 UTC, "item seven as recommended. So one now and two after the switch.", which the history block of 2026-10-22 08:48Z renders as: for now walk is not touched until the library is switched. The item was walk's run-time choice of a value's coercion (`reviews/decisions-review/judgement.md`, item 7).
-- **What supports (a).** Two later decisions give walk a numeral rule before it runs the checker: P-173 ("walk converts from the exact value at the same places, place by place, before it runs the checker") and P-176 ("walk runs that coercion at the place's first evaluation"). P-46 holds his words that an answer of `false` "is out of the question". The ways review recommends "one rung, on the checker and on walk together" (its section 10).
-- **What supports (b).** The ways review itself names it as "a timing choice inside" way B: "walk can wait for P-12 and take the checker's choice then, which leaves rows 973 and 966 open under walk until P-12". The plan review's section 7.5 names "the numeral rule in the checker" for this batch, not walk's half. P-59's and P-12's words.
-- **Whether the record states both ways fairly.** Yes, after A5. Two things it does not say. Under (a), walk's answer for `a: Any` goes against P-46's own sentence "A value typed `Any` or `Number` fixes no type for the numeral beside it, which keeps its default", so P-46 needs a clause for walk, as the record's section 6 foresees for P-59. Under (b), the record's sentence "microGPT runs only under walk today, so every program written until then meets the wrong answer" should not be read as a cost to microGPT: its two programs compare only `ZZ32` values with numerals, which is `true` on both paths under either way (the ways review, section 8).
-- **What each way leaves different between the paths.** (a): `a = 0`, `m = 0` and a `case` over them, for a value typed `Any` or `Number` that holds a number of another type than the numeral's default: walk `true`, compiled `false`. (b): `u = 0`, `0 = u`, `u =/= 0`, `case u of 0` and a program's own number type: walk as today (rows 973, 966, 975, 976), compiled right.
-
-**No premise stated as the curator's is missing from the record.** "You decided how a numeral at a call chooses its declaration" is short for P-46's history: he decided the answer `true` and took option one, the review's way B; "he did not word the dispatch rule". The rule that rung N builds is the review's, as P-46 says.
-
-## 5. The checks, one by one
-
-### 5.1 Citations
-
-Checked at `84f1c37190`, the base build's commit, whose code is `main`'s (`git diff --stat 84f1c37190 HEAD -- . ':!explorations' ':!docs'` prints nothing).
-
-- **Code lines.** `CodeGen.java`: `dumpTraitDecls` `:769`, `generateForwardingFor` `:788` and `:792`, `dumpMethodChaining` `:926`, `dumpOverloadedMethodChaining` `:1108`, `genParallelExprs` `:1692`, `defaultCase` `:1776`, `forAtomicBlock` `:1835-1868`, `generateFunctionalBody` `:2880`, `forFnExpr` `:3643`, the name in `forLetFn` `:3829`, the fields `:4850-4862`, `forVarDeclPrePass` `:6472` with its throw at `:6476`, `conditionallyCastParameter` `:7208-7240`. All as the record gives them.
-- **The specification.** `conversions-coercions.tex:111-117` holds the quoted sentence and its example. `changes.tex:5286-5298` holds the clause of rows 966 and 973, `:3817-3824` the sentence on `=/=`, `:4312` row 695, `:3204` row 832, `:1676` and `inference.tex:458` row 307. No other row of the batch is named in the specification's text, so "No Effect of Appendix I and no note names these rows" holds for M and L.
-- **The library.** `FortressLibrary.fss:2188-2194` (`indexOf`), `String.fss:148-158` (a label as a method's whole body), `OneShotFlag.fss:18`, `List.fss:13` (its import), `FortressLibrary.fss:4961` (`Box`), 23 lines of `trait QQ` (`:554-660`) that pass `self` to `numerator` or `denominator`.
-- **The tests named.** All exist: `XXXNumeralEqualsNumberWalk`, `XXXNotEqualNumeral`, `NumeralStaticDesignCompiled`, `XXXFunctionalMethodMeetNarrowedSelfNotFirst`, `XXXSelfTypeReturnSelfRun`, `XXXNatOpenRun`, `VarargsExportMethod` with its api.
-- **The briefing keys.** All 104 keys of the seven rungs match one place each (`lists31.py`, task 2).
-- **The ledger rows.** Rows 390, 989, 973, 966, 975, 976, 990, 732, 571, 81, 875, 319, 641, 991, 695, 307, 815, 992, 832, 819, 988, 474 and 624 say what the record says of them. Row 315 does not (A3).
-- **The entries.** P-46, P-49, P-173, P-174, P-176, P-59, P-12, P-169, P-175, P-9, P-47, P-87, F-53, F-350, F-351 say what the record says of them. F-34 had changed (A1).
-
-### 5.2 The reproducers
-
-One compile and one run each, under the prelude, in `/home/user/fortress-chk31`.
-
-| rung | program | the record's failure | this run |
-|---|---|---|---|
-| N | `PPick3` | the run dies, 'NoSuchMethodError … \=k{…}(fortress.AnyType$Any)' | the same |
-| N | `PNumeralTie` | 'Ambiguous coercion in call to function mul' | the same, word for word |
-| M | `PDupMethod3` | 'ClassFormatError: Duplicate method name "mx?0"' | the same |
-| M | `GenApi`, `PGenUse4` | 'AbstractMethodError … does not define or inherit an implementation' | the same, for `map` |
-| L | `PLabel` | 'Can't compile Label' | the same |
-| L | row 315's two programs | 'ZipException: duplicate entry' | **both compile and run** (A3, B1) |
-| A | `PAtomicExpr` | 'Can't compile AtomicExpr' | the same |
-| A | `PFieldAtomic`, four threads | 29,456 and 39,276 of 40,000 | 35,450 |
-| K | `PComprisesCast` | 'VerifyError: Bad type on operand stack … is not assignable to' | the same |
-| T | `PTupleIndex` | 'VerifyError … is not assignable to FZZ32' | the same |
-| T | row 832's program | `ClassCastException` at the call | the same |
-| T | row 819's program | 'Error trying to close method scope' | the same |
-| D | `TupleTopPlain` | '** bug! Result of typechecking still contains intermediate nodes.' | the same |
-
-A guard of rung N's first test, by one more run: with `k(x: Any)` beside `k(x: NN32)`, `k(a)` for `a: Any` prints `any` and `k(u)` for `u: NN32` prints `nn32` today. So `k(5)` dies for the numeral's own reason, row 390's numeral case, and the test's guard `k(a)` does not meet row 390's other case.
-
-Each rung's first test can fail first, for its wall's reason, but L's step 2.
-
-### 5.3 Each rung against the decisions
-
-- **N.** It builds P-46's rule in the review's words, P-49's exception and P-173's last sentence. It keeps P-174 (no `=` pairs), P-176, P-168 (the `=` over `Any`) and P-165. Fork N3, `Equality`'s `=/=`, is way B's own change. Fork N2 applies P-46's tie, "where two are not ordered, the one that the default fits", to two declarations that differ at a value's place too; P-173 covers the case: "a float numeral whose conversions into `QQ` and `RR64` tie reads `RR64`". Walk prints `rr64` today. What it leaves out: the `x^2` guard (B5). What no entry supports: nothing.
-- **A.** P-169 is about natives and the array store; its part here is the transaction's keying, which fork A1 does not use: a `var` field goes in a cell, the code's way for a mutable variable. The parallelism review's section 8 lists row 319 among the repairs "before anything relies on `atomic`", and its section 7.2 confirms the row. F-351 is the handler that A builds on. P-125 is met: the tests run at four threads, and fork B2 puts them in the atomic runs. What A leaves out of section 8's list: `tryatomic` (row 353) and strong atomicity (its question D2), both by the plan review's section 7.5. No var field stands in the one library's arrays or in the model's vocabulary (`grep` of `Library/` and `explorations/run-c4/src/`: `Box`, `OneShot`, `String.fss`), so the cell and its check (row 641) do not reach microGPT.
-- **L.** Fork L1 is P-175's rule and F-350's code: a group joins every arm that it forked before an exception leaves, and the exception that leaves is the first arm's in the arms' order. An `exit` that travels as a throwable gets both. The record's test asks for "the label's value one of the values that an iteration exits with", which is right for a parallel loop. Left out: the `atomic` case (B2).
-- **D.** P-9 keeps the tuple bindings, P-87 keeps the model's lines, P-173 gives each untyped name its numeral's default. The rung builds exactly that.
-- **M, K, T.** M1 is the skill's rule that a declaration without `override` replaces an inherited one at its own parameter types, and P-47's library shape. K builds P-60 and P-146 in the code generator. T builds within P-156. Nothing is built without a ground.
-
-### 5.4 The sources the plan was cut from
-
-- **The carriers review's "Points to report".** Seven points. Points 1, 2, 3 and 5 are about the rehearsal's W14, W2, W12 and its question; point 4 about F-18; point 6 about the plan review's "One build serves one library"; point 7 about PLAN's N5. The record leaves W2, W12, W13 and W14 out, and repeats none of the seven sentences. It carries no error of the rehearsal into a rung. It corrects one itself: the rehearsal's W16 names rows 495 and 732, and the record says that the wall is row 732's defect and that rows 495 and 496 are another.
-- **Varargs.** The planner's reason holds, by reading. The checker types a varargs parameter `ImmutableArray[\T,ZZ32\]` of the default library (`compiler/Types.java:49`), which the prelude does not declare. `XXXVarargsBodyIterates` pins the refusal of a body that reads the parameter. The two tests whose bodies do not read it, `XXXVarargsCodeGeneration` and `XXXVarargsMethodCodeGeneration`, could be promoted only by a repair that passes no array at the call, since under the prelude no class exists for the value. No doubt stayed, so I ran nothing.
-- **The three ways of the carriers' review, and the merge.** The claim holds, by reading. N edits the checker, walk and `Equality`. L, A, T and D are about constructs, not carriers. K's library site is `trait QQ comprises { Ratio }`: `QQ` is not one of the five merged traits (`ZZ32`, `ZZ64`, `ZZ`, `NN64`, `RR64`), and `Ratio` is not a native object, so the cast is needed under A, C, D and the merge. M: under the merge the five traits become objects, and an object that declares a method beside two inherited bodies already runs (PROBES, section 2, "the same, narrowed"), so those five classes leave W6's 27. The other 22 stay, and row 990's program stays a defect. No rung is wasted or redone. M's library count shrinks under way D.
-
-### 5.5 The forks
-
-By the rule of the `coordinator` skill's `SKILL.md`, "The curator's role and decisions".
-
-| fork | consequential | the reason, in one line |
-|---|---|---|
-| W | yes | it reads P-59's sentence on walk anew (section 4) |
-| B1 | no | the shape of the batch; it can be undone |
-| B2 | no | two programs join the gate's atomic runs |
-| V | no | varargs waits for a test that only the one library can hold; no decision is touched |
-| S | no | an order of work; rung M's choice does not depend on it |
-| N1 | no | P-37: the prelude is not changed |
-| N2 | no | P-46's tie in its own words, and P-173's sentence on a float numeral; it keeps two model lines as they are |
-| N3 | no | way B's own library change, which he took with it |
-| N4 | no | a row's text |
-| M1 | no | the specification's rule and the library's shape (P-47) |
-| M2 | no | what the same call does today with the trait first |
-| L1 | no | P-175 and F-350 |
-| L2 | no | a class name; a closure alone keeps today's |
-| A1 | no | the code's own way; no `var` field on microGPT's path (5.3) |
-| K1 | no | no bytecode changes where a call verifies today |
-| T1 | no | today's convention kept; the other way is reported before it is built |
-| D1 | no | `variables.tex` and P-173 |
-| D2 | no | a scope |
-
-I agree with the planner: one consequential fork.
-
-### 5.6 The merge
-
-**The gather can merge the four rungs' edits of `CodeGen.java` cleanly, if each rung keeps to its declarations.** The gather applies each rung's net diff with `git apply --3way --index` (`climb-batch-workflow.md`, "Gather"). The declarations:
-
-- M: `:769-1690`, and a new member above `:926`.
-- L: new members above `:1776`; `:3643-3707`; `:3829`.
-- A: a new member below `:1868`; `:4813-4862`.
-- K: a new member above `:7208`; `:7208-7240`; the returned value in `generateFunctionalBody` (`:2880`); the callers' arguments, at `:1756`, `:1768`, `:5339-5441`, `:6665` and `:7155-7200`.
-
-The nearest two edits are K's at `:1768` and L's above `:1776`, 8 lines apart. No two rungs are given one declaration.
-
-**Climb batch 30's sentence.** Its record put rung C into run 2 "because run 1 already has three rungs in `CodeGen.java`". That is a reason for one placement, not a measured limit; the plan review reads it as the most that phase 4 has landed in one batch. Four is one more than has been done. What grows with the number is not the text merge but two other things: the pairs that meet in behaviour (B2, B3), and the tools that patch `CodeGen.java` by text, the distance stage's shadow patch and the measure. Each rung runs the shadow patch on its own tree; the merged tree meets it first at the gate's distance stage.
-
-**A pair that changes one behaviour two ways.** None changes one behaviour two ways. Two pairs leave a behaviour to nobody: L and A at an `exit` out of `atomic` (B2), and K and A at a cast into a field (B3).
-
-**N beside M.** N edits `scala_src/typechecker/`, M edits `scala_src/useful/STypesUtil.scala`. If N's "what it calls" reaches `STypesUtil.scala`, the two meet in one file, in other functions.
-
-**M in run 1, T in run 2.** The split is right. Both edit `generateForwardingFor`, so they cannot share a run. M first, because W6 stops the one library's first load and T's bridge is a forwarder of the kind that M repairs. T also builds on K's landed cast.
-
-### 5.7 The measure
-
-- **The count is what it claims.** `codegen-measure.sh` applies `measure-hacks.patch` (`NamingCzar.java`, `Naming.java`, `FortressMethodAdapter.java`, `TraitTable.scala`), sets `NN32`'s two getters, builds, and runs F-34's probe. `cgkinds.py` counts one for each top-level declaration, by component, name and span, at its first failing line. The planner's output is in PROBES, section 3: 24 refused, 745 emitted, 8 kinds. The kinds add up: 7 + 4 + 4 + 4 + 2 + 1 + 1 + 1. The record's "varargs 8" is the 7 and the trait's `OptionUnwrapException`, which is row 624's form for a method. The forecasts follow: 24 less 7 is 17, and two second walls give 19; 4 less gives 13 to 15.
-- **A rung can move it without repairing its wall.** The count sees a throw of the code generator and nothing else. No emitted class is loaded or run. So a rung that emits wrong code lowers the count as a right one does, and M, K and the first half of T cannot move it at all, as the record says.
-- **A rung can raise it.** A cell for every `var` field (A), a cast (K) or a changed forwarder (M) meets library declarations that no test under the prelude has; a new throw there is a new refused declaration. The count after a run should be read with the emitted figure beside it (745 today): refused down and emitted up by the same number.
-- **A whole trait counts once.** `Indexed` is one declaration. Behind its `label` another wall can stand, which the count shows only after L.
-- **It is the only check of L's closure half** (B1).
-- **Its patch.** It edits `NamingCzar.java`, where L changes `gensymArrowClassName`, and `TraitTable.scala`, in the folder that N edits. The record names the first.
-
-## 6. The manifest generator and the launch's inputs
-
-Made after this check, from the record as corrected: `explorations/compile-ladder/plan-31/manifest/`, in the form of `plan-30/manifest/`.
-
-- `lists31.py`: the briefing and checks lists of the seven rungs, 104 keys, each matching one place (`facts-extract.sh --check`, "bad lists 0").
-- `gen31.py --run 1|2 [--fork-w a|b]`: the `MANIFEST` block from the record. The record is written for fork W at (a). At (b) the generator first makes fifteen exact substitutions in the record's text (its `W_B_RECORD`): step 2 of rung N struck, and each sentence of N's block in section 1, of its section 4 and of run 1's intro that the struck step makes false (B4). Each substitution is asserted, so an edit of the record that it does not know stops it. It writes the changed record beside the block, for `check31.js`.
-- `check31.js --run 1|2 [--fork-w a|b] [--write]`: `check30.js`'s checks, with this record's forms: 118 checks for run 1, 0 problems at (a) and at (b); run 2's block also passes.
-- `block-run1-fork-w-a.js` and `block-run1-fork-w-b.js`: run 1's block for each answer, as generated on 2026-11-13. They differ in rung N's title, blurb, one point, three reasons, one key with its reason, and five lines of its section, and in one line of the intro.
-
-**The atomic runs.** Fork B2 names rung A's two programs, `AtomicExprCompiled` and `AtomicFieldCompiled`. `check31.js` adds them to the script's `ATOMIC_COMPILER` list in the spliced copy, 24 programs and 72 lines, and `--write` puts the block and the list into the tracked script together. I did not put the names into the tracked script alone: the batch has no go, and a gate run from the script before rung A lands would be red on two programs that do not exist.
-
-**The scenario checker.** `node explorations/coordinator/tools/workflow-scenarios.js <the spliced scratch copy>`: 0 problems, for the copy at (a) and the copy at (b).
-
-**Not done, by the brief.** The tracked script is unchanged: no block, no atomic name, `FABLE_WEEK` as it was. Nothing was launched. No base build was made.
-
-**To install, after the go and the answer to fork W** (`X` is `a` or `b`; `OUT31` defaults to the main tree's `tmp/`):
-
-    python3 -B explorations/compile-ladder/plan-31/manifest/lists31.py --run 1 --fork-w X     # bad lists 0
-    python3 -B explorations/compile-ladder/plan-31/manifest/gen31.py --run 1 --fork-w X
-    node explorations/compile-ladder/plan-31/manifest/check31.js --run 1 --fork-w X           # problems: 0
-    node explorations/compile-ladder/plan-31/manifest/check31.js --run 1 --fork-w X --write   # the block and the atomic list
-    node explorations/coordinator/tools/workflow-scenarios.js                                 # problems: 0
-
-At (b), copy `$OUT31/CLIMB-BATCH-31-fork-w-b.md` over the record first, so that the record on `main` is what ran; the three tools take that record with `--fork-w b` as they take the other. Then the manual's line on the atomic runs ("22 since climb batch 30's first run") becomes 24, and the commit is the base.
-
-## 7. What this check did not do
-
-- No suite, no stage of the gate, no timing, no run of the measure.
-- No run against the one library.
-- Run 2's sections were checked as far as they go; they are read again against run 1's landed tree.
-- The cost estimates of the record's section 2 were not checked.
+It lets him judge each rung after the fact: what changes, a program with its message, each fork with its default and the other way, what is left out and why, the cost. It has lists and no table, no contraction outside a quoted message, and its terms are defined at its head. What I changed is in section A, items 4 to 10. What stays, which I did not change for lack of time: a number of passive sentences ("No rung was held out", "is repaired first", "is refused"); "wall" and "rung" are the record's own words, defined once and used so; fork B2 stands under rung A with a B name.

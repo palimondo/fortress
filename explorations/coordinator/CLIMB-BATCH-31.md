@@ -1,5 +1,5 @@
 <!-- The record of climb batch 31, in two runs (climb batch 31 and climb batch 31b), for the coordinating session, the curator and the batch's workers. Run 1: four walls between today's tree and a compiled program on the interpreter's library that a test against the compiler's prelude can show and repair today (rungs M, K, L and A), and the two repairs that the merge of the five built-in number types with their objects needs first (rungs V and X). Run 2, on run 1's landed tree: the method over a tuple (T), the merge of P-178 in the one library and in walk (O), and a numeral at the end of a block (E). The prelude's half of the merge is in no run: it is not designed (fork H2). -->
-<!-- History. Drafted 2026-11-13 by a planning worker on Fable against `main` at `840a4056c1`, for seven rungs, and checked that day by a fresh reader (`coordinator/climb-batch-31-review.md`), whose corrections of fact are kept here. Amended 2026-11-15: rungs N and D moved to climb batch 32, which landed on 2026-11-16 (`567c36dadc`). Brought in line with the landed tree and extended on 2026-11-16 by a planning worker on Fable, on `main` at `97c2b74e1f`, whose code is that of `c0c35b4f9e`, the base build `/home/user/fortress-base34` (`git diff --stat c0c35b4f9e main -- ProjectFortress/src Library ProjectFortress/LibraryBuiltin ProjectFortress/astgen build.xml bin` prints nothing): the five rungs read again on that tree and their reproducers run; the rows and steps that climb batch 32's review offered, weighed (`reviews/batch-32-review.md`, Part 5); rungs V, X, O and E added; the merge of P-178 planned. -->
+<!-- History. Drafted 2026-11-13 by a planning worker on Fable against `main` at `840a4056c1`, for seven rungs, and checked that day by a fresh reader (`coordinator/climb-batch-31-review.md`), whose corrections of fact are kept here. Amended 2026-11-15: rungs N and D moved to climb batch 32, which landed on 2026-11-16 (`567c36dadc`). Brought in line with the landed tree and extended on 2026-11-16 by a planning worker on Fable, on `main` at `97c2b74e1f`, whose code is that of `c0c35b4f9e`, the base build `/home/user/fortress-base34` (`git diff --stat c0c35b4f9e main -- ProjectFortress/src Library ProjectFortress/LibraryBuiltin ProjectFortress/astgen build.xml bin` prints nothing): the five rungs read again on that tree and their reproducers run; the rows and steps that climb batch 32's review offered, weighed (`reviews/batch-32-review.md`, Part 5); rungs V, X, O and E added; the merge of P-178 planned. Checked before the launch on 2026-11-16 by a fresh reader, whose corrections are in place (`coordinator/climb-batch-31-review.md`). -->
 <!-- **The go: the curator gave it at 23:04 UTC on 2026-11-16, dictated as he went to sleep: "Approved. Plan autonomously, with details. I'll review afterwards. Go for batch." Run 1 launches on this record with no question put to him first; each fork took its default by the rule of the `coordinator` skill's `references/batch.md`, "The go", and is on the review list. No rung was held out for bending a decision on record or for a model line.** -->
 <!-- Sources: the planner's brief (`<scratchpad>/batch31/planner-31b-brief.md`); `reviews/batch-32-review.md`, Part 5 and its process findings 1 to 9; POSITIONS P-178 with its history, P-37, P-160, P-167, P-68, P-45, P-87, P-173, P-176, P-148 and those of the record as first drafted (P-47, P-60, P-146, P-149, P-147, P-156, P-169, P-175); FACTS F-34, F-53, F-361; `compile-ladder/plan-31/probes/number-object-merge.md`; `reviews/carriers-ways-2026-11-13.md`, "Way D"; review-queue items 516 to 520; the ledger rows named in section 1; `compile-ladder/plan-31/probes/switch-rehearsal.md`; the `coordinator` skill's `references/batch.md`; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; the code at the sites. -->
 <!-- The planner's probes: `compile-ladder/plan-31/PROBES.md`, sections 6 to 11 for 2026-11-16, with their programs in `compile-ladder/plan-31/probes/planner/`, run in a worktree of the planner's own, `/home/user/fortress-p31b`, seeded from the base build and removed after. No suite and no stage of the gate was run. -->
@@ -310,7 +310,7 @@ Fields common to the nine rungs:
 
 ### The go
 
-You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with details. I'll review afterwards. Go for batch." Run 1 starts tonight on this record. No question was put to you first. Each fork below was decided by the rule for a night when you are away: the default was taken, and the fork is on your review list. Run 2 starts when run 1 has landed.
+You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with details. I'll review afterwards. Go for batch." Run 1 starts tonight on this record. The coordinator put no question to you first. The rule for a night when you are away decided each fork below: the fork took its default, and it is on your review list. Run 2 starts when run 1 has landed.
 
 ### What was held out
 
@@ -324,6 +324,8 @@ You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with 
 - Climb batch 32 took rungs N and D from this record and landed them on 16 November.
 
 ### Run 1, rung by rung
+
+Each program below is shortened to the lines that matter. The planner ran each whole program, except two: the program of rung X, and the `for` form of the program of rung L. The reviewer of this record ran those two, and each stops with the message that is given. The whole programs are in the folder of probe programs. The whole program of rung X is the test `XXXOverloadReturnObjectDomain`.
 
 **M. Methods that a class inherits.**
 
@@ -363,10 +365,10 @@ You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with 
           for i <- 0#10 do if i = n then exit found with i end end
           -1 end found
 
-- Today: the compile stops: 'Can't compile Label'. Every string and every array of the one library has such a line.
+- Today: the compile stops: 'Can't compile Label'. The trait `Indexed` of the one library has such a method, and every string and every array extends that trait.
 - After: it compiles, and `find(3)` is 3.
 - Fork L1: an `exit` out of a parallel loop first joins the tasks that the loop started. Then the block of the label ends with the value. This follows your decision P-175. The other way stops the other tasks at once.
-- Fork L2: an `exit` out of an `atomic` block keeps the writes of the block, by the specification. The compiled code that ends a transaction is not in this rung. So L writes the case as a test. If the test fails, it is an expected-failure test with a new row.
+- Fork L2 has two parts. The first: L does not repair a class that the code generator writes twice for one function expression (row 315). Only the one library shows that defect, so no test can fail first. The second: an `exit` out of an `atomic` block keeps the writes of the block, by the specification. The compiled code that ends a transaction is not in this rung. So L writes the case as a test. If the test fails, it is an expected-failure test with a new row.
 
 **A. `atomic` as an expression, and a mutable field.**
 
@@ -379,7 +381,7 @@ You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with 
 
 - Today: the compile stops: 'Can't compile AtomicExpr'. And 40,000 additions to a `var` field inside `atomic`, at four threads, gave 36,374 and 36,931 in two runs today.
 - After: it compiles, exactly one caller wins, and the sum is 40,000.
-- Fork A1: a `var` field is kept in a cell, as a `var` at the top of a program is. The other way keys the transaction by the object and the field. Neither microGPT program declares a `var` field.
+- Fork A1: a `var` field is kept in a cell, as a `var` at the top of a program is. A cell is a small object that holds one value that can change. A transaction records each cell that it reads or writes. So each `var` field costs one more object, and one more step at each read. The other way keeps the value in the object itself, and the transaction records the object and the field. Neither microGPT program declares a `var` field, and neither of their helper files does.
 - Fork B2: the two new tests join the tests that the gate runs three times at four threads.
 
 **V. Two repairs of walk, before the merge.**
@@ -397,7 +399,7 @@ You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with 
       pickFirst[\T extends Number\](a: T, b: T): T = a
       pickFirst(a: NN32, b: NN32): String = "plain"
 
-- Today: walk loads this pair and prints `plain`. The pair is not valid: the second declaration is more specific, and its result is not an `NN32`. After: walk refuses it when the program loads: 'fails the Return Type Rule'. The valid pair, with the result `NN32`, loads. Today walk refuses the valid pair at `ZZ64`.
+- Today: walk loads this pair and prints `plain`. The pair is not valid by the Return Type Rule of the specification (the chapter on overloading, "Declarations with Static Parameters"). The rule: where one declaration is more specific than another, its result type must be a subtype of the result type of each instance of the other that takes the same arguments. Here the second declaration is more specific, and its result is not an `NN32`. After: walk refuses it when the program loads: 'fails the Return Type Rule'. This refusal is the one change of run 1 that stops a program that runs today. The valid pair, with the result `NN32`, loads. Today walk refuses the valid pair at `ZZ64`. Before the merge, `ZZ64` is a trait with one object below it. The pair is valid there only because the trait lists that one object. The review of this record gives the detail (`climb-batch-31-review.md`, finding B1).
 - Fork V1: the internal type that walk makes for a type parameter is not a declared type, so the check of value types does not refuse it. The other way makes that internal type a value type when its bound is one.
 - Fork V2: one step repairs both halves of the load check: the pair that is not valid and loads, and the valid pair that is refused. The other way repairs only the first, and walk would then refuse valid pairs over a program's own objects.
 - Fork V3: V also writes a test that an earlier batch owes. Under walk, a generic function that is returned at a declared function type stays generic. I ran it today: the call runs at a size that the type does not allow. The compiled path refuses that call. It is ledger row 1036, filed today. V writes the expected-failure test and one sentence of the specification. It builds no repair: walk reads no declared return type at all today (row 387).
@@ -508,7 +510,7 @@ The review of climb batch 32 offered rows to this batch. Four more rows were fil
 The measure is the number of declarations of the one library that the code generator refuses.
 
 - **Before: 24, of 8 kinds.** Measured today on the landed tree. Climb batch 32 did not change it.
-- **After run 1: 19 to 21.** L takes off the 4 of `label`. A takes off the 1 of the `atomic` expression. Two of the four have a second wall behind the first.
+- **After run 1: 19 to 21.** L takes off the 4 of `label`. A takes off the 1 of the `atomic` expression. Two of the four declarations with `label` have a second wall behind the first. So the number is 19 if both pass that wall, and 21 if neither does.
 - **After run 2: 15 to 17.** T takes off the 4 range operators over pairs.
 - **What stays:** functions with a variable number of arguments 7, a missing type environment 4, a class written twice 2, and 2 single ones.
 - M, K, V, X, O and E do not move this number. Their measure is their tests.
@@ -548,7 +550,7 @@ Every agent runs on Fable at medium effort.
 
 ### Your review list from this record
 
-- The 26 forks of section 3. None is consequential by the rule. Each took its default.
+- The 26 forks of section 3. Each took its default. One is consequential by the rule: fork H2, the way for the prelude's half of the merge. Its default builds nothing, and it is in no run.
 - The new item: the way for the prelude's half of the merge (fork H2).
 - Items 516 to 520, each answered at a default by forks O1 to O5.
 - Row 1036 and the finding on `=/=` at `RR32`.
@@ -563,7 +565,7 @@ None in a rung that runs. **Fork H2,** the way in which the compiler's prelude t
 
 ### Forks the batch takes
 
-None of the forks below is consequential: each builds within a decision on record or chooses where the record leaves an implementation open, and each can be undone.
+Of the forks below only H2 (item 5) is consequential, and its default builds nothing. Each other fork builds within a decision on record or chooses where the record leaves an implementation open, and each can be undone.
 
 1. **B1. One record, two runs.** Run 1 is M, K, L, A, V and X; run 2 is T, O and E on run 1's landed tree. **Default: so.** Way not taken: one run of nine rungs, in which M and T would edit `CodeGen.generateForwardingFor` and `dumpMethodChaining` together, O would be built without V's two repairs, and E could meet K at a returned value. The reason: `references/batch.md`, "The go".
 2. **B2. A's two compiled tests join the atomic runs.** **Default: `AtomicExprCompiled` and `AtomicFieldCompiled`, three runs each at four threads.** The reason: each is a test of a race.
@@ -704,7 +706,7 @@ A cast that is needed at a field, whose code is rung A's (`forObjectDeclPrePass`
 
 **What you build, in order.** Each test is a walk test under `ProjectFortress/tests/`, seen failing through the harness first.
 1. **A type parameter bounded by a value type** (fork V1; row 997). Test first, `tests/TraitGenericMethodValueBoundWalk.fss`, from `explorations/compile-ladder/plan-31/probes/planner/P997.fss`: `Holder[\RR32\]().held()` and the same at `NN32`, for `held[\T extends S\]()` in `Holds[\S extends Number\]`, each result's type asserted by a `typecase`, as `tests/TraitGenericMethodInference.fss` asserts it at `ZZ64`. Seen failing on the base: 'non-value subtype of value type RR32'. The repair is in `FTraitOrObject.enforceValueness` (`interpreter/evaluator/types/FTraitOrObject.java:97-104`): the symbolic type that walk makes for a type parameter is not a declared type, and the check does not refuse it. A declared type that is not a value type stays refused below a value type; `tests/XXXNonValueOfValue.fss` is the tree's test of that check: run it after your change.
-2. **A generic declaration beside a plain one** (fork V2; rows 998 and 550). Tests first: `tests/XXXGenericBesidePlainReturnParam.fss` promoted, the valid pair at `ZZ64` (row 550); a test of the refusal at load, from `P998.fss` in the same folder: `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: NN32, b: NN32): String`, 'fails the Return Type Rule', which loads and prints `plain` on the base (row 998); and the valid pair at `NN32`, `pickFirst(a: NN32, b: NN32): NN32`, which runs the plain declaration for two `NN32` values. The repair is in the load check of `interpreter/evaluator/values/OverloadedFunction.java`. The shortcut that calls two parameter lists excluding where they differ at an object type (`:511`) does not apply to a generic declaration beside a plain one whose object type lies in the generic one's declared domain. The reading on declared domains (`validOnDeclaredDomains`, `:772`) compares the plain declaration's result with the generic one's at the instances that hold the plain one's domain, as `returnRuleAtEveryInstance` (`:1165`) does for two generic declarations.
+2. **A generic declaration beside a plain one** (fork V2; rows 998 and 550). Tests first: `tests/XXXGenericBesidePlainReturnParam.fss` promoted, the valid pair at `ZZ64` (row 550); a test of the refusal at load, from `P998.fss` in the same folder: `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: NN32, b: NN32): String`, 'fails the Return Type Rule', which loads and prints `plain` on the base (row 998); and the valid pair at `NN32`, `pickFirst(a: NN32, b: NN32): NN32`, which runs the plain declaration for two `NN32` values. The repair is in the load check of `interpreter/evaluator/values/OverloadedFunction.java`. The shortcut that calls two parameter lists excluding where they differ at an object type (`:511`) does not apply to a generic declaration beside a plain one whose object type lies in the generic one's declared domain. The reading on declared domains (`validOnDeclaredDomains`, `:772`) compares the plain declaration's result with the generic one's at the instances that hold the plain one's domain, as `returnRuleAtEveryInstance` (`:1165`) does for two generic declarations. That reading is the rule only where the plain declaration's parameter type is an object type. The rule compares at every argument type to which the plain declaration applies, and at every instance of the generic one that applies to that argument (`Specification/advanced/overloading.tex:555-559`): below a trait, an argument of a lower type selects a lower instance, as `returnRuleAtEveryInstance`'s comment says. So `tests/XXXGenericBesidePlainReturnRule.fss`, the specification's refused pair at `trait Round` with `object Circle` below it, stays refused: run it with your tests. On this tree `ZZ64` is a trait that comprises the one object `Long`, so row 550's pair is valid there only because every `ZZ64` value is a `Long` (P-60).
 3. **The expected failure of row 1036.** `tests/XXXGenericFunctionArrowReturnWalk.fss`, from `PArrowRet.fss` in the same folder, in the form of `tests/XXXGenericFunctionTopLevelVariableWalk.fss`: a generic function returned at a declared arrow return type is called at another size, and the call runs where the rule refuses it. Seen passing as an expected failure. Row 1036's whole new line names it as the reproducer. In the box at `Specification/basic/inference.tex:264-268`, name the declared return type and the field of an object beside the immutable top-level variable. Build nothing in walk for it.
 4. **Walk's suite once,** `ant testSystem`: your edit reaches every overloaded name that walk loads.
 
@@ -722,7 +724,7 @@ A cast that is needed at a field, whose code is rung A's (`forObjectDeclPrePass`
 
 ### X. The checker's Return Type Rule for a generic declaration beside a plain one whose domain is an object type (row 542)
 
-**The mission.** The compiled checker refuses a valid pair: `ident[\T\](x: T): T` beside `ident(x: Circle): Circle`, where `Circle` is an object. The rule of the team's paper accepts it: only the instances whose domain meets the plain declaration's domain count, and below an object type is only the object (row 542). Today the number types of the compiler's prelude are traits, so the refusal does not reach them. By the decision on record each built-in number type becomes one `value object` on both paths before the switch-over (P-178), and then the refusal reaches `ZZ32`, `ZZ64` and `RR64` in every program. You repair the rule first.
+**The mission.** The compiled checker refuses a valid pair: `ident[\T\](x: T): T` beside `ident(x: Circle): Circle`, where `Circle` is an object. The rule of the team's paper accepts it: only the instances whose domain meets the plain declaration's domain count, and below an object type is only the object (row 542). Today the number types of the compiler's prelude are traits, so the refusal does not reach them. By the decision on record each built-in number type becomes one `value object` on both paths before the switch-over (P-178), and then the refusal reaches every such pair over `ZZ32`, `ZZ64` or `RR64`. You repair the rule first.
 
 **The decisions this rung builds.** P-45, the Return Type Rule over declared domains at every instance that the argument types allow; P-178, for the reason; P-148, for your checker edit. Section 3's fork X1.
 
