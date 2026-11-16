@@ -26,7 +26,9 @@ If you would look something up before you act, say what you would look up, where
 
 8. You write a function that adds up the elements of an `RR64` array `a` with a `for` loop over its indices and a mutable accumulator, `var acc: RR64 = 0.0`. Write it. A direct run of your test under walk prints the right sum. Is the function correct, and will its test pass in the suites?
 
-9. You add to the interpreter's library a function `total(n: ZZ32): RR64` that returns the sum of `g(j)` for `j` from 0 to `n - 1`, where `g(j: ZZ32): RR64` is already declared. The library must pass the compiled checker's count stage and run under walk. Write the body. What does `total(0)` give?
+9. Two sums written with generators.
+    - (a) You add to the interpreter's library a function `total(n: ZZ32): RR64` that returns the sum of `g(j)` for `j` from 0 to `n - 1`, where `g(j: ZZ32): RR64` is already declared. The library must pass the compiled checker's count stage and run under walk. Write the body. What does `total(0)` give?
+    - (b) A program of your own must give the same result under walk and on the compiled path. Its `object Tally(n: ZZ32)` has a method `weight(): RR64` that returns the sum of `count(j)` for `j` from 0 to `n - 1`, where `count(j: ZZ32): ZZ32` is already declared and can return values as large as 2^30. Write the method.
 
 10. A program declares `object Tag[\T\]() end` and `mk[\T\](): Tag[\T\] = Tag[\T\]()`, with no bound written on either `T`.
     - (a) Does `Tag[\(ZZ32, ZZ32)\]()` run under walk, and does it compile?
@@ -43,7 +45,7 @@ If you would look something up before you act, say what you would look up, where
 
 15. Write a walk test of the library's `even` and `odd` on the integers 0 to 9. Give the whole file and its path, how the harness decides that it passed, and whether you add a file with its expected output.
 
-16. Your test needs an `NN32` value 3, and writes `n: NN32 = 3`. Does the binding work under walk, and on the compiled path? If not, what do you write?
+16. Your test needs an `NN32` value 3, and writes `n: NN32 = 3`. Does the binding work under walk, and on the compiled path? If not, what do you write? The test then checks that `n` is 3. Write the check.
 
 17. Port this Java loop: `for (long i = lo; i < hi; i++) { total = step(total, i); }`. `lo` and `hi` are `ZZ64` values that fit in 32 bits, `step(t: RR64, i: ZZ64): RR64` is declared, and each step depends on the total before it.
 
@@ -71,7 +73,7 @@ If you would look something up before you act, say what you would look up, where
     - (b) Your report must list what stands between microGPT's `view` in `explorations/apl/mg/FlatArrays2.fss`, which passes `reflect(nr)` and `reflect(nc)` to `viewN[\nat r, nat c\](base: Array[\RR64,ZZ32\], off: ZZ32, _: N[\r\], _: N[\c\])`, and a compiled run of it. What do you list?
 
 26. Two comparisons across number types.
-    - (a) You port the Java condition `if (count == limit)`, where `count` is a `long` and `limit` a `double`, into a program that runs under walk, with `count: ZZ64` and `limit: RR64`. Write the condition. What does `count = limit` give for a `count` of 3 and a `limit` of 3.0? Is your condition the same for `count: ZZ32`, and for `count: QQ`?
+    - (a) You port the Java condition `if (count == limit)`, where `count` is a `long` and `limit` a `double`, into a program that runs under walk, with `count: ZZ64` and `limit: RR64`. Write the condition. What does `count = limit` give for a `count` of 3 and a `limit` of 3.0? Is your condition the same for `count: ZZ32`, and for `count: QQ`? The same port has `if (ratio == 0.5)`, with `ratio: QQ`. Write that condition.
     - (b) In the interpreter's library you add `near[\T extends Number\](a: T, b: RR64): Boolean`, which tells whether `a`, taken as a float, lies within `1.0E-9` of `b`, for an `a` of any number type of the library. The library must pass the compiled checker's count stage and run under walk. Write the declaration or declarations.
 
 27. Your walk test declares `trait Wide excludes { String }` with `getter big(): ZZ32` and `opr +(self, other: Wide): Wide = WideOf(self.big + other.big)`, and `object WideOf(b: ZZ32) extends Wide` with `getter big(): ZZ32 = b`. Its `run()` asserts that `(WideOf(1) + WideOf(2)).big` is 3. Does the test load and pass under walk? Would the compiled checker accept the program once it checks against the interpreter's library? If either path has a problem, what do you change?
@@ -101,3 +103,10 @@ If you would look something up before you act, say what you would look up, where
 33. Two numerals at the edge of the floats, in walk tests in `ProjectFortress/tests/`.
     - (a) Your test needs an `RR64` infinity, to compare a function's result with. Inside `run()` you write `inf: RR64 = 10^400`. Does the binding run under walk, and does it compile? If not, how does your test get the infinity?
     - (b) A walk test that you wrote a week ago binds, at the top level, `wide: RR32 = 340282356779733661637539395458142568448`, and its `run()` prints `wide`. It then printed `Infinity`. On today's tree the test stops at load, 'Type mismatch binding'. What do you conclude, and what do you do with the test?
+
+34. A program declares four pairs of overloaded functions:
+    - `k(x: Any): String = "any"` and `k(x: NN32): String = "nn32"`;
+    - `width(x: RR32): String = "rr32"` and `width(x: RR64): String = "rr64"`;
+    - `g[\T\](x: T): String = "generic"` and `g(x: NN32): String = "nn32"`;
+    - `same(a: Any, b: Any): String = "any"` and `same(a: NN32, b: NN32): String = "nn32"`.
+    Its `run()` binds `u: NN32 = 0` and `a: Any = u`. What do `k(5)`, `width(1.5)`, `g(5)`, `same(u, 0)` and `same(a, 0)` give, under walk and on the compiled path? Is any of these answers a known departure from the rule, and what do you write so that your program does not depend on it?
