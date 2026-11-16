@@ -1,16 +1,19 @@
-(* The other operand fixes a numeral's type at =: a numeral and an NN32, NN64 or RR32 of one value are equal, in either order. *)
-component XXXNumeralEqualsNumberWalk
+(* The other operand fixes a numeral's type at =: a numeral and an NN32, NN64, RR32 or QQ of one value are equal, in either order. *)
+component NumeralEqualsNumberWalk
 export Executable
 
 run(): () = do
     u0: NN32 = 0
     w0: NN64 = 0
     f0: RR32 = 0
+    h: QQ = 1/2
     assert(u0 = 0, "u = 0 for an NN32 zero")
     assert(0 = u0, "0 = u for an NN32 zero")
     assert(w0 = 0, "an NN64 and a numeral of one value are equal, the NN64 first")
     assert(0 = w0, "a numeral and an NN64 of one value are equal, the numeral first")
     assert(f0 = 0, "r = 0 for an RR32 zero")
+    assert(h = 0.5, "h = 0.5 for the QQ 1/2")
+    assert(0.5 = h, "0.5 = h for the QQ 1/2")
     println "PASS"
   end
 

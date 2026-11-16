@@ -1,0 +1,51 @@
+(* A numeral at a call goes to the most specific declaration that takes it, by its own conversion if need be; its default is the last resort. *)
+component NumeralMostSpecificWalk
+export Executable
+
+k(x: Any): String = "any"
+k(x: NN32): String = "nn32"
+
+same(a: Any, b: Any): String = "any"
+same(a: NN32, b: NN32): String = "nn32"
+
+gg[\T extends Number\](x: ZZ32, y: T): String = "zz32"
+gg(x: Any, y: Any): String = "any"
+
+value object Byte(b: ZZ32) extends Equality[\Byte\]
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v.asZZ32)
+    opr =(self, other: Byte): Boolean = (b = other.b)
+end
+
+value object Q(v: ZZ32)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Q(1)
+    coerce(x: RR32) = Q(2)
+end
+
+mul(a: RR64, b: RR64): String = "rr64"
+mul(a: Q, b: Q): String = "q"
+
+run(): () = do
+    u: NN32 = 0
+    z: ZZ32 = 5
+    c: Any = z
+    w: ZZ64 = 4
+    x: RR64 = 1.3
+    f: RR32 = 2.0
+    y: Byte = 7
+    assert(k(5), "nn32", "conversions-coercions.tex, section \"Coercion Resolution\": the numeral's own conversion reaches the more specific declaration")
+    assert(same(u, 0), "nn32", "the numeral second, beside an NN32")
+    assert(same(0, u), "nn32", "the numeral first, beside an NN32")
+    assert(k(c), "any", "a ZZ32 value runs the declaration over Any")
+    assert(gg(5, w), "zz32", "the declaration that the numeral's default fits is the more specific")
+    assert(x^2 = x x, "an RR64 to a numeral power")
+    assert(mul(1.0, f), "rr64", "of two declarations not ordered, the one that the numeral's default fits")
+    assert((case u of 0 => "zero"; else => "other" end), "zero", "case.tex, section \"Case Expressions\": a numeral clause compares by the number's own =")
+    assert(y = 7, "a program's number type and a numeral of its value, the numeral second")
+    assert(7 = y, "a program's number type and a numeral of its value, the numeral first")
+    assert(NOT (y = 8), "a program's number type and a numeral of another value")
+    assert(NOT (y = 300), "a numeral that the type's coercion does not take compares at its default")
+    assert(y = 7, "the numeral that the coercion takes, after one that it does not")
+    println("PASS")
+  end
+
+end

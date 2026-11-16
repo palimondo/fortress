@@ -671,6 +671,14 @@ trait Functionals { self: STypeChecker with Common =>
    * declared domain with the promotion's coercions uncounted. A call with no
    * most specific candidate is an error when coercions are in the tie, unless
    * the tie is a numeral's, which the numeral read as ZZ32 settles.
+   *
+   * A call with a numeral argument is the exception to the order of the
+   * attempts: where the attempt by subtyping is kept and its most specific
+   * candidate leaves a numeral at a parameter that fixes no type for it, the
+   * candidates that only the numerals' own coercions reach are compared with
+   * it, and one whose declared parameter types lie strictly below its own, by
+   * subtyping, is the call's (numeralAttempt). Where two declarations are not
+   * ordered so, the one that the numeral's default fits stays.
    */
   def checkApplication(preCandidates: List[PreAppCandidate],
                        iargs: List[Expr],
@@ -795,12 +803,58 @@ trait Functionals { self: STypeChecker with Common =>
       val from = tried.filter(_._1 != (fallBackWithoutContext && context.isDefined))
       from.find { case (_, coerce, a) => holds(a, coerce) }.getOrElse(from.head)._3
     }
+
+    // A call with a numeral argument, whose attempt by subtyping is kept: the
+    // candidates that only the numerals' own coercions reach, each strictly
+    // below, on its declared parameter types and by subtyping, every most
+    // specific candidate of the attempt by subtyping. They are sought only
+    // where such a candidate has a numeral at a parameter whose type is not
+    // the numeral's default type: at its default type no other declaration
+    // lies below by a numeral's coercion.
+    val numeralAt = args.zipWithIndex.collect { case (Left(e), i) if NumeralConversion.isNumeral(e) => (i, e) }
+    def atDefaultType(e: Expr, t: Type) = t match {
+      case tt: TraitType => tt.getArgs.isEmpty && NumeralConversion.defaultName(e).exists(_ == tt.getName.getText)
+      case _ => false
+    }
+    def onlyNumerals(c: Ranked) = c._1.args.size == args.size && c._1.args.zip(args).forall {
+      case (a, Left(e)) => !NumeralConversion.counts(a) || NumeralConversion.isNumeral(e)
+      case _ => true
+    }
+    def declared(c: Ranked) = c._2.getOrElse(c._1.arrow)
+    def numeralAttempt: Option[Attempt] = keptAttempt match {
+      case Some((withContext, false, a)) if numeralAt.nonEmpty =>
+        val heads = minimal(candidatesOf(a).filter(!counted(_)))
+        def open(h: Ranked) = {
+          val ps = paramTypes(h)
+          ps.size == args.size && numeralAt.exists { case (i, e) => !atDefaultType(e, ps(i)) }
+        }
+        if (!heads.exists(open)) None
+        else {
+          val below = applicable(if (withContext) context else None, true).filter {
+            case (Left(c), d, p) =>
+              val r = (c, d, p)
+              counted(r) && onlyNumerals(r) &&
+              heads.forall(h => coercions.moreSpecificDeclared(declared(r), declared(h)))
+            case _ => false
+          }
+          if (below.isEmpty ||
+              !context.forall(t => coercions.substitutableFor(callType(candidatesOf(below)), t))) None
+          else Some(below)
+        }
+      case _ => None
+    }
+
+    // The call's candidates from an attempt, the most specific at the head.
+    // With `quiet`, an attempt that does not resolve to one candidate signals
+    // nothing and gives none.
+    def resolved(es: Attempt, quiet: Boolean): Option[(List[AppCandidate], Type)] = {
     val candidates = candidatesOf(es)
     val overloadingErrors = es.collect { case (Right(e), _, _) => e }
 
     // If there were no candidates, report errors, and each numeral outside
     // the range of a parameter type that would take it.
     if (candidates.isEmpty) {
+      if (quiet) return None
       errors.signal(errorFactory.makeApplicationError(overloadingErrors))
       signalNumeralRanges(preCandidates, args)
       return None
@@ -819,6 +873,7 @@ trait Functionals { self: STypeChecker with Common =>
       case _ => false
     }
     if (!unfixed.isEmpty) {
+      if (quiet) return None
       errors.signal(errorFactory.makeApplicationError(unfixed))
       return None
     }
@@ -827,8 +882,10 @@ trait Functionals { self: STypeChecker with Common =>
     // is more specific than.
     val top = order.minimal
 
-    // A tie whose tied candidates differ only where the argument is a numeral:
-    // each numeral is read as ZZ32 (ZZ64 or ZZ by magnitude), and the call
+    // A tie of a call with a numeral argument, whether the tied candidates
+    // differ only where the argument is a numeral or elsewhere too:
+    // each numeral is read as its default, ZZ32 (ZZ64 or ZZ by magnitude) or
+    // RR64 with a radix point, and the call
     // resolves as an argument of that type would, over every candidate: of
     // those the readings fit, the ones they fit without coercion first. At a
     // position whose declared type is a bare type parameter, a reading fits a
@@ -837,10 +894,7 @@ trait Functionals { self: STypeChecker with Common =>
       val exprs = args.map(_.left.toOption)
       val n = exprs.size
       if (top.exists(c => paramTypes(c).size != n)) return None
-      val tiedTypes = top.map(paramTypes)
-      val differ = (0 until n).filter(i =>
-        tiedTypes.exists(t => !Formula.isTrue(analyzer.equivalent(t(i), tiedTypes.head(i))))).toList
-      if (differ.isEmpty || !differ.forall(i => exprs(i).exists(isNumeral))) return None
+      if (!exprs.exists(_.exists(isNumeral))) return None
       val readings = (0 until n).toList.flatMap(i => exprs(i).filter(isNumeral).map(e => (i, numeralReading(List(e)))))
       if (readings.exists(_._2.isEmpty)) return None
       // The types a reading must fit at position i of a candidate.
@@ -880,11 +934,14 @@ trait Functionals { self: STypeChecker with Common =>
       else if (top.isEmpty || !top.exists(counted) ||
                top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head)))) sorted.headOption
       else numeralTie().orElse {
-        signalAmbiguity(top.map(c => c._2.getOrElse(c._1.arrow)), args)
+        if (!quiet) signalAmbiguity(top.map(c => c._2.getOrElse(c._1.arrow)), args)
         return None
       }
     Some((head.toList.map(_._1) ++ sorted.filterNot(c => head.exists(_ eq c)).map(_._1),
           tieType(top).getOrElse(head.getOrElse(sorted.head)._1.arrow.getRange)))
+    }
+
+    numeralAttempt.flatMap(resolved(_, true)).orElse(resolved(es, false))
   }
 
   /**

@@ -1,5 +1,5 @@
 (* The library's =/= between a number and a numeral answers NOT of their =. *)
-component XXXNotEqualNumeral
+component NotEqualNumeral
 export Executable
 
 run(): () = do
