@@ -392,6 +392,18 @@ public final class Numerals {
         return NUMBER_TYPES.contains(t.getName());
     }
 
+    /**
+     * Whether target, a type that is not one of the library's number types,
+     * declares a coercion from the type of the numeral v.  Its where clause
+     * may take one numeral and refuse another of the same default, which the
+     * dispatch caches' key does not tell apart.  A folded static expression
+     * reaches such a type only as its default, so never by such a coercion.
+     */
+    static boolean ownCoercionFrom(FType target, FValue v) {
+        if (!(v instanceof Numeral) || isStaticExpression(v) || isLibraryNumber(target)) return false;
+        return !Coercions.numeralCoercions(target, ((Numeral) v).site().radixPoint).isEmpty();
+    }
+
     /** Whether v is the value of a folded static expression, not a numeral as written. */
     public static boolean isStaticExpression(FValue v) {
         return v instanceof Numeral && ((Numeral) v).site().kind == NumeralNumbers.Kind.STATIC;

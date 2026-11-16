@@ -2282,8 +2282,10 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
     /**
      * bestMatch; ownCoercion[0] is set where the choice asked whether a
-     * numeral converts into a type that is not one of the library's number
-     * types, an answer that the dispatch cache's key does not hold.
+     * numeral converts into a type, not one of the library's number types,
+     * that declares a coercion from the numeral's type
+     * (Numerals.ownCoercionFrom), an answer that the dispatch cache's key
+     * does not hold.
      */
     private SingleFcn bestMatch(List<FValue> args, List<Overload> someOverloads, boolean[] ownCoercion) throws Error {
         if (!finishedSecond && InstantiationLock.L.isHeldByCurrentThread()) bug("Cannot call before 'setFinished()'");
@@ -2407,7 +2409,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                     if (!Numerals.isNumeral(a)) {
                         applies = false;
                     } else {
-                        if (!Numerals.isLibraryNumber(t)) ownCoercion[0] = true;
+                        if (Numerals.ownCoercionFrom(t, a)) ownCoercion[0] = true;
                         coercions[j] = Coercions.coercionFor(t, a);
                         applies = coercions[j] != null;
                         converts = true;
@@ -2469,7 +2471,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                 FType t = Useful.clampedGet(domain, j).deRest();
                 FValue a = oargs.get(j);
                 if (!argsMatchTypes(Collections.singletonList(a), Collections.singletonList(t))) {
-                    if (Numerals.isNumeral(a) && !Numerals.isLibraryNumber(t)) ownCoercion[0] = true;
+                    if (Numerals.isNumeral(a) && Numerals.ownCoercionFrom(t, a)) ownCoercion[0] = true;
                     coercions[j] = Coercions.coercionFor(t, a);
                     applies = coercions[j] != null;
                     converts = true;
