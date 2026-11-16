@@ -10349,3 +10349,93 @@ note added
 note added
 
 | 152 | top-level values are initialised at component load in declaration order, including a tuple binding whose right-hand side reads a file (`(corpusTokens, corpusLengths) = loadCorpus(corpusPath)`) and a matrix built by a function declared above it (`causalMask`); functions declared later use them | POSITIVE-VERIFIED | — | `Specification/basic/variables.tex`, "Top-Level Variable Declarations" | `explorations/run-c/src/MicroGptFlat.fss` | run-c, run-c2 | Run from `explorations/run-c/src/`: `microgpt flat \| params 4192 \| corpus 2000 x 17 \| batch 1, 5 steps`, then `step 1 loss 3.3659669475848513` … `step 5 loss 3.2208830897506235`, the committed check's goldens; the corpus loads once, on import as on run. A top-level tuple binding of literals, untyped (`(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)`) or typed (`(a: ZZ32, b: RR64) = (3, 2.5)`), binds every name: `(1) 16 16 4 4 27 26`, `(3) 3 2.5` (probe `explorations/run-c/probes/q04d_toplevel.fss`, in the parent of `4ebf80aec`). full text: history, row 152 |
+
+### Row 133
+
+closed by 5c8055dee
+
+| 133 | a postfix operator declaration whose symbol is an exponent operator, `opr (self)^T` or `opr (A: Mat)^T`, is a `Syntax Error` in an API, while the same declaration parses in a component | NEGATIVE-VERIFIED | implementation gap (parser) | `Specification-1.0-frozen/appendices/grammars/concrete-syntax.tex:737-738`, "Parameters" | none | run-b2, run-c2, run-c3 | The component rule: `(Op / ExponentOp / caret …)` (`ProjectFortress/src/com/sun/fortress/parser/Parameter.rats:141-142`); the API rule `(Op / ExponentOp caret …)`, no `/` before `caret` (`parser/Parameter.rats:171-172`), so its postfix must be an `ExponentOp` then a caret, which `^T` (`exponentOp`, `parser/Symbol.rats:104-106`) never is; the error is at column 1 of the next line. A plain postfix `!` in an API parses and runs; `opr (m: …)^T^` (an `ExponentOp` then a caret) parses and is refused later: `The operator, ^, is always an infix operator but it is declared to be postfix.` Probes `explorations/run-c3/probes/g156_api_postfix/`, in the parent of `a0a0c7c99`. full text: history, row 133 |
+
+### Row 5
+
+closed by 5c8055dee
+
+| 5 | U+2211 `∑` lexes as a prefix operator, never as an accumulator; only ASCII `SUM` is a big operator | NEGATIVE-VERIFIED | implementation gap (parser) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" (`:20`, `Accumulator ::= $\sum$ ∣ $\prod$ ∣ BIG (Encloser ∣ Op)`) | none | ours | `Operator prefix SUM is not defined.` The grammar's `Accumulator` takes the keyword `SUM`, which matches the ASCII letters only, and has no `∑` alternative (`ProjectFortress/src/com/sun/fortress/parser/Symbol.rats:252`, `:260-261`), so `∑`, an operator named `SUM` (`ProjectFortress/src/com/sun/fortress/parser_util/precedence_resolver/Operators.java:2082`), is read as a prefix operator. Fortify renders ASCII `SUM` as `Σ`, so the *rendered* form is unaffected. Workaround: write `SUM`. Probe `explorations/sum-probes/p13_unicode_sigma.fss`, in the parent of `e879b6a44`. |
+
+### Row 84
+
+closed by a10f1cd59
+
+| 84 | a superscript may not follow a dotted access: `x.v^T`, `B.data^T`, `B.n^2`, `B.data^*`, and the same after a getter or a method call, give a bare `Syntax Error` at the `^`; a postfix `!` there works (`B.data!`) | NEGATIVE-VERIFIED | implementation gap (parser) | `Specification-1.0-frozen/appendices/grammars/concrete-syntax.tex:947-952`, "Expressions"; `Specification-1.0-frozen/basic/operators/juxtameaning.tex:137-142`, "Juxtaposition" | none | run-b, run-b2 | siblings: 1. `PrimaryItem` tries `LeftAssociatedPrimary` before `MathPrimary` (`ProjectFortress/src/com/sun/fortress/parser/Expression.rats:384-386`); `LeftAssociatedPrimary` (`:388-434`) admits `Subscripting*`, `ParenthesisDelimited*` and `Selector*` but no `MathItem`, and exponentiation is a `MathItem` (`:651-656`) that attaches only to a `MathPrimary` (`:463-465`), which a dotted form never becomes. A subscript after a dot works (`B.data[5]` = `15`). Workaround `(x.v)^T`. Probes `explorations/run-b2/probes/g4a_sub.fss` and six beside it (`g4a_base`, `g4a_getter`, `g4a_call`, `g4a_num`, `g4a_expop2`, `g4a_postfix2`), in the parent of `22ea0cd90`. probe and full text: history, row 84 |
+
+### Row 158
+
+closed by a10f1cd59
+
+| 158 | a parenthesised call followed by `^T`, `(onehot(ks, 5))^T dx` or `((onehot(ks, 5))^T) dx`, is refused like row 144's call-then-postfix, though the grammar makes a parenthesised expression a `Primary` that an `ExponentOp` may follow | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification-1.0-frozen/basic/expressions/operator-app.tex:29-32`, "Operator Applications"; `Specification-1.0-frozen/basic/operators/juxtameaning.tex:156-162`, "Juxtaposition" | none | run-c2, run-c3 | siblings: 144. `Syntax Error: a function argument should not be immediately followed by a non-expression element.`, its span on the call: walk's postfix branch tests for a tight juxtaposition (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java:970-971`), not for parentheses, and refuses it (`Evaluator.java:1322-1326`). Workarounds: `transpose(onehot(ks, 5)) dx`, `(onehot(ks, 5)).t() dx`, or bind first (probe `lift_g4b`). Probes `explorations/run-c/probes/q04f_callsuper.fss` case (3), `explorations/run-c/probes/q04a_varargs.fss` case (5), in the parent of `4ebf80aec`; `explorations/run-c3/probes/lift_g4.fss`, in the parent of `a0a0c7c99`. full text: history, row 158 |
+
+### Row 731
+
+closed by d159b7197
+
+| 731 | **the compiled checker fixes a generic big operator's static parameter in an unwritten clause form by its bound or the expected type only, never from the clauses**: one whose bound names the parameter, as `SUM`'s, `PROD`'s and `BIG MIN`'s do, has no instance, and the reduction is refused | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/advanced/parallelism-locality/defining-generators.tex`, "Simple Desugaring of Expressions with Generators" | none | ours (sum-replacement judgement) | siblings: 716, 817. `fortress compile` of `compiler_tests/InferBigOperatorExpectedType.fss` with its bound `Number` made `StandardTotalOrder[\T\]` reads '... is not applicable to an argument of type ().', rc 255 (`compile-ladder/rung-argument-context/REPORT.md:115`). A plain-bounded one takes the expected type only where its type at the bound does not fit (that test; `InferBigOperatorUnwritten` runs at the bound), so a list comprehension under a declared `List[\E\]` keeps its bound `Any`, which that type refuses. The library writes it at its three sites (`Library/FortressLibrary.fss:4410`, `:4416`, `Library/List.fss:151`). Workaround: write the static argument. |
+
+### Row 758
+
+closed by d159b7197
+
+| 758 | the compiled checker crashes on a generic function passed as a value: `useOne(count)`, for `count[\F extends Object\](b: Box[\F\]): ZZ32` and `useOne(g: Box[\ZZ32\] -> ZZ32): ZZ32`, stops with 'F is not in the kind env [][][]' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/functions.tex`, "Function Declarations"; `basic/types-vals-vars.tex`, "Relationships between Types" | none | climb batch 17 rung A | siblings: 156. Under `bin/fortress typecheck`, `TypeAnalyzer.staticParam` calls `bug` when the callee's own parameter `F` is missing from the kind environment (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:1077`). Walk refuses the call as row 156 gives for a `nat`-generic function: 'Unification error: Closure/Constructor for useOne param 1 (g:Box[\ZZ32\]->ZZ32) got arg count[\F extends FortressBuiltin.Object\](b:Box[\F\]) ... of type null'. No test in the tree; the command is `bin/fortress typecheck` on the two declarations and the call. |
+
+### Row 973
+
+closed by b190b8eb2
+
+| 973 | under walk a number and a numeral of one value are not `=` where the numeral reaches its type only by conversion: `u = 0` and `0 = u` are `false` for a zero `u` of `NN32` or `NN64`, `f = 0` for an `RR32` zero and `h = 0.5` for `h: QQ = 1/2`, where the design fixes the numeral at the other's type | CONTESTED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/tests/XXXNumeralEqualsNumberWalk.fss` | climb batch 29b rung A | siblings: 966, 807. With no `=` pairs (P-174), `u = 0` meets the library's `=` over `Any`, which the numeral's default `ZZ32` fits as it is, and `NN32`'s `=`, reached by conversion (`h = 0.5`: `RR64`, `QQ`'s); walk keeps a declaration that fits as it is (`OverloadedFunction.bestMatchForNumeralsInternal`), and `SEQV` of an `NN32` and a `ZZ32` is `false`. Open: the static numerals probe's question 1 (draft-numerals.md, section 13), the curator's: (a) conversion first where more specific, (b) `false`, (c) the pairs kept. Compiled: `true`, the prelude has no `=` over `Any`. `h = 0.5` measured on 29b's merged tree. Workaround: `z: NN32 = 0`, then `u = z`. Kin: 975 (`case`), 976 (own type). |
+
+### Row 966
+
+closed by b190b8eb2
+
+| 966 | under walk, the library's `=/=` between a number and a numeral is `true` where the numbers are equal: `u =/= 0` for a zero `u` of `NN32`, `NN64` or `RR32`, since `=/=` over `Any` takes the numeral at its default and `=` answers `false` there, as `u = 0` does (973) | NEGATIVE-VERIFIED | implementation gap (library) | `basic/operators/opr-overview.tex`, "GCD, LCM, and CHOOSE Operators" | `ProjectFortress/tests/XXXNotEqualNumeral.fss` | climb batch 29 rung T | siblings: 807, 973. `opr =/=(a:Any, b:Any) = NOT (a=b)` (`Library/FortressLibrary.fss:98` at b430f9f428) gets the numeral at its default (P-173), and since the field numerals' `=` pairs are gone (P-174), `u = 0` is `false` under walk too, so `u =/= 0` is `true`. Compiled, the prelude's `opr =/=(self, other: NN32)` converts the numeral: `u =/= 0` is `false`. Workaround: bind the numeral at the type first, `z: NN32 = 0`, then `u =/= z`. |
+
+### Row 975
+
+closed by b190b8eb2
+
+| 975 | under walk, a `case` clause that is a numeral does not match a number of equal value whose type the numeral reaches only by conversion: `case u of 0 => "zero"; else => "other" end` answers `"other"` for a zero `u: NN32`, where a clause compares by `=` and the design has `u = 0` `true` | CONTESTED | implementation gap (walk) | `basic/expressions/case.tex`, "Case Expressions" | none | numeral equality ways review | siblings: 973, 966. Row 973's cause: the clause compares by `=`, which meets the library's `=` over `Any` with the numeral at its default `ZZ32` (`OverloadedFunction.bestMatchForNumeralsInternal`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:2311-2340` at 6694ddb4cf), and `SEQV` of an `NN32` and a `ZZ32` is `false`. Open with 973: the way to `true` is the curator's. Compiled on the prelude: `zero`. Measured by a probe that is not kept, `u: NN32 = 0` and the `case` above printed: walk `other` (`explorations/reviews/numeral-equality-ways-2026-11-10.md`, sections 2.1, 2.2 and 9, item 1). Row 973's workaround is not measured for `case`. |
+
+### Row 976
+
+closed by b190b8eb2
+
+| 976 | under walk, a program's own number type is not `=` to a numeral of its value: `y = 7` and `7 = y` are `false` for `y: Byte = 7`, where `Byte` is a value object with a numeral coercion and its own `=`, and the design fixes the numeral at the other operand's type | CONTESTED | implementation gap (walk) | `basic/expressions/literals.tex`, "Literals" | none | numeral equality ways review | siblings: 973, 807. Row 973's defect, which names only the library's types. Open with 973: the way to `true` is the curator's. Compiled on the prelude both are `true`. Against the one library the checker chooses `=` over `(Any, Any)` for `y = 7` and makes the numeral a `ZZ32`, without an error, so by reading the compiled answer is `false` after the switch-over. Measured by a probe, not kept: walk prints `y = 7 (Byte): false`, `7 = y (Byte): false` (`explorations/reviews/numeral-equality-ways-2026-11-10.md`, sections 2.1 to 2.3 and 9, item 2). |
+
+### Row 989
+
+closed by b190b8eb2
+
+| 989 | the compiled checker refuses a float numeral beside a value that two declarations reach only by coercion, as `1.0 s` for `s: ZZ32` against the one library, an ambiguous coercion between `RR64`'s and `QQ`'s juxtaposition; walk runs it at `RR64` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/conversions-coercions.tex`, "Coercion Resolution"; `basic/expressions/literals.tex`, "Literals" | explorations/compile-ladder/plan-31/probes/planner/PNumeralTie.fss | plan review of 2026-11-10 | siblings: 533, 579, 973. Against the one library, by the distance stage's driver (`plan-31/probes/model-closure/NumeralLine.fss`): 'Ambiguous coercion in call to operator juxtaposition: … (RadixPointNumeral[\2,1,10,10\], ZZ32) only by coercion, none is more specific than every other: ((RR64 & {Float}), RR64)->RR64; (QQ, QQ)->QQ.' It is `explorations/run-c4/src/MicroGptFlat.fss:82` and `MicroGptFlatQuick.fss:40`. Under the prelude at 84f1c37190 the reproducer gives the same refusal for `mul(1.0, f)`, `f: RR32`, beside `mul(a: RR64, b: RR64)` and a program's `mul(a: Q, b: Q)`; walk prints `rr64`. P-46: of two declarations not ordered, the one that the numeral's default fits runs. |
+
+### Row 156
+
+closed by 754a0f29d
+
+| 156 | under walk, a `nat`-generic function is not a value: passed as an argument it fails at the call with `Unification error: … of type null` (a plain callee), `Argument halfG … has no type information` (a `nat`-generic callee with an arrow-typed parameter) or a Java `NullPointerException` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/functions.tex`, "Function Declarations"; `basic/types-vals-vars.tex`, "Relationships between Types" | none | run-c2, run-c3 | siblings: 165, 758. A generic function value has no type: `type()` returns a null `ftype` (`interpreter/evaluator/values/Fcn.java:67-71`), so it can neither be checked against a parameter type (`EvaluatorBase.java:941`) nor key the callee's instantiation cache; the NPE (a callee generic in two `nat`s) is in `FValue$AsTypesList.compare` (`interpreter/evaluator/values/FValue.java:141`) from `applyInnerPossiblyGeneric` (`GenericFunctionOrConstructor.java:52`). A plain function passes. Workaround: pass a plain function, declared over runtime-sized `Array[\RR64,ZZ32\]` rather than `nat`-generic, to a receiver with an arrow-typed parameter (row 171). probe and full text: history, row 156 |
+
+### Row 142
+
+closed by d58333512
+
+| 142 | a typed array literal as a **top-level** declaration is bound as a tuple: `shp: Vector[\ZZ32,9\] = [27 16 27 …]` fails with `Type mismatch binding (27,16,…)`, while the same declaration inside a function body works | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/aggregate.tex`, "Array Expressions"; `Specification/basic/variables.tex`, "Top-Level Variable Declarations" | none | run-c | siblings: 49, 104. At top level the literal is never built into an array: `BuildEnvironments.forVarDecl4` checks the evaluated paste against the declared type (`BuildEnvironments.java:780-794` at c124c6b65); only `LHSEvaluator.forLValue`, in a body, builds it. `shp: Vector[\ZZ32,3\] = [27 16 27]` gives `Type mismatch binding (27,16,27): (ZZ32,ZZ32,ZZ32) ... to shp (type Vector[\ZZ32,3\])`, `p08b` the same with `RR64[9]`, `p08c` (commas) `Operator [_] is not defined.`; `p08d`, in a body, prints it. Workaround: `array[\ZZ32\](9).tabulate(fn …)`, or the literal in a function. Probes `explorations/run-c/probes/p08a_literal.fss` to `p08d`, in the parent of `4ebf80aec`. full text: history, row 142 |
+
+### Row 988
+
+closed by 060f3ec09
+
+| 988 | on the compiled path a top-level tuple binding whose names are used, `(nEmbd, blockSize) = (16, 4)` with `println(nEmbd)`, stops the compile, '** bug! Result of typechecking still contains intermediate nodes.'; walk prints 16 and 4 | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/variables.tex`, "Top-Level Variable Declarations" | explorations/compile-ladder/plan-31/probes/model-closure/TupleTopPlain.fss | plan review of 2026-11-10 | siblings: 474, 175. Under the compiler's prelude, `fortress compile` at 832f7d0d91 and at 84f1c37190; the single-binding form `nEmbd = 16; blockSize = 4` compiles and runs (`SingleTop.fss` beside it). Behind the stop the code generator has no case: `forVarDeclPrePass` throws 'VarDecl … tupled lhs not handled' where the left side has more than one name (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:6475-6477`), seen under the distance stage's tolerant driver at `explorations/run-c4/src/MicroGptFlat.fss:17-19`, C4's hyperparameters, the form that P-9 keeps. Workaround: single bindings, which P-9 does not take for the model. |
+
+### Row 474
+
+closed by 060f3ec09
+
+| 474 | **the compiled checker types each variable of a top-level tuple binding so that it is accepted anywhere, and an operator applied to one ends its block's check with no error** | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/basic/variables.tex:68-75`, "Top-Level Variable Declarations" (tuple notation, `:99-101`) | none | ours (decision D's diff) | With `(…, headDim, …) = (16, 16, 4, 4, 27, 26)` and `(…, beta1, …) = (10.0^(-5), 0.01, 0.85, …)` at top level, `z: String = headDim` and `zz0: ZZ32 = beta1` pass; `w = 1.0 headDim` and `y = beta1 x` end their block's check, so a later error goes unreported; on other variables a failing operator reports its error, then ends the block. A single top-level binding or a local tuple binding is typed right. Top-level variables are typed lazily (`scala_src/typechecker/Thunker.scala:183-217`); where the elements' types are lost was not traced. Workaround: single bindings (row 175). Probes `explorations/reviews/decision-d-diff/probes/P*.fss`, in the parent of `84aef6a4f`. full text: history, row 474 |
