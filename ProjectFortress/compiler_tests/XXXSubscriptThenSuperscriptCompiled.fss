@@ -12,8 +12,7 @@
 component XXXSubscriptThenSuperscriptCompiled
 export Executable
 
-(* A subscript followed by a superscript is the superscript of the
-   element: juxtameaning.tex, section "Juxtaposition". *)
+(* A subscript followed by a superscript is the superscript of the element: juxtameaning.tex, section "Juxtaposition". *)
 
 object Mat(v: ZZ32)
     opr [i: ZZ32]: ZZ32 = v + i

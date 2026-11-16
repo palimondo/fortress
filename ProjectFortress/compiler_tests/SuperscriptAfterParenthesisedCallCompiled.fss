@@ -12,9 +12,7 @@
 component SuperscriptAfterParenthesisedCallCompiled
 export Executable
 
-(* A superscript may follow a call that stands in parentheses:
-   juxtameaning.tex, section "Juxtaposition", and operator-app.tex,
-   section "Operator Applications". *)
+(* A superscript may follow a call that stands in parentheses: operator-app.tex, section "Operator Applications". *)
 
 opr (x: ZZ32)^T: ZZ32 = x + 100
 opr (x: ZZ32)! : ZZ32 = x + 1000

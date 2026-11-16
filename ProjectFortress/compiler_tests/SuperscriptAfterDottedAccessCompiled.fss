@@ -12,9 +12,7 @@
 component SuperscriptAfterDottedAccessCompiled
 export Executable
 
-(* A superscript after a dotted access applies to the whole access to
-   its left: juxtameaning.tex, section "Juxtaposition", and
-   operator-app.tex, section "Operator Applications". *)
+(* A superscript after a dotted access applies to the whole access to its left: juxtameaning.tex, section "Juxtaposition". *)
 
 object Mat(v: ZZ32)
     opr [i: ZZ32]: ZZ32 = v + i
@@ -41,7 +39,6 @@ run(): () = do
     O = Outer(B)
     d: ZZ32 = 2
 
-    (* the forms that a superscript now follows *)
     assert(x.v^T, 107, "x.v^T")
     assert((B.data^T).v, 101, "B.data^T")
     assert(B.n^2, 9, "B.n^2")
@@ -58,7 +55,6 @@ run(): () = do
     assert(B.own(), 101, "self.data^T")
     assert(B.n^2 + B.n^T, 112, "B.n^2 + B.n^T")
 
-    (* the forms that ran before *)
     assert(B.data[5], 6, "B.data[5]")
     assert((B.data!).v, 301, "B.data!")
     assert(((B.data)^T).v, 101, "(B.data)^T")

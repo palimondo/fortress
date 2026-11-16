@@ -12,8 +12,7 @@
 component SuperscriptAfterCallRefusedCompiled
 export Executable
 
-(* A call followed directly by a superscript is a static error:
-   juxtameaning.tex, section "Juxtaposition". *)
+(* A call followed directly by a superscript is a static error: juxtameaning.tex, section "Juxtaposition". *)
 
 opr (x: ZZ32)^T: ZZ32 = x + 100
 

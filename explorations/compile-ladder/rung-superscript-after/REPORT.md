@@ -155,7 +155,7 @@ None. `grep -rn -i "superscript\|non-expression element\|\^T" Specification/appe
 
 ## Points to report reached
 
-1. Each form of rows 84 and 158 fails on the base and passes after on each path, and `f(x)^T` is still refused on both, with its messages: the table above; `ProjectFortress/tests/SuperscriptAfterDottedAccess.fss:45-64`, `ProjectFortress/tests/SuperscriptAfterParenthesisedCall.fss:26-31`, `ProjectFortress/tests/SuperscriptAfterCallRefused.test:1`, `ProjectFortress/compiler_tests/XXXSuperscriptAfterCallRefusedCompiled.test:3`.
+1. Each form of rows 84 and 158 fails on the base and passes after on each path, and `f(x)^T` is still refused on both, with its messages: the table above; `ProjectFortress/tests/SuperscriptAfterDottedAccess.fss:42-60`, `ProjectFortress/tests/SuperscriptAfterParenthesisedCall.fss:24-29`, `ProjectFortress/tests/SuperscriptAfterCallRefused.test:1`, `ProjectFortress/compiler_tests/XXXSuperscriptAfterCallRefusedCompiled.test:3`.
 2. The trees: above.
 3. Existing tests whose verdict, output or pinned message changed: none.
 4. The count and distance tables: 0 and 0, `#crash none`, on `21045c6c65`.
