@@ -7461,3 +7461,7 @@ pointer words refreshed in: F-24
 ### F-362
 
 2026-11-16 04:24Z · added · from `explorations/compile-ladder/rung-parser-declarations/REPORT.md`, "What changed and why" · by climb batch 32 gather
+
+### F-363
+
+2026-11-16 04:27Z · added · from `explorations/compile-ladder/rung-superscript-after/REPORT.md`, "The trees (points to report)" · by climb batch 32 gather

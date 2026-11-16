@@ -1,0 +1,27 @@
+(*******************************************************************************
+    Copyright 2012, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component XXXSubscriptThenSuperscriptCompiled
+export Executable
+
+(* A subscript followed by a superscript is the superscript of the element: juxtameaning.tex, section "Juxtaposition". *)
+
+object Mat(v: ZZ32)
+    opr [i: ZZ32]: ZZ32 = v + i
+end
+
+run(): () = do
+    x = Mat(7)
+    assert(x[5]^2, 144, "x[5]^2")
+    println("PASS")
+end
+
+end

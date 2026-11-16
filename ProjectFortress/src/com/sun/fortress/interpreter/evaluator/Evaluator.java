@@ -962,8 +962,13 @@ public class Evaluator extends EvaluatorBase<FValue> {
             // by a non-expression element.  For example, f(x)!
             // It is a static error if an exponentiation is immediately followed
             // by a non-expression element.  For example, a^b!
+            // An operand that stands in parentheses is one expression element,
+            // whatever it holds: (f(x))!, (a^b)! and (f(x))^T are operator
+            // applications to its value.
             Expr arg = args.get(0);
-            if (arg instanceof OpExpr && isExponentiation((OpExpr) arg)) { // a^b!
+            if (NodeUtil.isParenthesized(arg)) {
+                vargs = evalExprListParallel(args);
+            } else if (arg instanceof OpExpr && isExponentiation((OpExpr) arg)) { // a^b!
                 vargs = error(arg,
                               "Syntax Error: an exponentiation should not be " +
                               "immediately followed by a non-expression " + "element.");

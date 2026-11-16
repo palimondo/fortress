@@ -10313,3 +10313,15 @@ note added
 rewritten
 
 | 42 | `except { opr SUM }` is a syntax error; `except { opr ∑ }` parses, and what it leaves out is not measured; `except { opr BIG + }` leaves out `SUM` (row 41) | NEGATIVE-VERIFIED | implementation gap (parser) | `Specification-1.0-frozen/basic/components/source-code.tex:86-88`, "Components" | none | ours, astra, blinded, review | siblings: 814. The import's `SimpleName` takes `opr (BIG)? (Encloser / Op)` with no `SUM` alternative (`ProjectFortress/src/com/sun/fortress/parser/Identifier.rats:95-104` at c124c6b65), though `SingleOp` gives one for declarations, `SUM` as `BIG +` (`ProjectFortress/src/com/sun/fortress/parser/Parameter.rats:129`). Workaround: `except { opr BIG + }` (row 41). Probes `explorations/sum-probes/p20_except_spelling_sum.fss` and `explorations/fable-review-probes/RvwExceptSigma.fss`, in the parent of `e879b6a44`. |
+
+### Row 301
+
+rewritten
+
+| 301 | a dotted method call may follow a call where a postfix operator may not: `onehot(ks, 5).t() dx` runs, where `onehot(ks, 5)^T dx` is row 144's static error and `(onehot(ks, 5))^T dx` row 158's | POSITIVE-VERIFIED | — | `Specification-1.0-frozen/basic/operators/juxtameaning.tex:156-162`, "Juxtaposition" | none | run-c4 vocabulary | The rule names non-expression elements, and a dotted call is a `Primary`. The workaround rows 144 and 158 lack: neither binding first nor a `transpose` function is needed when the library has the method. The output's two lines are identical to the `transpose` spelling. Probe `explorations/run-c4/probes/vocabulary/v17_calldot.fss`, in the parent of `11bf69c39`. full text: history, row 301 |
+
+### Row 1
+
+note added
+
+| 1 | `x[i][j]` and `x[i]^2` are grammatical, but walk invokes a subscript followed by a subscript or a superscript without its first index: one index fails with `args = ()`, more silently give the wrong element | NEGATIVE-VERIFIED | implementation gap (walk) | `appendices/grammars/concrete-syntax.tex`, "Expressions"; `basic/operators/precedence.tex`, "Operator Precedence and Associativity"; `basic/operators/juxtameaning.tex`, "Juxtaposition" | none | astra, blinded, review | siblings: 84. Such a primary parses as a `MathPrimary` (not `SubscriptExpr`); its subscript goes to `evalAndInvokeMethod` (`interpreter/evaluator/Evaluator.java:1181`), whose `evalInvocationArgs` (`:1064`, `:1380-1381`) takes `exprs.subList(1,…)`, right for a juxtaposition list, wrong for a subscript list. `m[3,7]^2` prints `11449`, `(m[7])^2`, not `1075369` (probe `explorations/gap-ledger-probes/g02.fss`, in the parent of `e879b6a44`). The spec forbids only `x^2[i]`. Workarounds: `(x[i])[j]`, `(x[i])^2`, or bind first, as `explorations/apl/base/AplCore.fss:1859` does (`rk = rs[k]`). probe and full text: history, row 1 |

@@ -1,0 +1,63 @@
+(*******************************************************************************
+    Copyright 2012, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component SuperscriptAfterDottedAccess
+export Executable
+
+(* A superscript after a dotted access applies to the whole access to its left: juxtameaning.tex, section "Juxtaposition". *)
+
+object Mat(v: ZZ32)
+    opr [i: ZZ32]: ZZ32 = v + i
+end
+
+opr (A: Mat)^T: Mat = Mat(A.v + 100)
+opr (A: Mat)^* : Mat = Mat(A.v + 200)
+opr (A: Mat)! : Mat = Mat(A.v + 300)
+opr (x: ZZ32)^T: ZZ32 = x + 100
+
+object Box(data: Mat, n: ZZ32)
+    getter twin(): Mat = Mat(data.v + 1)
+    f(): Mat = data
+    g(k: ZZ32): Mat = Mat(data.v + k)
+    h(k: ZZ32): ZZ32 = n + k
+    own(): ZZ32 = (self.data^T).v
+end
+
+object Outer(inner: Box) end
+
+run(): () = do
+    x = Mat(7)
+    B = Box(Mat(1), 3)
+    O = Outer(B)
+    d: ZZ32 = 2
+
+    assert(x.v^T, 107, "x.v^T")
+    assert((B.data^T).v, 101, "B.data^T")
+    assert(B.n^2, 9, "B.n^2")
+    assert((B.data^*).v, 201, "B.data^*")
+    assert((B.twin^T).v, 102, "after a getter")
+    assert((B.f()^T).v, 101, "after a method call")
+    assert((B.g(4)^T).v, 105, "after a method call with an argument")
+    assert(B.h(1)^2, 16, "an exponent after a method call")
+    assert(B.n^T d, 206, "B.n^T d")
+    assert(d B.n^T, 206, "d B.n^T")
+    assert(B.data[5]^2, 36, "B.data[5]^2")
+    assert((O.inner.data^T).v, 101, "O.inner.data^T")
+    assert(O.inner.n^2, 9, "O.inner.n^2")
+    assert(B.own(), 101, "self.data^T")
+    assert(B.n^2 + B.n^T, 112, "B.n^2 + B.n^T")
+
+    assert(B.data[5], 6, "B.data[5]")
+    assert((B.data!).v, 301, "B.data!")
+    assert(((B.data)^T).v, 101, "(B.data)^T")
+end
+
+end

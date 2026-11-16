@@ -1,0 +1,33 @@
+(*******************************************************************************
+    Copyright 2012, Oracle and/or its affiliates.
+    All rights reserved.
+
+
+    Use is subject to license terms.
+
+    This distribution may include materials developed by third parties.
+
+ ******************************************************************************)
+
+component SuperscriptAfterParenthesisedCallCompiled
+export Executable
+
+(* A superscript may follow a call that stands in parentheses: operator-app.tex, section "Operator Applications". *)
+
+opr (x: ZZ32)^T: ZZ32 = x + 100
+opr (x: ZZ32)! : ZZ32 = x + 1000
+
+f(x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    d: ZZ32 = 2
+    assert((f(3))^T, 104, "(f(3))^T")
+    assert((f(3))^T d, 208, "(f(3))^T d")
+    assert(((f(3))^T) d, 208, "((f(3))^T) d")
+    assert((f(3))^2, 16, "(f(3))^2")
+    assert((f(3))!, 1004, "(f(3))!")
+    assert((d^3)!, 1008, "(d^3)!")
+    println("PASS")
+end
+
+end

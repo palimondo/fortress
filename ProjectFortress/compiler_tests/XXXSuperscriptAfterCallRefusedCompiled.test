@@ -1,0 +1,3 @@
+tests=SuperscriptAfterCallRefusedCompiled
+compile
+compile_err_contains=Item at this location must be an expression, not an operator.

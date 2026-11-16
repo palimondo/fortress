@@ -266,25 +266,27 @@ public final class TemplateParser extends ParserBase {
     Result f$$Shared42;
     Result f$$Shared42$$Plus1;
     Result f$$Shared41;
-    Result f$$Shared29;
+    Result f$$Shared41$$Star1;
   }
 
   /** Chunk 15 of memoized results. */
   static final class Chunk15 {
+    Result f$$Shared29;
     Result f$$Shared20;
     Result f$$Shared22;
+    Result f$$Shared38;
     Result fExpression$AtomicBack;
     Result fExpression$GeneratorClauseList;
     Result fExpression$GeneratorClauseList$$Star1;
     Result fExpression$GeneratorBinding;
     Result fExpression$GeneratorClause;
     Result fDelimitedExpr;
-    Result f$$Shared54;
-    Result f$$Shared55;
   }
 
   /** Chunk 16 of memoized results. */
   static final class Chunk16 {
+    Result f$$Shared54;
+    Result f$$Shared55;
     Result fDo;
     Result fDo$$Star1;
     Result fDoFront;
@@ -293,12 +295,12 @@ public final class TemplateParser extends ParserBase {
     Result fArgExpr$$Star2;
     Result fKeywordExpr;
     Result fParenthesized;
-    Result fElifs;
-    Result fElifs$$Star1;
   }
 
   /** Chunk 17 of memoized results. */
   static final class Chunk17 {
+    Result fElifs;
+    Result fElifs$$Star1;
     Result fElif;
     Result fElse;
     Result fCaseClauses;
@@ -307,12 +309,12 @@ public final class TemplateParser extends ParserBase {
     Result fTypecaseClauses;
     Result fTypecaseClauses$$Star1;
     Result fTypecaseClause;
-    Result fCatchClause;
-    Result fEntry;
   }
 
   /** Chunk 18 of memoized results. */
   static final class Chunk18 {
+    Result fCatchClause;
+    Result fEntry;
     Result fIdOrInt;
     Result fIdOrIntList;
     Result fIdOrIntList$$Plus1;
@@ -321,12 +323,12 @@ public final class TemplateParser extends ParserBase {
     Result fExprList$$Star1;
     Result fNoNewlineExpr$Expr;
     Result fNoNewlineExpr$Expr$$Star1;
-    Result fNoNewlineExpr$OpExpr;
-    Result fNoNewlineExpr$OpExprNoEnc;
   }
 
   /** Chunk 19 of memoized results. */
   static final class Chunk19 {
+    Result fNoNewlineExpr$OpExpr;
+    Result fNoNewlineExpr$OpExprNoEnc;
     Result fNoNewlineExpr$LeftLooseInfix;
     Result fNoNewlineExpr$OpExprLeftEncloser;
     Result fNoNewlineExpr$OpExprPrimary;
@@ -335,12 +337,12 @@ public final class TemplateParser extends ParserBase {
     Result fNoNewlineExpr$AtomicBack;
     Result fNoNewlineExpr$GeneratorClauseList;
     Result fNoNewlineExpr$GeneratorClauseList$$Star1;
-    Result fNoNewlineExpr$GeneratorBinding;
-    Result fNoNewlineExpr;
   }
 
   /** Chunk 20 of memoized results. */
   static final class Chunk20 {
+    Result fNoNewlineExpr$GeneratorBinding;
+    Result fNoNewlineExpr;
     Result fNoNewlineVarWTypes;
     Result fNoNewlineVarWTypes$$Plus1;
     Result fNoNewlineVarWType;
@@ -349,12 +351,12 @@ public final class TemplateParser extends ParserBase {
     Result fNoSpaceExpr$OpExprNoEnc;
     Result fNoSpaceExpr$OpExprLeftEncloser;
     Result fNoSpaceExpr$OpExprPrimary;
-    Result fNoSpaceExpr$OpExprPrefix;
-    Result fNoSpaceExpr;
   }
 
   /** Chunk 21 of memoized results. */
   static final class Chunk21 {
+    Result fNoSpaceExpr$OpExprPrefix;
+    Result fNoSpaceExpr;
     Result fLiteralExpr;
     Result fNumericLiteralExpr;
     Result fNumericLiteralExpr$$Star1;
@@ -363,12 +365,12 @@ public final class TemplateParser extends ParserBase {
     Result fStringLiteralExpr$$Star2;
     Result fStringLiteralExpr$$Star3;
     Result fStringLiteralExpr$$Star4;
-    Result fStringLiteralContent;
-    Result fEscapeSequence;
   }
 
   /** Chunk 22 of memoized results. */
   static final class Chunk22 {
+    Result fStringLiteralContent;
+    Result fEscapeSequence;
     Result fCharLiteralContent;
     Result f$$Shared56;
     Result fUnicodeCharLiteralContent;
@@ -377,12 +379,12 @@ public final class TemplateParser extends ParserBase {
     Result fUnicodeHexChar$$Plus2;
     Result fUnicodeHexChar$$Plus3;
     Result fBlockElems;
-    Result fBlockElemCollection;
-    Result f$$Shared57;
   }
 
   /** Chunk 23 of memoized results. */
   static final class Chunk23 {
+    Result fBlockElemCollection;
+    Result f$$Shared57;
     Result fLocalFnDecl;
     Result fLocalDecl$VarMayType;
     Result fVarWoTypes;
@@ -391,12 +393,12 @@ public final class TemplateParser extends ParserBase {
     Result fNoNewlineVarWTypeOrPattern;
     Result fUnpasting;
     Result fUnpastingElems;
-    Result fCaseClause;
-    Result fReserved;
   }
 
   /** Chunk 24 of memoized results. */
   static final class Chunk24 {
+    Result fCaseClause;
+    Result fReserved;
     Result fId;
     Result fBindId;
     Result fBindIdList;
@@ -405,12 +407,12 @@ public final class TemplateParser extends ParserBase {
     Result fBindIdOrBindIdTuple;
     Result fSimpleName;
     Result fidOrKeyword;
-    Result fidOrKeyword$$Star1;
-    Result fAPIName;
   }
 
   /** Chunk 25 of memoized results. */
   static final class Chunk25 {
+    Result fidOrKeyword$$Star1;
+    Result fAPIName;
     Result fAPIName$$Star1;
     Result fQualifiedName;
     Result fQualifiedName$$Star1;
@@ -419,12 +421,12 @@ public final class TemplateParser extends ParserBase {
     Result fRightEncloser;
     Result fExponentOp;
     Result fEncloserPair;
-    Result fOpName;
-    Result fOp;
   }
 
   /** Chunk 26 of memoized results. */
   static final class Chunk26 {
+    Result fOpName;
+    Result fOp;
     Result fmultiOp;
     Result fop;
     Result fArrayComprehensionClause;
@@ -433,12 +435,12 @@ public final class TemplateParser extends ParserBase {
     Result fParamList;
     Result fParamList$$Plus1;
     Result fParamList$$Plus2;
-    Result fprefix;
-    Result fsuffix;
   }
 
   /** Chunk 27 of memoized results. */
   static final class Chunk27 {
+    Result fprefix;
+    Result fsuffix;
     Result fExprGap;
     Result fFnExprGap;
     Result fLooseJuxtGap;
@@ -31658,7 +31660,34 @@ public final class TemplateParser extends ParserBase {
 
     // Alternative 1.
 
-    yyResult = p$$Shared41$$Choice1(yyStart);
+    yyResult = p$$Shared39(yyStart);
+    yyError  = yyResult.select(yyError);
+    if (yyResult.hasValue()) {
+      final Expr a1 = yyResult.semanticValue();
+
+      yyResult = p$$Shared41$$Star1(yyResult.index);
+      yyError  = yyResult.select(yyError);
+      if (yyResult.hasValue()) {
+        final Pair<MathItem> a2s = yyResult.semanticValue();
+
+        Span span = createSpan(yyStart,yyCount);
+        List<MathItem> mis = a2s.list();
+        Expr e;
+        if (mis.size() == 0)
+        e = a1;
+        else if (mis.size() == 1)
+        e = ExprFactory.simplifyMathPrimary(span, a1, mis.get(0));
+        else // mis.size() > 1
+        e = ExprFactory.makeMathPrimary(span, a1, mis);
+        yyValue = PureList.make(e);
+
+        return yyResult.createValue(yyValue, yyError);
+      }
+    }
+
+    // Alternative 2.
+
+    yyResult = p$$Shared40(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
       final Expr a1 = yyResult.semanticValue();
@@ -31676,39 +31705,49 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared41$$Choice1.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared41$$Star1.
    *
    * @param yyStart The index.
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared41$$Choice1(final int yyStart) throws IOException {
-    Result     yyResult;
-    Expr       yyValue;
-    ParseError yyError = ParseError.DUMMY;
+  private Result p$$Shared41$$Star1(final int yyStart) throws IOException {
+    TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
+    if (null == yyColumn.chunk14) yyColumn.chunk14 = new Chunk14();
+    if (null == yyColumn.chunk14.f$$Shared41$$Star1) 
+      yyColumn.chunk14.f$$Shared41$$Star1 = p$$Shared41$$Star1$1(yyStart);
+    return yyColumn.chunk14.f$$Shared41$$Star1;
+  }
+
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared41$$Star1. */
+  private Result p$$Shared41$$Star1$1(final int yyStart) throws IOException {
+    Result         yyResult;
+    Pair<MathItem> yyValue;
+    ParseError     yyError = ParseError.DUMMY;
 
     // Alternative 1.
 
-    yyResult = p$$Shared39(yyStart);
+    yyResult = p$$Shared38(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
-      yyValue = yyResult.semanticValue();
+      final MathItem v$el$1 = yyResult.semanticValue();
 
-      return yyResult.createValue(yyValue, yyError);
+      yyResult = p$$Shared41$$Star1(yyResult.index);
+      yyError  = yyResult.select(yyError);
+      if (yyResult.hasValue()) {
+        final Pair<MathItem> v$2 = yyResult.semanticValue();
+
+        yyValue = new Pair<MathItem>(v$el$1, v$2);
+
+        return yyResult.createValue(yyValue, yyError);
+      }
     }
 
     // Alternative 2.
 
-    yyResult = p$$Shared40(yyStart);
-    yyError  = yyResult.select(yyError);
-    if (yyResult.hasValue()) {
-      yyValue = yyResult.semanticValue();
+    yyValue = Pair.empty();
 
-      return yyResult.createValue(yyValue, yyError);
-    }
-
-    // Done.
-    return yyError;
+    return new SemanticValue(yyValue, yyStart, yyError);
   }
 
   // =========================================================================
@@ -32272,10 +32311,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result p$$Shared29(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk14) yyColumn.chunk14 = new Chunk14();
-    if (null == yyColumn.chunk14.f$$Shared29) 
-      yyColumn.chunk14.f$$Shared29 = p$$Shared29$1(yyStart);
-    return yyColumn.chunk14.f$$Shared29;
+    if (null == yyColumn.chunk15) yyColumn.chunk15 = new Chunk15();
+    if (null == yyColumn.chunk15.f$$Shared29) 
+      yyColumn.chunk15.f$$Shared29 = p$$Shared29$1(yyStart);
+    return yyColumn.chunk15.f$$Shared29;
   }
 
   /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared29. */
@@ -33031,6 +33070,15 @@ public final class TemplateParser extends ParserBase {
    * @throws IOException Signals an I/O error.
    */
   private Result p$$Shared38(final int yyStart) throws IOException {
+    TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
+    if (null == yyColumn.chunk15) yyColumn.chunk15 = new Chunk15();
+    if (null == yyColumn.chunk15.f$$Shared38) 
+      yyColumn.chunk15.f$$Shared38 = p$$Shared38$1(yyStart);
+    return yyColumn.chunk15.f$$Shared38;
+  }
+
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared38. */
+  private Result p$$Shared38$1(final int yyStart) throws IOException {
     Result     yyResult;
     MathItem   yyValue;
     ParseError yyError = ParseError.DUMMY;
@@ -35182,10 +35230,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result p$$Shared54(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk15) yyColumn.chunk15 = new Chunk15();
-    if (null == yyColumn.chunk15.f$$Shared54) 
-      yyColumn.chunk15.f$$Shared54 = p$$Shared54$1(yyStart);
-    return yyColumn.chunk15.f$$Shared54;
+    if (null == yyColumn.chunk16) yyColumn.chunk16 = new Chunk16();
+    if (null == yyColumn.chunk16.f$$Shared54) 
+      yyColumn.chunk16.f$$Shared54 = p$$Shared54$1(yyStart);
+    return yyColumn.chunk16.f$$Shared54;
   }
 
   /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared54. */
@@ -35313,10 +35361,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result p$$Shared55(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk15) yyColumn.chunk15 = new Chunk15();
-    if (null == yyColumn.chunk15.f$$Shared55) 
-      yyColumn.chunk15.f$$Shared55 = p$$Shared55$1(yyStart);
-    return yyColumn.chunk15.f$$Shared55;
+    if (null == yyColumn.chunk16) yyColumn.chunk16 = new Chunk16();
+    if (null == yyColumn.chunk16.f$$Shared55) 
+      yyColumn.chunk16.f$$Shared55 = p$$Shared55$1(yyStart);
+    return yyColumn.chunk16.f$$Shared55;
   }
 
   /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared55. */
@@ -36104,10 +36152,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pElifs(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk16) yyColumn.chunk16 = new Chunk16();
-    if (null == yyColumn.chunk16.fElifs) 
-      yyColumn.chunk16.fElifs = pElifs$1(yyStart);
-    return yyColumn.chunk16.fElifs;
+    if (null == yyColumn.chunk17) yyColumn.chunk17 = new Chunk17();
+    if (null == yyColumn.chunk17.fElifs) 
+      yyColumn.chunk17.fElifs = pElifs$1(yyStart);
+    return yyColumn.chunk17.fElifs;
   }
 
   /** Actually parse DelimitedExpr.Elifs. */
@@ -36150,10 +36198,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pElifs$$Star1(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk16) yyColumn.chunk16 = new Chunk16();
-    if (null == yyColumn.chunk16.fElifs$$Star1) 
-      yyColumn.chunk16.fElifs$$Star1 = pElifs$$Star1$1(yyStart);
-    return yyColumn.chunk16.fElifs$$Star1;
+    if (null == yyColumn.chunk17) yyColumn.chunk17 = new Chunk17();
+    if (null == yyColumn.chunk17.fElifs$$Star1) 
+      yyColumn.chunk17.fElifs$$Star1 = pElifs$$Star1$1(yyStart);
+    return yyColumn.chunk17.fElifs$$Star1;
   }
 
   /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.Elifs$$Star1. */
@@ -36816,10 +36864,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pCatchClause(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk17) yyColumn.chunk17 = new Chunk17();
-    if (null == yyColumn.chunk17.fCatchClause) 
-      yyColumn.chunk17.fCatchClause = pCatchClause$1(yyStart);
-    return yyColumn.chunk17.fCatchClause;
+    if (null == yyColumn.chunk18) yyColumn.chunk18 = new Chunk18();
+    if (null == yyColumn.chunk18.fCatchClause) 
+      yyColumn.chunk18.fCatchClause = pCatchClause$1(yyStart);
+    return yyColumn.chunk18.fCatchClause;
   }
 
   /** Actually parse DelimitedExpr.CatchClause. */
@@ -37511,10 +37559,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pEntry(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk17) yyColumn.chunk17 = new Chunk17();
-    if (null == yyColumn.chunk17.fEntry) 
-      yyColumn.chunk17.fEntry = pEntry$1(yyStart);
-    return yyColumn.chunk17.fEntry;
+    if (null == yyColumn.chunk18) yyColumn.chunk18 = new Chunk18();
+    if (null == yyColumn.chunk18.fEntry) 
+      yyColumn.chunk18.fEntry = pEntry$1(yyStart);
+    return yyColumn.chunk18.fEntry;
   }
 
   /** Actually parse DelimitedExpr.Entry. */
@@ -38778,10 +38826,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pNoNewlineExpr$OpExpr(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk18) yyColumn.chunk18 = new Chunk18();
-    if (null == yyColumn.chunk18.fNoNewlineExpr$OpExpr) 
-      yyColumn.chunk18.fNoNewlineExpr$OpExpr = pNoNewlineExpr$OpExpr$1(yyStart);
-    return yyColumn.chunk18.fNoNewlineExpr$OpExpr;
+    if (null == yyColumn.chunk19) yyColumn.chunk19 = new Chunk19();
+    if (null == yyColumn.chunk19.fNoNewlineExpr$OpExpr) 
+      yyColumn.chunk19.fNoNewlineExpr$OpExpr = pNoNewlineExpr$OpExpr$1(yyStart);
+    return yyColumn.chunk19.fNoNewlineExpr$OpExpr;
   }
 
   /** Actually parse NoNewlineExpr.OpExpr. */
@@ -38849,10 +38897,10 @@ public final class TemplateParser extends ParserBase {
     throws IOException {
 
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk18) yyColumn.chunk18 = new Chunk18();
-    if (null == yyColumn.chunk18.fNoNewlineExpr$OpExprNoEnc) 
-      yyColumn.chunk18.fNoNewlineExpr$OpExprNoEnc = pNoNewlineExpr$OpExprNoEnc$1(yyStart);
-    return yyColumn.chunk18.fNoNewlineExpr$OpExprNoEnc;
+    if (null == yyColumn.chunk19) yyColumn.chunk19 = new Chunk19();
+    if (null == yyColumn.chunk19.fNoNewlineExpr$OpExprNoEnc) 
+      yyColumn.chunk19.fNoNewlineExpr$OpExprNoEnc = pNoNewlineExpr$OpExprNoEnc$1(yyStart);
+    return yyColumn.chunk19.fNoNewlineExpr$OpExprNoEnc;
   }
 
   /** Actually parse NoNewlineExpr.OpExprNoEnc. */
@@ -40329,10 +40377,10 @@ public final class TemplateParser extends ParserBase {
     throws IOException {
 
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk19) yyColumn.chunk19 = new Chunk19();
-    if (null == yyColumn.chunk19.fNoNewlineExpr$GeneratorBinding) 
-      yyColumn.chunk19.fNoNewlineExpr$GeneratorBinding = pNoNewlineExpr$GeneratorBinding$1(yyStart);
-    return yyColumn.chunk19.fNoNewlineExpr$GeneratorBinding;
+    if (null == yyColumn.chunk20) yyColumn.chunk20 = new Chunk20();
+    if (null == yyColumn.chunk20.fNoNewlineExpr$GeneratorBinding) 
+      yyColumn.chunk20.fNoNewlineExpr$GeneratorBinding = pNoNewlineExpr$GeneratorBinding$1(yyStart);
+    return yyColumn.chunk20.fNoNewlineExpr$GeneratorBinding;
   }
 
   /** Actually parse NoNewlineExpr.GeneratorBinding. */
@@ -40435,10 +40483,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pNoNewlineExpr(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk19) yyColumn.chunk19 = new Chunk19();
-    if (null == yyColumn.chunk19.fNoNewlineExpr) 
-      yyColumn.chunk19.fNoNewlineExpr = pNoNewlineExpr$1(yyStart);
-    return yyColumn.chunk19.fNoNewlineExpr;
+    if (null == yyColumn.chunk20) yyColumn.chunk20 = new Chunk20();
+    if (null == yyColumn.chunk20.fNoNewlineExpr) 
+      yyColumn.chunk20.fNoNewlineExpr = pNoNewlineExpr$1(yyStart);
+    return yyColumn.chunk20.fNoNewlineExpr;
   }
 
   /** Actually parse NoNewlineExpr.NoNewlineExpr. */
@@ -41442,10 +41490,10 @@ public final class TemplateParser extends ParserBase {
     throws IOException {
 
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk20) yyColumn.chunk20 = new Chunk20();
-    if (null == yyColumn.chunk20.fNoSpaceExpr$OpExprPrefix) 
-      yyColumn.chunk20.fNoSpaceExpr$OpExprPrefix = pNoSpaceExpr$OpExprPrefix$1(yyStart);
-    return yyColumn.chunk20.fNoSpaceExpr$OpExprPrefix;
+    if (null == yyColumn.chunk21) yyColumn.chunk21 = new Chunk21();
+    if (null == yyColumn.chunk21.fNoSpaceExpr$OpExprPrefix) 
+      yyColumn.chunk21.fNoSpaceExpr$OpExprPrefix = pNoSpaceExpr$OpExprPrefix$1(yyStart);
+    return yyColumn.chunk21.fNoSpaceExpr$OpExprPrefix;
   }
 
   /** Actually parse NoSpaceExpr.OpExprPrefix. */
@@ -41726,10 +41774,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pNoSpaceExpr(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk20) yyColumn.chunk20 = new Chunk20();
-    if (null == yyColumn.chunk20.fNoSpaceExpr) 
-      yyColumn.chunk20.fNoSpaceExpr = pNoSpaceExpr$1(yyStart);
-    return yyColumn.chunk20.fNoSpaceExpr;
+    if (null == yyColumn.chunk21) yyColumn.chunk21 = new Chunk21();
+    if (null == yyColumn.chunk21.fNoSpaceExpr) 
+      yyColumn.chunk21.fNoSpaceExpr = pNoSpaceExpr$1(yyStart);
+    return yyColumn.chunk21.fNoSpaceExpr;
   }
 
   /** Actually parse NoSpaceExpr.NoSpaceExpr. */
@@ -43699,10 +43747,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pStringLiteralContent(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk21) yyColumn.chunk21 = new Chunk21();
-    if (null == yyColumn.chunk21.fStringLiteralContent) 
-      yyColumn.chunk21.fStringLiteralContent = pStringLiteralContent$1(yyStart);
-    return yyColumn.chunk21.fStringLiteralContent;
+    if (null == yyColumn.chunk22) yyColumn.chunk22 = new Chunk22();
+    if (null == yyColumn.chunk22.fStringLiteralContent) 
+      yyColumn.chunk22.fStringLiteralContent = pStringLiteralContent$1(yyStart);
+    return yyColumn.chunk22.fStringLiteralContent;
   }
 
   /** Actually parse Literal.StringLiteralContent. */
@@ -43884,10 +43932,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pEscapeSequence(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk21) yyColumn.chunk21 = new Chunk21();
-    if (null == yyColumn.chunk21.fEscapeSequence) 
-      yyColumn.chunk21.fEscapeSequence = pEscapeSequence$1(yyStart);
-    return yyColumn.chunk21.fEscapeSequence;
+    if (null == yyColumn.chunk22) yyColumn.chunk22 = new Chunk22();
+    if (null == yyColumn.chunk22.fEscapeSequence) 
+      yyColumn.chunk22.fEscapeSequence = pEscapeSequence$1(yyStart);
+    return yyColumn.chunk22.fEscapeSequence;
   }
 
   /** Actually parse Literal.EscapeSequence. */
@@ -53948,10 +53996,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pBlockElemCollection(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk22) yyColumn.chunk22 = new Chunk22();
-    if (null == yyColumn.chunk22.fBlockElemCollection) 
-      yyColumn.chunk22.fBlockElemCollection = pBlockElemCollection$1(yyStart);
-    return yyColumn.chunk22.fBlockElemCollection;
+    if (null == yyColumn.chunk23) yyColumn.chunk23 = new Chunk23();
+    if (null == yyColumn.chunk23.fBlockElemCollection) 
+      yyColumn.chunk23.fBlockElemCollection = pBlockElemCollection$1(yyStart);
+    return yyColumn.chunk23.fBlockElemCollection;
   }
 
   /** Actually parse LocalDecl.BlockElemCollection. */
@@ -54078,10 +54126,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result p$$Shared57(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk22) yyColumn.chunk22 = new Chunk22();
-    if (null == yyColumn.chunk22.f$$Shared57) 
-      yyColumn.chunk22.f$$Shared57 = p$$Shared57$1(yyStart);
-    return yyColumn.chunk22.f$$Shared57;
+    if (null == yyColumn.chunk23) yyColumn.chunk23 = new Chunk23();
+    if (null == yyColumn.chunk23.f$$Shared57) 
+      yyColumn.chunk23.f$$Shared57 = p$$Shared57$1(yyStart);
+    return yyColumn.chunk23.f$$Shared57;
   }
 
   /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared57. */
@@ -56415,10 +56463,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pCaseClause(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk23) yyColumn.chunk23 = new Chunk23();
-    if (null == yyColumn.chunk23.fCaseClause) 
-      yyColumn.chunk23.fCaseClause = pCaseClause$1(yyStart);
-    return yyColumn.chunk23.fCaseClause;
+    if (null == yyColumn.chunk24) yyColumn.chunk24 = new Chunk24();
+    if (null == yyColumn.chunk24.fCaseClause) 
+      yyColumn.chunk24.fCaseClause = pCaseClause$1(yyStart);
+    return yyColumn.chunk24.fCaseClause;
   }
 
   /** Actually parse LocalDecl.CaseClause. */
@@ -57982,10 +58030,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pReserved(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk23) yyColumn.chunk23 = new Chunk23();
-    if (null == yyColumn.chunk23.fReserved) 
-      yyColumn.chunk23.fReserved = pReserved$1(yyStart);
-    return yyColumn.chunk23.fReserved;
+    if (null == yyColumn.chunk24) yyColumn.chunk24 = new Chunk24();
+    if (null == yyColumn.chunk24.fReserved) 
+      yyColumn.chunk24.fReserved = pReserved$1(yyStart);
+    return yyColumn.chunk24.fReserved;
   }
 
   /** Actually parse Identifier.Reserved. */
@@ -58682,10 +58730,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pidOrKeyword$$Star1(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk24) yyColumn.chunk24 = new Chunk24();
-    if (null == yyColumn.chunk24.fidOrKeyword$$Star1) 
-      yyColumn.chunk24.fidOrKeyword$$Star1 = pidOrKeyword$$Star1$1(yyStart);
-    return yyColumn.chunk24.fidOrKeyword$$Star1;
+    if (null == yyColumn.chunk25) yyColumn.chunk25 = new Chunk25();
+    if (null == yyColumn.chunk25.fidOrKeyword$$Star1) 
+      yyColumn.chunk25.fidOrKeyword$$Star1 = pidOrKeyword$$Star1$1(yyStart);
+    return yyColumn.chunk25.fidOrKeyword$$Star1;
   }
 
   /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.idOrKeyword$$Star1. */
@@ -58728,10 +58776,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pAPIName(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk24) yyColumn.chunk24 = new Chunk24();
-    if (null == yyColumn.chunk24.fAPIName) 
-      yyColumn.chunk24.fAPIName = pAPIName$1(yyStart);
-    return yyColumn.chunk24.fAPIName;
+    if (null == yyColumn.chunk25) yyColumn.chunk25 = new Chunk25();
+    if (null == yyColumn.chunk25.fAPIName) 
+      yyColumn.chunk25.fAPIName = pAPIName$1(yyStart);
+    return yyColumn.chunk25.fAPIName;
   }
 
   /** Actually parse Identifier.APIName. */
@@ -60972,10 +61020,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pOpName(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk25) yyColumn.chunk25 = new Chunk25();
-    if (null == yyColumn.chunk25.fOpName) 
-      yyColumn.chunk25.fOpName = pOpName$1(yyStart);
-    return yyColumn.chunk25.fOpName;
+    if (null == yyColumn.chunk26) yyColumn.chunk26 = new Chunk26();
+    if (null == yyColumn.chunk26.fOpName) 
+      yyColumn.chunk26.fOpName = pOpName$1(yyStart);
+    return yyColumn.chunk26.fOpName;
   }
 
   /** Actually parse Symbol.OpName. */
@@ -61015,9 +61063,9 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pOp(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk25) yyColumn.chunk25 = new Chunk25();
-    if (null == yyColumn.chunk25.fOp) yyColumn.chunk25.fOp = pOp$1(yyStart);
-    return yyColumn.chunk25.fOp;
+    if (null == yyColumn.chunk26) yyColumn.chunk26 = new Chunk26();
+    if (null == yyColumn.chunk26.fOp) yyColumn.chunk26.fOp = pOp$1(yyStart);
+    return yyColumn.chunk26.fOp;
   }
 
   /** Actually parse Symbol.Op. */
@@ -71267,10 +71315,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result pprefix(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk26) yyColumn.chunk26 = new Chunk26();
-    if (null == yyColumn.chunk26.fprefix) 
-      yyColumn.chunk26.fprefix = pprefix$1(yyStart);
-    return yyColumn.chunk26.fprefix;
+    if (null == yyColumn.chunk27) yyColumn.chunk27 = new Chunk27();
+    if (null == yyColumn.chunk27.fprefix) 
+      yyColumn.chunk27.fprefix = pprefix$1(yyStart);
+    return yyColumn.chunk27.fprefix;
   }
 
   /** Actually parse Gaps.prefix. */
@@ -71352,10 +71400,10 @@ public final class TemplateParser extends ParserBase {
    */
   private Result psuffix(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
-    if (null == yyColumn.chunk26) yyColumn.chunk26 = new Chunk26();
-    if (null == yyColumn.chunk26.fsuffix) 
-      yyColumn.chunk26.fsuffix = psuffix$1(yyStart);
-    return yyColumn.chunk26.fsuffix;
+    if (null == yyColumn.chunk27) yyColumn.chunk27 = new Chunk27();
+    if (null == yyColumn.chunk27.fsuffix) 
+      yyColumn.chunk27.fsuffix = psuffix$1(yyStart);
+    return yyColumn.chunk27.fsuffix;
   }
 
   /** Actually parse Gaps.suffix. */
