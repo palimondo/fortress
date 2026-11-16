@@ -1,0 +1,16 @@
+(* A value whose static type is Any fixes no type for a numeral beside it: the numeral takes its default. *)
+component XXXNumeralBesideAnyWalk
+export Executable
+
+same(a: Any, b: Any): String = "any"
+same(a: NN32, b: NN32): String = "nn32"
+
+run(): () = do
+    u: NN32 = 0
+    a: Any = u
+    assert(same(a, 0), "any", "conversions-coercions.tex, section \"Principles of Coercion\": an argument of static type Any fixes no type for the numeral beside it")
+    assert(NOT (a = 0), "an NN32 zero typed Any and a numeral at its default, a ZZ32, are not strictly equivalent")
+    println("PASS")
+  end
+
+end

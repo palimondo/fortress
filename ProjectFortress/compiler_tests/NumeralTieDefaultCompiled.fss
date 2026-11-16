@@ -12,7 +12,7 @@ mul(a: Q, b: Q): String = "q"
 
 run(): () = do
     f: RR32 = 2.0
-    assert(mul(1.0, f), "rr64", "conversions-coercions.tex, section \"Coercion Resolution\": a float numeral's default is RR64")
+    assert(mul(1.0, f), "rr64", "conversions-coercions.tex, section \"Principles of Coercion\": a float numeral's default is RR64")
     println("PASS")
   end
 

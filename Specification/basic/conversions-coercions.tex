@@ -108,13 +108,31 @@ A numeral's conversion into its default (\secref{literals}) is not a coercion,
 and applies where coercion does not: where the declared type is a supertype of
 the default, as \TYP{Any}, \TYP{Object} and \TYP{Number} are, or is a type
 parameter declared without a bound, and where no type is declared.
-At a call, a numeral is applicable without coercion to a parameter of its
-default type and to a parameter of a type that fixes no type for it; its
-conversion into any other type is a coercion
-(\secref{applicability-with-coercion}).
+At a call, a numeral is applicable to a parameter of its default type and to a
+parameter of a type that fixes no type for it, at its default, and to a
+parameter whose type declares a coercion from the numeral's type, by that
+coercion (\secref{applicability-with-coercion}).
+Among the declarations applicable so, where every other argument is applicable
+without coercion, the call invokes the most specific on the parameter types
+they declare (\secref{resolving-overloading}); where two of them are not
+ordered, it invokes the one that the numeral's default fits.
 So of the declarations \EXP{h(x\COLON\mathbb{Z}32)} and
-\EXP{h(x\COLON\TYP{Any})}, both applicable to \EXP{h(5)} without coercion, the
+\EXP{h(x\COLON\TYP{Any})}, both applicable to \EXP{h(5)}, the
 call invokes the first, which is the more specific.
+Of \EXP{k(x\COLON\mathbb{N}32)} and \EXP{k(x\COLON\TYP{Any})}, the call
+\EXP{k(5)} invokes the first too, with the numeral converted by the coercion of
+\EXP{\mathbb{N}32}, though the second fits the numeral at its default: a
+numeral's own conversion, unlike the coercion of a value, does change which
+declaration is invoked when another already fits (\secref{resolving-coercion}).
+So \EXP{u = 0} compares a \VAR{u} of type \EXP{\mathbb{N}32} by the \EXP{=} of
+\EXP{\mathbb{N}32}, and not by an \EXP{=} whose parameters are of type
+\TYP{Any}.
+Of \EXP{f(x\COLON\mathbb{R}32)} and \EXP{f(x\COLON\mathbb{R}64)}, neither
+parameter type a subtype of the other, the call \EXP{f(1.5)} invokes the
+second, which the numeral's default fits.
+An argument whose static type is \TYP{Any} or \TYP{Number} fixes no type for a
+numeral beside it: for \EXP{a\COLON\TYP{Any}}, the numeral of \EXP{a = 0}
+takes its default.
 A numeral at a type of a program's own that declares no coercion from the
 numeral's type is not converted into its default and then coerced, since
 coercion does not chain (below); it is a static error.
@@ -127,7 +145,13 @@ the paragraph above stands as it was.
 It decided on 9~November 2026 that a numeral's coercion into a type is the one
 that the type declares from the numeral's type, generic over the numeral's four
 numbers (\secref{literals}), for the number types of \library\ as for a type of
-a program's own.}
+a program's own.
+It decided on 10~November 2026 that a numeral at a call goes to the most
+specific declaration that takes it, by its own coercion if need be, with its
+default as the last resort; until then this paragraph said that a numeral's
+conversion into any type but its default is a coercion, so that a declaration
+which fits the numeral at its default was invoked before a more specific one
+that the numeral's coercion reaches.}
 
 Coercion from \VAR{T} to \VAR{U} may occur in an expression context
 where the context expects the expression to have type \VAR{U} and
