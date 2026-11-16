@@ -1,0 +1,28 @@
+(* A field declared with an array type and bound to an array literal is that array; objects.tex, section "Field Declarations"; aggregate.tex, subsection "Array Expressions". *)
+component ObjectFieldArrayLiteral
+export Executable
+
+object Table
+    shp: ZZ32[3] = [27 16 27]
+    var tally: ZZ32[2] = [5 6]
+    total: ZZ32 = shp[0] + tally[1]
+end
+
+object Pair(n: ZZ32)
+    both: ZZ32[2] = [n (2 n)]
+    var grid: ZZ32[2,2] = [n 0; 0 n]
+end
+
+run(): () = do
+    assert(Table.shp[1], 16, "a singleton's field")
+    assert(|Table.shp|, 3, "its size")
+    assert(Table.total, 33, "a field read by a later field")
+    Table.tally[0] := 9
+    assert(Table.tally[0], 9, "an element of a var field, assigned")
+    p = Pair(5)
+    assert(p.both[1], 10, "a constructed object's field")
+    assert(p.grid[1,1], 5, "a constructed object's var field, rank 2")
+    assert(p.grid[0,1], 0, "its other element")
+end
+
+end

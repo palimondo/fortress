@@ -1,0 +1,12 @@
+(* A local var declared with an array type and bound to an array literal is mutable; variables.tex, section "Local Variable Declarations". *)
+component XXXArrayLiteralLocalVar
+export Executable
+
+run(): () = do
+    u: ZZ32[2] = [7 8]
+    var t: ZZ32[2] = [5 6]
+    t := u
+    assert(t[1], 8, "a local var bound to a literal, assigned")
+end
+
+end

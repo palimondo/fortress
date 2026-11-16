@@ -1,8 +1,4 @@
-(*******************************************************************************
-    A top-level array literal with an element that is not of its declared
-    element type is refused, and the refusal names the element.
-    aggregate.tex, subsection "Array Expressions".
- ******************************************************************************)
+(* A top-level array literal with an element that is not of its declared element type is refused, and the refusal names the element; aggregate.tex, subsection "Array Expressions". *)
 component TopLevelArrayLiteralElement
 export Executable
 

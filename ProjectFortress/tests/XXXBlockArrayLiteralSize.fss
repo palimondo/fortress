@@ -1,0 +1,12 @@
+(* An array literal bound in a block to an array type of another size is refused; variables.tex, section "Local Variable Declarations". *)
+component XXXBlockArrayLiteralSize
+export Executable
+
+second: ZZ32 = do
+    a: ZZ32[4] = [27 16 27]
+    a[1]
+end
+
+run(): () = println(second)
+
+end

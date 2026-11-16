@@ -1,13 +1,7 @@
-(*******************************************************************************
-    A top-level variable declared with an array type and bound to an array
-    literal is the array that the same declaration gives in a function body.
-    aggregate.tex, subsection "Array Expressions"; variables.tex, section
-    "Top-Level Variable Declarations".
- ******************************************************************************)
+(* A top-level variable declared with an array type and bound to an array literal is the array of a function body; aggregate.tex, subsection "Array Expressions"; variables.tex, section "Top-Level Variable Declarations". *)
 component TopLevelArrayLiteral
 export Executable
 
-(* A top-level initializer may read a variable declared later. *)
 early: ZZ32 = shp[0] + shp[2]
 
 shp: ZZ32[3] = [27 16 27]
@@ -26,7 +20,6 @@ halves: RR64[3] = [1 2 0.5]
 
 counts: NN32[2] = [1 2]
 
-(* A mutable variable, read by an initializer above it. *)
 var first: ZZ32 = tally[0]
 
 var tally: ZZ32[2] = [5 6]
@@ -35,7 +28,6 @@ cube: ZZ32[2,2,2] = [1 2; 3 4;; 5 6; 7 8]
 
 weights: Matrix[\RR64,2,2\] = [1.0 2.0; 3.0 4.0]
 
-(* A literal that pastes arrays. *)
 twice: ZZ32[6] = [shp shp]
 
 second(): ZZ32 = shp[1]
@@ -71,7 +63,6 @@ run(): () = do
     two: NN32 = 2
     assert(counts[1], two, "counts[1], a numeral at NN32")
 
-
     three: RR64 = 3
     assert(weights[1,0], three, "weights[1,0]")
 
@@ -83,7 +74,6 @@ run(): () = do
     tally[0] := 9
     assert(tally[0], 9, "tally[0] after an assignment")
 
-    (* The same declarations in a function body. *)
     lshp: ZZ32[3] = [27 16 27]
     lgrid: ZZ32[3,2] = [1 2; 3 4; 5 6]
     assert(lshp[1], shp[1], "the body's literal, rank 1")

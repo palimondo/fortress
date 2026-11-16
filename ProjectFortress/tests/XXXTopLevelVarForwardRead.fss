@@ -1,8 +1,4 @@
-(*******************************************************************************
-    A top-level initializer reads a mutable top-level variable declared later.
-    variables.tex, section "Top-Level Variable Declarations": initializer
-    expressions can refer to variables declared later in textual order.
- ******************************************************************************)
+(* A top-level initializer reads a mutable top-level variable declared later; variables.tex, section "Top-Level Variable Declarations". *)
 component XXXTopLevelVarForwardRead
 export Executable
 

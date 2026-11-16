@@ -17,6 +17,8 @@ Walk evaluates an array literal to a paste, an `IUOTuple` (`Evaluator.forArrayEl
 3. `LazilyEvaluatedCell.getValueNull` (`LazilyEvaluatedCell.java:71-74`) builds the literal of an immutable variable declared with a type when the cell is first forced, before the coercion to the declared type that the cell already made. So every reader sees the array: an initializer above the declaration, a function, an importer, and `forVarDecl4`'s check, which now passes, or refuses an array of another size.
 4. `BuildEnvironments.forVarDecl4`, mutable arm (`BuildEnvironments.java:764-767`), builds a `var` variable's literal before its type check. `forVarDecl3` (`:718-723`) gives the cell that a `var` holds before its initialization the declared type, so that an initializer above it that subscripts the variable sees the array and not the paste.
 
+A field declaration takes the same passes (`BuildObjectEnvironment` extends `BuildEnvironments`), so a field of a singleton or of a constructed object that is declared with an array type and bound to a literal is built too: `ProjectFortress/tests/ObjectFieldArrayLiteral.fss`, added by the skeptic, fails on the base with 'Type mismatch binding (27,16,27): (ZZ32,ZZ32,ZZ32) ... to $shp' and passes on this code.
+
 No library file, no model line, nothing of the compiled path.
 
 ## The failing run and the passing run
@@ -102,7 +104,7 @@ New only, programs the planner's probes did not hold:
 
 The checker was not edited, so its time was not measured. No table is committed.
 
-The files, for STAGE_BLIND: `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java`, `ProjectFortress/src/com/sun/fortress/interpreter/env/LazilyEvaluatedCell.java`, `ProjectFortress/tests/TopLevelArrayLiteral.fss`, `ProjectFortress/tests/TopLevelArrayLiteralSize.fss` and `.test`, `ProjectFortress/tests/TopLevelArrayLiteralElement.fss` and `.test`, `ProjectFortress/tests/XXXTopLevelVarForwardRead.fss`, and the two files of this folder.
+The files, for STAGE_BLIND: `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java`, `ProjectFortress/src/com/sun/fortress/interpreter/env/LazilyEvaluatedCell.java`, `ProjectFortress/tests/TopLevelArrayLiteral.fss`, `ProjectFortress/tests/TopLevelArrayLiteralSize.fss` and `.test`, `ProjectFortress/tests/TopLevelArrayLiteralElement.fss` and `.test`, `ProjectFortress/tests/XXXTopLevelVarForwardRead.fss`, the skeptic's `ProjectFortress/tests/ObjectFieldArrayLiteral.fss`, `XXXArrayLiteralLocalVar.fss`, `XXXArrayLiteralAssigned.fss`, `XXXBlockArrayLiteralSize.fss` and `.test`, and the files of this folder.
 
 ## The ladder subset
 
@@ -118,12 +120,13 @@ None. `Specification/basic/variables.tex:15-16` and `Specification/basic/express
 
 ## Points to report reached
 
-1. Row 142's typed probes fail on the base and pass after: rank 1, 2 and 3, numerals, names and expressions, strings, a `Vector`, a `Matrix`, a pasting literal, a `var`. Evidence: `ProjectFortress/tests/TopLevelArrayLiteral.fss:13-39`, the two runs above.
+1. Row 142's typed probes fail on the base and pass after: rank 1, 2 and 3, numerals, names and expressions, strings, a `Vector`, a `Matrix`, a pasting literal, a `var`. Evidence: `ProjectFortress/tests/TopLevelArrayLiteral.fss:5-31`, the two runs above.
 2. An untyped top-level literal on this tree: it loads, bound as its paste, and fails at its first use, 'RHS does not yield a tuple'. Not repaired (row 49; fork B1).
 3. No existing test changed its verdict, output or pinned message: `ant testSystem`, 834 run, 0 failures, 830 before and 4 new. No program of the suite or of the demos relied on a top-level binding of a pasted tuple; the one such line in the demos, `ProjectFortress/demos/turnersParaffins0.fss:134`, is inside a comment.
 4. A file edited beyond those the section names: `ProjectFortress/src/com/sun/fortress/interpreter/env/LazilyEvaluatedCell.java:71-74`, the cell that `forVarDecl4` forces. For that file the two stages ran; both tables are the last gate's.
 5. Beyond the literal: `BuildEnvironments.java:718-723` gives every mutable top-level variable's cell before initialization its declared type, so a value read from above the declaration, where such a read works at all (row NEW-B-2), is converted by coercion as the initialization converts it. No test changed.
-6. The top level and the block now differ in two refusals: a literal of another size than its declared type (refused at the top level, bound in a block, row NEW-B-1) and the message for a refused element ('Unification error: ...' at the top level). The block is not changed: it is a reserved point.
+6. (Skeptic) The edit reaches a field declaration of an object as it reaches a top-level variable: `ProjectFortress/tests/ObjectFieldArrayLiteral.fss`; `Specification/basic/objects.tex:295-297` gives a field declaration the meaning of a top-level variable declaration.
+7. The top level and the block now differ in two refusals: a literal of another size than its declared type (refused at the top level, bound in a block, row NEW-B-1) and the message for a refused element ('Unification error: ...' at the top level). The block is not changed: it is a reserved point.
 
 ## Decisions
 
@@ -141,9 +144,12 @@ None. `Specification/basic/variables.tex:15-16` and `Specification/basic/express
 
 1. A typed top-level array literal is bound as a tuple (row 142). Home 1: `ProjectFortress/tests/TopLevelArrayLiteral.fss` and its two refusal tests.
 2. A refused element of a top-level literal printed `null`. Seen only on the first build of this edit, and repaired in it. Home 1: `ProjectFortress/tests/TopLevelArrayLiteralElement.fss`.
-3. In a block a literal of another size than its declared type is bound (NEW-B-1). The specification settles it, but no program can assert a refusal inside a block, so no gated test can hold it: the ledger row alone, with its command in the notes.
+3. In a block a literal of another size than its declared type is bound (NEW-B-1). The specification settles it. Home 2, added by the skeptic: `ProjectFortress/tests/XXXBlockArrayLiteralSize.fss` with its `.test` file, a block inside a top-level initializer, which the harness reports as 'Saw expected failure: loaded and ran, not refused at load'.
 4. A top-level initializer that reads a later mutable top-level variable fails at load unless the read is a subscript or a method call (NEW-B-2). Home 2: `ProjectFortress/tests/XXXTopLevelVarForwardRead.fss`, the first `XXX` test of this change. As it is the harness reports `OK Saw expected exception`; with `var late: ZZ32 = 3` changed to `late: ZZ32 = 3` for one run it reported 'Missing expected failure', `Tests run: 1,  Failures: 1`, and the file was restored. The compiled path prints 4. Row 323's notes say the opposite for a top-level reader, from a test whose reader is untyped.
 5. An untyped top-level literal is bound as an unusable paste with no error at the binding. It is row 49's gap at the top level; it goes into row 142's close, as the section asks.
+
+6. (Skeptic) In a block a `var` variable declared with an array type and bound to a literal is bound immutable: `var t: ZZ32[2] = [5 6]` then `t := u` stops with 'Cannot assign to immutable t', on the base and on this code (NEW-B-3). Home 2: `ProjectFortress/tests/XXXArrayLiteralLocalVar.fss`.
+7. (Skeptic) An array literal assigned to a variable of an array type stays a paste: `t := [7 8]` stops with 'Type mismatch assigning (7,8): (ZZ32,ZZ32) ... to t (type Array1[\ZZ32,0,2\])', on the base and on this code (NEW-B-4). Home 2: `ProjectFortress/tests/XXXArrayLiteralAssigned.fss`.
 
 ## For FACTS
 
