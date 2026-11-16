@@ -37,7 +37,7 @@ Run these steps from the tree's root. Keep the logs of steps 2 and 4 in `tmp/gat
        cp -a default_repository/caches $D/root/ladder-caches
        cp -a default_repository/caches $D/root/pristine
 
-4. Run `ant testFast`, then `ant testSystem`, then `ant testSpecData`. All three must have zero failures.
+4. Run `ant testFast`, then `ant testSystem`, then `ant testSpecData`. All three must have zero failures. In `ant testSystem`, `tests/XXXAtomicNestedReadsKeptWalk` can print `PASS` and fail with 'Missing expected failure': its expected failure depends on a race (ledger row 1004).
 5. Write the summary: `gate_summary tmp/gate tmp/gate/summary.txt`. Compare it: `gate_compare "$(last_landed_summary)" tmp/gate/summary.txt`. It prints a line for a suite with failures or errors, a suite with no tests, a suite whose count of tests fell, and a suite that is gone. Each such line makes the gate red. A count that rose prints nothing.
 6. Do the atomic runs, and append their lines to the summary.
 7. Do the ladder regression.
