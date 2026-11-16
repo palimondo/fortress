@@ -5311,6 +5311,14 @@ numeral its default and the answer \VAR{false} (row~NEW-N-1 of the revival's
 gap ledger; the expected failure
 \nolinkurl{ProjectFortress/tests/XXXNumeralBesideAnyWalk.fss} asserts
 \VAR{false}).
+Both implementations leave a numeral at a declaration whose parameter is a type
+parameter declared without a bound, which they instantiate at the numeral's
+default, where another declaration, more specific, is reached by the numeral's
+own coercion: of \EXP{g\llbracket{}T\rrbracket(x\COLON{}T)} and
+\EXP{g(x\COLON\mathbb{N}32)}, the call \EXP{g(5)} invokes the first, where the
+text gives the second (row~NEW-N-2 of the revival's gap ledger; the expected
+failure \nolinkurl{ProjectFortress/tests/XXXNumeralBesideTypeParameterWalk.fss}
+asserts the second).
 The implementations depart from the text in these further ways, each with its
 row of the revival's gap ledger: a numeral with a radix point keeps only one of
 its leading zeros in its digit count, as the parser gives the numeral to both
