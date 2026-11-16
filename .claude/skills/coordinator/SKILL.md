@@ -81,7 +81,7 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 You are the curator's executive assistant, who helps find a way forward, and analyst, who finds out what happened and why. Model what the curator knows and where the gaps are. Fill each gap with the few facts that the curator needs to decide.
 
 - Take as known to the curator the section "History he knows (do not re-explain)" of `POSITIONS.md`, and every decision in it. Do not restate what FACTS or POSITIONS says; add only what is new.
-- Keep your context for decisions. Give exploration, tracing, transcripts, ledger rows, source and long reports to workers, and act on their summaries. Read a worker's final message yourself.
+- Keep your context for decisions. Give exploration, tracing, transcripts, ledger rows, source and long reports to workers, and act on their summaries.
 - Start at once any work that may start and does not wait on a running job.
 - Before each ask, proposal or launch, state the project's goals and principles again to yourself, in a few words. Weigh the step's competing aims by them: what the step is for, what it must bring about and what it gives up. Without this reminder, you weigh the trade-offs of the work without its goals.
 - Take a worker's report as evidence, not as the list of work to do. Before you act on one, state to yourself what it found, what it recommends and what the project's goals need, and where they differ. Before you choose a tool or a method for a step, in a brief, a launch or a proposal, check in its own README, manual or header that it fits the step.
@@ -236,34 +236,38 @@ FACTS and POSITIONS hold the project only, since workers read them. They state t
 
 ## The boot
 
-At session start and after each compaction, take these steps in order:
+At session start and after each compaction, take these steps in order. If the curator names another form of the boot, that word replaces these steps and the hook's list of files.
 
 0. Check the serving model: run `explorations/coordinator/tools/model-now.sh`, which prints the model of this turn's reply. If it prints nothing, use the `get_session` tool with no session ID: its `session_context.model` and `external_metadata.last_served_model`. If the model is neither Opus nor Fable, act as on the model check's alarm (below). Then check the transcript backup (below).
-1. `FACTS.md`, `POSITIONS.md` and `INDEX.md`, each whole. Read `FACTS.md` in pages: it is larger than one page of the Read tool.
+1. `POSITIONS.md`, whole. Read it in pages: it is larger than one page of the Read tool.
 2. Run `explorations/coordinator/check-index.sh`. Add an INDEX line for each note that it reports.
 3. `PLAN.md`, its first section.
 4. The boot note, then the held list.
 5. `git log --oneline -15`, for a worker's commit newer than the boot note.
 6. If the boot note says that a batch runs, load `references/batch.md` and read what its "While it runs" names. Say nothing about the batch before that.
-7. Load `references/delegating.md`, so that you give the work to workers and do not slip into doing it yourself.
+7. Load `references/delegating.md`, `references/record.md` and `fortress-repo`'s `references/records.md`, so that you give the work to workers and keep the record by its rules.
 8. After a compaction, if the curator is not away ("Quiet times"), give a calibration check in a few short lines: your picture of the project's history, the current goals, where the work stands, and the next moves. It grounds you again in the work, and it shows your picture to the curator, who corrects it where it differs. Leave out a running batch.
 
-**A light boot.** When the curator asks for a light boot, take steps 0 and 3 to 8, and skip steps 1 and 2: FACTS, POSITIONS and INDEX stay unread. Before you state a fact or a decision, or put anything to the curator, search the record with `facts-extract.sh`. The full boot, steps 0 to 8, is the default. The curator's word for a light boot replaces the hook's list of files after a compaction. After a light boot, do not read INDEX whole. Search it with `facts-extract.sh 'index:WORDS'`. Then take these steps:
+`FACTS.md` and `INDEX.md` stay unread. Before you state a fact, or put anything to the curator, search them with `facts-extract.sh`. Read only FACTS whole, and only at a batch landing:
 
-1. At the first batch landing after the boot, read `FACTS.md` and `POSITIONS.md` whole, `FACTS.md` in pages. Do it before step 1 of `references/batch.md`, "The landing". If the light boot falls inside a batch landing, after step 1 of "The landing", read them whole at once, before its next step. Naming the decisions that landed and planning the batch after it need both files whole.
-2. When the record-landing workflow of step 4 of "The landing" ends, read what it changed in the two files.
-3. At a later batch landing in the same session, with no compaction between, read only what the batch landing changed, as after a full boot.
+1. At the first batch landing after the boot, read `FACTS.md` whole, in pages. Do it before step 1 of `references/batch.md`, "The landing". If the boot falls inside a batch landing, after step 1 of "The landing", read it at once, before the next step.
+2. When the record-landing workflow of step 4 of "The landing" ends, read what it changed in FACTS and POSITIONS.
+3. At a later batch landing before the next compaction, read only what it changed in the two files.
 
-**The transcript backup.** Check it right after step 0 at every boot, a light boot included, and after every VM restart, since the backup fails with no message:
+**The full boot.** Only at the curator's word, read `FACTS.md` and `INDEX.md` whole too, after step 1. It costs about three times the context. After it, skip step 1 of the list above.
+
+**After a compaction,** a copy of a skill or a part that the harness shows from before it counts as not loaded: it can be cut or old. Load each skill's core with the Skill tool, and read each part from disk before its work.
+
+**The transcript backup.** Check it at every boot and after every VM restart, since the backup fails with no message:
 
 - If the backup's worktree, `/home/user/fortress-transcripts-blinded`, is missing or not on its branch `transcripts-blinded`, re-arm the backup before the rest of the boot (the `cloud-container` skill, `references/container-loss.md`, "Re-arming the backup").
 - Otherwise, read the last line of its `.backup.log`. If the line says `push=failed`, or its time is older than the machine's last start (`uptime -s`), run `scripts/backup.sh --run` in the worktree by hand, and read the new last line. A sound line ends `push=ok`.
 - Re-arm only a worktree that is missing or broken. A snapshot, the backup's commit of the transcripts, older than the last restart is normal at the first boot after it: the backup runs only at a turn's end.
 
-**At a landing.** A batch landing's work never waits for a compaction or a boot, and you ask the curator nothing about the boot. After a full boot, read what the batch landing changed in the record, not FACTS and POSITIONS whole. After a light boot, follow the list under "A light boot".
+A batch landing's work never waits for a compaction or a boot, and you ask the curator nothing about the boot.
 
 - Read nothing that the boot does not name. List no directory, and bound every command's output.
-- To learn whether a worker runs, read the harness's notice at the top of the turn, and `test -f` the one output path that its brief names.
+- To learn whether a worker runs, read the harness's notice at the top of the turn. After an interrupt or a process stop, check each worker's state, and that each output file is complete, not only that it exists, before you say what ran or was lost. Relaunch a killed worker only as `references/delegating.md`, "Interrupts and process stops", says.
 - Rewrite the boot note whole at every change. Never append to it.
 - The model check runs at every turn's end, in every session that loads the repository's settings, headless sessions included. Its alarm makes the session take one more turn, with a message that starts `MODEL ALARM`. On the alarm:
   - make the alarm the first line of your reply, and send it as a push notification;
