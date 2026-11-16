@@ -13,9 +13,12 @@ package com.sun.fortress.interpreter.env;
 
 import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import com.sun.fortress.interpreter.evaluator.Environment;
+import com.sun.fortress.interpreter.evaluator.EvalType;
 import com.sun.fortress.interpreter.evaluator.Evaluator;
+import com.sun.fortress.interpreter.evaluator.LHSEvaluator;
 import com.sun.fortress.interpreter.evaluator.values.Coercions;
 import com.sun.fortress.interpreter.evaluator.values.FValue;
+import com.sun.fortress.interpreter.evaluator.values.IUOTuple;
 import com.sun.fortress.interpreter.evaluator.values.Numerals;
 import com.sun.fortress.nodes.Expr;
 import com.sun.fortress.nodes.Type;
@@ -65,6 +68,10 @@ public class LazilyEvaluatedCell extends IndirectionCell {
                     exp = null;
                     e = null;
                     FValue v = (new Evaluator(e0)).eval(exp0);
+                    if (declared != null && v instanceof IUOTuple) {
+                        // an array literal is the array of its declared type, as in a block
+                        v = LHSEvaluator.topLevelArray((IUOTuple) v, EvalType.getFType(declared, e0), exp0);
+                    }
                     if (declared != null) v = Coercions.coerceToDeclared(declared, e0, v);
                     theValue = Numerals.plain(v);
                 }

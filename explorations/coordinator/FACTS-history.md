@@ -7499,3 +7499,7 @@ pointer words refreshed in: F-24
 ### F-367
 
 2026-11-16 04:35Z · added · from `explorations/compile-ladder/rung-generic-function-value/REPORT.md`, "The rule as built" · by climb batch 32 gather
+
+### F-368
+
+2026-11-16 04:36Z · added · from `explorations/compile-ladder/rung-toplevel-array-literal/REPORT.md`, "What changed and why" · by climb batch 32 gather

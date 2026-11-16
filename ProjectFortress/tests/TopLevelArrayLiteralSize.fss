@@ -1,0 +1,9 @@
+(* A top-level array literal whose size is not its declared type's is refused; variables.tex, section "Top-Level Variable Declarations". *)
+component TopLevelArrayLiteralSize
+export Executable
+
+shp: ZZ32[4] = [27 16 27]
+
+run(): () = println(shp[1])
+
+end
