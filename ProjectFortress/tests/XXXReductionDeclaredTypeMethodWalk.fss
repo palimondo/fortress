@@ -1,0 +1,16 @@
+(* A sum that writes no static argument and is the body of a method declared to return RR64 is summed in RR64, each element converted. *)
+component XXXReductionDeclaredTypeMethodWalk
+export Executable
+
+huge(j: ZZ32): ZZ32 = 1073741824
+
+object Acc(n: ZZ32)
+  meth(): RR64 = SUM[j <- 0#n] huge(j)
+end
+
+run(): () = do
+    assert(Acc(4).meth(), 4294967296.0, "four elements of 2^30 summed in RR64, the declared return type of the method; Specification/basic/expressions/reductions.tex, section \"Summations and Other Reduction Expressions\"")
+    println("PASS")
+  end
+
+end
