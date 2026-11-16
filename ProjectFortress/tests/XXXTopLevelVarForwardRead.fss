@@ -1,0 +1,15 @@
+(*******************************************************************************
+    A top-level initializer reads a mutable top-level variable declared later.
+    variables.tex, section "Top-Level Variable Declarations": initializer
+    expressions can refer to variables declared later in textual order.
+ ******************************************************************************)
+component XXXTopLevelVarForwardRead
+export Executable
+
+early: ZZ32 = late + 1
+
+var late: ZZ32 = 3
+
+run(): () = assert(early, 4, "an initializer reads a later mutable variable")
+
+end

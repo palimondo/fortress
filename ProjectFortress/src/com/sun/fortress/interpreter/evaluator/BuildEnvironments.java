@@ -715,8 +715,11 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
                 * late in the game (with the now-available type);
                 * cannot reallocate, because it may have been exported.
                 */
-                FType ft = (new EvalType(containing)).evalType(NodeUtil.optTypeOrPatternToType(type).unwrap());
-                FValue value = new LazilyEvaluatedCell(init, containing);
+                Type declared = NodeUtil.optTypeOrPatternToType(type).unwrap();
+                FType ft = (new EvalType(containing)).evalType(declared);
+                // an initializer that reads the variable before its own
+                // initialization sees its value at the declared type
+                FValue value = new LazilyEvaluatedCell(init, containing, declared);
                 bindInto.assignValue(x, sname, value);
                 bindInto.storeType(x, sname, ft);
             }
@@ -758,6 +761,10 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
                 // into containing AND bindInto
 
                 if (ft != null) {
+                    if (value instanceof IUOTuple) {
+                        // an array literal is the array of its declared type, as in a block
+                        value = LHSEvaluator.topLevelArray((IUOTuple) value, ft, x);
+                    }
                     if (!ft.typeMatch(value)) {
                         FValue v = Coercions.coerce(ft, value);
                         if (v != null) value = v;

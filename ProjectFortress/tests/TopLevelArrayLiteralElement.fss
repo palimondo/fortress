@@ -1,0 +1,13 @@
+(*******************************************************************************
+    A top-level array literal with an element that is not of its declared
+    element type is refused, and the refusal names the element.
+    aggregate.tex, subsection "Array Expressions".
+ ******************************************************************************)
+component TopLevelArrayLiteralElement
+export Executable
+
+shp: ZZ32[2] = ["a" "b"]
+
+run(): () = println(shp[1])
+
+end

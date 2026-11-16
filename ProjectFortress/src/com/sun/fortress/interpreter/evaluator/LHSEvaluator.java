@@ -13,6 +13,7 @@ package com.sun.fortress.interpreter.evaluator;
 
 import com.sun.fortress.compiler.WellKnownNames;
 import com.sun.fortress.exceptions.FortressException;
+import com.sun.fortress.exceptions.UnificationError;
 import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
@@ -116,6 +117,56 @@ public class LHSEvaluator extends NodeAbstractVisitor<Voidoid> {
         return null;
     }
 
+    /**
+     * The library array that an array literal is at its declared type: the
+     * paste's elements copied into a new array of the paste's extents and of
+     * the declared type's element type.  Null where the declared type is not
+     * the library's array trait of the paste's rank.
+     */
+    public static FValue libraryArray(IUOTuple paste, FType declared, HasAt at) {
+        int rank = paste.resultRank();
+        String aname = WellKnownNames.arrayTrait(rank);
+        if (!Glue.extendsGenericTrait(declared, aname)) return null;
+        FType elementType = Glue.typeFromGeneric(declared, aname, WellKnownNames.arrayElementTypeName);
+
+        // Find and invoke the generic factory arrayK[\ T, size1, ..., sizeK \] ()
+        String genericName = WellKnownNames.arrayMaker(rank);
+        int[] natParams = (int[]) paste.resultExtents().clone();
+        // Transpose first two indices because of row/column peculiarity
+        if (natParams.length > 1) {
+            int t = natParams[0];
+            natParams[0] = natParams[1];
+            natParams[1] = t;
+        }
+        Environment wknInstantiationEnv = Driver.getFortressLibrary();
+
+        Simple_fcn f = Glue.instantiateGenericConstructor(wknInstantiationEnv,
+                                                          genericName,
+                                                          elementType,
+                                                          natParams);
+        // Now invoke f.
+        FValue theArray = f.functionInvocation(Collections.<FValue>emptyList(), at);
+        // Do the copy.
+        paste.copyTo(new IndexedArrayWrapper(theArray));
+        return theArray;
+    }
+
+    /**
+     * The value of a top-level variable declared with a type and bound to an
+     * array literal: the library array of that type, or the paste itself
+     * where the declared type gives none.  No call encloses a top-level
+     * binding, so an element that the array refuses is reported here.
+     */
+    public static FValue topLevelArray(IUOTuple paste, FType declared, HasAt at) {
+        try {
+            FValue theArray = libraryArray(paste, declared, at);
+            return theArray == null ? paste : theArray;
+        }
+        catch (UnificationError ue) {
+            return error(at, errorMsg("Unification error: ", ue.getMessage()), ue);
+        }
+    }
+
     public Voidoid forLValue(LValue x) {
         Id name = x.getName();
         Option<TypeOrPattern> type = x.getIdType();
@@ -150,30 +201,8 @@ public class LHSEvaluator extends NodeAbstractVisitor<Voidoid> {
              * constructed array/matrix/vector.
              */
             try {
-                int rank = iuo_tuple.resultRank();
-                String aname = WellKnownNames.arrayTrait(rank);
-                if (Glue.extendsGenericTrait(outerType, aname)) {
-                    bestGuess = Glue.typeFromGeneric(outerType, aname, WellKnownNames.arrayElementTypeName);
-
-                    // Find and invoke the generic factory arrayK[\ T, size1, ..., sizeK \] ()
-                    String genericName = WellKnownNames.arrayMaker(rank);
-                    int[] natParams = (int[]) iuo_tuple.resultExtents().clone();
-                    // Transpose first two indices because of row/column peculiarity
-                    if (natParams.length > 1) {
-                        int t = natParams[0];
-                        natParams[0] = natParams[1];
-                        natParams[1] = t;
-                    }
-                    Environment wknInstantiationEnv = Driver.getFortressLibrary();
-
-                    Simple_fcn f = Glue.instantiateGenericConstructor(wknInstantiationEnv,
-                                                                      genericName,
-                                                                      bestGuess,
-                                                                      natParams);
-                    // Now invoke f.
-                    FValue theArray = f.functionInvocation(Collections.<FValue>emptyList(), x);
-                    // Do the copy.
-                    iuo_tuple.copyTo(new IndexedArrayWrapper(theArray));
+                FValue theArray = libraryArray(iuo_tuple, outerType, x);
+                if (theArray != null) {
                     evaluator.e.putValue(s, theArray);
 
                 } else {

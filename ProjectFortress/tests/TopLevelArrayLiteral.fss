@@ -1,0 +1,97 @@
+(*******************************************************************************
+    A top-level variable declared with an array type and bound to an array
+    literal is the array that the same declaration gives in a function body.
+    aggregate.tex, subsection "Array Expressions"; variables.tex, section
+    "Top-Level Variable Declarations".
+ ******************************************************************************)
+component TopLevelArrayLiteral
+export Executable
+
+(* A top-level initializer may read a variable declared later. *)
+early: ZZ32 = shp[0] + shp[2]
+
+shp: ZZ32[3] = [27 16 27]
+
+grid: ZZ32[3,2] = [1 2; 3 4; 5 6]
+
+(vocabSize, nEmbd) = (27, 16)
+
+dims: ZZ32[2,2] = [vocabSize nEmbd; (4 nEmbd) nEmbd]
+
+names: String[9] = ["wte" "wpe" "attn_wq" "attn_wk" "attn_wv" "attn_wo" "mlp_fc1" "mlp_fc2" "lm_head"]
+
+vec: Vector[\ZZ32,3\] = [1 2 3]
+
+halves: RR64[3] = [1 2 0.5]
+
+counts: NN32[2] = [1 2]
+
+(* A mutable variable, read by an initializer above it. *)
+var first: ZZ32 = tally[0]
+
+var tally: ZZ32[2] = [5 6]
+
+cube: ZZ32[2,2,2] = [1 2; 3 4;; 5 6; 7 8]
+
+weights: Matrix[\RR64,2,2\] = [1.0 2.0; 3.0 4.0]
+
+(* A literal that pastes arrays. *)
+twice: ZZ32[6] = [shp shp]
+
+second(): ZZ32 = shp[1]
+
+run(): () = do
+    assert(shp[1], 16, "shp[1]")
+    assert(shp[0] + shp[2], 54, "shp[0] + shp[2]")
+    assert(|shp|, 3, "|shp|")
+    assert(second(), 16, "read in a function")
+    assert(early, 54, "read by an earlier initializer")
+
+    assert(grid[2,0], 5, "grid[2,0]")
+    assert(grid[0,1], 2, "grid[0,1]")
+    assert(grid[1,1], 4, "grid[1,1]")
+
+    assert(dims[0,0], 27, "dims[0,0]")
+    assert(dims[0,1], 16, "dims[0,1]")
+    assert(dims[1,0], 64, "dims[1,0]")
+    assert(dims[1,1], 16, "dims[1,1]")
+
+    assert(names[0], "wte", "names[0]")
+    assert(names[8], "lm_head", "names[8]")
+    assert(|names|, 9, "|names|")
+
+    assert(vec[2], 3, "vec[2]")
+    assert(vec DOT vec, 14, "vec DOT vec")
+
+    h: RR64 = 0.5
+    one: RR64 = 1
+    assert(halves[2], h, "halves[2]")
+    assert(halves[0], one, "halves[0], a numeral at RR64")
+
+    two: NN32 = 2
+    assert(counts[1], two, "counts[1], a numeral at NN32")
+
+
+    three: RR64 = 3
+    assert(weights[1,0], three, "weights[1,0]")
+
+    assert(twice[4], 16, "twice[4]")
+    assert(|twice|, 6, "|twice|")
+
+    assert(first, 5, "a mutable literal read by an earlier initializer")
+    assert(tally[1], 6, "tally[1]")
+    tally[0] := 9
+    assert(tally[0], 9, "tally[0] after an assignment")
+
+    (* The same declarations in a function body. *)
+    lshp: ZZ32[3] = [27 16 27]
+    lgrid: ZZ32[3,2] = [1 2; 3 4; 5 6]
+    assert(lshp[1], shp[1], "the body's literal, rank 1")
+    assert(lgrid[2,0], grid[2,0], "the body's literal, rank 2")
+    lcube: ZZ32[2,2,2] = [1 2; 3 4;; 5 6; 7 8]
+    for i <- seq(0#2), j <- seq(0#2), k <- seq(0#2) do
+        assert(cube[i,j,k], lcube[i,j,k], "the body's literal, rank 3")
+    end
+end
+
+end
