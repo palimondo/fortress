@@ -2180,7 +2180,9 @@ infers static arguments with coercion and keeps the expected type at a call
 written as \EXP{f(x)}, with a retry without it so that a coercion of the result
 still applies, and that the chapter is written with it; and on 28~September
 2026 that a coercion makes a call possible and never changes which declaration
-runs when one is applicable without it, the declaration chosen being then
+runs when one is applicable without it (since 10~November 2026 a numeral's own
+coercion is the one exception, \secref{revival-numerals}), the declaration
+chosen being then
 instantiated by that rule, that a numeral whose conversions tie is read as a
 \EXP{\mathbb{Z}32}, and that a \KWD{nat} parameter used as a value converts to
 \EXP{\mathbb{Z}32} as a numeral does.
@@ -3001,6 +3003,8 @@ On 28~September 2026 it decided that a coercion makes a call possible and never
 changes which declaration runs when one is applicable without it, declarations
 being chosen on the parameter types they declare and the declaration chosen
 being then instantiated.
+Since the decision of 10~November 2026 a numeral's own coercion is the one
+exception (\secref{revival-numerals}).
 Neither implementation enforced the sentence: the interpreter has overloaded
 declarations with different static parameters since May 2007, the compiled type
 checker applies the rules of that paper to them, and \library\ overload across
@@ -3902,7 +3906,9 @@ integer type, \EXP{\mathbb{Q}} or \EXP{\mathbb{R}64} that its context expects,
 \EXP{\mathbb{N}32} and \EXP{\mathbb{N}64} among them, which refused a numeral
 before.
 A numeral beside a value of an integer type is converted to that type where no
-declaration of the operator is applicable to the two without coercion, and that
+declaration of the operator is applicable to the two without coercion, or where
+the one that is applicable is less specific than that type's own
+(\secref{revival-numerals}), and that
 type's own declaration of the operator is then the most specific
 (\secref{resolving-coercion}); \library\ state on each integer type the
 comparisons \EXP{<}, \EXP{\leq}, \EXP{>} and \EXP{\geq}, \OPR{CMP},
@@ -3917,14 +3923,15 @@ whose parameter was of the numeral type, and the numeral type one whose
 parameter was of each integer type; since the change of
 \secref{revival-numerals} no such pair exists, no value of a numeral type
 existing when a program runs (\secref{basic-rationals}).
-Inequality was not stated in pairs: the top-level declaration of \EXP{\neq},
-whose parameters are of type \TYP{Any}, is applicable to an integer value and a
-numeral without coercion, and since the change of \secref{revival-numerals} it
-receives the numeral at its default, which it compares with the integer value by
-\EXP{=}; so on the interpreter \EXP{u \neq 0} is \VAR{true} for a zero \VAR{u}
-of \EXP{\mathbb{N}32} or \EXP{\mathbb{N}64}, neither of which declares \EXP{=}
-with \EXP{\mathbb{Z}32}, and \EXP{u = 0} is \VAR{false}, as the effect of
-\secref{revival-numerals} says with its rows.
+Inequality was not stated in pairs: \TYP{Equality} declares \EXP{\neq} beside
+\EXP{=}, as the negation of the type's own \EXP{=}, and since the change of
+\secref{revival-numerals} a numeral beside a value of a type that extends
+\TYP{Equality} goes to that declaration, converted into the value's type, and
+not to the top-level declaration of \EXP{\neq}, whose parameters are of type
+\TYP{Any} and which the numeral fits at its default; so \EXP{u \neq 0} is
+\VAR{false} for a zero \VAR{u} of \EXP{\mathbb{N}32} or \EXP{\mathbb{N}64},
+and \EXP{u = 0} is \VAR{true}, as the effect of
+\secref{revival-numerals} says.
 \EXP{\mathbb{Z}} states in its api, for the same reason, the additive and
 multiplicative operators its body declares.
 \TYP{IntLiteral} declared its own \VAR{zero}, \VAR{one}, \VAR{even},
@@ -5114,7 +5121,8 @@ the bits, \VAR{narrow}, \VAR{widen}, \VAR{signed}, \VAR{unsigned} or \VAR{big}.
 
 \begin{description}
 \item[Affected sections] \secref{literals}; \secref{types-libraries}; \secref{static-expr};
-\secref{coercion}; \secref{static-arg-inference}; \secref{numeral-default};
+\secref{coercion}; \secref{resolving-coercion}; \secref{static-arg-inference};
+\secref{numeral-default};
 \secref{basic-rationals}; \secref{natparams}; \secref{lib:BinaryEndianWord};
 \secref{lib:BinaryLinearEndianSequence};
 \secref{lib:BinaryEndianLinearEndianSequence}; \secref{revival-numeral-type};
@@ -5220,6 +5228,12 @@ constant where the Java Virtual Machine holds the value as an \texttt{int}, a
 \texttt{long}, a \texttt{float} or a \texttt{double}, and otherwise a value made
 when the class that holds the place is loaded, since a class file holds no
 object, or, in the interpreter, at the place's first evaluation.
+It decided on 10~November 2026 that a numeral at a call goes to the most
+specific declaration that takes it, by its own coercion if need be, with its
+default as the last resort, so that a number compared with a numeral answers by
+the number's value and the programmer does not write the numeral's type; of two
+declarations that are not ordered, the one that the default fits is invoked,
+and the coercion of a value is not ranked so (\secref{coercion}).
 The Working Draft gives numerals types of their own so that library designers
 decide by coercions how numerals meet other types, and so that an interval type
 receives \EXP{3.1415926535897932384} unrounded
@@ -5386,19 +5400,35 @@ a field of a declared type and at a declared return type, but not one passed
 through a tuple or a varargs parameter (rows~395 and~511).
 The compiled type checker does not apply the rule that a numeral type is written
 only as a parameter type to the libraries' own files.
-A numeral type declares no \EXP{=} with a number type, so a numeral compared by
-\EXP{=} with a number of a type that declares no \EXP{=} with the numeral's
-default type meets the top-level \EXP{=} of \library, whose parameters are of
-type \TYP{Any} and which takes the numeral at its default: the interpreter answers \EXP{u = 0} \VAR{false}, and
-\EXP{u \neq 0} \VAR{true}, for a zero \VAR{u} of \EXP{\mathbb{N}32},
-\EXP{\mathbb{N}64} or \EXP{\mathbb{R}32}, none of which declares \EXP{=} with
-\EXP{\mathbb{Z}32} (rows~966 and~973 of the revival's gap ledger; the
-expected failure \nolinkurl{ProjectFortress/tests/XXXNumeralEqualsNumberWalk.fss}
-asserts \VAR{true}), and whether \EXP{u = 0} is \VAR{true} is open; the compiled
-path's own library declares no \EXP{=} over \TYP{Any}, and declares \EXP{=} and
-\EXP{\neq} on each integer type with an operand of that type, into which the
-numeral is converted, so that there \EXP{u = 0} is \VAR{true} and
-\EXP{u \neq 0} \VAR{false} for a zero \VAR{u} of \EXP{\mathbb{N}32}.
+A numeral type declares no \EXP{=} with a number type, and a numeral compared by
+\EXP{=} with a number goes to the \EXP{=} of the number's type, into whose
+parameter type the numeral's own coercion converts it, and not to the top-level
+\EXP{=} of \library, whose parameters are of type \TYP{Any} and which the
+numeral fits at its default: at a call a numeral goes to the most specific
+declaration that takes it (\secref{coercion}).
+Both implementations answer \EXP{u = 0} \VAR{true}, and \EXP{u \neq 0}
+\VAR{false}, for a zero \VAR{u} of \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or
+\EXP{\mathbb{R}32}; \TYP{Equality} of \library\ declares \EXP{\neq} as the
+negation of the type's own \EXP{=}, and the compiled path's own library
+declares \EXP{=} and \EXP{\neq} on each integer type with an operand of that
+type (\nolinkurl{ProjectFortress/tests/NumeralEqualsNumberWalk.fss},
+\nolinkurl{NotEqualNumeral.fss} and \nolinkurl{NumeralMostSpecificWalk.fss};
+\nolinkurl{ProjectFortress/compiler_tests/NumeralMostSpecificCompiled.fss}).
+The interpreter has no static types and reads the rule on the value: for a
+variable \VAR{a} declared of type \TYP{Any} that holds a zero of
+\EXP{\mathbb{N}32} it answers \EXP{a = 0} \VAR{true}, where the text gives the
+numeral its default and the answer \VAR{false} (row~1016 of the revival's
+gap ledger; the expected failure
+\nolinkurl{ProjectFortress/tests/XXXNumeralBesideAnyWalk.fss} asserts
+\VAR{false}).
+Both implementations leave a numeral at a declaration whose parameter is a type
+parameter declared without a bound, which they instantiate at the numeral's
+default, where another declaration, more specific, is reached by the numeral's
+own coercion: of \EXP{g\llbracket{}T\rrbracket(x\COLON{}T)} and
+\EXP{g(x\COLON\mathbb{N}32)}, the call \EXP{g(5)} invokes the first, where the
+text gives the second (row~1017 of the revival's gap ledger; the expected
+failure \nolinkurl{ProjectFortress/tests/XXXNumeralBesideTypeParameterWalk.fss}
+asserts the second).
 The implementations depart from the text in these further ways, each with its
 row of the revival's gap ledger: a numeral with a radix point keeps only one of
 its leading zeros in its digit count, as the parser gives the numeral to both

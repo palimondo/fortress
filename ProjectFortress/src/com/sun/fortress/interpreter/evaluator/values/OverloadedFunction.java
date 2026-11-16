@@ -2249,7 +2249,11 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
         if (best_f == null) {
 
-            best_f = bestMatch(args, overloads);
+            // A numeral's coercion into a type of a program's own may take
+            // one numeral and refuse another of the same key (its where
+            // clause), so a choice that asked for one is not kept.
+            boolean[] ownCoercion = new boolean[1];
+            best_f = bestMatch(args, overloads, ownCoercion);
 
             if (best_f instanceof FunctionalMethod) {
                 FunctionalMethod fm = (FunctionalMethod) best_f;
@@ -2261,7 +2265,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             }
 
             if (debugMatch) System.err.println("Choosing " + best_f + " for args " + args);
-            cache.syncPut(args, best_f);
+            if (!ownCoercion[0]) cache.syncPut(args, best_f);
         }
 
         return best_f.applyInnerPossiblyGeneric(args);
@@ -2273,13 +2277,24 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * @throws Error
      */
     public SingleFcn bestMatch(List<FValue> args, List<Overload> someOverloads) throws Error {
+        return bestMatch(args, someOverloads, new boolean[1]);
+    }
+
+    /**
+     * bestMatch; ownCoercion[0] is set where the choice asked whether a
+     * numeral converts into a type, not one of the library's number types,
+     * that declares a coercion from the numeral's type
+     * (Numerals.ownCoercionFrom), an answer that the dispatch cache's key
+     * does not hold.
+     */
+    private SingleFcn bestMatch(List<FValue> args, List<Overload> someOverloads, boolean[] ownCoercion) throws Error {
         if (!finishedSecond && InstantiationLock.L.isHeldByCurrentThread()) bug("Cannot call before 'setFinished()'");
 
-        if (Numerals.anyNumeral(args)) return bestMatchForNumerals(args, someOverloads);
+        if (Numerals.anyNumeral(args)) return bestMatchForNumerals(args, someOverloads, ownCoercion);
 
         SingleFcn best = bestMatchInternal(args, someOverloads, true);
         if (best == null) {
-            best = bestMatchWithCoercion(args, someOverloads);
+            best = bestMatchWithCoercion(args, someOverloads, ownCoercion);
         }
         if (best == null) {
             // Replay the test for debugging
@@ -2294,33 +2309,40 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
     /**
      * The best match where some argument is a numeral, read as the checker
-     * reads one.  A declaration fits a numeral as it is where its parameter is
-     * the numeral's own type or admits its default, and the default ranks as
-     * no coercion: of the declarations that fit as they are, the most
-     * specific, unless the one that the defaults alone fit is no less
-     * specific.  Where none fits as it is, the coercion attempt runs, each
+     * reads one.  A declaration fits a numeral as it is where its parameter
+     * admits the numeral's default, and the default ranks as no coercion: of
+     * the declarations that fit as they are, the most specific.  A numeral
+     * goes to the most specific declaration that takes it, by its own
+     * conversion if need be: a declaration that only the numerals' own
+     * coercions reach, and whose parameter types lie strictly below those of
+     * the one that fits as it is, runs in its place (belowByNumerals).  Where
+     * the two are not ordered so, the one that the default fits stays.
+     * Where none fits as it is, the coercion attempt runs, each
      * numeral converting from its own type; and a tie among the declarations
-     * that it finds, which only the numerals make, reads each numeral at its
+     * that it finds reads each numeral at its
      * default (inference.tex, "A Numeral Whose Conversions Tie").
      */
-    private SingleFcn bestMatchForNumerals(List<FValue> args, List<Overload> someOverloads) {
+    private SingleFcn bestMatchForNumerals(List<FValue> args, List<Overload> someOverloads, boolean[] ownCoercion) {
         List<FValue> plain = Numerals.plain(args);
         SingleFcn best = bestMatchInternal(args, someOverloads, true);
         if (best != null) {
             SingleFcn atDefault = bestMatchInternal(plain, someOverloads, true);
-            if (atDefault == null || atDefault == best) return best;
-            List<FType> bd = best.getDomain();
-            List<FType> dd = atDefault.getDomain();
-            boolean below = bd.size() == dd.size() && FTypeTuple.make(bd).subtypeOf(FTypeTuple.make(dd)) &&
-                            !FTypeTuple.make(dd).subtypeOf(FTypeTuple.make(bd));
-            return below ? best : atDefault;
+            if (atDefault != null && atDefault != best) {
+                List<FType> bd = best.getDomain();
+                List<FType> dd = atDefault.getDomain();
+                boolean below = bd.size() == dd.size() && FTypeTuple.make(bd).subtypeOf(FTypeTuple.make(dd)) &&
+                                !FTypeTuple.make(dd).subtypeOf(FTypeTuple.make(bd));
+                if (!below) best = atDefault;
+            }
+            SingleFcn converted = belowByNumerals(args, someOverloads, best, ownCoercion);
+            return converted != null ? converted : best;
         }
         try {
-            best = bestMatchWithCoercion(args, someOverloads);
+            best = bestMatchWithCoercion(args, someOverloads, ownCoercion);
         }
         catch (FortressException tie) {
             try {
-                return bestMatch(plain, someOverloads);
+                return bestMatch(plain, someOverloads, ownCoercion);
             }
             catch (FortressException ex) {
                 throw tie;
@@ -2333,6 +2355,76 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                            this));
         }
         return best;
+    }
+
+    /** Whether t is the type of the numeral a's default. */
+    private static boolean atDefaultType(FType t, FValue a) {
+        return t == Numerals.plain(a).type();
+    }
+
+    /**
+     * For args with a numeral that asIs takes as they are: the most specific
+     * of the overloads that take args only by the numerals' own coercions,
+     * every other argument as it is, and whose parameter types lie strictly
+     * below those of asIs by subtyping, as a call that converts the numerals
+     * and dispatches again; or null where there is none, or no one of them is
+     * more specific than the others.  None is sought where asIs has each
+     * numeral at a parameter of the numeral's default type.
+     */
+    private SingleFcn belowByNumerals(List<FValue> args, List<Overload> someOverloads, SingleFcn asIs,
+                                      boolean[] ownCoercion) {
+        List<FType> asIsDomain = asIs.getDomain();
+        List<FValue> asIsArgs = asIs.fixupArgCount(args);
+        if (asIsArgs == null) return null;
+        boolean open = false;
+        for (int j = 0; j < asIsArgs.size(); j++) {
+            FValue a = asIsArgs.get(j);
+            if (Numerals.isNumeral(a) && !atDefaultType(Useful.clampedGet(asIsDomain, j).deRest(), a)) open = true;
+        }
+        if (!open) return null;
+        FType asIsTuple = FTypeTuple.make(asIsDomain);
+        List<Coercions.CoercedCall> below = new ArrayList<Coercions.CoercedCall>();
+        for (Overload o : someOverloads) {
+            SingleFcn sfn = o.getFn();
+            GenericFunctionOrMethod gsfn = genericOf(sfn);
+            if (gsfn != null) {
+                try {
+                    sfn = EvaluatorBase.inferAndInstantiateGenericFunction(args, gsfn, inferenceEnv(sfn));
+                }
+                catch (FortressException pe) {
+                    continue;
+                }
+            }
+            List<FValue> oargs = sfn.fixupArgCount(args);
+            if (oargs == null) continue;
+            List<FType> domain = sfn.getDomain();
+            if (domain.size() != asIsDomain.size()) continue;
+            SingleFcn[] coercions = new SingleFcn[oargs.size()];
+            boolean applies = true;
+            boolean converts = false;
+            for (int j = 0; applies && j < oargs.size(); j++) {
+                FType t = Useful.clampedGet(domain, j).deRest();
+                FValue a = oargs.get(j);
+                if (!argsMatchTypes(Collections.singletonList(a), Collections.singletonList(t))) {
+                    if (!Numerals.isNumeral(a)) {
+                        applies = false;
+                    } else {
+                        if (Numerals.ownCoercionFrom(t, a)) ownCoercion[0] = true;
+                        coercions[j] = Coercions.coercionFor(t, a);
+                        applies = coercions[j] != null;
+                        converts = true;
+                    }
+                }
+            }
+            if (!applies || !converts) continue;
+            FType tuple = FTypeTuple.make(domain);
+            if (!tuple.subtypeOf(asIsTuple) || asIsTuple.subtypeOf(tuple)) continue;
+            below.add(new Coercions.CoercedCall(sfn, coercions, this));
+        }
+        if (below.isEmpty()) return null;
+        if (below.size() == 1) return below.get(0);
+        int through = mostSpecificThroughOthers(below);
+        return through >= 0 ? below.get(through) : null;
     }
 
     /**
@@ -2353,7 +2445,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * the others.  A generic overload whose instance takes args without a
      * coercion is that instance.
      */
-    private SingleFcn bestMatchWithCoercion(List<FValue> args, List<Overload> someOverloads) {
+    private SingleFcn bestMatchWithCoercion(List<FValue> args, List<Overload> someOverloads, boolean[] ownCoercion) {
         Coercions.CoercedCall best = null;
         SingleFcn bestUnconverted = null;
         List<Coercions.CoercedCall> applicable = new ArrayList<Coercions.CoercedCall>();
@@ -2379,6 +2471,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                 FType t = Useful.clampedGet(domain, j).deRest();
                 FValue a = oargs.get(j);
                 if (!argsMatchTypes(Collections.singletonList(a), Collections.singletonList(t))) {
+                    if (Numerals.isNumeral(a) && Numerals.ownCoercionFrom(t, a)) ownCoercion[0] = true;
                     coercions[j] = Coercions.coercionFor(t, a);
                     applies = coercions[j] != null;
                     converts = true;

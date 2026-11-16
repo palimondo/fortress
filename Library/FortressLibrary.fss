@@ -99,6 +99,7 @@ opr =/=(a:Any, b:Any):Boolean = NOT (a=b)
 
 trait Equality[\T extends Equality[\T\]\]
     opr =(self, other:T): Boolean = self SEQV other
+    opr =/=(self, other:T): Boolean = NOT (self = other)
 end
 
 (** Total ordering *)

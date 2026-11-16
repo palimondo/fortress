@@ -59,6 +59,9 @@ with static parameters on its parameter types taken over every instance that
 its bounds allow, and not on an instance inferred for the call.
 So a coercion is applied only to make a call possible: it never changes which
 declaration is chosen when one is applicable to the call without it.
+The one exception is a numeral's own coercion, by which a numeral reaches a
+declaration more specific than the one that fits it at its default
+(\secref{coercion}).
 
 \emph{Instantiation.}
 The static arguments of the chosen declaration are then inferred, and with them
@@ -373,7 +376,8 @@ narrower type, and a numeral with a radix point, whose conversions into
 \EXP{\mathbb{Q}}, \EXP{\mathbb{R}32} and \EXP{\mathbb{R}64} tie, as an
 \EXP{\mathbb{R}64}.
 This holds in either step: in the choice among declarations that are applicable
-to the call only with coercion and that the numeral would otherwise leave tied,
+to a call with a numeral only with coercion and that would otherwise be tied,
+whether they differ at the numeral alone or at another argument too,
 and in the instantiation of a type parameter that only numerals fix.
 So of the declarations \EXP{g(x\COLON\mathbb{N}32)} and
 \EXP{g(x\COLON\mathbb{Z}32)}, the call \EXP{g(0)} invokes the second; a

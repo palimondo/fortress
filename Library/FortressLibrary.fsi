@@ -72,6 +72,7 @@ opr =/=(a:Any, b:Any):Boolean
 
 trait Equality[\T extends Equality[\T\]\]
     abstract opr =(self, other:T): Boolean
+    opr =/=(self, other:T): Boolean
 end
 
 (** Total ordering *)

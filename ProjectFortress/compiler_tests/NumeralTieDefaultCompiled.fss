@@ -1,0 +1,19 @@
+(* Of two declarations that a call with a numeral reaches only by coercion and that are not ordered, the one that the numeral's default fits runs. *)
+component NumeralTieDefaultCompiled
+export Executable
+
+value object Q(v: ZZ32)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Q(1)
+    coerce(x: RR32) = Q(2)
+end
+
+mul(a: RR64, b: RR64): String = "rr64"
+mul(a: Q, b: Q): String = "q"
+
+run(): () = do
+    f: RR32 = 2.0
+    assert(mul(1.0, f), "rr64", "conversions-coercions.tex, section \"Principles of Coercion\": a float numeral's default is RR64")
+    println("PASS")
+  end
+
+end
