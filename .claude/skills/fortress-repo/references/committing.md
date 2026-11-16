@@ -9,7 +9,7 @@ Your brief says whether you commit and push, and on which branch. If it says not
 
 - Commit your change, its tests, your report if it is a file, and any reusable script.
 - Commit what you write to the record, such as a ledger row, with the work that it records. A row's close follows the fix's commit (`records.md`).
-- A probe builds a change to answer a question, without landing it. Commit its patch, report and programs in the `probes/` folder that your brief names. Its code reaches `main` only in a later change, test first.
+- A probe is a task of a brief that builds a change to answer a question and does not land it. Commit its change as a patch file, with its report and programs, in the `probes/` folder that the brief names, and no edit of the original tree. If the brief names no folder, commit nothing of the probe: give the patch's path and the report in your final message.
 - Keep scratch in your tree's `tmp/`, which is gitignored.
 - Do not commit `.claude/worktrees/` or `.claude/agents/`, which show as untracked in a fresh clone.
 - Keep a copyrighted PDF or deck in `research/decks/`, also gitignored. Cite it by its Wayback URL. Notes on it go in `research/extracts/`: your own summary, with brief attributed quotations.

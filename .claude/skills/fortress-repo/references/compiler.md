@@ -31,7 +31,7 @@ The phases differ too: walk turns off some desugarings that the compiled path ru
 
 The compiled path uses the compiler's own prelude: `LibraryBuiltin/CompilerBuiltin.fss`, `Library/CompilerLibrary.fss` and `Library/CompilerAlgebra.fss`. `Library/CompilerSystem.fss` is the compiled path's `System`.
 
-Do not add a declaration to the three prelude files: they are deleted at the switch-over, and their tests stay. The exceptions are the numerals, where the prelude's types and coercions follow `revival-changes.md`, "Numbers", and the built-in number types, which become one `value object` each (P-37, P-178). If a helper of `nativeHelpers/` that the one library binds is wrong, fix the helper's Java, even where the prelude binds it, and leave the prelude's text: its binding then gives the fixed result. Change with it a compiled test that pinned the old result.
+Do not add a declaration to the three prelude files: the switch-over deletes them, and their tests stay. Two exceptions (P-37): its numeral types and coercions follow `revival-changes.md`, "Numbers", and a brief may ask to declare each built-in number type as one `value object`, the form that both libraries are to take. If a helper of `nativeHelpers/` that the one library binds is wrong, fix the helper's Java, even if the prelude binds it, and leave the prelude's text: its binding gives the fix. Change with it a compiled test that pinned the old result.
 
 ## What the compiled path cannot compile yet
 

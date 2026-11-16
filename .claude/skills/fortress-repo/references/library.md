@@ -28,7 +28,7 @@ These functions work on the library's generators and reductions: `trait Generato
 
 ## Designing a change
 
-- Put into this library what a program builds that a more mature library would hold. The plainest case is a form that the library has for one number type, rank or sibling trait and lacks for another. A form that extends the program's own domain stays in the program.
+- Put into this library a general declaration that a program had to write for itself. The plainest case is an operation that the library has for one number type, array rank or sibling trait and lacks for another. A declaration of the program's own domain stays in the program. Move a declaration out of the model program only if your brief asks: the move changes model lines.
 - Fix a gap in the library, not by a workaround in the program that meets it. Take the design from the library's practice as well as from the specification's text. If the two disagree, do as `specification.md`, "When the text and an implementation disagree", says.
 - If a rule of the language or the checker refuses the way that you want, find how the library writes that kind of thing, and do the same. The checker's refusals of this library reach you through your brief, or through a run of the count stage (`compiler.md`): `fortress typecheck` checks against the compiler's prelude.
 - When you add a method, make it dotted or functional as its family in the library does. If the family shows no practice, follow the team's unfinished collection design (`Library/incomplete/Collection.fss`): an updater, a getter or a setter, indexing included, is dotted, and every other method is functional.

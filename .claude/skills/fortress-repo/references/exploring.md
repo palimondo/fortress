@@ -57,4 +57,4 @@ When your report describes the team's sources on a question, say which of them i
     - each possible solution, and what it changes;
     - which solution keeps the current behaviour.
 12. If you cannot get some evidence in your task, say in your report what is missing and how to get it.
-13. If a probe gave the answer, commit its files as `committing.md`, "What to commit", says.
+13. If your brief asked for a probe, commit its files as `committing.md`, "What to commit", says.

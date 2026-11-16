@@ -61,7 +61,7 @@ The `.test` files are the whole list of tests: a `.fss` that no `.test` file nam
                                check: contains, does_not_contain, equals, matches,
                                WIcontains (containment with runs of whitespace collapsed)
 
-A `run` fails if the program exits non-zero or a `run_*` check fails. With no `run_out` check, its output must contain `pass` or `PASS`. With `run_exits_nonzero=true`, the run must exit non-zero. The `run_*` checks, and the `PASS` check where no `run_out` check is given, still apply. For example:
+A `run` fails if the program exits non-zero or a `run_*` check fails. With no `run_out` check, its output must contain `pass` or `PASS`. With `run_exits_nonzero=true`, the run must exit non-zero, as a program whose class fails to load does. The `run_*` checks, and the `PASS` check where no `run_out` check is given, still apply. For example:
 
     tests=EqualityRung1
     link
@@ -95,7 +95,8 @@ If your brief does not let you edit the original tree, say in your report which 
 
 The test needs no commit of its own. A test that comes with no fix has no failing run: see it pass through the harness.
 
-In your report, quote two to five lines of the failing run, if there is one, and the passing line, each with its command. In an edit of the original tree, put every check into a gated test, never into a one-off script. A probe that only measures may use its own script. Assert a value with `assert` in an interpreter test. In a compiled test, assert it with `assert` (above), or print it and check it with a `run_out_equals` key.
+In your report, quote two to five lines of the failing run, if there is one, and the passing line, each with its command. In an edit of the original tree, put every check into a gated test, never into a one-off script. A task that only measures may use its own script. Assert a value with `assert` in an interpreter test. In a compiled test, assert it with `assert` (above), or print it and check it with a `run_out_equals` key.
+
 An edit of prose in `Specification/` or `Documentation/` has no test. Check it as `specification.md`, "Changing the text: the revision form", says.
 
 ## Writing an `XXX` test
@@ -132,7 +133,7 @@ A run-time pair keeps its three files, renamed without `XXX`. For example, `comp
 ## Names, comments, citations
 
 - Name a test by its topic. Give it one comment line that says what it checks, with no pointer to a record.
-- Keep each case in one file. Add a case to the test that already holds cases of its kind, and assert no case that another test asserts.
+- Assert each case in one test only. Add a new case to the test that already asserts cases of its kind: `git grep` for the case's name or value finds it. A case that fails today goes in an `XXX` test, since it would turn a plain test red.
 - Write an assertion's message as one short line that says what was checked. Put a reason that several assertions share in one comment line above them.
 - In a test, cite the specification by file and section or entry, never by line: `opr-overview.tex, subsection "GCD, LCM, and CHOOSE Operators"`. In the library chapters, name the entry too: `basic-integers.tex, section "Integers", opr CHOOSE`.
 - If your change breaks a line of a test that the team wrote, respell the line and keep the value that it checks. Keep every assertion. List each line's before and after in your report.
