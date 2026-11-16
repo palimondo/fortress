@@ -7849,3 +7849,17 @@ pointer words refreshed in: F-24
 2026-11-16 07:45Z · rewritten · commit `5ba4f78ed` · by record writer after climb batch 32: the model writes the sign and the helper file's api declares ^T, by the diffs that the curator approved on 2026-11-16; both quick checks pass under walk by that commit's message
 
 - F-362 **The signs for sum and product are accumulators, and an api's operator header takes what a component's takes.** U+2211 and U+220F parse as `SUM` and `PROD` in a reduction and in an operator's declaration and are no `Op` anywhere, so a program's own `opr ∑` declares `BIG +`, and an infix or postfix use of either sign is a `Syntax Error`, as is `opr ∑` in an import's list, which is a gap (row 42); an api declares `opr (x: T)^T` and the other postfix exponent operators as a component does. The build after a grammar edit regenerates the two tracked parsers, `parser/Fortress.java` and `parser/templateparser/TemplateParser.java`, and the edit's commit holds them. So on both paths a model line can write `∑` for `SUM`, and the helper file's api can declare `^T`; no test applies the sign to an array. Tests: `tests/SumSignAccumulator.fss`, `tests/ApiPostfixExponentOp.fss`, `compiler_tests/SumSignAccumulatorCompiled.test`, `compiler_tests/ApiPostfixExponentOpCompiled.test`. Detail: `compile-ladder/rung-parser-declarations/REPORT.md`, "What changed and why" and "Programs run old against new".
+
+### F-370
+
+2026-11-16 12:29Z · added · from `explorations/reviews/omitted-types-intent-2026-11-16.md`, "2. The api states the types. Built on both paths." · from `explorations/reviews/omitted-types-intent-2026-11-16.md`, "The team's code" · commit `a55274470` · by record worker: handed over by the note on omitted types; program 2 run again on both paths today
+
+### F-371
+
+2026-11-16 12:29Z · added · from `explorations/reviews/omitted-types-intent-2026-11-16.md`, "What the designers' texts and code say" · from `explorations/reviews/omitted-types-intent-2026-11-16.md`, "The team's own examples that leave types out" · commit `a55274470` · by record worker: handed over by the note on omitted types
+
+### F-266
+
+2026-11-16 12:29Z · rewritten · from `explorations/reviews/omitted-types-intent-2026-11-16.md`, "A new defect" · commit `e7f91e209` · by record worker: row 1032: an object own untyped parameter is not refused, the checker stops
+
+- F-266 **The compiled checker refuses a local function's parameter that has no type, "Missing parameter type for i", as it refuses a top-level function's.** Write the type: the specification asks for inference of a type that a declaration leaves out, and does not describe it (`Specification/appendices/changes.tex`, "The type of a parameter that a declaration leaves out"). Before the fix, such a local function crashed the checker (rows 620 and 621, fixed). Row 405 holds the case elsewhere: compiled, an untyped parameter is refused wherever it appears; under walk, it fails only when its method implements an abstract declaration. Gated by `compiler_tests/XXXLocalFunctionUntypedParam` and `XXXLocalFunctionUntypedParamInLoop`. The code is `STypeEnv.scala:75` (local) and `:200` (top level).
