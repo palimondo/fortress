@@ -413,6 +413,10 @@ All routed items are under "Off the path, parked", in the new group "Climb batch
 | gather.2 | the entry that opens "gather.2" (rows 1027 and 1023, two rungs' rows on one behaviour) |
 | gather.3 | the entry that opens "gather.3" (the record's entries and the skill's sentences that the batch makes stale) |
 
+### Added by the merged-diff review
+
+Four entries of the same group of `PLAN.md`, written after the gather: `review.1` (four POSITIONS entries, P-78, P-79, P-46 and P-173, still name rows 731, 973 and 966 as open), `review-routed.1` (walk at a declared arrow return type and at a field of arrow type: no run, no row), `review-routed.2` (no compiled test of `u = 0` at `NN64` and `RR32`, which the Effect of `revival-numerals` states for both implementations) and `review-routed.3` (F-58's counts on the merged tree). The review also corrected the plan's "Where we stand", which said that row 731's checker gap stays.
+
 ### Not put into `PLAN.md`
 
 `C.worker.6`: "The relayed user question, whether the Fortify output is one SVG with currentColor or two SVGs for dark and light mode, is not answered here: nothing in this rung's briefing or work concerns Fortify's output." The item names no file of the tree, and neither the batch's record nor any file of rung C holds the word (`grep -rn -i fortify` over `explorations/coordinator/CLIMB-BATCH-32.md`, `explorations/coordinator/PLAN.md` and `explorations/compile-ladder/rung-static-argument-inferred/` prints nothing). It reports a question that reached the worker from outside its brief and that the worker did not answer; it asks nothing of the curator about this project, so it is no entry of the plan. It goes to the coordinator, who can read in the worker's transcript where the question came from.
