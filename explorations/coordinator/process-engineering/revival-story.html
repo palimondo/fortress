@@ -269,7 +269,7 @@ details.words dl.gloss dd { margin-left: 1em; }
 <h3>Order and reductions</h3>
 <ul>
 <li>A list is ordered only where its element type is totally ordered. So to the checker a list of <code>RR64</code>, the 64-bit floats, has no <code>&lt;</code>, because NaN compares with nothing.</li>
-<li>A big operator, such as <code>SUM</code>, applies an operator across a range of values. A reduction is the library object behind it, which combines the values. The checker can't infer a reduction's element type from its clauses. So the library writes the type, and so must a program, as in <code>SUM[\ZZ32\][j &lt;- 0#n] f(j)</code>.</li>
+<li>A big operator, such as <code>SUM</code>, applies an operator across a range of values. A reduction is the library object behind it, which combines the values. Since batch 32 the checker infers a reduction's element type where a program leaves it out: from the type that the sum's place expects, or else from the type of its body. So a program may write <code>SUM[j &lt;- 0#n] f(j)</code>. The library still writes the type, as in <code>SUM[\ZZ32\][j &lt;- 0#n] f(j)</code>.</li>
 </ul>
 <h3>The interpreter</h3>
 <p>Three terms first. A functional method is a method with <code>self</code> among its parameters, called as <code>f(x)</code>. A closed trait is a trait with a <code>comprises</code> clause, which lists the types that its values belong to. The meet of two overloads is the intersection of their parameter types.</p>

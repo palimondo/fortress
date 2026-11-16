@@ -222,7 +222,7 @@ Section 5 tells the main changes with their reasons. This section adds the other
 ### Order and reductions
 
 - A list is ordered only where its element type is totally ordered. So to the checker a list of `RR64`, the 64-bit floats, has no `<`, because NaN compares with nothing.
-- A big operator, such as `SUM`, applies an operator across a range of values. A reduction is the library object behind it, which combines the values. The checker can't infer a reduction's element type from its clauses. So the library writes the type, and so must a program, as in `SUM[\ZZ32\][j <- 0#n] f(j)`.
+- A big operator, such as `SUM`, applies an operator across a range of values. A reduction is the library object behind it, which combines the values. Since batch 32 the checker infers a reduction's element type where a program leaves it out: from the type that the sum's place expects, or else from the type of its body. So a program may write `SUM[j <- 0#n] f(j)`. The library still writes the type, as in `SUM[\ZZ32\][j <- 0#n] f(j)`.
 
 ### The interpreter
 
