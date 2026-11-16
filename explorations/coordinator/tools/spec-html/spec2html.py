@@ -542,6 +542,7 @@ def build_fonts(families, work, out):
     each piece is a face of the same family with its own unicode-range. The pieces are written a
     second time as TrueType, which fontTools reads, to learn which characters each really holds."""
     from fontTools.ttLib import TTFont
+    from fontTools.pens.svgPathPen import SVGPathPen
     import io
     folder = os.path.join(work, 'fonts')
     os.makedirs(folder, exist_ok=True)
@@ -568,6 +569,8 @@ def build_fonts(families, work, out):
         with open(stamp, 'w') as f:
             f.write(key)
     pieces = {}          # family -> [(woff2 bytes, set of code points)]
+    advance = {}         # family -> {character: its advance in em}
+    outline = {}         # family -> {character of no width: (the path of its glyph, units per em)}
     for name in sorted(os.listdir(folder)):
         if not re.fullmatch(r's\d+\.svg', name):
             continue
@@ -576,8 +579,16 @@ def build_fonts(families, work, out):
         t = re.search(r'@font-face\{font-family:([^;]+);src:url\(data:application/x-font-ttf;base64,([A-Za-z0-9+/=]+)\)', ttf)
         if not m or not t:
             continue
-        cmap = TTFont(io.BytesIO(base64.b64decode(t.group(2)))).getBestCmap()
+        font = TTFont(io.BytesIO(base64.b64decode(t.group(2))))
+        cmap, glyphs, upem = font.getBestCmap(), font.getGlyphSet(), font['head'].unitsPerEm
         pieces.setdefault(m.group(1), []).append((base64.b64decode(m.group(2)), set(cmap)))
+        for cp, gname in cmap.items():
+            adv = font['hmtx'][gname][0]
+            advance.setdefault(m.group(1), {})[chr(cp)] = adv / upem
+            if adv == 0 and font['glyf'][gname].numberOfContours:
+                pen = SVGPathPen(glyphs)
+                glyphs[gname].draw(pen)
+                outline.setdefault(m.group(1), {})[chr(cp)] = (pen.getCommands(), upem)
     fdir = os.path.join(out, 'fonts')
     if os.path.isdir(fdir):
         shutil.rmtree(fdir)
@@ -605,7 +616,62 @@ def build_fonts(families, work, out):
                        % (fam, fname, ','.join('U+%X' % a if a == b else 'U+%X-%X' % (a, b) for a, b in rng)))
     with open(os.path.join(out, 'tex-fonts.css'), 'w') as f:
         f.write(''.join(css))
-    return have
+    return have, advance, outline
+
+
+def draw_widthless(body, classes, advance, outline):
+    """The glyphs of no width, drawn as paths.
+    TeX sets some glyphs with no width, over or against the next one: the slash of \\not (cmsy 54, which
+    with = makes the sign "not equal"), the bar of \\mapsto (cmsy 55), the pieces of stmary's arrows.
+    dvisvgm writes such a glyph as a character of advance zero, and where no other character follows
+    it in the same font it stands alone in its <text>, a piece of text of no width. A browser may
+    leave such a piece unpainted: the curator's phone showed = where the PDF shows the sign
+    "not equal" (Appendix E, section E.2.3; curator-notes.md, 2026-11-16), while Chromium painted
+    it. So no display leaves such a glyph to the browser's text: each is taken out of the text and
+    its outline, read from the same font, is drawn at its place. Nothing else moves, since the
+    glyph had no advance. classes: {(family, size): class}. Returns (body, how many were drawn)."""
+    fonts = dict((c, key) for key, c in classes.items())
+    drawn = [0]
+
+    def text(m):
+        key = fonts.get(m.group(1))
+        if not key or key[0] not in outline:
+            return m.group(0)
+        fam, size = key[0], float(key[1])
+        marks, adv = outline[fam], advance.get(fam, {})
+        if not any(c in m.group(4) for c in marks):
+            return m.group(0)
+        paths, out = [], []
+        x, y = float(m.group(2)), float(m.group(3))
+        for part in re.split(r'(<tspan[^>]*>|</tspan>)', m.group(4)):
+            if part.startswith('<tspan'):
+                mx, my = re.search(r"\bx='(-?[\d.]+)'", part), re.search(r"\by='(-?[\d.]+)'", part)
+                if mx:
+                    x = float(mx.group(1))
+                if my:
+                    y = float(my.group(1))
+                out.append(part)
+            elif part == '</tspan>':
+                out.append(part)
+            else:
+                keep = []
+                for c in re.findall(r'&[^;]+;|.', part, flags=re.S):
+                    ch = html.unescape(c)
+                    if ch in marks:
+                        d, upem = marks[ch]
+                        paths.append("<path class='nw' transform='translate(%.2f %.2f) scale(%.5f -%.5f)' d='%s'/>"
+                                     % (x, y, size / upem, size / upem, d))
+                    else:
+                        keep.append(c)
+                        x += adv.get(ch, 0) * size
+                out.append(''.join(keep))
+        drawn[0] += len(paths)
+        inner = re.sub(r'<tspan[^>]*></tspan>', '', ''.join(out))
+        rest = "<text class='%s' x='%s' y='%s'>%s</text>" % (m.group(1), m.group(2), m.group(3), inner) if inner.strip() else ''
+        return rest + ''.join(paths)
+
+    body = re.sub(r"<text class='(t\d+)' x='(-?[\d.]+)' y='(-?[\d.]+)'>(.*?)</text>", text, body, flags=re.S)
+    return body, drawn[0]
 
 
 # ---------------------------------------------------------------- the macros of the tree
@@ -2470,10 +2536,21 @@ def build(args):
                 return '<span class="unk">[a display that LaTeX did not set]</span>'
             return h
         r['body'] = re.sub(r'<!--D(\d+)-->', put, r['body'])
-        r['svg_style'] = pg.style()
+        r['svg_style'], r['svg_classes'] = pg.style(), dict(pg.classes)
         for fam, chars in pg.used.items():
             families.setdefault(fam, set()).update(chars)
-    have = build_fonts(families, args.work, target)
+    have, advance, outline = build_fonts(families, args.work, target)
+    widthless = 0
+    for s in wanted:
+        r = results[s]
+        r['body'], n = draw_widthless(r['body'], r['svg_classes'], advance, outline)
+        widthless += n
+        fonts = dict((c, key[0]) for key, c in r['svg_classes'].items())
+        for c, text in re.findall(r"<text class='(t\d+)'[^>]*>(.*?)</text>", r['body'], flags=re.S):
+            left = [ch for ch in html.unescape(re.sub(r'<[^>]+>', '', text)) if ch in outline.get(fonts.get(c), {})]
+            if left:
+                failed.append('%s: a display leaves a glyph of no width of %s to the browser\'s text: %s'
+                              % (s, fonts[c], ' '.join('U+%04X' % ord(ch) for ch in left)))
     for fam, chars in sorted(families.items()):
         missing = chars - have.get(fam, set()) - set(' \n\t')
         if missing:

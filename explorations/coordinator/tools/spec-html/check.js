@@ -37,6 +37,8 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
   const marks = [];
   const inks = {};
   let displays = 0;
+  const widthless = [];
+  let drawn = 0;
   for (const scheme of ['light', 'dark']) {
     await p.emulateMedia({ colorScheme: scheme });
     const bad = [];
@@ -46,7 +48,7 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
       if (w !== 0) bad.push(f + ' scrolls sideways by ' + w);
       const r = await p.evaluate(async () => {
         await document.fonts.ready;
-        const out = { unk: document.querySelectorAll('.unk, .gap').length, n: document.querySelectorAll('svg.tx').length, nofont: [], ink: '', body: getComputedStyle(document.body).color };
+        const out = { unk: document.querySelectorAll('.unk, .gap').length, n: document.querySelectorAll('svg.tx').length, drawn: document.querySelectorAll('svg.tx path.nw').length, nofont: [], nowidth: [], ink: '', body: getComputedStyle(document.body).color };
         const seen = new Set();
         for (const t of document.querySelectorAll('svg.tx text')) {
           const cs = getComputedStyle(t), fam = cs.fontFamily;
@@ -60,6 +62,10 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
           else {
             try { await document.fonts.load('10px ' + fam, t.textContent); } catch (e) { out.nofont.push(fam + ' did not load'); }
             if (!document.fonts.check('10px ' + fam, t.textContent)) out.nofont.push(fam + ' lacks a character of ' + JSON.stringify(t.textContent.slice(0, 20)));
+            // a glyph of no width (the slash of \not, the bar of \mapsto) must not be left to the browser's text:
+            // alone in its <text> it is a piece of text of no width, which a browser may leave unpainted
+            const s = t.textContent;
+            for (let i = 0; i < t.getNumberOfChars(); i++) if (/\S/.test(s[i]) && t.getExtentOfChar(i).width === 0) out.nowidth.push('U+' + s.charCodeAt(i).toString(16).toUpperCase() + ' of ' + fam + ' in display ' + t.closest('svg').getAttribute('data-d'));
           }
         }
         return out;
@@ -85,6 +91,7 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
       }
       if (r.unk) bad.push(f + ' holds ' + r.unk + ' unconverted constructs');
       if (r.nofont.length) bad.push(f + ': ' + r.nofont.slice(0, 3).join('; '));
+      if (scheme === 'light') { widthless.push(...r.nowidth.map(x => f + ': ' + x)); drawn += r.drawn; }
       if (r.n && r.ink !== r.body) bad.push(f + ': the displays are ' + r.ink + ', the text is ' + r.body);
       if (r.n) inks[scheme] = r.ink;
       if (scheme === 'light') displays += r.n;
@@ -92,6 +99,7 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
     ok(bad.length === 0, scheme + ': ' + (chapters.length + 3) + ' pages without sideways scroll, unconverted constructs or a display without its font' + (bad.length ? ': ' + bad.join(' | ') : ''));
   }
   ok(displays > 1000 && inks.light !== inks.dark, displays + ' displays set by LaTeX; their ink is ' + inks.light + ' in light and ' + inks.dark + ' in dark, from one source');
+  ok(widthless.length === 0 && drawn > 100, 'no display leaves a glyph of no width to the browser\'s text; ' + drawn + ' such glyphs are drawn as paths' + (widthless.length ? ': ' + widthless.length + ' left, ' + widthless.slice(0, 6).join(' | ') : ''));
   ok(marks.length === 0, REVISED ? 'every page of the revised edition has noindex and, at its top, the link to the same page of the Working Draft' + (marks.length ? ': ' + marks.join(' | ') : '')
     : 'no page of the Working Draft has a robots tag, a callout, a tint, a legend or an archive link; each chapter links to its revised chapter at its foot only' + (marks.length ? ': ' + marks.join(' | ') : ''));
   await p.emulateMedia({ colorScheme: 'light' });
