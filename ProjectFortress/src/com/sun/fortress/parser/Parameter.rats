@@ -168,7 +168,7 @@ FnHeaderFront AbsOpHeaderFront =
                                             opa1, opa4.getText(),
                                             Option.<String>wrap(big), opa2, opa3);
      }
-   / opr w a1:AbsValParam w a2:(Op / ExponentOp
+   / opr w a1:AbsValParam w a2:(Op / ExponentOp /
                                 caret {yyValue = NodeFactory.makeOpUnknown(createSpan(yyStart,yyCount), "^");}
                                ) a3:(w StaticParams)?
      { Op op = (Op)a2;

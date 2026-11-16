@@ -172,8 +172,11 @@ private String multiOp =
    / !(rightEncloserMulti) "//"
    ;
 
+/* The signs for sum and product are accumulators, as SUM and PROD are
+   (NodeUtil.validOp), and never operators. */
 transient private String singleOp =
-     !(encloser / leftEncloser / rightEncloser / multiOp / compOp / match)
+     !(encloser / leftEncloser / rightEncloser / multiOp / compOp / match
+       / "\u2211" / "\u220f")
      a1:_ !("*") &{ PrecedenceMap.ONLY.isOperator("" + a1) }
      { yyValue = "" + a1; } ;
 
@@ -249,14 +252,15 @@ transient Option<FunctionalRef> AssignOp =
      colonequals   { yyValue = Option.<FunctionalRef>none(); }
    / a1:CompoundOp { yyValue = Option.<FunctionalRef>some(a1); };
 
-transient Op SUM = "SUM"
+transient Op SUM = ("SUM" / "\u2211")
      { yyValue = NodeFactory.makeOpBig(createSpan(yyStart,yyCount), "BIG +"); };
-transient Op PROD = "PROD"
+transient Op PROD = ("PROD" / "\u220f")
      { yyValue = NodeFactory.makeOpBig(createSpan(yyStart,yyCount),
                                        "BIG juxtaposition");
      };
 
-/* Accumulator ::= SUM | PROD | BIG w (Encloser | Op) */
+/* Accumulator ::= SUM | PROD | BIG w (Encloser | Op)
+   SUM is the word SUM or the sign U+2211, PROD the word PROD or U+220F. */
 transient Op Accumulator =
      SUM
    / PROD

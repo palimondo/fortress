@@ -1,0 +1,18 @@
+(* A postfix operator whose sign is an exponent operator is declared in an
+   api, defined in its component and applied in a program that imports the
+   api: concrete-syntax.tex, section "Parameters", OpHeaderFront. *)
+component ApiPostfixExponentOpCompiled
+import ApiPostfixExponentOpCompiledApi.{...}
+export Executable
+
+run(): () = do
+    y: ZZ32 = 3
+    assert(y^T, 103, "a plain value, ^T")
+    sz = Sized[\7\]()
+    assert(sz^T, 8, "static parameters after the operator")
+    t: String = "ab"
+    assert(t^MIRROR, "abab", "an exponent operator that is a name")
+    println("PASS")
+end
+
+end
