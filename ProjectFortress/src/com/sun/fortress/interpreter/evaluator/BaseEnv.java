@@ -329,7 +329,8 @@ abstract public class BaseEnv implements Environment, Iterable<String> {
                     value = coerced;
                 }
             }
-            rc.assignValue(Numerals.plain(value));
+            // a function with static parameters is received at the variable's arrow type
+            rc.assignValue(Fcn.received(ft, Numerals.plain(value)));
             return;
         }
         if (v == null) error(loc, this, "Cannot assign to unbound variable " + str);

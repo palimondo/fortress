@@ -1,0 +1,39 @@
+component GenericFunctionAssignedWalk
+export Executable
+
+(* An assignment to a variable of arrow type receives a generic function at that type, as the variable's declaration does (var-ref.tex, section "Identifier References"). *)
+
+kind[\T\](x: T): String = typecase x of
+    ZZ64 => "ZZ64"
+    ZZ32 => "ZZ32"
+    else => "other"
+  end
+
+name64(x: ZZ64): String = "plain"
+
+var top: ZZ64 -> String = kind
+
+run(): () = do
+    z: ZZ32 = 5
+
+    k: ZZ64 -> String = kind
+    assert(k(z), "ZZ64", "k(z), k declared with kind")
+
+    var a: ZZ64 -> String = name64
+    assert(a(z), "plain", "a(z), a declared with name64")
+    a := kind
+    assert(a(z), "ZZ64", "a(z), kind assigned to a")
+
+    b: ZZ64 -> String := name64
+    b := kind
+    assert(b(z), "ZZ64", "b(z), kind assigned to b")
+
+    assert(top(z), "ZZ64", "top(z), a mutable top-level variable declared with kind")
+    top := name64
+    top := kind
+    assert(top(z), "ZZ64", "top(z), kind assigned to top")
+
+    println("done")
+end
+
+end
