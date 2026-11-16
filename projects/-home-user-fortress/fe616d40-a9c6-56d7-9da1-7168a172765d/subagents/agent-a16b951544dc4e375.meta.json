@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read fortress-repo skill","toolUseId":"toolu_01Swx6qV1Pf7P4Mfx7fhqmF3","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"medium","pickedEffortModel":"claude-fable-5-2"}
