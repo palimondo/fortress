@@ -130,7 +130,7 @@ The table above (16 forms), and these, each under walk and compiled:
 | `B.data^T.v`, `B.data.v^T.asString`: a selector after the superscript | SE on both | SE on both |
 | `B.data!^T`, `d^B.n` | SE on both | SE on both |
 | `d^T^T` | refused on both | the same |
-| `B.f()[5]^2` | SE on both | fails on both as `x[5]^2` and `(B.f())[5]^2` do on the base and after: "A defect measured" |
+| `B.f()[5]^2` | SE on both | fails on both as `x[5]^2` and `(B.f())[5]^2` do: "A defect measured" |
 
 The first three rows are forms beyond a superscript that the edit also accepts, because the dotted primary takes every math item: each is in the specification's grammar and is left-associated by `juxtameaning.tex:130-131`. They are run, not asserted in a test.
 
@@ -176,7 +176,7 @@ No reserved point is reached: no model line is changed, `f(x)^T` is accepted on 
 
 ## A defect measured, and its home
 
-- **`x[5]^2` on the compiled path** stops the compile: '** bug! Result of typechecking still contains intermediate nodes.' It is the base's behaviour for `x[5]^2` and `(B.f())[5]^2`, and the dotted `B.f()[5]^2` now reaches it instead of a `Syntax Error`. Under walk the same forms fail as row 1 says ("Unification error: Closure/Constructor for _[_] param 1 (i:ZZ32) got arg ()"). Home 2: deferred, and the specification settles it (`juxtameaning.tex`, "Juxtaposition": only an exponentiation followed by a subscripting or an exponentiation is an error). The gated `XXX` test is `ProjectFortress/compiler_tests/XXXSubscriptThenSuperscriptCompiled.test`; the new row is NEW-S-1 in record.md. Walk's half is row 1, which has no test; this rung adds none, since the row is not its own, and gives the row a note.
+- **`x[5]^2` on the compiled path** stops the compile: '** bug! Result of typechecking still contains intermediate nodes.' Measured on the edit for `x[5]^2` and `(B.f())[5]^2`, which hold no dot outside parentheses and so parse as on the base; the dotted `B.f()[5]^2` now reaches the same failure instead of a `Syntax Error`. Under walk the same forms fail as row 1 says ("Unification error: Closure/Constructor for _[_] param 1 (i:ZZ32) got arg ()"). Home 2: deferred, and the specification settles it (`juxtameaning.tex`, "Juxtaposition": only an exponentiation followed by a subscripting or an exponentiation is an error). The gated `XXX` test is `ProjectFortress/compiler_tests/XXXSubscriptThenSuperscriptCompiled.test`; the new row is NEW-S-1 in record.md. Walk's half is row 1, which has no test; this rung adds none, since the row is not its own, and gives the row a note.
 - Rows 84 and 158: home 1, the assertions of the plain tests above.
 
 ## Commands worked out
