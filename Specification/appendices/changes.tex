@@ -1207,6 +1207,26 @@ join of the run-time types of its elements, and where
 there is none at the bound of its static parameter, or open where that bound
 mentions the parameter itself, and that an empty reduction that no declared
 type directs takes the identity of \EXP{\mathbb{Z}32}.
+A revision of the compiled type checker of 15~November 2026 changes the box
+once more.
+It said that the compiled type checker ``takes the bound of the big operator's
+static parameter, which is not the element type, or, where the reduction's
+type at that bound does not fit the reduction's expected type, that expected
+type'', that ``a bound that mentions the static parameter itself gives no
+instance that applies, so that the reduction is refused (row~425)'', and that
+``Until the compiled type checker directs the desugaring by type, a reduction
+with a generator clause list whose element type no argument fixes writes its
+static argument in a program that both implementations are to run''; it now
+says that the compiled type checker takes the bound where the reduction so
+instantiated is accepted and its type fits the expected type, and otherwise
+instantiates the big operator by the reduction's expected type, where the
+reduction is then accepted, and else by the type of the reduction's body; that
+the two implementations differ where the expected type comes from a place that
+the interpreter does not read; and that a reduction writes its static argument
+where they would so differ.
+Its sentence ``Neither implementation directs it by the type \VAR{N} of the
+expression yet'' now says that neither desugars a reduction by that type yet,
+each instantiating the big operator that the reduction names.
 \item[Rationale] The revival decided on 26~September 2026 that the library's
 \OPR{SUM} and \OPR{PROD} become generic reductions over the library's algebra,
 each joined with its element type's own operator and taking that type's
@@ -1263,6 +1283,30 @@ since 14~October 2026, where the reduction's type at that bound does not fit the
 reduction's expected type, that expected type, the big operator being a call
 written as an argument of another call (\secref{revival-expected-contexts})
 (row~425).
+Since 15~November 2026 it instantiates the big operator of a reduction with a
+generator clause list that writes no static argument, where the reduction is
+not accepted with the big operator at its bound, by the reduction's expected
+type, and otherwise by the type of the reduction's body: the type \VAR{N} of
+the expression, by which this specification directs the desugaring, is the
+expected type where the context gives one and the elements convert to it, and
+otherwise the type of the body.
+The expected type goes first so that the two implementations sum alike a
+reduction that is the value of a local variable declared with a type or of a
+function declared with a return type, where the interpreter instantiates the
+big operator by that type since 14~October 2026: with the body's type first, a
+sum of \EXP{\mathbb{Z}32} elements that is the value of a local variable
+declared \EXP{\mathbb{R}64} would be summed in \EXP{\mathbb{Z}32} when compiled
+and in \EXP{\mathbb{R}64} under the interpreter.
+A reduction that is accepted with the big operator at its bound is unchanged,
+so that no reduction that the compiled type checker accepted before invokes
+another instance.
+Reversing this revision takes the reduction's own check out of the compiled
+type checker's check of an application; a reduction over $\sum$, $\prod$,
+\EXP{\OPR{BIG}\:\OPR{MIN}} or \EXP{\OPR{BIG}\:\OPR{MAX}} that writes no
+static argument is then refused again.
+The reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-static-argument-inferred/REPORT.md}
+in the revival's repository.
 The compiled path's own library declares $\sum$ and
 \EXP{\OPR{BIG}\:\OPR{MAX}} for \EXP{\mathbb{Z}32} alone, with no static
 parameter (\nolinkurl{Library/CompilerLibrary.fsi}, lines 180--184), and
@@ -1293,7 +1337,21 @@ reduction over a big operator whose declared result is a trait other than the
 library's \TYP{BigReduction}, \TYP{Comprehension} and \TYP{BigOperator} is
 instantiated through the one of those three that the trait extends, its static
 arguments put for the trait's, as one declared with that supertype is (row~718).
-The compiled type checker still refuses that form (row~425).
+Since 15~November 2026 the compiled type checker accepts a reduction with a
+generator clause list that writes no static argument over a big operator whose
+bound mentions its static parameter, as the bounds of $\sum$, $\prod$,
+\EXP{\OPR{BIG}\:\OPR{MIN}} and \EXP{\OPR{BIG}\:\OPR{MAX}} do, which it
+refused until then (row~425): it instantiates the big operator by the
+reduction's expected type, its elements converted, or else by the type of the
+reduction's body, as the box says, and likewise a comprehension whose type at
+its big operator's bound does not fit the declared type of its value.
+Where the expected type comes from a method's declared return type, a field,
+a top-level variable or an assignment, the interpreter, which
+reads none of these, still instantiates the big operator by the join of its
+elements' run-time types and converts the value after (row~NEW-C-2).
+The compiled type checker still refuses such a reduction over a big operator
+with two or more static parameters that nothing fixes, as
+\EXP{\OPR{BIG}\:\OPR{MIN\_MAX}} (row~NEW-C-1).
 \item[Original text] Unchanged.
 \item[Route C] The same under route~C.
 \end{description}
@@ -2461,6 +2519,13 @@ return types fit its expected type, the one more specific than every other on
 the parameter types they declare, and is otherwise typed as before, so that a
 declaration that the section accepts for the call as its arguments are typed
 without an expected type is never passed over.
+A fourth revision adds a paragraph after that one, on a reference to a generic
+function: an identifier reference that denotes a function with static
+parameters, writes no static arguments and is not the function of a call
+takes its static arguments from its expected type, where that is an arrow
+type, in the contexts that give a call an expected type; a static parameter
+that the domain of that arrow type does not fix, and a reference with no
+expected arrow type, are static errors.
 The item of the list of what the chapter does not yet describe, in
 \secref{numeral-default}, names the body of a \KWD{for} loop, and no longer
 names the contexts that the list of contexts now gives, the body of a
@@ -2544,13 +2609,34 @@ whose type parameter the numeral fixes.
 A reversal of the third revision would take the argument of a call out of the
 list of contexts and back into the item, and take out the paragraph after the
 list, and the compiled type checker would refuse those calls again.
+The fourth revision follows the sentence that the static arguments of an
+identifier reference that denotes a polymorphic function ``are statically
+inferred from the context of the function call'' (\secref{idn-ref}): where
+the reference is not the function of a call, its context is the type that
+receives its value, and an arrow type there fixes the static parameters that
+the declared parameter types mention.
+The compiled type checker gave such a reference the function's type with its
+static parameters, which no type receives, and stopped with an internal error
+where that type was compared with the parameter type (row~758 of the revival's
+gap ledger).
+A static parameter that only the declared return type mentions is not fixed
+by the expected arrow type, whose range bounds it only from above; the
+reference is then refused, and writes its static arguments.
+The alternative not taken was to instantiate such a reference, or one with no
+expected type, at the bounds of its static parameters, as a call's static
+parameter that nothing fixes is: a function value is passed on and applied
+elsewhere, so that no later application could choose the instance.
+A reversal of the fourth revision would take the paragraph out, and the
+compiled type checker would stop on those references again.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-checker-expected-type/REPORT.md}
 and, for the second revision, in
 \nolinkurl{explorations/compile-ladder/rung-checker-contexts/REPORT.md},
 and, for the third, in
 \nolinkurl{explorations/compile-ladder/rung-argument-context/REPORT.md} and
-\nolinkurl{explorations/reviews/argument-context-probe.md}
+\nolinkurl{explorations/reviews/argument-context-probe.md},
+and, for the fourth, in
+\nolinkurl{explorations/compile-ladder/rung-static-argument-inferred/REPORT.md}
 in the revival's repository.
 \item[Effect] The compiled type checker gives these contexts their expected
 types: it checks a clause of an \KWD{if} expression without an \KWD{else}
@@ -2580,9 +2666,10 @@ A reduction whose big operator's static argument is not written, which the
 reduction's desugaring makes a call written as an argument of another call
 (\secref{reduction-expr}), so takes the reduction's expected type where the
 big operator's instance at its bound gives the reduction a type that does not
-fit it; it is refused as before where the big operator has no instance at its
-bound, as one whose bound mentions its own static parameter has none
-(row~425).
+fit it; until 15~November 2026 it was refused where the big operator has no
+instance at its bound, as one whose bound mentions its own static parameter
+has none (row~425), and it is now instantiated by the reduction's expected
+type, or else by the type of its body (\secref{revival-reductions}).
 It gives the expected type also to an operator repeated between three or more
 operands, as \EXP{p \oplus q \oplus r}: to the multifix application where a
 multifix declaration accepts the operands, and otherwise to the outer of the
@@ -2603,6 +2690,18 @@ type, as for a loose juxtaposition.
 Until 9~October 2026 it gave none there (row~660); the reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-array-bound/REPORT.md} in the
 revival's repository.
+Since 15~November 2026 it instantiates a reference to a generic function by
+the arrow type that receives it: \EXP{\VAR{useOne}(\VAR{count})} of
+\secref{static-arg-inference} compiles and runs, as does a function with a
+\KWD{nat} parameter at a parameter of a sized arrow type, where it stopped
+with an internal error (row~758).
+It refuses, with a message, a reference whose receiving arrow type leaves a
+static parameter open, and the application of a variable that was bound
+without a type to such a reference; a variable so bound that is never applied
+still stops it (row~NEW-C-4).
+It refuses a reference to a name with several declarations of which one has
+static parameters, where no declaration without static parameters has a type
+that fits the receiving arrow type (row~NEW-C-3).
 The interpreter has no static types and is unchanged; it fixes no type
 parameter by an expected type (\secref{static-arg-inference}), so that
 \EXP{\VAR{takes}(\VAR{mk}())} and \EXP{\VAR{takes}(\VAR{wrap}(3))} fail there

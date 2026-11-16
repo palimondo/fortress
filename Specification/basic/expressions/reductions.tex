@@ -27,7 +27,8 @@ an optional generator clause list (described in
 \revision{revival-reductions}{The desugaring of a reduction is directed by
 type in this specification: a sum is desugared with the reduction for the type
 \VAR{N} of the expression (\secref{desugaring-generators}).
-Neither implementation directs it by the type \VAR{N} of the expression yet.
+Neither implementation desugars a reduction by the type \VAR{N} of the
+expression yet: each instantiates the big operator that the reduction names.
 When no argument of the big operator fixes the element type, the interpreter,
 which has no static types, directs it by run-time types
 (\secref{static-arg-inference}): it instantiates the big operator by the
@@ -42,17 +43,39 @@ directs takes the identity of \EXP{\mathbb{Z}32} whatever the type of the
 expression (row~716 of the revival's gap ledger); the compiled type
 checker, when it checks the libraries
 this specification describes, takes the bound of the big operator's static
-parameter, which is not the element type, or, where the reduction's type at
-that bound does not fit the reduction's expected type, that expected type
+parameter, which is not the element type, where the reduction so instantiated
+is accepted and its type fits the reduction's expected type
 (\secref{static-arg-inference}): a bound such as \TYP{Number} gives the
-reduction that type where it has no expected type, and a bound that mentions
-the static parameter itself gives no instance that applies, so that the
-reduction is refused (row~425).
-Until the compiled type checker directs the desugaring by type, a reduction
-with a generator clause list whose element type no argument fixes writes its
-static argument in a program that both implementations are to run, as the
-team's own tests do, as in
-\EXP{\sum\llbracket\mathbb{Z}32\rrbracket [j \gets 0\#i]\: f(j)};
+reduction that type where it has no expected type.
+Where the reduction is not accepted so, as where the bound mentions the static
+parameter itself and so gives no instance that applies, as the bounds of
+$\sum$, $\prod$ and \EXP{\OPR{BIG}\:\OPR{MIN}} do, the compiled type
+checker instantiates the big operator by the reduction's expected type, where
+the reduction so instantiated is accepted and its type fits the expected type,
+its elements converted to it, and otherwise by the type of the reduction's
+body, a numeral there at its default (\secref{numeral-default}).
+So the two implementations instantiate alike a reduction that is the value of
+a local variable declared with a type or of a top-level or local function
+declared with a return type, and one that has no expected type, at least one
+element, and elements whose run-time types join to the static type of its
+body.
+They differ where the expected type is a method's declared return type, the
+declared type of a field or of a top-level variable, or the type of a variable
+that is assigned to: the compiled type checker
+instantiates the big operator by it, and the interpreter by the join of the
+run-time types of the elements, converting the value after, so that a sum of
+\EXP{\mathbb{Z}32} elements declared \EXP{\mathbb{R}64} in such a place is
+summed in \EXP{\mathbb{Z}32} under the interpreter and in
+\EXP{\mathbb{R}64} when compiled (row~NEW-C-2).
+A reduction that is an argument of a call has no expected type where the call
+is accepted with the reduction instantiated by the type of its body
+(\secref{static-arg-inference}), and both implementations then instantiate it
+so.
+A big operator with two or more static parameters that nothing fixes the
+compiled type checker still refuses (row~NEW-C-1).
+A reduction with a generator clause list whose element type no argument fixes
+writes its static argument where the two implementations would so differ, as
+in \EXP{\sum\llbracket\mathbb{Z}32\rrbracket [j \gets 0\#i]\: f(j)};
 a reduction without a generator clause list, such as \EXP{\sum a}, needs none.
 Until the compiled path is built on those libraries, it compiles against a
 smaller library of its own, whose big operators $\sum$ and
