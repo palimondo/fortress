@@ -139,7 +139,7 @@ The first three rows are forms beyond a superscript that the edit also accepts, 
 - `ant testSystem`: `BUILD SUCCESSFUL`, `Total time: 5 minutes 13 seconds`; the four shards 211 + 208 + 203 + 211 = 833 tests, 0 failures, 0 errors.
 - `ant testQuick`: `BUILD SUCCESSFUL`, `Total time: 7 minutes 28 seconds`; compiler 1574, library 86, othercompiler 263 tests, 0 failures, 0 errors.
 - No existing test changed its verdict, its output or a pinned message, and no line of an existing test is edited.
-- The 52 team demos: DEMOS_LINE
+- The 52 team demos: `bash tmp/run-demos.sh tmp/demos`, the driver of `explorations/compile-ladder/rung-team-demos/REPORT.md`, "Commands worked out", under walk on the edit: `demos: 52 run, 52 reached their end`.
 - microGPT's quick checks: `explorations/coordinator/tools/mg-run.sh tmp/rung-superscript-after/mg after`, on the edit: `VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS`, `rc=0 secs=79` for `MicroGptFlatQuick.fss` and the same verdict, `rc=0 secs=71`, for `MicroGptAplQuick.fss`.
 
 ## The stages, on the code of `21045c6c65` (no change of code followed their start)
