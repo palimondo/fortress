@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Base build for batch 31","toolUseId":"toolu_01GPHhdTdcJZUNsEXo6dmN3Q","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"low","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Base build for batch 31","toolUseId":"toolu_01GPHhdTdcJZUNsEXo6dmN3Q","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"low","pickedEffortModel":"claude-fable-5-2","finished":true}
