@@ -1,0 +1,5 @@
+(* The component that defines the function that its api declares in the arrow notation. *)
+component ArrowNotationDeclApi
+export ArrowNotationDeclApi
+echo(x: String): String = x
+end

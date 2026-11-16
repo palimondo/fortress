@@ -1,0 +1,10 @@
+(* A call of an imported function that its api declares in the arrow notation; functions.tex, section "Abstract Function Declarations". *)
+component XXXArrowNotationDecl
+import ArrowNotationDeclApi.{...}
+export Executable
+run(): () = do
+    println("REACHED")
+    assert(echo("whatever"), "whatever", "a function declared in an api as a name, a colon and an arrow type is called through the api")
+    println("PASS")
+  end
+end
