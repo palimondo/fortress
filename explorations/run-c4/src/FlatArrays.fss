@@ -44,11 +44,11 @@ end
 diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\] = Diag[\s\](v)
 
 (* ----------------------------------------------------- transposes -------- *)
-(* as functions: an API cannot declare a postfix operator (ledger row 133), so
-   the model declares ^T itself over these; and a call result may not be
-   followed by ^T at all (rows 144, 158) *)
+(* as functions, and as ^T over them *)
 transpose[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Matrix[\RR64,c,r\] = m.t()
 transpose[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): Array3[\RR64,0,a,0,c,0,b\] = Transposed3[\a,b,c\](t)
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = transpose(m)
+opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\] = transpose(t)
 
 (* ------------------------------------------------------------ views ----- *)
 (* the (nr x nc) matrix at off in a flat vector, row-major *)

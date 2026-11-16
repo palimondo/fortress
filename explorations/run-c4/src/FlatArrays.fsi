@@ -23,11 +23,12 @@ log[\I\](a: Array[\RR64,I\]): Array[\RR64,I\]
 object Diag[\nat s\](d: Vector[\RR64,s\]) extends Matrix[\RR64,s,s\] end
 diag[\nat s\](v: Vector[\RR64,s\]): Diag[\s\]
 
-(* transposes, as views: of a matrix, and of every plane of a rank-3 array.
-   Functions, because an API cannot declare a postfix operator (ledger row 133);
-   the model declares ^T over them *)
+(* transposes, as views: of a matrix, and of every plane of a rank-3 array,
+   as functions and as ^T *)
 transpose[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Matrix[\RR64,c,r\]
 transpose[\nat a, nat b, nat c\](t: Array3[\RR64,0,a,0,b,0,c\]): Array3[\RR64,0,a,0,c,0,b\]
+opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\]
+opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\]
 
 (* views, all zero-copy, readable and writable *)
 view[\nat s\](p: Vector[\RR64,s\], off: ZZ32, nr: ZZ32, nc: ZZ32): Array[\RR64,(ZZ32,ZZ32)\]
