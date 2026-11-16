@@ -66,7 +66,7 @@ The four-thread atomic runs of the skill's `gate.md`, since the edit passes thro
 
 ## Where the fix belongs, and the precedent search
 
-The feature map puts top-level variable declarations at `Decls.scala` for the checker and `CodeGen.forVarDecl` for the code generator (`explorations/coordinator/map/spec-to-implementation.md:200`). The checker's defect is in the one case that rebuilds the right side; the two other `SVarDecl` cases and the three `SLocalVarDecl` cases of the file keep the checked right side or build it typed, so there is one site, not a family (`Decls.scala:248-326`, `:337-425`). The code generator's precedents are two: the local form (`CodeGen.java:4436`), which evaluates a tuple-valued right side once and picks its pieces with `INVOKEINTERFACE` on the tuple's typed getters, and walk's desugaring, whose comment states the team's design: "Introduce a temporary, then initialize elements piece-by-piece" (`DesugarerVisitor.java:858-859`). The edit follows both: one temporary, pieces by the typed getters.
+The feature map puts top-level variable declarations at `Decls.scala` for the checker and `CodeGen.forVarDecl` for the code generator (`explorations/coordinator/map/spec-to-implementation.md:200`). The checker's defect is in the one case that rebuilds the right side; the two other `SVarDecl` cases and the three `SLocalVarDecl` cases of the file keep the checked right side or build it typed, so there is one site, not a family (`Decls.scala:248-338`, `:349-438`). The code generator's precedents are two: the local form (`CodeGen.java:4436`), which evaluates a tuple-valued right side once and picks its pieces with `INVOKEINTERFACE` on the tuple's typed getters, and walk's desugaring, whose comment states the team's design: "Introduce a temporary, then initialize elements piece-by-piece" (`DesugarerVisitor.java:858-859`). The edit follows both: one temporary, pieces by the typed getters.
 
 ## What the specification settles
 
@@ -211,3 +211,15 @@ Row 152 says of an earlier model program's `(corpusTokens, corpusLengths) = load
 
 1. Walk's defect NEW-D-1 is one word of `DesugarerVisitor.java:873`: the field reference should be on the temporary. It is outside this rung. Repair it in a rung of walk, or leave it until walk is retired?
 2. The moment of a top-level variable's initialization differs between the paths: at load, in declaration order, under walk (row 152); at the first read on the compiled path, also for a single variable. A program whose initializers write mutable state can see it. Is the compiled path's lazy initialization the design, or a gap to record?
+
+## Added by the skeptic
+
+The account above is the worker's, of `47aad62914`. `SKEPTIC.md`, beside this file, holds the check. What it changed:
+
+- A defect of the change, repaired in `a29032ee89`: where only some names of a top-level tuple binding declare a type and the right side is no tuple expression of as many elements, the checker left the declared names unchecked (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala:324-336` is the repair). `(total: ZZ64, part) = two()` compiled and failed the JVM's verification at class load; `(word: String, part) = two()` compiled and ran. Tests: `ProjectFortress/compiler_tests/TopLevelTupleBindingMixedTypes.test` and `XXXTopLevelTupleBindingMixedRefused.test` over `TopLevelTupleBindingMixedRefused.fss`.
+- `ddfd231caf`: `CodeGen.isWildcard` asks `NodeUtil.isUnderscore` (`ProjectFortress/src/com/sun/fortress/nodes_util/NodeUtil.java:710`).
+- `0ab8dc21a1`: each of the rung's tests keeps one comment line.
+- `2e52c7ec0c`: three defects that the base has too, each with a gated `XXX` test and a row in `record.md`: NEW-D-4 (`XXXLocalTupleBindingMixedTypes.test`), NEW-D-5 (`XXXBlockEndsInTupleOfNumeralCompiled.test`), NEW-D-6 (`XXXTupleBindingIfBranchesCompiled.test`).
+- The whole suite for the checker edit, once, on the code of `ddfd231caf`: `ant testQuick`, `Tests run: 86`, `263` and `1585`, each with 0 failures, `BUILD SUCCESSFUL`.
+- The count and distance tables above are those of `47aad62914`; neither stage ran after the skeptic's fixes. The interpreter's library has no top-level tuple binding, so the count stage does not run the repaired case.
+
