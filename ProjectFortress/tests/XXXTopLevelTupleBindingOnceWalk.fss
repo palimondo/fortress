@@ -1,5 +1,4 @@
-(* The right side of a top-level tuple binding is evaluated once
-   (variables.tex, section "Top-Level Variable Declarations"). *)
+(* The right side of a top-level tuple binding is evaluated once (variables.tex, section "Top-Level Variable Declarations"). *)
 component XXXTopLevelTupleBindingOnceWalk
 export Executable
 

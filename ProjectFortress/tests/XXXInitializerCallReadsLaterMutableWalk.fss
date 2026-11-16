@@ -1,6 +1,4 @@
-(* A top-level initializer may refer to a variable declared later, also
-   through a function that it calls and where the variable is mutable
-   (variables.tex, section "Top-Level Variable Declarations"). *)
+(* A top-level initializer may refer to a variable declared later, also through a function that it calls and where the variable is mutable (variables.tex, section "Top-Level Variable Declarations"). *)
 component XXXInitializerCallReadsLaterMutableWalk
 export Executable
 

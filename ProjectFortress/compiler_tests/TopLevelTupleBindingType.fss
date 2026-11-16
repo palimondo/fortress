@@ -1,6 +1,4 @@
-(* Each name of a top-level tuple binding has its element's type, so a
-   use at another type is refused
-   (variables.tex, section "Top-Level Variable Declarations"). *)
+(* Each name of a top-level tuple binding has its element's type, so a use at another type is refused (variables.tex, section "Top-Level Variable Declarations"). *)
 component TopLevelTupleBindingType
 export Executable
 

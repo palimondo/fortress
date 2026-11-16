@@ -1,6 +1,4 @@
-(* Each name of a top-level tuple binding is exported and imported as a
-   top-level variable is (variables.tex, section "Top-Level Variable
-   Declarations"; source-code.tex, subsection "Export Statements"). *)
+(* Each name of a top-level tuple binding is exported and imported as a top-level variable is (variables.tex, section "Top-Level Variable Declarations"; source-code.tex, subsection "Export Statements"). *)
 component TopLevelTupleBindingImport
 import TopLevelTupleBindingApi.{...}
 export Executable
