@@ -49,6 +49,12 @@ run(): () = do
     assert(NOT (y = 8), "a program's number type and a numeral of another value")
     assert(NOT (y = 300), "a numeral that the type's coercion does not take compares at its default")
     assert(y = 7, "the numeral that the coercion takes, after one that it does not")
+    t: NN32 = 4294967293
+    assert(k(-5), "any", "a negative constant is no NN32: after k(5) it still runs the declaration over Any")
+    assert(NOT (t = 3), "an NN32 and a numeral of another value")
+    assert(NOT (t = -3), "a negative constant after a numeral at one =: it compares at its default")
+    assert(u < 1, "an NN32 zero is below the numeral 1")
+    assert(NOT (u < -1), "a negative constant after a numeral at NN32's <")
     println("PASS")
   end
 

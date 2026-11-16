@@ -648,7 +648,7 @@ public final class Numerals {
      * for a numeral the bottom type, its default's type, its own type and its
      * range, so that a numeral and a value of its default type have different
      * keys, and so do two numerals of one default that an unsigned type of
-     * its width holds and does not.
+     * its width holds and does not, and a negative constant and a numeral.
      */
     public static final class Keys implements EquivalenceClass<List<FValue>, List<FType>> {
         public int compare(List<FValue> x, List<FType> y) {
@@ -712,15 +712,25 @@ public final class Numerals {
      * as the bottom type, else the top type; and for a numeral that rounds to
      * an infinity at RR32 alone the void type, at RR32 and RR64 the range
      * type: the parts of a numeral's dispatch that its default's type does
-     * not fix (inRange).
+     * not fix (inRange).  For a negative integer constant, which no unsigned
+     * type holds whatever its width, the pair of that key.
      */
     private static FType rangeKey(FValue v) {
-        int inf = infiniteAt(((Numeral) v).site());
-        if (inf > 0) return inf == 1 ? FTypeVoid.ONLY : FTypeRange.ONLY;
-        BigInteger d = ((Numeral) v).site().digitValue;
-        boolean fits = v instanceof LongNumeral ? d.compareTo(NN32_MAX) <= 0
-                       : v instanceof BigNumeral ? d.compareTo(NN64_MAX) <= 0 : true;
-        return fits ? BottomType.ONLY : FTypeTop.ONLY;
+        Site s = ((Numeral) v).site();
+        int inf = infiniteAt(s);
+        FType key;
+        if (inf > 0) key = inf == 1 ? FTypeVoid.ONLY : FTypeRange.ONLY;
+        else {
+            BigInteger d = s.digitValue;
+            boolean fits = v instanceof LongNumeral ? d.compareTo(NN32_MAX) <= 0
+                           : v instanceof BigNumeral ? d.compareTo(NN64_MAX) <= 0 : true;
+            key = fits ? BottomType.ONLY : FTypeTop.ONLY;
+        }
+        if (s.radixPoint || s.signed == null || s.signed.signum() >= 0) return key;
+        List<FType> pair = new ArrayList<FType>(2);
+        pair.add(key);
+        pair.add(key);
+        return FTypeTuple.make(pair);
     }
 
     /** A tuple that holds a numeral is keyed by its plain type, and is told apart from one that does not. */
