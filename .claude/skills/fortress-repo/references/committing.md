@@ -1,7 +1,7 @@
 # Committing and pushing
 
 **scratch**
-: Files and folders that your work makes and `main` does not keep: logs, captured and raw run output, copies of tools, probe programs, lists and private caches folders.
+: Files and folders that your work makes and `main` does not keep: logs, captured and raw run output, copies of tools, lists and private caches folders.
 
 Your brief says whether you commit and push, and on which branch. If it says nothing, commit on your current branch, and push it.
 
@@ -9,9 +9,10 @@ Your brief says whether you commit and push, and on which branch. If it says not
 
 - Commit your change, its tests, your report if it is a file, and any reusable script.
 - Commit what you write to the record, such as a ledger row, with the work that it records. A row's close follows the fix's commit (`records.md`).
+- A probe builds a change to answer a question, without landing it. Commit its patch, report and programs in the `probes/` folder that your brief names. Its code reaches `main` only in a later change, test first.
 - Keep scratch in your tree's `tmp/`, which is gitignored.
-- In a fresh clone, `.claude/worktrees/` and `.claude/agents/` show as untracked, because the lines of `.git/info/exclude` that hide them are not in the clone. Do not commit them.
-- Keep a copyrighted PDF or deck in `research/decks/`, which is gitignored. Cite it by its Wayback URL. Notes on it go in `research/extracts/`: your own summary, with brief attributed quotations.
+- Do not commit `.claude/worktrees/` or `.claude/agents/`, which show as untracked in a fresh clone.
+- Keep a copyrighted PDF or deck in `research/decks/`, also gitignored. Cite it by its Wayback URL. Notes on it go in `research/extracts/`: your own summary, with brief attributed quotations.
 - Put provenance and rationale in commit messages and reports, not in source comments.
 - Name a model by its tier (Opus, Sonnet, Fable) in any text that you commit, commit messages included. Never write its model identifier, the API's name for the model, which starts with `claude-`.
 
@@ -35,10 +36,10 @@ Commit as you go, each commit in one command that names its paths:
 
 ## Pushing
 
-Push after every commit, so that a lost container loses nothing.
+Push after every commit.
 
 - If you work on your own branch, push it: `git push -u origin <branch>` the first time, then `git push`. Your brief says how the branch reaches `main`.
-- From a session in a cloud container, do not try to delete a branch on GitHub, or retry a refusal with another tool (the `cloud-container` skill, "Rules for every agent"). Removing a worktree does not delete its branch, which stays. Ask nobody in your report to delete a branch.
+- From a session in a cloud container, do not try to delete a branch on GitHub, or retry a refusal with another tool (the `cloud-container` skill, "Rules for every agent"). Removing a worktree leaves its branch. Ask nobody in your report to delete a branch.
 - If you work on `main`, other agents commit to it too. Push only your own commits:
   1. Run `git log origin/main..main`. Your commits are those whose hashes your own `git commit` printed.
   2. If it lists another agent's commit, run the command again shortly: that agent pushes right after it commits. If the commit stays, push nothing, and say so in your report.
@@ -46,6 +47,6 @@ Push after every commit, so that a lost container loses nothing.
 
          git push --atomic origin main main:claude/worker-brief-fable-vnnuv8 main:blinded-fable
 
-     With `--atomic`, the three refs update together or not at all. Do not pipe the command into another command, since a pipe hides a refusal. A refusal shows as a line that starts with `!`, and as a non-zero exit. The last ref keeps `blinded-fable` current. If the container is lost, the platform rebuilds it from that branch.
+     With `--atomic`, the three refs update together or not at all. Do not pipe the command into another command, since a pipe hides a refusal. A refusal shows as a line that starts with `!`, and as a non-zero exit. The platform rebuilds a lost container from `blinded-fable`.
 - Push no branch that this section does not name, unless your brief names it.
 - If a push is refused, push nothing more, and do not run it again. Report the refused ref and git's message.

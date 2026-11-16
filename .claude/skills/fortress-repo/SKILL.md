@@ -175,7 +175,7 @@ When you switch, load `references/exploring.md`. It says which choices are yours
 - Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: if the Bash tool's time limit stops the command, it shows nothing.
 - Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/library.md`).
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.
-- Commit only the paths that you wrote. Do not commit scratch: logs, captured output, probe programs. Do not rename a file to get it past `.gitignore`. Each agent's transcript keeps how the work was done (`references/committing.md`).
+- Commit only the paths that you wrote. Do not commit scratch, such as logs and captured output. A probe's patch, report and programs are not scratch. Do not rename a file to get it past `.gitignore` (`references/committing.md`).
 - End your work with a report. List in it the defects that you found, your decisions, and the points that your brief asks for. Put a question for the curator in it as a decision not taken (`references/records.md`).
 
 ## The parts

@@ -1,6 +1,6 @@
 # Exploring: a question that the record does not settle
 
-The record keeps what earlier workers found, and they met many of the same questions. Workers have called a thing absent or new when the record already held it.
+The record keeps what earlier workers found, and they met many of the same questions.
 
 ## The choices that are yours
 
@@ -41,9 +41,9 @@ When your report describes the team's sources on a question, say which of them i
 1. Search the record with the queries in `records.md`. If two of the team's sources disagree, look for the construct in `revival-changes.md` before you search the record.
 2. If the record or `revival-changes.md` settles the question, go back to building. Cite what settles it.
 3. If you have evidence against a decision of the curator, read its POSITIONS entry and the notes that it names. If the decision used your evidence, go back to building.
-4. Search the original tree. These help: the feature table and the phase map (`compiler.md`, "Before an edit"), the `\note{}` boxes and the map of design areas ("Weighing the sources" above), and the history of a file (`records.md`, "The repository's history").
+4. Search the original tree. These help: the feature table and the phase map (`compiler.md`, "Before an edit"), the `\note{}` boxes and the map of design areas ("Weighing the sources"), and the history of a file (`records.md`, "The repository's history").
 5. Before you write that something does not exist, search the record for it, INDEX included (`index:WORDS`).
-6. Decide whose choice it is, by "The choices that are yours" above.
+6. Decide whose choice it is, by "The choices that are yours".
 7. Record each defect that you found as `tests-writing.md`, "How a defect is recorded", says. If you make the choice and repair the defect, that is its item 1. If the question stays open, it is its item 3. Record a finding that is not a defect, such as a fact about the original tree, as `records.md`, "Writing to the record", says.
 8. If your brief does not let you edit the ledger, put the ledger row in your report:
    1. Write the row in a file, in the form that `records.md` gives for a new row.
@@ -53,7 +53,8 @@ When your report describes the team's sources on a question, say which of them i
 10. If the choice is yours, make it. Report it as a decision.
 11. If the choice is the curator's, report it as a decision not taken. Give these:
     - the question;
-    - each source, and its date ("Weighing the sources" above says what else to note);
+    - each source, and its date ("Weighing the sources" says what else to note);
     - each possible solution, and what it changes;
     - which solution keeps the current behaviour.
 12. If you cannot get some evidence in your task, say in your report what is missing and how to get it.
+13. If a probe gave the answer, commit its files as `committing.md`, "What to commit", says.

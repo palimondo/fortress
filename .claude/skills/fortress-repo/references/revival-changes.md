@@ -129,6 +129,6 @@ At a method's return type, a field, a top-level variable and an assignment, the 
 
 ## Implementation limits
 
-**Walk has no static types.** Walk will run the checker only after the switch-over (P-12). Besides a `Boolean`, walk takes a `Maybe` as an `if` condition, `Just` as true and `Nothing` as false. It refuses any other value. The specification and the checker take only a `Boolean`, so do not write a `Maybe` condition.
+**Walk has no static types.** Walk will run the checker only after the switch-over (P-12). Besides a `Boolean`, walk takes a `Maybe` as an `if` condition, `Just` as true and `Nothing` as false. The specification and the checker take only a `Boolean`, so do not write a `Maybe` condition.
 
-**Write every parameter type.** The compiled path refuses a parameter without a type, of a function, a method or a local function: "Missing parameter type for". Walk runs it, except in a method that implements an abstract one (row 405). A component's function that leaves out its return type takes the api's declaration at its parameter types. With none or several, the checker types the body.
+**Write every parameter type that no api gives.** The compiled checker takes a type that a component's declaration leaves out from the exported api's declaration. Without one, it refuses a parameter: "Missing parameter type for". Walk runs it, except in a method that implements an abstract one (row 405). With no api declaration at a function's parameter types, or several, the checker types the body for a return type.

@@ -28,14 +28,14 @@ These functions work on the library's generators and reductions: `trait Generato
 
 ## Designing a change
 
-- Put each extension into this library, outside the compiler's files. This includes an extension that only the model program needs.
+- Put into this library what a program builds that a more mature library would hold. The plainest case is a form that the library has for one number type, rank or sibling trait and lacks for another. A form that extends the program's own domain stays in the program.
 - Fix a gap in the library, not by a workaround in the program that meets it. Take the design from the library's practice as well as from the specification's text. If the two disagree, do as `specification.md`, "When the text and an implementation disagree", says.
-- If a rule of the language or the checker refuses the way that you want, find how the library writes that kind of thing. Do the same. The checker's refusals of this library reach you through your brief, or through a run of the count stage (`compiler.md`): `fortress typecheck` checks against the compiler's prelude.
-- When you add a method, make it dotted or functional as its family in the library does. If the family shows no practice, follow the team's proposal, which no program can import (`Library/incomplete/Collection.fss`): an updater, a getter or a setter, indexing included, is dotted, and every other method is functional.
-- A new functional method reserves its name in every program that imports the library. The phase that binds names then refuses each program that names a variable or a parameter after it: "Variable even is already declared."
+- If a rule of the language or the checker refuses the way that you want, find how the library writes that kind of thing, and do the same. The checker's refusals of this library reach you through your brief, or through a run of the count stage (`compiler.md`): `fortress typecheck` checks against the compiler's prelude.
+- When you add a method, make it dotted or functional as its family in the library does. If the family shows no practice, follow the team's unfinished collection design (`Library/incomplete/Collection.fss`): an updater, a getter or a setter, indexing included, is dotted, and every other method is functional.
+- A new functional method reserves its name: the phase that binds names then refuses each program that names a variable or a parameter after it.
 - A `fail` without a static argument has the result type `Any`. Where it must have a type, write the static argument, as `strToInt` calls `fail[\ZZ32\]`.
 - A dotted method shadows a top-level function of the same name (`overloading.tex`, "Principles of Overloading").
-- In an api, declare each top-level function and each member of a trait or object at the header that the component gives it. A function's header is its name, its static parameters with their bounds, its modifiers, its `throws` clause, its parameters' modifiers and types, and its return type. A function's parameters' names and a `where` clause do not count, but each static parameter's name counts (ledger row 836). Give an object's value parameters the api's names, because they are its fields (`compiler.md`, "Traps of the compiled path"). In the cases below, change the component's header to the api's, not the api's to the component's. The examples are in `Library/FortressLibrary.fsi` and `Library/FortressLibrary.fss`.
+- In an api, declare each top-level function and each member of a trait or object at the header that the component gives it. A function's header is its name, its static parameters with their bounds, its modifiers, its `throws` clause, its parameters' modifiers and types, and its return type. A function's parameters' names and a `where` clause do not count, but each static parameter's name counts (ledger row 836). Give an object's value parameters the api's names, because they are its fields (`compiler.md`, "Traps of the compiled path"). In the cases below, change the component's header to the api's, not the api's to the component's. The examples are in `Library/FortressLibrary.fsi` and `.fss`.
   - The member's body already answers the api's type. `RR64`'s `opr |\self/|`, `opr |/self\|` and `truncate` answer `ZZ64`, because they call `Float`'s natives, which answer `ZZ64` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:184-191`).
   - The api cannot name the component's type. `Array2`'s and `Array3`'s `bounds` and `zeroIndices` answered types of `RangeInternals`, which depends on this api. They now answer the api's `CompactFullRange` types, which those types extend.
   - The api's type is wider, and the overrides and bodies use only that type. `DelegatedIndexed`'s `generator` answers the api's `Generator[\E\]`, as `FlatString`'s override does.
@@ -52,9 +52,9 @@ These functions work on the library's generators and reductions: `trait Generato
   - For the one library's `FortressLibrary` component: the count stage (`compiler.md`, "The checker's time").
   - For the other thirteen components that the gate's distance stage checks: that stage. When a rung needs it, the brief gives its command.
   - For another component of the one library: no step, until the switch-over.
-- A new overload can make walk refuse every program at load. `interpreter.md`, "What walk checks", lists what walk refuses.
+- A new overload can make walk refuse every program at load (`interpreter.md`, "What walk checks").
 - Write a new native as a public static method of a class under `nativeHelpers/`, and bind it with `builtinPrimitive("com.sun.fortress.nativeHelpers.Class.method")`. Both paths run it. Give it the Java types that carry the declared types (`interpreter.md`, "Natives"). Write a glue class under `interpreter/glue/prim/`, which only walk runs, only where no Java type carries a declared type, as for the bindings in `Library/Reflect.fss`. A native is an edit of Java: rebuild (`build-and-caches.md`, "Two layers of code"), and test it on both paths (`compiler.md`, "Natives").
-- `interpreter.md`, "The model program", says how to check microGPT under walk.
+- Check microGPT under walk as `interpreter.md`, "The model program", says.
 
 ## Editing
 
