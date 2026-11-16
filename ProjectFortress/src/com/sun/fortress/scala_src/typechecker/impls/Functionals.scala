@@ -627,8 +627,9 @@ trait Functionals { self: STypeChecker with Common =>
    * body, and a call that is accepted as written is not changed. Left is the
    * argument to check for the refusal where no form is accepted and the big
    * operator has no instance alone: with the body's type written, or else the
-   * expected type, where the big operator has an instance at it. None for any
-   * other call.
+   * expected type, where the big operator has an instance at it. A static
+   * argument is written only for a big operator with one static parameter, a
+   * type, and only a type that meets its bounds. None for any other call.
    */
   private def reductionApplication(preCandidates: List[PreAppCandidate],
                                    arg: Expr,
@@ -648,7 +649,30 @@ trait Functionals { self: STypeChecker with Common =>
         def writtenOp(t: Type): Expr =
           SOpExpr(opInfo, addStaticArgs(ref, List(NF.makeTypeArg(NU.getSpan(op), t, false))), Nil)
         def written(t: Type): Expr = STupleExpr(info, List(writtenOp(t), clauses), None, Nil, inApp)
-        def instance(t: Type) = tryChecker.tryCheckExpr(writtenOp(t)).isDefined
+        // The one static parameter, a type, of each declaration of the big
+        // operator that takes no argument; a type fits where it meets the
+        // bounds of one, which a written static argument is not checked
+        // against.
+        val params: List[StaticParam] = tryChecker.tryCheckExpr(ref) match {
+          case Some(f: FunctionalRef) => toListFromImmutable(f.getNewOverloadings).flatMap {
+            case SOverloading(_, _, _, Some(a @ SArrowType(_, STupleType(_, Nil, None, _), _, _, _, _)), _) =>
+              getStaticParams(a) match {
+                case List(sp) if !sp.isLifted && sp.getKind.isInstanceOf[KindType] => Some(sp)
+                case _ => None
+              }
+            case _ => None
+          }
+          case _ => Nil
+        }
+        def instance(t: Type) = params.exists { sp =>
+          object subst extends Walker {
+            override def walk(node: Any): Any = node match {
+              case v: VarType if v.getName == sp.getName => t
+              case _ => super.walk(node)
+            }
+          }
+          toListFromImmutable(sp.getExtendsClause).forall(b => isSubtype(t, subst(b).asInstanceOf[Type]))
+        }
         def accepted(a: Expr) = (try {
           tryChecker.typedApplication(preCandidates, getArgList(a), context, None, fallBackWithoutContext)
         } catch { case _: StaticError => None }).filter(r => context.forall(coercions.substitutableFor(r._2, _)))
