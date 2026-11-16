@@ -42,13 +42,19 @@ language design.\\
 This specification is a working draft;
 it is meant to include all language features included in
 the Fortress Language Specification, Version 1.0\EXP{\beta{}}
-(perhaps with additional ) and any language changes since then.
+(perhaps with additional modification and evolution of their design)
+and any language changes since then.
 This version of the specification is not yet for a release;
 it may include wild ideas that require additional research before they can be
 implemented reliably.
 This specification includes descriptions of unimplemented features in boxes
 at the beginning of sections,
 and informal comments and notes in boxes in the margin.\\
+
+\revision{revival-supported}{The first sentence of this paragraph had lost
+words after ``perhaps with additional''.
+They are restored from the preface of the Fortress Language Specification,
+Version 1.0.}
 
 
 In 2026 the Fortress revival revised this working draft where a decision
@@ -68,17 +74,21 @@ text, and the alternative not taken.
 \begin{figure}[p]
 The not-yet-supported features include:
 \begin{itemize}
-\item widening coercion
-\item multifix operators
-\item type coverage check
-\item generic overloading check
+\item widening coercion (\secref{widening})
+\item multifix operators, beyond the compiled type checker's choice of a
+multifix declaration
+\item type coverage check of a generic object under the interpreter
+\item generic overloading check of two functional methods of one type under
+the interpreter
 \item definite assignment check
-\item keyword and varargs parameters
+\item keyword parameters; varargs parameters in compiled code and in the
+parameters of an object
 \item varargs expressions
-\item some modifiers (\KWD{override}, \KWD{io}, \KWD{atomic}, \KWD{value}, ...)
+\item some modifiers (\KWD{override} in compiled code, \KWD{io},
+\KWD{atomic} on a function, ...)
 \item qualified names
-\item identifiers including connecting punctuations
-\item ASCII conversion
+\item identifiers in which a digit follows an underscore
+\item ASCII conversion other than of names
 \item Unicode canonicalization
 \item array comprehensions
 \item reduction variables
@@ -88,26 +98,37 @@ The not-yet-supported features include:
 \item thread fairness guarantee
 \item distributions
 \item matrix unpasting
-\item Non-type static parameters
+\item \KWD{bool}, \KWD{dim} and \KWD{unit} static parameters; \KWD{opr} static
+parameters in compiled code
 \item dimensions and units
-\item tests and properties
+\item tests with generators, and properties
 \item type aliases
-\item where clauses and conditional extension
-\item abstract function declarations
+\item \KWD{where} clauses other than conditional extension, a condition on
+static parameters and a type variable in a \KWD{comprises} clause; the check
+of a condition when a program runs
+\item abstract function declarations at the top level
 \item checked exceptions, deferred exceptions, and chained exceptions
-\item contract checking (overloaded functionals and method overriding)
+\item contract checking, other than of a function's contract under the
+interpreter
 \item static expressions beyond the folding of numerals and of string literals,
 static range types, and some range operations
 \item some types (\TYP{HeapSequence},
-\TYP{LinearSequence}, $\mathbb{Q}$,
-\EXP{\mathbb{Z}}, \EXP{\mathbb{N}}, \EXP{\mathbb{Q}}, ...)
+\TYP{LinearSequence}, \EXP{\mathbb{N}},
+and in compiled code \EXP{\mathbb{Q}}, ...)
 \item some operators on aggregate expressions
 \item some functions in \secref{other-expressions}
 \item tail-call optimization
 \item compound APIs check
 \item import API names
-\item components linking
+\item components linking, other than the joining of a compiled component with
+the components that implement the APIs that it imports
 \end{itemize}
+
+\revision{revival-supported}{The list is brought in line with the
+implementation in the revival's repository.
+An item that works in part now names the part that does not, and an item
+that does not work stands as it was.
+The Working Draft's list is in \secref{revival-supported}.}
 \end{figure}
 
 %% Description in F1.0

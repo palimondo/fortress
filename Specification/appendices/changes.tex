@@ -5714,6 +5714,685 @@ For example, ``\txt{foo}''\EXP{\|}''\txt{bar}'' yields ``\txt{foobar}''.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{The programming environment of the overview}
+\seclabel{revival-environment}
+
+\begin{description}
+\item[Affected sections] \secref{programming-env}, \secref{overview:apis} and
+\secref{apitool}; the head of \chapref{components}.
+\item[Change] The three sections are rewritten as a guide to the
+implementation in the revival's repository: the Java version and the build; a
+program run under the interpreter; the compilation of the compiled path's
+library, and the same program compiled and run; an API and two components,
+run under the interpreter, then linked and run; an API generated from a
+component.
+Each command was issued as printed in a new checkout of the repository, and
+each output is printed as that run gave it.
+The text names the caches of the implementation where the Working Draft spoke
+of a fortress, says ``file extension'' where the Working Draft said
+``suffix'', and states once for a component and once for an API that a file
+holds exactly one, whose name is the file's name without its file extension,
+with the message that the implementation prints when the names differ.
+The function \VAR{run} takes no parameter in any example or sentence.
+The commands \txt{remove}, \txt{removeApi}, \txt{upgrade} and \txt{upgradeAll}
+are not in the chapter.
+One box at the head of \secref{programming-env} covers the three sections.
+Two draft notes at the head of the chapter are taken out with the text that
+they spoke of: the sentence ``From \secref{programming-env} to
+\secref{apitool} are out of date.'' and the note on the removal of APIs from
+fortresses, both quoted below.
+The text of \chapref{components} is unchanged; a box at its head says which of
+its operations the implementation has.
+\item[Rationale] This change does not follow from route~A; it follows the
+decision of 16~November 2026, of the curator of the revival, that the
+revival's edition of this specification describes the implementation as it is,
+so that a reader who follows \chapref{overview} can use the repository.
+The Working Draft's text of these sections is a splice of two editions that
+the team made on 5~November 2009 and marked ``out of date'' in the same
+commit.
+It describes a \emph{fortress}, a persistent store of compiled components that
+performs the operations on them, which the team did not build, and it gives
+commands that the implementation does not have or that mean another thing
+there: \txt{fortress run} on a source file, \txt{fortress} as an abbreviation
+of \txt{fortress run}, \txt{fortress remove}, \txt{fortress removeApi},
+\txt{fortress upgrade} and \txt{fortress upgradeAll}.
+Its sentences on \VAR{run} speak of a parameter \VAR{args} that the team took
+out of the API \TYP{Executable} on 13~March 2009; its examples
+\txt{HelloWorld3.fss} and \txt{HelloWorld4.fss} still declare it.
+It says that a source file must contain exactly one component declaration, and
+in the next sentence that a compiled file may include several.
+The splice also lost a command.
+The text speaks of a compound component \TYP{Gary} that no command of it
+makes.
+Version 1.0$\beta$ of the specification (6~March 2007, section 2.2) printed
+the command, after the two commands that compile \txt{Ralph.fss} and
+\txt{Blargh.fss}:
+\begin{quote}
+\txt{fortress link Gary from Ralph with Blargh}
+
+The first two commands compile files \txt{Ralph.fss} and \txt{Blargh.fss},
+respectively, and install them in the resident fortress.
+The third command tells the resident fortress to link components \TYP{Ralph}
+and \TYP{Blargh} together into a compound component, named \TYP{Gary}.
+\TYP{Gary} is an executable component; we can execute it directly with the
+command:
+
+\txt{fortress run Gary}
+\end{quote}
+With that command in the place of the Working Draft's third command,
+\txt{fortress run Blargh.fss}, and of the paragraph after it, the original
+text below reads whole.
+The design of fortresses with the operations upgrade, extract and install is
+not pursued now: the revival's present goal is a program compiled to bytecode
+that runs on the Java Virtual Machine.
+A reversal would restore the text below, with its draft notes.
+The evidence is in
+\nolinkurl{explorations/reviews/fortresses-intent-2026-11-16.md} and in notes
+11 to 15 of
+\nolinkurl{explorations/coordinator/tools/spec-html/answers-2026-11-15.md} in
+the revival's repository.
+\item[Effect] The three sections say only what the implementation does.
+The implementation has the operations compile, link, run and the generation
+of an API.
+It has no fortress, no compound component, and none of the operations
+upgrade, upgrade of all components, removal, extraction, installation, hiding
+and constraining that \chapref{components} describes.
+The interpreter does not compare a component with the APIs that it exports
+(row~841 of the revival's gap ledger).
+Neither implementation finds a component that implements an API under another
+name than the API's (row~320).
+The command \txt{fortress api} departs from the Working Draft's
+\secref{apitool}: it prints the API and writes a file only with the option
+\txt{-out}, it replaces an existing file without an error, and it also
+declares the definitions that another exported API declares, as \VAR{run}
+(row~1034).
+\item[Original text] In the chapter's first draft note,
+\nolinkurl{Specification-1.0-frozen/preliminaries/overview.tex}, line 23:
+\begin{quote}
+From \secref{programming-env} to \secref{apitool} are out of date.
+\end{quote}
+The chapter's second draft note, lines 27--31:
+\begin{quote}
+Eric: Note that APIs are difficult to remove from fortresses: we have
+to first remove every component referring to them. Also note
+that an autogenerated API source file isn't automatically compiled
+into the fortress. I think the error should be signaled when the
+programmer tries to compile the API.
+\end{quote}
+The three sections, lines 43--475 of the same file, whole.
+A section's heading is printed in bold, and the one draft note inside the
+text in brackets.
+\begin{quote}
+\textbf{The Fortress Programming Environment} (lines 43--200)
+
+Although Fortress is independent of the properties of a particular
+platform on which it is implemented, it is helpful for concreteness
+to present the programming model used in the Fortress reference implementation.
+In this programming model,
+Fortress source code is stored in files and organized in
+directories, and there is a text-based shell from which we can store
+environment variables and issue commands to execute and compile
+programs.
+
+A Fortress program can be processed in one of two ways:
+
+\begin{itemize}
+
+\item It can be \emph{executed}. The Fortress program is stored in a file with
+the suffix ``\shellcommand{.fss}'' and executed directly from an underlying
+operating
+system shell by calling the command ``\shellcommand{fortress run}'' on it.
+For example,
+suppose we write the following \(\hbox{\rm``\STR{Hello,~world!}''}\) program
+to a file ``\shellcommand{HelloWorld.fss}'':
+\input{\home/preliminaries/examples/Overview.shell.a.tex}
+
+The first line is an \emph{export statement};
+we ignore it for the moment.
+The second line defines a function \VAR{run},
+which takes a parameter named \VAR{args}
+and prints the string \(\hbox{\rm``\STR{Hello,~world!}''}\).
+Note that the parameter \VAR{args}
+does not include a declaration of its type.
+In many cases,
+ types can be elided in Fortress and inferred from context.
+(In this case,
+the type of \VAR{args} is inferred based on the program's export statement,
+explained in \secref{overview:apis}.)
+
+We can execute this program by issuing the following command to the shell:
+
+\shellcommand{fortress run HelloWorld.fss}
+
+The instruction \shellcommand{fortress run} can be abbreviated as \shellcommand{fortress}:
+
+\shellcommand{fortress HelloWorld.fss}
+
+\item It can be \emph{compiled}. In this case, the Fortress program is
+compiled into a
+\emph{component}, which is stored in a hidden persistent cache maintained by the implementation,
+called a \emph{fortress}. Typically, a single fortress holds all the components
+of a user, or group of users sharing programs and libraries.
+In our examples,
+we often refer to the fortress we are storing components in
+as \emph{the resident fortress}.
+
+For example, we could have written our \(\hbox{\rm``\STR{Hello,~world!}''}\)
+program as follows:
+\input{\home/preliminaries/examples/HelloWorld.tex}
+
+We can compile this program, by issuing the command
+``\shellcommand{fortress compile}'' on it:
+
+\shellcommand{fortress compile HelloWorld.fss}
+
+As a result of this command, a component named ``\TYP{HelloWorld}'' is stored
+in the resident fortress. The name of this component is provided by
+the enclosing component declaration surrounding the code. If there is
+no enclosing component declaration, then the contents of the file are
+understood to belong to a single component whose name is that of the
+file it is stored in, minus its suffix. For example, suppose we write the
+following program in a source file named ``\shellcommand{HelloWorld2.fss}'':
+\input{\home/preliminaries/examples/HelloWorld2.tex}
+
+When we compile this file:
+
+\shellcommand{fortress compile HelloWorld2.fss}
+
+the result is that a new component with the name \TYP{HelloWorld2} is stored
+in the resident fortress.
+Once this component is compiled,
+we can execute it by issuing
+the following command:
+
+\shellcommand{fortress run HelloWorld2.fss}
+
+Compiling a source file allows us to catch static errors before running a program.
+It also allows the system to perform static optimizations on a program and use those
+optimizations when executing.
+
+Once a program is compiled, the cached code will be used during execution unless
+modifications have been made to the source file since the most recent compilation.
+If the source file is newer, the program is recompiled before execution.
+
+\end{itemize}
+
+A source file must contain exactly one component declaration, and its name must
+match the file name.
+
+In a compiled file,
+multiple component declarations may be included.
+For example, we could write the following file
+\shellcommand{HelloWorld3.fss}:
+
+%component HelloWorld
+%   export Executable
+%   run(args) = print "Hello, world!"
+%end
+%
+%component HelloWorld2
+%   export Executable
+%   run(args) = print "Hi, it's me again!"
+%end
+\begin{Fortress}
+\(\KWD{component} \TYP{HelloWorld}\)\\
+{\tt~~~}\pushtabs\=\+\(   \KWD{export} \TYP{Executable}\)\\
+\(   \VAR{run}(\VAR{args}) = \VAR{print}\;\hbox{\rm``\STR{Hello,~world!}''}\)\-\\\poptabs
+\(\KWD{end}\)\\[4pt]
+\(\KWD{component} \TYP{HelloWorld2}\)\\
+{\tt~~~}\pushtabs\=\+\(   \KWD{export} \TYP{Executable}\)\\
+\(   \VAR{run}(\VAR{args}) = \VAR{print}\;\hbox{\rm``\STR{Hi,~it's~me~again!}''}\)\-\\\poptabs
+\(\KWD{end}\)
+\end{Fortress}
+
+When we compile this file, the result is that both the components
+\TYP{HelloWorld} and \TYP{HelloWorld2} are stored in the resident fortress.
+
+If a fortress already contains a component with the same name as a
+newly installed component, the new component shadows the old one. For
+example, if we first compile the source file \shellcommand{HelloWorld3.fss}
+above and then compile the following file \shellcommand{HelloWorld4.fss}:
+
+%component HelloWorld
+%   export Executable
+%   run(args) = print "I didn't expect that!"
+%end
+\begin{Fortress}
+\(\KWD{component} \TYP{HelloWorld}\)\\
+{\tt~~~}\pushtabs\=\+\(   \KWD{export} \TYP{Executable}\)\\
+\(   \VAR{run}(\VAR{args}) = \VAR{print}\;\hbox{\rm``\STR{I~didn't~expect~that!}''}\)\-\\\poptabs
+\(\KWD{end}\)
+\end{Fortress}
+
+then executing the component \TYP{HelloWorld} on our fortress will result in
+printing of the following text:
+
+\begin{verbatim}
+I didn't expect that!
+\end{verbatim}
+
+We can also ``remove'' a component from a fortress.
+For example:
+
+\shellcommand{fortress remove HelloWorld}
+
+After issuing this command, we can no longer refer to \shellcommand{HelloWorld}
+component when issuing commands to the fortress.
+(However, a removed component might still exist as a constituent of other,
+\emph{linked}, components; see \secref{overview:apis}.)
+
+\textbf{Exports and Imports} (lines 202--426)
+
+When a component is defined, it can include \emph{export statements}.
+For example,
+all of the components we have defined thus far
+have included the export statement ``\EXP{\KWD{export} \TYP{Executable}}''.
+Export statements list various \emph{APIs}
+that a component implements.
+Unlike in other languages, APIs in
+Fortress are themselves program constructs; programmers can rely on
+standard APIs, and declare new ones. API declarations are sequences of
+declarations of
+variables, functions, and other program constructs, along with their
+types and other
+supporting declarations. For example, here is the definition of API
+\TYP{Executable}:
+\input{\home/preliminaries/examples/Executable.tex}
+
+This API contains the declaration of a single function \VAR{run},
+whose type is \EXP{(\TYP{String}\ldots) \rightarrow ()}. This type is an
+\emph{arrow type}; it declares the type of a function's parameter,
+and its return type. The function \VAR{run} includes a single
+parameter; the notion \EXP{(\TYP{String}\ldots)} indicates that it is a
+\emph{varargs} parameter; the function \VAR{run} can be called with an
+arbitrary number of string arguments. For example, here are
+valid calls to this function:
+
+%run("a simple", " example")
+%run("run(...)")
+%run("Nobody", "expects", "that")
+\begin{Fortress}
+\(\VAR{run}(\hbox{\rm``\STR{a~simple}''},\;\hbox{\rm``\STR{~example}''})\)\\
+\(\VAR{run}(\hbox{\rm``\STR{run(...)}''})\)\\
+\(\VAR{run}(\hbox{\rm``\STR{Nobody}''},\;\hbox{\rm``\STR{expects}''},\;\hbox{\rm``\STR{that}''})\)
+\end{Fortress}
+
+
+The return type of \VAR{run} is \EXP{()}, pronounced ``void''.
+Type \EXP{()} may be used in Fortress as a return type
+for functions that have no meaningful return value.
+There is a single value with type \EXP{()}:
+the value \EXP{()}, also pronounced ``void''.
+References to value \EXP{()} as opposed
+to type \EXP{()} are resolved by context.
+
+As with components, APIs can be defined in files and compiled. APIs
+must be defined in files with the suffix \shellcommand{.fsi}.
+An \shellcommand{.fsi} file contains
+source code for exactly one API, and its name must match the file name,
+minus the suffix.
+If there are  no explicit ``\KWD{api}''
+headers, the file is understood to define a single API whose name is
+the name of the containing file (minus its suffix).
+
+An API is compiled with the shell command ``\shellcommand{fortress compile}''.
+When an API is compiled,
+it is installed in the resident fortress.
+
+
+For example, if we store
+the following API in a file named ``\shellcommand{Zeepf.fsi}'':
+\input{\home/preliminaries/examples/Zeepf.tex}
+then we can compile this API with the following shell command:
+
+\shellcommand{fortress compile Zeepf.fsi}
+
+This command compiles the API \TYP{Zeepf}
+and installs it in the resident fortress.
+%If we omit the enclosing API declaration,
+%so that the file \shellcommand{Zeepf.fsi} consists solely of the following code:
+
+%foo: String -> ()
+%baz: String -> String
+%\begin{Fortress}
+%\(\VAR{foo}\COLON \TYP{String} \rightarrow ()\)\\
+%\(\VAR{baz}\COLON \TYP{String} \rightarrow \TYP{String}\)
+%\end{Fortress}
+
+%then the file is assumed to consist of the declaration of a single API
+%named \TYP{Zeepf}.
+
+Unlike component compilation, API compilation does not shadow
+existing elements of a fortress.
+If we attempt to compile an API with the same name as an API
+already defined
+in the resident fortress, an error is signaled
+and the fortress is left unchanged. To remove an API, we must
+first remove all components referring to the API,
+and then issue the shell command ``\shellcommand{fortress removeApi}''.
+
+
+A component that exports an API must provide a definition
+for every program construct declared in the API. For example, because
+our component \TYP{HelloWorld}:
+\input{\home/preliminaries/examples/HelloWorld.tex}
+exports the API \TYP{Executable}, it must include a definition for the
+function \VAR{run}.
+The definition of \VAR{run} in \TYP{HelloWorld} need not include
+declarations of the
+parameter type or return type of \VAR{run}, as these can be inferred
+from the
+definition of API \TYP{Executable}.
+
+Components are also allowed to \emph{import} APIs. A component that
+imports an API is allowed to use any of the program constructs
+declared in that API. For example, the following component imports the API
+\TYP{Zeepf} and calls the function \VAR{foo} declared in \TYP{Zeepf}:
+\input{\home/preliminaries/examples/Blargh.tex}
+
+The component \TYP{Blargh} imports declaration \VAR{foo} from the API \TYP{Zeepf}
+and exports the API
+\TYP{Executable}. Its \VAR{run} function is defined by calling function
+\VAR{foo}, defined in \TYP{Zeepf}.
+In an import statement of the form:
+%import A.{S}
+\begin{Fortress}
+\(\KWD{import}\:A.\{S\}\)
+\end{Fortress}
+all names in the list of names \VAR{S} are imported from API $A$, and can be
+referred to as unqualified names within the importing component. In
+the example above, the names we have imported consist of a
+single name: \VAR{foo}. If we had instead written:
+\input{\home/preliminaries/examples/Blargh2.tex}
+then we would have been able to refer to both \VAR{foo} and \VAR{baz}
+as unqualified names in \TYP{Blargh}.
+
+Note that no component refers directly to another component,
+or to constructs defined in another component.
+Instead, \emph{all external references go through APIs}.
+This level of indirection provides us with significant power.
+It provides a way to hide implementation details in a component.
+Also, our intention is that in future implementations,
+it will be possible to make use of APIs to provide sophisticated
+link and upgrade operations for the purposes of building
+large programs.
+%Programmers will be able to link together components from separate
+%programming teams, swap in revised components into deployed
+%applications, and even test components that rely on expensive libraries
+%by wiring them up to special
+%\emph{mock components} that provide just enough functionality to allow
+%for testing.
+
+Components that contain no import statements and export the API
+\TYP{Executable} are referred to as \emph{executable components}. They
+can be compiled and executed directly as stand-alone components. All
+of our \TYP{HelloWorld} components are executable components.
+However,
+if a component imports one or more APIs, it cannot be executed as a
+stand-alone program. Instead, its imports are resolved to
+other components that export all of the APIs it imports,
+to form a new \emph{compound} component. For example, we define
+the following component in a file named \shellcommand{Ralph.fss}:
+[Draft note: The example is commented out because it is not supported yet nor run by the interpreter.]
+%\input{\home/library/examples/Ralph.compile.tex}
+
+We can now issue the following shell commands:
+
+\shellcommand{fortress compile Ralph.fss} \\
+\shellcommand{fortress compile Blargh.fss} \\
+\shellcommand{fortress run Blargh.fss} \\
+
+The first two commands compile files \shellcommand{Ralph.fss} and
+\shellcommand{Blargh.fss},
+respectively, and install them in the resident fortress. The third
+command tells the resident fortress to run component \TYP{Blargh}.
+References to API \TYP{Zeepf} in \TYP{Blargh} are resolved to their
+implementation in component \TYP{Ralph}.
+
+All references to API \TYP{Zeepf} in \TYP{Gary} are resolved
+to the declarations provided in \TYP{Ralph}.
+
+Note that forming the compound component \TYP{Gary} has no effect on the
+components \TYP{Ralph} and \TYP{Blargh}.
+These components remain in the resident
+fortress, and they can be linked together with other components to
+form yet more compound components.
+Conversely, if \TYP{Blargh} or \TYP{Ralph} is
+recompiled, deleted, or otherwise updated,
+there is no effect on \TYP{Gary}.
+Conceptually, \TYP{Gary} contains its own copies
+of the components \TYP{Blargh} and \TYP{Ralph},
+and these copies are not corrupted by actions on other components.
+For this reason, we say that components in Fortress
+are \emph{encapsulated}. (Of course, there are optimization tricks
+that a fortress can use to maintain the illusion of encapsulation
+without actually copying. But these tricks are beyond the scope of
+this specification.)
+
+Compound components are \emph{upgradable}: They can be upgraded with
+new components that export some of the APIs used by their
+constituents. For example, if a new version of \TYP{Ralph} is compiled and
+installed in the resident fortress,
+we can manually \emph{upgrade} \TYP{Gary} with
+the new version by performing the following shell command:
+
+\shellcommand{fortress upgrade NewGary from Gary with Ralph}
+
+This command produces a new component, named \shellcommand{NewGary},
+resulting from an upgrade of \shellcommand{Gary} with \shellcommand{Ralph}.
+The components referred to as \shellcommand{Gary} and \shellcommand{Ralph}
+are unaffected. An important property of fortress components is that
+they are \emph{stateless}; once constructed, they are never modified.
+Even if a component is ``removed'' from a fortress, the components
+it is a constituent of are unaffected.
+
+However, we can rebind \emph{the name} \shellcommand{Gary}
+in the resident fortress to our new component with the following command:
+
+\shellcommand{fortress upgrade Gary from Gary with Ralph}
+
+or simply:
+
+\shellcommand{fortress upgrade Gary with Ralph}
+
+Now, the original component referred to by \shellcommand{Gary} is
+shadowed; it cannot be referred to directly from the shell.
+However, it might still exist in the fortress as a constituent of
+other components, which are unmodified by the upgrade.
+To upgrade all components in a fortress at once
+with a new version of \shellcommand{Ralph} (rebinding all
+names to the resulting upgrades), we can issue the command:
+
+\shellcommand{fortress upgradeAll Ralph}
+
+\textbf{Automatic Generation of APIs} (lines 428--475)
+
+Note that the component named \TYP{Zeepf} exports the API
+\TYP{Zeepf}. Components and APIs exist in separate namespaces, and therefore
+it is allowed for a component to have the same name as an API.
+In fact, if we hadn't already defined and compiled API \TYP{Zeepf},
+we could generate it automatically
+from the definition of component \TYP{Zeepf}
+with the following shell command:
+
+\shellcommand{fortress api Zeepf.fss}
+
+This command generates a new source file, \shellcommand{Zeepf.fsi}, in the
+same directory as \shellcommand{Zeepf.fss}, which includes declarations for
+all program constructs defined in \shellcommand{Zeepf.fss}.
+
+In general, if a component $C$ exports an API $A$ with the same name as $C$,
+it is possible to automatically generate a source file
+for the API $A$ from $C$
+by issuing the shell command \shellcommand{fortress api} on the file
+containing the definition of $C$.
+This API contains declarations for all definitions in $C$ that are not
+declared in other APIs exported by $C$, and that do not include
+the modifier \KWD{private}.
+If a source file with the name of $A$ already exists in the
+same directory as the source file of $C$, an error is signaled,
+and no file is created.
+
+If there is more than one component defined in a file,
+APIs are generated for all components defined in the file that
+export APIs with the same name as the respective component.
+Each generated API is placed in a separate source file whose
+name corresponds to the name of the API it defines.
+
+Note that the API corresponding to an automatically generated source
+file is not automatically added to the resident fortress; the source
+file must still be compiled via a separate action. Often, programmers
+may want to edit the autogenerated file before compiling it to the
+fortress.
+
+It is not always desirable for a component to export an API of the same name.
+Many components will export only publicly defined standard APIs.
+However, automatic generation of APIs from components may be useful,
+particularly for components defined internally by a development team.
+Large projects may contain many internally defined components that
+are never released externally,
+except as constituents of compound components.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The features not yet supported, in the preface and the introduction}
+\seclabel{revival-supported}
+
+\begin{description}
+\item[Affected sections] The preface; the section ``Fortress in a Nutshell''
+of \chapref{intro}.
+\item[Change] Three passages.
+In the preface, the sentence that had lost words reads ``(perhaps with
+additional modification and evolution of their design) and any language
+changes since then''.
+In the preface's list of features not yet supported, an item that works in
+part in the implementation in the revival's repository names the part that
+does not work; the modifier \KWD{value} leaves its item; the item on some
+types no longer names the rational type twice, and no longer names
+\EXP{\mathbb{Z}}; and the item on widening coercion points to
+\secref{widening}.
+An item that does not work stands as it was.
+In the introduction, the sentence on keyword parameters and variable size
+argument lists says what is built.
+Each passage has a box.
+\item[Rationale] This change does not follow from route~A; it follows the
+decision of 16~November 2026, of the curator of the revival, that the
+revival's edition of this specification describes the implementation as it is.
+The team wrote the list on 9~November 2009 and last changed its items two days
+later.
+Of its items, sixteen work today whole or in part, eight of them by the team's
+own later work; the list said of each that it is not supported.
+The words that the sentence of the preface had lost are those of the preface
+of the Fortress Language Specification, Version 1.0, which the same file keeps
+as a comment: ``(perhaps with additional modification and evolution of their
+design)''.
+The sentence of the introduction stood under a draft note of its own section
+that says that keyword and varargs parameters are not yet supported.
+A reversal would restore the three passages below.
+The state of each item, with the rows of the revival's gap ledger, is in note
+6 of
+\nolinkurl{explorations/coordinator/tools/spec-html/answers-2026-11-15.md},
+and who built each part is in
+\nolinkurl{explorations/reviews/preface-list-provenance-2026-11-16.md}, in the
+revival's repository.
+\item[Effect] The list names what the implementation lacks.
+The limits that it names are these, by the rows of the revival's gap ledger.
+The interpreter makes binary calls of an operator repeated between three or
+more operands (row~29).
+The interpreter skips the coverage check for a generic object (row~665), and
+departs on two generic functional methods of one type (rows~779 and~780).
+Keyword parameters are built in neither implementation (row~652); the code
+generator refuses a varargs parameter (row~624), and an object takes none
+(row~11).
+The code generator refuses the modifier \KWD{override} (row~650); nothing
+checks \KWD{io}, and nothing reads \KWD{atomic} on a function.
+An underscore before a digit is read as a radix (row~15).
+Of the static parameters that are not types, \KWD{nat} and \KWD{int} are
+built; \KWD{bool} is not usable (rows~307 and~761), and a compiled generic
+object with an \KWD{opr} parameter fails when it runs (row~366).
+A function with the modifier \KWD{test} runs; a test with generators and a
+property stop their component (rows~121 and~122).
+Three forms of \KWD{where} clauses are built (\secref{revival-where},
+\secref{revival-conditional}); the implementations apply a conditional
+extension where its condition fails (row~774), and compiled code checks no
+\KWD{where} clause.
+An abstract function declaration works in a trait, not at the top level.
+The interpreter runs a function's contract; the code generator refuses a
+function with one (row~701), and both implementations drop the contract of a
+trait or an object (row~781).
+\library\ declare \EXP{\mathbb{Z}} and \EXP{\mathbb{Q}}; the compiled path's
+own library declares \EXP{\mathbb{Z}} only.
+The command \txt{fortress link} finds a component only under the name of its
+API (row~320); \secref{revival-environment} says what else of linking is not
+built.
+Widening coercion is the automatic widening of \secref{widening}, declared
+with \KWD{widens}, which no library declares; the coercion of a value of a
+narrower number type into a wider one is built in both implementations.
+\item[Original text]
+\nolinkurl{Specification-1.0-frozen/fortress/preamble.tex}, lines 42--45:
+\begin{quote}
+This specification is a working draft;
+it is meant to include all language features included in
+the Fortress Language Specification, Version 1.0\EXP{\beta{}}
+(perhaps with additional ) and any language changes since then.
+\end{quote}
+The list, lines 56--97 of the same file.
+Two of its items were revised before: the item on static expressions
+(\secref{revival-numerals}) and, in the item on some types, the type
+\TYP{Numeral}.
+\begin{quote}
+The not-yet-supported features include:
+\begin{itemize}
+\item widening coercion
+\item multifix operators
+\item type coverage check
+\item generic overloading check
+\item definite assignment check
+\item keyword and varargs parameters
+\item varargs expressions
+\item some modifiers (\KWD{override}, \KWD{io}, \KWD{atomic}, \KWD{value}, ...)
+\item qualified names
+\item identifiers including connecting punctuations
+\item ASCII conversion
+\item Unicode canonicalization
+\item array comprehensions
+\item reduction variables
+\item object copy
+\item unboxed types
+\item mutual recursion in value objects
+\item thread fairness guarantee
+\item distributions
+\item matrix unpasting
+\item Non-type static parameters
+\item dimensions and units
+\item tests and properties
+\item type aliases
+\item where clauses and conditional extension
+\item abstract function declarations
+\item checked exceptions, deferred exceptions, and chained exceptions
+\item contract checking (overloaded functionals and method overriding)
+\item static expressions, static range types, and some range operations
+\item some types (\TYP{HeapSequence},
+\TYP{LinearSequence}, $\mathbb{Q}$,
+\TYP{Numeral}, \EXP{\mathbb{Z}}, \EXP{\mathbb{N}}, \EXP{\mathbb{Q}}, ...)
+\item some operators on aggregate expressions
+\item some functions in \secref{other-expressions}
+\item tail-call optimization
+\item compound APIs check
+\item import API names
+\item components linking
+\end{itemize}
+\end{quote}
+\nolinkurl{Specification-1.0-frozen/preliminaries/intro/nutshell.tex}, lines
+106--107:
+\begin{quote}
+Keyword parameters and variable size argument lists
+are also supported.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
