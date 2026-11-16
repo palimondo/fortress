@@ -1,0 +1,3 @@
+tests=GenericFunctionAsValueOpenCompiled
+compile
+compile_err_contains=takes its static arguments from the arrow type that receives it

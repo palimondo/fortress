@@ -289,6 +289,8 @@ class CoercionOracle(traits: TraitTable,
     // one argument for a domain with varargs, as subtyping reads it
     case (_, u@STupleType(_, _, Some(_), _)) =>
       checkCoercion(t, TypeAnalyzerUtil.disjunctFromTuple(u, 1), expr)
+    // The type of a generic function taken as a value is instantiated, not coerced.
+    case (t:ArrowType, u:ArrowType) if hasStaticParams(t) || hasStaticParams(u) => None
     case (t:ArrowType, u:ArrowType) => checkCoercionArrow(t, u, expr)
     case _ => None
   }

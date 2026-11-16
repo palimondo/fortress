@@ -1,0 +1,14 @@
+(* A reference to a generic function that no arrow type receives, as at an untyped binding, is refused where its value is applied. *)
+component GenericFunctionAsValueUntypedCompiled
+export Executable
+
+object Box[\F extends Object\](v: F) end
+count[\F extends Object\](b: Box[\F\]): ZZ32 = 1
+
+run(): () = do
+    g = count
+    z: ZZ32 = 7
+    println(g(Box[\ZZ32\](z)))
+  end
+
+end

@@ -1,0 +1,58 @@
+(* A big operator whose bound names its own static parameter, in a reduction that writes no static argument, is instantiated at the reduction's declared type where that type fits the bound, and else at the type of the reduction's body; a written static argument wins. *)
+component InferBigOperatorSelfBound
+export Executable
+
+trait Red[\T\]
+  join(a: T, b: T): T
+end
+object Last[\T extends Equality[\T\]\] extends Red[\T\]
+  join(a: T, b: T): T = b
+end
+
+opr BIG LAST[\T extends Equality[\T\]\](): Red[\T\] = Last[\T\]
+
+var ran: String = ""
+note(x: ZZ32): () = do ran := "ZZ32" end
+note(x: ZZ64): () = do ran := "ZZ64" end
+note(x: Any): () = do ran := "other" end
+seen[\T\](x: T): T = do note(x); x end
+
+object Upto(n: ZZ32) end
+
+__bigOperator[\T extends Equality[\T\]\](o: Red[\T\], desugaredClauses: (Red[\T\], T->T)->T): T = desugaredClauses(o, seen[\T\])
+fold[\T\](k: ZZ32, r: Red[\T\], f: ZZ32->T): T =
+    if k = 1 then f(1) else r.join(fold[\T\](k - 1, r, f), f(k)) end
+__generate[\T\](g: Upto, r: Red[\T\], f: ZZ32->T): T = fold[\T\](g.n, r, f)
+
+kind(x: ZZ32): String = "ZZ32"
+kind(x: ZZ64): String = "ZZ64"
+
+lastOf(n: ZZ32): ZZ64 = BIG LAST[j <- Upto(n)] (3 j)
+
+run(): () = do
+    s: ZZ32 = BIG LAST[j <- Upto(3)] (3 j)
+    assert(s, 9, "s: ZZ32 = BIG LAST[j <- Upto(3)] (3 j), the last of 3, 6 and 9")
+    assert(ran, "ZZ32", "a reduction declared ZZ32 over ZZ32 elements runs at ZZ32; Specification/basic/expressions/reductions.tex, section \"Summations and Other Reduction Expressions\"")
+
+    ran := ""
+    assert(kind(BIG LAST[j <- Upto(3)] (3 j)), "ZZ32", "a reduction with no declared type takes the type of its body, ZZ32; Specification/basic/expressions/reductions.tex, section \"Summations and Other Reduction Expressions\"")
+    assert(ran, "ZZ32", "a reduction with no declared type runs at the type of its body")
+
+    ran := ""
+    w: ZZ64 = BIG LAST[j <- Upto(3)] (3 j)
+    assert(w = 9, "w: ZZ64 = BIG LAST[j <- Upto(3)] (3 j), the last of 3, 6 and 9")
+    assert(ran, "ZZ64", "a reduction declared ZZ64 over ZZ32 elements runs at ZZ64, each element converted; Specification/basic/inference.tex, section \"The Static Arguments of a Call\", the expected type")
+
+    ran := ""
+    r: ZZ64 = lastOf(4)
+    assert(r = 12, "lastOf(4), a function whose return type ZZ64 is the reduction's declared type")
+    assert(ran, "ZZ64", "a reduction that is the body of a function declared to return ZZ64 runs at ZZ64")
+
+    ran := ""
+    v: ZZ64 = BIG LAST[\ZZ32\][j <- Upto(3)] (3 j)
+    assert(v = 9, "v: ZZ64 = BIG LAST[\\ZZ32\\][j <- Upto(3)] (3 j), the last of 3, 6 and 9")
+    assert(ran, "ZZ32", "a written static argument wins over the declared type: the reduction runs at ZZ32 and its value is converted")
+    println("PASS")
+  end
+
+end

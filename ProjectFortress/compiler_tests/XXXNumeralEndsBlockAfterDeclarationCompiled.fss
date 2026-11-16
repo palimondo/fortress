@@ -1,0 +1,16 @@
+(* A numeral that ends a block after a local declaration, in a function declared to return ZZ32, is the function's value. *)
+component XXXNumeralEndsBlockAfterDeclarationCompiled
+export Executable
+
+four(): ZZ32 = do
+    k: ZZ32 = 3
+    4
+  end
+
+run(): () = do
+    println("REACHED")
+    assert(four(), 4, "four(): the numeral 4 ends the block and converts at the declared return type; Specification/basic/expressions/blocks.tex, section \"Do Expressions\"")
+    println("PASS")
+  end
+
+end

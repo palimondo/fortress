@@ -1,0 +1,19 @@
+(* A functional method of a generic trait, named as a value inside the trait and passed at an arrow type, runs. *)
+component XXXFunctionalMethodValueGenericTraitCompiled
+export Executable
+
+trait Tr[\T extends Object\]
+  fm(self, x: T): ZZ32 = 4
+  viaFm(x: T): ZZ32 = useFm(fm, self, x)
+end
+object Ob extends Tr[\ZZ32\] end
+useFm[\U extends Object\](g: (Tr[\U\], U) -> ZZ32, o: Tr[\U\], x: U): ZZ32 = g(o, x)
+
+run(): () = do
+    z: ZZ32 = 7
+    println("REACHED")
+    assert(Ob.viaFm(z), 4, "useFm(fm, self, x) inside Tr: the functional method fm is a function of (Tr[\\T\\], T); Specification/basic/traits.tex, section \"Method Declarations\"")
+    println("PASS")
+  end
+
+end

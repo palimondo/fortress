@@ -7465,3 +7465,11 @@ pointer words refreshed in: F-24
 ### F-363
 
 2026-11-16 04:27Z · added · from `explorations/compile-ladder/rung-superscript-after/REPORT.md`, "The trees (points to report)" · by climb batch 32 gather
+
+### F-364
+
+2026-11-16 04:29Z · added · from `explorations/compile-ladder/rung-static-argument-inferred/REPORT.md`, "Step 1, row 731: the reduction" · by climb batch 32 gather
+
+### F-365
+
+2026-11-16 04:29Z · added · from `explorations/compile-ladder/rung-static-argument-inferred/REPORT.md`, "Step 2, row 758: the reference to a generic function" · by climb batch 32 gather

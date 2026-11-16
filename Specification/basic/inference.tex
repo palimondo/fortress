@@ -221,6 +221,47 @@ parameter.
 no such paragraph; the revival added it with the argument of a call to the list
 of contexts above, following its decision of 9~October 2026.}
 
+\emph{A reference to a generic function.}
+An identifier reference that denotes a function with static parameters, that
+writes no static arguments and that is not the function of a call
+(\secref{idn-ref}) takes its static arguments from its expected type, where
+that type is an arrow type.
+It has one in the contexts above that give a call an expected type: as the
+right-hand side of a variable or field declaration or of an assignment whose
+declared type is an arrow type, as the body of a functional whose declared
+return type is one, and as an argument of a call at a parameter of arrow
+type, where it is typed again with that parameter type as an argument that is
+itself a call is.
+Its static arguments are those that make the type of the instance a subtype of
+the expected arrow type: a static parameter that the declared parameter types
+mention takes the type, or the size, that the domain of the expected arrow
+type gives at that position.
+A static parameter that the domain of the expected arrow type does not fix so
+is a static error, as is a reference whose expected type is not an arrow type
+or that has none, such as the right-hand side of a variable declaration
+without a type: nothing static fixes its static arguments, and the reference
+writes them.
+So, for the declarations
+\EXP{\VAR{count}\llbracket{}F\rrbracket(b\COLON\TYP{Box}\llbracket{}F\rrbracket)\COLON\mathbb{Z}32}
+and
+\EXP{\VAR{useOne}(g\COLON\TYP{Box}\llbracket\mathbb{Z}32\rrbracket\rightarrow\mathbb{Z}32)},
+the call \EXP{\VAR{useOne}(\VAR{count})} passes the instance of \VAR{count}
+at \EXP{\mathbb{Z}32}.
+\revision{revival-expected-contexts}{This paragraph is new: the Working Draft
+says only that the static arguments of an identifier reference ``are
+statically inferred from the context of the function call'' (\secref{idn-ref}),
+and the revival's text of 9~October 2026 gave an expected type to calls alone.
+The revival built the rule on 15~November 2026; the compiled type checker
+refuses a reference to a name with several declarations of which one has
+static parameters, unless a declaration without static parameters has a type
+that fits (row~1009), reports a reference with no expected type only
+where its value is applied (row~1010), and accepts a reference whose
+expected type is not an arrow type, as at a parameter of type \TYP{Any},
+which then stops the compiled program when it runs (row~1012); the
+interpreter, which has no static
+types, runs both forms that this paragraph refuses, instantiating the function
+at its first application (\secref{revival-expected-contexts}).}
+
 \emph{Dispatch.}
 The call, with the coercions of its instance inserted, dispatches at run time
 as \secref{resolving-overloading} describes, by subtyping and without further
@@ -400,10 +441,13 @@ A reduction's big operator is an argument of the call that the reduction's
 desugaring makes, so it has an expected type only as such an argument has one:
 the compiled type checker instantiates a generic big operator whose static
 argument the reduction does not write at its bound, and at the reduction's
-expected type only where the reduction's type at that bound does not fit it,
-and it refuses the reduction where the big operator has no instance at its
-bound, as one whose bound mentions its own static parameter has none (row~425
-of the revival's gap ledger).
+expected type only where the reduction's type at that bound does not fit it;
+where the big operator has no instance at its bound, as one whose bound
+mentions its own static parameter has none, or the reduction is not accepted
+with it, the compiled type checker instantiates the big operator by the
+reduction's expected type, and otherwise by the type of the reduction's body
+(\secref{reduction-expr}); until 15~November 2026 it refused such a reduction
+(row~425 of the revival's gap ledger).
 The interpreter instantiates a type parameter of a function that nothing at a
 call fixes at its bound, \TYP{Any} if it has none, and one whose bound mentions
 other static parameters at that bound with their instances, with two
