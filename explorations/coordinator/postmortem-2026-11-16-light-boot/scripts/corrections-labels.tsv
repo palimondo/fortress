@@ -1,0 +1,241 @@
+# The labels that corrections.py reads: one message of the curator's a line, as REF<tab>KINDS<tab>NOTE.
+# REF is the message's place in the transcript (tlib.py); KINDS is '-' (no correction of the coordinator's conduct)
+# or the kinds of corrections.KINDS, comma-separated; NOTE is the reader's few words, not his.
+# Part 1: every message with a marker from 2026-10-28 05:56 to 2026-11-16 13:36 UTC. Read from its head
+# (230 characters), and whole where the head did not settle it. Print one with: corrections.py --show REF
+B3:5693	-	
+B3:5842	-	
+B3:5864	-	
+B3:5880	7	a process proposed anew that the record already held
+B3:5889	-	
+B3:6127	B	a workflow changed and a scope widened with no ask
+B3:6150	E	a scout run again over a window already read
+B3:6158	-	
+B3:6195	-	
+B3:6217	-	
+B3:6343	-	
+B3:6373	A	shorthand
+B3:6396	A	register
+B3:6513	8	briefs that pick the readings for the worker
+B3:6530	8	a brief that quotes the skill
+B3:6538	7	workflows proposed without knowing what they do
+B3:6559	7	the same
+B3:6590	-	
+B3:6629	5	a worker's judgements passed on unchecked
+B3:6668	-	
+B3:6713	A	shorthand
+B3:6961	-	
+B3:7131	E	a page without the house form
+B3:7471	-	
+B3:7484	-	
+B3:7631	-	
+B3:9007	-	
+B3:9033	5	workers' results followed as the list of work
+B3:9593	A	shorthand
+B3:9609	-	
+B3:10212	1	a question that he had answered
+B3:10239	-	
+B3:12770	-	
+B3:12897	F	his reasoning restated wrongly
+B3:12925	-	
+B3:12973	-	
+B3:13011	-	
+B3:15239	E	trade-offs weighed without the goals
+B3:16069	-	
+B3:16487	-	
+B3:16492	-	
+B3:16544	7	an entry's history not read before a claim about its reason
+B3:16654	-	
+B3:17854	-	
+B3:18279	-	
+B3:18508	A,E	internal references; what a landing after a light boot should have read
+B3:19006	E	not delegating
+B3:19054	A	terms of the skills explained again, unclear wording
+B3:19148	E	the purpose of the review rule read too narrowly
+B3:19200	A	long replies to each comment
+B3:19270	-	
+B3:19425	2	a claim that he never read a page
+B3:19927	-	
+B4:483	A	context-free references
+B4:1129	-	
+B4:2066	B	decisions landed without his word
+B4:2261	E	a decision asked for without the design shown
+B4:2910	-	
+B4:2997	-	
+B4:3434	-	
+B4:5951	7	a technique used before, not looked up
+B4:6593	-	
+B4:6658	-	
+B4:6721	E	a pilot run too long before scaling
+B4:6798	-	
+B4:6861	-	
+B4:8801	E	items held without need
+B4:9105	-	
+B4:9199	-	
+B4:9226	-	
+B4:9253	-	
+B4:9286	3	told to reload the skills
+B4:9657	E	an ask without the obvious option
+B4:9691	-	
+B4:9713	-	
+B4:9898	-	
+B4:10057	-	
+B4:10368	-	
+B4:10812	-	
+B4:11414	C	page comments not acted on
+B4:11480	E	the page worker's instructions failed
+B4:11501	F	his wording changed
+B4:11592	C	a worker's report read only after he asked
+C:111	1	a landed item listed as to do
+C:136	C	a skill change left out of the round
+C:284	D	a wrong account of the landing
+C:292	E	a rule made for a problem that does not exist
+C:299	C	a fix held for no reason
+C:386	-	
+C:672	E	a stop kept by the rule's letter
+C:688	-	
+C:695	1	a settled point (the footer) raised again
+C:735	-	
+C:1858	-	
+C:1919	1	a settled goal asked as open
+C:2604	-	
+C:2932	-	
+C:3198	-	
+C:3205	-	
+C:3689	7	asked him what the transcript holds
+C:3771	-	
+C:4143	D	a wrong word on what is committed
+C:4238	D	the frozen specification called the Working Draft
+C:4265	D	the same
+C:4514	3,E	a finding put in the boot note, not the ledger; told to load the record parts
+C:4626	D	a wrong value in an example
+C:4634	-	
+C:4664	1	a settled point raised again
+C:4676	-	
+C:4700	-	
+C:4749	-	
+C:4813	-	
+C:4878	1	the same
+C:4945	-	
+C:4982	-	
+C:6388	F	his design read as getters
+C:6436	D	a wrong account of what ran
+C:6442	C,G	a scout not finished; a judgement
+C:6803	G	a judgement
+C:6866	G	a judgement of the earlier instances
+C:6983	G	trust; the held-list rules set aside
+C:7117	-	
+C:7142	-	
+C:7174	-	
+C:7237	-	
+C:7319	A	him named in the third person
+C:7350	-	
+C:7395	3	told to read the record parts of both skills
+C:7438	D	a wrong spelling of a numeral
+C:7577	7	his words of the day before not kept
+C:7800	-	
+C:8745	-	
+C:8905	-	
+C:9195	-	
+C:9242	A	self-correction relayed to chat after the new hook
+C:9565	-	
+C:10107	-	
+C:10150	-	
+C:10477	-	
+C:10521	-	
+C:10615	-	
+C:10793	B	a second worker for work that already ran
+C:10814	-	
+C:11621	-	
+C:11724	-	
+C:11853	-	
+C:12175	-	
+C:12699	-	
+C:13154	-	
+C:13359	-	
+C:13709	B	a rendering changed that he had not asked for
+C:13733	E	an ask that the running batch already answered
+C:13971	1	README kind 1
+C:14024	1	README kind 1
+C:14116	2	README kind 2
+C:14235	2	README kind 2
+C:14333	1	README kind 1
+C:14351	-	
+C:14359	3	README kind 3
+C:14373	3	README kind 3
+C:14447	3	README kind 3
+C:14468	8	README kind 8
+C:14518	G,5	README kind 5, and his judgement of the model
+C:14578	7	README kind 7
+C:14638	7,G	README kind 7, and a judgement
+C:14668	-	
+C:14700	G	a judgement
+C:14736	G	a judgement
+C:15136	-	
+C:15283	D	test counts from the wrong gate
+C:15408	A	unclear whether a point needs his judgement
+C:15440	E,G	a batch's result against the skill's instruction, and a judgement
+C:15477	4,3	when his word goes into POSITIONS, said before record.md was loaded
+C:16791	-	
+C:16800	G	a judgement
+# Part 2: the sample of 60 messages without a marker (corrections.py --sample 60 2026-10-28T05:56 2026-11-16T13:36).
+B3:6934	-	
+B3:7047	-	
+B3:7113	-	
+B3:8878	-	
+B3:9254	-	
+B3:9283	-	
+B3:10166	-	
+B3:12014	-	
+B3:12196	-	
+B3:12295	-	
+B3:14821	-	
+B3:15211	-	
+B3:16055	-	
+B3:16421	-	
+B3:16599	E	backed off under pressure
+B3:19542	-	
+B4:519	-	
+B4:3342	-	
+B4:3503	-	
+B4:5437	-	
+B4:6279	-	
+B4:7025	-	
+B4:7114	-	
+B4:7250	-	
+B4:8705	E	reminded him of branches against his order
+B4:8897	-	
+B4:9151	-	
+B4:9214	-	
+B4:9587	-	
+B4:9605	-	
+B4:9764	-	
+B4:9929	-	
+B4:9993	-	
+B4:10828	-	
+B4:10947	-	
+C:1111	-	
+C:1884	F	the goal read too narrowly
+C:4130	-	
+C:4361	-	
+C:4434	-	
+C:4566	-	
+C:5008	-	
+C:5026	-	
+C:5121	-	
+C:6215	-	
+C:6336	-	
+C:7208	-	
+C:7773	-	
+C:7938	-	
+C:8271	-	
+C:8394	-	
+C:9504	-	
+C:9889	-	
+C:10416	-	
+C:10739	-	
+C:11003	-	
+C:11599	-	
+C:11771	-	
+C:14281	-	
+C:14549	6	README kind 6
