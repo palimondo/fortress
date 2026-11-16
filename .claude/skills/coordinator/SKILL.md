@@ -236,27 +236,25 @@ FACTS and POSITIONS hold the project only, since workers read them. They state t
 
 ## The boot
 
-At session start and after each compaction, take these steps in order. If the curator names another form of the boot, that word replaces these steps and the hook's list of files.
+At session start and after each compaction, take these steps in order. If the curator names another form of the boot, that word replaces these steps. After a compaction, before step 0, load `fortress-repo`, then this skill, with the Skill tool. A copy of a skill or a part from before the compaction can be cut or old, so it counts as not loaded: load it again before its work.
 
 0. Check the serving model: run `explorations/coordinator/tools/model-now.sh`, which prints the model of this turn's reply. If it prints nothing, use the `get_session` tool with no session ID: its `session_context.model` and `external_metadata.last_served_model`. If the model is neither Opus nor Fable, act as on the model check's alarm (below). Then check the transcript backup (below).
-1. `POSITIONS.md`, whole. Read it in pages: it is larger than one page of the Read tool.
-2. Run `explorations/coordinator/check-index.sh`. Add an INDEX line for each note that it reports.
-3. `PLAN.md`, its first section.
-4. The boot note, then the held list.
-5. `git log --oneline -15`, for a worker's commit newer than the boot note.
-6. If the boot note says that a batch runs, load `references/batch.md` and read what its "While it runs" names. Say nothing about the batch before that.
-7. Load `references/delegating.md`, `references/record.md` and `fortress-repo`'s `references/records.md`, so that you give the work to workers and keep the record by its rules.
+1. `POSITIONS.md`, whole. Read it in pages: it exceeds one page of the Read tool.
+2. `PLAN.md`, its first section.
+3. The boot note, then the held list.
+4. `git log --oneline -15`, for a worker's commit newer than the boot note.
+5. If the boot note says that a batch runs, load `references/batch.md` and read what its "While it runs" names. Say nothing about the batch before that.
+6. Load `references/delegating.md`, `references/record.md` and `fortress-repo`'s `references/records.md`.
+7. Run `explorations/coordinator/check-index.sh | head -30`: it prints first the notes that lack an INDEX line. Add a line for each, without reading INDEX whole.
 8. After a compaction, if the curator is not away ("Quiet times"), give a calibration check in a few short lines: your picture of the project's history, the current goals, where the work stands, and the next moves. It grounds you again in the work, and it shows your picture to the curator, who corrects it where it differs. Leave out a running batch.
 
-`FACTS.md` and `INDEX.md` stay unread. Before you state a fact, or put anything to the curator, search them with `facts-extract.sh`. Read only FACTS whole, and only at a batch landing:
+`FACTS.md` and `INDEX.md` stay unread. Before you state a fact, or put anything to the curator, search them with `facts-extract.sh`. Never read INDEX whole. Read FACTS whole only at a batch landing:
 
-1. At the first batch landing after the boot, read `FACTS.md` whole, in pages. Do it before step 1 of `references/batch.md`, "The landing". If the boot falls inside a batch landing, after step 1 of "The landing", read it at once, before the next step.
+1. At the first batch landing after the boot, unless the boot was full, read `FACTS.md` whole, in pages. Do it before step 1 of `references/batch.md`, "The landing". If the boot falls inside a batch landing, take the boot's steps, read FACTS whole, then go on with the landing. Ask the curator nothing about the boot.
 2. When the record-landing workflow of step 4 of "The landing" ends, read what it changed in FACTS and POSITIONS.
 3. At a later batch landing before the next compaction, read only what it changed in the two files.
 
-**The full boot.** Only at the curator's word, read `FACTS.md` and `INDEX.md` whole too, after step 1. It costs about three times the context. After it, skip step 1 of the list above.
-
-**After a compaction,** a copy of a skill or a part that the harness shows from before it counts as not loaded: it can be cut or old. Load each skill's core with the Skill tool, and read each part from disk before its work.
+**The full boot.** Only at the curator's word, read `FACTS.md` and `INDEX.md` whole too, after step 1. It costs about three times the default boot's context.
 
 **The transcript backup.** Check it at every boot and after every VM restart, since the backup fails with no message:
 
@@ -264,10 +262,8 @@ At session start and after each compaction, take these steps in order. If the cu
 - Otherwise, read the last line of its `.backup.log`. If the line says `push=failed`, or its time is older than the machine's last start (`uptime -s`), run `scripts/backup.sh --run` in the worktree by hand, and read the new last line. A sound line ends `push=ok`.
 - Re-arm only a worktree that is missing or broken. A snapshot, the backup's commit of the transcripts, older than the last restart is normal at the first boot after it: the backup runs only at a turn's end.
 
-A batch landing's work never waits for a compaction or a boot, and you ask the curator nothing about the boot.
-
 - Read nothing that the boot does not name. List no directory, and bound every command's output.
-- To learn whether a worker runs, read the harness's notice at the top of the turn. After an interrupt or a process stop, check each worker's state, and that each output file is complete, not only that it exists, before you say what ran or was lost. Relaunch a killed worker only as `references/delegating.md`, "Interrupts and process stops", says.
+- To learn whether a worker runs, read the harness's notice at the top of the turn. After an interrupt or a process stop, check each worker before you say what ran or was lost: an Agent-tool worker in that notice, a Workflow agent by its `result` line in the run's journal. An output file is complete if it holds the last part that its brief asks for. Relaunch a killed worker only as `references/delegating.md`, "Interrupts and process stops", says.
 - Rewrite the boot note whole at every change. Never append to it.
 - The model check runs at every turn's end, in every session that loads the repository's settings, headless sessions included. Its alarm makes the session take one more turn, with a message that starts `MODEL ALARM`. On the alarm:
   - make the alarm the first line of your reply, and send it as a push notification;

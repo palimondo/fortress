@@ -18,15 +18,16 @@
 ## Which tier runs what
 
 - Name each worker's tier by its alias only: `model: 'opus'`, `'sonnet'` or `'fable'`.
-- `explorations/coordinator/tools/tier-mode.sh` (`status`, `fable`, `regular`) switches the workflow scripts and the headless writers between these tiers and Fable for every agent. Run it only while no workflow runs.
+- `explorations/coordinator/tools/tier-mode.sh fable` puts every agent of the workflow scripts and the headless writers on Fable. `regular` puts them back on this section's tiers, and `status` prints the setting. Switch only at the curator's word, and only while no workflow runs. Under the `fable` setting every worker runs on Fable, and this section's rules on which tier runs what do not apply.
 - Use Sonnet only for archaeology and to fetch exact words. Have an Opus worker turn the evidence into a report, and condense a long report into a summary or the exact quotes that you need.
 - To recheck a point at its source, have a fresh Sonnet scout fetch the exact words from the transcript or the commits. Have an Opus worker set them against the curator's memory and against the report, entry or summary that it differs from. Until the recheck ends, state neither side as right, and take no step that rests on the point.
 - Run an Opus worker that writes or condenses a long report at `xhigh` effort: the Agent tool's `effort` option, `agent()`'s `opts.effort`, or `--effort xhigh` for a headless session.
 - Run every writer on Opus: of skill text, of record entries, and of each longer report or page for the curator, also when this session runs on Fable. Fable writes no text that goes as written into the record, since its compressed register degrades the reasoning. A Fable worker may give corrections to a text that Opus writes, and Opus words them into the text. A Fable review may edit a batch record in place.
-- The rules on Fable's text hold while Fable is at version 5.1. `explorations/coordinator/tools/model-now.sh` prints a Fable session's version.
+- The rules on Fable's text hold while Fable is at version 5.1. `explorations/coordinator/tools/model-now.sh` prints this session's model.
 - For a cross-area question, Opus workers first gather cited evidence or a list of ways. Then, if neither the record nor the three principles (`SKILL.md`) settle it, run a Fable judgement, sparingly. If the fork stays consequential, put it to the curator as an ask.
 - Four kinds of Fable work have a go in advance: the Fable judgement on a cross-area question, a judge's second ruling in a batch, the Fable review of each batch record, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
-- If you start a headless session on a tier other than Opus or Fable, set `FORTRESS_HEADLESS=1` in its environment. Otherwise the model check's alarm stops its work (`SKILL.md`, "The boot").- Start every headless session with `--session-id` and a new UUID. Without it, its prompts read as the curator's messages in your own transcript.
+- If you start a headless session on a tier other than Opus or Fable, set `FORTRESS_HEADLESS=1` in its environment. Otherwise the model check's alarm stops its work (`SKILL.md`, "The boot").
+- Start every headless session with `--session-id` and a new UUID. Without it, its prompts read as the curator's messages in your own transcript.
 - A Fable token also uses the all-models limits, at three to four times an Opus token's share of the session limit.
 
 ## What a brief holds
