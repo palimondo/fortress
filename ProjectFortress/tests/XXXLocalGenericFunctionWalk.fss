@@ -1,0 +1,13 @@
+component XXXLocalGenericFunctionWalk
+export Executable
+
+(* A function declared in a block may have static parameters of its own (functions.tex, section "Local Function Declarations"). *)
+
+run(): () = do
+    z: ZZ32 = 5
+    loc[\T\](x: T): T = x
+    assert(loc(z), 5, "loc(z)")
+    assert(loc("ab"), "ab", "loc of a string")
+end
+
+end
