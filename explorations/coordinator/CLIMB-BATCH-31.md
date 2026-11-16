@@ -302,8 +302,10 @@ Fields common to the nine rungs:
 - A **wall** is a place where the compiler or the compiled library stops.
 - A **rung** is one change. One worker builds it. A second worker, the skeptic, checks it. A **run** is one launch of the batch workflow. The **gather** merges the rungs of a run. The **gate** is the full check before a run lands.
 - A **numeral** is a number written in digits.
+- A **generic** declaration has a type parameter, such as `T`. A **plain** declaration has none. An **instance** is the generic declaration with a type in the place of `T`.
 - A **value object** is an object without identity. Two value objects with the same contents are the same value. No type can extend an object.
 - The **merge** is your decision P-178. Each of the five number types `ZZ32`, `ZZ64`, `ZZ`, `NN64` and `RR64` becomes one value object. The five internal objects of the interpreter, `Int`, `Long`, `Float`, `BigNum` and `UnsignedLong`, go.
+- The **ledger** is the list of known defects. A **row** is one defect. An **expected-failure test** is a test that is known to fail and is marked so.
 - **microGPT** is the model program. No rung changes a line of it.
 
 ### The go
@@ -336,7 +338,7 @@ You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with 
 - After: it runs. The `mx` of `Tord` is the one that is called.
 - The second program: `object Rng extends { Other, Ix[\ZZ32\] }`, where `Ix` is a trait of another component and has a method with a body. Today a call of that method on `Rng` ends 'AbstractMethodError'. After: it runs. The library's `DOT` and `SUM` stop at this wall.
 - Fork M1: the trait's own declaration replaces the inherited body. The other way keeps the first body that the compiler meets; that is what fails today.
-- Fork M2: a method that an interface file declares without `abstract` has a body. The other way treats it as abstract and writes no forwarder.
+- Fork M2: a method that an interface file declares without `abstract` has a body. The other way treats it as a method without a body, and the call fails as it does today.
 - M also runs the test of row 1013 once, and builds nothing for it.
 
 **K. The cast at a `comprises` type.**
@@ -364,7 +366,7 @@ You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with 
 - Today: the compile stops: 'Can't compile Label'. Every string and every array of the one library has such a line.
 - After: it compiles, and `find(3)` is 3.
 - Fork L1: an `exit` out of a parallel loop first joins the tasks that the loop started. Then the block of the label ends with the value. This follows your decision P-175. The other way stops the other tasks at once.
-- Fork L2: an `exit` out of an `atomic` block keeps the writes of the block, by the specification. The compiled code that ends a transaction is not in this rung. So L writes the case as a test. If the test fails, it is an expected failure with a new ledger row.
+- Fork L2: an `exit` out of an `atomic` block keeps the writes of the block, by the specification. The compiled code that ends a transaction is not in this rung. So L writes the case as a test. If the test fails, it is an expected-failure test with a new row.
 
 **A. `atomic` as an expression, and a mutable field.**
 
@@ -426,7 +428,7 @@ You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with 
 
 - Today: it compiles. When it runs: 'VerifyError ... Type A2 is not assignable to FZZ32'. This is the wall of every matrix: `m[i,j]` on the one library.
 - After: it runs and gives 7.
-- Fork T1: a pair is still passed as two JVM parameters, and a small bridge method joins the two forms. The other way passes one boxed pair everywhere, and changes every compiled method that takes a tuple.
+- Fork T1: a pair is still passed as two JVM parameters, and a small bridge method joins the two forms. The other way passes a pair as one object everywhere, and changes every compiled method that takes a tuple.
 - T is in run 2 because M and T both edit the code that writes forwarders.
 
 **O. The merge, in the one library and in walk.**
@@ -463,7 +465,7 @@ You gave the go at 23:04 UTC on 16 November: "Approved. Plan autonomously, with 
 
 Your decision P-178 asks for the merge on both paths before the switch-over.
 
-**The one library and walk: it runs, as rung O.** A probe built it on 13 November in a scratch tree. The two measures of the checker stayed 0. Walk's suite passed. Both microGPT quick checks passed 7 of 7. No model line changed. The probe left five questions. They are review-queue items 516 to 520. Each is decided at a default:
+**The one library and walk: it runs, as rung O.** A probe built it on 13 November in a scratch tree. The two measures of the checker stayed 0. Walk's suite passed, but for the two defects that rung V repairs. Both microGPT quick checks passed 7 of 7. No model line changed. The probe left five questions. They are review-queue items 516 to 520. Each is decided at a default:
 
 - **Fork O1 (item 516). Where the five types live.** Default: they stay in `FortressLibrary`, and walk gets a table of the five names. This is what the probe built. The other way moves them to `FortressBuiltin`, beside `NN32` and `RR32`. That moves about 620 lines and takes the five types out of the interface file `FortressLibrary`. It can be done later.
 - **Fork O2 (item 517). The two repairs of walk first.** Default: yes. They are rung V of run 1. The other way merges first and records the two defects. Then walk loads pairs that are not valid at the types that every program uses.
@@ -483,7 +485,7 @@ Your decision P-178 asks for the merge on both paths before the switch-over.
 So the prelude's half is work in the code generator, and there are two ways:
 
 - **Way (a).** The code generator writes for these number objects the same classes that it writes for a trait today. This is small. It goes when the prelude goes.
-- **Way (b).** The code generator learns that a value object holds a JVM `int`, `long` or `double`. The switch-over needs this in any case. The carriers' review estimated about three rungs.
+- **Way (b).** The code generator learns that a value object holds a JVM `int`, `long` or `double`. The switch-over needs this in any case. The review of 13 November on the Java classes that hold built-in values estimated about three rungs.
 
 **The question that holds it: which way.** Neither way has a probe, so I could not write a rung with a size. My recommendation: a probe of way (a) of about one hour, then one rung. With it goes a second point: in the prelude, `NN32` and `RR32` are traits too. They become value objects in the same rung. This is fork H2. It is a new item for your review queue.
 
