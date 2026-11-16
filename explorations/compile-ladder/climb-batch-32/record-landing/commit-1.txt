@@ -1,0 +1,16 @@
+Record: FACTS and POSITIONS in line with climb batch 32's landing
+
+The record-landing run for climb batch 32 (landing 567c36dadc): 49 entries, each through record.py with its history block.
+
+- F-53: the sentence that row 731's checker gap stays open is cut; the row is closed (d159b71975).
+- F-240: one clause says that the distance stage's 165 s was taken beside testFast; no figure changes.
+- F-58: the closed rows 989, 988 and 474 leave the body; the counts stay those of 832f7d0d91, and the entry says what moved since.
+- F-59, F-221, F-285, F-341: the gather's sentences read to the record's form; row 731's number leaves; no claim changes.
+- F-362 to F-369, the batch's new entries: each read as a draft; the limits of the tests and rows 1011, 1013, 1015 and 1031 named; F-366 says that a worker chose subtyping as the order.
+- F-280: the title names the `=/=` over `Any`; one sentence on `Equality`'s own `=/=` (FortressLibrary.fss:102).
+- 28 FACTS entries and P-166: line citations repointed to the lines that the landing moved; no other word.
+- P-78: two sentences on the checker in line with the tree (F-364); the decision's sentences unchanged.
+- P-79, P-46: words cut only, the half sentence on row 731 and the sentence on rows 973 and 966; decisions unchanged.
+- P-173: one clause names rows 1016 and 1017 in place of the closed rows 973 and 966; decision unchanged.
+
+The POSITIONS changes are made under the curator's rule of 2026-10-31 and are named to him in the landing report.
