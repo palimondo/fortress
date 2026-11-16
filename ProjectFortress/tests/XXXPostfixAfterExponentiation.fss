@@ -1,0 +1,16 @@
+component XXXPostfixAfterExponentiation
+export Executable
+
+(* A postfix operator after an exponentiation applies to the power, under walk: juxtameaning.tex, section "Juxtaposition". *)
+
+opr (x: ZZ32)! : ZZ32 = x + 1000
+
+opr (x: ZZ32)^T: ZZ32 = x + 100
+
+run(): () = do
+    n: ZZ32 = 3
+    assert(n^2!, 1009, "n^2!")
+    assert(n^T!, 1103, "n^T!")
+end
+
+end
