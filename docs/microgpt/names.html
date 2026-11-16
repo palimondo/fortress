@@ -105,10 +105,10 @@
 <li><p id="p-b48b636f" class="nb">Head: one of the four attention computations, each on four of the sixteen columns.</p></li>
 <li><p id="p-1b359f34" class="nb">Attention weight: a number between 0 and 1 that says how much one position reads from another. The model computes it anew in every forward pass.</p></li>
 <li><p id="p-dc93aaac" class="nb">Residual connection: adding a block's result to the block's input.</p></li>
-<li><p id="p-b4f65fbb" class="nb">Forward pass: the part of the step from the tokens to the loss, lines 57 to 61.</p></li>
+<li><p id="p-eb165530" class="nb">Forward pass: the part of the step from the tokens to the loss, lines 52 to 56.</p></li>
 <li><p id="p-45d3223d" class="nb">Loss: one number that says how wrong the model's probabilities are for the right answers.</p></li>
 <li><p id="p-2f3b800b" class="nb">Gradient: for each parameter, the rate at which the loss changes when that parameter changes.</p></li>
-<li><p id="p-a4b6f826" class="nb">Backward pass: the part of the step that computes the gradient, lines 63 to 70.</p></li>
+<li><p id="p-316f324e" class="nb">Backward pass: the part of the step that computes the gradient, lines 58 to 65.</p></li>
 <li><p id="p-808a4cc6" class="nb">Step: the function <span class="fc"><span class="fr m"><i>step</i></span><code class="fs">step</code></span>, one forward pass and one backward pass. A step of training is a step and one call of <span class="fc"><span class="fr m"><i>adam</i></span><code class="fs">adam</code></span>.</p></li>
 </ul>
 </section>

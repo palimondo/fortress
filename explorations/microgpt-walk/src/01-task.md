@@ -30,7 +30,7 @@ A token is an integer that stands for one character. A GPT is a function from a 
 
 The program is in the folder [explorations/run-c4/src](src:explorations/run-c4/src). Four files matter here:
 
-- `MicroGptFlat.fss` holds the model: 98 lines.
+- `MicroGptFlat.fss` holds the model: 93 lines.
 - `FlatArrays.fss` is the file of array helpers that the program imports: 190 lines of functions and operators on vectors and matrices that Fortress's library does not have.
 - `FlatData.fss` reads the parameters and the corpus from text files, 125 lines.
 - `MicroGptFlatQuick.fss` is the quick check: it runs the model twice and compares the results with stored values. Part 8 reads it.
@@ -62,14 +62,14 @@ The comment also names three things from the project's history:
 
 @src 9-14
 
-- Line 9 opens the component. Its name must be the file's name. The matching `end` is the file's last line, line 98.
+- Line 9 opens the component. Its name must be the file's name. The matching `end` is the file's last line, line 93.
 - Line 10 says that this component implements the api `MicroGptFlat`. The api's file lists what the model offers to other components: the layout table, the corpus, `step`, `adam` and `learningRate`. The quick check imports these.
 - Line 11 says that the component also implements the api `Executable`. That api has one function, `run(): ()`. A component that exports it is a program: ``bin/fortress MicroGptFlat.fss`` calls its `run`.
 - Lines 12 to 14 import other apis. `{...}` is Fortress text, not an omission here: it means "every name of that api".
 
-@src 98
+@src 93
 
-The lines of this file use no name of `System`. A copy of the file without line 14 runs and prints the same loss. The timer in line 92, `nanoTime`, is a function of Fortress's library, which every component sees without an import. The quick check does use `System`, for its function `getProperty`.
+The lines of this file use no name of `System`. A copy of the file without line 14 runs and prints the same loss. The timer in line 87, `nanoTime`, is a function of Fortress's library, which every component sees without an import. The quick check does use `System`, for its function `getProperty`.
 
 ## The constants
 
@@ -93,7 +93,7 @@ Under walk these tuple bindings work, and your ruling keeps the form. On the com
 
 Line 18 declares six more constants.
 
-- `epsilon` is `10.0^(-5)`, which is 0.00001. The operator `^` is the power. The function `rmsn` of line 27 divides by the root of a number, and it first adds `epsilon` to that number, so that it never divides by 0. Part 3 reads `rmsn`.
+- `epsilon` is `10.0^(-5)`, which is 0.00001. The operator `^` is the power. The function `rmsn` of line 22 divides by the root of a number, and it first adds `epsilon` to that number, so that it never divides by 0. Part 3 reads `rmsn`.
 - `lr0` is 0.01, `beta1` is 0.85, `beta2` is 0.99, and `epsilon_A` is 0.00000001. Adam, the rule that changes the parameters after each step, uses these four. `lr0` is the learning rate at step 0: the size of the first change. The two betas set how fast Adam's two averages forget old gradients. `epsilon_A` is Adam's own guard against a division by 0.
 - `nSteps` is 1,000: the number of steps over which the learning rate falls to 0. Part 7 reads Adam and the training loop.
 
@@ -105,11 +105,11 @@ Line 19 gives the two places on disk: the corpus, and the folder of the paramete
 
 The program gives ``a`` the token 0, ``b`` the token 1, and so on to ``z``, 25. The mark BOS is the token 26.
 
-@src 47-48
+@src 42-43
 
-Line 47 is the heading comment. "Tactic 3/5" points to two pieces of advice from Hsu's talk, by their numbers in the project's notes on it: tactic 3, the corpus as one integer matrix with a vector of lengths, built once; tactic 5, characters turned into small integers when the data is loaded.
+Line 42 is the heading comment. "Tactic 3/5" points to two pieces of advice from Hsu's talk, by their numbers in the project's notes on it: tactic 3, the corpus as one integer matrix with a vector of lengths, built once; tactic 5, characters turned into small integers when the data is loaded.
 
-Line 48 declares a top-level variable with a written type, `Corpus`. Its value is computed once, when the component is loaded, before `run` starts. The function `loadCorpus` and the type `Corpus` are in `FlatData.fss`:
+Line 43 declares a top-level variable with a written type, `Corpus`. Its value is computed once, when the component is loaded, before `run` starts. The function `loadCorpus` and the type `Corpus` are in `FlatData.fss`:
 
 @src FlatData.fss 119-124
 
@@ -138,28 +138,28 @@ The object's declaration follows.
 
 ## The first line of the step: the keys
 
-@src 50-51
+@src 45-46
 
 The function `step` is the model. One call of it is one step: it reads a few names, computes the model's answers, and computes how to change the parameters. Its header says what goes in and what comes out.
 
 - `p`, the parameters, is a vector of 4,192 floats.
 - `b`, the batch, is a vector of integers: the numbers of the documents to learn from in this step. Every run shown here uses a batch of one document, document 0.
 - The result is a pair. Its first part is the loss, one float. Its second part is a vector of 4,192 floats, the gradient. The gradient holds one number for each parameter: the rate at which the loss changes when that parameter changes. Part 6 computes it.
-- `= do` opens a block. The block ends at line 72, and its value is its last expression, in line 71.
+- `= do` opens a block. The block ends at line 67, and its value is its last expression, in line 66.
 
 The comment says "Pure": `step` changes nothing outside itself. It reads `p` and `b` and the corpus, and it returns two values.
 
 !!! limit
-The type `Array[\RR64,ZZ32\]` does not say how long the vector is. The library has a type that does: `Vector[\RR64,n\]`, where `n` is a size that the type carries. The model's functions take and return the type without a size. Only the two operators of lines 23 and 24 name sizes. One cause is in walk: a function whose type has a size parameter cannot be passed as an argument (the gap ledger's row 156; Part 3 meets it at `rmsn`). Whether the model's arrays get types with sizes is a decision of yours that is still open; the record calls it decision D.
+The type `Array[\RR64,ZZ32\]` does not say how long the vector is. The library has a type that does: `Vector[\RR64,n\]`, where `n` is a size that the type carries. The model's functions take and return the type without a size. One cause is in walk: a function whose type has a size parameter cannot be passed as an argument (the gap ledger's row 156; Part 3 meets it at `rmsn`). Whether the model's arrays get types with sizes is a decision of yours that is still open; the record calls it decision D.
 !!!
 
 The step's first line makes five vectors. A semicolon separates declarations on one line.
 
-@src 52: ids = corpus.tokens(b, 0)
-@src 52: tg = corpus.tokens(b, 1)
-@src 52: vm = corpus.valid(b)
-@src 52: nv = SUM vm
-@src 52: pos = corpus.positions(b)
+@src 47: ids = corpus.tokens(b, 0)
+@src 47: tg = corpus.tokens(b, 1)
+@src 47: vm = corpus.valid(b)
+@src 47: nv = ∑ vm
+@src 47: pos = corpus.positions(b)
 
 Each vector has one entry for each pair of a document and a position. A position is a place in a name's row of tokens, counted from 0. The model reads 16 positions of each document, so a batch of one document gives 16 entries. Such an entry is called a row from here on, because every matrix that the step computes later has one row for each of these pairs.
 
@@ -176,7 +176,7 @@ pos = 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 - `ids`, the tokens' identifiers, holds the token that the model reads at each position: columns 0 to 15 of the corpus row. The program calls these integers keys, because the step uses them to look rows up in tables.
 - `tg`, the targets, holds the token one place later: columns 1 to 16. It is the right answer for each position. At position 0 the model reads BOS (26) and the target is ``y`` (24). At position 6 it reads ``g`` (6) and the target is BOS (26).
 - `vm`, the mask of the valid rows, says which rows count: 1.0 for the seven questions of ``yuheng``, 0.0 for the nine rows after the name's end. The method `valid` compares the position with the document's length, 7.
-- `nv`, the number of valid rows, is the number of rows that count. `SUM` adds the elements of an array, so `nv` is 7.0.
+- `nv`, the number of valid rows, is the number of rows that count. `∑` adds the elements of an array, so `nv` is 7.0.
 - `pos`, the positions, holds each row's position.
 
 In the methods' bodies, `r` is the row's number. `r DIV blk` is the whole part of `r` divided by 16: which document of the batch the row belongs to. `r MOD blk` is the remainder: the row's position. With one document in the batch, the row's number is its position.

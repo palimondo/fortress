@@ -3,12 +3,12 @@
 
 ## The feed-forward block
 
-@src 60: x3 = rows(rmsn, x2)
-@src 60: m0 = x3 f1^T
-@src 60: mr = 0.0 MAX m0
-@src 60: x4 = x2 + mr f2^T
+@src 55: x3 = rows(rmsn, x2)
+@src 55: m0 = x3 f1^T
+@src 55: mr = 0.0 MAX m0
+@src 55: x4 = x2 + mr f2^T
 
-These four declarations are the rest of line 60. They form the model's second block, the feed-forward block. Its other name in the field is MLP, short for multi-layer perceptron, and the files of its two matrices are named ``mlp_fc1`` and ``mlp_fc2``, where FC is short for fully connected. The block starts from `x2`, the matrix of Part 4: each row as it was before attention, plus attention's result.
+These four declarations are the rest of line 55. They form the model's second block, the feed-forward block. Its other name in the field is MLP, short for multi-layer perceptron, and the files of its two matrices are named ``mlp_fc1`` and ``mlp_fc2``, where FC is short for fully connected. The block starts from `x2`, the matrix of Part 4: each row as it was before attention, plus attention's result.
 
 - `x3` is `x2` with `rmsn`, the function of Part 3 that brings a row to a standard size, on every row. It is the third and last use of `rmsn` in the forward pass.
 - `m0` puts every row of `x3` through `f1`, the block's first weight matrix, 64 by 16. Each row of 16 numbers becomes a row of 64 numbers.
@@ -30,7 +30,7 @@ The two blocks have different jobs. Attention moves numbers between positions. T
 
 ## From a row to 27 probabilities
 
-@src 61: pr = rows(sm, x4 lm^T)
+@src 56: pr = rows(sm, x4 lm^T)
 
 `x4 lm^T` puts every row of `x4` through `lm`, the language model's head: the last weight matrix, 27 by 16. Each position now has 27 numbers, one for each token. They are scores: any size, any sign. The field's name for them is logits, and the output below prints them under that name.
 
@@ -52,7 +52,7 @@ With equal probabilities, each token would have 1 in 27, which is 0.037. The unt
 
 ## The loss
 
-@src 61: loss = -(vm DOT log(pick(pr, tg))) / nv
+@src 56: loss = -(vm DOT log(pick(pr, tg))) / nv
 
 The loss is one number that says how wrong `pr` is. Read the line from the inside out.
 
@@ -109,7 +109,7 @@ The second number of the output is a value to compare the loss with. A model tha
 
 @fig forward | The stages of the forward pass. The two lines at the left are the residual connections.
 
-Lines 57 to 61 are the whole forward pass: five lines. The figure leaves out one step, the cut of `q`, `k` and `v` into heads. Each stage is a matrix with one row for each position, except `a`, which has one plane for each head, and the loss, which is one number.
+Lines 52 to 56 are the whole forward pass: five lines. The figure leaves out one step, the cut of `q`, `k` and `v` into heads. Each stage is a matrix with one row for each position, except `a`, which has one plane for each head, and the loss, which is one number.
 
 ## Sources
 

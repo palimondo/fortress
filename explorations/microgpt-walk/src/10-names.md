@@ -83,8 +83,8 @@ The step returns `loss` and the nine `g` matrices as one vector of 4,192 floats,
 - Head: one of the four attention computations, each on four of the sixteen columns.
 - Attention weight: a number between 0 and 1 that says how much one position reads from another. The model computes it anew in every forward pass.
 - Residual connection: adding a block's result to the block's input.
-- Forward pass: the part of the step from the tokens to the loss, lines 57 to 61.
+- Forward pass: the part of the step from the tokens to the loss, lines 52 to 56.
 - Loss: one number that says how wrong the model's probabilities are for the right answers.
 - Gradient: for each parameter, the rate at which the loss changes when that parameter changes.
-- Backward pass: the part of the step that computes the gradient, lines 63 to 70.
+- Backward pass: the part of the step that computes the gradient, lines 58 to 65.
 - Step: the function `step`, one forward pass and one backward pass. A step of training is a step and one call of `adam`.

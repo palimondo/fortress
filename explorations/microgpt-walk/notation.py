@@ -254,9 +254,6 @@ OVERRIDES = [
              'as a small circle under two dots.'),
     dict(src='⌷', fortify=r'\FortressUnknownCharacter{U+2337}', fixed=r'{\fboxsep=0pt\fbox{\phantom{l}}}',
          why='The same for APL\'s index sign, in a comment; the sign is drawn as an upright box.'),
-    dict(src='(* ^T on a matrix', fortify=r"{\char'136}T", fixed=r"{\tt\char'136}T",
-         why='In a comment, Fortify sets the sign ^ in the roman font, where that place holds the circumflex '
-             'accent; the typewriter font has the sign.'),
     dict(src='name: Type := value', fortify=r'\KWD{value}', fixed=r'\VAR{value}',
          why='In this pattern of the text, value is a placeholder; Fortify sets it as the keyword value.'),
 ]

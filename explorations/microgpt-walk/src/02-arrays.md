@@ -86,7 +86,7 @@ $$
 
 For the pairs to match, the left matrix needs as many columns as the right matrix has rows. A matrix of 16 by 64 times a matrix of 64 by 16 gives a matrix of 16 by 16: the two inner sizes must be equal, and the two outer sizes are the result's.
 
-## The transpose, and lines 21 to 24
+## The transpose
 
 The transpose of a matrix is the same numbers with rows and columns exchanged: row 0 becomes column 0, row 1 becomes column 1. The program writes it `m^T`. A run printed:
 
@@ -96,11 +96,11 @@ m^T (2 x 2):
     2.0 4.0
 ```
 
-The program declares this operator itself:
+`FlatArrays.fss` declares this operator:
 
-@src 21-24
+@src FlatArrays.fss 50-51
 
-Line 23 declares a postfix operator. Read it in pieces.
+Line 50 declares a postfix operator. Read it in pieces.
 
 - `opr` starts the declaration of an operator.
 - `(m: Matrix[\RR64,r,c\])^T` says where the operand stands and what the operator looks like: a matrix `m`, then `^T`.
@@ -108,13 +108,9 @@ Line 23 declares a postfix operator. Read it in pieces.
 - `: Matrix[\RR64,c,r\]` is the type of the result. The sizes have changed places: a matrix of `r` by `c` gives a matrix of `c` by `r`.
 - `= transpose(m)` is the body. `transpose` is a function of `FlatArrays.fss`, the file of array helpers that the program imports. Its definition calls the library's method `t()`, which gives the transpose of a matrix:
 
-@src FlatArrays.fss 50
+@src FlatArrays.fss 48
 
-Line 24 declares `^T` a second time, for an array with three indices. Such an array holds several matrices of one size, and `^T` transposes each of them. Part 4 uses it.
-
-!!! limit
-The comment in lines 21 and 22 says why these two lines are in the model's file and not in `FlatArrays.fss`, beside `transpose`. "The vocabulary" is the comment's name for `FlatArrays.fss`. The parser refuses a postfix operator of this form in an api: the same declaration parses in a component and is a syntax error in a `.fsi` file (the gap ledger's row 133).
-!!!
+Line 51 declares `^T` a second time, for an array with three indices. Such an array holds several matrices of one size, and `^T` transposes each of them. Part 4 uses it.
 
 ## Many vectors at once: why the program writes `x w^T`
 
@@ -137,7 +133,7 @@ x m^T (3 x 2):
 
 So row `i` of `x m^T` is `m` times row `i` of `x`. The reason is the rule for two matrices. The element in row `i` and column `j` is row `i` of `x` with column `j` of `m^T`, and column `j` of `m^T` is row `j` of `m`.
 
-The function `step` has this form seven times, each time with another matrix of parameters in the place of `w`. Read `x w^T` as "every row of `x`, put through `w`". The sizes follow the rule. In line 60, for example, the left matrix is 16 by 16 and `w` is 64 by 16. The transpose of `w` is 16 by 64, so the result is 16 by 64: every row of 16 numbers has become a row of 64 numbers.
+The function `step` has this form seven times, each time with another matrix of parameters in the place of `w`. Read `x w^T` as "every row of `x`, put through `w`". The sizes follow the rule. In line 55, for example, the left matrix is 16 by 16 and `w` is 64 by 16. The transpose of `w` is 16 by 64, so the result is 16 by 64: every row of 16 numbers has become a row of 64 numbers.
 
 A postfix operator binds more tightly than juxtaposition, so `x m^T` means `x (m^T)` and needs no parentheses.
 
@@ -157,13 +153,13 @@ The counts add up to 4,192. The program keeps all of them in one vector, `p`. Th
 
 @fig layout | The nine weight matrices inside the vector `p`.
 
-@src 36
+@src 31
 
 "Tactic 2/8" names two more pieces of advice from Hsu's talk: tactic 2, the nine weight matrices in one parameter vector; tactic 8, the nine matrices as views of that vector. A view is a matrix or a vector that has no storage of its own. It reads and writes the elements of another array.
 
 The next lines are the layout table. They say where each matrix lies.
 
-@src 37-41
+@src 32-36
 
 `matName`, the matrix's name, gives the name of matrix `i`, which is also the name of its file of starting values. `matShape`, the matrix's shape, gives its size as a pair: rows, columns. Both are functions with one `if` expression. `if`, `elif` and `else` choose a value, and `end` closes the expression. `4 nEmbd` is 64.
 
@@ -171,11 +167,11 @@ The next lines are the layout table. They say where each matrix lies.
 A table would be the natural form: an array of nine names and an array of nine pairs. The program writes functions because walk binds a typed array literal at the top level as a tuple and then refuses it (the gap ledger's row 142). The same literal works inside a function, as in the small examples above.
 !!!
 
-@src 42
+@src 37
 
 `matCount`, the matrix's count, is the number of elements of matrix `i`. The block binds the pair `(r, c)` and returns `r c`, the product.
 
-@src 43
+@src 38
 
 `matOffset`, the matrix's offset, is the place in `p` where matrix `i` starts: the sum of the counts of the matrices before it.
 
@@ -183,21 +179,17 @@ $$
 \c{matOffset}(i) = \sum_{j=0}^{i-1} \c{matCount}(j)
 $$
 
-`SUM` is a big operator: an operator that takes a whole collection. The second pair of brackets holds a generator, `j <- 0#i`, which gives `j` the values 0 to `i - 1`. The expression after the brackets is added up for each `j`. A run printed the ten values `matOffset(0)` to `matOffset(9)`:
+`∑` is a big operator: an operator that takes a whole collection. The brackets hold a generator, `j <- 0#i`, which gives `j` the values 0 to `i - 1`. The expression after the brackets is added up for each `j`. A run printed the ten values `matOffset(0)` to `matOffset(9)`:
 
 ```out
 0 432 688 1120 1376 1632 1888 2144 3168 4192
 ```
 
-!!! limit
-The first brackets, `[\ZZ32\]`, tell `SUM` the type of its result. Walk finds this type by itself. The static type checker of the compiled path does not (the gap ledger's row 731), so the project writes the type in every `SUM` of this form.
-!!!
-
-@src 44
+@src 39
 
 `nParams`, the number of parameters, is the place after the last matrix: 4,192.
 
-@src 45
+@src 40
 
 This `view` takes the parameter vector and an index. It looks up the size and the offset, and calls a second function named `view`, with four arguments. The second `view` is in `FlatArrays.fss`. The two functions share a name. Fortress chooses between them by the arguments, here by their number.
 
@@ -231,7 +223,7 @@ f after view[0,0] := 99 (6): 1.0 2.0 99.0 30.0 5.0 6.0
 
 Inside the function `step`, one line makes all nine views:
 
-@src 53
+@src 48
 
 The left side is a tuple of nine names, the right side a tuple of nine calls. A run printed the sizes of six of them:
 
@@ -245,8 +237,8 @@ None of the nine is a copy. Element `[1, 0]` of `wte` is element 16 of `p`: the 
 
 The forward pass is the part of the step that goes from the tokens to the loss.
 
-@src 56
-@src 57: x = gather(wte, ids) + gather(wpe, pos)
+@src 51
+@src 52: x = gather(wte, ids) + gather(wpe, pos)
 
 `ids` holds the token of each of the 16 rows, and `pos` holds each row's position, from the first line of `step` in Part 1.
 
@@ -321,7 +313,7 @@ The matrix `x` has 16 rows and 16 columns, and the two 16s mean different things
 - Every value in an Output box: runs under walk of a file of small array examples, and of copies of `MicroGptFlat.fss` with print lines added.
 - Juxtaposition of a matrix and a vector as the product: [Library/FortressLibrary.fsi, line 1941](src:Library/FortressLibrary.fsi#L1941).
 - Hsu's tactics by their numbers: [HANDOVER-HSU.md, lines 18 to 33](src:explorations/apl/reference/hsu-flat/HANDOVER-HSU.md#L18).
-- The nine names: lines 38 and 39 of `MicroGptFlat.fss`, and the files of starting values in [explorations/apl/reference/dzaima/w](src:explorations/apl/reference/dzaima/w). What each name is short for is the field's usage and is in no file of the repository.
+- The nine names: lines 33 and 34 of `MicroGptFlat.fss`, and the files of starting values in [explorations/apl/reference/dzaima/w](src:explorations/apl/reference/dzaima/w). What each name is short for is the field's usage and is in no file of the repository.
 - `replica` in the library: [Library/FortressLibrary.fss, lines 2919 to 2930](src:Library/FortressLibrary.fss#L2919).
 - "Embedding" for a row of a table: [explorations/run-b/article.md, line 31](src:explorations/run-b/article.md#L31).
 - The first transformer paper is Vaswani and others, "Attention Is All You Need", 2017. Rotary position embeddings are from Su and others, "RoFormer", 2021. Neither is in the repository.

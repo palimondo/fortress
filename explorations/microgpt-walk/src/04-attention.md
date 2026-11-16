@@ -18,7 +18,7 @@ The average is weighted: each position that is read counts with a number between
 
 ## Query, key and value
 
-@src 58: (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T)
+@src 53: (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T)
 
 The line binds three names to three products. `x1` is the matrix of Part 3: the summed embeddings after two calls of `rmsn`. `wq`, `wk` and `wv` are attention's weight matrices for the query, the key and the value, three of the nine views of Part 2. Each product puts every row of `x1` through one of them. So `q`, the queries, `k`, the keys, and `v`, the values, are matrices of 16 by 16, with one row for each position.
 
@@ -36,7 +36,7 @@ The model does not use the 16 numbers of a query as one vector. It cuts every qu
 
 One head gives each position one set of attention weights. Four heads give it four, so the model can read the earlier positions in four ways at once.
 
-@src 54-55
+@src 49-50
 
 These two lines stand at the top of the function `step`, before the forward pass. They declare two local functions. A local function can use the names around it, and is declared like a top-level one.
 
@@ -68,7 +68,7 @@ Both functions return views. No number is copied. `heads` returns an object of t
 
 The fields are `base`, the matrix that the view reads; `p`, the number of positions in a document, 16; `nh`, the number of heads, 4; and `k`, the number of columns of a head, 4. In line 86, the name `q` is the plane's number, not the model's matrix `q`. `i` is the row and `j` the column. `q MOD nh` is the head, and `(q MOD nh) k + j` is the column in the matrix: the head's first column plus `j`. `q DIV nh` is the document, and `(q DIV nh) p + i` is the row in the matrix. With a batch of several documents there is one plane for each pair of a document and a head. This keeps the documents apart: a position reads only positions of its own name.
 
-@src 58: (qh, kh, vh) = (h(q), h(k), h(v))
+@src 53: (qh, kh, vh) = (h(q), h(k), h(v))
 
 `qh`, `kh` and `vh` are the queries, the keys and the values, cut into heads. A run printed the sizes, and one query before and after the cut:
 
@@ -84,11 +84,11 @@ qh[1,3,:] = -0.08474197564917962 -0.074962298948664 0.3810366810245596 -0.128891
 
 ## The scores
 
-@src 59: a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))
+@src 54: a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim))
 
 Read the line from the inside out.
 
-`kh^T` uses the operator `^T` that line 24 of `MicroGptFlat.fss` declares for a rank-3 array. On a rank-3 array it transposes every plane. The planes of `kh` are 16 by 4, so the planes of `kh^T` are 4 by 16.
+`kh^T` uses the operator `^T` that line 51 of `FlatArrays.fss` declares for a rank-3 array. On a rank-3 array it transposes every plane. The planes of `kh` are 16 by 4, so the planes of `kh^T` are 4 by 16.
 
 `qh kh^T` is a product of two rank-3 arrays. `FlatArrays.fss` declares it as the matrix product, plane with plane:
 
@@ -127,7 +127,7 @@ The sum is 0.2121, and half of it is 0.1061: the printed score.
 
 Position 3 has scores for all 16 positions, also for positions 4 to 15. It must not read those. The model's task at position 3 is to say which token stands at position 4. If position 3 could read position 4, it would read the answer.
 
-@src 29
+@src 24
 
 `mask` is a top-level variable: a matrix of 16 by 16, built once when the component is loaded. `mat` is a function of `FlatArrays.fss` that makes a matrix from its two sizes and a function of the index. The function here returns minus 10 to the power 10 where the column `j` is greater than the row `i`, and 0 elsewhere. A run printed the matrix's top left corner:
 
@@ -146,7 +146,7 @@ $$
 \end{cases}
 $$
 
-In line 59, `mask + ...` adds this matrix to every plane of the scores. Lines 135 and 136 of `FlatArrays.fss` declare `+` between a matrix and a rank-3 array. After the addition, row 3 of head 0 starts with the four scores as they were, and every later score is near minus 10 to the power 10:
+In line 54, `mask + ...` adds this matrix to every plane of the scores. Lines 135 and 136 of `FlatArrays.fss` declare `+` between a matrix and a rank-3 array. After the addition, row 3 of head 0 starts with the four scores as they were, and every later score is near minus 10 to the power 10:
 
 ```out
 masked[0,3,:] = -0.08175008584960282 0.10605658054206196 -0.13388403927731538 0.07289125011412394 -1.0000000000003387E10 -1.0000000000034449E10
@@ -202,7 +202,7 @@ $$
 
 ## Mixing the values
 
-@src 59: hc = u(a vh)
+@src 54: hc = u(a vh)
 
 `hc` holds the heads' results, side by side. `a vh` is again the product plane with plane. In each plane, the 16 by 16 matrix of attention weights meets the 16 by 4 matrix of values, and the result is 16 by 4. Row `i` of the result is the sum, over every position `j`, of the attention weight `a[i, j]` times the value of position `j`. The attention weights of a row add up to 1, so this is a weighted average of the values.
 
@@ -242,7 +242,7 @@ hc[3,0..3] = -0.26264079565384846 -0.09083065284086174 0.1298847285979956 0.2674
 
 ## Back into the row
 
-@src 60: x2 = xp + hc wo^T
+@src 55: x2 = xp + hc wo^T
 
 `hc wo^T` puts every row of `hc` through `wo`, attention's weight matrix for the output. In `hc`, each head's result sits in its own four columns. `wo` mixes the sixteen columns.
 

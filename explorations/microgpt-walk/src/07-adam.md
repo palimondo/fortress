@@ -27,9 +27,9 @@ Adam's constants are in line 18 of `MicroGptFlat.fss`:
 - `lr0` is 0.01, the learning rate at step 0. `nSteps` is 1,000, the number of steps over which the learning rate falls to 0.
 - `epsilon`, the first name, is not Adam's. It is the 0.00001 of `rmsn` in Part 3.
 
-@src 74-81
+@src 69-76
 
-Lines 75 and 76 are the header. It is long, so the result type stands on a line of its own.
+Lines 70 and 71 are the header. It is long, so the result type stands on a line of its own.
 
 - `p` is the vector of parameters, and `g` the gradient that `step` returned.
 - `m` and `v` are the two vectors of averages. Each has 4,192 numbers, like `p`. Both start as zeros.
@@ -38,17 +38,17 @@ Lines 75 and 76 are the header. It is long, so the result type stands on a line 
 
 A name may end in a prime: `m'` is a name of its own, read "m prime". Here it is the new `m`.
 
-Line 77 is the average of the gradient. `beta1` is 0.85. The new average is 85 parts of the old average and 15 parts of the new gradient. `beta1 m` is a number beside a vector: juxtaposition multiplies every element. `+` adds two vectors element by element.
+Line 72 is the average of the gradient. `beta1` is 0.85. The new average is 85 parts of the old average and 15 parts of the new gradient. `beta1 m` is a number beside a vector: juxtaposition multiplies every element. `+` adds two vectors element by element.
 
-Line 78 is the average of the squares. `g × g` multiplies the gradient with itself, element by element. `beta2` is 0.99: 99 parts old, 1 part new.
+Line 73 is the average of the squares. `g × g` multiplies the gradient with itself, element by element. `beta2` is 0.99: 99 parts old, 1 part new.
 
-Line 79 is the move. It has three pieces.
+Line 74 is the move. It has three pieces.
 
 - `m' / (1 - beta1^t)` corrects the first average for its start. `m` starts as 0, so after the first step `m'` is only 15 parts in 100 of the gradient. At `t` = 1 the divisor is 1 minus 0.85, which is 0.15, and the division gives the whole gradient back. At `t` = 3 the divisor is 0.386. As `t` grows, the divisor goes to 1, and the correction changes less and less.
 - `v' / (1 - beta2^t)` is the same correction for the second average. `SQRT` takes the root of every element. `+ epsilon_A` adds 0.00000001 to every element. A root is 0 or more, so every element is then at least 0.00000001, and the division that follows never divides by 0.
-- The first piece times `lr`, divided by the second piece, element by element, is the move. Line 79 subtracts it from `p`.
+- The first piece times `lr`, divided by the second piece, element by element, is the move. Line 74 subtracts it from `p`.
 
-Line 80 is the block's value, the triple. The comment in line 74 says "three whole-vector expressions": the function has no loop and no index. It changes none of its arguments.
+Line 75 is the block's value, the triple. The comment in line 69 says "three whole-vector expressions": the function has no loop and no index. It changes none of its arguments.
 
 $$
 \begin{aligned}
@@ -86,11 +86,11 @@ index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delt
 
 In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about `lr` in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less.
 
-The parentheses in line 79 fix the order of the float operations: first `lr` times the corrected average, then the division. The order is that of the reference program in NumPy, whose values the quick check of Part 8 compares with.
+The parentheses in line 74 fix the order of the float operations: first `lr` times the corrected average, then the division. The order is that of the reference program in NumPy, whose values the quick check of Part 8 compares with.
 
 ## The learning rate
 
-@src 82
+@src 77
 
 The learning rate falls in a straight line from `lr0`, 0.01, at step 0, towards 0 at step `nSteps`, 1,000. A run printed three values:
 
@@ -108,36 +108,36 @@ The schedule is made for 1,000 steps, the number that the reference program of P
 
 ## The training loop
 
-@src 84-90
+@src 79-85
 
-Line 85 declares `run`, the function that the api `Executable` asks for. Its result type `()` is the empty tuple: the function returns nothing.
+Line 80 declares `run`, the function that the api `Executable` asks for. Its result type `()` is the empty tuple: the function returns nothing.
 
-Line 86 prints a line. `println` takes one argument. Here the argument is built by juxtaposition: a string beside any value is their text joined together. A run printed:
+Line 81 prints a line. `println` takes one argument. Here the argument is built by juxtaposition: a string beside any value is their text joined together. A run printed:
 
 ```out
 microgpt flat | params 4192 | corpus 2000 x 17 | batch 1, 5 steps
 ```
 
-Line 87 sets `bsz`, the batch's size, to one document.
+Line 82 sets `bsz`, the batch's size, to one document.
 
-Lines 88 to 90 declare three variables that the loop changes. A declaration of the form `name: Type := value` makes a mutable variable. `loadParams`, a function of `FlatData.fss`, reads the nine files of starting values, in the order of the layout table, into one vector. `zeros(n)`, a function of `FlatArrays.fss`, makes a vector of `n` zeros.
+Lines 83 to 85 declare three variables that the loop changes. A declaration of the form `name: Type := value` makes a mutable variable. `loadParams`, a function of `FlatData.fss`, reads the nine files of starting values, in the order of the layout table, into one vector. `zeros(n)`, a function of `FlatArrays.fss`, makes a vector of `n` zeros.
 
 !!! limit
-The type in lines 88 to 90 is there because walk demands it. The grammar allows a mutable variable without a type, `var p = ...`, and the parser's checks refuse it: "The type of p is required" (the gap ledger's row 177). The project tested every other written type of the model: each can be left out and the five losses stay the same.
+The type in lines 83 to 85 is there because walk demands it. The grammar allows a mutable variable without a type, `var p = ...`, and the parser's checks refuse it: "The type of p is required" (the gap ledger's row 177). The project tested every other written type of the model: each can be left out and the five losses stay the same.
 !!!
 
 !!! limit
 `FlatData.fss` holds its own function that reads a float from text, and its own scan of a line for numbers. The library's `strToFloat` reads "-1.5" as -28.5 and fails on a number with 17 digits (the gap ledger's row 140, a defect of the library). The library's `split` on a string does not cut it at spaces (row 141).
 !!!
 
-@src 91-97
+@src 86-92
 
-- Line 91 opens a loop over the steps 0 to 4. The range is wrapped in `seq`, so the steps run in order. They must: each step needs the parameters that the step before it made.
-- Line 92 reads the clock.
-- Line 93 calls the model. Its second argument is the batch. `keys(n, f)`, a function of `FlatArrays.fss`, makes a vector of `n` integers and fills it from a function of the index. Here it holds the numbers of the documents `s bsz + i`, each taken `MOD` the number of documents, so that the numbers start again at 0 after the last document. With a batch of one, step `s` learns from document `s`. The left side binds the step's two results to `l`, the loss, and `g`, the gradient.
-- Line 94 calls Adam and assigns its three results to the three variables at once. `:=` with a tuple on the left assigns to each name. The step count `t` is `s + 1`.
-- Line 95 prints the step's number, its loss, and the time that it took in milliseconds. `DIV` is division of integers without a remainder.
-- Line 96 closes the loop, and line 97 closes `run`.
+- Line 86 opens a loop over the steps 0 to 4. The range is wrapped in `seq`, so the steps run in order. They must: each step needs the parameters that the step before it made.
+- Line 87 reads the clock.
+- Line 88 calls the model. Its second argument is the batch. `keys(n, f)`, a function of `FlatArrays.fss`, makes a vector of `n` integers and fills it from a function of the index. Here it holds the numbers of the documents `s bsz + i`, each taken `MOD` the number of documents, so that the numbers start again at 0 after the last document. With a batch of one, step `s` learns from document `s`. The left side binds the step's two results to `l`, the loss, and `g`, the gradient.
+- Line 89 calls Adam and assigns its three results to the three variables at once. `:=` with a tuple on the left assigns to each name. The step count `t` is `s + 1`.
+- Line 90 prints the step's number, its loss, and the time that it took in milliseconds. `DIV` is division of integers without a remainder.
+- Line 91 closes the loop, and line 92 closes `run`.
 
 A run of the program printed these five losses:
 
@@ -196,7 +196,7 @@ The whole step on ``yuheng``, in numbers:
 - Every value in an Output box: runs under walk of `MicroGptFlat.fss` and of copies of it with print lines added.
 - Adam in Karpathy's program: [explorations/microgpt-port.md, line 10](src:explorations/microgpt-port.md#L10). The name's long form is the field's and is in no file of the repository.
 - The stored gradient: [explorations/run-c/goldens/grad_step0.txt](src:explorations/run-c/goldens/grad_step0.txt).
-- The order of the operations in line 79: [explorations/run-c4/tour.md, row 27](src:explorations/run-c4/tour.md).
+- The order of the operations in line 74: [explorations/run-c4/tour.md, row 27](src:explorations/run-c4/tour.md).
 - `/` between two integers as a fraction: the gap ledger's row 174.
 - The 1,000 steps of the reference run: [explorations/experiment/run-c-goldens/make_goldens.py, line 21](src:explorations/experiment/run-c-goldens/make_goldens.py#L21).
 - `loadParams`: [FlatData.fss, lines 93 to 101](src:explorations/run-c4/src/FlatData.fss#L93).

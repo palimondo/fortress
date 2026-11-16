@@ -1,5 +1,5 @@
 # Backward: the gradient
-> What a gradient is, shown by changing one parameter and watching the loss. Then the few rules that the backward pass uses, and lines 62 to 72, each beside the forward declaration that it goes back through.
+> What a gradient is, shown by changing one parameter and watching the loss. Then the few rules that the backward pass uses, and lines 57 to 67, each beside the forward declaration that it goes back through.
 
 ## What the gradient is
 
@@ -28,11 +28,11 @@ Here the entry is positive: raising the parameter raises the loss.
 
 The experiment needs two forward passes for one parameter. For all the parameters that is 8,384 forward passes. The backward pass gets all 4,192 entries in one pass. The field's name for it is backpropagation.
 
-Karpathy's microGPT does not write a backward pass by hand. In his program, every number of the forward pass is an object of the class ``Value``, with a field ``grad`` that can change. The gradient is found by going back through those objects. The flat program has no such objects. Its backward pass is written out by hand, in lines 63 to 70.
+Karpathy's microGPT does not write a backward pass by hand. In his program, every number of the forward pass is an object of the class ``Value``, with a field ``grad`` that can change. The gradient is found by going back through those objects. The flat program has no such objects. Its backward pass is written out by hand, in lines 58 to 65.
 
 ## The names and the rules
 
-@src 62
+@src 57
 
 The comment states the plan. The backward pass takes the forward declarations in reverse order, from the loss back to the embeddings.
 
@@ -66,7 +66,7 @@ A larger product is many such sums. Each element of `A` enters several elements 
 
 ## From the loss to the scores
 
-@src 63: dL = diag(vm / nv) (pr - onehot(tg, vocabSize))
+@src 58: dL = diag(vm / nv) (pr - onehot(tg, vocabSize))
 
 `dL` is the gradient at the 27 scores of every row, the matrix `x4 lm^T` that the forward pass handed to `sm`, the softmax. The line uses four names of the forward pass: `pr`, the probabilities; `tg`, the targets; `vm`, which holds 1.0 for a row that counts and 0.0 for the others; and `nv`, the number of rows that count, 7. The line goes back through two forward steps at once, the loss and `sm`, because together they have a simple gradient: for a row that counts, the probabilities, minus 1 at the right answer, divided by `nv`.
 
@@ -117,8 +117,8 @@ Three numbers from Part 3 confirm the formula. The scores 1, 2, 3 give the proba
 
 ## Back through lm
 
-@src 63: gLM = dL^T x4
-@src 63: dX4 = dL lm
+@src 58: gLM = dL^T x4
+@src 58: dX4 = dL lm
 
 The forward declaration is `x4 lm^T`: every row of `x4`, the result of the feed-forward block, through the last weight matrix, `lm`. In rule 4, `A` is `x4`, `B` is `lm^T`, and `dY` is `dL`.
 
@@ -135,10 +135,10 @@ sizes dL (16,27) gLM (27,16) dX4 (16,16)
 
 ## Back through the feed-forward block
 
-@src 64: gF2 = dX4^T mr
-@src 64: dM0 = (dX4 f2) × (m0 > 0.0)
-@src 64: gF1 = dM0^T x3
-@src 64: dX3 = dM0 f1
+@src 59: gF2 = dX4^T mr
+@src 59: dM0 = (dX4 f2) × (m0 > 0.0)
+@src 59: gF1 = dM0^T x3
+@src 59: dX3 = dM0 f1
 
 The forward declarations were `m0 = x3 f1^T`, `mr = 0.0 MAX m0` and `x4 = x2 + mr f2^T`. `f1` and `f2` are the block's two weight matrices, `m0` is the matrix of 16 by 64 between them, and `mr` is `m0` with its negative numbers set to 0. The backward line takes the declarations last to first.
 
@@ -147,22 +147,22 @@ The forward declarations were `m0 = x3 f1^T`, `mr = 0.0 MAX m0` and `x4 = x2 + m
 - `× (m0 > 0.0)` goes back through `MAX`. Where an element of `m0` was positive, `mr` is that element, and the rate passes unchanged. Where it was negative, `mr` is 0 whatever the element does, and the rate is 0. `m0 > 0.0` is an array of ones and zeros: `FlatArrays.fss` declares `>` between an array and a number so. `×` is the product of two arrays element by element, also declared in `FlatArrays.fss`. It is a different operator from juxtaposition, which between matrices is the matrix product.
 - `gF1` and `dX3` are rule 4 for `x3 f1^T`.
 
-@src 65: dX2 = dX4 + rows(rmsn_b, dX3, x2)
+@src 60: dX2 = dX4 + rows(rmsn_b, dX3, x2)
 
 `x2` was used twice in the forward pass: `x4` adds it directly, and `x3` is `rmsn` of it. By rule 2 its gradient has two parts. The first is `dX4`, by rule 3. The second goes back through `rmsn`, row by row, with the function `rmsn_b` of the next section. Lines 148 to 153 of `FlatArrays.fss` declare this form of `rows`, with two matrices: it gives the function row `i` of the first and row `i` of the second.
 
 ## rmsn_b: back through rmsn
 
-@src 30-33
+@src 25-28
 
 The ``_b`` stands for backward. `rmsn_b` takes `dy`, the gradient at the result of `rmsn`, and `x`, the vector that `rmsn` was applied to. It returns the gradient at `x`.
 
-- Line 31 computes again what `rmsn` computed: the root `r` of the mean square plus `epsilon`, which is 0.00001, and the result `y`.
-- Line 32 is the gradient. It has two parts, because a change of one element of `x` does two things.
+- Line 26 computes again what `rmsn` computed: the root `r` of the mean square plus `epsilon`, which is 0.00001, and the result `y`.
+- Line 27 is the gradient. It has two parts, because a change of one element of `x` does two things.
 - First, the element's own result changes: `y` is `x / r`, so one unit more of an element is `1 / r` more of its result. This part is `dy / r`.
-- Second, the root `r` changes a little, and every element of `y` changes with it. This part is the term that line 32 subtracts: `y`, times the number `(y DOT dy) / |y|`, divided by `r`.
+- Second, the root `r` changes a little, and every element of `y` changes with it. This part is the term that line 27 subtracts: `y`, times the number `(y DOT dy) / |y|`, divided by `r`.
 
-In line 32, `y (...)` is a vector beside a number: juxtaposition multiplies every element.
+In line 27, `y (...)` is a vector beside a number: juxtaposition multiplies every element.
 
 $$
 \begin{aligned}
@@ -194,13 +194,13 @@ The forward declarations, from last to first, were `x2 = xp + hc wo^T`, `hc = u(
 - `hc` holds the four heads' results, side by side: 16 by 16.
 - `h` cuts a matrix into heads, and `u` puts the heads side by side again.
 
-@src 65: gWO = dX2^T hc
-@src 65: dh = h(dX2 wo)
+@src 60: gWO = dX2^T hc
+@src 60: dh = h(dX2 wo)
 
 These are rule 4 for `hc wo^T`. `dX2 wo` is the gradient at `hc`. The forward pass made `hc` by putting four planes side by side with `u`, so the backward pass cuts the gradient into four planes with `h`. `dh` is the gradient at `a vh`.
 
-@src 66: dVh = a^T dh
-@src 66: dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)
+@src 61: dVh = a^T dh
+@src 61: dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)
 
 `a vh` is a product, plane with plane, so rule 4 applies in every plane, with `A` as `a` and `B` as `vh`.
 
@@ -209,7 +209,7 @@ These are rule 4 for `hc wo^T`. `dX2 wo` is the gradient at `hc`. The forward pa
 
 The attention weights came from `sm`, row by row. `rows(sm_b, a, dh vh^T)` goes back through it, row by row, with the function `sm_b` below. The result is the gradient at the masked scores. The mask was added, so by rule 3 it changes nothing. The scores were divided by `SQRT (1.0 headDim)`, so by rule 1 the gradient is divided by it too. `dS` is the gradient at `qh kh^T`.
 
-@src 34
+@src 29
 
 `sm_b` is `sm`, backward. It takes `p`, a row of attention weights that `sm` returned, and `dy`, the gradient at those attention weights. It returns the gradient at the scores that `sm` was given.
 
@@ -238,34 +238,34 @@ sum dS[0,3,:] = 2.0328790734103208E-20
 
 The positions that the mask hid have the attention weight 0 in `p`, so their gradient is 0. The row's sum is 0 up to rounding: raising all the scores of a row by the same amount changes no attention weight, as Part 3 showed.
 
-@src 67: dQh = dS kh
-@src 67: dKh = dS^T qh
+@src 62: dQh = dS kh
+@src 62: dKh = dS^T qh
 
 The scores were `qh kh^T`. In rule 4, `A` is `qh` and `B` is `kh^T`.
 
 - The gradient at `A` is `dY B^T`: `dS kh`.
 - The gradient at `B`, which is `kh^T`, is `A^T dY`: `qh^T dS`. The gradient at `kh` is its transpose: `dS^T qh`.
 
-@src 67: (dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))
+@src 62: (dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))
 
 The forward pass cut `q`, `k` and `v` into heads with `h`. The backward pass puts the three gradients together again with `u`. `dQ`, `dK` and `dV` are matrices of 16 by 16.
 
-@src 68: (gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1)
-@src 68: dX1 = dQ wq + dK wk + dV wv
+@src 63: (gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1)
+@src 63: dX1 = dQ wq + dK wk + dV wv
 
 These are rule 4 three times, for `x1 wq^T`, `x1 wk^T` and `x1 wv^T`. `x1` is the matrix that attention read. It went into all three products, so by rule 2 its gradient is the sum of three parts.
 
 ## Back to the two tables
 
-@src 69: dXp = dX2 + rows(rmsn_b, dX1, xp)
-@src 69: dX = rows(rmsn_b, dXp, x)
+@src 64: dXp = dX2 + rows(rmsn_b, dX1, xp)
+@src 64: dX = rows(rmsn_b, dXp, x)
 
 `x` holds the summed embeddings, `xp` is `x` after one `rmsn`, and `x1` is `xp` after a second. `xp` was used twice: `x2` adds it directly, and `x1` is `rmsn` of it. So `dXp` has two parts, as `dX2` had. Then `dX` goes back through the first `rmsn`. It is the gradient at `x`.
 
-@src 70: gWTE = transpose(onehot(ids, vocabSize)) dX
-@src 70: gWPE = transpose(onehot(pos, blockSize)) dX
+@src 65: gWTE = (onehot(ids, vocabSize))^T dX
+@src 65: gWPE = (onehot(pos, blockSize))^T dX
 
-`wte` is the token table and `wpe` the position table. `ids` holds each row's token and `pos` each row's position. Row `r` of `x` was row `ids[r]` of `wte` plus row `pos[r]` of `wpe`. So the gradient at row `t` of `wte` is the sum of the rows of `dX` at which the token `t` was read. The product in line 70 computes exactly that. `onehot(ids, vocabSize)` has a 1 in row `r` and column `ids[r]`. Its transpose has 27 rows and 16 columns, with a 1 in row `t` wherever the token `t` was read. Its product with `dX` adds up those rows of `dX`.
+`wte` is the token table and `wpe` the position table. `ids` holds each row's token and `pos` each row's position. Row `r` of `x` was row `ids[r]` of `wte` plus row `pos[r]` of `wpe`. So the gradient at row `t` of `wte` is the sum of the rows of `dX` at which the token `t` was read. The product in line 65 computes exactly that. `onehot(ids, vocabSize)` has a 1 in row `r` and column `ids[r]`. Its transpose has 27 rows and 16 columns, with a 1 in row `t` wherever the token `t` was read. Its product with `dX` adds up those rows of `dX`.
 
 A run printed the starts of some rows:
 
@@ -283,23 +283,19 @@ dX[9,0..3] = 0.0 0.0 0.0 0.0
 - Position 1 belongs to row 1 alone, so row 1 of `gWPE` is also row 1 of `dX`.
 - Row 9 of `dX` is 0. Row 9 does not count in the loss, and no row that counts reads it, because of the mask. So row 9 of `gWPE` is 0.
 
-!!! limit
-Lines 63 to 68 write a transpose as `^T`. Line 70 writes `transpose(...)`, a function call. The cause is the operand: it is the result of a call. Under walk, a call cannot be followed by `^T`, with or without parentheses around it (the gap ledger's rows 144 and 158). Row 144 reads the specification as forbidding the form without parentheses; row 158 records the form with parentheses as a gap of walk.
-!!!
-
 ## The result
 
-The comment in line 62 says "one line under each forward line, bottom-up". This list pairs them:
+The comment in line 57 says "one line under each forward line, bottom-up". This list pairs them:
 
-- Forward line 61, `pr` and `loss`: backward line 63.
-- Forward line 60, from `x3` to `x4`: backward line 64 and the first declaration of line 65.
-- Forward line 60, `x2`, and line 59, `hc`: the rest of line 65.
-- Forward line 59, `a`: backward line 66.
-- Forward line 58: backward lines 67 and 68.
-- Forward line 57, `xp` and `x1`: backward line 69.
-- Forward line 57, `x`: backward line 70.
+- Forward line 56, `pr` and `loss`: backward line 58.
+- Forward line 55, from `x3` to `x4`: backward line 59 and the first declaration of line 60.
+- Forward line 55, `x2`, and line 54, `hc`: the rest of line 60.
+- Forward line 54, `a`: backward line 61.
+- Forward line 53: backward lines 62 and 63.
+- Forward line 52, `xp` and `x1`: backward line 64.
+- Forward line 52, `x`: backward line 65.
 
-@src 71-72
+@src 66-67
 
 The value of the step is a pair: the loss, and the nine gradient matrices made into one vector. `flat` is a function of `FlatArrays.fss`. It takes any number of matrices and copies their elements, row after row, into one new vector. A small case, with the matrices `m` and `n` of Part 2:
 

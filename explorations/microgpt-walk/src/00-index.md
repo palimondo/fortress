@@ -1,7 +1,7 @@
 # microGPT in Fortress, line by line
 > A walk through `MicroGptFlat.fss`, the flat microGPT program of the Fortress revival: what each line computes, what each array holds, and what one training step does to the numbers.
 
-The program is a small GPT, after Andrej Karpathy's microGPT. It learns to continue first names, one character at a time. It has 98 lines and 4,192 parameters, and it runs under walk, the interpreter.
+The program is a small GPT, after Andrej Karpathy's microGPT. It learns to continue first names, one character at a time. It has 93 lines and 4,192 parameters, and it runs under walk, the interpreter.
 
 The ten parts explain the model and the code together. They take the lines in the order that a reader needs, which is not always the file's order. Every line of the file is quoted somewhere, with its line number. [The program on one page](part:listing) shows the file whole, and each line number there leads to the place that explains the line.
 
