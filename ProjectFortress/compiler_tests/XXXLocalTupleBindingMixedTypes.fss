@@ -1,0 +1,17 @@
+(* In a local tuple binding of a call, a name with a declared type takes its element at that type, beside names without one (variables.tex, section "Local Variable Declarations"; conversions-coercions.tex, section "Coercions for Tuple and Arrow Types"). *)
+component XXXLocalTupleBindingMixedTypes
+export Executable
+
+two(): (ZZ32, ZZ32) = (7, 8)
+
+run(): () = do
+    println("REACHED")
+    (total: ZZ64, part) = two()
+    huge: ZZ64 = 3000000000
+    expected: ZZ64 = 3000000007
+    assert(total + huge = expected, "a name declared ZZ64 over a ZZ32 element")
+    assert(part, 8, "its neighbour without a type")
+    println("PASS")
+end
+
+end
