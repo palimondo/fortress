@@ -10307,3 +10307,9 @@ rewritten
 note added
 
 | 62 | Fortify typesets `x_h[t]` as `x_{\mathrm{h}}_{t}`, which LaTeX refuses with `! Double subscript` | NEGATIVE-VERIFIED | typesetter (tools) | `Specification-1.0-frozen/basic/lexical-structure.tex:1506-1516`, "Rendering of Fortress Programs", "Identifiers" (an underscore makes a subscript) | none | blinded, astra | Workaround: rename to `xh`, or bind the row first. Probe `explorations/gap-ledger-probes/g14.fss` and its output `g14.tex` (run `latex` on the fragment), in the parent of `e879b6a44`. |
+
+### Row 42
+
+rewritten
+
+| 42 | `except { opr SUM }` is a syntax error; `except { opr ∑ }` parses, and what it leaves out is not measured; `except { opr BIG + }` leaves out `SUM` (row 41) | NEGATIVE-VERIFIED | implementation gap (parser) | `Specification-1.0-frozen/basic/components/source-code.tex:86-88`, "Components" | none | ours, astra, blinded, review | siblings: 814. The import's `SimpleName` takes `opr (BIG)? (Encloser / Op)` with no `SUM` alternative (`ProjectFortress/src/com/sun/fortress/parser/Identifier.rats:95-104` at c124c6b65), though `SingleOp` gives one for declarations, `SUM` as `BIG +` (`ProjectFortress/src/com/sun/fortress/parser/Parameter.rats:129`). Workaround: `except { opr BIG + }` (row 41). Probes `explorations/sum-probes/p20_except_spelling_sum.fss` and `explorations/fable-review-probes/RvwExceptSigma.fss`, in the parent of `e879b6a44`. |

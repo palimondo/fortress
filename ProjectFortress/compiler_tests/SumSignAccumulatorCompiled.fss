@@ -1,0 +1,30 @@
+(* The signs U+2211 and U+220F begin a reduction wherever SUM and PROD do, and name the same operators in a declaration: reductions.tex, section "Summations and Other Reduction Expressions", Accumulator. *)
+component SumSignAccumulatorCompiled
+export Executable
+
+object Bag(n: ZZ32) end
+
+opr ∑(b: Bag): ZZ32 = b.n + 1000
+opr ∏(b: Bag): ZZ32 = b.n + 2000
+
+f(x: ZZ32): ZZ32 = 2 x + 1
+
+total(n: ZZ32): ZZ32 = ∑[j <- 0#n] f(j)
+
+run(): () = do
+    assert(∑[x <- 0#10] x, 45, "sum sign, a generator clause list")
+    assert(∑[x <- 0#10] x, SUM[x <- 0#10] x, "sum sign as SUM")
+    assert(∑[x <- 0#10] 2 x + 1, 100, "the body is the whole expression")
+    assert(∑[x ← 1#0] x, 0, "an empty sum")
+    assert(total(10), 100, "in a function's body")
+    assert(∑ (0#10), 45, "sum sign, a generator")
+    assert(1 + (∑[x <- 0#4] x) + 1, 8, "in parentheses")
+    b = Bag(7)
+    assert(∑ b, 1007, "the program's own declaration, by the sign")
+    assert(SUM b, 1007, "the program's own declaration, by SUM")
+    assert(∏ b, 2007, "the program's own declaration, by the sign")
+    assert(PROD b, 2007, "the program's own declaration, by PROD")
+    println("PASS")
+end
+
+end

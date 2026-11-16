@@ -1,0 +1,20 @@
+(* The component of the api ApiPostfixExponentOpLib. *)
+component ApiPostfixExponentOpLib
+export ApiPostfixExponentOpLib
+
+object Sized[\nat n\]() end
+
+trait Turned
+    opr (self)^T: ZZ32
+end
+
+object Quarter extends Turned
+    opr (self)^T: ZZ32 = 90
+end
+
+opr (x: ZZ32)^T: ZZ32 = x + 100
+opr (b: Sized[\n\])^T[\nat n\]: ZZ32 = n + 1
+opr (s: String)^MIRROR: String = s || s
+bump(x: ZZ32): ZZ32 = x + 1
+
+end

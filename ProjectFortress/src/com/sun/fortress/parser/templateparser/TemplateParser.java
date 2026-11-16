@@ -122,8 +122,8 @@ public final class TemplateParser extends ParserBase {
     Result fInitVal;
     Result fAbsVarDecl;
     Result fPattern;
+    Result f$$Shared48;
     Result f$$Shared49;
-    Result f$$Shared50;
     Result fTypeOrPattern;
     Result fIsTypeOrPattern;
     Result fNoNewlinePattern;
@@ -162,7 +162,7 @@ public final class TemplateParser extends ParserBase {
     Result fStaticParams$$Star1;
     Result fStaticParam;
     Result fDimUnitDecl;
-    Result f$$Shared52;
+    Result f$$Shared51;
     Result fDimUnitDecl$$Star1;
     Result fDimUnitDecl$$Star2;
     Result fTypeAlias;
@@ -246,7 +246,7 @@ public final class TemplateParser extends ParserBase {
     Result fNoNewlineExtentRange;
     Result fNoNewlineType;
     Result fExpression$Expr;
-    Result f$$Shared53;
+    Result f$$Shared52;
     Result fExpression$AssignExpr;
     Result f$$Shared36;
     Result f$$Shared36$$Star1;
@@ -279,8 +279,8 @@ public final class TemplateParser extends ParserBase {
     Result fExpression$GeneratorBinding;
     Result fExpression$GeneratorClause;
     Result fDelimitedExpr;
+    Result f$$Shared54;
     Result f$$Shared55;
-    Result f$$Shared56;
   }
 
   /** Chunk 16 of memoized results. */
@@ -370,7 +370,7 @@ public final class TemplateParser extends ParserBase {
   /** Chunk 22 of memoized results. */
   static final class Chunk22 {
     Result fCharLiteralContent;
-    Result f$$Shared57;
+    Result f$$Shared56;
     Result fUnicodeCharLiteralContent;
     Result fUnicodeHexChar;
     Result fUnicodeHexChar$$Plus1;
@@ -378,7 +378,7 @@ public final class TemplateParser extends ParserBase {
     Result fUnicodeHexChar$$Plus3;
     Result fBlockElems;
     Result fBlockElemCollection;
-    Result f$$Shared58;
+    Result f$$Shared57;
   }
 
   /** Chunk 23 of memoized results. */
@@ -8249,7 +8249,9 @@ public final class TemplateParser extends ParserBase {
    * Parse synthetic nonterminal 
    * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared47.
    * This nonterminal represents the duplicate productions 
-   * Parameter.OpHeaderFront$$Choice2 and MethodParam.OpHeaderFront$$Choice2.
+   * Parameter.OpHeaderFront$$Choice2, Parameter.AbsOpHeaderFront$$Choice2, 
+   * MethodParam.OpHeaderFront$$Choice2, 
+   * and MethodParam.AbsOpHeaderFront$$Choice2.
    *
    * @param yyStart The index.
    * @return The result.
@@ -8427,7 +8429,7 @@ public final class TemplateParser extends ParserBase {
           yyError  = yyResult.select(yyError);
           if (yyResult.hasValue()) {
 
-            yyResult = p$$Shared48(yyResult.index);
+            yyResult = p$$Shared47(yyResult.index);
             yyError  = yyResult.select(yyError);
             if (yyResult.hasValue()) {
               Object a2 = yyResult.semanticValue();
@@ -8442,10 +8444,10 @@ public final class TemplateParser extends ParserBase {
                 yyResult = pStaticParams(yyResult.index);
                 yyError  = yyResult.select(yyError);
                 if (yyResult.hasValue()) {
-                  List<StaticParam> v$el$7 = yyResult.semanticValue();
+                  List<StaticParam> v$el$8 = yyResult.semanticValue();
 
                   yyOption1  = yyResult.index;
-                  yyOpValue1 = v$el$7;
+                  yyOpValue1 = v$el$8;
                 }
               }
               { // Start scope for a3.
@@ -8476,10 +8478,10 @@ public final class TemplateParser extends ParserBase {
         yyResult = pBIG(yyResult.index);
         yyError  = yyResult.select(yyError);
         if (yyResult.hasValue()) {
-          String v$el$8 = yyResult.semanticValue();
+          String v$el$9 = yyResult.semanticValue();
 
           yyOption1  = yyResult.index;
-          yyOpValue1 = v$el$8;
+          yyOpValue1 = v$el$9;
         }
       }
       { // Start scope for big.
@@ -8504,10 +8506,10 @@ public final class TemplateParser extends ParserBase {
               yyResult = pStaticParams(yyResult.index);
               yyError  = yyResult.select(yyError);
               if (yyResult.hasValue()) {
-                List<StaticParam> v$el$9 = yyResult.semanticValue();
+                List<StaticParam> v$el$10 = yyResult.semanticValue();
 
                 yyOption1  = yyResult.index;
-                yyOpValue1 = v$el$9;
+                yyOpValue1 = v$el$10;
               }
             }
             { // Start scope for a2.
@@ -8533,54 +8535,6 @@ public final class TemplateParser extends ParserBase {
           }
         }
       } // End scope for big.
-    }
-
-    // Done.
-    return yyError;
-  }
-
-  // =========================================================================
-
-  /**
-   * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared48.
-   * This nonterminal represents the duplicate productions 
-   * Parameter.AbsOpHeaderFront$$Choice2 
-   * and MethodParam.AbsOpHeaderFront$$Choice2.
-   *
-   * @param yyStart The index.
-   * @return The result.
-   * @throws IOException Signals an I/O error.
-   */
-  private Result p$$Shared48(final int yyStart) throws IOException {
-    Result     yyResult;
-    Object     yyValue;
-    ParseError yyError = ParseError.DUMMY;
-
-    // Alternative 1.
-
-    yyResult = pOp(yyStart);
-    yyError  = yyResult.select(yyError);
-    if (yyResult.hasValue()) {
-      yyValue = yyResult.semanticValue();
-
-      return yyResult.createValue(yyValue, yyError);
-    }
-
-    // Alternative 2.
-
-    yyResult = pExponentOp(yyStart);
-    yyError  = yyResult.select(yyError);
-    if (yyResult.hasValue()) {
-
-      yyResult = pcaret(yyResult.index);
-      yyError  = yyResult.select(yyError);
-      if (yyResult.hasValue()) {
-
-        yyValue = NodeFactory.makeOpUnknown(createSpan(yyStart,yyCount), "^");
-
-        return yyResult.createValue(yyValue, yyError);
-      }
     }
 
     // Done.
@@ -10311,7 +10265,7 @@ public final class TemplateParser extends ParserBase {
           yyError  = yyResult.select(yyError);
           if (yyResult.hasValue()) {
 
-            yyResult = p$$Shared48(yyResult.index);
+            yyResult = p$$Shared47(yyResult.index);
             yyError  = yyResult.select(yyError);
             if (yyResult.hasValue()) {
               Object a2 = yyResult.semanticValue();
@@ -10326,10 +10280,10 @@ public final class TemplateParser extends ParserBase {
                 yyResult = pStaticParams(yyResult.index);
                 yyError  = yyResult.select(yyError);
                 if (yyResult.hasValue()) {
-                  List<StaticParam> v$el$8 = yyResult.semanticValue();
+                  List<StaticParam> v$el$9 = yyResult.semanticValue();
 
                   yyOption1  = yyResult.index;
-                  yyOpValue1 = v$el$8;
+                  yyOpValue1 = v$el$9;
                 }
               }
               { // Start scope for a3.
@@ -10360,10 +10314,10 @@ public final class TemplateParser extends ParserBase {
         yyResult = pBIG(yyResult.index);
         yyError  = yyResult.select(yyError);
         if (yyResult.hasValue()) {
-          String v$el$9 = yyResult.semanticValue();
+          String v$el$10 = yyResult.semanticValue();
 
           yyOption1  = yyResult.index;
-          yyOpValue1 = v$el$9;
+          yyOpValue1 = v$el$10;
         }
       }
       { // Start scope for big.
@@ -10388,10 +10342,10 @@ public final class TemplateParser extends ParserBase {
               yyResult = pStaticParams(yyResult.index);
               yyError  = yyResult.select(yyError);
               if (yyResult.hasValue()) {
-                List<StaticParam> v$el$10 = yyResult.semanticValue();
+                List<StaticParam> v$el$11 = yyResult.semanticValue();
 
                 yyOption1  = yyResult.index;
-                yyOpValue1 = v$el$10;
+                yyOpValue1 = v$el$11;
               }
             }
             { // Start scope for a2.
@@ -11223,7 +11177,7 @@ public final class TemplateParser extends ParserBase {
 
     yyPredMatched = false;
 
-    yyPredResult = p$$Shared49(yyStart);
+    yyPredResult = p$$Shared48(yyStart);
     if (yyPredResult.hasValue()) {
 
       yyPredMatched = true;
@@ -11238,7 +11192,7 @@ public final class TemplateParser extends ParserBase {
 
         yyPredMatched = false;
 
-        yyPredResult = p$$Shared50(yyResult.index);
+        yyPredResult = p$$Shared49(yyResult.index);
         if (yyPredResult.hasValue()) {
 
           yyPredMatched = true;
@@ -11265,7 +11219,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared49.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared48.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.Pattern$$Choice1 
    * and com.sun.fortress.parser.templateparser.TemplateParser.NoNewlinePattern$$Choice1.
@@ -11274,16 +11228,16 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared49(final int yyStart) throws IOException {
+  private Result p$$Shared48(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
     if (null == yyColumn.chunk4) yyColumn.chunk4 = new Chunk4();
-    if (null == yyColumn.chunk4.f$$Shared49) 
-      yyColumn.chunk4.f$$Shared49 = p$$Shared49$1(yyStart);
-    return yyColumn.chunk4.f$$Shared49;
+    if (null == yyColumn.chunk4.f$$Shared48) 
+      yyColumn.chunk4.f$$Shared48 = p$$Shared48$1(yyStart);
+    return yyColumn.chunk4.f$$Shared48;
   }
 
-  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared49. */
-  private Result p$$Shared49$1(final int yyStart) throws IOException {
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared48. */
+  private Result p$$Shared48$1(final int yyStart) throws IOException {
     Result     yyResult;
     Void       yyValue;
     ParseError yyError = ParseError.DUMMY;
@@ -11328,7 +11282,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared50.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared49.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.Pattern$$Choice2 
    * and com.sun.fortress.parser.templateparser.TemplateParser.NoNewlinePattern$$Choice2.
@@ -11337,16 +11291,16 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared50(final int yyStart) throws IOException {
+  private Result p$$Shared49(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
     if (null == yyColumn.chunk4) yyColumn.chunk4 = new Chunk4();
-    if (null == yyColumn.chunk4.f$$Shared50) 
-      yyColumn.chunk4.f$$Shared50 = p$$Shared50$1(yyStart);
-    return yyColumn.chunk4.f$$Shared50;
+    if (null == yyColumn.chunk4.f$$Shared49) 
+      yyColumn.chunk4.f$$Shared49 = p$$Shared49$1(yyStart);
+    return yyColumn.chunk4.f$$Shared49;
   }
 
-  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared50. */
-  private Result p$$Shared50$1(final int yyStart) throws IOException {
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared49. */
+  private Result p$$Shared49$1(final int yyStart) throws IOException {
     int        yyC;
     int        yyIndex;
     Result     yyResult;
@@ -12293,7 +12247,7 @@ public final class TemplateParser extends ParserBase {
 
     yyPredMatched = false;
 
-    yyPredResult = p$$Shared49(yyStart);
+    yyPredResult = p$$Shared48(yyStart);
     if (yyPredResult.hasValue()) {
 
       yyPredMatched = true;
@@ -12308,7 +12262,7 @@ public final class TemplateParser extends ParserBase {
 
         yyPredMatched = false;
 
-        yyPredResult = p$$Shared50(yyResult.index);
+        yyPredResult = p$$Shared49(yyResult.index);
         if (yyPredResult.hasValue()) {
 
           yyPredMatched = true;
@@ -13312,7 +13266,7 @@ public final class TemplateParser extends ParserBase {
 
     // Alternative 1.
 
-    yyResult = p$$Shared51(yyStart);
+    yyResult = p$$Shared50(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
 
@@ -13341,7 +13295,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared51.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared50.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.ProductIntExpr$$Choice1 
    * and com.sun.fortress.parser.templateparser.TemplateParser.ProductUnitExpr$$Choice1.
@@ -13350,7 +13304,7 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared51(final int yyStart) throws IOException {
+  private Result p$$Shared50(final int yyStart) throws IOException {
     Result     yyResult;
     int        yyRepetition1;
     boolean    yyRepeated1;
@@ -14061,7 +14015,7 @@ public final class TemplateParser extends ParserBase {
 
     // Alternative 1.
 
-    yyResult = p$$Shared51(yyStart);
+    yyResult = p$$Shared50(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
 
@@ -18435,7 +18389,7 @@ public final class TemplateParser extends ParserBase {
             yyError  = yyResult.select(yyError);
             if (yyResult.hasValue()) {
 
-              yyResult = p$$Shared52(yyResult.index);
+              yyResult = p$$Shared51(yyResult.index);
               yyError  = yyResult.select(yyError);
               if (yyResult.hasValue()) {
                 String a3 = yyResult.semanticValue();
@@ -18576,7 +18530,7 @@ public final class TemplateParser extends ParserBase {
 
     // Alternative 2.
 
-    yyResult = p$$Shared52(yyStart);
+    yyResult = p$$Shared51(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
       String a1 = yyResult.semanticValue();
@@ -18682,7 +18636,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared52.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared51.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.DimUnitDecl$$Choice1 
    * and com.sun.fortress.parser.templateparser.TemplateParser.DimUnitDecl$$Choice2.
@@ -18691,16 +18645,16 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared52(final int yyStart) throws IOException {
+  private Result p$$Shared51(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
     if (null == yyColumn.chunk7) yyColumn.chunk7 = new Chunk7();
-    if (null == yyColumn.chunk7.f$$Shared52) 
-      yyColumn.chunk7.f$$Shared52 = p$$Shared52$1(yyStart);
-    return yyColumn.chunk7.f$$Shared52;
+    if (null == yyColumn.chunk7.f$$Shared51) 
+      yyColumn.chunk7.f$$Shared51 = p$$Shared51$1(yyStart);
+    return yyColumn.chunk7.f$$Shared51;
   }
 
-  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared52. */
-  private Result p$$Shared52$1(final int yyStart) throws IOException {
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared51. */
+  private Result p$$Shared51$1(final int yyStart) throws IOException {
     int        yyC;
     int        yyIndex;
     Result     yyPredResult;
@@ -29438,7 +29392,7 @@ public final class TemplateParser extends ParserBase {
     if (yyResult.hasValue()) {
       Expr seed = yyResult.semanticValue();
 
-      yyResult = p$$Shared53(yyResult.index);
+      yyResult = p$$Shared52(yyResult.index);
       yyError  = yyResult.select(yyError);
       if (yyResult.hasValue()) {
         Pair<Action<Expr>> list = yyResult.semanticValue();
@@ -29457,7 +29411,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared53.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared52.
    * This nonterminal represents the duplicate productions 
    * Expression.Expr$$Star1 and NoSpaceExpr.Expr$$Star1.
    *
@@ -29465,16 +29419,16 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared53(final int yyStart) throws IOException {
+  private Result p$$Shared52(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
     if (null == yyColumn.chunk13) yyColumn.chunk13 = new Chunk13();
-    if (null == yyColumn.chunk13.f$$Shared53) 
-      yyColumn.chunk13.f$$Shared53 = p$$Shared53$1(yyStart);
-    return yyColumn.chunk13.f$$Shared53;
+    if (null == yyColumn.chunk13.f$$Shared52) 
+      yyColumn.chunk13.f$$Shared52 = p$$Shared52$1(yyStart);
+    return yyColumn.chunk13.f$$Shared52;
   }
 
-  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared53. */
-  private Result p$$Shared53$1(final int yyStart) throws IOException {
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared52. */
+  private Result p$$Shared52$1(final int yyStart) throws IOException {
     Result             yyResult;
     Pair<Action<Expr>> yyValue;
     ParseError         yyError = ParseError.DUMMY;
@@ -29486,7 +29440,7 @@ public final class TemplateParser extends ParserBase {
     if (yyResult.hasValue()) {
       Action<Expr> v$el$1 = yyResult.semanticValue();
 
-      yyResult = p$$Shared53(yyResult.index);
+      yyResult = p$$Shared52(yyResult.index);
       yyError  = yyResult.select(yyError);
       if (yyResult.hasValue()) {
         Pair<Action<Expr>> v$2 = yyResult.semanticValue();
@@ -30374,7 +30328,7 @@ public final class TemplateParser extends ParserBase {
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
 
-      yyResult = p$$Shared54(yyResult.index);
+      yyResult = p$$Shared53(yyResult.index);
       yyError  = yyResult.select(yyError);
       if (yyResult.hasValue()) {
         final Id a1 = yyResult.semanticValue();
@@ -30399,7 +30353,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared54.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared53.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared18$$Choice1, 
    * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared33$$Choice1, 
@@ -30409,7 +30363,7 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared54(final int yyStart) throws IOException {
+  private Result p$$Shared53(final int yyStart) throws IOException {
     Result     yyResult;
     Id         yyValue;
     ParseError yyError = ParseError.DUMMY;
@@ -32937,7 +32891,7 @@ public final class TemplateParser extends ParserBase {
 
         // Nested alternative 1.
 
-        yyResult = p$$Shared54(yyChoice1);
+        yyResult = p$$Shared53(yyChoice1);
         yyError  = yyResult.select(yyError);
         if (yyResult.hasValue()) {
           final Id a1 = yyResult.semanticValue();
@@ -33004,7 +32958,7 @@ public final class TemplateParser extends ParserBase {
 
         // Nested alternative 2.
 
-        yyResult = p$$Shared54(yyChoice1);
+        yyResult = p$$Shared53(yyChoice1);
         yyError  = yyResult.select(yyError);
         if (yyResult.hasValue()) {
           final Id a1 = yyResult.semanticValue();
@@ -34773,7 +34727,7 @@ public final class TemplateParser extends ParserBase {
             yyError  = yyResult.select(yyError);
             if (yyResult.hasValue()) {
 
-              yyResult = p$$Shared55(yyResult.index);
+              yyResult = p$$Shared54(yyResult.index);
               yyError  = yyResult.select(yyError);
               if (yyResult.hasValue()) {
                 String a3 = yyResult.semanticValue();
@@ -34846,7 +34800,7 @@ public final class TemplateParser extends ParserBase {
           yyError  = yyResult.select(yyError);
           if (yyResult.hasValue()) {
 
-            yyResult = p$$Shared56(yyResult.index);
+            yyResult = p$$Shared55(yyResult.index);
             yyError  = yyResult.select(yyError);
             if (yyResult.hasValue()) {
               Op a1 = yyResult.semanticValue();
@@ -34855,7 +34809,7 @@ public final class TemplateParser extends ParserBase {
               yyError  = yyResult.select(yyError);
               if (yyResult.hasValue()) {
 
-                yyResult = p$$Shared55(yyResult.index);
+                yyResult = p$$Shared54(yyResult.index);
                 yyError  = yyResult.select(yyError);
                 if (yyResult.hasValue()) {
                   String a2 = yyResult.semanticValue();
@@ -34922,7 +34876,7 @@ public final class TemplateParser extends ParserBase {
           yyError  = yyResult.select(yyError);
           if (yyResult.hasValue()) {
 
-            yyResult = p$$Shared55(yyResult.index);
+            yyResult = p$$Shared54(yyResult.index);
             yyError  = yyResult.select(yyError);
             if (yyResult.hasValue()) {
               String a2 = yyResult.semanticValue();
@@ -34990,7 +34944,7 @@ public final class TemplateParser extends ParserBase {
           yyError  = yyResult.select(yyError);
           if (yyResult.hasValue()) {
 
-            yyResult = p$$Shared55(yyResult.index);
+            yyResult = p$$Shared54(yyResult.index);
             yyError  = yyResult.select(yyError);
             if (yyResult.hasValue()) {
               String a1 = yyResult.semanticValue();
@@ -35215,7 +35169,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared55.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared54.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.DelimitedExpr$$Choice2, 
    * com.sun.fortress.parser.templateparser.TemplateParser.DelimitedExpr$$Choice4, 
@@ -35226,16 +35180,16 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared55(final int yyStart) throws IOException {
+  private Result p$$Shared54(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
     if (null == yyColumn.chunk15) yyColumn.chunk15 = new Chunk15();
-    if (null == yyColumn.chunk15.f$$Shared55) 
-      yyColumn.chunk15.f$$Shared55 = p$$Shared55$1(yyStart);
-    return yyColumn.chunk15.f$$Shared55;
+    if (null == yyColumn.chunk15.f$$Shared54) 
+      yyColumn.chunk15.f$$Shared54 = p$$Shared54$1(yyStart);
+    return yyColumn.chunk15.f$$Shared54;
   }
 
-  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared55. */
-  private Result p$$Shared55$1(final int yyStart) throws IOException {
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared54. */
+  private Result p$$Shared54$1(final int yyStart) throws IOException {
     int        yyC;
     int        yyIndex;
     Result     yyPredResult;
@@ -35348,7 +35302,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared56.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared55.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.DelimitedExpr$$Choice3 
    * and com.sun.fortress.parser.templateparser.TemplateParser.SimpleName$$Choice1.
@@ -35357,16 +35311,16 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared56(final int yyStart) throws IOException {
+  private Result p$$Shared55(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
     if (null == yyColumn.chunk15) yyColumn.chunk15 = new Chunk15();
-    if (null == yyColumn.chunk15.f$$Shared56) 
-      yyColumn.chunk15.f$$Shared56 = p$$Shared56$1(yyStart);
-    return yyColumn.chunk15.f$$Shared56;
+    if (null == yyColumn.chunk15.f$$Shared55) 
+      yyColumn.chunk15.f$$Shared55 = p$$Shared55$1(yyStart);
+    return yyColumn.chunk15.f$$Shared55;
   }
 
-  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared56. */
-  private Result p$$Shared56$1(final int yyStart) throws IOException {
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared55. */
+  private Result p$$Shared55$1(final int yyStart) throws IOException {
     Result     yyResult;
     Op         yyValue;
     ParseError yyError = ParseError.DUMMY;
@@ -40909,7 +40863,7 @@ public final class TemplateParser extends ParserBase {
     if (yyResult.hasValue()) {
       Expr seed = yyResult.semanticValue();
 
-      yyResult = p$$Shared53(yyResult.index);
+      yyResult = p$$Shared52(yyResult.index);
       yyError  = yyResult.select(yyError);
       if (yyResult.hasValue()) {
         Pair<Action<Expr>> list = yyResult.semanticValue();
@@ -51821,7 +51775,7 @@ public final class TemplateParser extends ParserBase {
 
     // Alternative 4.
 
-    yyResult = p$$Shared57(yyStart);
+    yyResult = p$$Shared56(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
       Character a1 = yyResult.semanticValue();
@@ -51878,7 +51832,7 @@ public final class TemplateParser extends ParserBase {
 
     // Alternative 6.
 
-    yyResult = p$$Shared57(yyStart);
+    yyResult = p$$Shared56(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
       Character a1 = yyResult.semanticValue();
@@ -51897,7 +51851,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared57.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared56.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.CharLiteralContent$$Choice1 
    * and com.sun.fortress.parser.templateparser.TemplateParser.CharLiteralContent$$Choice2.
@@ -51906,16 +51860,16 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared57(final int yyStart) throws IOException {
+  private Result p$$Shared56(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
     if (null == yyColumn.chunk22) yyColumn.chunk22 = new Chunk22();
-    if (null == yyColumn.chunk22.f$$Shared57) 
-      yyColumn.chunk22.f$$Shared57 = p$$Shared57$1(yyStart);
-    return yyColumn.chunk22.f$$Shared57;
+    if (null == yyColumn.chunk22.f$$Shared56) 
+      yyColumn.chunk22.f$$Shared56 = p$$Shared56$1(yyStart);
+    return yyColumn.chunk22.f$$Shared56;
   }
 
-  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared57. */
-  private Result p$$Shared57$1(final int yyStart) throws IOException {
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared56. */
+  private Result p$$Shared56$1(final int yyStart) throws IOException {
     int        yyC;
     int        yyIndex;
     Result     yyPredResult;
@@ -54045,7 +53999,7 @@ public final class TemplateParser extends ParserBase {
         yyError  = yyResult.select(yyError);
         if (yyResult.hasValue()) {
 
-          yyPredResult = p$$Shared58(yyResult.index);
+          yyPredResult = p$$Shared57(yyResult.index);
           yyError      = yyPredResult.select(yyError);
           if (yyPredResult.hasValue()) {
 
@@ -54058,7 +54012,7 @@ public final class TemplateParser extends ParserBase {
 
       // Nested alternative 3.
 
-      yyPredResult = p$$Shared58(yyChoice1);
+      yyPredResult = p$$Shared57(yyChoice1);
       yyError      = yyPredResult.select(yyError);
       if (yyPredResult.hasValue()) {
 
@@ -54113,7 +54067,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared58.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared57.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.BlockElemCollection$$Choice1 
    * and com.sun.fortress.parser.templateparser.TemplateParser.BlockElemCollection$$Choice2.
@@ -54122,16 +54076,16 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared58(final int yyStart) throws IOException {
+  private Result p$$Shared57(final int yyStart) throws IOException {
     TemplateParserColumn yyColumn = (TemplateParserColumn)column(yyStart);
     if (null == yyColumn.chunk22) yyColumn.chunk22 = new Chunk22();
-    if (null == yyColumn.chunk22.f$$Shared58) 
-      yyColumn.chunk22.f$$Shared58 = p$$Shared58$1(yyStart);
-    return yyColumn.chunk22.f$$Shared58;
+    if (null == yyColumn.chunk22.f$$Shared57) 
+      yyColumn.chunk22.f$$Shared57 = p$$Shared57$1(yyStart);
+    return yyColumn.chunk22.f$$Shared57;
   }
 
-  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared58. */
-  private Result p$$Shared58$1(final int yyStart) throws IOException {
+  /** Actually parse com.sun.fortress.parser.templateparser.TemplateParser.$$Shared57. */
+  private Result p$$Shared57$1(final int yyStart) throws IOException {
     Result     yyResult;
     Void       yyValue;
     ParseError yyError = ParseError.DUMMY;
@@ -56527,7 +56481,7 @@ public final class TemplateParser extends ParserBase {
 
     // Alternative 1.
 
-    yyResult = p$$Shared59(yyStart);
+    yyResult = p$$Shared58(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
       String s = yyResult.semanticValue();
@@ -56549,7 +56503,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared59.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared58.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.id$$Choice1 
    * and com.sun.fortress.parser.templateparser.TemplateParser.reserved$$Choice1.
@@ -56558,7 +56512,7 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared59(final int yyStart) throws IOException {
+  private Result p$$Shared58(final int yyStart) throws IOException {
     Result     yyResult;
     int        yyRepetition1;
     String     yyValue;
@@ -57999,7 +57953,7 @@ public final class TemplateParser extends ParserBase {
 
     // Alternative 1.
 
-    yyResult = p$$Shared59(yyStart);
+    yyResult = p$$Shared58(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
       String s = yyResult.semanticValue();
@@ -58638,7 +58592,7 @@ public final class TemplateParser extends ParserBase {
 
           // Nested alternative 1.
 
-          yyResult = p$$Shared56(yyChoice1);
+          yyResult = p$$Shared55(yyChoice1);
           yyError  = yyResult.select(yyError);
           if (yyResult.hasValue()) {
             Op a1 = yyResult.semanticValue();
@@ -60948,7 +60902,7 @@ public final class TemplateParser extends ParserBase {
       yyIndex = yyStart + 1;
       String a1 = "^";
 
-      yyResult = p$$Shared60(yyIndex);
+      yyResult = p$$Shared59(yyIndex);
       yyError  = yyResult.select(yyError);
       if (yyResult.hasValue()) {
         String a2 = yyResult.semanticValue();
@@ -60968,7 +60922,7 @@ public final class TemplateParser extends ParserBase {
 
   /**
    * Parse synthetic nonterminal 
-   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared60.
+   * com.sun.fortress.parser.templateparser.TemplateParser.$$Shared59.
    * This nonterminal represents the duplicate productions 
    * com.sun.fortress.parser.templateparser.TemplateParser.exponentOp$$Choice1, 
    * com.sun.fortress.parser.templateparser.TemplateParser.condOp$$Choice1, 
@@ -60978,7 +60932,7 @@ public final class TemplateParser extends ParserBase {
    * @return The result.
    * @throws IOException Signals an I/O error.
    */
-  private Result p$$Shared60(final int yyStart) throws IOException {
+  private Result p$$Shared59(final int yyStart) throws IOException {
     Result     yyResult;
     String     yyValue;
     ParseError yyError = ParseError.DUMMY;
@@ -61388,7 +61342,7 @@ public final class TemplateParser extends ParserBase {
       yyIndex = yyStart + 1;
       String a1 = ":";
 
-      yyResult = p$$Shared60(yyIndex);
+      yyResult = p$$Shared59(yyIndex);
       yyError  = yyResult.select(yyError);
       if (yyResult.hasValue()) {
         String a2 = yyResult.semanticValue();
@@ -61407,7 +61361,7 @@ public final class TemplateParser extends ParserBase {
 
     // Alternative 3.
 
-    yyResult = p$$Shared60(yyStart);
+    yyResult = p$$Shared59(yyStart);
     yyError  = yyResult.select(yyError);
     if (yyResult.hasValue()) {
       String a1 = yyResult.semanticValue();
@@ -62006,6 +61960,20 @@ public final class TemplateParser extends ParserBase {
         break;
 
       case '\u21d2':
+        {
+          yyValue = null;
+
+          return new SemanticValue(yyValue, yyIndex, yyError);
+        }
+
+      case '\u2211':
+        {
+          yyValue = null;
+
+          return new SemanticValue(yyValue, yyIndex, yyError);
+        }
+
+      case '\u220f':
         {
           yyValue = null;
 
@@ -63784,29 +63752,79 @@ public final class TemplateParser extends ParserBase {
    * @throws IOException Signals an I/O error.
    */
   private Result pSUM(final int yyStart) throws IOException {
-    int        yyC;
-    int        yyIndex;
+    Result     yyResult;
     Op         yyValue;
     ParseError yyError = ParseError.DUMMY;
 
     // Alternative 1.
 
+    yyResult = pSUM$$Choice1(yyStart);
+    yyError  = yyResult.select(yyError);
+    if (yyResult.hasValue()) {
+
+      yyValue = NodeFactory.makeOpBig(createSpan(yyStart,yyCount), "BIG +");
+
+      return yyResult.createValue(yyValue, yyError);
+    }
+
+    // Done.
+    return yyError;
+  }
+
+  // =========================================================================
+
+  /**
+   * Parse synthetic nonterminal 
+   * com.sun.fortress.parser.templateparser.TemplateParser.SUM$$Choice1.
+   *
+   * @param yyStart The index.
+   * @return The result.
+   * @throws IOException Signals an I/O error.
+   */
+  private Result pSUM$$Choice1(final int yyStart) throws IOException {
+    int        yyC;
+    int        yyIndex;
+    Void       yyValue;
+    ParseError yyError = ParseError.DUMMY;
+
+    // Alternative 1.
+
     yyC = character(yyStart);
-    if ('S' == yyC) {
+    if (-1 != yyC) {
       yyIndex = yyStart + 1;
 
-      yyC = character(yyIndex);
-      if ('U' == yyC) {
-        yyIndex = yyIndex + 1;
+      switch (yyC) {
+      case 'S':
+        {
+          yyC = character(yyIndex);
+          if (-1 != yyC) {
+            yyIndex = yyIndex + 1;
+            if ('U' == yyC) {
 
-        yyC = character(yyIndex);
-        if ('M' == yyC) {
-          yyIndex = yyIndex + 1;
+              yyC = character(yyIndex);
+              if (-1 != yyC) {
+                yyIndex = yyIndex + 1;
+                if ('M' == yyC) {
 
-          yyValue = NodeFactory.makeOpBig(createSpan(yyStart,yyCount), "BIG +");
+                  yyValue = null;
+
+                  return new SemanticValue(yyValue, yyIndex, yyError);
+                }
+              }
+            }
+          }
+        }
+        break;
+
+      case '\u2211':
+        {
+          yyValue = null;
 
           return new SemanticValue(yyValue, yyIndex, yyError);
         }
+
+      default:
+        /* No match. */
       }
     }
 
@@ -63825,35 +63843,87 @@ public final class TemplateParser extends ParserBase {
    * @throws IOException Signals an I/O error.
    */
   private Result pPROD(final int yyStart) throws IOException {
-    int        yyC;
-    int        yyIndex;
+    Result     yyResult;
     Op         yyValue;
     ParseError yyError = ParseError.DUMMY;
 
     // Alternative 1.
 
+    yyResult = pPROD$$Choice1(yyStart);
+    yyError  = yyResult.select(yyError);
+    if (yyResult.hasValue()) {
+
+      yyValue = NodeFactory.makeOpBig(createSpan(yyStart,yyCount),
+      "BIG juxtaposition");
+
+      return yyResult.createValue(yyValue, yyError);
+    }
+
+    // Done.
+    return yyError;
+  }
+
+  // =========================================================================
+
+  /**
+   * Parse synthetic nonterminal 
+   * com.sun.fortress.parser.templateparser.TemplateParser.PROD$$Choice1.
+   *
+   * @param yyStart The index.
+   * @return The result.
+   * @throws IOException Signals an I/O error.
+   */
+  private Result pPROD$$Choice1(final int yyStart) throws IOException {
+    int        yyC;
+    int        yyIndex;
+    Void       yyValue;
+    ParseError yyError = ParseError.DUMMY;
+
+    // Alternative 1.
+
     yyC = character(yyStart);
-    if ('P' == yyC) {
+    if (-1 != yyC) {
       yyIndex = yyStart + 1;
 
-      yyC = character(yyIndex);
-      if ('R' == yyC) {
-        yyIndex = yyIndex + 1;
-
-        yyC = character(yyIndex);
-        if ('O' == yyC) {
-          yyIndex = yyIndex + 1;
-
+      switch (yyC) {
+      case 'P':
+        {
           yyC = character(yyIndex);
-          if ('D' == yyC) {
+          if (-1 != yyC) {
             yyIndex = yyIndex + 1;
+            if ('R' == yyC) {
 
-            yyValue = NodeFactory.makeOpBig(createSpan(yyStart,yyCount),
-            "BIG juxtaposition");
+              yyC = character(yyIndex);
+              if (-1 != yyC) {
+                yyIndex = yyIndex + 1;
+                if ('O' == yyC) {
 
-            return new SemanticValue(yyValue, yyIndex, yyError);
+                  yyC = character(yyIndex);
+                  if (-1 != yyC) {
+                    yyIndex = yyIndex + 1;
+                    if ('D' == yyC) {
+
+                      yyValue = null;
+
+                      return new SemanticValue(yyValue, yyIndex, yyError);
+                    }
+                  }
+                }
+              }
+            }
           }
         }
+        break;
+
+      case '\u220f':
+        {
+          yyValue = null;
+
+          return new SemanticValue(yyValue, yyIndex, yyError);
+        }
+
+      default:
+        /* No match. */
       }
     }
 
