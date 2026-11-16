@@ -1,0 +1,11 @@
+(* In a top-level tuple binding of a call, a name's declared type is checked against its element (variables.tex, section "Top-Level Variable Declarations"). *)
+component TopLevelTupleBindingMixedRefused
+export Executable
+
+(word: String, part) = two()
+
+two(): (ZZ32, ZZ32) = (7, 8)
+
+run(): () = println(part)
+
+end

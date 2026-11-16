@@ -321,7 +321,19 @@ trait Decls { self: STypeChecker with Common =>
               SLValue(info, name, mods, Some(rhsType), mut)
             case (lhs, _) => lhs
           }
-          (newLhses, newRhs)
+          // Where some of the names declare a type, the RHS is checked
+          // again, expecting each name's type, as where all of them do.
+          val checkedRhs =
+            if (declaredTypes.isEmpty) newRhs
+            else {
+              val nameTypes = lhsAndRhsTypes.map {
+                case (SLValue(_, _, _, Some(t@SType(_)), _), _) => t
+                case (_, rhsType) => rhsType
+              }
+              checkExpr(rhs, NF.makeTupleType(NU.getSpan(d), toJavaList(nameTypes)),
+                        errorString("Right-hand side", "declared"))
+            }
+          (newLhses, checkedRhs)
         }
       SVarDecl(info, newLhses, Some(newRhs))
     }
