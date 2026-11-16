@@ -36,15 +36,17 @@ introduced here.
 \seclabel{programming-env}
 
 \revision{revival-environment}{\secref{programming-env} to \secref{apitool}
-are rewritten to describe the implementation in the revival's repository.
+are rewritten to describe how a program is run with the implementation in
+the revival's repository.
 Every command is printed as it runs there, with the output that it gave.
 The Working Draft's text of these sections, which describes a store of
 components that was not built, is kept in \secref{revival-environment}.}
 
-This section and the two after it show how to build the Fortress
-implementation in the revival's repository
-(\url{https://github.com/palimondo/fortress}) and how to run a program with it.
-Each command is printed as it is typed into a shell.
+This section and the two after it show how a Fortress program is written, and
+how it is run with the implementation in the revival's repository
+(\url{https://github.com/palimondo/fortress}).
+Each command is printed as it is typed into a shell, in the folder that holds
+the files of the examples.
 The files of the examples are printed as they are typed, in ASCII;
 the section on rendering below shows how such code is rendered.
 
@@ -79,40 +81,9 @@ Component/API names must match their enclosing file names.
 
 A program is run in one of two ways: under the interpreter, or compiled.
 
-\subsection{Building the Implementation}
-
-The implementation needs a Java Development Kit of version 25 and Apache Ant.
-The following commands are issued in the root folder of a checkout of the
-repository.
-The first line names the folder of the Java Development Kit, here the one of a
-Debian or Ubuntu system.
-The last line builds the implementation, in about a minute.
-
-\begin{verbatim}
-export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
-export FORTRESS_HOME=$(pwd)
-export PATH=$JAVA_HOME/bin:$FORTRESS_HOME/bin:$PATH
-ant compileAll
-\end{verbatim}
-
-The build prints its steps.
-Its last lines are these, with the time that the build took:
-
-\begin{verbatim}
-BUILD SUCCESSFUL
-Total time: 50 seconds
-\end{verbatim}
-
-The command \shellcommand{fortress} is now on the shell's path.
-The programs of this chapter are written in a folder of their own:
-
-\begin{verbatim}
-mkdir ~/hello
-cd ~/hello
-\end{verbatim}
-
-The component above is written to the file \shellcommand{HelloWorld.fss} in
-this folder.
+The commands of this chapter assume an installed implementation, with the
+command \shellcommand{fortress} on the shell's path; the file
+\shellcommand{README.md} of the repository says how to build one.
 
 \subsection{Running a Program under the Interpreter}
 
@@ -136,23 +107,7 @@ A type error stops the program when the run reaches it.
 
 The compiler checks the static types of a component and writes bytecode of
 the Java Virtual Machine for it.
-A compiled program uses a library that is compiled first.
-The following five commands compile it.
-They are issued once after each build of the implementation, in the folder
-\shellcommand{ProjectFortress} of the checkout.
-They print nothing, and together they take about two minutes.
-
-\begin{verbatim}
-cd $FORTRESS_HOME/ProjectFortress
-fortress compile LibraryBuiltin/AnyType.fss
-fortress compile LibraryBuiltin/CompilerBuiltin.fss
-fortress compile ../Library/CompilerLibrary.fss
-fortress compile ../Library/CompilerAlgebra.fss
-fortress compile ../Library/CompilerSystem.fss
-cd ~/hello
-\end{verbatim}
-
-The program is then compiled and run with two commands:
+The program is compiled and run with two commands:
 
 \begin{verbatim}
 fortress compile HelloWorld.fss
@@ -174,21 +129,6 @@ It runs the bytecode that the last compilation of that component wrote, and
 compiles nothing.
 After a change of a source file, the interpreter runs the changed program, and
 \shellcommand{fortress run} runs the old one until the file is compiled again.
-
-\subsection{The Caches}
-
-The implementation keeps its results in \emph{caches}, so that a later command
-can use them again.
-The caches are folders under \shellcommand{default\_repository/caches} in the
-checkout.
-The folder \shellcommand{bytecode\_cache} holds one file of bytecode for each
-compiled component, as \shellcommand{HelloWorld.jar}.
-The folders \shellcommand{interpreter\_parsed\_cache} and
-\shellcommand{interpreter\_cache} hold the interpreter's parsed form of each
-file that it read, and \shellcommand{analyzed\_cache} holds the results of the
-compiler's analysis.
-A build that changed the implementation empties the caches, and the five
-commands above are then issued again.
 
 \label{overviewComponent}
 \section{Exports and Imports}

@@ -44,8 +44,8 @@ svg.tx text.t14{font-family:cmsy7;font-size:6.97px}
 <section class="sec" data-num="2.1" data-title="The Fortress Programming Environment">
 <h2 id="sec-programming-env" class="nb"><span class="num">2.1</span> The Fortress Programming Environment</h2>
 <aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-environment">Section I.1.52</a><!--nc--></span></p>
-<p id="p-81142113" class="nb"><a class="xref" href="#sec-programming-env">Section 2.1</a> to <a class="xref" href="#sec-apitool">Section 2.3</a> are rewritten to describe the implementation in the revival’s repository. Every command is printed as it runs there, with the output that it gave. The Working Draft’s text of these sections, which describes a store of components that was not built, is kept in <a class="xref" href="spec-changes.html#sec-revival-environment">Section I.1.52</a><!--nc-->.</p></aside>
-<p id="p-a3e5f746" class="nb">This section and the two after it show how to build the Fortress implementation in the revival’s repository (<code>https://github.com/palimondo/fortress</code>) and how to run a program with it. Each command is printed as it is typed into a shell. The files of the examples are printed as they are typed, in ASCII; the section on rendering below shows how such code is rendered.</p>
+<p id="p-c3308529" class="nb"><a class="xref" href="#sec-programming-env">Section 2.1</a> to <a class="xref" href="#sec-apitool">Section 2.3</a> are rewritten to describe how a program is run with the implementation in the revival’s repository. Every command is printed as it runs there, with the output that it gave. The Working Draft’s text of these sections, which describes a store of components that was not built, is kept in <a class="xref" href="spec-changes.html#sec-revival-environment">Section I.1.52</a><!--nc-->.</p></aside>
+<p id="p-8ddd5c7b" class="nb">This section and the two after it show how a Fortress program is written, and how it is run with the implementation in the revival’s repository (<code>https://github.com/palimondo/fortress</code>). Each command is printed as it is typed into a shell, in the folder that holds the files of the examples. The files of the examples are printed as they are typed, in ASCII; the section on rendering below shows how such code is rendered.</p>
 <p id="p-b116d028" class="nb">A Fortress program is a <em>component</em>, stored in a source file. The following component is the program of this section:</p>
 <pre class="vb nb" id="c-dfe3c7b2" data-kind="code"><code>component HelloWorld
 export Executable
@@ -57,49 +57,23 @@ end</code></pre>
 <p id="p-5a22363b" class="nb">A source file must contain exactly one component declaration, and its name must match the file name without the file extension <span class="tt">.fss</span>. So this component is stored in a file named <span class="tt">HelloWorld.fss</span>. If the two names differ, the implementation refuses the file with this message:</p>
 <pre class="vb nb" id="c-16b47121" data-kind="code"><code>Component/API names must match their enclosing file names.</code></pre>
 <p id="p-81f37f7f" class="nb">A program is run in one of two ways: under the interpreter, or compiled.</p>
-<section class="sec" data-num="2.1.1" data-title="Building the Implementation">
-<h3 id="s-building-the-implementation" class="nb"><span class="num">2.1.1</span> Building the Implementation</h3>
-<p id="p-310f30af" class="nb">The implementation needs a Java Development Kit of version 25 and Apache Ant. The following commands are issued in the root folder of a checkout of the repository. The first line names the folder of the Java Development Kit, here the one of a Debian or Ubuntu system. The last line builds the implementation, in about a minute.</p>
-<pre class="vb nb" id="c-4f27fa40" data-kind="code"><code>export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
-export FORTRESS_HOME=$(pwd)
-export PATH=$JAVA_HOME/bin:$FORTRESS_HOME/bin:$PATH
-ant compileAll</code></pre>
-<p id="p-8a21bbb5" class="nb">The build prints its steps. Its last lines are these, with the time that the build took:</p>
-<pre class="vb nb" id="c-af49e44a" data-kind="code"><code>BUILD SUCCESSFUL
-Total time: 50 seconds</code></pre>
-<p id="p-cabff46d" class="nb">The command <span class="tt">fortress</span> is now on the shell’s path. The programs of this chapter are written in a folder of their own:</p>
-<pre class="vb nb" id="c-17ee8c72" data-kind="code"><code>mkdir ~/hello
-cd ~/hello</code></pre>
-<p id="p-41dfb477" class="nb">The component above is written to the file <span class="tt">HelloWorld.fss</span> in this folder.</p>
-</section>
-<section class="sec" data-num="2.1.2" data-title="Running a Program under the Interpreter">
-<h3 id="s-running-a-program-under-the-interpreter" class="nb"><span class="num">2.1.2</span> Running a Program under the Interpreter</h3>
+<p id="p-cf287ddd" class="nb">The commands of this chapter assume an installed implementation, with the command <span class="tt">fortress</span> on the shell’s path; the file <span class="tt">README.md</span> of the repository says how to build one.</p>
+<section class="sec" data-num="2.1.1" data-title="Running a Program under the Interpreter">
+<h3 id="s-running-a-program-under-the-interpreter" class="nb"><span class="num">2.1.1</span> Running a Program under the Interpreter</h3>
 <p id="p-054a6901" class="nb">The interpreter reads a source file and runs it:</p>
 <pre class="vb nb" id="c-701bd238" data-kind="code"><code>fortress HelloWorld.fss</code></pre>
 <p id="p-07950597" class="nb">The command prints:</p>
 <pre class="vb nb" id="c-943a702d" data-kind="code"><code>Hello, world!</code></pre>
 <p id="p-39090bdf" class="nb">The command <span class="tt">fortress walk HelloWorld.fss</span> is the same command. The interpreter does not check the static types of a program. A type error stops the program when the run reaches it.</p>
 </section>
-<section class="sec" data-num="2.1.3" data-title="Compiling and Running a Program">
-<h3 id="s-compiling-and-running-a-program" class="nb"><span class="num">2.1.3</span> Compiling and Running a Program</h3>
-<p id="p-db145b02" class="nb">The compiler checks the static types of a component and writes bytecode of the Java Virtual Machine for it. A compiled program uses a library that is compiled first. The following five commands compile it. They are issued once after each build of the implementation, in the folder <span class="tt">ProjectFortress</span> of the checkout. They print nothing, and together they take about two minutes.</p>
-<pre class="vb nb" id="c-20784d11" data-kind="code"><code>cd $FORTRESS_HOME/ProjectFortress
-fortress compile LibraryBuiltin/AnyType.fss
-fortress compile LibraryBuiltin/CompilerBuiltin.fss
-fortress compile ../Library/CompilerLibrary.fss
-fortress compile ../Library/CompilerAlgebra.fss
-fortress compile ../Library/CompilerSystem.fss
-cd ~/hello</code></pre>
-<p id="p-51fa53d6" class="nb">The program is then compiled and run with two commands:</p>
+<section class="sec" data-num="2.1.2" data-title="Compiling and Running a Program">
+<h3 id="s-compiling-and-running-a-program" class="nb"><span class="num">2.1.2</span> Compiling and Running a Program</h3>
+<p id="p-69e9141b" class="nb">The compiler checks the static types of a component and writes bytecode of the Java Virtual Machine for it. The program is compiled and run with two commands:</p>
 <pre class="vb nb" id="c-b2ee2940" data-kind="code"><code>fortress compile HelloWorld.fss
 fortress run HelloWorld</code></pre>
 <p id="p-08e71df9" class="nb">The first command prints nothing. The second prints:</p>
 <pre class="vb nb" id="c-943a702d-2" data-kind="code"><code>Hello, world!</code></pre>
 <p id="p-644a0456" class="nb">The command <span class="tt">fortress compile</span> takes a source file. It prints nothing when it succeeds, and a static error stops it with a message. The command <span class="tt">fortress run</span> takes the name of a component, not a file. It runs the bytecode that the last compilation of that component wrote, and compiles nothing. After a change of a source file, the interpreter runs the changed program, and <span class="tt">fortress run</span> runs the old one until the file is compiled again.</p>
-</section>
-<section class="sec" data-num="2.1.4" data-title="The Caches">
-<h3 id="s-the-caches" class="nb"><span class="num">2.1.4</span> The Caches</h3>
-<p id="p-d245080e" class="nb">The implementation keeps its results in <em>caches</em>, so that a later command can use them again. The caches are folders under <span class="tt">default_repository/caches</span> in the checkout. The folder <span class="tt">bytecode_cache</span> holds one file of bytecode for each compiled component, as <span class="tt">HelloWorld.jar</span>. The folders <span class="tt">interpreter_parsed_cache</span> and <span class="tt">interpreter_cache</span> hold the interpreter’s parsed form of each file that it read, and <span class="tt">analyzed_cache</span> holds the results of the compiler’s analysis. A build that changed the implementation empties the caches, and the five commands above are then issued again.</p>
 <a id="overviewComponent"></a></section>
 </section>
 <section class="sec" data-num="2.2" data-title="Exports and Imports">

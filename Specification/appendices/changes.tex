@@ -5720,16 +5720,17 @@ For example, ``\txt{foo}''\EXP{\|}''\txt{bar}'' yields ``\txt{foobar}''.
 \begin{description}
 \item[Affected sections] \secref{programming-env}, \secref{overview:apis} and
 \secref{apitool}; the head of \chapref{components}.
-\item[Change] The three sections are rewritten as a guide to the
-implementation in the revival's repository: the Java version and the build; a
-program run under the interpreter; the compilation of the compiled path's
-library, and the same program compiled and run; an API and two components,
-run under the interpreter, then linked and run; an API generated from a
-component.
-Each command was issued as printed in a new checkout of the repository, and
-each output is printed as that run gave it.
-The text names the caches of the implementation where the Working Draft spoke
-of a fortress, says ``file extension'' where the Working Draft said
+\item[Change] The three sections are rewritten to show how a program is
+written and run with the implementation in the revival's repository: a
+program run under the interpreter; the same program compiled and run; an API
+and two components, run under the interpreter, then linked and run; an API
+generated from a component.
+The sections assume an installed implementation, and name the file of the
+repository that says how to build one; they do not describe the build.
+Each command was issued as printed, with a built implementation of the
+repository, in a folder that held the files of the examples, and each output
+is printed as that run gave it.
+The text says ``file extension'' where the Working Draft said
 ``suffix'', and states once for a component and once for an API that a file
 holds exactly one, whose name is the file's name without its file extension,
 with the message that the implementation prints when the names differ.
@@ -5746,7 +5747,9 @@ its operations the implementation has.
 \item[Rationale] This change does not follow from route~A; it follows the
 decision of 16~November 2026, of the curator of the revival, that the
 revival's edition of this specification describes the implementation as it is,
-so that a reader who follows \chapref{overview} can use the repository.
+so that a reader who follows \chapref{overview} can run a program with it,
+and his word of the same day that the specification describes how Fortress is
+run, and not how the implementation is built.
 The Working Draft's text of these sections is a splice of two editions that
 the team made on 5~November 2009 and marked ``out of date'' in the same
 commit.
