@@ -11,7 +11,6 @@ end
 
 opr BIG LAST[\T extends Equality[\T\]\](): Red[\T\] = Last[\T\]
 
-(* The type at which the reduction ran, from the run-time type of its elements. *)
 var ran: String = ""
 note(x: ZZ32): () = do ran := "ZZ32" end
 note(x: ZZ64): () = do ran := "ZZ64" end

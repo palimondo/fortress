@@ -2699,6 +2699,10 @@ It refuses, with a message, a reference whose receiving arrow type leaves a
 static parameter open, and the application of a variable that was bound
 without a type to such a reference; a variable so bound that is never applied
 still stops it (row~NEW-C-4).
+A reference whose expected type is not an arrow type, as an argument at a
+parameter of type \TYP{Any}, it still accepts, with the function's type and
+its static parameters, and the compiled program stops when it runs
+(row~NEW-C-6).
 It refuses a reference to a name with several declarations of which one has
 static parameters, where no declaration without static parameters has a type
 that fits the receiving arrow type (row~NEW-C-3).

@@ -254,8 +254,11 @@ and the revival's text of 9~October 2026 gave an expected type to calls alone.
 The revival built the rule on 15~November 2026; the compiled type checker
 refuses a reference to a name with several declarations of which one has
 static parameters, unless a declaration without static parameters has a type
-that fits (row~NEW-C-3), and reports a reference with no expected type only
-where its value is applied (row~NEW-C-4); the interpreter, which has no static
+that fits (row~NEW-C-3), reports a reference with no expected type only
+where its value is applied (row~NEW-C-4), and accepts a reference whose
+expected type is not an arrow type, as at a parameter of type \TYP{Any},
+which then stops the compiled program when it runs (row~NEW-C-6); the
+interpreter, which has no static
 types, runs both forms that this paragraph refuses, instantiating the function
 at its first application (\secref{revival-expected-contexts}).}
 
