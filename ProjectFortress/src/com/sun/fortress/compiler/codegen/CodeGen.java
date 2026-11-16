@@ -6503,7 +6503,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     /** A name of a tuple binding written as the wildcard _, which binds
      *  nothing. */
     private static boolean isWildcard(LValue lv) {
-        return lv.getName().getText().equals("_");
+        return NodeUtil.isUnderscore(lv.getName());
     }
 
     /** The class of the hidden variable that holds the value of a top-level
