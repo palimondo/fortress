@@ -1320,3 +1320,16 @@ The landing of climb batch 32 on `main` made area parts false or incomplete, fro
 - `compiler.md`, "Traps of the compiled path": rows 1014 and 1030 in one bullet of the numerals (`compiler_tests/XXXNumeralEndsBlockAfterDeclarationCompiled`, `XXXBlockEndsInTupleOfNumeralCompiled`); row 1012, with the reference that an arrow type instantiates (`RECORD.md`, rung C; `compiler_tests/GenericFunctionAsValueCompiled`); row 1011. "The checker's gaps": row 1015 (F-364).
 - `tests-writing.md`, "A test program": a superscript after a dotted access, a call and a subscript. `RECORD.md`, rung S; rows 1, 144 and 1005; `tests/SuperscriptAfterDottedAccess`, `SuperscriptAfterParenthesisedCall`, `SuperscriptAfterCallRefused`.
 - `gate.md`, "The steps": row 1004, the race of `tests/XXXAtomicNestedReadsKeptWalk` in `ant testSystem`.
+
+## The cold read of climb batch 32's skill changes, 2026-11-16
+
+A cold reader read `3a9bf9f868` and `5e8b33fd3b` as a worker new to the repository (`explorations/compile-ladder/climb-batch-32/skills/cold-read.md`); settled by the record-landing workflow's writer task. Each fact checked in its row or in the code on `main` at `5e8b33fd3b`.
+
+- `SKILL.md`, the numbers: the rule and its one exception in two sentences. F-366.
+- `compiler.md`, "Traps of the compiled path": rows 1014 and 1030 as two cases of a function's body block; row 1012 with one example, `p(count)` for `p(x: Any)`, and row 1009 for a name with several declarations; row 1011 with the names `a` and `b`, as the row's runs show it.
+- `gate.md`, "The steps": row 1004's failure makes the gate red, as step 4's rule says of any failure; the row is cited in the report.
+- `interpreter.md`, "How walk evaluates a program": row 1021 by what the checker does; row 1019 with the row's example; row 1018 with `appT`'s declaration; row 1020 "whether it is passed or not"; row 1016 "declared `Any`", with the rules' answer, `false`, from the row.
+- `interpreter.md`, "Where a fix of walk belongs": the dispatch cache in a paragraph of its own, with its action; the sentence on what the key tells apart cut (`Numerals.java:645-652`).
+- `library.md`, "The curator's decisions on the library": the element type's place, and the instruction to write it in the library, as its own sites do (F-285, F-59).
+- `revival-changes.md`, "Static parameters": `pick` as two methods of the generic object (`tests/OpenTupleDispatchWalk.fss:6-8`). "Numbers": the rule on a numeral's more specific declaration restated (F-366); row 1016 "declared `Any`" with `a = 0`; the rule's answer for row 1017. "Reductions and comprehensions": the body's type "where there is no expected type or it does not fit the reduction's bound" (F-364); "whose bound does not name its parameter"; a call's argument has no expected type where the call is accepted without one (F-364, P-51); the written form of `BIG MIN_MAX` (row 1007; `Library/FortressLibrary.fsi:2189-2191`).
+- `tests-writing.md`, "A test program": what a superscript is; how `x[5]^2` fails on each path (rows 1005 and 1).

@@ -13,11 +13,11 @@ After the phases (`SKILL.md`, "The phases"), walk rewrites each component in `in
 
 At a call of a generic function, walk infers the static arguments from the run-time types of the arguments (`interpreter/evaluator/EvaluatorBase.java`, `inferAndInstantiateGenericFunction`). Each static parameter gets an interval, from a lower to an upper bound, in a `LatticeIntervalMap` (`useful/`). A type in the domain of an arrow type, such as `T` in `T -> ZZ32`, is contravariant. So its bounds go into the dual map, `LatticeIntervalMapDual`: the same table, with the order reversed. `MakeInferenceSpecific` then makes the inferences more specific, in practice only in the dual map.
 
-A generic function passed as a value takes its instance from the arrow type that receives it: a parameter, a local variable declared with the type, or an assignment. So `app(half, v)` runs for `half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\]` and `app(f: Vector[\RR64,3\] -> Vector[\RR64,3\], v: Vector[\RR64,3\])`. Where no arrow type receives it, or the arrow type leaves a static parameter open, the value stays generic. Each application then infers its static arguments, where the rules give a static error (ledger row 1021). Departures:
+A generic function passed as a value takes its instance from the arrow type that receives it: a parameter, a local variable declared with the type, or an assignment. So `app(half, v)` runs for `half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\]` and `app(f: Vector[\RR64,3\] -> Vector[\RR64,3\], v: Vector[\RR64,3\])`. Where no arrow type receives it, or the arrow type leaves a static parameter open, the value stays generic. Walk then infers the static arguments at each application. The checker refuses such a program, so do not rely on this in a program for both paths (ledger row 1021). Walk departs from this in three cases:
 
-- An immutable top-level variable of arrow type keeps the generic value (ledger row 1019).
-- A generic function at `f: T -> T`, where another argument fixes the callee's `T`, is refused: 'Unification error'. Write the static argument, as `appT(half[\3\], v)` (ledger row 1018).
-- A function declared in a block with static parameters of its own stops where it is declared: 'Missing type T'. Declare it at the top level (ledger row 1020).
+- An immutable top-level variable of arrow type keeps the generic value. So for a top-level `g: Vector[\RR64,3\] -> Vector[\RR64,3\] = half`, `g(w)` runs for a `w: Vector[\RR64,2\]` (ledger row 1019).
+- For `appT[\T\](f: T -> T, x: T)`, `appT(half, v)` is refused, 'Unification error': `v` fixes `T` by its run-time type. Write the static argument, as `appT(half[\3\], v)` (ledger row 1018).
+- A generic function declared inside a block stops at its declaration, whether it is passed or not: 'Missing type T' (ledger row 1020). Declare it at the top level.
 
 Walk chooses a coercion by the value at run time. The specification and the compiled path choose it statically. Walk has no static types, so it cannot choose statically. The expected-failure tests `ProjectFortress/tests/XXXCoercionStaticRungC.fss` and `XXXCoercionStaticNarrowRungC.fss` record the difference.
 
@@ -25,7 +25,7 @@ Walk departs from the rules of `revival-changes.md`, "Numbers", in these ways, u
 
 - A numeral with a radix point keeps only one of its leading zeros, so a coercion over `RadixPointNumeral[\n, m, r, v\]` gets `n` = 2 for `00.5`, not 3 (ledger row 960).
 - A `nat` or `int` parameter of 2^31 or more, used as a value, is a `ZZ64` (ledger row 962). Assert no value for it in a test.
-- A numeral beside a value whose static type is `Any` converts by the value's run-time type, not to its default. So `a = 0` is `true` for `a: Any` that holds a zero `NN32` (ledger row 1016). To compare as the rules do, bind the numeral first, as `z = 0`, then write `a = z`.
+- A numeral in a call whose other argument is a variable declared `Any` converts by that value's run-time type, not to its default. So `a = 0` is `true` for `a: Any` that holds a zero `NN32`, where the rules' answer is `false` (ledger row 1016). To compare as the rules do, bind the numeral first, as `z = 0`, then write `a = z`.
 - A numeral with a radix point at a place that fixes no type, which rounds to an infinity at `RR64`, its default, gives `Infinity`, with no error, on both paths (ledger row 980). The rules do not say whether it is an error, so assert no value for it in a test.
 - A numeral type written in a `comprises` clause loads and runs, as `trait T comprises { NaturalNumeral[\1, 10, 3\] } end` does (ledger row 981). The rules refuse it, as the compiled checker does, and as walk does at load in an `extends` clause or as a static argument: 'NaturalNumeral cannot be written in a program except as a parameter's type.'
 - A body with a declared return type is not converted by coercion, except a numeral: `r(): Wide = NarrowOf(3)` returns the `NarrowOf` (ledger row 387). Write the value at the declared type.
@@ -46,7 +46,9 @@ Both paths run the same desugaring phases. Inside them, switches in `Shell.java`
 - case expressions, typecase and type ascription;
 - the marking of a bodiless declaration as abstract.
 
-Walk evaluates those nodes itself, in `interpreter/evaluator/Evaluator.java` (`forChainExpr`, `forAssignment`, `forCaseExpr`, `forTypecase`, `forAsExpr`). It converts by coercion at dispatch, in `OverloadedFunction.bestMatchWithCoercion`. It keeps each choice of a declaration in a dispatch cache, except a choice that asked a program's own type for its numeral coercion: that coercion's `where` clause can take one numeral and refuse another. The cache's key (`Numerals.Keys`) tells a numeral from a value of its default type and from a negative constant. So if walk is wrong on one of these nodes, fix the evaluator, not the desugarer.
+Walk evaluates those nodes itself, in `interpreter/evaluator/Evaluator.java` (`forChainExpr`, `forAssignment`, `forCaseExpr`, `forTypecase`, `forAsExpr`). It converts by coercion at dispatch, in `OverloadedFunction.bestMatchWithCoercion`. So if walk is wrong on one of these nodes, fix the evaluator, not the desugarer.
+
+Walk keeps each choice of a declaration in a dispatch cache, except a choice that asked a program's own type for its numeral coercion: that coercion's `where` clause can take one numeral and refuse another. If you change how a numeral chooses a declaration, check that the cache's key (`Numerals.Keys`) tells apart the calls that now choose differently.
 
 An edit of a phase that both paths run, or of the desugaring switches, can change both paths. An edit under `interpreter/` changes walk only.
 
