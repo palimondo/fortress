@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read coordinator skill","toolUseId":"toolu_01FFq2z1UUdCEtYrJWErefzX","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"medium","pickedEffortModel":"claude-fable-5-2"}
