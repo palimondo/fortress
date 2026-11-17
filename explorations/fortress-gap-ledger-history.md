@@ -10733,3 +10733,57 @@ note added
 rewritten
 
 | 528 | on the compiled path the prelude's `RR32` declares `Equality[\RR32\]` without an `=`, so `a = b` over two `RR32` values, or `a = 1.5`, compiles clean and dies with `java.lang.AbstractMethodError` | NEGATIVE-VERIFIED | library gap vs spec (prelude) | silent | `ProjectFortress/library_tests/XXXRR32EqualityRungV.test` | climb batch 6.5b rung V | siblings: 529. At 052a7c3fe the prelude's `RR32` declares only `coerce(x: FloatLiteral)` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:992-994`), and `CompilerAlgebra`'s `Equality` declares `=` abstract; the error says `FRR32` does not implement `=?0`. A program the checker accepts must not die in the JVM (`explorations/compile-ladder/climb-batch-N/JUDGE-review.md`). Repair: a one-line prelude `opr =`, measured and not landed, or the one library's `RR32` at the switch-over (`explorations/compile-ladder/rung-rr32-sibling/REPORT.md` section 11). Then respell `a: RR32 = 1.5` (`XXXRR32EqualityRungV.fss:7-9`) with `narrow(...)`, or it fails for row 454's reason. full text: history, row 528 |
+
+### Row 992
+
+closed by 06cd09470
+
+| 992 | on the compiled path an object that implements, at a tuple type, a method that its generic trait declares over a type parameter fails the JVM's verification when its class loads: `get(t: (ZZ32, ZZ32))` in `object A2 extends Arr[\ZZ32, (ZZ32, ZZ32)\]` for `get(i: I)`; walk prints 7 | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/method-invocation.tex`, "Dotted Method Invocations" | explorations/compile-ladder/plan-31/probes/planner/PTupleIndex.fss | climb batch 31's planner | siblings: 832, 819. Under the compiler's prelude at 84f1c37190: 'VerifyError: Bad type on operand stack … PTupleIndex$A2.get(FZZ32, FZZ32) … Type PTupleIndex$A2 (current frame, stack[0]) is not assignable to FZZ32'. The object's method takes the tuple's elements as two JVM parameters, its forwarder to `get?` loads one, and nothing implements the trait's `get(Tuple⟦FZZ32,FZZ32⟧)`. With the verifier off it is the rehearsal's W15, 'AbstractMethodError … abstract Tuple⟦FZZ32,FZZ32⟧ offset(Tuple⟦FZZ32,FZZ32⟧)': every `m[i,j]` of the one library's rank-2 and rank-3 arrays (`Library/FortressLibrary.fss:2314`, `:2847`). Site: `CodeGen.generateForwardingFor`. |
+
+### Row 832
+
+closed by 06cd09470
+
+| 832 | on the compiled path, a generic dotted method whose single parameter has a tuple type, written or from a tuple static argument, dies at the call with `ClassCastException` in `castTo`: `Box[\ZZ32\](1).first[\ZZ32\]((2, 3))`; walk runs it | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/method-invocation.tex`, "Dotted Method Invocations" | none | the bound-Any compiled probe | siblings: 339. Compiled and run (`explorations/perf-probes/bound-any-compiled/REPORT.md`): `object Box[\T\](x: T) first[\U\](y: (U, U)): U = do (a, c) = y; a end end`. It dies alike under `U extends Object`; under `Any`, `fortress compile`'s bound for an unbounded `U`, a tuple static argument reaches it: `b.wrap[\(ZZ32,ZZ32)\]((2, 3))` for `wrap[\U\](y: U)` dies alike. `receiverPrependedDomainType` (`compiler/codegen/CodeGen.java:6529-6542` at c124c6b65) prepends the receiver to a tuple domain's elements, so cannot tell one tuple-typed parameter from several. The call casts to a three-place arrow, the loader makes a two-place closure. Workaround: two parameters, as `second[\U\](y: U, z: U)`. |
+
+### Row 819
+
+closed by 06cd09470
+
+| 819 | a postfix operator applied to a tuple operand stops the code generator, 'Error trying to close method scope', since the call passes the tuple as one value where the method takes its elements; the one library's four range operators over pairs and triples are refused | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/operators/opr-overview.tex`, "Postfix Operators" | none | the code generator's distance probe | siblings: 340, 377 (its message). Probe TupleParamOpr.fss, uncommitted, under the compiler's prelude: `opr (x:(ZZ32,ZZ32))! : ZZ32 = 3` beside `opr (x:(ZZ32,ZZ32)): : ZZ32 = x!`: 'TupleParamOpr.fss:5:31: Error trying to close method scope' (`CodeGen.java:2874` at c124c6b65), from ASM's `Frame.merge`, 'Index -1 out of bounds for length 0' (`explorations/perf-probes/codegen-distance/REPORT.md`). The method rebuilds `x` from its JVM parameters `x1`, `x2` and calls `postfix !`, which takes two `FZZ32`, with the one tuple. A function, `g(x:(ZZ32,ZZ32)): ZZ32 = h(x)`, `h` as `!`, prints `3`. Sites: `Library/FortressLibrary.fss:4199`, `:4200` (`= x#`), `:4242`, `:4243` (`= l#`). No gated test. |
+
+### Row 397
+
+closed by 06cd09470
+
+| 397 | on the compiled path, an object's `var` field declared with a tuple type fails verification in its setter: `h.pair := (WideOf(10), 11)` for `var pair: (Wide, ZZ32)` compiles, then `fortress run` dies with `VerifyError: Bad type on operand stack` in `Holder.pair(Wide, FZZ32)` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/objects.tex`, "Field Declarations"; `basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.test` | climb batch 4 rung C | siblings: 395. The setter's tuple parameter is spread into two JVM parameters, and the forwarding method `pair` loads `this` and one argument before `invokevirtual pair?(Wide, FZZ32)`: `CodeGen.generateForwardingFor` takes `arity` from the Fortress parameter count (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:791` at c124c6b65) while `from_sig` spreads the tuple (`:834`). A setter takes a single argument, the value being set. No coercion is involved, and walk prints the value; an immutable tuple field runs. full text: history, row 397 |
+
+### Row 840
+
+closed by 06cd09470
+
+| 840 | on the compiled path, a component whose name begins with `Tuple` fails verification at the call of a generic function whose one parameter has a generic type of the component: `count[\T\](b: Box[\T\]): ZZ32 = 1` called as `count(Box[\ZZ32\](7))` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/components/source-code.tex`, "Components" | `ProjectFortress/compiler_tests/XXXTupleNamedComponentGenericParam.test` | climb batch 22c rung B | 'java.lang.VerifyError: Bad type on operand stack' in the closure `count⟦FZZ32⟧`: a `Tuple⟦FZZ32⟧` on the stack where the component's `Box⟦FZZ32⟧` is expected; at a pair alike. The same program runs as `component PairBoxCount`, and so do the function with a second parameter and `id[\T\](x: T)` in a component named `Tuple...`, as the team's two-parameter `other_compiler_tests/TupleCastGeneric` does. The bound at `Any` of an unbounded parameter is not its cause: it fails the same without it. Not traced: the tree tests no `Tuple` prefix by name; `Naming.TUPLE_OX` is `Tuple⟦` (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java:1196`). Workaround: another name. |
+
+### Row 550
+
+closed by f6e24650e
+
+| 550 | walk refuses at load a plain declaration over a trait type inside a generic one that returns its type parameter, 'fails the Return Type Rule', where the trait comprises one object and so the rule holds: `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: ZZ64, b: ZZ64): ZZ64` | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericBesidePlainReturnParam.fss` | climb batch 7b rung W | siblings: 539, 779. Over an object type the load check reads such a pair by the rule: the plain result must lie below an object type that stands at a parameter of the returned type parameter (`returnRuleAtObjectArguments`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:882`, at fcdf7bc2da), so the pair at `NN32` loads (`ProjectFortress/tests/GenericBesidePlainObjectValidWalk.fss`). `ZZ64` is a trait that comprises the one object `Long`; the check reads no `comprises` clause, and below a trait a lower argument selects a lower instance. The pair is valid once `ZZ64` is an object. full text: history, row 550 |
+
+### Row 1014
+
+closed by d3095ca77
+
+| 1014 | compiled, a numeral that ends a block after a local declaration, in a function declared to return `ZZ32`, links and dies at run time with `NoClassDefFoundError: fortress/CompilerBuiltin$v`: `four(): ZZ32 = do`, `k: ZZ32 = 3`, `4`, `end` on four lines | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/blocks.tex`, "Do Expressions" | `ProjectFortress/compiler_tests/XXXNumeralEndsBlockAfterDeclarationCompiled.test` | climb batch 32 rung C | siblings: 957. The same on db352c1776 and at e5c519a425. A block that ends in the variable, `k`, runs, and so does `do`, `println("h")`, `4`, `end`, a statement before the numeral. So the failure is the numeral's coercion at the block's expected type after a declaration; the class named is the coercion's `nat v` parameter. The code generator was not read. Workaround: end the block with a variable. |
+
+### Row 1030
+
+closed by d3095ca77
+
+| 1030 | on the compiled path a function whose body is a block that ends in a tuple with a numeral element, at a declared tuple return type, fails at run time: `pair(k: ZZ32): (ZZ32, ZZ32) = do (1, k) end`, 'NoClassDefFoundError: fortress/CompilerBuiltin$v' in `coerce_ZZ32`; walk gives the pair | NEGATIVE-BOUNDED | implementation gap (codegen) | `basic/conversions-coercions.tex`, "Coercions for Tuple and Arrow Types" | ProjectFortress/compiler_tests/XXXBlockEndsInTupleOfNumeralCompiled.test | climb batch 32 rung D | It fails so at db352c1776. The same tuple as the whole body, `flat(k: ZZ32): (ZZ32, ZZ32) = (1, k)`, runs, and so does a tuple of numerals alone in a block. The stack names the numeral's coercion called as a function value, `coerce_ZZ32[\1,10,1\]` as an arrow from `NaturalNumeral[\n,r,v\]`, so the block's tuple seems to convert by the tuple coercion with the numeral's coercion uninstantiated; not traced further. Kin: `nest(): ((ZZ32, ZZ32), String) = ((10, 20), "s")` stops with a `ClassCastException` of an `FZZ32` to a numeral type, at db352c1776 too. Workaround: bind the numeral to a typed variable first. |
+
+### Row 1031
+
+closed by d3095ca77
+
+| 1031 | a tuple binding with declared types whose right side is an `if` with tuple branches stops the code generator: `(m, n): (ZZ32, ZZ32) = if flag then (1, 2) else (3, 4) end`, 'Error trying to close method scope' in a block, an `ArrayIndexOutOfBoundsException` of ASM's `Frame.merge` at the top level | NEGATIVE-BOUNDED | implementation gap (codegen) | `basic/variables.tex`, "Local Variable Declarations" | ProjectFortress/compiler_tests/XXXTupleBindingIfBranchesCompiled.test | climb batch 32 rung D | siblings: 340, 819. The local form fails so at db352c1776. Without declared types the same binding compiles and prints 3, local and top-level, and so does `(m, n): (ZZ64, ZZ32) = if flag then two() else two() end`; a single `x: ZZ64 = if flag then 1 else 3 end` compiles. So the fault needs the declared tuple type pushed into branches that are tuple expressions; the mechanism was not traced. Walk prints 3. Workaround: leave the names untyped, or bind each branch's tuple first. |
