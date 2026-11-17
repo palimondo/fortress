@@ -1,0 +1,40 @@
+(* A method called on a typecase binder whose arm's type neither lies below nor above the selector's type, a value typed by the intersection of the two, runs the method that the value's object has, in a plain and in a generic function. *)
+component TypecaseBinderMethodCall
+export Executable
+
+trait Shape
+  name(): String = "shape"
+end
+trait Marked end
+object PlainSquare extends Shape end
+object MarkedSquare extends { Shape, Marked }
+  name(): String = "marked square"
+end
+
+describe(s: Shape): String = typecase s of
+    s': Marked => s'.name()
+    else => "plain"
+  end
+
+trait Box[\E extends Object\]
+  name(): String = "box"
+end
+object PlainBox[\E extends Object\] extends Box[\E\] end
+object MarkedBox[\E extends Object\] extends { Box[\E\], Marked }
+  name(): String = "marked box"
+end
+
+describeBox[\E extends Object\](b: Box[\E\]): String = typecase b of
+    b': Marked => b'.name()
+    else => "plain"
+  end
+
+run(): () = do
+  assert(describe(MarkedSquare), "marked square", "a method on a binder typed by Shape and Marked")
+  assert(describe(PlainSquare), "plain", "the else arm")
+  assert(describeBox(MarkedBox[\String\]), "marked box", "a method on a binder typed by Box of E and Marked")
+  assert(describeBox(PlainBox[\String\]), "plain", "the else arm of the generic function")
+  println("PASS")
+end
+
+end
