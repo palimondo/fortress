@@ -28,11 +28,11 @@ run() = do
   println bar
   yelp(x: Number) =
     typecase x of
-      BigNum => println "BigNum"
+      ZZ => println "ZZ"
       ZZ32 => println "ZZ32"
       ZZ64 => println "ZZ64"
       NN32 => println "NN32"
-      UnsignedLong => println "UnsignedLong"
+      NN64 => println "NN64"
       NN64 => println "NN64"
       ZZ => println "ZZ"
     end

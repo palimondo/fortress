@@ -1,0 +1,62 @@
+(* Each of ZZ32, ZZ64, ZZ, NN64 and RR64 is the type of its values: asif at the type is the value itself, a typecase arm at its name takes its values and no other number type's, and a value's ilk is the type's name. *)
+component NumberTypesAreObjectsWalk
+export Executable
+
+arms(x: Any): String = do
+    inZZ32: String = typecase x of
+            ZZ32 => "ZZ32 "
+            else => ""
+        end
+    inZZ64: String = typecase x of
+            ZZ64 => "ZZ64 "
+            else => ""
+        end
+    inZZ: String = typecase x of
+            ZZ => "ZZ "
+            else => ""
+        end
+    inNN64: String = typecase x of
+            NN64 => "NN64 "
+            else => ""
+        end
+    inRR64: String = typecase x of
+            RR64 => "RR64 "
+            else => ""
+        end
+    inZZ32 || inZZ64 || inZZ || inNN64 || inRR64
+end
+
+run(): () = do
+    a: ZZ32 = 7
+    b: ZZ64 = 8
+    c: ZZ = 9
+    d: NN64 = 10
+    e: RR64 = 1.5
+    n: NN32 = 11
+    f: RR32 = 2.5
+    q: QQ = 1/3
+
+    assert((a asif ZZ32) SEQV a, "a ZZ32 asif ZZ32 is the value itself")
+    assert((b asif ZZ64) SEQV b, "a ZZ64 asif ZZ64 is the value itself")
+    assert((c asif ZZ) SEQV c, "a ZZ asif ZZ is the value itself")
+    assert((d asif NN64) SEQV d, "an NN64 asif NN64 is the value itself")
+    assert((e asif RR64) SEQV e, "an RR64 asif RR64 is the value itself")
+    assert((3.0 asif RR64) + 17, 20.0, "(3.0 asif RR64) + 17")
+
+    assert(arms(a), "ZZ32 ", "the arms that a ZZ32 takes")
+    assert(arms(b), "ZZ64 ", "the arms that a ZZ64 takes")
+    assert(arms(c), "ZZ ", "the arms that a ZZ takes")
+    assert(arms(d), "NN64 ", "the arms that an NN64 takes")
+    assert(arms(e), "RR64 ", "the arms that an RR64 takes")
+    assert(arms(n), "", "the arms that an NN32 takes")
+    assert(arms(f), "", "the arms that an RR32 takes")
+    assert(arms(q), "", "the arms that a QQ takes")
+
+    assert(a.ilkName, "ZZ32", "the ilk of a ZZ32")
+    assert(b.ilkName, "ZZ64", "the ilk of a ZZ64")
+    assert(c.ilkName, "ZZ", "the ilk of a ZZ")
+    assert(d.ilkName, "NN64", "the ilk of an NN64")
+    assert(e.ilkName, "RR64", "the ilk of an RR64")
+end
+
+end

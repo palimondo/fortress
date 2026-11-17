@@ -61,7 +61,7 @@ natives(): () = do
     t = spawn (3 + 4)
     assert(t.val(), 7, "parallelism.tex, section \"Threads and Parallelism\": val returns the spawned value")
     assert(t.ready(), "a completed thread is ready")
-    assert(instanceOf[\ZZ\](big(5)), "a BigNum is a ZZ")
+    assert(instanceOf[\ZZ\](big(5)), "big(5) is a ZZ")
   end
 
 run(): () = do

@@ -10631,3 +10631,99 @@ rewritten
 note added
 
 | 237 | a **component-level `opr` with exactly a library operator's parameter types but another result type is accepted, and wins**: `opr <(a: RR64, b: RR64): RR64` makes `2.0 < 3.0` evaluate to `99.0`, with no ambiguity error | POSITIVE-VERIFIED | — | silent | `explorations/apl/rung-3/t03_and.fss` | apl rung 3 | Case (b) of `t03_and.fss`. Sharpens row 218, where only the *more specific* overload won. APL's 0/1 scalar comparisons are thus reachable, at the price of changing every host use of `<` in the same component, the library's own included; rung 3 therefore declares the array shapes only, and `2<3` stays the host's `true`. full text: history, row 237 |
+
+### Row 1003
+
+rewritten
+
+| 1003 | the tree declares each of `ZZ32`, `ZZ64`, `ZZ`, `NN64` and `RR64` twice over, not as the one `value object` of P-178: the one library as a trait that comprises one native object (`Int`, `Long`, `BigNum`, `UnsignedLong`, `Float`), the compiler's prelude as an open trait | NEGATIVE-VERIFIED | design limit (library) | silent | `explorations/compile-ladder/plan-31/probes/number-object-merge.md` | number-object merge probe | siblings: 866, 698, 551, 997, 998, 1000, 542, 959. `Library/FortressLibrary.fss:383-386`, `:775-777`, `:877-879`, `:986-988`, `:1088-1090`; the objects, `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:61`, `:379`, `:388`, `:533`, `:544`; the prelude, `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:103`, `:147`, `:210`, `:332`, `:401`. The probe merged the five in a scratch tree at 832f7d0d91: 12 files, 258 lines added, 308 deleted; checker count 0, distance 0, both microGPT quick checks 7 of 7, `ant testSystem` 829 of 830, the other row 550's `XXX` test passing. Neither library is merged on `main`; rows 997, 998 and 542, which the probe met, are fixed. |
+
+### Row 1000
+
+rewritten
+
+| 1000 | the one library's `trait RR64` declares `round(self): ZZ` and its one object `Float` declares `round(self): ZZ64`; `Float`'s runs, so `round` of an `RR64` is a `ZZ64` under walk, and the compiled checker reports nothing for the pair; the api declares no `round` for `RR64` | NEGATIVE-BOUNDED | library bug (library) | `basic-lib/numbers.tex`, "Rational Numbers" | `ProjectFortress/tests/RoundHalfEvenRungR.fss` | number-object merge probe | siblings: 330, 439. By reading `Library/FortressLibrary.fss:479` and `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:204`, at 832f7d0d91, over a helper that answers `long`; `round(1.5)` printed as a `ZZ64` under walk (`explorations/compile-ladder/plan-31/probes/number-object-merge.md`, obstacle 10). The reproducer asserts the values, not the type. Not investigated: whether the checker should refuse an object's functional method whose return type is not below the trait's (row 993 holds a getter of that kind), and which type the specification asks. `truncate` and the brackets answer `ZZ64` (row 330). |
+
+### Row 551
+
+rewritten
+
+| 551 | under walk, the load check does not check a `comprises` clause declared outside the main component, so a type below none of its listed types loads and can dispatch to whichever of two incomparable declarations was written first | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/traits.tex`, "Trait Declarations" | `ProjectFortress/tests/XXXComprisesLibraryTraitUnlistedExtender.fss` | climb batch 7b rung W's skeptic | siblings: 487, 595, 596, 597, 598. Main component's half fixed `7ed2a8387` (climb batch 9, rung K); `checkComprisesClauses` skips another unit's clause (`BuildEnvironments.java:1191`). `S comprises { U, V }`, `T comprises { V, W }`, `U excludes W`, `V extends { S, T }`, `object Z extends { S, T }`, `f(S)`, `f(T)`, `f(V)` in a component of their own: `f(Z)` prints `f(S)` (`SkNonMain551`, `explorations/compile-ladder/rung-walk-load-check/SKEPTIC.md` section 3). The reproducer's `object Value extends AnyIntegral`, below none of `AnyIntegral`'s listed types, loads and prints `Value`. A fix revises Appendix I's "The traits that extend a closed trait". full text: history, row 551 |
+
+### Row 886
+
+rewritten
+
+| 886 | on the compiled path, the natives' rewrite reads a declared type by its simple name, so a program's own trait `Char` takes the library's character transfer and its own trait `UnsignedLong` the `NN64` argument transfer, and the checker refuses the binding by the transfer | NEGATIVE-VERIFIED | implementation gap (parser) | silent | `ProjectFortress/compiler_tests/XXXNativeHelperOwnCharCompiled.test` | climb batch 25 rung U | siblings: 885. `BuiltinPrimitiveRewriter.simpleName` reads a trait type's name only (`ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java:169-173`, at c124c6b65); `transfer` matches `Char` or `Character` (`:186-188`) and, at an argument, `UnsignedLong` (`:189-190`). `code(c: Char): ZZ32` at `simpleIntArith.intNeg`: 'Character->ZZ32 is not applicable to an argument of type Char.'; `code(u: UnsignedLong): ZZ64` at `simpleLongArith.longNeg`: 'NN64->ZZ64 ...' (`XXXNativeHelperOwnUnsignedLongCompiled.test`). A refusal is right, as no Java type carries the program's type; the gap is its message, which names the library's transfer. |
+
+### Row 698
+
+rewritten
+
+| 698 | the compiler prelude's `trait ZZ32` lists no `comprises` clause, so `add(a: ZZ32, b: ZZ32)` beside `add(a: List, b: List)` over a user trait `List` is refused by the compiled Meet Rule, where walk, on the one library whose `ZZ32` comprises `Int`, runs the pair | NEGATIVE-VERIFIED | implementation gap (prelude) | `advanced/overloading.tex`, "Incompatibility Rule" | `ProjectFortress/compiler_tests/XXXOverloadZZ32BesideUserTrait.test` | POPL 2019 examples sorting | siblings: 866. 'Invalid overloading of add in component ...: (List, List)->List ... and (ZZ32, ZZ32)->ZZ32', the talk's slide 2 set (`explorations/reviews/popl2019-examples.md`). The prelude declares `trait ZZ32 ... excludes { ZZ64, RR32, RR64 }` with no `comprises` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:210`, at c124c6b65); the one library declares `trait ZZ32 ... comprises { Int }` (`Library/FortressLibrary.fsi:536-538`) and `value object Int extends ZZ32` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:125`). Walk runs the set: `ProjectFortress/tests/OverloadZZ32BesideUserTraitWalk.fss`. Ends at the switch-over; the prelude takes no new declaration. |
+
+### Row 866
+
+rewritten
+
+| 866 | on the compiled path, a program's object that extends `ZZ32` compiles, and its run dies when the object's class loads: `MyNum + 1`, for `object MyNum extends ZZ32`, ends 'IncompatibleClassChangeError: class ...$MyNum can not implement ...FZZ32, because it is not an interface' | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/compiler_tests/XXXObjectExtendsZZ32Compiled.test` | climb batch 24 rung W's skeptic | siblings: 551, 698. The prelude's `trait ZZ32` lists no `comprises` clause (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:210`), so the checker takes the extender; `FZZ32` is a class (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java:14`, at c124c6b65). The one library's `ZZ32 comprises { Int }` (`Library/FortressLibrary.fsi:536-538`). The same naming of a parent by its carrier (`compiler/NamingCzar.java:799-824`) is the rehearsal's W14. full text: history, row 866 Under walk it loads (row 551), and `MyNum + 1` ends 'getInt not implemented for FOrdinaryObject'. Ends at the switch-over, when the checker reads the one library's `comprises`. |
+
+### Row 928
+
+rewritten
+
+| 928 | under walk, a program's object that extends `JavaBufferedWriter` or `JavaBufferedReader` loads, and its first call of an inherited native method stops, since those are natives over a Java writer or reader and neither trait has a `comprises` clause to name its private native object | NEGATIVE-VERIFIED | design limit (library) | silent | none | climb batch 27 rung W's skeptic | siblings: 551. Neither trait (`Library/FortressLibrary.fss:1983-2003`) has a `comprises` clause, unlike `ZZ32`'s `comprises { Int }`, since their native objects are private to `FortressBuiltin` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:807`, `:812`); the loader's `unbox` refuses any other value (`interpreter/glue/StaticNativeApp.java:296-303`). `object Fake extends JavaBufferedWriter end` with `Fake.write("x")`: 'No Java FortressBufferedWriter carries Fake'; over `JavaBufferedReader`, `Fake.readLine()`: 'No Java FortressBufferedReader carries Fake'; rc=1 each. Workaround: a program's own stream extends `WriteStream` or `ReadStream`. |
+
+### Row 880
+
+rewritten
+
+| 880 | `nextUp` of `-0.0` is `0.0` and `nextDown` of `0.0` is `-0.0`, each equal to its argument, on `Float` (`RR64`) and `RR32`, where the apis' "next higher IEEE float" and IEEE 754-2008's nextUp give the smallest signed subnormal (`4.9E-324`, `1.4E-45`); under walk, by glue classes and helpers alike | CONTESTED | library bug (library) | silent | `ProjectFortress/tests/FloatNextUpSignedZeroWalk.fss` | climb batch 25 rungs D and P | `DirectedRounding.nextUp` answers `0.0` for the bits of `-0.0` and `nextDown(x)` is `-nextUp(-x)` (`ProjectFortress/src/com/sun/fortress/numerics/DirectedRounding.java:111-127`, the `float` twin `:25-41`); the helpers `doubleNextUp`, `doubleNextDown`, `floatNextUp` and `floatNextDown` call it, and a compiled program's own binding of them prints the same. Java's `Math.nextUp(-0.0)` is `4.9E-324`. The apis' comments: `Library/FortressLibrary.fsi:323-326`, `LibraryBuiltin/FortressBuiltin.fsi:65`; the specification names no `nextUp`. `0.0` follows `-0.0` in IEEE 754-2008's totalOrder, which the team may have meant. No directed rounding reaches the case. Which reading governs is open. |
+
+### Row 863
+
+rewritten
+
+| 863 | the specification says a floating-point division by zero "produces a NaN value according to the rules of IEEE 754", whose rule gives an infinity for a nonzero dividend; both paths give `1.0/0.0` as `Infinity` and `1.0/-0.0` as `-Infinity`, and the team's `Constants` defines `infinity` as `1.0 / 0.0` | CONTESTED | library gap vs spec (specification) | `basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators" | `ProjectFortress/tests/realArith.fss` | climb batch 24 rung F | The sentence is `Specification/basic/operators/opr-overview.tex:167-168`, as in the Working Draft; the overflow sentence above it gives an infinity "according to the rules of IEEE 754" (`:157-158`). Both paths divide by Java's `/`: `simpleDoubleArith.doubleDiv` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java:36-38`), which walk's `Float` and the compiled `RR64` (`CompilerBuiltin.fss:947`) bind. `Library/Constants.fss:17` and `realArith.fss:78` rely on the infinity, as at a874948ac. 0/0 is NaN on either reading. Which clause governs is open. |
+
+### Row 330
+
+rewritten
+
+| 330 | the float types' `floor` and `ceiling` return a float where the specification returns an integer, and the brackets `⌊x⌋` and `⌈x⌉` are a `ZZ64` under walk and an `RR64` compiled | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic-lib/numbers.tex`, "Rational Numbers" | `ProjectFortress/library_tests/RR64FunctionsRungF.fss:75-82` | climb batch 1 rung F | Interpreter: `floor` and `ceiling` at `RR64`, the brackets and `truncate` at `ZZ64`, in the api (`Library/FortressLibrary.fsi:378-382`), `Float` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:182-191`) and the component's `trait RR64` (`Library/FortressLibrary.fss:497-501`); `round` `ZZ` there (`:502`), `ZZ64` in `Float`. Compiler world: `floor`, `ceiling` and the brackets at `RR64` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:457-458`, `:468-469`). P-68's rung makes the brackets, `round` and `truncate` `ZZ`. On both paths `round` and `truncate` are `0` at NaN and saturate at ±∞ and past `2^63`. Decision: P-68. full text: history, row 330 |
+
+### Row 887
+
+rewritten
+
+| 887 | `ZZ`'s `CHOOSE` answers `1` where the specification's zero rule gives `0`, at `k < 0` or `k > n` for a natural `n`: `3 CHOOSE 5`, `0 CHOOSE 1` and `5 CHOOSE -1` are `1` under walk and through its helper compiled, where the fixed widths give `0` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/tests/XXXChooseZZOutOfRangeWalk.fss` | climb batch 25 rung N | siblings: 337. `simpleArbitraryPrecisionArith.choose` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java:164-177`), copied from `BigNum.choose` (`interpreter/glue/prim/BigNum.java:326-345`), swaps `k` with `n - k` where `n - k < k`, so a negative `k` gives its loop no step and the result stays `1`; a negative `n` gives `1` too. The fixed widths' helpers return `0` first (`simpleIntArith.java:218`). Repair: `0` where `k < 0` or `k > n` at a natural `n`; a negative `n` is review-queue item 333's. Compiled, a program's own binding of the helper prints `1` at `3 CHOOSE 5`. |
+
+### Row 350
+
+rewritten
+
+| 350 | on both paths `IntegerOverflow` carries no value, so a program that catches an overflow cannot say which number overflowed | NEGATIVE-VERIFIED | implementation gap (runtime) | silent | none | climb batch 2 rung W's skeptic | Compiled, each `IntegerOverflow` throw of `nativeHelpers/simpleIntArith.java`, `simpleLongArith.java` and the unsigned twins (`simpleIntArith.java:97` at de6d905f5) uses `Utility.makeFortressException(name)` (`compiler/runtimeValues/Utility.java:45`), the no-argument constructor; `:28` passes a message, a fix's hook (`Specification/basic/exceptions.tex:68`; `basic/operators/opr-overview.tex:155` asks only for the throw). Walk's `Int.overflow()` (`interpreter/glue/prim/Int.java:258`) has none either. Probe `explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK4Bounds.fss`, in the parent of ab067d9b6: compiled, it prints only "IntegerOverflow caught". full text: history, row 350 |
+
+### Row 525
+
+rewritten
+
+| 525 | the compiled `NN64` `^` adds: `3^2` is 5 and `2^63` is 65, where walk answers 9 and 9223372036854775808 | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/basic-integers.tex`, "Integers"; `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators" | `ProjectFortress/compiler_tests/XXXPowNN64CompiledRungE.test` | climb batch 6.5b rung E's skeptic | siblings: 523, 524. `simpleUnsignedLongArith.unsignedLongExp`, marked "NIY", is `return a + b;` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java:240-243`, at de6d905f5), bound at `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:878` (imported at `:156`). Closes at the switch-over (P-38), when walk's `UnsignedLong$Pow` (`Library/FortressLibrary.fss:979`) gets a helper the compiled path runs, unsigned and checked as its `UnsignedLong.powExact` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java:327`). full text: history, row 525 |
+
+### Row 697
+
+rewritten
+
+| 697 | walk's load check counts two parameter lists as excluding when every parameter at which one differs is an object type, even an object below the other's type: `f(x: B): C` beside `f(x: C): B`, with `object C extends B`, loads and runs | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Subtype Rule" | `ProjectFortress/tests/XXXReturnRuleObjectParamWalk.fss` | POPL 2019 examples sorting | siblings: 99, 785, 788. The team's `distinct \|= unequal && (allObjInstance1 \|\| allObjInstance2)` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:511` at c124c6b65; not for instances of one generic object that may coincide, `:439-444`) calls the pair excluding though `C` extends `B`, so return types go unchecked. The checker refuses it. Reproducer: the talk's slide 4, `m1(x: C, y: C): B` beside `m1(x: C, y: B): C` (`explorations/reviews/popl2019-examples.md`); with `trait C` and an object below, walk refuses. Removing the shortcut alone makes walk refuse the library's pairs whose more specific declaration writes no return type (row 785). |
+
+### Row 959
+
+note added
+
+| 959 | on both paths a `typecase` arm that names a type no declaration defines loads, compiles and matches every value: neither library declares `IntLiteral`, and `typecase v of IntLiteral => ... ZZ32 => ... end` takes the first arm for a `ZZ32` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/expressions/typecase.tex`, "Typecase Expressions" | `ProjectFortress/tests/XXXTypecaseUndefinedArmWalk.fss` | climb batch 29 rung N | The parser makes the arm `Id =>` a `VarType` (`parser/DelimitedExpr.rats:241-248`), and no phase of either path reports the undefined name: on climb batch 29b's merged tree a program of that `typecase` compiles and runs, 'the IntLiteral arm', 'PASS', and walk prints the same. Met when `IntLiteral` left the one library: `tests/IntegerConversionsWalk.fss`'s `shown` printed '-2147483648 : IntLiteral' for the `ZZ32` -2^31, until the arms were removed. A type name elsewhere, as `theType[\IntLiteral\]()`, is refused: 'IntLiteral is undefined.' |
+
+### Row 1044
+
+note added
+
+| 1044 | walk loads a plain declaration on an object type that writes no return type beside a generic one whose result its body's type is not below: `pick[\T extends Number\](a: T): ZZ32 = 1` beside `pick(a: NN32) = "two"` loads and prints `two` | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericBesidePlainObjectNoReturnTypeWalk.fss` | climb batch 31 rung V | siblings: 785, 697, 587. Walk has no type for a body, and reads an unwritten return type as `Any` (`interpreter/evaluator/values/Simple_fcn.java:38`, at fcdf7bc2da), so the load check does not judge such a declaration by the Return Type Rule where its domain is an object type inside the generic's (`writesReturnType`, `values/OverloadedFunction.java:862`); over a trait type it refuses every such pair, the valid ones too (row 785). The checker refuses the pair: 'the return type of NN32->String ... should be a subtype of the return type of [\T extends Number\]T->ZZ32'. Walk only. Workaround: write the return type. |

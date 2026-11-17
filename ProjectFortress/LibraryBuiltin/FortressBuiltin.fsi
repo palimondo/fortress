@@ -38,9 +38,6 @@ trait Object extends Any
     getter toString(): String                (* deprecated *)
 end
 
-value object Float extends RR64
-end
-
 value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
@@ -107,7 +104,7 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
     opr IEEE_MINUS_DOWN(self,b:RR32):RR32
     opr IEEE_DOT_DOWN(self,b:RR32):RR32
     opr IEEE_SLASH_DOWN(self,b:RR32):RR32
-    opr ^(self, b:Float):RR64
+    opr ^(self, b:RR64):RR64
     opr ^(self, b:AnyIntegral):RR32
     floor(self):RR32
     opr |\self/| : ZZ64
@@ -121,12 +118,6 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
         that %MAXNUM% and %MIN% form a lattice with NaN at the bottom.  **)
     opr MINNUM(self, b:RR32):RR32
     opr MAXNUM(self, b:RR32):RR32
-end
-
-value object Int extends ZZ32
-end
-
-value object Long extends ZZ64
 end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
@@ -189,11 +180,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     unsigned(self):NN32
     big(self):ZZ
 end
-
-value object UnsignedLong extends NN64
-end
-
-value object BigNum extends ZZ end
 
 value object Boolean
     extends { Condition[\()\], StandardTotalOrder[\Boolean\] }

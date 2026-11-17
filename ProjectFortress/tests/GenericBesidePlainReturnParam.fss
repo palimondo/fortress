@@ -1,7 +1,7 @@
-component XXXGenericBesidePlainReturnParam
+component GenericBesidePlainReturnParam
 export Executable
 
-(* A plain declaration inside a generic one that returns its type parameter, its result below that of every instance it overlaps, is a valid overloading; walk refuses it at load. *)
+(* A plain declaration at ZZ64 inside a generic one that returns its type parameter, its result below that of every instance it overlaps, is a valid overloading that loads, and each call runs the declaration that fits it. *)
 
 pickFirst[\T extends Number\](a: T, b: T): T = a
 pickFirst(a: ZZ64, b: ZZ64): ZZ64 = b

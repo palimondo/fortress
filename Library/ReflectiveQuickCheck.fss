@@ -231,10 +231,10 @@ private findGenType(gent:ObjectOrTraitType): UniqueItem[\Type\] =
     {{{
         propSomething[\T\](l:List[\T\], x:T): Boolean
     }}}
-    If `T` were `Float`, a subtype of `RR64`, then `Arbitrary` factory would
-    return `genRR64` which covers all values of `Float`, but `List[\Float\]` is
-    not type-compatible to `List[\RR64\]` and we will get the unification error.
-    Instead we have to convert every instances of `Float` to `RR64` at the first
+    If `T` were `FlatString`, a subtype of `String`, then `Arbitrary` factory would
+    return `genString` which covers all values of `FlatString`, but `List[\FlatString\]` is
+    not type-compatible to `List[\String\]` and we will get the unification error.
+    Instead we have to convert every instances of `FlatString` to `String` at the first
     time --- this routine does so. **)
 private adaptType(arb:ReflectiveArbitrary, t:Type): Type =
     if gen <- arb.genFromType(false, t) then

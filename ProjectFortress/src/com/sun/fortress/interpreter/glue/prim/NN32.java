@@ -96,34 +96,34 @@ public class NN32 extends NativeConstructor {
         protected abstract int f(int x, long y);
 
         public final FValue applyMethod(FObject x, FValue y) {
-            return FNN32.make(f(x.getNN32(), Int.shiftCount(y)));
+            return FNN32.make(f(x.getNN32(), ZZ32.shiftCount(y)));
         }
     }
 
     public static final class Negate extends N2N {
         protected int f(int x) {
-            if (x != 0) throw Int.overflow();
+            if (x != 0) throw ZZ32.overflow();
             return Unsigned.subtract(0, x);
         }
     }
 
     public static final class Add extends NN2N {
         protected int f(int x, int y) {
-            if (((Unsigned.toLong(x) + Unsigned.toLong(y)) >>> 32) != 0) throw Int.overflow();
+            if (((Unsigned.toLong(x) + Unsigned.toLong(y)) >>> 32) != 0) throw ZZ32.overflow();
             return Unsigned.add(x, y);
         }
     }
 
     public static final class Sub extends NN2N {
         protected int f(int x, int y) {
-            if (((Unsigned.toLong(x) - Unsigned.toLong(y)) >>> 32) != 0) throw Int.overflow();
+            if (((Unsigned.toLong(x) - Unsigned.toLong(y)) >>> 32) != 0) throw ZZ32.overflow();
             return Unsigned.subtract(x, y);
         }
     }
 
     public static final class Mul extends NN2N {
         protected int f(int x, int y) {
-            if (((Unsigned.toLong(x) * Unsigned.toLong(y)) >>> 32) != 0) throw Int.overflow();
+            if (((Unsigned.toLong(x) * Unsigned.toLong(y)) >>> 32) != 0) throw ZZ32.overflow();
             return Unsigned.multiplyToInt(x, y);
         }
     }
@@ -142,7 +142,7 @@ public class NN32 extends NativeConstructor {
 
     public static final class Gcd extends NN2N {
         protected int f(int u, int v) {
-            return (int) UnsignedLong.gcd(Unsigned.toLong(u), Unsigned.toLong(v));
+            return (int) NN64.gcd(Unsigned.toLong(u), Unsigned.toLong(v));
         }
     }
 
@@ -151,13 +151,13 @@ public class NN32 extends NativeConstructor {
             if (u == 0 || v == 0) return 0;
             long a = Unsigned.toLong(u);
             long b = Unsigned.toLong(v);
-            return rc((a / UnsignedLong.gcd(a, b)) * b);
+            return rc((a / NN64.gcd(a, b)) * b);
         }
     }
 
     public static final class Choose extends NN2N {
         protected int f(int u, int v) {
-            return rc(UnsignedLong.choose(Unsigned.toLong(u), Unsigned.toLong(v)));
+            return rc(NN64.choose(Unsigned.toLong(u), Unsigned.toLong(v)));
         }
     }
 
@@ -227,11 +227,11 @@ public class NN32 extends NativeConstructor {
     public static final class Pow extends NativeMeth1 {
         public FValue applyMethod(FObject x, FValue y) {
             int base = x.getNN32();
-            long exp = Int.powCount(y);
+            long exp = ZZ32.powCount(y);
             if (exp < 0) {
-                return FNN32.make((int) UnsignedLong.negativePow(Unsigned.toLong(base)));
+                return FNN32.make((int) NN64.negativePow(Unsigned.toLong(base)));
             } else {
-                return FNN32.make(rc(UnsignedLong.powExact(Unsigned.toLong(base), exp)));
+                return FNN32.make(rc(NN64.powExact(Unsigned.toLong(base), exp)));
             }
         }
     }
@@ -262,7 +262,7 @@ public class NN32 extends NativeConstructor {
 
     public static int rc(long i) {
         if ((i >> 32) != 0) {
-            throw Int.overflow();
+            throw ZZ32.overflow();
         }
         return (int) i;
     }

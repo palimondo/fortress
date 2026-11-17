@@ -1,4 +1,4 @@
-(* Float's operators and functions bound to nativeHelpers keep their values under walk, at zeros, large values, the infinities and NaN. *)
+(* RR64's operators and functions bound to nativeHelpers keep their values under walk, at zeros, large values, the infinities and NaN. *)
 component NativeHelperFamilyFloatWalk
 export Executable
 
@@ -145,8 +145,8 @@ run():() = do
   assert((SQRT large).asString, "3.1622776601683792E10", "SQRT of a large value")
   assert((SQRT ninf).isNaN, true, "SQRT of -infinity")
 
-  assert(a^two, 6.25, "^ at a Float exponent")
-  assert(two^m1, 0.5, "^ at a negative Float exponent")
+  assert(a^two, 6.25, "^ at an RR64 exponent")
+  assert(two^m1, 0.5, "^ at a negative RR64 exponent")
   assert(z^nz, one, "0.0 ^ -0.0")
   assert(two^inf, inf, "2.0 ^ infinity")
   assert((b^half).isNaN, true, "^ of a negative at 0.5")

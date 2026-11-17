@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  * go first.  It calls the method by reflection, each argument unboxed and the
  * result boxed at the declared result type.  A helper's raise of an exception
  * class of the compiled path, "fortress.<Api>$<Name>", becomes the raise of the
- * library's own exception object <Name>, as Int.overflow() raises IntegerOverflow.
+ * library's own exception object <Name>, as ZZ32.overflow() raises IntegerOverflow.
  */
 public class StaticNativeApp extends NativeMeth {
     public static final String HELPERS = "com.sun.fortress.nativeHelpers.";
@@ -61,7 +61,7 @@ public class StaticNativeApp extends NativeMeth {
         if (t == null) return null;
         if (t.equals("ZZ32") || t.equals("NN32") || t.equals("Char")) return int.class;
         if (t.equals("ZZ64") || t.equals("NN64")) return long.class;
-        if (t.equals("RR64") || t.equals("Float")) return double.class;
+        if (t.equals("RR64")) return double.class;
         if (t.equals("RR32")) return float.class;
         if (t.equals("Boolean")) return boolean.class;
         if (t.equals("String") || t.equals("FlatString") || t.equals("JavaString")) return String.class;
@@ -107,17 +107,13 @@ public class StaticNativeApp extends NativeMeth {
     /**
      * The Java type that carries self, a value of the declaring type named t, or null: a type of
      * FortressLibrary or FortressBuiltin, whose names no program can give its own types, that javaFor
-     * names, JavaBufferedWriter among them, or the object Int, Long, UnsignedLong, Float or BigNum.  Read by its name alone,
+     * names, JavaBufferedWriter among them.  Read by its name alone,
      * FlatString or JavaString, a name that a program can give its own type, carries no self; the
      * loader reads the declaring type through javaForSelf(FType), which carries the library's own
      * FlatString, told by the component that declares it.
      */
     static Class<?> javaForSelf(String t) {
         if (t == null || t.equals("FlatString") || t.equals("JavaString")) return null;
-        if (t.equals("Int")) return int.class;
-        if (t.equals("Long") || t.equals("UnsignedLong")) return long.class;
-        if (t.equals("Float")) return double.class;
-        if (t.equals("BigNum")) return BigInteger.class;
         Class<?> c = javaFor(t);
         return c == void.class ? null : c;
     }
