@@ -496,8 +496,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             List <StaticParam>  tci_sps = tci.staticParameters();
             if (! staticParamsIncludeOpr(tci_sps)) {
                 TraitObjectDecl tci_decl = (TraitObjectDecl) tci.ast();
+                /* The type's static parameters and where clause are in scope in the types of the methods that it inherits. */
+                TypeAnalyzer tci_ta = typeAnalyzer.extendJ(tci_sps, tci_decl.getHeader().getWhereClause());
                 Relation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
-		    toConsider = STypesUtil.properlyInheritedMethodsNotIdenticallyCovered(id, typeAnalyzer);
+		    toConsider = STypesUtil.properlyInheritedMethodsNotIdenticallyCovered(id, tci_ta);
                 /* This tci has no opr params; we need 
                  * to look at all the functional methods
                  * that it inherits, and if any of them come
@@ -2538,6 +2540,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             mv.visitLabel(next);
             if (c.getName().isSome()) {
                 bindAndGenerateClauseBody(c.getName().unwrap(), typ, c.getBody());
+            } else if (namesTupleElements(match)) {
+                bindElementsAndGenerateClauseBody((Pattern) match, (TupleType) typ, c.getBody());
             } else {
                 mv.visitInsn(POP);
                 c.getBody().accept(this);
@@ -2569,6 +2573,40 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         vcg.assignValue(mv);
         body.accept(cg);
         vcg.outOfScope(mv);
+    }
+
+    /* Whether a clause's tuple pattern, as (a': A, b': B), names one of its elements. */
+    private static boolean namesTupleElements(TypeOrPattern match) {
+        if (!(match instanceof Pattern) || ((Pattern) match).getName().isSome()) return false;
+        for (PatternBinding pb : ((Pattern) match).getPatterns().getPatterns())
+            if (pb instanceof PlainPattern && !NodeUtil.isUnderscore(((PlainPattern) pb).getName()))
+                return true;
+        return false;
+    }
+
+    /* Each name of the clause's tuple pattern is bound to its element of the matched tuple, at the pattern's type for it. */
+    private void bindElementsAndGenerateClauseBody(Pattern p, TupleType typ, Block body) {
+        String tuple_type = NamingCzar.jvmBoxedTypeName(typ, thisApi());
+        String[] element_descs = NamingCzar.makeTupleElementDescriptors(typ, thisApi());
+        List<PatternBinding> bindings = p.getPatterns().getPatterns();
+        InstantiatingClassloader.generalizedCastTo(mv, tuple_type);
+        CodeGen cg = new CodeGen(this);
+        List<VarCodeGen> vcgs = new ArrayList<VarCodeGen>();
+        for (int i = 0; i < bindings.size(); i++) {
+            PatternBinding pb = bindings.get(i);
+            if (!(pb instanceof PlainPattern) || NodeUtil.isUnderscore(((PlainPattern) pb).getName())) continue;
+            mv.visitInsn(DUP);
+            mv.visitMethodInsn(INVOKEINTERFACE, tuple_type,
+                               InstantiatingClassloader.TUPLE_TYPED_ELT_PFX + (Naming.TUPLE_ORIGIN + i),
+                               "()" + Naming.internalToDesc(element_descs[i]));
+            VarCodeGen vcg = new VarCodeGen.LocalVar(((PlainPattern) pb).getName(), typ.getElements().get(i), cg);
+            cg.addLocalVar(vcg);
+            vcg.assignValue(mv);
+            vcgs.add(vcg);
+        }
+        mv.visitInsn(POP);
+        body.accept(cg);
+        for (int i = vcgs.size() - 1; i >= 0; i--) vcgs.get(i).outOfScope(mv);
     }
 
 
@@ -2709,11 +2747,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         public void generateGenericMethodBody(CodeGen cg, int selfIndex,
                 String applied_method, String modified_sig) {
             Expr body = fndecl.getBody().unwrap();
-            List<Param> params = fndecl.getHeader().getParams();
+            FnHeader header = fndecl.getHeader();
+            List<Param> params = header.getParams();
             int modifiers = ACC_PUBLIC | ACC_STATIC ;
-            cg.declaredResult = fndecl.getHeader().getReturnType().unwrap(null);
-            cg.generateActualMethodCode(modifiers, applied_method, modified_sig, params, selfIndex,
-                                        selfIndex != Naming.NO_SELF, body);
+            /* The body's types name the declaration's static parameters and where-clause variables. */
+            CodeGen bcg = new CodeGen(cg, cg.typeAnalyzer.extendJ(header.getStaticParams(), header.getWhereClause()));
+            bcg.declaredResult = header.getReturnType().unwrap(null);
+            bcg.generateActualMethodCode(modifiers, applied_method, modified_sig, params, selfIndex,
+                                         selfIndex != Naming.NO_SELF, body);
         }
      }
     
