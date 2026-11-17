@@ -1,0 +1,24 @@
+refused declarations 18 | emitted (OK lines) 742 | component failures 0
+  FortressLibrary      refused   6  emitted 531
+  List                 refused   5  emitted  23
+  String               refused   4  emitted  15
+  Stream               refused   1  emitted   3
+  CovariantCollection  refused   1  emitted  24
+  FlatString           refused   1  emitted   6
+  OneShotFlag          refused   0  emitted   3
+  FortressBuiltin      refused   0  emitted  21
+  AnyType              refused   0  emitted   1
+  TypeProxy            refused   0  emitted   1
+  Writer               refused   0  emitted   5
+  NatReflect           refused   0  emitted   4
+  RangeInternals       refused   0  emitted 102
+  NativeArray          refused   0  emitted   3
+kinds 5
+  9  Can't compile VarArgs yet  [String 4, FortressLibrary 3, List 1, FlatString 1]
+  5  <X> is not in the kind env  [List 3, FortressLibrary 1, CovariantCollection 1]
+  2  java.util.zip.ZipException: duplicate entry: <closure class>  [FortressLibrary 1, List 1]
+  1  ClassCastException: com.sun.fortress.nodes.IntersectionType to com.sun.fortress.nodes.NamedType  [FortressLibrary 1]
+  1  OptionUnwrapException at edu.rice.cs.plt.tuple.Null.unwrap:58  [Stream 1]
+rc=0 seconds=182
+MEASURE_SECONDS=226
+EXIT=0
