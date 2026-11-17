@@ -1,5 +1,5 @@
 (* A default body of a trait with a self-type parameter that calls a method on a value of that parameter runs compiled for an object that lists the trait first (traits.tex, section "Trait Declarations"). *)
-component XXXSelfTypeParameterReceiverRun
+component SelfTypeParameterReceiverRun
 export Executable
 
 trait Shape[\S extends Shape[\S\]\]
@@ -12,7 +12,6 @@ object Pt(t: String) extends Shape[\Pt\]
 end
 
 run(): () = do
-    println("REACHED")
     p = Pt("b")
     assert(p.tagOf(Pt("c")), "c", "the method of the value typed by the self-type parameter")
     println("PASS")

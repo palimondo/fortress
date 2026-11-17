@@ -1,5 +1,5 @@
 (* A conditional with self in one arm and a value of the listed type in the other, returned at the type that the comprises clause of self's trait lists, runs compiled (traits.tex, section "Trait Declarations"). *)
-component XXXComprisesValueAtConditionalArmRun
+component ComprisesValueAtConditionalArmRun
 export Executable
 
 trait Q comprises { R }
@@ -10,7 +10,6 @@ value object R(n: ZZ32, d: ZZ32) extends Q end
 
 run(): () = do
     q: Q = R(1, 2)
-    println("REACHED")
     assert(q.chosen(true).d, 2, "the arm that is self")
     assert(q.chosen(false).d, 0, "the arm at the listed type")
     println("PASS")

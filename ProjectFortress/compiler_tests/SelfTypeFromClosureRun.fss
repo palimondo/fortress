@@ -1,0 +1,28 @@
+(* A function expression and a local function that return self at its trait's self-type parameter run compiled. *)
+component SelfTypeFromClosureRun
+export Executable
+
+trait Shape[\S extends Shape[\S\]\]
+    getter tag(): String
+    viaExpr(): S = do
+        f: () -> S = fn (): S => self
+        f()
+      end
+    viaLocal(): S = do
+        me(): S = self
+        me()
+      end
+end
+
+object Pt(t: String) extends Shape[\Pt\]
+    getter tag(): String = t
+end
+
+run(): () = do
+    p = Pt("b")
+    assert(p.viaExpr().tag, "b", "a function expression's returned value")
+    assert(p.viaLocal().tag, "b", "a local function's returned value")
+    println("PASS")
+  end
+
+end
