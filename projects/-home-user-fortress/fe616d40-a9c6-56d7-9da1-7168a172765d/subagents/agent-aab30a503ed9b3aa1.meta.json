@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the skill commits","toolUseId":"toolu_019sZo42euUeoW1N3FR5BMQd","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the skill commits","toolUseId":"toolu_019sZo42euUeoW1N3FR5BMQd","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
