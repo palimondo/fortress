@@ -9,7 +9,8 @@ and <!-- stand:end --> in revival-story.md and revival-story.html in its fixed f
 adds to record-growth/landings.csv each missing row, the landing's and that of each
 landing that PLAN.md's phases name before it, runs record-growth/measure.py and
 chart.py, and sets the end of the date range in the HTML's chart alt text to the
-data's last day; then it writes the GitHub Pages copy (docs/revival-story/).  --pages writes only that copy.  With --check it reads the values and prints
+data's last day; then it writes the GitHub Pages copy (docs/revival-story/, and docs/index.html, which keeps
+every other page's link that it holds).  --pages writes only that copy.  With --check it reads the values and prints
 the block it would write, and changes no file.  It never publishes: it prints the
 commit and the republish that the coordinator then runs.
 
@@ -307,10 +308,36 @@ def rewrite_alt():
 
 # ---------------------------------------------------------------- the Pages copy
 
+INDEX_LINK = re.compile(r'<p><a href="([^"]+)">[^<]*</a></p>')
+
+
+def index_links():
+    """The body lines of docs/index.html other than the revival page's link, in the file's order: the links that
+    other pages' commits added by hand (the microGPT walk-through's, 89db279cfb), which each run keeps. A body line
+    that is not such a link stops the script, rather than be dropped."""
+    path = PAGES_FILES[3]
+    if not os.path.exists(path):
+        return []
+    text = open(path, encoding='utf-8').read()
+    m = re.search(r'<body>\n(.*)</body>\n', text, re.S)
+    if not m:
+        stop('%s has no <body> on lines of its own; the script keeps the links between them' % rel(path))
+    keep = []
+    for line in m.group(1).splitlines():
+        lm = INDEX_LINK.fullmatch(line)
+        if not lm:
+            stop('%s: the body line %r is not a <p><a href="...">...</a></p> link, the one form the script keeps'
+                 % (rel(path), line))
+        if lm.group(1) != 'revival-story/':
+            keep.append(line)
+    return keep
+
+
 def write_pages():
     """docs/revival-story/index.html: the page's HTML, which the artifact service wraps, as a whole document,
     its <title> in the head and the rest of the file, unchanged, as the body; the chart beside it; docs/.nojekyll;
-    docs/index.html, a refresh to revival-story/."""
+    docs/index.html, a refresh to revival-story/ and its link, then every other link that the file already holds
+    (index_links)."""
     text = open(PAGE_HTML, encoding='utf-8').read()
     m = re.match(r'<title>([^<]*)</title>\n?', text)
     if not m or text.count('<title>') != 1:
@@ -321,7 +348,8 @@ def write_pages():
            % (m.group(1), text[m.end():], '' if text.endswith('\n') else '\n'))
     index = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
              '<meta http-equiv="refresh" content="0; url=revival-story/">\n<title>%s</title>\n</head>\n'
-             '<body>\n<p><a href="revival-story/">%s</a></p>\n</body>\n</html>\n' % (m.group(1), m.group(1)))
+             '<body>\n<p><a href="revival-story/">%s</a></p>\n%s</body>\n</html>\n'
+             % (m.group(1), m.group(1), ''.join(line + '\n' for line in index_links())))
     os.makedirs(PAGES_DIR, exist_ok=True)
     for path, content in ((PAGES_HTML, doc), (PAGES_FILES[2], ''), (PAGES_FILES[3], index)):
         with open(path, 'w', encoding='utf-8', newline='') as f:
