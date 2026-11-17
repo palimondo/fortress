@@ -30,7 +30,6 @@ object M3 extends Arr[\ZZ32, (ZZ32, ZZ32, ZZ32)\]
     put(t: (ZZ32, ZZ32, ZZ32), e: ZZ32): () = do (a, b, c) = t; written := 1000 a + 100 b + 10 c + e end
 end
 
-(* The generic trait second in the extends clause: its bodies are forwarded. *)
 trait Named
     name(): String = "named"
 end
@@ -41,7 +40,6 @@ object X2 extends { Named, Arr[\ZZ32, (ZZ32, ZZ32)\] }
     put(t: (ZZ32, ZZ32), e: ZZ32): () = ()
 end
 
-(* Generic, as the library's arrays are: a trait with a size parameter, and the tuple's element a type parameter. *)
 trait Grid[\T, nat w\] extends Arr[\T, (ZZ32, ZZ32)\]
     offset(t: (ZZ32, ZZ32)): (ZZ32, ZZ32) = do (a, b) = t; (a + w, b) end
 end
@@ -57,7 +55,6 @@ object Sel[\T\](v: T) extends Arr[\T, (T, ZZ32)\]
     put(t: (T, ZZ32), e: T): () = ()
 end
 
-(* A self of a trait that comprises one object stands among the tuple's elements. *)
 trait Q extends Arr[\ZZ32, (R, ZZ32)\] comprises { R }
     offset(t: (R, ZZ32)): (R, ZZ32) = t
     get(t: (R, ZZ32)): ZZ32 = do (r, k) = t; k end
