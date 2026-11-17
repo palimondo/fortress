@@ -1,0 +1,16 @@
+component XXXGenericFunctionArrowReturnWalk
+export Executable
+
+(* A generic function returned at a declared arrow return type is its instance at that type, so a call of the result at another size is refused (var-ref.tex, section "Identifier References"). *)
+
+half[\nat n\](x: Vector[\RR64,n\]): Vector[\RR64,n\] = x + x
+
+pick(): Vector[\RR64,3\] -> Vector[\RR64,3\] = half
+
+w: Vector[\RR64,2\] = vector[\RR64,2\](1.5)
+
+r: Vector[\RR64,2\] = (pick())(w)
+
+run(): () = println("done")
+
+end

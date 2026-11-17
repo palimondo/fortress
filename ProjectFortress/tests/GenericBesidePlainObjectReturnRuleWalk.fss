@@ -1,0 +1,14 @@
+component GenericBesidePlainObjectReturnRuleWalk
+export Executable
+
+(* Must be refused at load: the declaration on the object type NN32 is more specific than pickFirst[\T extends Number\], but its result String is not below T at NN32 (overloading.tex, section "Declarations with Static Parameters"). *)
+
+pickFirst[\T extends Number\](a: T, b: T): T = a
+pickFirst(a: NN32, b: NN32): String = "plain"
+
+run(): () = do
+    u: NN32 = 4
+    println(pickFirst(u, u))
+  end
+
+end

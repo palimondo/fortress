@@ -1,0 +1,25 @@
+component TraitGenericMethodValueBoundWalk
+export Executable
+
+(* A generic method of a trait whose type parameter is bounded by the trait's static parameter runs at an instance at a value object, and its type parameter takes that bound. *)
+
+object Empty[\T\]() end
+
+emptyKind(b: Any): String = typecase b of
+    Empty[\RR32\] => "Empty[RR32]"
+    Empty[\NN32\] => "Empty[NN32]"
+    else => "other"
+  end
+
+trait Holds[\S extends Number\]
+    held[\T extends S\](): Empty[\T\] = Empty[\T\]()
+end
+object Holder[\S extends Number\]() extends Holds[\S\] end
+
+run(): () = do
+    assert(emptyKind(Holder[\RR32\]().held()), "Empty[RR32]", "at the value object RR32, T takes its bound, the receiver's S; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(emptyKind(Holder[\NN32\]().held()), "Empty[NN32]", "at the value object NN32, T takes its bound, the receiver's S; inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

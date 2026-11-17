@@ -508,7 +508,23 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                     }
                 }
 
-                distinct |= unequal && (allObjInstance1 || allObjInstance2);
+                /* Two lists that differ only at object types of one of them are taken to exclude.  Not so an
+                   own generic beside a declaration without static parameters whose domain lies inside the
+                   generic's declared domain: its object types are instances of the generic's parameter types,
+                   and the pair is read on its declared domains, where a rule that refuses it is named.  The
+                   Return Type Rule is not read for a more specific declaration that writes no return type,
+                   whose body has no type here. */
+                boolean differAtObjects = unequal && (allObjInstance1 || allObjInstance2);
+                if (differAtObjects && !distinct && plainInsideGeneric(o1, o2)) {
+                    DomainReading read = validOnDeclaredDomains(o1, o2, new_overloads);
+                    boolean noReturnType = read == DomainReading.FIRST_RETURN_TYPE && !writesReturnType(o1.getFn())
+                                           || read == DomainReading.SECOND_RETURN_TYPE && !writesReturnType(o2.getFn());
+                    if (read != DomainReading.VALID && read != DomainReading.NOT_READ && !noReturnType) {
+                        exclDumpSkip();
+                        error(o1, o2, within, ruleFailure(read, o1, o2));
+                    }
+                }
+                distinct |= differAtObjects;
             }
             //      }
 
@@ -752,10 +768,14 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
     /**
      * A pair of one own generic and one declaration without static
-     * parameters that the parameter-by-parameter check refuses, read on the
-     * two declared domains: valid when one lies strictly inside the other and
-     * the inner one's return type is below the outer one's for every
-     * instance of the generic, its type parameters standing for themselves;
+     * parameters that the parameter-by-parameter check refuses, or passes
+     * only because the two lists differ at object types (plainInsideGeneric),
+     * read on the two declared domains: valid when one lies strictly inside
+     * the other and the inner one's return type is below the outer one's for
+     * every instance of the generic, its type parameters standing for
+     * themselves, or, the plain one inside, at every instance of the generic
+     * that applies to an argument of the plain one
+     * (returnRuleAtObjectArguments);
      * or when neither lies inside the other and declarations below both
      * cover their overlap (genericOverlapCovered) or the two declared
      * domains exclude each other read whole (domainsExcludeTogether).  A pair of two own
@@ -791,11 +811,13 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         try {
             SingleFcn g = gen.getFn();
             SingleFcn p = plain.getFn();
-            boolean plainInside = instanceHolding(g, plain.getParams(), true) != null;
+            SingleFcn holding = instanceHolding(g, plain.getParams(), true);
+            boolean plainInside = holding != null;
             boolean genInside = declaredBelow(g, null, p, p, true);
             if (plainInside && genInside) return DomainReading.NO_DUPLICATES;
-            if (plainInside) return p.getRange().subtypeOf(g.getRange()) ? DomainReading.VALID :
-                                    DomainReading.returnTypeRule(plain == o1);
+            if (plainInside) return p.getRange().subtypeOf(g.getRange())
+                                    || returnRuleAtObjectArguments(p, plain.getParams(), g, gen.getParams(), holding) ?
+                                    DomainReading.VALID : DomainReading.returnTypeRule(plain == o1);
             if (genInside) return g.getRange().subtypeOf(p.getRange()) ? DomainReading.VALID :
                                   DomainReading.returnTypeRule(gen == o1);
             return genericOverlapCovered(gen, plain, all) || domainsExcludeTogether(gen, plain) ? DomainReading.VALID :
@@ -804,6 +826,81 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         catch (FortressException ex) {
             return DomainReading.NOT_READ;
         }
+    }
+
+    /**
+     * One of o1 and o2 is an own generic and the other a declaration without
+     * static parameters, of as many parameters and neither with a varargs
+     * parameter, and some instance of the generic holds the other's declared
+     * domain.
+     */
+    static private boolean plainInsideGeneric(Overload o1, Overload o2) {
+        SingleFcn f1 = o1.getFn();
+        SingleFcn f2 = o2.getFn();
+        Overload gen;
+        Overload plain;
+        if (ownGeneric(f1) && !(f2 instanceof GenericFunctionOrMethod)) {
+            gen = o1;
+            plain = o2;
+        } else if (ownGeneric(f2) && !(f1 instanceof GenericFunctionOrMethod)) {
+            gen = o2;
+            plain = o1;
+        } else {
+            return false;
+        }
+        if (hasRest(gen.getParams()) || hasRest(plain.getParams())) return false;
+        if (gen.getParams().size() != plain.getParams().size()) return false;
+        try {
+            return instanceHolding(gen.getFn(), plain.getParams(), true) != null;
+        }
+        catch (FortressException ex) {
+            return false;
+        }
+    }
+
+    /** Whether the declaration of f writes a return type; a declaration that is not read is taken to. */
+    static private boolean writesReturnType(SingleFcn f) {
+        return !(f instanceof FunctionClosure) || NodeUtil.getReturnType(((FunctionClosure) f).getDef()).isSome();
+    }
+
+    /**
+     * The Return Type Rule for the declaration inner without static
+     * parameters, whose declared domain dIn lies inside that of the own
+     * generic outer, at every instance of outer that applies to an argument
+     * of inner; holding is the instance of outer that holds dIn.  Each static
+     * parameter of outer that its return type mentions is fixed by a static
+     * argument of one of its parameter types dOut, since no type extends two
+     * instances of one generic type, and is then what it is in holding; or
+     * outer returns that type parameter itself and inner has, at a parameter
+     * whose type in outer is that type parameter, an object type below which
+     * its return type lies: an argument there has the object type itself, so
+     * every instance of outer that applies returns a type at or above it.
+     * Below a trait type an argument of a lower type selects a lower instance
+     * of outer, as a Circle selects ident[\T extends Shape\](x: T): T at
+     * Circle beside ident(x: Round): Round; a comprises clause is not read.
+     */
+    static private boolean returnRuleAtObjectArguments(SingleFcn inner, List<FType> dIn,
+                                                       SingleFcn outer, List<FType> dOut, SingleFcn holding) {
+        if (!(outer instanceof GenericFunctionOrMethod)) return false;
+        List<FType> outArgs =
+                GenericFunctionOrMethod.FunctionsAndState.symbolicStaticsByPartition.get((GenericFunctionOrMethod) outer);
+        if (outArgs == null || dIn.size() != dOut.size()) return false;
+        FType rOut = outer.getRange();
+        FType rIn = inner.getRange();
+        for (FType p : outArgs) {
+            if (!mentions(rOut, p)) continue;
+            boolean fixed = false;
+            for (FType t : dOut) fixed |= fixedByArgument(deRest(t), p);
+            if (fixed) continue;
+            if (rOut != p) return false;
+            boolean holds = false;
+            for (int k = 0; !holds && k < dIn.size(); k++) {
+                FType t = deRest(dIn.get(k));
+                holds = deRest(dOut.get(k)) == p && t instanceof FTypeObject && rIn.subtypeOf(t);
+            }
+            if (!holds) return false;
+        }
+        return rIn.subtypeOf(holding.getRange());
     }
 
     /**
