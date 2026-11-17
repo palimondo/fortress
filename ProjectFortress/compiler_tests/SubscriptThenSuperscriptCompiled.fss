@@ -1,4 +1,4 @@
-(* A subscript followed by a superscript or by another subscript applies each in turn, left to right (juxtameaning.tex, section "Juxtaposition"). *)
+(* A subscript followed by a superscript, another subscript or a tightly juxtaposed item applies each in turn, left to right (juxtameaning.tex, section "Juxtaposition"). *)
 component SubscriptThenSuperscriptCompiled
 export Executable
 
@@ -26,6 +26,8 @@ run(): () = do
     g = Grid(7)
     assert(g[1][2], 10, "g[1][2]")
     assert(g[1][2]^2, 100, "g[1][2]^2")
+    k: ZZ32 = 3
+    assert(x[5]k, 36, "x[5]k")
     println("PASS")
 end
 
