@@ -7216,7 +7216,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
            method's owner among the conjuncts, and the receiver is cast to it. */
         TraitType receiverCast = null;
         if (receiverType instanceof IntersectionType) {
-            receiverCast = intersectionMethodOwner(x, (IntersectionType) receiverType, method, mt);
+            receiverCast = intersectionMethodOwner(x, (IntersectionType) receiverType, method, mt, domain_type);
             receiverType = receiverCast;
         }
 //        if (!(receiverType instanceof TraitType)) {
@@ -7466,11 +7466,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
      * finds the method among the methods of the conjuncts that are trait types; where
      * its arrow names the trait that declares the method, only the conjuncts that have
      * that declaration qualify, so that the JVM finds the method at the call's
-     * signature.  Of several conjuncts that neither lies below the other, each has
-     * that declaration and the object's class runs its own: the first is taken.
+     * signature; where the call has no arrow, as a getter's, only the conjuncts with a
+     * method of the name that takes the call's argument qualify.  Of several conjuncts
+     * that neither lies below the other, each has that declaration and the object's
+     * class runs its own: the first is taken.
      */
     private TraitType intersectionMethodOwner(ASTNode x, IntersectionType it, IdOrOp method,
-                                              Option<Type> overloadingType) {
+                                              Option<Type> overloadingType, Type domain) {
         List<TraitType> conjuncts = new ArrayList<TraitType>();
         traitConjuncts(it, conjuncts);
         Id declaring = null;
@@ -7485,7 +7487,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         List<TraitType> owners = new ArrayList<TraitType>();
         for (TraitType c : conjuncts)
             for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m : methodsNamed(c, method, Naming.NO_SELF))
-                if (declaring == null || sameTraitName(m._3().getName(), declaring)) {
+                if (declaring == null ? takesArgumentOf(m._1(), domain)
+                                      : sameTraitName(m._3().getName(), declaring)) {
                     owners.add(c);
                     break;
                 }
@@ -7507,6 +7510,15 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             for (Type e : ((IntersectionType) t).getElements()) traitConjuncts(e, into);
         else if (t instanceof TraitType && !into.contains(t))
             into.add((TraitType) t);
+    }
+
+    /* Whether a method can take a call's argument of the type domain by its number of
+       parameters: none for the void type, one or the tuple's size for a tuple, else one. */
+    private static boolean takesArgumentOf(Functional fnl, Type domain) {
+        int k = fnl.parameters().size();
+        if (NodeUtil.isVoidType(domain)) return k == 0;
+        if (domain instanceof TupleType) return k == 1 || k == ((TupleType) domain).getElements().size();
+        return k == 1;
     }
 
     /* Whether two trait names are one, the api compared where both name one. */

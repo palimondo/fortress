@@ -1,4 +1,4 @@
-(* A method called on a typecase binder whose arm's type neither lies below nor above the selector's type, a value typed by the intersection of the two, runs the method that the value's object has, in a plain and in a generic function. *)
+(* A method or getter called on a typecase binder whose arm's type neither lies below nor above the selector's type, a value typed by the intersection of the two, runs the one that the value's object has, in a plain and in a generic function. *)
 component TypecaseBinderMethodCall
 export Executable
 
@@ -29,11 +29,31 @@ describeBox[\E extends Object\](b: Box[\E\]): String = typecase b of
     else => "plain"
   end
 
+trait Sided
+  getter side(): String = "sided"
+end
+trait Flagged
+  side(n: ZZ32): String = "flagged " || n
+end
+object SidedFlagged extends { Sided, Flagged } end
+
+sideOf(s: Sided): String = typecase s of
+    s': Flagged => s'.side || " " || s'.side(3)
+    else => "plain"
+  end
+
+sideOfFlagged(f: Flagged): String = typecase f of
+    f': Sided => f'.side || " " || f'.side(4)
+    else => "plain"
+  end
+
 run(): () = do
   assert(describe(MarkedSquare), "marked square", "a method on a binder typed by Shape and Marked")
   assert(describe(PlainSquare), "plain", "the else arm")
   assert(describeBox(MarkedBox[\String\]), "marked box", "a method on a binder typed by Box of E and Marked")
   assert(describeBox(PlainBox[\String\]), "plain", "the else arm of the generic function")
+  assert(sideOf(SidedFlagged), "sided flagged 3", "a getter of one type beside a method of its name in the other")
+  assert(sideOfFlagged(SidedFlagged), "sided flagged 4", "the same, the two types in the other order")
   println("PASS")
 end
 
