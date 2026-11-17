@@ -1391,3 +1391,14 @@ The orientation workflow's update of `revival-changes.md` for climb batch 31b (`
 - "Traits and objects": "such a redeclaration" (row 1037); "at the same limits"; `StandardTotalOrder`'s `MIN` and `MAX` in the interpreter's library, without `QQ` and `RR64`, which extend `StandardMinMax` (`Library/FortressLibrary.fss:291-292`; `FortressLibrary.fsi:292`, `:394`); the `SEQV` sentence cites row 923.
 - "Static parameters, `where` clauses and sizes": the `NatReflect` call runs only under walk, also after the switch-over; same action, cause cut.
 - "Numbers", the integer power rule: the fix round's cut of rows 441 and 523 not made, by the judge's correction; the blank line before the `/` rule kept.
+
+## Climb batch 31b's landing, 2026-11-17
+
+The landing of climb batch 31b on `main` made area parts false or incomplete, from the list in the record-landing run's `owed.md` and `diff.md` (`explorations/compile-ladder/climb-batch-31b/record-landing/`) and `explorations/reviews/batch-31b-review.md`, Part 3; settled by the record-landing workflow's writer task. Each claim checked on `main` at `5a84f56cec`.
+
+- `compiler.md`, "What the two paths share": the glue classes `ZZ32.java` and `ZZ64.java` (`interpreter/glue/prim/`; `Int.java` and `Long.java` are gone).
+- `compiler.md`, "Natives": the transfer helpers at three types, `NN32`, `NN64` and `Char`; the `UnsignedLong` clause cut (`compiler/BuiltinPrimitiveRewriter.java:176-191`).
+- `compiler.md`, "Traps of the compiled path": the numeral at a block's end runs at a declared type (rows 1014, 1030, fixed at `d3095ca77`; F-380); what stays is the binding without a declared type (row 1060). New: `=/=` at `RR32` and `RR64` and `=` at `RR32` until the switch-over (rows 1059, 528); the JVM parameters of a tuple parameter and the three tuple forms that fail (F-378; rows 1054, 1055, 1056).
+- `interpreter.md`, "What walk checks": the number types other than `QQ` as object types (row 1044); the `comprises` clause not read, now at a program's own trait (row 550, fixed at `f6e24650e`; `OverloadedFunction.java:880`); new: the tuple result (row 1058), the object-type shortcut (row 697), the generic dotted methods of different arity (row 1057).
+- `interpreter.md`, "Natives": `RR64` alone in `double`, and the list for `self` merged into one sentence (`interpreter/glue/StaticNativeApp.java`, `javaFor`, `javaForSelf`; F-379); the check's gap at `JavaBufferedWriter` (row 928), since an object below `ZZ32` is refused at load (row 551; `tests/NumberTypeExtendRefusedWalk.fss`); `ZZ32.overflow()` (`interpreter/glue/prim/ZZ32.java:41`).
+- `library.md`, "Designing a change": `RR64`'s own bindings (`Library/FortressLibrary.fss:540-547`).

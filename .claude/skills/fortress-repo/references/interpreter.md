@@ -77,8 +77,11 @@ At load, walk checks the overload sets, some `comprises` clauses, inherited abst
   - It loads a generic top-level function whose declared domain lies inside that of a self-typed trait's functional method of the same name, where the Return Type Rule holds. The checker refuses every top-level function more specific than a functional method of its name, a check that the specification does not state: '… is more specific than the declaration of the functional method' (ledger row 894).
   - It loads a function over `Index` beside one over a pair whose element types neither lie below `Index` nor exclude it, which the Meet Rule refuses (ledger row 806).
   - It loads a type that provides two functional symbolic operators, such as two `||`, that break the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex`). The checker refuses the pair (ledger row 611).
-  - Beside a generic declaration, it does not judge by the Return Type Rule a declaration without static parameters that writes no return type and whose parameter types are object types, as `NN32` is in walk's library: `pick[\T extends Number\](a: T): ZZ32 = 1` beside `pick(a: NN32) = "two"` loads (ledger row 1044). Write the return type.
-  - It reads no `comprises` clause for the Return Type Rule. So it refuses a valid pair over a trait that comprises one object, as `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: ZZ64, b: ZZ64): ZZ64`, where `ZZ64` comprises the one object `Long` (ledger row 550).
+  - Beside a generic declaration, it does not judge by the Return Type Rule a declaration without static parameters that writes no return type and whose parameter types are object types, as the number types other than `QQ` are: `pick[\T extends Number\](a: T): ZZ32 = 1` beside `pick(a: NN32) = "two"` loads (ledger row 1044). Write the return type.
+  - It reads no `comprises` clause for the Return Type Rule. So it refuses a valid pair over a program's own trait that comprises one object, as `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: Mine, b: Mine): Mine`, where `Mine` extends `Number` and comprises one object.
+  - It refuses a valid pair where the generic declaration's result is a tuple that holds its type parameter, as `pt[\T extends Number\](a: T): (T, ZZ32)` beside `pt(a: RR64): (RR64, ZZ32)`: 'fails the Return Type Rule' (ledger row 1058).
+  - It reads two parameter lists as excluding where every parameter at which they differ is an object type, also an object below the other's type. So `f(x: Number): ZZ32` beside `f(x: ZZ64): String` loads, which the checker refuses (ledger row 697).
+  - It loads two generic dotted methods of one name that differ in their number of parameters, as `tk[\U\](y: U, z: U)` beside `tk[\U\](y: U, z: U, w: U)`. A call then fails with 'Cannot find definition for method' (ledger row 1057). Give the two methods two names.
   - It loads a pair that breaks the Return Type Rule over an arrow type, as `ident[\T\](x: T): T` beside `ident(x: Circle -> Circle): (Circle -> Circle)`: a function of type `Any -> Circle` is also a `Circle -> Circle`, and at that instance the generic one returns `Any -> Circle`. The checker refuses the pair (ledger row 1049).
 
   The paths differ on `f[\T extends { K, R[\T\] }\](x: T)` beside `f(x: Z)`, where `K comprises { A, B, C }`, `Z excludes { A, B }`, and `C` is an object that extends `Z` but not `R`. Walk refuses the pair: "fails the Meet Rule". The checker reads the bounds, finds that no value lies in both domains, and accepts it. No decision says which is right. Assert neither path's answer in a test (ledger row 713).
@@ -118,33 +121,30 @@ The library binds each of walk's natives by a declaration whose body is `builtin
 
 Walk carries each declared type of a helper's binding in one Java type:
 
-- `ZZ32`, `NN32` and `Char` in `int`; `ZZ64` and `NN64` in `long`; `RR64` and `Float`, the library's object that extends `RR64`, in `double`; `RR32` in `float`; `Boolean` in `boolean`;
+- `ZZ32`, `NN32` and `Char` in `int`; `ZZ64` and `NN64` in `long`; `RR64` in `double`; `RR32` in `float`; `Boolean` in `boolean`;
 - `FlatString` and `JavaString` in `String`, and `String` too, except as a parameter other than `self`; `ZZ` in `BigInteger`; `()` in `void`; `JavaBufferedWriter` and `JavaBufferedReader`, the library's writer and reader traits, in `compiler/runtimeValues/FortressBufferedWriter` and `FortressBufferedReader`, which the checker reads back as the two traits.
 
-In a method, walk carries `self` by the type that declares the method:
-
-- a type of the list above, except `JavaString` and `()`, in the same Java type, but `FlatString` only where it is the library's own;
-- the library's objects that extend number types, not the glue classes of the same names: `Int` (`ZZ32`) in `int`, `Long` (`ZZ64`) and `UnsignedLong` (`NN64`) in `long`, and `BigNum` (`ZZ`) in `BigInteger`.
+In a method, walk carries `self` by the type that declares the method: a type of the list above, except `JavaString` and `()`, in the same Java type, but `FlatString` only where it is the library's own.
 
 A program can give its own type the name `FlatString` or `JavaString`. Walk tells the library's `FlatString` by the component that declares it, so a program's own type of either name carries no `self`. But walk carries a parameter declared at such a type in `String`, by the type's name alone, and does not refuse the binding. The native then receives the name of the type, not the value's text (ledger row 877). Give a program's own type another name.
 
 Walk refuses a helper's binding at load in these cases. The message names the string, and contains the words below, which a `load_exception_contains` key can match:
 
 - The class or the method does not exist: 'not found' or 'names no static method of'.
-- The result type, or a parameter type other than `self`'s, is not carried by the first list: 'no Java type carries the declared'.
-- The binding is in a method of a type that the second list does not name, as a program's own object: 'no Java type carries T, the type of self.', with the type's name as T. Match ', the type of self.' to tell it from the refusal above.
+- The result type, or a parameter type other than `self`'s, is not carried by the list above: 'no Java type carries the declared'.
+- The binding is in a method of a type that carries no `self`, as a program's own object: 'no Java type carries T, the type of self.', with the type's name as T. Match ', the type of self.' to tell it from the refusal above.
 - No method of that name, or more than one, has exactly the Java types of the lists, with `self`'s first in a method: 'has no overload that fits the declaration's types', or 'overloads that fit'.
 
 The check has two gaps:
 
 - Walk checks the binding of a dotted method of a generic trait or object only when the program makes an instance, at run time. So a program that makes no instance loads. One that makes an instance stops there with the same message, as an `InterpreterBug` (ledger row 864). Test such a binding with a program that makes an instance.
-- Walk reads the type that declares the method, not the type of the value. So a program's object that extends `ZZ32` loads. A call of a method of `ZZ32` that binds a helper then stops with 'getInt not implemented for FOrdinaryObject' (ledger row 551).
+- Walk reads the type that declares the method, not the type of the value. So a program's object that extends `JavaBufferedWriter` loads. A call of its inherited native method then stops with 'No Java FortressBufferedWriter carries' and the object's name (ledger row 928). Extend `WriteStream` instead.
 
 A glue class bound over `String`, and a helper bound in a method of `String` as `self`, receive the wrong text for a `CatString`: the name of the type, not its characters (ledger row 846). `||` builds a `CatString` when the joined string is longer than `maxLeafSize`, 32 characters by default. A `||` of string literals folds into one literal, a `FlatString`, so a test that needs a `CatString` joins a literal with a variable. Bind such a native over `FlatString`, and beside it an overload over `String` that passes `s.asFlatString`, as `printlnWithThread` does (`Library/FortressLibrary.fss:4640-4644`). In a method of `String`, call that overload with `self`.
 
 An `import java` written in a `.fss` file is wired under walk but unfinished, and no test uses it. The compiled path's generated `import java` (`compiler.md`, "Natives") is not this one.
 
-A glue class raises a Fortress exception that a `catch` sees by throwing a `FortressError` that holds the exception's object. `Int.overflow()` in `interpreter/glue/prim/Int.java` makes one, and its callers throw it:
+A glue class raises a Fortress exception that a `catch` sees by throwing a `FortressError` that holds the exception's object. `ZZ32.overflow()` in `interpreter/glue/prim/ZZ32.java` makes one, and its callers throw it:
 
     FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
     return new FortressError(f);
