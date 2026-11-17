@@ -73,6 +73,13 @@ trait Reconv[\R extends Object\] extends { Named, Conv[\R\] }
 end
 object Rz extends { Other, Reconv[\ZZ32\] }
 end
+trait Held[\E\]
+    hold(x: E): String = "Held"
+    held(self, x: E): String = "Held"
+end
+object Own extends { Other, Held[\ZZ32\] }
+    hold(x: ZZ32): String = "Own"
+end
 str(x: ZZ32): String = "s"
 
 run(): () = do
@@ -82,29 +89,29 @@ run(): () = do
     d: Y = Yint(2)
     e: Late = LateInt(1)
     f: Late = LateInt(2)
-    (* The method declared at three levels runs the lowest declaration that the value's type provides. *)
     assert(a UPPER b, "Z", "an operator declared in Mmx, Tord and Z, on a Z")
     assert(c UPPER d, "Tord", "an operator declared in Mmx and Tord, on a Y below Tord")
     assert(e UPPER f, "Tord", "an operator declared in Mmx and Tord, on a type whose second trait is Tord")
     assert(a.whose(), "Z", "a dotted method declared in Mmx, Tord and Z, on a Z")
     assert(c.whose(), "Tord", "a dotted method declared in Mmx and Tord, on a Y")
     assert(e.whose(), "Tord", "a dotted method declared in Mmx and Tord, on a type whose second trait is Tord")
-    (* Tord replaces only the declaration with self first; the one with self second stays Mmx's. *)
     assert(mx(c, d).w, 2, "mx on a Y runs Tord's body")
     assert(mx(f, e).u, 2, "mx on a type whose second trait is Tord")
     assert(cmpx(d, c), 1, "cmpx on a Y")
     assert(e.name(), "Named", "the first trait's method")
-    (* An object whose second trait gives a body to a method that it inherits through its own second trait. *)
     assert(show(Leaf, Leaf), "Marked", "a functional method declared in Shown and Marked, on an object whose second trait is Marked")
     assert(Leaf.sort(), "Marked", "a dotted method declared in Shown and Marked, on an object whose second trait is Marked")
     assert(Leaf.name(), "Named", "the method of the first trait of the object's second trait")
     assert(Leaf.other(), "Other", "the method of the object's first trait")
-    (* The generic method's own static parameter has the name of the static parameter of the trait that declares it again. *)
     assert(Rz.conv[\String\](str, "a"), "Reconv", "a generic method declared in Conv and Reconv, on an object whose second trait is Reconv")
     rc: Reconv[\ZZ32\] = Rz
     assert(rc.conv[\String\](str, "a"), "Reconv", "the generic method through a variable typed by Reconv")
     cv: Conv[\ZZ32\] = Rz
     assert(cv.conv[\String\](str, "a"), "Reconv", "the generic method through a variable typed by Conv")
+    assert(Own.hold(1), "Own", "a dotted method that an object declares at the instance of its second trait's")
+    hv: Held[\ZZ32\] = Own
+    assert(hv.hold(1), "Own", "the object's own method through a variable typed by its second trait")
+    assert(held(Own, 1), "Held", "a functional method of the second trait that the object does not declare")
     println(mx(a, b).v)
     println(cmpx(a, b))
     println(lt(a, b))
