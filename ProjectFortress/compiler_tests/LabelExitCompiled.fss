@@ -139,6 +139,43 @@ insideAtomic(n: ZZ32): ZZ32 = do
   r + left + right
 end
 
+var tally: ZZ32 = 0
+
+labelInLoop(n: ZZ32): ZZ32 = do
+  tally := 0
+  for i <- seq(0#n) do
+    hundred: ZZ32 = 100
+    v: ZZ32 = label pick
+        if i MOD 2 = 0 then exit pick with i end
+        hundred
+      end pick
+    tally := tally + v
+  end
+  tally
+end
+
+labelInFunction(n: ZZ32): ZZ32 = call(fn (x: ZZ32): ZZ32 => label inner
+    if x > 0 then exit inner with 2 x end
+    x
+  end inner, n)
+
+twoDeep(n: ZZ32): ZZ32 = label out
+    call(fn (x: ZZ32): ZZ32 => call(fn (y: ZZ32): ZZ32 => if y > 2 then exit out with y + 1 else y end, x), n)
+  end out
+
+either[\T extends Object\](a: T, b: T, second: Boolean): T = label got
+    if second then exit got with b end
+    a
+  end got
+
+pairOut(n: ZZ32): (ZZ32, ZZ32) = label got
+    same: (ZZ32, ZZ32) = (n, n)
+    for i <- seq(0#n) do
+      if i = 3 then exit got with (i, 2 i) end
+    end
+    same
+  end got
+
 run(): () = do
   check("an exit with a value out of a while", outOfWhile(3), 3)
   check("a while that no exit leaves", outOfWhile(20), -1)
@@ -170,6 +207,18 @@ run(): () = do
   check("the same arms without an exit", outOfArm(2), 102)
   check("a label and its exit inside one atomic block, whose writes stay", insideAtomic(1), 13)
   check("the same block without an exit", insideAtomic(2), 115)
+  check("a label inside a loop's body, left in every second iteration", labelInLoop(6), 306)
+  check("a label inside a function expression, left by its exit", labelInFunction(4), 1008)
+  check("the same label that no exit leaves", labelInFunction(0), 1000)
+  check("an exit two function expressions deep", twoDeep(5), 6)
+  check("the same functions without an exit", twoDeep(1), 2001)
+  assert(either[\String\]("a", "b", true), "b", "an exit with a value of a type parameter's type")
+  assert(either[\String\]("a", "b", false), "a", "the same label that no exit leaves")
+  (p, q) = pairOut(10)
+  check("an exit with a tuple, its first element", p, 3)
+  check("its second element", q, 6)
+  (r, t) = pairOut(2)
+  check("the same label that no exit leaves", r + t, 4)
   if bad = 0 then println("PASS") else println("FAIL") end
 end
 
