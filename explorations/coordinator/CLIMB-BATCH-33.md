@@ -83,7 +83,7 @@ Fields common to the seven rungs:
 - **slug:** `rung-kind-env-generic`
 - **worktree:** `/home/user/fortress-kind-env-generic`
 - **section:** `V. The kind environment of a generic declaration's types on the compiled path: a member of a generic trait under a comprises clause at a where-clause type, and a typecase in a generic function (rows 812 and 822)`
-- **blurb:** the code generator stops, 'E is not in the kind env', on a generic trait that defines a member of a trait whose comprises clause lists a type at a where-clause variable (row 812), and 'T is not in the kind env' on a typecase inside a generic function whose arms name its type parameters (row 822). The checker passes both. Four declarations of the one library stop so: __bigOperator2, List's app and ArrayList, CovariantCollection's APPCOV. The rung gives the code generator the static parameters that are in scope where it normalizes such a type.
+- **blurb:** the code generator stops, 'E is not in the kind env', on a generic trait that defines a member of a trait whose comprises clause lists a type at a where-clause variable (row 812), and '<X> is not in the kind env' on a typecase inside a generic function where an arm binds a value at a type that names the function's type parameters and reads that value (row 822). The checker passes both. Four declarations of the one library stop so: __bigOperator2, List's app and ArrayList, CovariantCollection's APPCOV. The rung gives the code generator the static parameters that are in scope where it normalizes such a type.
 - **points to report:**
   - The cause as found for each row, by file and member, and the scope that the repair gives.
   - Rows 812 and 822: each test failing on the base and passing after, at one thread and at four.
@@ -167,7 +167,7 @@ Fields common to the seven rungs:
   - Each place that names a payload object's type, by file and member, and the name it gives.
   - Row 866's and row 698's tests promoted; the team's `Compiled6.bx` with its second message; row 566's test under two hash modes; each new test failing on the base and passing after.
   - The whole compiled tracks, and walk's suite: every test that failed after your change, with its cause.
-  - The one library's seven objects under the selector: the measure's figures on your final tree, with the seven emitted.
+  - The one library's seven number objects are left out (fork N4): each place where their entries would go, by file and member.
   - The two stages' tables on your final tree against the comparand.
   - Each sentence of the specification and of Appendix I's Effects that your change makes false, before and after.
   - A line of the model program or of its helper files that the change needs: none, or the line, not changed.
@@ -325,6 +325,7 @@ Each program is shortened to the lines that matter.
 - What else a program sees: `add(a: ZZ32, b: ZZ32)` beside `add(a: List, b: List)` over a program's own trait `List` is refused today, and compiles after (row 698).
 - The probe: I built this form in a scratch tree. The seven types compiled. Programs with each type ran. Both compiled test tracks passed, 1,694 and 263 tests, except four tests whose answer the change itself gives. On the one library, the same form adds no refused declaration.
 - One build serves both libraries for these seven types. So the numbers need no second set of run-time classes (review-queue item 521, below).
+- The one library's seven take this form later, in the rung where the first program runs on the one library, so that their test can fail first. This rung's code generator already serves them.
 
 **R. A method found by its interface on the compiled path.**
 
@@ -373,7 +374,7 @@ Probe Y asked whether the second set of run-time value classes is a map of names
 
 ### For the batch after, in this order
 
-1. The carriers of `Boolean`, `Char`, `FlatString`, the reader, the writer and the two stores on the one library (row 874), by rung N's machinery, with their hand-written classes as the second set under the selector.
+1. The carriers of `Boolean`, `Char`, `FlatString`, the reader, the writer and the two stores on the one library (row 874), by rung N's machinery, with their hand-written classes as the second set under the selector; and the one library's seven number objects in the same form (fork N4), with the first program that runs on the one library as their test.
 2. Varargs (row 624) and the closure class written twice (row 315): the last walls before `println` compiles on the one library.
 3. Row 540, the intersection receiver, the last of the 17. Then the one library compiles whole, and `Hello` runs against it under the gate. Its library order of fourteen compiles joins the selector's track.
 4. The walls that only a running program shows: row 994 (the dispatch's package, met at `seq`), `NN32`'s two getters (row 993), what is left of row 995, and the count of what the JVM's verifier refuses in the emitted library. The rehearsal's `Arr` and `Dot` become tests.
@@ -428,7 +429,7 @@ Each fork below builds within a decision on record or chooses where the record l
 15. **N1. Every descriptor names a payload object's type by its payload class, as the table of carried types does today; a dotted call casts the receiver to the object's class.** **Default: so, as probed.** Way not taken: descriptors that name the object's class, with every helper wrapper and every run-time class cast. The reason: the wrappers, the class loader's names and the bytecode optimizer key on the payload class today.
 16. **N2. The payload class's `make` reaches the object's class through a method handle, found by the class's name in a small table that follows the selector.** **Default: so, as probed.** Way not taken: a factory that the object's class registers when it loads, which a value made before that load would miss.
 17. **N3. A payload object's RTTI, and every place that names its type, gives the payload class's name.** **Default: so.** The reason: the carriers' review's rule for W12, "the stamped class is named by the carrier"; the probe met three such places (PRB, section 4).
-18. **N4. The one library's seven number objects get the same form under the selector, in the same rung.** **Default: so; their check is the measure, since no program runs on the one library yet.** Way not taken: the prelude's seven first and the one library's in a later rung.
+18. **N4. The one library's seven number objects get the same form under the selector in the rung where the first program runs on the one library, with that program as their test, not in this rung.** **Default, the coordinator's: so, by the rule of the test first (P-102): no program runs on the one library yet, and the names table is read only when a value is made at a run, so their entries would land with no test that can fail (the check before the launch, `climb-batch-33-review.md`, B1).** Way not taken: the same rung, checked by the measure alone, which loads no class.
 19. **N5. Row 566's test is promoted only if it passes under both hash modes.** It passed in the probe, where nothing touched its dispatch. **Default: so; else it stays an expected failure and its row gets a note.**
 20. **N6. The team's test `Compiled6.bx` takes its second message, 'Objects can only extend traits.'** Its program's object below `ZZ32` is now refused, which is P-178's answer. **Default: so; a reserved point.**
 21. **R1. The root is repaired, and the team's search of the trait table by the prelude's names stays.** It goes with the prelude. **Default: so; the worker reports whether any test still reaches it.**
@@ -490,7 +491,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 ### V. The kind environment of a generic declaration's types on the compiled path: a member of a generic trait under a `comprises` clause at a `where`-clause type, and a `typecase` in a generic function (rows 812 and 822)
 
-**The mission.** The code generator stops 'E is not in the kind env' on `compiler_tests/ComprisesWhereFunctionalMethodChecker.fss` compiled (row 812), and 'T is not in the kind env' on a `typecase` in a generic function whose arms name its type parameters (row 822), as the one library's `app[\T,E extends T,F extends T\]` (`Library/List.fss:93`). Four declarations of the one library stop so (F-34). You give the code generator the static parameters in scope where it normalizes such a type.
+**The mission.** The code generator stops 'E is not in the kind env' on `compiler_tests/ComprisesWhereFunctionalMethodChecker.fss` compiled (row 812), and '<X> is not in the kind env' on a `typecase` in a generic function where an arm binds a value at a type that names the function's type parameters and reads that value (row 822; the check before the launch, `climb-batch-33-review.md`, A1), as the one library's `app[\T,E extends T,F extends T\]` (`Library/List.fss:93`). Four declarations of the one library stop so (F-34). You give the code generator the static parameters in scope where it normalizes such a type.
 
 **The decisions this rung builds.** P-60; section 3's fork V1.
 
@@ -573,7 +574,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 2. **The prelude's text.** The seven traits become value objects in `CompilerBuiltin.fsi` and `.fss`, each `excludes` clause gone, no body changed.
 3. **The payload classes.** The seven in `runtimeValues/` become abstract payload classes over `FValue`, their `make` reaching the object's class (fork N2), with a names table that follows S's selector. The stub file's entries for the seven go.
 4. **The code generator** (forks N1 and N3): a payload object's class over its payload class, with its constructor and factory, forwarders for every trait, the cast at a dotted call's receiver, and one name for the type in every place: its RTTI, a dispatch test's RTTI, a generic instance's name. Read every site that names an object's class, not only the three that the probe met.
-5. **The one library** (fork N4): the table's entries for `FortressLibrary`'s five and `FortressBuiltin`'s two, under the selector. Run `explorations/compile-ladder/plan-31/probes/planner/codegen-measure.sh` once on a scratch copy of your final tree: 17 refused (18 printed) and the seven emitted, as the probe measured. If the measure's patch no longer applies to your `NamingCzar.java`, bring its hunk in line by hand in the scratch copy.
+5. **The one library** (fork N4): not in this rung. Name in your report each place where the entries for `FortressLibrary`'s five and `FortressBuiltin`'s two would go, for the rung where the first program runs on the one library.
 6. **The team's test and row 566** (forks N5 and N6): `Compiled6.bx` takes its second message; `XXXComprisesMeetGenericTrait` runs under the default hash mode and under `-XX:+UnlockExperimentalVMOptions -XX:hashCode=0` in `JAVA_FLAGS`, on your tree and once on the base's code under the same two modes (`tools/old-fortress.sh`). Two orders that pass do not show the cause. Row 566's message names an instance stamped `fortress|CompilerBuiltin%ZZ32`, the two names of fork N3, so read which name the failing cast holds on the base and on your tree, and say in the row whether the one name repairs it.
 7. **The whole suites once,** `ant testFast` and `ant testSystem`.
 8. **The stages** once on your final tree; the shadow patch once.
