@@ -4428,11 +4428,13 @@ or object declaration or an object expression that the new paragraph of
 but \VAR{D} is not a subtype of \VAR{A}.''.
 The interpreter has no static types: it runs the bodies as before, and loads a
 declaration that the paragraph refuses (row~893 of the revival's gap ledger).
-The code generator compiles a default body that returns \KWD{self} as the self
-parameter with no conversion to the type of the instance, so a program that
-runs such a body, which the compiled type checker now accepts, with the parameter at an object type
-fails the JVM's verification when the body's class is loaded (row~695 of the revival's gap
-ledger).
+The code generator converts \KWD{self} to the type of the instance where a default
+body returns it as the self parameter, passes it as a single argument, binds it or
+assigns it at that type, so a compiled program that runs such a body with the
+parameter at an object type runs.
+A function expression or a local function that returns \KWD{self} as the self
+parameter still fails the JVM's verification when its class is loaded
+(row~NEW-K-1 of the revival's gap ledger).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/var-ref.tex},
 lines 53--54 and 64--69, which stand unchanged and are now followed by the new
 sentence:
