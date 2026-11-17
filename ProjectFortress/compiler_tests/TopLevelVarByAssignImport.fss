@@ -1,0 +1,16 @@
+(* A top-level variable that its component declares mutable by := alone is read and assigned through the api's var declaration (variables.tex, section "Top-Level Variable Declarations"). *)
+component TopLevelVarByAssignImport
+import TopLevelVarByAssignExport.{...}
+export Executable
+
+run(): () = do
+    assert(tally, 0, "a variable declared by :=, imported")
+    tally += 41
+    assert(tally, 41, "assigned through the api")
+    assert(count, 5, "a name of a tuple binding declared by :=, imported")
+    count := count + tally
+    assert(count, 46, "assigned through the api")
+    println("PASS")
+end
+
+end

@@ -5473,7 +5473,11 @@ generic declaration, as \EXP{m()\COLON\TYP{Gen}\llbracket{}T\rrbracket = 3} in
 the coercion at each evaluation of the place (row~957); where a \KWD{nat} or \KWD{int}
 parameter of $2^{31}$ or more, other than one of a numeral type's four numbers,
 is used as a value, the compiled path stops with an error that no \KWD{catch}
-sees, and the interpreter makes it a \EXP{\mathbb{Z}64} (row~962); and both leave an expression of numerals alone
+sees, and the interpreter makes it a \EXP{\mathbb{Z}64} (row~962); at a binding
+without a declared type, the compiled path keeps a numeral's own type where a
+\KWD{try} ends in numerals, and refuses the program (row~1074), and refuses a
+tuple binding whose right side is a \KWD{case} or a \KWD{try} whose branches are
+tuples of numerals (row~1075); and both leave an expression of numerals alone
 as written where the form of its result needs a prefix \EXP{-} or a \EXP{/}
 that its component writes nowhere (row~956).
 No line of the revival's model program changes, and by reading none of its

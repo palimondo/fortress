@@ -1,0 +1,23 @@
+(* A case or a try whose branches are tuples of numerals, bound to names without declared types, takes the numerals' defaults (literals.tex, section "Literals"; case.tex, section "Case Expressions"; try.tex, section "Try Expressions"). *)
+component XXXNumeralTupleBranchesUntypedCompiled
+export Executable
+
+run(): () = do
+    k: ZZ32 = 1
+    (a, b) = case k of
+        1 => (1, 2)
+        else => (3, 4)
+      end
+    c: ZZ32 = a
+    assert(c + b, 3, "a case of tuples of numerals at their defaults")
+    (d, e) = try
+        (5, 6)
+      catch x
+        Exception => (7, 8)
+      end
+    f: ZZ32 = d
+    assert(f + e, 11, "a try of tuples of numerals at their defaults")
+    println("PASS")
+end
+
+end

@@ -1,0 +1,3 @@
+tests=XXXNumeralTupleBranchesUntypedCompiled
+compile
+compile_err_contains=but left-hand side is a tuple of 2 variables

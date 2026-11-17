@@ -1,0 +1,16 @@
+(* A try whose block and catch clause each end in a numeral, at a binding without a declared type, takes the numerals' default (literals.tex, section "Literals"; try.tex, section "Try Expressions"). *)
+component XXXNumeralEndsUntypedTryCompiled
+export Executable
+
+run(): () = do
+    x = try
+        4
+      catch e
+        Exception => 5
+      end
+    y: ZZ32 = x
+    assert(y, 4, "the try's numeral at its default, ZZ32")
+    println("PASS")
+end
+
+end

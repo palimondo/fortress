@@ -1287,6 +1287,11 @@ trait Functionals { self: STypeChecker with Common =>
         tupleJoin(es.last).flatMap(l => typed(l).map(ty => SBlock(SExprInfo(sp, p, Some(ty)), loc, at, wd, es.init :+ l)))
       case SDo(SExprInfo(sp, p, _), List(front)) =>
         block(front).flatMap(f => typed(f).map(ty => SDo(SExprInfo(sp, p, Some(ty)), List(f))))
+      // a block's last element after a local declaration is the declaration's body
+      case SLocalVarDecl(SExprInfo(sp, p, _), body, lhs, rhs) if !body.getExprs.isEmpty =>
+        block(body).flatMap(b => typed(b).map(ty => SLocalVarDecl(SExprInfo(sp, p, Some(ty)), b, lhs, rhs)))
+      case SLetFn(SExprInfo(sp, p, _), body, fns) if !body.getExprs.isEmpty =>
+        block(body).flatMap(b => typed(b).map(ty => SLetFn(SExprInfo(sp, p, Some(ty)), b, fns)))
       case SIf(SExprInfo(sp, p, _), clauses, Some(els)) =>
         for (ne <- block(els);
              ncs <- { val rs = clauses.map { case SIfClause(i, t, b) => block(b).map(SIfClause(i, t, _)) }
@@ -1324,6 +1329,8 @@ trait Functionals { self: STypeChecker with Common =>
       case n if NumeralConversion.isNumeral(n) => Some(List(n))
       case SBlock(_, _, _, _, es) if es.nonEmpty => joinNumerals(es.last)
       case SDo(_, List(front)) => joinNumerals(front)
+      // a block's last element after a local declaration is the declaration's body
+      case SLetExpr(_, body) => joinNumerals(body)
       case SIf(_, clauses, Some(els)) => all(els :: clauses.map(_.getBody))
       case SCaseExpr(_, _, _, _, _, clauses, els) if clauses.nonEmpty => all(els.toList ++ clauses.map(_.getBody))
       case _ => None

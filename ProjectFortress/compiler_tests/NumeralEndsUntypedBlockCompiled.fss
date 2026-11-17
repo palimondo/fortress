@@ -1,0 +1,47 @@
+(* A numeral that ends a block after a local declaration, at a binding without a declared type, takes its default (blocks.tex, section "Do Expressions"). *)
+component NumeralEndsUntypedBlockCompiled
+export Executable
+
+topLevel = do
+    k: ZZ32 = 3
+    6
+  end
+
+run(): () = do
+    x = do
+        k: ZZ32 = 3
+        4
+      end
+    y: ZZ32 = x
+    assert(y, 4, "an integer numeral at its default, ZZ32")
+    r = do
+        k: ZZ32 = 3
+        0.5
+      end
+    s: RR64 = r
+    h: RR64 = 0.5
+    assert(s = h, "a float numeral at its default, RR64")
+    f = do
+        g(): ZZ32 = 3
+        7
+      end
+    z: ZZ32 = f
+    assert(z, 7, "a numeral after a local function")
+    (a, b) = do
+        k: ZZ32 = 3
+        (1, k)
+      end
+    c: ZZ32 = a
+    assert(c + b, 4, "a tuple of a numeral and a ZZ32")
+    (p, q) = do
+        three(): ZZ32 = 3
+        (2, three())
+      end
+    d: ZZ32 = p
+    assert(d + q, 5, "a tuple of a numeral and a call after a local function")
+    t: ZZ32 = topLevel
+    assert(t, 6, "a numeral at a top-level binding")
+    println("PASS")
+  end
+
+end
