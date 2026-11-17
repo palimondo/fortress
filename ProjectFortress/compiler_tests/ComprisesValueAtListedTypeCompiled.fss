@@ -18,6 +18,9 @@ trait Q comprises { R }
       end
     held(): ZZ32 = Holder(self).r.d
     kept[\T extends Object\](x: T): R = self
+    cased(): R = typecase self of
+        r: R => self
+      end
 end
 
 value object R(n: ZZ32, d: ZZ32) extends Q end
@@ -54,6 +57,7 @@ run(): () = do
     assert(q.assigned(), 2, "an assignment")
     assert(q.held(), 2, "a value parameter")
     assert(q.kept[\ZZ32\](7).d, 2, "a returned value of a generic method")
+    assert(q.cased().d, 2, "a returned typecase whose arm is self")
     d: Shape = Disc(2)
     s: Shape = Square(5)
     assert(d.area(), 12, "the first listed type after a typecase")

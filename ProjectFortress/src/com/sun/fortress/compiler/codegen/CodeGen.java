@@ -7308,8 +7308,20 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     private void castToTypeBelow(Expr expr, Type declared) {
         if (!(declared instanceof TraitType || declared instanceof VarType)) return;
         Option<Type> ot = expr.getInfo().getExprType();
-        if (ot.isNone() || !(ot.unwrap() instanceof TraitSelfType)) return;
-        TraitSelfType self_t = (TraitSelfType) ot.unwrap();
+        if (ot.isNone()) return;
+        Type t = ot.unwrap();
+        if (t instanceof com.sun.fortress.nodes.UnionType) {
+            // A typecase has the union of its arms' types: self's type where each arm has it.
+            Type one = null;
+            for (Type e : ((com.sun.fortress.nodes.UnionType) t).getElements()) {
+                if (e instanceof BottomType) continue;
+                if (one != null && !one.equals(e)) return;
+                one = e;
+            }
+            t = one;
+        }
+        if (!(t instanceof TraitSelfType)) return;
+        TraitSelfType self_t = (TraitSelfType) t;
         Type apparent = self_t.getNamed();
         if (self_t.getComprised().isEmpty() || !(apparent instanceof TraitType)) return;
         if (typeAnalyzer.opensSizes(apparent)) return;
