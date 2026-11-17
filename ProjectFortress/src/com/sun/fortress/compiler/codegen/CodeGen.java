@@ -3965,6 +3965,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         cg.addParams(params, Naming.NO_SELF);
         
         body.accept(cg);
+        cg.castToTypeBelow(body, rt);
 
         cg.methodReturnAndFinish();
         cg.cw.dumpClass(classFileName, xldata);
@@ -4123,6 +4124,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         cg.addParams(params, Naming.NO_SELF);
 
         body.accept(cg);
+        cg.castToTypeBelow(body, rt);
 
         cg.methodReturnAndFinish();
         cg.cw.dumpClass(classFileName, xldata);
@@ -4527,6 +4529,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         Debug.debug( Debug.Type.CODEGEN, 1,"forIf ", x);
         List<IfClause> clauses = x.getClauses();
         //Option<Block> elseClause = x.getElseClause();
+        // The conditional's type, at which each arm leaves its value: an arm that
+        // is self, where that type is below self's trait, is cast to it, so that
+        // the arms join at one class.
+        Type joined = x.getInfo().getExprType().unwrap(null);
 
         org.objectweb.asm.Label done = new org.objectweb.asm.Label();
         org.objectweb.asm.Label falseBranch = new org.objectweb.asm.Label();
@@ -4549,6 +4555,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
             // emit code for condition true
             ifclause.getBody().accept(this);
+            castToTypeBelow(ifclause.getBody(), joined);
             mv.visitJumpInsn(GOTO, done);
 
             // control goes to following label if condition false (and we continue tests)
@@ -4558,6 +4565,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         Option<Block> maybe_else = x.getElseClause();
         if (maybe_else.isSome()) {
             maybe_else.unwrap().accept(this);
+            castToTypeBelow(maybe_else.unwrap(), joined);
         } else {
             pushVoid();
         }

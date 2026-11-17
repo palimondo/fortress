@@ -10835,3 +10835,9 @@ note added
 note added
 
 | 868 | under walk, an object's method whose own `where` clause introduces a `where`-clause variable stops at the clause, 'Missing type n': `m[\U\](u: U): String where [\nat n\]{U extends {X[\n\]}}` in `object Q`, with `Q.m(O)` for `O extends X[\1\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/XXXWhereVariableMethodWalk.fss` | climb batch 24 rung G's skeptic | siblings: 755, 760, 867. The same clause on a top-level function runs, 'OP' for `g(O, P)`; with `where { U extends T }` the method runs. The compiled checker accepts the method; compiled, its call dies (row 867). Walk is the same on the base, b0f6cd6b7. |
+
+### Row 1070
+
+rewritten
+
+| 1070 | a compiled `typecase` with `self` in one arm and a value of the listed type in the other, at a type that the `comprises` clause of self's trait lists, fails the JVM's verification at class load: `typecase x of s: String => self else => R(0, 0) end` at `R` in `trait Q comprises { R }` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXComprisesValueAtTypecaseArmRun.test` | climb batch 33 rung Q | siblings: 1051. 'VerifyError: Bad return type … Q$DefaultTraitMethods.chosen … @37: areturn'. The arms leave the trait's interface and R's class, which the verifier merges to `Object`. The typecase's type is the union of its arms' types, and `castToTypeBelow` (`compiler/codegen/CodeGen.java:7679` at the gather) casts a union only where each element is self's type; `forTypecase` casts no arm, where `forIf` casts each. Fails on the base too. The link is clean (`ComprisesValueAtTypecaseArmRunLink`). Workaround: bind `self` at the listed type in the arm, `do r: R = self; r end`. |

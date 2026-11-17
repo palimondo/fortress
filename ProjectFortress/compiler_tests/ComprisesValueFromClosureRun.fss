@@ -1,5 +1,5 @@
 (* A function expression and a local function that return self at a type that the comprises clause of self's trait lists run compiled (traits.tex, section "Trait Declarations"). *)
-component XXXComprisesValueFromClosureRun
+component ComprisesValueFromClosureRun
 export Executable
 
 trait Q comprises { R }
@@ -17,7 +17,6 @@ value object R(n: ZZ32, d: ZZ32) extends Q end
 
 run(): () = do
     q: Q = R(1, 2)
-    println("REACHED")
     assert(q.viaExpr(), 2, "a function expression's returned value")
     assert(q.viaLocal(), 2, "a local function's returned value")
     println("PASS")

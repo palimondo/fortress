@@ -4440,13 +4440,11 @@ The interpreter has no static types: it runs the bodies as before, and loads a
 declaration that the paragraph refuses (row~893 of the revival's gap ledger).
 The code generator converts \KWD{self} to the type of the instance where a default
 body returns it as the self parameter, passes it as a single argument, binds it or
-assigns it at that type, so a compiled program that runs such a body with the
-parameter at an object type runs.
-A function expression or a local function that returns \KWD{self} as the self
-parameter still fails the JVM's verification when its class is loaded
-(row~1050 of the revival's gap ledger), and so does a default body that
-returns a conditional expression with \KWD{self} in one arm and another
-value of the self parameter in the other (row~1051).
+assigns it at that type, where a function expression or a local function returns
+it at that type, and where an arm of a conditional expression of that type yields
+it, so a compiled program that runs such a body with the parameter at an object
+type runs, also where the body returns a conditional expression with \KWD{self}
+in one arm and another value of the self parameter in the other.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/var-ref.tex},
 lines 53--54 and 64--69, which stand unchanged and are now followed by the new
 sentence:

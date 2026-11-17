@@ -265,7 +265,10 @@ public class MethodInstantiater extends MethodVisitor {
                 } else {
                     String new_owner_class_name = Naming.mangleFortressIdentifier(new_owner);
                     new_owner_class_name = new_owner_class_name.replaceAll("[/]", ".");
-                    try {
+                    Boolean is_interface = interfaceByClassFile(new_owner_class_name);
+                    if (is_interface != null) {
+                        if (!is_interface) opcode = Opcodes.INVOKEVIRTUAL;
+                    } else try {
                         Class cl = Class.forName(new_owner_class_name, true, icl);
                         if (cl.isInterface()) {
                             // Do nothing
@@ -286,6 +289,30 @@ public class MethodInstantiater extends MethodVisitor {
             // retarget the call at a class, not an interface.
             mv.visitMethodInsn(opcode, new_owner, name, desc,
                                opcode == Opcodes.INVOKEINTERFACE);
+        }
+    }
+
+    /**
+     * Whether the named class is an interface, read from the access flags of
+     * the class file that the loader would define for it, so that no class
+     * is loaded.  The class named can be the one whose superclass this
+     * expansion makes: an object that lists a trait with a self-type
+     * parameter first extends the trait's default methods at itself, and a
+     * load of the object here is circular.  Null where the loader finds no
+     * class file of that name, as for a class that it generates.
+     */
+    private Boolean interfaceByClassFile(String dotted_name) {
+        java.io.InputStream in = icl.getResourceAsStream(Naming.dotToSep(dotted_name) + ".class");
+        if (in == null) return null;
+        try {
+            try {
+                int access = new org.objectweb.asm.ClassReader(in).getAccess();
+                return (access & Opcodes.ACC_INTERFACE) != 0;
+            } finally {
+                in.close();
+            }
+        } catch (java.io.IOException e) {
+            return null;
         }
     }
 

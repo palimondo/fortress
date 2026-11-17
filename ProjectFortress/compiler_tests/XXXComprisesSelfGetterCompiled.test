@@ -1,0 +1,3 @@
+tests=XXXComprisesSelfGetterCompiled
+compile
+compile_err_contains=has no getter called d
