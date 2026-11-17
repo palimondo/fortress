@@ -1,6 +1,6 @@
 # Rung V, rung-walk-value-bound: walk before the merge of the number types
 
-- problem: the number-object merge probe met two defects of walk that stand today at `NN32` and `RR32`, rows 997 and 998: explorations/compile-ladder/plan-31/probes/number-object-merge.md:110
+- problem: the number-object merge probe met two defects of walk that stand today at `NN32` and `RR32`, rows 997 and 998: explorations/compile-ladder/plan-31/probes/number-object-merge.md:111
 - spec: the Return Type Rule over every instance of the less specific declaration that applies to an argument: Specification/advanced/overloading.tex:555
 - precedent: `returnRuleAtEveryInstance`, the rule at every instance for two generic declarations: ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:1262
 - deviation: a more specific declaration that writes no return type is not judged by the rule where its domain is an object type, since walk has no type for a body; a `comprises` clause is not read: ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:520

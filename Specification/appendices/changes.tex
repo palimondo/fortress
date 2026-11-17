@@ -2715,7 +2715,9 @@ constructor, of a local variable declared with an arrow type, and of a
 variable of arrow type at an assignment
 (\nolinkurl{ProjectFortress/tests/GenericFunctionAsValueWalk.fss},
 \nolinkurl{GenericFunctionAssignedWalk.fss}); an immutable top-level variable
-of arrow type keeps the generic function (row~1019), a function is refused at
+of arrow type keeps the generic function (row~1019), as does a declared
+return type of arrow type and the field of an object declared with one
+(row~1036), a function is refused at
 an arrow type over a type parameter of the function called that only another
 argument's value fixes (row~1018), and a reference that no arrow type
 receives, or whose arrow type leaves a static parameter open, is not refused:
