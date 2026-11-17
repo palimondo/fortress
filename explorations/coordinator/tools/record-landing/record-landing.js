@@ -20,7 +20,7 @@ export const meta = {
 // Temporary, for the week of the Fable 5.2 launch offer (the curator's order of 2026-11-10): every agent runs
 // on Fable, at medium effort where it ran on Opus and at low effort where it ran on Sonnet. The phases above keep
 // each role's usual tier. Set FABLE_WEEK to false to go back.
-const FABLE_WEEK = true
+const FABLE_WEEK = false
 const OPUS = FABLE_WEEK ? { model: 'fable', effort: 'medium' } : { model: 'opus' }
 const SONNET = FABLE_WEEK ? { model: 'fable', effort: 'low' } : { model: 'sonnet' }
 

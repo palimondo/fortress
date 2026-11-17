@@ -20,6 +20,10 @@ The page is the answers to his specification notes 3 to 15 (https://claude.ai/ar
 - 12:05 On note 9, the introduction's sentences on types that a declaration leaves out: "Before dismissing this as utterly wrong, which would be my instinct right now, like, can you find a favorable reading of what the authors intended to do here?" Answered from `explorations/reviews/omitted-types-intent-2026-11-16.md`; its three decisions are review-queue items 551 to 553.
 - 11:52 and 12:10 On the answer to note 8: "I have no idea what you are demonstrating in the above program. Where is any omitted type? ... what are you even arguing here?" He was right on both points; the page's answer showed no left-out type and argued from the revival's own rule for workers.
 
+## Held in chat (2026-11-17)
+
+- 05:5x **His words on the models, with his usage panel** (all models 45 % used, Fable only 89 % used, both reset Friday 11:00; context 518.2K of 1M): "I guess this calls for switch of model, for workers. Potentially also switch to the coordinator session to Opus. I'm not sure. Yeah, probably Opus. So what should I do now? Should I compact you, switch to Opus, and we will use Fable only for reviewing the batched plans? Or can the next, like, after my decisions, do we need to rerun a review of the held part of the batch before it runs again on Opus workers?" On his word for the workers the coordinator ran `tier-mode.sh regular` at 05:56 UTC. The switch of the coordinating session is his to make; he leans to Opus ("Yeah, probably Opus") and asked what to do. Answered at 05:5x.
+
 ## Held in chat (2026-11-16)
 
 - 11:35 **His comment on the page of `fortress-repo` changes, on its paragraph "Each item shows the skill's current text…", not sent to Claude, found by the page's worker at 23:3x; the thread is open and not answered:** "I have no idea how am I supposed to go through this. I thought this was a good idea to keep track of the changes in the language, but I haven't looked at it for a few moments, and now there are 60 things waiting for me to review. This seems hopeless." The page then held changes 39 to 117 unread; it holds 39 to 124 now, 86 items.
