@@ -1,0 +1,62 @@
+(* A numeral that ends a block after a local declaration converts at the declared return type, parameter type or binding type (blocks.tex, section "Do Expressions"). *)
+component NumeralEndsBlockAfterDeclarationCompiled
+export Executable
+
+flag: Boolean = true
+
+four(): ZZ32 = do
+    k: ZZ32 = 3
+    4
+  end
+
+half(): RR64 = do
+    k: ZZ32 = 3
+    0.5
+  end
+
+minusFour(): ZZ32 = do
+    k: ZZ32 = 3
+    -4
+  end
+
+afterLocalFunction(): ZZ32 = do
+    f(): ZZ32 = 3
+    4
+  end
+
+pick(): ZZ32 = do
+    k: ZZ32 = 3
+    if flag then 1 else 2 end
+  end
+
+succ(x: ZZ32): ZZ32 = x + 1
+
+viaCase(n: ZZ32): ZZ32 = case n of
+    1 => do
+        k: ZZ32 = 3
+        10
+      end
+    else => 20
+  end
+
+run(): () = do
+    assert(four(), 4, "an integer numeral")
+    h: RR64 = 0.5
+    assert(half() = h, "a float numeral at RR64")
+    assert(minusFour(), -4, "a negative numeral")
+    assert(afterLocalFunction(), 4, "a numeral after a local function")
+    assert(pick(), 1, "the numeral branches of an if")
+    assert(succ(do
+        k: ZZ32 = 3
+        4
+      end), 5, "a block as an argument at the parameter's type")
+    assert(viaCase(1), 10, "a case clause")
+    u: NN32 = do
+        k: ZZ32 = 3
+        5
+      end
+    assert(u = 5, "a typed binding at NN32")
+    println("PASS")
+  end
+
+end

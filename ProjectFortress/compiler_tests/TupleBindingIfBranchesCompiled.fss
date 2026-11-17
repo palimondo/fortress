@@ -1,0 +1,16 @@
+(* A tuple binding with declared types takes an if expression whose branches are tuples of numerals, in a block and at the top level (variables.tex, section "Local Variable Declarations"). *)
+component TupleBindingIfBranchesCompiled
+export Executable
+
+flag: Boolean = true
+
+(p, q): (ZZ32, ZZ32) = if flag then (5, 6) else (7, 8) end
+
+run(): () = do
+    (m, n): (ZZ32, ZZ32) = if flag then (1, 2) else (3, 4) end
+    assert(m + n, 3, "the names of the branch taken, in a block")
+    assert(p + q, 11, "the names of the branch taken, at the top level")
+    println("PASS")
+end
+
+end

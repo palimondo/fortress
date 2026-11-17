@@ -1,4 +1,4 @@
-(* A numeral outside the range of the type that its place fixes is a static error also in a result position of an if, a case, a do block or a try, which converts each numeral where it stands. *)
+(* A numeral outside the range of the type that its place fixes is a static error also in a result position of an if, a case, a do block, a try or a block's end after a local declaration, which converts each numeral where it stands. *)
 component NumeralJoinBeyondRange
 export Executable
 
@@ -16,5 +16,14 @@ run(): () = do
   println(b)
   println(r)
 end
+
+viaDecl(): NN32 = do
+    k: ZZ32 = 3
+    4294967296
+  end
+viaDeclTuple(): (ZZ32, ZZ32) = do
+    k: ZZ32 = 3
+    (1, 2147483648)
+  end
 
 end

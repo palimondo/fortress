@@ -599,6 +599,7 @@ object NumeralConversion {
     case (STry(_, body, catchC, _, None), _) =>
       val clauses = catchC.toList.flatMap { case SCatch(_, _, cs) => cs.map { case SCatchClause(_, _, b) => b } }
       (body :: clauses).flatMap(outOfRangeAt(_, u)).headOption
+    case (SLetExpr(_, body), _) => outOfRangeAt(body, u)
     case _ => numeralOutOfRange(e, u).map((e, _))
   }
 

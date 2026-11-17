@@ -1,0 +1,13 @@
+(* A numeral compared by =/= with a zero of RR32 or RR64 is refused under the compiler's own library, whose RR32 and RR64 declare no =/=. *)
+component NumeralNotEqualsFloatCompiled
+export Executable
+
+run(): () = do
+    c: RR32 = 0
+    assert(NOT (c =/= 0), "u =/= 0 at RR32")
+    r: RR64 = 0
+    assert(NOT (r =/= 0), "u =/= 0 at RR64")
+    println("PASS")
+  end
+
+end

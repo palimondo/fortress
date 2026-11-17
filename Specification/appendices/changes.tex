@@ -5430,14 +5430,25 @@ parameter type the numeral's own coercion converts it, and not to the top-level
 \EXP{=} of \library, whose parameters are of type \TYP{Any} and which the
 numeral fits at its default: at a call a numeral goes to the most specific
 declaration that takes it (\secref{coercion}).
-Both implementations answer \EXP{u = 0} \VAR{true}, and \EXP{u \neq 0}
+The interpreter answers \EXP{u = 0} \VAR{true}, and \EXP{u \neq 0}
 \VAR{false}, for a zero \VAR{u} of \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or
-\EXP{\mathbb{R}32}; \TYP{Equality} of \library\ declares \EXP{\neq} as the
-negation of the type's own \EXP{=}, and the compiled path's own library
-declares \EXP{=} and \EXP{\neq} on each integer type with an operand of that
-type (\nolinkurl{ProjectFortress/tests/NumeralEqualsNumberWalk.fss},
+\EXP{\mathbb{R}32}, and the compiled path does so for a zero of
+\EXP{\mathbb{N}32} or \EXP{\mathbb{N}64}; \TYP{Equality} of \library\ declares
+\EXP{\neq} as the negation of the type's own \EXP{=}, and the compiled path's
+own library declares \EXP{=} and \EXP{\neq} on each integer type with an
+operand of that type (\nolinkurl{ProjectFortress/tests/NumeralEqualsNumberWalk.fss},
 \nolinkurl{NotEqualNumeral.fss} and \nolinkurl{NumeralMostSpecificWalk.fss};
-\nolinkurl{ProjectFortress/compiler_tests/NumeralMostSpecificCompiled.fss}).
+\nolinkurl{ProjectFortress/compiler_tests/NumeralMostSpecificCompiled.fss} and
+\nolinkurl{NumeralEqualsNumberCompiled.fss}).
+At \EXP{\mathbb{R}32} the compiled path's own library declares no \EXP{\neq},
+and its \EXP{=} is the one of its \TYP{Equality}, which calls that library's
+\EXP{\sequiv}, whose declaration at \EXP{\mathbb{R}32} calls \EXP{=}: so for
+\EXP{c\COLON\mathbb{R}32 = 0} the compiled type checker refuses
+\EXP{c \neq 0}, and \EXP{c = 0} compiles and overflows the stack when it runs
+(rows~1059 and~528 of the revival's gap ledger;
+\nolinkurl{ProjectFortress/compiler_tests/NumeralNotEqualsFloatCompiled.fss},
+and the expected failure \nolinkurl{XXXNumeralEqualsRR32Compiled.fss}, which
+asserts \VAR{true}).
 The interpreter has no static types and reads the rule on the value: for a
 variable \VAR{a} declared of type \TYP{Any} that holds a zero of
 \EXP{\mathbb{N}32} it answers \EXP{a = 0} \VAR{true}, where the text gives the

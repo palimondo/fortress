@@ -1,0 +1,15 @@
+(* A numeral compared by = and =/= with a zero of NN32 or NN64 goes to that type's own operator, into whose parameter its coercion converts it. *)
+component NumeralEqualsNumberCompiled
+export Executable
+
+run(): () = do
+    a: NN32 = 0
+    b: NN64 = 0
+    assert(a = 0, "u = 0 at NN32")
+    assert(NOT (a =/= 0), "u =/= 0 at NN32")
+    assert(b = 0, "u = 0 at NN64")
+    assert(NOT (b =/= 0), "u =/= 0 at NN64")
+    println("PASS")
+  end
+
+end
