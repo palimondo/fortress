@@ -6,7 +6,7 @@ The old code ran from `/home/user/fortress-base37`, whose HEAD is `c3b16ef2d1`. 
 
 ## Verdict
 
-**Approved.** The three edits of `CodeGen.java` do what the report says, and only that, each in a member that V's section names. Each follows the code generator's own precedent: `extendJ` at `CodeGen.java:2204-2205` and `:5915-5916`, `bindAndGenerateClauseBody`, and the local tuple binding's element getter at `:4765`. The tests failed on the base's code before the edit was built, and passed after the last change of code. My fixes are four corrections. Each is settled by the brief, the skill or a measured run, and none is contested.
+**Approved.** The three edits of `CodeGen.java` do what the report says, and only that, each in a member that V's section names. Each follows the code generator's own precedent: `extendJ` at `CodeGen.java:2204-2205` and `:5923-5924`, `bindAndGenerateClauseBody`, and the local tuple binding's element getter at `:4773`. The tests failed on the base's code before the edit was built, and passed after the last change of code. My fixes are four corrections. Each is settled by the brief, the skill or a measured run, and none is contested.
 
 ## What I checked
 
@@ -30,7 +30,7 @@ The old code ran from `/home/user/fortress-base37`, whose HEAD is `c3b16ef2d1`. 
    - No earlier row held the defect of row 1067 or that of row 1068.
    - The other site of the binding defect is the single-name form, which binds already.
    - The other site of the kind environment is a non-generic body's `where`-clause variable. It is left out, and row 867 holds that call.
-9. **The report's provenance lines and citations.** Each cited line was opened with `sed -n` and says what is claimed: `CodeGen.java:2204-2205`, `:5915-5916`, `:2568-2576`, `:4743-4768`, `:2659`, `:2890`, `:6933`, `:7069`; base `:500`, `:2539-2540`, `:2714-2715`, `:6892`, `:7028`; `TypeAnalyzer.scala:208`, `:225`; `typecase.tex:12`, `:15`, `:66-67`, `:104-111`; `trait-parameters.tex:329`; `Decls.scala:212`; `OverloadSet.java:2419-2430`; `changes.tex:1732-1734`; `List.fss:93-99`, `:252`; `CovariantCollection.fss:30-38`; `FortressLibrary.fss:1656`, `:1664`.
+9. **The report's provenance lines and citations.** Each cited line was opened with `sed -n` and says what is claimed: `CodeGen.java:2204-2205`, `:5923-5924`, `:2568-2576`, `:4751-4776`, `:2659`, `:2890`, `:6941`, `:7077`; base `:500`, `:2539-2540`, `:2714-2715`, `:6892`, `:7028`; `TypeAnalyzer.scala:208`, `:225`; `typecase.tex:12`, `:15`, `:66-67`, `:104-111`; `trait-parameters.tex:329`; `Decls.scala:212`; `OverloadSet.java:2419-2430`; `changes.tex:1732-1734`; `List.fss:93-99`, `:252`; `CovariantCollection.fss:30-38`; `FortressLibrary.fss:1656`, `:1664`.
    - No sentence of the specification is made false (my grep agrees).
    - The whole-suite run is the brief's: `ant testFast` on `18d5b51578`, 'BUILD SUCCESSFUL', compiler track 'Tests run: 1703, Failures: 0' (the 31b gate's 1694 plus 9).
    - Rung V makes false two FACTS sentences that cite row 812, F-181's and F-281's. Fix 4 hands them over.

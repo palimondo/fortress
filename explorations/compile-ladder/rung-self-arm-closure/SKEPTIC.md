@@ -12,7 +12,7 @@ The head judged is `0afb9ce991`, the worker's last commit on `wip/rung-self-arm-
    - The promoted tests and `SelfTypeFromClosureRun` failed at 18:39:20 (`…GrfyPJ`), 'Tests run: 14,  Failures: 5,  Errors: 0'. `SelfTypeFromClosureRun` was rewritten and failed again at 18:39:44 (`…6t7CiM`): '…apply()LSelfTypeFromClosureRun$Pt; @4: areturn'. In both calls `git diff --stat <base> -- ProjectFortress/src` printed nothing, and the tree ran the seeded base build.
    - The code was edited from 18:41:09 to 18:41:53 and first built at 18:41:57 (`…mVLhQt`).
    - The `case` clause was seen failing on the old code at 19:10:35 (`…3qutEK`). The last passing run, at 19:11:39 (`…VCTrDV`), came after the last change of code: 'OK (16 tests)'. The rule of `tests-writing.md`, "The order", is met.
-3. **The diff**, line by line. `forIf` (`CodeGen.java:4535`, `:4558`, `:4568`) casts each arm at the `If` node's type. `forFnExpr` (`:3968`) and `localFunctionClosure` (`:4127`) cast the body at the header's return type. Every cast goes through rung K's unchanged `castToTypeBelow` (`:7679-7701`), which emits nothing unless the value has the type `TraitSelfType` with a non-empty list and the target lies strictly below self's trait.
+3. **The diff**, line by line. `forIf` (`CodeGen.java:4535`, `:4558`, `:4568`) casts each arm at the `If` node's type. `forFnExpr` (`:3968`) and `localFunctionClosure` (`:4127`) cast the body at the header's return type. Every cast goes through rung K's unchanged `castToTypeBelow` (`:7764-7786`), which emits nothing unless the value has the type `TraitSelfType` with a non-empty list and the target lies strictly below self's trait.
    - The checker gives the `If` the first of else-type-then-clause-types to which every arm is substitutable (`scala_src/typechecker/impls/Misc.scala:537-546`).
    - So with `self` in the `else` arm the conditional has self's type, its arms get no cast, and rung K's cast at the context casts after the join. With the other value in the `else` arm, the `self` arm is cast at that value's type.
    - Both shapes verify and run (`SkArms`, `SkArms2` below). I read this as Q1's rule with "the declared type" taken as the conditional's type and "not already a subtype" as `castToTypeBelow`'s test. That is the worker's decision 1, and it is neither narrower nor broader than Q1, but for the cast measured in item 6.
@@ -50,7 +50,7 @@ The head judged is `0afb9ce991`, the worker's last commit on `wip/rung-self-arm-
    - The worker's `ant testFast` printed 'Tests run: 1702, Failures: 0, Errors: 0' for the compiler track, 'Tests run: 86, Failures: 0, Errors: 0' for the library track and 'Tests run: 263, Failures: 0, Errors: 0' for the othercompiler track (REPORT.md, section 3), so no other `XXX` test turned red.
 9. **The report.**
    - The five provenance lines and every cited line were opened with `sed -n`, and each says what it is cited for:
-     - `CodeGen.java:1922`, `:1967`, `:2100`, `:2377`, `:2526`, `:3272`, `:4069`, `:4091`, `:5679`, `:7660`, `:7679`;
+     - `CodeGen.java:1922`, `:1967`, `:2100`, `:2377`, `:2526`, `:3272`, `:4069`, `:4091`, `:5679`, `:7745`, `:7764`;
      - `var-ref.tex:64-80`;
      - `InstantiatingClassloader.java:83-88`, `:485`;
      - `ArrayStoreJUTest.java:197`, `:204`, `:218-219`;
