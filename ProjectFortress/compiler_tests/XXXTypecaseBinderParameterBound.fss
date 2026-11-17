@@ -1,0 +1,23 @@
+(* A method of a type parameter's bound, called on a typecase binder typed by the parameter met with a trait, runs the method of the value's object. *)
+component XXXTypecaseBinderParameterBound
+export Executable
+
+trait Shape
+  name(): String = "shape"
+end
+trait Marked end
+object MarkedSquare extends { Shape, Marked }
+  name(): String = "marked square"
+end
+
+describe[\X extends Shape\](x: X): String = typecase x of
+    x': Marked => x'.name()
+    else => "plain"
+  end
+
+run(): () = do
+  assert(describe[\MarkedSquare\](MarkedSquare), "marked square", "a method of the bound on the binder")
+  println("PASS")
+end
+
+end
