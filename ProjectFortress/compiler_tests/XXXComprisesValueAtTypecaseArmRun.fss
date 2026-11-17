@@ -12,8 +12,8 @@ end
 value object R(n: ZZ32, d: ZZ32) extends Q end
 
 run(): () = do
-    q: Q = R(1, 2)
     println("REACHED")
+    q: Q = R(1, 2)
     assert(q.chosen("s").d, 2, "the arm that is self")
     assert(q.chosen(3).d, 0, "the arm at the listed type")
     println("PASS")
