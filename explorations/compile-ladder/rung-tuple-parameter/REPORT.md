@@ -74,7 +74,7 @@ The checker accepts every program here and the code generator writes the classes
 
 ## What the specification settles
 
-A dotted call binds the method's parameter to the value of the argument expression (`method-invocation.tex:57-58`), and a postfix operator is applied to its operand (`opr-overview.tex`, section "Postfix Operators"); each of the five tests' programs prints `PASS` under walk (`bin/fortress X.fss` on a copy of each, on the final tree). The specification says nothing of JVM parameters: the convention is the implementation's, fork T1's default.
+A dotted call binds the method's parameter to the value of the argument expression (`method-invocation.tex:57-58`), and a postfix operator is applied to its operand (`opr-overview.tex`, section "Postfix Operators"); each of the five tests' programs prints `PASS` under walk (`bin/fortress X.fss` on a copy of each, on the final tree). The cases of `object Two` that the skeptic added to `GenericMethodTupleParameterCompiled` stop that program under walk, 'Cannot find definition for method tk given receiver Two' (record.md, NEW-T-4). The specification says nothing of JVM parameters: the convention is the implementation's, fork T1's default.
 
 ## Programs run old against new
 
@@ -97,6 +97,7 @@ One, changed here: `Specification/appendices/changes.tex:3330-3333`, the Effect 
 
 - Before: "On the compiled path some such instances compile and then fail at run time: an instance at \TYP{()} where a parameter has the type parameter's type (row~339 of the revival's gap ledger), and a generic dotted method whose one parameter has a tuple type (row~832)."
 - After: "On the compiled path one such instance compiles and then fails at run time: an instance at \TYP{()} where a parameter has the type parameter's type (row~339 of the revival's gap ledger)."
+- After the skeptic's correction, since a generic operator over a type parameter applied to a pair now compiles and dies at the call (record.md, NEW-T-3): "On the compiled path some such instances compile and then fail at run time: an instance at \TYP{()} where a parameter has the type parameter's type (row~339 of the revival's gap ledger), and an instance at a tuple type of a generic operator whose one parameter has the type parameter's type."
 
 No other sentence of `Specification/` names rows 992, 819, 397 or 840 (`grep -rn 'row~' Specification`).
 
@@ -153,6 +154,12 @@ Empty. No file of the baseline's `raw/` has a first error in what the change tou
 - Row 840, a component named `Tuple…`: home 1, `TupleNamedComponentGenericParam` (promoted).
 - The class loader's twin duplicating a bridge in a generic template: made by this change's bridge and repaired in it, home 1, `TupleIndexMethodCompiled` (`G`, `Sel`).
 - A program's postfix `:` at the one library's parameter types is not reached under walk, where its `#` is: a fact for row 237, whose claim is a component-level operator at a library operator's parameter types; the note is in `record.md`.
+- Found by the skeptic's programs (SKEPTIC.md):
+  - row 832's claim at a name whose other generic declaration has three parameters, `Two.tk[\ZZ32\]((8, 9))`: home 1, the skeptic's fix f0c76ac804, `GenericMethodTupleParameterCompiled`;
+  - an object's dotted method overloaded at a pair and at another type, a `VerifyError` in its dispatch method, on the base too: home 2, `compiler_tests/XXXOverloadedMethodTupleParameterCompiled.test`, row NEW-T-1;
+  - an object whose one value parameter is a pair, a `ClassCastException` in its constructor, on the base too: home 2, `compiler_tests/XXXObjectTupleValueParameterCompiled.test`, row NEW-T-2;
+  - a generic operator over a type parameter applied to a pair, a `NoSuchMethodError` at the call, where the base's compile stopped: home 2, `compiler_tests/XXXGenericOperatorTupleOperandCompiled.test`, row NEW-T-3;
+  - under walk, two generic dotted methods of one name that differ in their number of parameters, 'Cannot find definition for method': home 2, `tests/XXXGenericMethodOverloadArity.fss`, row NEW-T-4.
 
 ## For FACTS
 

@@ -1,0 +1,15 @@
+(* An object whose one value parameter has a tuple type holds the tuple it is constructed with (objects.tex, section "Object Declarations"). *)
+component XXXObjectTupleValueParameterCompiled
+export Executable
+
+object Holder(pr: (ZZ32, ZZ32)) end
+
+run(): () = do
+    println("REACHED")
+    (a, b) = Holder((1, 2)).pr
+    assert(a, 1, "the first element of the value parameter")
+    assert(b, 2, "the second element of the value parameter")
+    println("PASS")
+end
+
+end

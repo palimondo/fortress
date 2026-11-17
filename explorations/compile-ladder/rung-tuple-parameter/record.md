@@ -22,7 +22,7 @@
 **Rows closed**, each by `ledger.py close N --commit HASH --test NAME` once the commit is in `HEAD`:
 
 - 992, by f91e6b9ee7, test `ProjectFortress/compiler_tests/TupleIndexMethodCompiled.test`.
-- 832, by f91e6b9ee7, test `ProjectFortress/compiler_tests/GenericMethodTupleParameterCompiled.test`.
+- 832, by f0c76ac804 (the skeptic's fix, after f91e6b9ee7: a generic dotted method of one tuple parameter beside one of as many parameters as the tuple's elements), test `ProjectFortress/compiler_tests/GenericMethodTupleParameterCompiled.test`.
 - 819, by f91e6b9ee7, test `ProjectFortress/compiler_tests/PostfixOperatorTupleOperandCompiled.test`.
 - 397, by f91e6b9ee7, test `ProjectFortress/compiler_tests/TupleVarFieldCompiled.test`; its reproducer `XXXTupleVarFieldCompiledRungC.test` was renamed by the promotion, so the close names the new test.
 - 840, by ee53014cf2, test `ProjectFortress/compiler_tests/TupleNamedComponentGenericParam.test`; its reproducer `XXXTupleNamedComponentGenericParam.test` was renamed by the promotion.
@@ -31,7 +31,23 @@
 
 | 237 | a **component-level `opr` with exactly a library operator's parameter types but another result type is accepted, and wins**: `opr <(a: RR64, b: RR64): RR64` makes `2.0 < 3.0` evaluate to `99.0`, with no ambiguity error | POSITIVE-VERIFIED | — | silent | `explorations/apl/rung-3/t03_and.fss` | apl rung 3 | Case (b) of `t03_and.fss`. Sharpens row 218, where only the *more specific* overload won. APL's 0/1 scalar comparisons are thus reachable, at the price of changing every host use of `<` in the same component, the library's own included; rung 3 therefore declares the array shapes only, and `2<3` stays the host's `true`. A postfix `:` departs under walk: beside the one library's `opr (x:(ZZ32,ZZ32)):`, a component's `opr (x: (ZZ32, ZZ32)): : ZZ32 = 12` is not reached, `pr:` for `pr = (1, 2)` printing the library's range `([1,2,3,4,5... BY [2,3,4,5,6...)`; its `#` at the same type wins, `pr#` printing 12. full text: history, row 237 |
 
-**New rows:** none.
+**New rows**, added by the skeptic, each by `ledger.py add FILE --section TITLE` with the line below in FILE; the defects that the skeptic's programs measured, none made by the change (NEW-T-3's failure moved from the compile to the run):
+
+- NEW-T-1, section "5. Overloading on the compiled path: checker and dispatch":
+
+| ? | on the compiled path an object's dotted method overloaded at a pair parameter and at another type fails the JVM's verification in its dispatch method: `get(t: (ZZ32, ZZ32))` beside `get(s: String)` in `object Pairs`; walk prints 12 and 99 | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/overloading.tex`, "Applicability to Dotted Method Calls" | ProjectFortress/compiler_tests/XXXOverloadedMethodTupleParameterCompiled.test | climb batch 31b rung T's skeptic | siblings: 992, 397. 'VerifyError: Bad local variable type … Pairs.get(Lfortress/AnyType$Any;)…FZZ32; @21: aload_2': the dispatch method that `generateTopLevelOverloads` writes for the object (`compiler/codegen/CodeGen.java:5129-5133` at f0c76ac804) takes one value, and its arm for the pair loads two locals, one for each element. Alike on the base 647163a9c4 and after rung T, and with a generic trait over the pair above the object. Workaround: two names, or the pair's elements as two parameters. |
+
+- NEW-T-2, section "12. The compiled path: constructs, crashes and the switch-over":
+
+| ? | on the compiled path an object whose one value parameter has a tuple type dies when it is constructed, `ClassCastException` in its constructor: `Holder((1, 2)).pr` for `object Holder(pr: (ZZ32, ZZ32))`; walk gives the pair | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/objects.tex`, "Object Declarations" | ProjectFortress/compiler_tests/XXXObjectTupleValueParameterCompiled.test | climb batch 31b rung T's skeptic | siblings: 397, 992. 'ClassCastException: class …FZZ32 cannot be cast to class AnyTuple⟦2⟧ … at Holder.<init>(…:4)': the factory passes the pair's elements as two JVM parameters (`compiler/codegen/CodeGen.java:4824` at 647163a9c4, 'if only a single parameter which is a tuple, signature will give them individually'), and the constructor casts the first to the tuple. Alike on the base and after rung T, with `var pr` too. Workaround: a second value parameter, as `object Holder(n: ZZ32, var pr: (ZZ32, ZZ32))`, which runs. |
+
+- NEW-T-3, section "12. The compiled path: constructs, crashes and the switch-over"; once it has its number, `Specification/appendices/changes.tex`, the Effect of the entry on a type parameter's implicit bound, names it after "the type parameter's type" in its last clause, as `(row~N)`:
+
+| ? | on the compiled path a generic operator whose one parameter has its type parameter's type, applied to a tuple, compiles and dies at the call, `NoSuchMethodError`: `pr!!` for `opr (x: T)!![\T\] : T = x`, `pr = (1, 2)`; walk gives the pair | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/operators/opr-overview.tex`, "Postfix Operators" | ProjectFortress/compiler_tests/XXXGenericOperatorTupleOperandCompiled.test | climb batch 31b rung T's skeptic | siblings: 819, 832, 339. The call passes the pair's elements (`CodeGen.forOpExpr`, rung T) to `the_function(FZZ32, FZZ32)` of the instance class `postfix !!⟦Tuple⟦FZZ32,FZZ32⟧⟧`, which has no such method; the class loader makes the twin of the elements only for a method that is not static (`runtimeSystem/Instantiater.java:131`). On the base 647163a9c4 the compile stopped instead, 'NegativeArraySizeException: -1' in `ManglingMethodVisitor.visitMaxs`. At a number, `5!!` runs on both. |
+
+- NEW-T-4, section "4. Operators and overloading under walk":
+
+| ? | under walk, two generic dotted methods of one name and one static parameter that differ in their number of parameters fail at a call, 'Cannot find definition for method tk given receiver Two': `tk[\U\](y: U, z: U)` beside `tk[\U\](y: U, z: U, w: U)` in `object Two` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/overloading.tex`, "Applicability to Dotted Method Calls" | ProjectFortress/tests/XXXGenericMethodOverloadArity.fss | climb batch 31b rung T's skeptic | siblings: 744, 760. The message is written at `interpreter/evaluator/values/DottedMethodApplication.java:106` at 647163a9c4. Alike with the static argument written and inferred, and where one overload's one parameter is a pair, `tk[\U\](y: (U, U))`. The compiled path runs the pair without a tuple on the base and after rung T, 2 and 3, and the form with the pair after rung T's skeptic's fix (`compiler_tests/GenericMethodTupleParameterCompiled.test`). Workaround: two names. |
 
 ## The handover state line
 
