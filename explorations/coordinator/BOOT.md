@@ -6,7 +6,7 @@
 
 ## Running
 
-Nothing runs.
+**The planner of climb batch 33, resumed at 16:4x UTC** by `SendMessage`, at his question "Why can't we tackle the var args in the same batch?": it probes varargs (row 624) under the selector and adds it to run 2 if it is well defined; row 315 only if it falls out cheaply. When it ends: check at the source, then the go is put to him again with the change.
 
 **Climb batch 33's record waits for his go** (put to him at 16:3x UTC). The Fable review ended at 16:3x (`2783d2242f`, `explorations/coordinator/climb-batch-33-review.md`): no consequential fork; 12 corrections; run 1's five reproducers fail as recorded. The coordinator's decisions on its points, in the record: fork N4 taken the other way by P-102 (test first): the one library's seven number objects get form 2 in the rung where the first program runs on the one library, with it as their test, not in rung N; rung V's blurb and mission brought in line with the review's A1. Still owed at run 2's launch: R's section read again on run 1's tree, naming V's change at `STypesUtil.scala:1587` (review B2); run 2's estimate 3.1M to 3.4M by 31b's rates, not 2.6M (B4). After run 2: P-33's words "by a second set of the run time's value classes" are inexact for the numbers; on his review list in the record (C1), for the record-landing.
 
