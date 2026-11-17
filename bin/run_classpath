@@ -22,7 +22,13 @@ else
 fi
 
 BASIC_CLASS_PATH="`"${FORTRESS_HOME}"/bin/fortress_classpath`"
-CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"
+# The caches folder: the one that FORTRESS_CACHES names; else, with FORTRESS_LIBRARY=one, where the
+# compiled path reads the one library, default_repository/caches-one, as ProjectProperties.CACHES does.
+if [ "$FORTRESS_LIBRARY" = "one" ] ; then
+  CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches-one}"
+else
+  CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"
+fi
 CLASSPATH="$CACHES/bytecode_cache${SEP}$CACHES/bytecode_cache/*${SEP}$CACHES/nativewrapper_cache${SEP}${BASIC_CLASS_PATH}"
 
 if [ -z "$MORE_PATH" ] ; then

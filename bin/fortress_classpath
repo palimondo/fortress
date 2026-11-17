@@ -22,7 +22,13 @@ else
   SEP=":"
 fi
 TP="$FORTRESS_HOME/ProjectFortress/third_party"
-CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"
+# The caches folder: the one that FORTRESS_CACHES names; else, with FORTRESS_LIBRARY=one, where the
+# compiled path reads the one library, default_repository/caches-one, as ProjectProperties.CACHES does.
+if [ "$FORTRESS_LIBRARY" = "one" ] ; then
+  CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches-one}"
+else
+  CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"
+fi
 SV=2.13.18
 # SV=2.8.0
 

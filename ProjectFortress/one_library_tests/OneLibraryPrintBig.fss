@@ -1,0 +1,7 @@
+(* Under the one library's selection, a program of one println that calls big, which only the one library declares, compiles. *)
+component OneLibraryPrintBig
+export Executable
+
+run(): () = println(big(7))
+
+end

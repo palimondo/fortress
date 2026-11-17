@@ -141,6 +141,14 @@ public class WellKnownNames {
             new String[] { fortressLibrary(), fortressBuiltin(), anyTypeLibrary() };
     }
 
+    /**
+     * The library that this JVM's compiled path reads: the one library, the interpreter's,
+     * where it is selected (ProjectProperties.compiledPathUsesOneLibrary), else the
+     * compiler's prelude.  Shell.useCompilerLibraries() follows it.
+     */
+    public static final boolean compiledPathUsesOneLibrary =
+        com.sun.fortress.repository.ProjectProperties.compiledPathUsesOneLibrary;
+
     public static boolean areCompilerLibraries() {
         return _fortressLibrary.equals("CompilerLibrary");
     }

@@ -1,0 +1,11 @@
+(* Under the one library's selection, a program that binds a QQ, which only the one library declares, compiles. *)
+component OneLibraryHalf
+export Executable
+
+run(): () = do
+  println("REACHED")
+  q: QQ = 1/2
+  println(q)
+end
+
+end

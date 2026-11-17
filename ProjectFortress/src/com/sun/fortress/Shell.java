@@ -370,12 +370,21 @@ public final class Shell {
         }
     }
 
+    /**
+     * The compiled path's library: the one library where it is selected
+     * (WellKnownNames.compiledPathUsesOneLibrary), the compiler's prelude where not.
+     */
     public static void useCompilerLibraries() {
 	setExtendsObjectPreDesugaring(false);
 	setAssignmentPreDesugaring(false);
 	setAssignmentDesugaring(true);
-        WellKnownNames.useCompilerLibraries();
-        Types.useCompilerLibraries();
+        if (WellKnownNames.compiledPathUsesOneLibrary) {
+            WellKnownNames.useFortressLibraries();
+            Types.useFortressLibraries();
+        } else {
+            WellKnownNames.useCompilerLibraries();
+            Types.useCompilerLibraries();
+        }
     }
 
     public static void useInterpreterLibraries() {

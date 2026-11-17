@@ -280,7 +280,26 @@ public class ProjectProperties {
 
     public static final String ROOTDIR = searchDef("ROOTDIR", "ROOTDIR", "${FORTRESS_AUTOHOME}/");
 
-    public static final String CACHES = get("fortress.caches", "${REPOSITORY}/caches");
+    /**
+     * The library that this JVM's compiled path reads: the one library, the interpreter's,
+     * where the property fortress.library or else the environment variable FORTRESS_LIBRARY
+     * is "one"; else the compiler's prelude.  Read once, when this class loads.
+     * WellKnownNames.compiledPathUsesOneLibrary gives it to the compiler, CACHES follows it,
+     * and bin/fortress_classpath and bin/run_classpath read the same environment variable.
+     */
+    public static final boolean compiledPathUsesOneLibrary =
+        "one".equals(System.getProperty("fortress.library", System.getenv("FORTRESS_LIBRARY")));
+
+    /**
+     * The caches folder: the one that the property fortress.caches or the environment
+     * variable FORTRESS_CACHES names; else, where the one library is selected, the
+     * repository's caches-one, since a caches folder holds one library's jars and the
+     * programs compiled against them; else the configuration's, the repository's caches.
+     */
+    public static final String CACHES =
+        compiledPathUsesOneLibrary && searchHead.get("fortress.caches") == null
+        ? get("${REPOSITORY}/caches-one")
+        : get("fortress.caches", "${REPOSITORY}/caches");
 
     public static final String INTERPRETER_CACHE_DIR = get("fortress.interpreter.cache", "${CACHES}/interpreter_cache");
     public static final String INTERPRETER_PARSED_CACHE_DIR = get("fortress.interpreter.parsed.cache",

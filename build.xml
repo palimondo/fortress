@@ -41,6 +41,10 @@ maintain proper indentation.
 
   <!-- Directories in the ${PF} directory -->
   <property name="cache0" location="default_repository/caches"/>
+  <!-- The caches of the compiled path where FORTRESS_LIBRARY=one selects the
+       one library (ProjectProperties.CACHES): a caches folder holds one
+       library's jars and the programs compiled against them. -->
+  <property name="cacheOne" location="default_repository/caches-one"/>
   <!-- Private cache trees for parallel test tracks; redirected via the
        fortress.caches property / FORTRESS_CACHES environment variable. -->
   <property name="test.caches" location="${PF}/test-caches"/>
@@ -219,6 +223,8 @@ testOnly         - together with -DtestPattern='SomeTestName' runs
                    only the junit test in class (not package) SomeTestName,
                    e.g., -DtestPattern='SyntaxAbstractionJUTest'
 testQuick        - only compiler tests, other compiler tests, library tests
+testOneLibrary   - the compiled tests of one_library_tests, against the one
+                   library (FORTRESS_LIBRARY=one); testFast runs them too
 testFast         - a subset of tests, excluding (some) slower ones
                    "test" depends on this, so it should not be modified
                    carelessly.
@@ -358,6 +364,7 @@ testOtherCompiler, testCruiseControl
           description="Delete any cached Fortress ASTs in the development tree">
     <delete dir="${cache0}"/>
     <delete dir="${cache1}"/>
+    <delete dir="${cacheOne}"/>
     <!-- Empty caches belong to the implementation now built: start them
          with its stamp, so that the next compileAll keeps what fills them. -->
     <loadfile property="cleanCache.stamp" srcFile="${build}/implementation.stamp"
@@ -366,6 +373,7 @@ testOtherCompiler, testCruiseControl
     </loadfile>
     <stampCache dir="${cache0}" stamp="${cleanCache.stamp}" if:set="cleanCache.stamp"/>
     <stampCache dir="${cache1}" stamp="${cleanCache.stamp}" if:set="cleanCache.stamp"/>
+    <stampCache dir="${cacheOne}" stamp="${cleanCache.stamp}" if:set="cleanCache.stamp"/>
   </target>
 
   <target name="cleanScala"
@@ -377,7 +385,7 @@ testOtherCompiler, testCruiseControl
   <!--
        The caches and the implementation.
 
-       The caches (${cache0}, ${cache1}, and the private ones the tests use)
+       The caches (${cache0}, ${cache1}, ${cacheOne}, and the private ones the tests use)
        hold what the implementation made from Fortress code: parsed and
        analysed ASTs, walk's rewritten ASTs and environments, compiled jars,
        native wrappers.  Fortress checks an entry against its Fortress sources,
@@ -520,6 +528,10 @@ testOtherCompiler, testCruiseControl
               quiet="true">
       <filterchain><striplinebreaks/></filterchain>
     </loadfile>
+    <loadfile property="cacheOne.stamp" srcFile="${cacheOne}/implementation.stamp"
+              quiet="true">
+      <filterchain><striplinebreaks/></filterchain>
+    </loadfile>
     <condition property="sources.unchanged">
       <and>
         <equals arg1="${sources.start}" arg2="${built.sources}"/>
@@ -538,12 +550,19 @@ testOtherCompiler, testCruiseControl
         <equals arg1="${cache1.stamp}" arg2="${built.stamp}"/>
       </and>
     </condition>
+    <condition property="cacheOne.keep">
+      <and>
+        <isset property="sources.unchanged"/>
+        <equals arg1="${cacheOne.stamp}" arg2="${built.stamp}"/>
+      </and>
+    </condition>
     <delete file="${build}/implementation.stamp"/>
     <delete file="${build}/implementation.sources"/>
     <echo message="Sources and build as the last build left them? yes" if:set="sources.unchanged"/>
     <echo message="Sources and build as the last build left them? no" unless:set="sources.unchanged"/>
     <delete dir="${cache0}" unless:set="cache0.keep"/>
     <delete dir="${cache1}" unless:set="cache1.keep"/>
+    <delete dir="${cacheOne}" unless:set="cacheOne.keep"/>
   </target>
 
   <!-- Generation of Operators.java depends only on the files listed below.
@@ -841,6 +860,7 @@ testOtherCompiler, testCruiseControl
           message="${implementation.built}${line.separator}"/>
     <stampCache dir="${cache0}" stamp="${implementation.built}"/>
     <stampCache dir="${cache1}" stamp="${implementation.built}"/>
+    <stampCache dir="${cacheOne}" stamp="${implementation.built}"/>
   </target>
 
   <target name="compile" depends="compileAll"/>
@@ -1123,6 +1143,18 @@ testOtherCompiler, testCruiseControl
     <fail message="Tests expected to pass are failing!" if="tests.failed"/>
   </target>
 
+  <target name ="testOneLibrary" depends="compileAll"
+          description="Test the compiled path against the one library: testFast's onelibrary track">
+    <mkdir dir="${test.results}"/>
+    <mkdir dir="${PF}/test-tmp" />
+    <delete quiet="true" dir="${test.caches}/fast-onelibrary"/>
+    <fastTrack id="onelibrary" library="one">
+      <include name="**/OneLibraryJUTest.class"/>
+    </fastTrack>
+    <delete dir="${PF}/test-tmp" />
+    <fail message="Tests expected to pass are failing!" if="tests.failed"/>
+  </target>
+
   <target name ="testQuick" depends="compileAll"
           description="Test the native code generator: testFast's compiler, othercompiler and library tracks">
     <mkdir dir="${test.results}"/>
@@ -1165,9 +1197,14 @@ testOtherCompiler, testCruiseControl
        threads, and library_tests/TimingRungT, whose recursion is 1,000
        calls deep with its operands forked, overflowed such a stack in 8 of
        12 runs at four threads, and in none of 12 with this value, the
-       heap and stack that explorations/experiment/env.sh exports. -->
+       heap and stack that explorations/experiment/env.sh exports.
+       FORTRESS_LIBRARY is pinned too, to the track's library attribute:
+       "one" where the track compiles against the one library, as the
+       onelibrary track does, and empty, the compiler's prelude, for the
+       others, whatever the shell that called ant exports. -->
   <macrodef name="fastTrack">
     <attribute name="id"/>
+    <attribute name="library" default=""/>
     <element name="tests" implicit="yes"/>
     <sequential>
       <mkdir dir="${test.results}/fast-@{id}"/>
@@ -1183,6 +1220,7 @@ testOtherCompiler, testCruiseControl
         <sysproperty key="fortress.junit.reset" value="false"/>
         <sysproperty key="fortress.caches" value="${test.caches}/fast-@{id}"/>
         <env key="FORTRESS_CACHES" value="${test.caches}/fast-@{id}"/>
+        <env key="FORTRESS_LIBRARY" value="@{library}"/>
         <env key="FORTRESS_THREADS" value="4"/>
         <env key="JAVA_FLAGS"
              value="-Xmx4g -Xss64m -Djava.io.tmpdir=${basedir}/${PF}/test-tmp"/>
@@ -1221,6 +1259,7 @@ testOtherCompiler, testCruiseControl
         <exclude name="**/CompilerJUTest.class"/>
         <exclude name="**/LibraryJUTest.class"/>
         <exclude name="**/OtherCompilerJUTest.class"/>
+        <exclude name="**/OneLibraryJUTest.class"/>
 
         <!-- Do not run the interpreter tests here. Only run the interpreter
              tests during nightly and CruiseControl testing. -->
@@ -1232,6 +1271,11 @@ testOtherCompiler, testCruiseControl
         <exclude name="**/SyntaxAbstractionJUTestAll.class"/>
         <exclude name="**/ObjectExpressionVisitorJUTest.class"/>
         <exclude name="**/tools/AstJUTest.class"/>
+      </fastTrack>
+      <!-- The compiled path against the one library, under its selection;
+           it starts when one of the four above ends. -->
+      <fastTrack id="onelibrary" library="one">
+        <include name="**/OneLibraryJUTest.class"/>
       </fastTrack>
     </parallel>
     <delete dir="${PF}/test-tmp" />
