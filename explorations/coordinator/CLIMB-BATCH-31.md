@@ -983,7 +983,7 @@ New rows go into the ledger only through `ledger.py add`, by the gather.
 ### After the landing
 
 - **PLAN:** phase 4's F-34 line with the new count and its kinds by row; the merge's line: the one library's half landed with run 2, the prelude's half waits for its probe; a line that varargs waits for a program compiled against the one library; "Next" and the line of climb batch 31.
-- **The review queue:** this record's 27 forks as new items; items 516 to 520 answered at forks O1 to O5; a new item for fork H2, the way of the prelude's half.
+- **The review queue:** this record's 27 forks as new items; items 516 to 520 taken at the defaults of forks O1 to O5, with no question put to him; a new item for fork H2, the way of the prelude's half.
 - **The post-batch review** of each run.
 
 ### For the record-landing workflow
