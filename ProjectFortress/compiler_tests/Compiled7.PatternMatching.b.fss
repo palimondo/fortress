@@ -27,7 +27,7 @@ end
 run():() = do
   a : aa = bb(4, 5)
   tc = typecase 3  of
-          x => println x
+          x: Any => println x
          (*  typecase x of
              String => println "String"
              ZZ32 => println "ZZ32"

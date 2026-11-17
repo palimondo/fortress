@@ -10811,3 +10811,27 @@ note added
 note added
 
 | 288 | a program that imports a user grammar cannot be `fortress compile`d: every grammar api must `import FortressSyntax`, whose api graph reaches the interpreter's library, `FortressLibrary`, so the unit dies at DISAMBIGUATE with 1342 errors before GRAMMAR runs | NEGATIVE-VERIFIED | implementation gap (prelude) | silent | none | grammar-compile probe | siblings: 71, 290, 884. `Library/FortressSyntax.fsi:14` imports `FortressAst`, and `Library/FortressAst.fsi:6` imports `FortressLibrary`, not the compiler's prelude (`WellKnownNames.java:116-129`, at c124c6b65). The mechanism exists: `GraphRepository.java:815-823` macro-parses on both paths, and `PhaseOrder.java:137-147` has GRAMMAR. `import FortressSyntax.{Expression}` alone gives the same 1342. No workaround. A fix needs a compiler-world `FortressAst`/`FortressSyntax`, and the names of `Library/List.fsi` that the compiler's prelude lacks (row 71). Probes `explorations/perf-probes/grammar-compile/`, in the parent of fc89ee7a5. full text: history, row 288 |
+
+### Row 964
+
+note added
+
+| 964 | the code generator stops with a Java `RuntimeException`, 'typcase match failure!', on a `typecase` clause whose tuple pattern binds an element without a type: `typecase p of (x, y: ZZ32) => ...` for `p: (ZZ32, ZZ32)` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/typecase.tex`, "Typecase Expressions" | `ProjectFortress/compiler_tests/XXXTypecasePatternUntypedBinder.test` | climb batch 29 rung C's skeptic | siblings: 498. `CodeGen.getType(TypeOrPattern)` takes a `PlainPattern` only with a type and a `TypePattern`, and throws on any other binding (`compiler/codegen/CodeGen.java:2166-2186` at b212f67a0e); the checker accepts the clause. The base stops the same way. Workaround: give each binder a type, `(x: ZZ32, y: ZZ32)`. |
+
+### Row 964
+
+note added
+
+| 964 | the code generator stops with a Java `RuntimeException`, 'typcase match failure!', on a `typecase` clause whose tuple pattern binds an element without a type: `typecase p of (x, y: ZZ32) => ...` for `p: (ZZ32, ZZ32)` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/typecase.tex`, "Typecase Expressions" | `ProjectFortress/compiler_tests/XXXTypecasePatternUntypedBinder.test` | climb batch 29 rung C's skeptic | siblings: 498. `CodeGen.getType(TypeOrPattern)` takes a `PlainPattern` only with a type and a `TypePattern`, and throws on any other binding (`compiler/codegen/CodeGen.java:2166-2186` at b212f67a0e); the checker accepts the clause. The base stops the same way. Workaround: give each binder a type, `(x: ZZ32, y: ZZ32)`. Walk stops on the same clause when it runs, 'typecase match failure!', and runs the workaround (probes on 1609258002's code). |
+
+### Row 1020
+
+note added
+
+| 1020 | under walk, a function declared in a block with static parameters of its own stops where it is declared, 'Missing type T': `loc[\T\](x: T): T = x` in the body of `run`, whether it is then called or passed | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/functions.tex`, "Local Function Declarations" | `ProjectFortress/tests/XXXLocalGenericFunctionWalk.fss` | climb batch 32 rung F (skeptic) | siblings: 156, 304. The error names the position of the declared return type, before any call: 'XXXLocalGenericFunctionWalk.fss:8:21: Missing type T'. The same on the base `db352c1776`. Row 304's note "Walk runs local functions" holds for a local function without static parameters only. Workaround: declare the function at the top level. |
+
+### Row 868
+
+note added
+
+| 868 | under walk, an object's method whose own `where` clause introduces a `where`-clause variable stops at the clause, 'Missing type n': `m[\U\](u: U): String where [\nat n\]{U extends {X[\n\]}}` in `object Q`, with `Q.m(O)` for `O extends X[\1\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/XXXWhereVariableMethodWalk.fss` | climb batch 24 rung G's skeptic | siblings: 755, 760, 867. The same clause on a top-level function runs, 'OP' for `g(O, P)`; with `where { U extends T }` the method runs. The compiled checker accepts the method; compiled, its call dies (row 867). Walk is the same on the base, b0f6cd6b7. |

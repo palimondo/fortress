@@ -1,5 +1,5 @@
 (* A typecase arm that names a type no declaration defines is refused at load. *)
-component XXXTypecaseUndefinedArmWalk
+component TypecaseUndefinedArmWalk
 export Executable
 
 kind(v: Any): String =

@@ -13,6 +13,7 @@ package com.sun.fortress.tests.unit_tests;
 
 import com.sun.fortress.Shell;
 import com.sun.fortress.compiler.index.ComponentIndex;
+import com.sun.fortress.exceptions.StaticError;
 import com.sun.fortress.interpreter.Driver;
 import com.sun.fortress.interpreter.evaluator.Init;
 import com.sun.fortress.nodes.APIName;
@@ -867,12 +868,14 @@ public class FileTests {
 
         /**
          * Thrown while the interpreter built the program's environments
-         * (Driver.evalComponent), where it checks the program at load.
+         * (Driver.evalComponent), where it checks the program at load, or a
+         * static error of the phases, which refuse the program before that.
          */
         @Override
         protected boolean thrownAtLoad(Throwable ex) {
             Set<Throwable> seen = new HashSet<Throwable>();
             for (Throwable t = ex; t != null && seen.add(t); t = t.getCause()) {
+                if (t instanceof StaticError) return true;
                 for (StackTraceElement e : t.getStackTrace()) {
                     if (e.getClassName().equals(Driver.class.getName()) && e.getMethodName().equals("evalComponent"))
                         return true;

@@ -1,0 +1,32 @@
+(* A typecase arm whose type names, inside an arrow type, a static argument or after the clause's own name, a type no declaration defines is refused when names are bound. *)
+component XXXTypecaseUndefinedNameInArmTypeCompiled
+export Executable
+
+inc(x: ZZ32): ZZ32 = x + 1
+
+kind(v: Any): String =
+  typecase v of
+    NoSuchArgType -> ZZ32 => "the arrow arm"
+    else => "another type"
+  end
+
+kindOfMaybe(v: Any): String =
+  typecase v of
+    Maybe[\NoSuchStaticArg\] => "the Maybe arm"
+    else => "another type"
+  end
+
+kindOfNamed(v: Any): String =
+  typecase v of
+    x: NoSuchNamedType => "the named arm"
+    else => "another type"
+  end
+
+run(): () = do
+    println(kind(inc))
+    println(kindOfMaybe(3))
+    println(kindOfNamed(3))
+    println "PASS"
+  end
+
+end

@@ -1,0 +1,23 @@
+(* Under walk, a typecase arm that is a tuple of a name and a type binds the name to the whole selector, and a tuple of two names binds each element. *)
+component TypecaseTupleArmMixedBinderWalk
+export Executable
+
+firstOf(p: Any): Any =
+  typecase p of
+    (first, ZZ32) => first
+    else => "another type"
+  end
+
+bothOf(p: Any): Any =
+  typecase p of
+    (first, second) => (second, first)
+    else => "another type"
+  end
+
+run(): () = do
+    assert(firstOf(("s", 3)) SEQV ("s", 3), "the name beside a type takes the whole selector")
+    assert(bothOf(("s", 3)) SEQV (3, "s"), "two names take one element each")
+    println "PASS"
+  end
+
+end

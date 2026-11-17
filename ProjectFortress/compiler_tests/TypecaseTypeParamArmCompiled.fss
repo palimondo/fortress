@@ -1,0 +1,18 @@
+(* A typecase arm at a type parameter in scope tests the value against that parameter's static argument. *)
+component TypecaseTypeParamArmCompiled
+export Executable
+
+kind[\T\](v: Any): String =
+  typecase v of
+    T => "the T arm"
+    else => "another type"
+  end
+
+run(): () = do
+    assert(kind[\ZZ32\](3), "the T arm", "a ZZ32 at T = ZZ32")
+    assert(kind[\String\](3), "another type", "a ZZ32 at T = String")
+    assert(kind[\String\]("s"), "the T arm", "a String at T = String")
+    println "PASS"
+  end
+
+end
