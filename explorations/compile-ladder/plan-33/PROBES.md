@@ -97,7 +97,7 @@ The selector's tests compile and run single programs and assert their output; th
 
 ## 10. The briefing keys
 
-The 82 keys of the record's section 1 that name no part of the record itself were checked with `facts-extract.sh --check` on `main` at `1c7e7415aa`: exit 0, each matching one place. The keys into `CLIMB-BATCH-33.md` and into this note were checked after their commit.
+The 93 keys of the record's section 1 were checked with `facts-extract.sh --check` on `main`: exit 0, each matching one place; those into the record and into this note on the files as committed with the record.
 
 ## Not probed
 
