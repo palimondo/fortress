@@ -4,7 +4,7 @@
     python3 explorations/coordinator/tools/revival-page/update.py [--check] [--landing N] [--run-start T]
 
 Reads every value from the record (PLAN.md's "Where we stand" and phase lines, the
-batch's gate summary, FACTS' F-299), rewrites the block between <!-- stand:begin -->
+batch's gate summary, FACTS' F-299, POSITIONS' P-33), rewrites the block between <!-- stand:begin -->
 and <!-- stand:end --> in revival-story.md and revival-story.html in its fixed form,
 adds to record-growth/landings.csv each missing row, the landing's and that of each
 landing that PLAN.md's phases name before it, runs record-growth/measure.py and
@@ -22,7 +22,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = subprocess.run(['git', 'rev-parse', '--show-toplevel'], cwd=HERE, capture_output=True, text=True).stdout.strip()
 EXP = os.path.join(ROOT, 'explorations')
 PLAN = os.path.join(EXP, 'coordinator', 'PLAN.md')
-QUEUE = os.path.join(EXP, 'coordinator', 'review-queue.md')
 FACTS_TOOL = os.path.join(EXP, 'coordinator', 'tools', 'facts-extract.sh')
 PE = os.path.join(EXP, 'coordinator', 'process-engineering')
 PAGE_MD = os.path.join(PE, 'revival-story.md')
@@ -186,9 +185,12 @@ def read_values(landing):
     v['next'] = planned[0][0] if planned else None
     if planned and not ('natives' in planned[0][1] and 'code-generator' in planned[0][1]):
         stop('PLAN.md\'s line for climb batch %s does not name the natives and the code generator; the "Next" bullet\'s words need a new form' % v['next'])
-    if not planned and len(re.findall(r'^512\. \*\*Which order of the remaining work', open(QUEUE, encoding='utf-8').read(), re.M)) != 1:
-        stop('PLAN.md, "The phases", plans no batch, and review-queue.md has no open item "512. **Which order of the remaining work"; '
-             'the "Next" bullet has words only for a planned batch or that open question')
+    if not planned:   # the order of the rest of the switch-over, from P-33's headline
+        r = subprocess.run([FACTS_TOOL, 'P-33'], cwd=ROOT, capture_output=True, text=True)
+        if r.returncode:
+            stop('facts-extract.sh P-33 failed: ' + r.stderr.strip())
+        head = one(r'^- P-33 \*\*(.*?)\*\*', r.stdout, 'POSITIONS P-33, its entry', re.M).group(1)
+        v['order'] = one(r'\band (the rest of the switch-over takes [^.]+ first)\.$', head, 'POSITIONS P-33, its headline\'s order of the switch-over').group(1)
     v['summary_rel'] = summary_rel
     return v
 
@@ -205,7 +207,7 @@ def block(v):
         'the flat and the APL program pass the quick check.',
         'both programs stop at names that only the library declares, until the switch-over.',
         'batch %s, more native bindings and the code generator\'s gaps, once the curator approves it.' % v['next'] if v['next']
-        else 'no batch is planned; the curator has still to decide the order of the remaining work.',
+        else 'no batch is planned yet; by the curator\'s decision, %s.' % v['order'],
     ]
     md = '\n'.join(['**%s**' % heading, ''] + ['- **%s:** %s' % (l, t) for l, t in zip(LABELS, texts)])
     e = lambda s: html.escape(s, quote=False)
@@ -359,7 +361,7 @@ def main():
     print('  native bindings  %d of %d (FACTS F-299, its headline sentence)' % (v['bindings'], v['bindings_of']))
     print('  microGPT walk    both quick checks pass (%s, # microgpt-walk)' % v['summary_rel'])
     print('  next             %s' % ('batch %s (PLAN.md, "The phases", its one batch line not in the landed form)' % v['next'] if v['next']
-                                     else 'none planned (PLAN.md, "The phases"; review-queue.md, item 512 open)'))
+                                     else 'none planned (PLAN.md, "The phases"); %s (POSITIONS P-33, its headline)' % v['order']))
     print()
     print(BEGIN); print(md); print(END)
     print()
@@ -373,7 +375,7 @@ def main():
     m = alt_match(open(PAGE_HTML, encoding='utf-8').read())
     print('%s: the chart\'s alt text runs to %s; %s ends at %s' % (rel(PAGE_HTML), m.group(2), os.path.basename(DATA[0]), data_last_day()))
     # the rows that landings.csv lacks: PLAN's earlier landings first, in its order, then this landing's
-    new = [] if a.check else [r for r in [landing_row(b, c, a.run_start, earlier=True) for b, c in v['earlier']] +
+    add = [] if a.check else [r for r in [landing_row(b, c, a.run_start, earlier=True) for b, c in v['earlier']] +
                                [landing_row(v['batch'], v['commit'], a.run_start)] if r]
     if a.check:
         names = {r['batch'] for r in csv.DictReader(open(LANDINGS, encoding='utf-8'))}
@@ -393,7 +395,7 @@ def main():
         if out != text:
             with open(path, 'w', encoding='utf-8', newline='') as f:
                 f.write(out)
-    for row in new:
+    for row in add:
         with open(LANDINGS, 'a', encoding='utf-8', newline='') as f:
             csv.writer(f, lineterminator='\n').writerow(row)
         print('%s: added %s' % (rel(LANDINGS), ','.join(row)))
