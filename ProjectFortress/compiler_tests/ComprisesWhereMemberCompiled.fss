@@ -1,0 +1,28 @@
+(* A generic trait that gives the bodies of a functional and a dotted member of a trait whose comprises clause lists it at a where-clause type variable compiles and runs. *)
+component ComprisesWhereMemberCompiled
+export Executable
+
+trait AnyC comprises { C[\E\] } where [\E\]
+  cat(self, f: AnyC): AnyC
+  name(): String
+end
+trait C[\E\] extends AnyC
+  cat(self, f: AnyC): AnyC = self
+  name(): String = "C"
+end
+object Ci[\E\](item: E) extends C[\E\] end
+
+which(x: AnyC): String =
+  typecase x of
+    Ci[\ZZ32\] => "first"
+    else => "other"
+  end
+
+run(): () = do
+  x: AnyC = cat(Ci[\ZZ32\](3), Ci[\String\]("s"))
+  assert(which(x), "first", "trait-parameters.tex, section \"Where Clauses\": cat, defined in C, returns its first argument")
+  assert(x.name(), "C", "trait-parameters.tex, section \"Where Clauses\": name, defined in C, runs on an instance of C")
+  println("PASS")
+end
+
+end
