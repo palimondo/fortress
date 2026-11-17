@@ -1,0 +1,5 @@
+tests=TraitOwnMethodBesideInheritedCompiled
+compile
+link
+run
+run_out_WIcontains=2 -1 true false PASS

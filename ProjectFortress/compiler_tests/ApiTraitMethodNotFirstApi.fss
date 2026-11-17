@@ -1,0 +1,16 @@
+(* The component of the api ApiTraitMethodNotFirstApi. *)
+component ApiTraitMethodNotFirstApi
+export ApiTraitMethodNotFirstApi
+
+trait Ix[\E\]
+    one(): E
+    map[\R\](f: E -> R): R = f(self.one())
+    twice(): E = self.one()
+end
+
+trait Tagged
+    tag(): String = "tag"
+    pick(self): String = "pick"
+end
+
+end

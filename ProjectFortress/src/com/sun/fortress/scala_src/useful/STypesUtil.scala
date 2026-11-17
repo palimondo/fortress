@@ -1732,6 +1732,82 @@ object STypesUtil {
     (result, overridden.reverse)
   }
 
+  /**
+   * The method declarations of the trait or object tt and of the types that it extends
+   * (allMethods), without each declaration that another replaces: one of the same name
+   * and kind, with self at the same position, declared by a type strictly below the
+   * first one's, whose parameter types without self are the first one's as tt has them
+   * (Specification/basic/traits.tex, section "Method Declarations": a trait does not
+   * inherit a declaration whose parameter types are those of one that it declares). The
+   * parameter types are compared at the instance that the extends clauses give
+   * (paramsWithoutSelfApart), as providedAndOverridden compares them, not as schemas over
+   * each declaring trait's own static parameters, whose bounds differ from trait to trait.
+   * The rule names the declarations that stay whatever the order of the gathered methods.
+   * These are the methods for which the code generator writes a class's forwarders.
+   */
+  def allMethodsNotReplaced(tt: TraitType, analyzer: TypeAnalyzer):
+        Relation[IdOrOpOrAnonymousName, (Functional, StaticTypeReplacer, TraitType)] = {
+    type D = (Functional, StaticTypeReplacer, TraitType)
+    val taken: Set[String] = toOption(analyzer.traits.typeCons(tt.getName)) match {
+      case Some(ti: TraitIndex) => toListFromImmutable(ti.staticParameters).map(p => NU.nameString(p.getName)).toSet
+      case _ => Set() }
+    val tsa = new TypeSchemaAnalyzer()(analyzer)
+    val methods = allMethods(tt, analyzer)
+    def selfAt(f: Functional): Int = f match { case h: HasSelfType => h.selfPosition; case _ => -1 }
+    def replaces(o: D, p: D): Boolean =
+      !(o._1 eq p._1) &&
+      o._1.isInstanceOf[FunctionalMethod] == p._1.isInstanceOf[FunctionalMethod] &&
+      selfAt(o._1) == selfAt(p._1) &&
+      analyzer.lteq(o._3, p._3) && !analyzer.lteq(p._3, o._3) &&
+      ((paramsWithoutSelfApart(o._1, o._2, taken), paramsWithoutSelfApart(p._1, p._2, taken)) match {
+        case (Some(od), Some(pd)) => tsa.equivalentED(pd, od)
+        case _ => false })
+    val result = new IndexedRelation[IdOrOpOrAnonymousName, D](false)
+    for (name <- toSet(methods.firstSet)) {
+      val all = toSet(methods.matchFirst(name))
+      for (p <- all ; if !all.exists(o => replaces(o, p))) result.add(name, p)
+    }
+    result
+  }
+
+  /**
+   * The parameter types of the method declaration f without self, as the type that the
+   * replacer instantiates f's declaring trait for has them: a type schema over f's own
+   * static parameters, or None where a parameter has no type. An own static parameter
+   * whose name is in taken is renamed apart first, so that an argument which the replacer
+   * puts in place of a parameter of the declaring trait is not captured.
+   */
+  def paramsWithoutSelfApart(f: Functional, replacer: StaticTypeReplacer, taken: Set[String]): Option[Type] = {
+    val ps = toListFromImmutable(f.parameters)
+    val kept = f match {
+      case m: FunctionalMethod => ps.zipWithIndex.filter(_._2 != m.selfPosition).map(_._1)
+      case _ => ps }
+    paramsToType(kept, f.getSpan).map { t =>
+      val own = toListFromImmutable(getStaticParameters(f, false))
+      val ownNames = own.map(p => NU.nameString(p.getName)).toSet
+      val clash = own.filter(p => taken.contains(NU.nameString(p.getName)))
+      if (clash.isEmpty) replacer.replaceIn(insertStaticParams(t, getStaticParameters(f, false)))
+      else {
+        val subst: List[(IdOrOp, IdOrOp)] = clash.map { p =>
+          val n = p.getName
+          val fresh = Iterator.from(1).map(i => n.getText + "$" + i)
+                              .find(m => !taken.contains(m) && !ownNames.contains(m)).get
+          (n, NF.makeId(NU.getSpan(n), fresh)) }
+        // every own parameter's bounds are renamed, so that a bound naming a renamed parameter names it still
+        val renamed = own.map(p => {
+          def bounds = toJavaList(toListFromImmutable(p.getExtendsClause).map(b =>
+            SNodeUtil.alphaRename(subst, b).asInstanceOf[BaseType]))
+          subst.find(_._1 == p.getName) match {
+            case Some((_, m)) => NF.makeStaticParam(p, m.asInstanceOf[Id], bounds)
+            case None => p.getName match {
+              case n: Id if !p.getExtendsClause.isEmpty => NF.makeStaticParam(p, n, bounds)
+              case _ => p }
+          } })
+        replacer.replaceIn(insertStaticParams(SNodeUtil.alphaRename(subst, t).asInstanceOf[Type], toJavaList(renamed)))
+      }
+    }
+  }
+
    private val nullStaticTypeReplacer = new StaticTypeReplacer(new java.util.LinkedList[StaticParam](), new java.util.LinkedList[StaticArg]())
 
   /**

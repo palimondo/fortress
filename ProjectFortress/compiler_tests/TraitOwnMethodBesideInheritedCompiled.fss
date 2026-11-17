@@ -1,0 +1,115 @@
+(* A generic trait that gives a body to a method which it also inherits with a body, through an extended trait that is not its first, runs its own body, as does a type below it that declares the method again (traits.tex, section "Method Declarations"). *)
+component TraitOwnMethodBesideInheritedCompiled
+export Executable
+
+trait Eqq[\T extends Eqq[\T\]\]
+    eqv(self, other: T): Boolean = true
+end
+trait Pord[\T extends Pord[\T\]\] extends { Eqq[\T\] }
+    lt(self, other: T): Boolean = (cmpx(self, other) = -1)
+    cmpx(self, other: T): ZZ32 = if lt(self, other) then -1 elif lt(other, self) then 1 else 0 end
+    eqv(self, other: T): Boolean = (cmpx(self, other) = 0)
+end
+trait Mmx[\T extends Mmx[\T\]\]
+    mnmx(self, other: T): (T, T)
+    mx(self, other: T): T = do (a, r) = mnmx(self, other); r end
+    opr UPPER(self, other: T): String = "Mmx"
+    whose(): String = "Mmx"
+end
+trait Tord[\T extends Tord[\T\]\] extends { Pord[\T\], Mmx[\T\] }
+    cmpx(self, other: T): ZZ32 = if lt(self, other) then -1 elif lt(other, self) then 1 else 0 end
+    mx(self, other: T): T = if lt(other, self) then self else other end
+    mnmx(self, other: T): (T, T) = if lt(other, self) then (other, self) else (self, other) end
+    opr UPPER(self, other: T): String = "Tord"
+    whose(): String = "Tord"
+end
+trait Z extends { Tord[\Z\] }
+    getter v(): ZZ32
+    lt(self, other: Z): Boolean = self.v < other.v
+    eqv(self, other: Z): Boolean = self.v = other.v
+    cmpx(self, other: Z): ZZ32 = if lt(self, other) then -1 elif lt(other, self) then 1 else 0 end
+    mnmx(self, other: Z): (Z, Z) = if lt(other, self) then (other, self) else (self, other) end
+    opr UPPER(self, other: Z): String = "Z"
+    whose(): String = "Z"
+end
+object Zint(x: ZZ32) extends Z
+    getter v(): ZZ32 = x
+end
+trait Y extends { Tord[\Y\] }
+    getter w(): ZZ32
+    lt(self, other: Y): Boolean = self.w < other.w
+end
+object Yint(x: ZZ32) extends Y
+    getter w(): ZZ32 = x
+end
+trait Named
+    name(): String = "Named"
+end
+trait Late extends { Named, Tord[\Late\] }
+    getter u(): ZZ32
+    lt(self, other: Late): Boolean = self.u < other.u
+end
+object LateInt(x: ZZ32) extends Late
+    getter u(): ZZ32 = x
+end
+trait Shown[\T extends Shown[\T\]\]
+    show(self, other: T): String = "Shown"
+    sort(): String = "Shown"
+end
+trait Marked[\T extends Marked[\T\]\] extends { Named, Shown[\T\] }
+    show(self, other: T): String = "Marked"
+    sort(): String = "Marked"
+end
+object Leaf extends { Other, Marked[\Leaf\] }
+end
+trait Other
+    other(): String = "Other"
+end
+trait Conv[\E extends Object\]
+    conv[\R extends Object\](f: E -> R, x: R): String = "Conv"
+end
+trait Reconv[\R extends Object\] extends { Named, Conv[\R\] }
+    conv[\S extends Object\](f: R -> S, x: S): String = "Reconv"
+end
+object Rz extends { Other, Reconv[\ZZ32\] }
+end
+str(x: ZZ32): String = "s"
+
+run(): () = do
+    a: Z = Zint(1)
+    b: Z = Zint(2)
+    c: Y = Yint(1)
+    d: Y = Yint(2)
+    e: Late = LateInt(1)
+    f: Late = LateInt(2)
+    (* The method declared at three levels runs the lowest declaration that the value's type provides. *)
+    assert(a UPPER b, "Z", "an operator declared in Mmx, Tord and Z, on a Z")
+    assert(c UPPER d, "Tord", "an operator declared in Mmx and Tord, on a Y below Tord")
+    assert(e UPPER f, "Tord", "an operator declared in Mmx and Tord, on a type whose second trait is Tord")
+    assert(a.whose(), "Z", "a dotted method declared in Mmx, Tord and Z, on a Z")
+    assert(c.whose(), "Tord", "a dotted method declared in Mmx and Tord, on a Y")
+    assert(e.whose(), "Tord", "a dotted method declared in Mmx and Tord, on a type whose second trait is Tord")
+    (* Tord replaces only the declaration with self first; the one with self second stays Mmx's. *)
+    assert(mx(c, d).w, 2, "mx on a Y runs Tord's body")
+    assert(mx(f, e).u, 2, "mx on a type whose second trait is Tord")
+    assert(cmpx(d, c), 1, "cmpx on a Y")
+    assert(e.name(), "Named", "the first trait's method")
+    (* An object whose second trait gives a body to a method that it inherits through its own second trait. *)
+    assert(show(Leaf, Leaf), "Marked", "a functional method declared in Shown and Marked, on an object whose second trait is Marked")
+    assert(Leaf.sort(), "Marked", "a dotted method declared in Shown and Marked, on an object whose second trait is Marked")
+    assert(Leaf.name(), "Named", "the method of the first trait of the object's second trait")
+    assert(Leaf.other(), "Other", "the method of the object's first trait")
+    (* The generic method's own static parameter has the name of the static parameter of the trait that declares it again. *)
+    assert(Rz.conv[\String\](str, "a"), "Reconv", "a generic method declared in Conv and Reconv, on an object whose second trait is Reconv")
+    rc: Reconv[\ZZ32\] = Rz
+    assert(rc.conv[\String\](str, "a"), "Reconv", "the generic method through a variable typed by Reconv")
+    cv: Conv[\ZZ32\] = Rz
+    assert(cv.conv[\String\](str, "a"), "Reconv", "the generic method through a variable typed by Conv")
+    println(mx(a, b).v)
+    println(cmpx(a, b))
+    println(lt(a, b))
+    println(eqv(a, b))
+    println("PASS")
+  end
+
+end
