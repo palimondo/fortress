@@ -1,0 +1,22 @@
+(* A typecase clause whose tuple pattern names its elements binds each name to its element of the matched tuple, compiled. *)
+component TypecaseTupleNamesCompiled
+export Executable
+
+joinPair(a: Any, b: Any): String =
+  typecase (a, b) of
+    (s: String, n: ZZ32) => s || n.asString
+    (n: ZZ32, s: String) => n.asString || s
+    (s: String, _: String) => s
+    else => "neither"
+  end
+
+run(): () = do
+  (* typecase.tex, section "Typecase Expressions": the first clause that matches runs, each name bound to its element *)
+  assert(joinPair("a", 1), "a1", "a string, then an integer")
+  assert(joinPair(2, "b"), "2b", "an integer, then a string")
+  assert(joinPair("c", "d"), "c", "two strings, the second element unnamed")
+  assert(joinPair(3, 4), "neither", "no clause")
+  println("PASS")
+end
+
+end

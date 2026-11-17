@@ -1,14 +1,16 @@
-(* A generic trait that gives the bodies of a functional and a dotted member of a trait whose comprises clause lists it at a where-clause type variable compiles and runs. *)
+(* Members that a generic trait defines for a trait whose comprises clause lists it at a where-clause type variable compile and run: called functionally, dotted, and inside a generic function at its own type parameter. *)
 component ComprisesWhereMemberCompiled
 export Executable
 
 trait AnyC comprises { C[\E\] } where [\E\]
   cat(self, f: AnyC): AnyC
   name(): String
+  pair(a: String, b: String): String
 end
 trait C[\E\] extends AnyC
   cat(self, f: AnyC): AnyC = self
   name(): String = "C"
+  pair(a: String, b: String): String = a || b
 end
 object Ci[\E\](item: E) extends C[\E\] end
 
@@ -18,10 +20,14 @@ which(x: AnyC): String =
     else => "other"
   end
 
+joined[\T\](c: C[\T\]): String = c.pair(c.name(), "d")
+
 run(): () = do
+  (* trait-parameters.tex, section "Where Clauses": each member below is defined in C, below AnyC's comprises clause *)
   x: AnyC = cat(Ci[\ZZ32\](3), Ci[\String\]("s"))
-  assert(which(x), "first", "trait-parameters.tex, section \"Where Clauses\": cat, defined in C, returns its first argument")
-  assert(x.name(), "C", "trait-parameters.tex, section \"Where Clauses\": name, defined in C, runs on an instance of C")
+  assert(which(x), "first", "the functional cat returns its first argument")
+  assert(x.name(), "C", "the dotted name runs on a value of type AnyC")
+  assert(joined[\ZZ32\](Ci[\ZZ32\](3)), "Cd", "the dotted pair runs inside a generic function")
   println("PASS")
 end
 

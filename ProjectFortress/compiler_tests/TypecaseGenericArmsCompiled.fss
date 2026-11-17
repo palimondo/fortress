@@ -20,7 +20,7 @@ app[\T, E extends T, F extends T\](a: Bx[\E\], b: Bx[\F\]): ZZ32 =
     (a': Bx[\T\], b': Bx[\T\]) => sz[\T\](a') + sz[\T\](b')
     (a': Bx[\T\], b': Bx[\F\]) => 10 sz[\T\](a') + sz[\F\](b')
     (a': Bx[\E\], b': Bx[\T\]) => sz[\E\](a') + 10 sz[\T\](b')
-    else => 0
+    else => sz[\E\](a) - sz[\F\](b)
   end
 
 run(): () = do
@@ -28,7 +28,7 @@ run(): () = do
   assert(app[\Shape, Shape, Shape\](B[\Shape\](1), B[\Shape\](2)), 3, "both boxes of T")
   assert(app[\Shape, Shape, Sq\](B[\Shape\](1), B[\Sq\](2)), 12, "a box of T, then a box of F")
   assert(app[\Shape, Sq, Shape\](B[\Sq\](1), B[\Shape\](2)), 21, "a box of E, then a box of T")
-  assert(app[\Shape, Sq, Rd\](B[\Sq\](1), B[\Rd\](2)), 0, "no arm")
+  assert(app[\Shape, Sq, Rd\](B[\Sq\](1), B[\Rd\](2)), -1, "no arm, the else clause")
   println("PASS")
 end
 
