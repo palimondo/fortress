@@ -116,3 +116,8 @@ If you would look something up before you act, say what you would look up, where
     - (b) The trait's default body is `larger(self, other: T): T = if lt(other, self) then self else other end`, and `run()` asserts that `larger(Late(1), Late(2)).x` is 2.
     - (c) The trait also declares an abstract `getter key(): ZZ32`, which `Late` gives as `x`, and its default body is `keyOf(other: T): ZZ32 = other.key`. `run()` asserts that `Late(1).keyOf(Late(2))` is 2.
     For each, say what the compiled path does with the program today, before the switch-over, and whether the switch-over changes it. Give the test's `.test` file or files, any change to the program, and the result through the harness that you expect.
+
+36. You port a test written against the team's library into a walk test in `ProjectFortress/tests/`. Its helper `kind(x: Number): String` is a `typecase` over `x` with the arms `Int => "Int"`, `Float => "Float"` and `else => "other"`, and its `run()` asserts that `kind(3)` is `"Int"` and that `kind(1.5)` is `"Float"`. Your port adds a type of lengths, `Meters`, that holds a `ZZ32`, adds two lengths with `+` as `ZZ32` does, and can be passed to `kind`. You plan to declare it `object Meters(v: ZZ32) extends ZZ32`, so that it takes `ZZ32`'s operators.
+    - (a) Before you add `Meters`, with the test's arms as they are, what does each of the two assertions give under walk?
+    - (b) Write the `typecase`, the declaration of `Meters` and the assertions that you keep. What does `kind(Meters(2))` give?
+    - (c) What does the planned declaration of `Meters` do under walk, and on the compiled path today? What does yours do on each?
