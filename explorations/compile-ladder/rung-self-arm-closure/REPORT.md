@@ -44,7 +44,7 @@ The bytecode, from the jars of the tests (javap):
          4: checkcast     #20                 // class S
          7: areturn
 
-A conditional that needs no cast compiles to the same bytecode as before. A program with `both(c): R = if c then self else self end` and `other(c, r: R): R = if c then r else R(0, 0) end` in `trait Q comprises { R }`, and a top-level `pick(c, a: ZZ32, b: ZZ32): ZZ32 = if c then a else b end`, compiled on the base and on the edit: `diff` of the `javap -c -p` of `NoCastIf$Q$DefaultTraitMethods` and of `NoCastIf` prints nothing. `both` reads, before and after:
+A conditional with no arm of self's type compiles to the same bytecode as before. A program with `both(c): R = if c then self else self end` and `other(c, r: R): R = if c then r else R(0, 0) end` in `trait Q comprises { R }`, and a top-level `pick(c, a: ZZ32, b: ZZ32): ZZ32 = if c then a else b end`, compiled on the base and on the edit: `diff` of the `javap -c -p` of `NoCastIf$Q$DefaultTraitMethods` and of `NoCastIf` prints nothing. `both` reads, before and after:
 
          4: ifeq          11
          7: aload_0
@@ -54,6 +54,8 @@ A conditional that needs no cast compiles to the same bytecode as before. A prog
         15: areturn
 
 (the one `checkcast` is the return cast after the join, rung K's), and `pick` has no `checkcast`.
+
+A conditional with `self` in one arm whose own type is the listed type gains a cast also where it stands at the trait's type, which the verifier does not check: `atQ(c: Boolean): Q = if c then self else R(0, 0) end` in `trait Q comprises { R }` verifies on the base (its class loads in a run that prints `PASS`), and on the edit its `self` arm reads `7: aload_0`, `8: checkcast #21 // class SkNoCast$R`, where the base's reads `7: aload_0`, `8: goto 22` (the skeptic's `SkNoCast`, `diff` of `javap -c -p` of `SkNoCast$Q$DefaultTraitMethods`, base against edit; `SKEPTIC.md`). The checker gives the conditional the type `R` (`Misc.scala:529-583`), and the cast cannot fail, since every `Q` is an `R` (P-60).
 
 ## 2. The failing and the passing runs
 
@@ -167,7 +169,7 @@ Outside the specification, these say what the tree no longer does, for the gathe
 1. **The cast as built at each place.** Section 1's table: `CodeGen.java:4517`, `:4527` (a conditional's arms, at the conditional's type, `:4494`), `:3927` (a function expression's result) and `:4086` (a local function's result), each by `castToTypeBelow` (`:7638`), whose test decides. Reversible.
 2. **Rows 1051, 1050 and 1052.** Each expected-failure test promoted, failing on the base and passing after (section 2): `SelfTypeArmRun` (the owed test, `0e6e0402b9`, then promoted), `ComprisesValueAtConditionalArmRun`, `ComprisesValueFromClosureRun`, `SelfTypeParameterReceiverRun`; the self-type parameter's form of a closure, `SelfTypeFromClosureRun`. Reversible.
 3. **Row 1052's cause.** The loader loaded the object's class `…$Pt` (`Class.forName(…, true, icl)`, `MethodInstantiater.java:272` now, `:269` on the base) to choose a call's opcode while expanding `Shape⟦Pt⟧$DefaultTraitMethods`, which is `Pt`'s JVM superclass because `Pt` lists `Shape[\Pt\]` first; `Pt` was being defined, so the load was circular. In its place the loader reads the access flags of `…$Pt.class`, the class file it would define, through `getResourceAsStream`, and loads nothing (`:268-271`, `:304`). The base's stack: `ClassCircularityError: XXXSelfTypeParameterReceiverRun$Pt` / `at …MethodInstantiater.visitMethodInsn(MethodInstantiater.java:269)` / `at …InstantiatingClassloader.readAndExpandGenericThing(InstantiatingClassloader.java:485)` / `at java.lang.ClassLoader.defineClass(ClassLoader.java:962)` (`bin/fortress run XXXSelfTypeParameterReceiverRun` on the base's code). Reversible.
-4. **The bytecode of a conditional that needs no cast, before and after.** The same (section 1, `NoCastIf`). Reversible.
+4. **The bytecode of a conditional that needs no cast, before and after.** The same where no arm has self's type (section 1, `NoCastIf`). Where an arm is `self` and the conditional's own type is the listed type, the arm gains a `checkcast` also where the conditional stands at the trait's type and the verifier needs none (section 1, `atQ`). Reversible.
 5. **The distance stage's shadow patch.** It still applies: `shadow-patch.py` exit 0, `add-patch.py` exit 0 (section 3).
 6. **The files edited, for `STAGE_BLIND`.** `compiler/codegen/CodeGen.java`, `runtimeSystem/MethodInstantiater.java`, the tests; no file beyond those named; the member `localFunctionClosure` beyond the members named (section 3).
 
