@@ -1,0 +1,4 @@
+tests=TraitMethodDiamondRedeclaredCompiled
+link
+run
+run_out_WIcontains=PASS

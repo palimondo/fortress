@@ -138,6 +138,10 @@ Before the switch-over, raised by climb batch 27's rungs N and G:
 71. Should the code generator compile a call with an assumption at some of its dispatched arguments as the declaration that the checker resolves (row 818)? Default: refused, fork G2, as landed. Review-queue item 375.
 72. Should the code generator build the generic forms under an assumption, a generic method on an assumed receiver and an overloaded generic function? Default: refused, each with its message, as landed. Review-queue item 376.
 
+Before the switch-over, raised by climb batch 31's rung M (`compile-ladder/climb-batch-31/RECORD.md`):
+
+96. M.skeptic.1 of climb batch 31's rung M (rows 573 and 1038): an object's dispatch method tests the receiver in place of the argument where `self` is not first, and since rung M such a class loads, so `mark(1, Pq)` answers 3 with no error where walk answers 1; before the rung the class did not load. Should the repair, in `compiler/OverloadSet.java`, come before the switch-over? Default: no rung is planned for it; the two rows stay open with their expected failures. Evidence: `ProjectFortress/compiler_tests/XXXFunctionalMethodSelfSecondReceiverTested.fss:8-18`; `explorations/compile-ladder/rung-method-forwarders/SKEPTIC.md`, "Findings".
+
 Before the next batch, or at the defaults as landed, raised by climb batch 30's post-batch review (`reviews/batch-30-review.md`, Findings, 1 to 3):
 
 80. Finding 1: the grain size of the one library's parallel range is 16 and the model's vectors are 16 wide, so microGPT's own reductions do not fork, by reading. Keep 16 until it is measured on compiled reductions after the switch-over, lower it now, or measure it now under walk? Default: 16, as landed (fork G); the review recommends keeping it. Review-queue item 500.
@@ -814,6 +818,12 @@ The items for him that climb batch 32 (`coordinator/CLIMB-BATCH-32.md`, the mode
 - The record's forks, taken at their defaults (`coordinator/CLIMB-BATCH-32.md`, section 3, "Forks the batch takes"): R1, R2, S2, C2, B1, N1 to N4 and D2. Forks W, S1, F1 and D1 are review-queue items 525, 532, 541 and 535; forks P1 and C1 he reviewed as landed on 2026-11-16 (items 530 and 533, in the queue's part (a)); and fork R3 is item 545. Default: as landed. Review-queue item 544.
 - The record's two questions that the batch did not take (`coordinator/CLIMB-BATCH-32.md`, section 2, "Your choices"): array comprehensions (row 50), default left out, review-queue item 545; and a mutable variable without its type, `var p = e` (row 177), default the team's rule kept, review-queue item 546.
 - The diff to the model that the batch left: the two tables of the model's lines 32 to 36, item 88 above (review-queue item 529). The batch's other four diffs are applied at his word (`5ba4f78ed3`; P-87).
+
+### Climb batch 31, listed for his review
+
+The items for him that run 1 of climb batch 31 (`coordinator/CLIMB-BATCH-31.md`: rungs M, K, L, A, V and X, all six landed) left (`compile-ladder/climb-batch-31/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`"). M.skeptic.1 is item 96 under "Pavol's answers". None holds the batch: each is as landed until he answers.
+- M.worker.1 and the first part of M.skeptic.2 of climb batch 31's rung M (row 1037): is an object valid that reaches one trait's method along two paths, one of them through a trait that declares the method again at the same parameter types, running the lower trait's declaration, or must the object declare the method itself? By the text of the traits chapter the object inherits both declarations; walk and the code generator run the lower one, and the checker accepts the plain form and refuses the self-typed generic one. Default: as landed, the lower declaration runs, the row open. Evidence: `ProjectFortress/compiler_tests/TraitMethodDiamondRedeclaredCompiled.fss:8-22`; `Specification/basic/traits.tex:584-590`.
+- M.worker.2 and the second part of M.skeptic.2 of climb batch 31's rung M: the gatherings for the dispatch methods still compare domains as schemas over each trait's own bounds; should a later rung bring them onto the comparison at the instance, which changes the declarations that a dispatch method holds? Default: left as they are; no rung is planned. Evidence: `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1574`; `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:500` and `:1171`.
 
 ### Not classified, to check
 

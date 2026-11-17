@@ -1,0 +1,35 @@
+(* An object that reaches one trait's method along two paths, one of them through a trait that declares the method again at the same parameter types, runs that lower trait's declaration, wherever the trait stands in the extends clause. *)
+component TraitMethodDiamondRedeclaredCompiled
+export Executable
+
+trait Side
+    side(): String = "Side"
+end
+trait Top
+    m(): String = "Top"
+    fm(self): String = "Top"
+end
+trait Plain extends Top
+end
+trait Again extends Top
+    m(): String = "Again"
+    fm(self): String = "Again"
+end
+object Third extends { Side, Plain, Again }
+end
+object Second extends { Plain, Again }
+end
+object First extends { Again, Plain }
+end
+
+run(): () = do
+    assert(Third.m(), "Again", "a dotted method, the redeclaring trait third")
+    assert(fm(Third), "Again", "a functional method, the redeclaring trait third")
+    assert(Second.m(), "Again", "a dotted method, the redeclaring trait second")
+    assert(fm(Second), "Again", "a functional method, the redeclaring trait second")
+    assert(First.m(), "Again", "a dotted method, the redeclaring trait first")
+    assert(fm(First), "Again", "a functional method, the redeclaring trait first")
+    println("PASS")
+  end
+
+end

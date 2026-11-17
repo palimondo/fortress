@@ -44,6 +44,7 @@ import com.sun.fortress.compiler.index.ComponentIndex;
 import com.sun.fortress.compiler.index.DeclaredFunction;
 import com.sun.fortress.compiler.index.DeclaredMethod;
 import com.sun.fortress.compiler.index.FieldGetterMethod;
+import com.sun.fortress.compiler.index.FieldGetterOrSetterMethod;
 import com.sun.fortress.compiler.index.FieldSetterMethod;
 import com.sun.fortress.compiler.index.Function;
 import com.sun.fortress.compiler.index.Functional;
@@ -866,8 +867,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 arity++;
             }
             String from_name = forward_to_non_overload ? NamingCzar.mangleAwayFromOverload(mname): mname;
+            /* The signature of the instance method: where not narrowing, from_sig is the
+             * static body's, self first, whatever the position of self in the declaration. */
             String actual_from_sig =
-                Naming.removeNthSigParameter(from_sig, st instanceof DeclaredMethod ? 0 : selfIndex);
+                Naming.removeNthSigParameter(from_sig, st instanceof DeclaredMethod || !narrowing ? 0 : selfIndex);
             boolean already_emitted_as_overload = typeLevelOverloadedNamesAndSigs != null &&
                 typeLevelOverloadedNamesAndSigs.contains(from_name+actual_from_sig+"" ) ;
             
@@ -965,8 +968,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          * extends clause is minimal, and a method is defined twice in the
          * extends clause, then it needs to be disambiguated in this type).
          */
+        /*
+         * The methods to consider are those of this trait or object and of the types that it
+         * extends, without each declaration that a type below its own replaces at the same
+         * parameter types, self apart (Specification/basic/traits.tex, section "Method
+         * Declarations").  The rule names one declaration of each such group whatever the
+         * order of the gathered methods, so no method is written twice and the declaration
+         * of the lowest type runs.
+         */
         Relation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
-            toConsider = STypesUtil.allMethodsNotIdenticallyCovered(currentTraitObjectType, typeAnalyzer);
+            toConsider = STypesUtil.allMethodsNotReplaced(currentTraitObjectType, typeAnalyzer);
         debug("Considering chains for ", currentTraitObjectType, ": ", toConsider);
         for (edu.rice.cs.plt.tuple.Pair<IdOrOpOrAnonymousName,scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
                  assoc : toConsider) {
@@ -976,7 +987,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             Functional fnl = (tup._1()); // better be true
             //System.err.println("  "+assoc.first()+" "+tupTrait+" "+fnl);
             /* Skip non-definitions. */
-            if (!fnl.body().isSome()) {
+            if (!hasBodyInItsTrait(fnl, tupTrait)) {
                 // need to worry about tighter definitions in implementing types.
                 continue;
             }
@@ -1029,6 +1040,19 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 		}
 	    }
         }
+    }
+
+    /*
+     * Whether the trait that declares the method fnl holds a body for it.  A declaration read
+     * from an imported api has no body there; unless it has the modifier abstract its body is
+     * in the component that exports the api, as the checker's AbstractMethodChecker reads it.
+     * A field's getter or setter has none.
+     */
+    private boolean hasBodyInItsTrait(Functional fnl, TraitType declaring) {
+        if (fnl.body().isSome()) return true;
+        if (fnl instanceof FieldGetterOrSetterMethod && ((FieldGetterOrSetterMethod) fnl).fnDecl().isNone())
+            return false;
+        return declaring.getName().getApiName().isSome() && !fnl.mods().isAbstract();
     }
 
     /*

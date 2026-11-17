@@ -1,0 +1,31 @@
+(* An object that inherits two functional methods of one name with the self parameter second, and covers their meet by two declarations of its own through comprises clauses, runs for each call the most specific declaration (overloading.tex, sections "Meet Rule" and "Overloading Resolution"). *)
+component XXXFunctionalMethodCoverSelfSecond
+export Executable
+
+trait Ka comprises { X1, X2, Ya } end
+trait Kb comprises { X1, X2, Yb } end
+object X1 extends { Ka, Kb } end
+object X2 extends { Ka, Kb } end
+object Ya extends Ka end
+object Yb extends Kb end
+trait P
+    mark(x: Ka, self): ZZ32 = 1
+end
+trait Q
+    mark(x: Kb, self): ZZ32 = 2
+end
+object Pq extends { P, Q }
+    mark(x: X1, self): ZZ32 = 3
+    mark(x: X2, self): ZZ32 = 4
+end
+
+run(): () = do
+    println("REACHED")
+    assert(mark(X1, Pq), 3, "mark(X1, Pq), self second")
+    assert(mark(X2, Pq), 4, "mark(X2, Pq), self second")
+    assert(mark(Ya, Pq), 1, "mark(Ya, Pq), self second")
+    assert(mark(Yb, Pq), 2, "mark(Yb, Pq), self second")
+    println("PASS")
+  end
+
+end

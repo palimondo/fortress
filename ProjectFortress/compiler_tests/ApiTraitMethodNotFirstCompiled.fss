@@ -1,0 +1,53 @@
+(* An object runs a plain, a generic and a functional method whose body it inherits from an imported api's trait that is not first in its extends clause, or in that of a trait of the program between them (traits.tex, section "Method Declarations"). *)
+component ApiTraitMethodNotFirstCompiled
+import ApiTraitMethodNotFirstApi.{...}
+export Executable
+
+trait Other
+    other(): ZZ32 = 1
+end
+trait Another
+    another(): ZZ32 = 2
+end
+object Rng extends { Other, Ix[\ZZ32\], Tagged }
+    one(): ZZ32 = 7
+end
+trait Mid extends { Other, Ix[\ZZ32\], Tagged }
+end
+object ViaMid extends Mid
+    one(): ZZ32 = 9
+end
+trait Below extends { Ix[\ZZ32\] }
+end
+object ViaBelow extends { Another, Below }
+    one(): ZZ32 = 11
+end
+
+inc(x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    assert(Rng.twice(), 7, "a plain method of the api's trait, second in the object's extends clause")
+    assert(Rng.map[\ZZ32\](inc), 8, "a generic method of the api's trait, second in the object's extends clause")
+    assert(Rng.tag(), "tag", "a plain method of the api's plain trait, third in the object's extends clause")
+    assert(Rng.other(), 1, "the first trait's method")
+    ix: Ix[\ZZ32\] = Rng
+    assert(ix.twice(), 7, "the plain method through a variable typed by the api's trait")
+    assert(ix.map[\ZZ32\](inc), 8, "the generic method through a variable typed by the api's trait")
+    tg: Tagged = Rng
+    assert(tg.tag(), "tag", "the plain trait's method through a variable typed by it")
+    assert(pick(tg), "pick", "a functional method of the api's trait")
+    assert(ViaMid.twice(), 9, "the plain method, the api's trait second in a trait of the program")
+    assert(ViaMid.map[\ZZ32\](inc), 10, "the generic method, the api's trait second in a trait of the program")
+    assert(ViaMid.tag(), "tag", "the plain trait's method, third in a trait of the program")
+    im: Ix[\ZZ32\] = ViaMid
+    assert(im.twice(), 9, "the plain method through the api's trait, behind a trait of the program")
+    assert(im.map[\ZZ32\](inc), 10, "the generic method through the api's trait, behind a trait of the program")
+    assert(ViaBelow.twice(), 11, "the plain method, the api's trait first in a trait that is second in the object")
+    assert(ViaBelow.map[\ZZ32\](inc), 12, "the generic method, the api's trait first in a trait that is second in the object")
+    ib: Ix[\ZZ32\] = ViaBelow
+    assert(ib.twice(), 11, "the plain method through the api's trait, behind a trait that is second")
+    assert(ib.map[\ZZ32\](inc), 12, "the generic method through the api's trait, behind a trait that is second")
+    println("PASS")
+  end
+
+end
