@@ -98,7 +98,7 @@ HotSpot, the JVM's compiler, then compiles the hot bytecode to machine code. A n
 A run keeps the results of its phases in the caches, so that a later run can reuse them. The caches are folders in `default_repository/caches/`, or in a private caches folder that a run names. An entry is one file in a cache, written for one source file.
 
 - `interpreter_parsed_cache/`: walk's parsed tree of each file, `X-<hash>.tfi` for an api and `X-<hash>.tfs` for a component.
-- `interpreter_cache/`: walk's tree of each component after the phases. Walk loads it back and interprets it. The entry is a text dump of the tree. It starts `(Component @"/home/user/fortress/Library/FlatString.fss" ...`.
+- `interpreter_cache/`: walk's tree of each component after the phases. Walk loads it back and interprets it. The entry is a text dump of the tree. It starts `(Component @"`, then the source's absolute path.
 - `analyzed_cache/`: the results of the phases that `fortress compile` reuses.
 - `bytecode_cache/`: one jar for each compiled component.
 
@@ -121,7 +121,7 @@ Parallel code stays free of races in these ways:
 
 So `acc := acc + x` inside a parallel `for`, with no `atomic`, is a race. The suites run at four threads, once each, so a race can show in them. A passing run does not prove that there is none.
 
-Inside an `atomic` block, the compiled code tracks each mutable variable that the block reads or writes. From the switch-over, it also tracks each array element that the block reads or writes (`references/compiler.md`).
+Inside an `atomic` block, the compiled code tracks each mutable variable that the block reads or writes, an object's `var` field among them. From the switch-over, it also tracks each array element that the block reads or writes (`references/compiler.md`).
 
 ## Fortress as a language
 
