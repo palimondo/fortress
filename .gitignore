@@ -25,6 +25,8 @@
 /default_repository/caches/global.map
 # ... and the stamp of the implementation the caches belong to (build.xml, checkCaches)
 /default_repository/caches/implementation.stamp
+# ... and the caches of the compiled path where FORTRESS_LIBRARY=one selects the one library (ProjectProperties.CACHES)
+/default_repository/caches-one/
 
 # Transient test-run artifacts
 /ProjectFortress/TEST-RESULTS/

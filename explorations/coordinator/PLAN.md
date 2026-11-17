@@ -876,6 +876,13 @@ The items for him that run 2 of climb batch 31 (`coordinator/CLIMB-BATCH-31.md`:
 - Forks T1, O6, O7, E1 and E2 of climb batch 31's record, run 2, taken at the planner's defaults with his go of 2026-11-17 06:39 UTC, which put no question to him. Default: as landed (`reviews/batch-31b-review.md`, section 2). Forks O1, O3 and O4 are review-queue items 516, 518 and 519, and E2 is also item 101 above. Review-queue item 588.
 - Rung O of climb batch 31b, the reserved points reached, told: walk now loads `f(x: Number): ZZ32` beside `f(x: ZZ64): String`, which it refused, and `f(3)` gives the `String` (row 697); `(3.0 asif RR64) + 17` runs `RR64`'s own `+`, with the same value; three messages changed. Default: as landed; row 697's repair stays with walk's load check. Review-queue item 589.
 
+### Climb batch 33, listed for his review
+
+The items for him that run 1 of climb batch 33 (`coordinator/CLIMB-BATCH-33.md`: rungs S, D, V, Q, I and C, all six landed) left (`compile-ladder/climb-batch-33/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`").
+
+- S.worker.1 and S.skeptic.1 of climb batch 33's rung S, with fork S1: `-Dfortress.library=one` selects the one library in a JVM, but `bin/fortress_classpath` and `bin/run_classpath` read only `FORTRESS_LIBRARY`, so the property passed in `JAVA_FLAGS` gives the compile `default_repository/caches-one` and the run's class path `default_repository/caches`. Keep the property for a JVM started without the scripts, or drop it so that the variable is the one selector? Default: kept, as built. Evidence: `compile-ladder/rung-library-selector/REPORT.md:225`; `ProjectFortress/src/com/sun/fortress/repository/ProjectProperties.java:290-291`, `bin/run_classpath:27-31`.
+- S.skeptic.2 of climb batch 33's rung S: the team's sweeps `testUntil` and `testCruiseControl`, which `testNightly` runs, take every `*JUTest` class without the selection, so each now reports one failure of `OneLibraryJUTest`, where `testFast`'s misc track leaves the class out. Leave it out of those sweeps too, or keep the failure as a pointer? Nothing on record decides, and no gate step runs them. Default: as built. Evidence: `compile-ladder/rung-library-selector/SKEPTIC.md:91`; `build.xml:1262`, `:1285-1320`, `:1358-1397`.
+
 ### Not classified, to check
 
 Workflow measures of the post-batch reviews that were not built when filed, and whose status this plan's consolidation did not settle: the script was redesigned on 2026-10-08, and the lines they cite no longer resolve (`process-engineering/plan-map.md` section 5). Each is one line with its reason; the full text is in `PLAN-history.md`, "Work that can start now, with no decision".

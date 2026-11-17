@@ -10793,3 +10793,21 @@ closed by d3095ca77
 note added
 
 | 812 | the code generator crashes on a generic trait that defines a member of a trait whose `comprises` clause lists a type at a `where`-clause type variable: `ComprisesWhereFunctionalMethodChecker`, compiled, stops 'E is not in the kind env [][]' | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/trait-parameters.tex`, "Where Clauses" | none | climb batch 21b rung C's skeptic | siblings: 822. Run: `fortress compile -debug stacktrace` of `ProjectFortress/compiler_tests/ComprisesWhereFunctionalMethodChecker.fss`: 'E is not in the kind env [][]' at the object's `extends C[\E\]`, from `TypeAnalyzer.lteq` in `STypesUtil.removeIdenticallyCoveredMethods` (`scala_src/useful/STypesUtil.scala:1587`), called by `CodeGen.<init>` (`compiler/codegen/CodeGen.java:488`), at c124c6b65, whose analyzer binds no static parameter of the extender. A dotted member gives the same. With the body in the object only, it compiles and runs (`compile-ladder/rung-codegen-where/REPORT.md`, 5). Walk runs it. No gated test: a crash. |
+
+### Row 1061
+
+note added
+
+| 1061 | with the compile command switched onto the one library, a program that names one of its generic traits stops the code generator, 'Not in the trait table: Array1', for `a = array1[\ZZ32, 8\]()`: a method entry names the trait without its api | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | none | climb batch 33's planner | siblings: 940, 942. Stack: `TypeAnalyzer.typeCons` ← `normalize` ← `lteq` ← `STypesUtil.removeIdenticallyCoveredMethods` (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1584-1588`, at c3b16ef2d1). Seen with probe Y's two lines of the selector alone and a private caches folder, where a program of one `println`, and one that binds a `QQ`, compile. With the trait table's search extended to `FortressLibrary` and `FortressBuiltin` (`compile-ladder/plan-31/probes/planner/measure-hacks.patch`) it compiles: row 940's root. Detail: `compile-ladder/plan-33/PROBES.md`, section 6. |
+
+### Row 69
+
+note added
+
+| 69 | `fortress typecheck` is not an oracle for interpreter programs: it checks against `Library/CompilerLibrary.fsi` | NEGATIVE-VERIFIED | packaging (tools) | silent | none | ours | siblings: 833. `ProjectFortress/src/com/sun/fortress/Shell.java:455-457` (at c124c6b65) calls `useCompilerLibraries()` for `typecheck`, so a program that runs under walk gets `Vector is undefined.`. `typecheck-old` (`:467-474`) uses the interpreter library with the Scala checker off and type checking on, so, by reading, a component that reaches the checker stops at 'The Java version of the type checker is gone now.' (`ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java:229`). Probe `explorations/libvector-probes/p30_capstone.fss`, no longer in the tree. |
+
+### Row 288
+
+note added
+
+| 288 | a program that imports a user grammar cannot be `fortress compile`d: every grammar api must `import FortressSyntax`, whose api graph reaches the interpreter's library, `FortressLibrary`, so the unit dies at DISAMBIGUATE with 1342 errors before GRAMMAR runs | NEGATIVE-VERIFIED | implementation gap (prelude) | silent | none | grammar-compile probe | siblings: 71, 290, 884. `Library/FortressSyntax.fsi:14` imports `FortressAst`, and `Library/FortressAst.fsi:6` imports `FortressLibrary`, not the compiler's prelude (`WellKnownNames.java:116-129`, at c124c6b65). The mechanism exists: `GraphRepository.java:815-823` macro-parses on both paths, and `PhaseOrder.java:137-147` has GRAMMAR. `import FortressSyntax.{Expression}` alone gives the same 1342. No workaround. A fix needs a compiler-world `FortressAst`/`FortressSyntax`, and the names of `Library/List.fsi` that the compiler's prelude lacks (row 71). Probes `explorations/perf-probes/grammar-compile/`, in the parent of fc89ee7a5. full text: history, row 288 |

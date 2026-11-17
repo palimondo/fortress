@@ -1,0 +1,3 @@
+# The program of one println that calls big compiles under the one library's selection.
+tests=OneLibraryPrintBig
+compile

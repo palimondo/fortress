@@ -1,0 +1,3 @@
+# The program that binds a QQ compiles under the one library's selection.
+tests=OneLibraryHalf
+compile
