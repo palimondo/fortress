@@ -12,12 +12,17 @@ end
 
 mk(): Mat = Mat(1)
 
+object Maker
+    f(): Mat = Mat(2)
+end
+
 run(): () = do
     x = Mat(7)
     assert(x[5]^2, 144, "x[5]^2")
     y: ZZ32 = x[2]^3
     assert(y, 729, "x[2]^3 at a declared type")
     assert((mk())[5]^2, 36, "(mk())[5]^2")
+    assert(Maker.f()[5]^2, 49, "Maker.f()[5]^2")
     g = Grid(7)
     assert(g[1][2], 10, "g[1][2]")
     assert(g[1][2]^2, 100, "g[1][2]^2")
