@@ -1,0 +1,15 @@
+(* A generic postfix operator whose one parameter has a type parameter's type applies to a pair, the pair its static argument (opr-overview.tex, subsection "Postfix Operators"). *)
+component XXXGenericOperatorTupleOperandCompiled
+export Executable
+
+opr (x: T)!![\T\] : T = x
+
+run(): () = do
+    println("REACHED")
+    pr = (1, 2)
+    (u, v) = pr!!
+    assert(10 u + v, 12, "a generic postfix operator on a pair variable")
+    println("PASS")
+end
+
+end

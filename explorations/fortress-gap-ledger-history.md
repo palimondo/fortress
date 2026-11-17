@@ -10625,3 +10625,9 @@ rewritten
 rewritten
 
 | 1003 | the tree declares each of `ZZ32`, `ZZ64`, `ZZ`, `NN64` and `RR64` twice over, not as the one `value object` of P-178: the one library as a trait that comprises one native object (`Int`, `Long`, `BigNum`, `UnsignedLong`, `Float`), the compiler's prelude as an open trait | NEGATIVE-VERIFIED | design limit (library) | silent | `explorations/compile-ladder/plan-31/probes/number-object-merge.md` | number-object merge probe | siblings: 866, 698, 551, 997, 998, 1000, 542, 959. `Library/FortressLibrary.fss:383-386`, `:775-777`, `:877-879`, `:986-988`, `:1088-1090`; the objects, `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:61`, `:379`, `:388`, `:533`, `:544`; the prelude, `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:103`, `:147`, `:210`, `:332`, `:401`. The probe merged the five in a scratch tree at 832f7d0d91: 12 files, 258 lines added, 308 deleted; checker count 0, distance 0, both microGPT quick checks 7 of 7, `ant testSystem` 829 of 830, the other row 550's `XXX` test passing. Its estimate: rows 997 and 998 first, then the merge, then row 542. No batch holds it. |
+
+### Row 237
+
+note added
+
+| 237 | a **component-level `opr` with exactly a library operator's parameter types but another result type is accepted, and wins**: `opr <(a: RR64, b: RR64): RR64` makes `2.0 < 3.0` evaluate to `99.0`, with no ambiguity error | POSITIVE-VERIFIED | — | silent | `explorations/apl/rung-3/t03_and.fss` | apl rung 3 | Case (b) of `t03_and.fss`. Sharpens row 218, where only the *more specific* overload won. APL's 0/1 scalar comparisons are thus reachable, at the price of changing every host use of `<` in the same component, the library's own included; rung 3 therefore declares the array shapes only, and `2<3` stays the host's `true`. full text: history, row 237 |

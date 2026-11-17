@@ -1,4 +1,4 @@
-tests=XXXTupleVarFieldCompiledRungC
+tests=XXXOverloadedMethodTupleParameterCompiled
 run
 run_out_contains=REACHED
 run_err_contains=java.lang.VerifyError

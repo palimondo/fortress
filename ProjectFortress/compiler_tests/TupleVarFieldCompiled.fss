@@ -1,0 +1,24 @@
+(* A mutable field declared with a tuple type holds the value assigned to it (objects.tex, section "Field Declarations"; traits.tex, paragraph "setter"). *)
+component TupleVarFieldCompiled
+export Executable
+
+trait Wide
+  getter big(): ZZ32
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+object Holder(n: ZZ32)
+  var pair: (Wide, ZZ32) = (WideOf(n), n + 1)
+end
+
+run(): () = do
+    h = Holder(1)
+    h.pair := (WideOf(10), 11)
+    (a, b) = h.pair
+    assert(a.big, 10, "the first element of the tuple assigned to the field")
+    assert(b, 11, "the second element of the tuple assigned to the field")
+    println("PASS")
+end
+
+end

@@ -861,6 +861,12 @@ The items for him that run 1 of climb batch 31 (`coordinator/CLIMB-BATCH-31.md`:
 - Fork H2 of climb batch 31's record, consequential, a decision not taken: does the compiler's prelude take the form of P-178 by way (a), the classes that the code generator writes for a trait today, or by way (b), a value object that holds a JVM `int`, `long` or `double`? Default: a probe of way (a), then one rung, with the prelude's `NN32` and `RR32`. Review-queue item 577.
 - The record's forks of run 1, taken at their defaults (`coordinator/CLIMB-BATCH-31.md`, section 3): B1, B2, B3, H1, M2, A1, V1, V2, O2 and O5. Forks M1, L2, L1, V3, X1 with V4, and K1 are with review-queue items 559, 561, 562, 566, 568 and 571; H2 is item 577, and S is item 522. Default: as landed. Review-queue item 578.
 
+### Climb batch 31b, listed for his review
+
+The items for him that run 2 of climb batch 31 (`coordinator/CLIMB-BATCH-31.md`: rungs T, O and E, all three landed) left (`compile-ladder/climb-batch-31b/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`"). None holds the batch or a launch: each is as landed until he answers.
+
+- T.worker.1 and T.skeptic.1 of climb batch 31b's rung T: should `m[i, j] := v` reach a subscripted assignment `opr[i: I] := (v: E)` at a pair index, as `m[i, j]` reaches `opr[i: I]` with the pair as one index (P-156)? Both paths read the assignment's arguments as one list, the value and then each subscript, so `Cells[5, 6] := 7` against `opr[t: (ZZ32, ZZ32)] := (e: ZZ32)` is refused (walk: 'The number of parameters (2) does not match with the number of arguments (3)'), and the specification's section "Subscripted Assignment Operator Method Declarations" (`Specification/advanced/subscripting.tex`) does not say how the bracketed list meets one tuple-typed parameter. Default: nothing changed; the one library keeps its `opr[x:ZZ32,y:ZZ32]:=(v:T)` beside the form over `I`, as the rung's test does. Evidence: `explorations/compile-ladder/rung-tuple-parameter/REPORT.md:175`; `ProjectFortress/compiler_tests/TupleIndexMethodCompiled.fss:12`, `:19`.
+
 ### Not classified, to check
 
 Workflow measures of the post-batch reviews that were not built when filed, and whose status this plan's consolidation did not settle: the script was redesigned on 2026-10-08, and the lines they cite no longer resolve (`process-engineering/plan-map.md` section 5). Each is one line with its reason; the full text is in `PLAN-history.md`, "Work that can start now, with no decision".

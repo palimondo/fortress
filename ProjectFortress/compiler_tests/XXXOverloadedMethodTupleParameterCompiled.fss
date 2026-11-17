@@ -1,0 +1,17 @@
+(* An object's dotted method overloaded at a pair parameter and at another type runs the overload that each argument fits (overloading.tex, section "Applicability to Dotted Method Calls"). *)
+component XXXOverloadedMethodTupleParameterCompiled
+export Executable
+
+object Pairs
+    get(t: (ZZ32, ZZ32)): ZZ32 = do (a, b) = t; 10 a + b end
+    get(s: String): ZZ32 = 99
+end
+
+run(): () = do
+    println("REACHED")
+    assert(Pairs.get((1, 2)), 12, "the overload at a pair")
+    assert(Pairs.get("s"), 99, "the overload at a string")
+    println("PASS")
+end
+
+end

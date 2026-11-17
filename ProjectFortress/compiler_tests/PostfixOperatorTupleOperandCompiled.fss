@@ -1,0 +1,16 @@
+(* A postfix operator declared over a pair applies to a pair, from another operator's body, to a pair variable and to a pair expression (opr-overview.tex, section "Postfix Operators"). *)
+component PostfixOperatorTupleOperandCompiled
+export Executable
+
+opr (x: (ZZ32, ZZ32))! : ZZ32 = do (a, b) = x; 10 a + b end
+opr (x: (ZZ32, ZZ32))!! : ZZ32 = x!
+
+run(): () = do
+    pr = (1, 2)
+    assert(pr!, 12, "a postfix operator on a pair variable")
+    assert(pr!!, 12, "a postfix operator that applies another to its pair")
+    assert((3, 4)!, 34, "a postfix operator on a pair expression")
+    println("PASS")
+end
+
+end
