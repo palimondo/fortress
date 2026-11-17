@@ -15,7 +15,7 @@ The batch's generator writes each run's manifest from this section. Each rung's 
 | run | id | slug | title | expected minutes |
 |---|---|---|---|---|
 | 1 | S | `rung-library-selector` | The library selector: the compile command reads the one library where it is selected | 200 |
-| 1 | D | `rung-typecase-undefined-arm` | A typecase arm at a name that no declaration defines is refused | 150 |
+| 1 | D | `rung-typecase-unbound-arm` | A typecase arm at a name that no declaration defines is refused | 150 |
 | 1 | V | `rung-kind-env-generic` | The kind environment of a generic declaration's types on the compiled path | 200 |
 | 1 | Q | `rung-self-arm-closure` | self at a self type or a listed type: a conditional's arm, a closure, a default body | 200 |
 | 1 | I | `rung-intersection-receiver` | A method call on a value typed by an intersection | 150 |
@@ -62,10 +62,10 @@ Fields common to the ten rungs:
   - REC `Forks the batch takes` (check): the defaults you build.
 
 ### D
-- **slug:** `rung-typecase-undefined-arm`
-- **worktree:** `/home/user/fortress-typecase-undefined-arm`
+- **slug:** `rung-typecase-unbound-arm`
+- **worktree:** `/home/user/fortress-typecase-unbound-arm`
 - **section:** `D. A typecase arm at a name that no declaration defines is refused on both paths (row 959)`
-- **blurb:** the parser reads a typecase arm Id => as a type variable, and no phase reports a name that binds nothing, so on both paths such an arm takes every value with no message (row 959). Since the merge, Int, Long, Float, BigNum and UnsignedLong name no type, and an old program's arm at one of them gives a wrong answer silently. The rung refuses such an arm where every other undefined type name is refused: 'X is undefined.'
+- **blurb:** the parser reads a typecase arm Id => as a type variable, and no phase reports a name that binds nothing, so on both paths such an arm takes every value with no message (row 959). Since the merge, Int, Long, Float, BigNum and UnsignedLong name no type, and an old program's arm at one of them gives a wrong answer silently. The rung refuses such an arm where every other type name that no declaration defines is refused: 'X is undefined.'
 - **points to report:**
   - Where the refusal is made, and why a type variable in scope still binds the arm.
   - Row 959's walk test promoted, and its compiled sibling, each failing on the base and passing after; a typecase over a type parameter, unchanged.
@@ -645,7 +645,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Reserved points.** A model line: none. A change to the one library's text.
 
-**Overlaps by file.** Q edits `CodeGen.java` too: "The rule the rungs keep".
+**Overlaps by file.** Q and I edit `CodeGen.java` too: "The rule the rungs keep".
 
 ### Q. `self` at a self type or a listed type on the compiled path: an arm of a conditional, a function expression's or a local function's result, and a default body that calls a method on a value of the self-type parameter (rows 1051, 1050 and 1052; review-queue item 572)
 
@@ -670,7 +670,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Reserved points.** A model line: none. A change of which declaration a call reaches.
 
-**Overlaps by file.** V edits `CodeGen.java` too: "The rule the rungs keep".
+**Overlaps by file.** V and I edit `CodeGen.java` too: "The rule the rungs keep".
 
 ### I. A method call on a value typed by an intersection on the compiled path: the receiver found among the conjuncts (row 540)
 
