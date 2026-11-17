@@ -1,9 +1,9 @@
 # Rung K, rung-comprises-cast: the compiled code casts `self` where it stands at a type below its trait
 
-- problem: row 991 of the gap ledger, `den(self)` in `trait Q comprises { R }` refused by the JVM's verifier, and row 695, `twin(self): S = self`; the library's site is `Library/FortressLibrary.fss:570`
+- problem: row 991 of the gap ledger, `den(self)` in `trait Q comprises { R }` refused by the JVM's verifier, and row 695, `twin(self): S = self`; the library's site is `Library/FortressLibrary.fss:571`
 - spec: the type of `self` in a trait with a `comprises` clause or a self-type parameter, `Specification/basic/expressions/var-ref.tex:64-76`; "every value of type T is a value of one of the listed types", `Specification/basic/traits.tex:248`
-- precedent: `conditionallyCastParameter`, which casts an argument where its static type and the declared type differ, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7329`
-- deviation: the new cast is emitted only for a value that has self's type and only at a strict subtype of the trait, where the precedent casts at every difference of the two types; `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7308-7319`
+- precedent: `conditionallyCastParameter`, which casts an argument where its static type and the declared type differ, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7341`
+- deviation: the new cast is emitted only for a value that has self's type and only at a strict subtype of the trait, where the precedent casts at every difference of the two types; `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7308-7331`
 - historical: `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java`, `Specification/appendices/changes.tex`; none other
 
 One launch worked this rung. The worktree was seeded by the brief's command (exit 0). The base build `/home/user/fortress-base35` stands at `c72e195fd7`, three commits before the base `c1ce2a35e1`; `git diff --name-only c72e195fd7 c1ce2a35e1` lists seven files, all under `explorations/`, so its code is the base's.
@@ -12,7 +12,7 @@ One launch worked this rung. The worktree was seeded by the brief's command (exi
 
 The checker reads `self` as more than its trait in two kinds of trait: one whose `comprises` clause lists types (P-60; `var-ref.tex:64-69`), and one with a self-type parameter (P-146; `var-ref.tex:70-76`). It carries the reading as the type of `self`, a `TraitSelfType` with the listed types or the self-type parameter beside the trait. So `den(self)` checks for `den(r: R)` in `trait Q comprises { R }`, and `twin(self): S = self` checks in `trait Shape[\S extends Shape[\S\]\]`. On the JVM the value is typed by the trait's interface, and the verifier refuses a class that passes or returns it at the object's class.
 
-The new member `castToTypeBelow(Expr, Type)` (`CodeGen.java:7308-7319`, directly above `conditionallyCastParameter`) emits a cast when all of these hold:
+The new member `castToTypeBelow(Expr, Type)` (`CodeGen.java:7308-7331`, directly above `conditionallyCastParameter`) emits a cast when all of these hold:
 
 1. the declared type is a trait type or a type variable;
 2. the expression's static type is self's type, a `TraitSelfType` whose list is not empty;
@@ -142,14 +142,14 @@ Sentences the change makes false: that one, now corrected. `changes.tex:1734` an
 
 ## Points to report reached
 
-1. Each place where the cast is now emitted, and the test that decides: the table under "What changed and why"; the deciding test is conditions 1 to 4 (`CodeGen.java:7308-7319`).
+1. Each place where the cast is now emitted, and the test that decides: the table under "What changed and why"; the deciding test is conditions 1 to 4 (`CodeGen.java:7308-7331`).
 2. Row 991's reproducer and row 695's test, failing on the base and passing after: the runs above.
 3. Row 307's `XXXNatOpenRun` and row 815's case: unchanged, by the run `edit4`.
 4. The bytecode of a call that needs no cast, before and after: identical (`KNoCast`, 336 lines of `javap`); the library's jars hold the same count of casts.
 5. The shadow patch still applies: exit 0.
 6. The specification's sentence, before and after: above.
 7. Files for STAGE_BLIND: above. No file beyond those named. Within `CodeGen.java`, members beyond the three that the section names were edited by one line each: `generateActualMethodCode` (`:3011`), `generateTraitDefaultMethod` (`:2864`), `GenericMethodBodyMakerFnDecl` (`:2496`), `forExprsSerial` (`:5397`) and `evalArg`'s last branch (`:7289`). A trait's default body, which holds both rows' cases, is not compiled through `generateFunctionalBody`; the line there (`:2951`) is reached by no program found, since `self` in an object has the object's type.
-8. The reserved point, a cast at a place that verifies today: none found. The cast needs a value of self's type at a strict subtype of its trait, and each such place tried failed verification on the base. A model line: none.
+8. The reserved point, a cast at a place that verifies today: reached, at a declared trait type. The worker's programs found none; the skeptic's did (SKEPTIC.md, "The reserved point"). Where the declared type is a trait strictly below self's trait, as `mid(self)` for `mid(m: M)` in `trait Q comprises { M }` with `trait M extends Q comprises { R1, R2 }`, the base emits no cast and the class verifies, since the verifier does not check an interface type; the rung emits `checkcast M`. The program prints the same on both. At an object type each such place failed verification on the base. A model line: none.
 
 ## Decisions
 
@@ -180,3 +180,7 @@ The first XXX test added, `XXXComprisesValueFromClosureRun`, was shown red on a 
 ## For the curator
 
 None.
+
+## After the skeptic
+
+The line numbers above are those of the head after the skeptic's fix `f9bc4f2546`, which lengthens `castToTypeBelow` by twelve lines: the member also reads a typecase whose arms each have self's type, the checker's union of them, as having self's type (SKEPTIC.md). Two launches of the skeptic worked the rung; the first left nothing on the branch.
