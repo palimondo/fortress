@@ -1,0 +1,14 @@
+(* A program's object below a built-in number type is refused at load, since the number type is an object. *)
+component NumberTypeExtendRefusedWalk
+export Executable
+
+object Mine extends ZZ32
+    getter asString(): String = "Mine"
+    asFloat(self): RR64 = 0.0
+end
+
+run(): () = do
+    println(Mine.asString)
+end
+
+end
