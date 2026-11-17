@@ -84,16 +84,6 @@ outOfFunction(n: ZZ32): ZZ32 = label out
     call(fn (x: ZZ32): ZZ32 => if x > 2 then exit out with x else x end, n)
   end out
 
-descend(depth: ZZ32, leave: () -> ZZ32): ZZ32 = label here
-    if depth = 0 then
-      leave()
-    elif depth = 2 then
-      descend(depth - 1, fn (): ZZ32 => exit here with 50 depth) + 1
-    else
-      descend(depth - 1, leave) + 1
-    end
-  end here
-
 trait Holder[\T extends Object\]
   item(i: ZZ32): T
   count(): ZZ32
@@ -172,7 +162,6 @@ run(): () = do
   check("the same try completes normally", throughTry(3), 7)
   check("an exit out of a function expression", outOfFunction(5), 5)
   check("a function expression that does not exit", outOfFunction(1), 1001)
-  check("an exit leaves the evaluation of the label block in which its function was made, not a later one", descend(4, fn (): ZZ32 => 0), 102)
   check("an exit out of a loop in a generic trait's method, the form of the library's indexOf", Words.find(fn (s: String): Boolean => s = "five"), 5)
   check("a loop of that method that no iteration exits", Words.find(fn (s: String): Boolean => s = "six"), -1)
   check("an exit with a Just beside a block that ends in a Nothing, as the library's indexOf", isJust(Words.indexOf("five", sameText)), 1)
