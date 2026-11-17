@@ -1,2 +1,2 @@
-tests=XXXLocalTupleBindingMixedTypes
+tests=LocalTupleBindingMixedTypes
 link

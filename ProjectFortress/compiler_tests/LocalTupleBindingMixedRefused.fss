@@ -1,0 +1,12 @@
+(* In a local tuple binding of a call, a name's declared type is checked against its element (variables.tex, section "Local Variable Declarations"). *)
+component LocalTupleBindingMixedRefused
+export Executable
+
+two(): (ZZ32, ZZ32) = (7, 8)
+
+run(): () = do
+    (word: String, part) = two()
+    println(part)
+end
+
+end
