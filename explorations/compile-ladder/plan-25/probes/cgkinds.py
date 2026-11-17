@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """Climb batch 25's planner: the code generator's refusals in a codegen.sh run, by component and by kind.
 A declaration counts once, at its first wall: an @@CG FAIL line of the declaration loop, an @@CG PREFAIL line of the
-object pre-pass, or an @@CG CTORFAIL line of CodeGen's constructor (inherited methods). Its kind is the code
+object pre-pass, or an @@CG CTORFAIL line of CodeGen's constructor (inherited methods). A declaration is its
+component and its source span, not its name, since a CTORFAIL line names it bare and the other two name it with its
+node class (List's ArrayList: "ArrayList" and "ObjectDecl ArrayList"). Where two lines meet one span, the first in
+the run is kept, with its tag and its kind, and the later ones are dropped: the constructor runs before the pre-pass
+and the pre-pass before the loop, so CTORFAIL is kept over PREFAIL, and PREFAIL over FAIL. Its kind is the code
 generator's message, or, where the message is null, the exception's class and the frame that threw, as the probe of
 2026-10-23 named them (perf-probes/codegen-distance/REPORT.md, section 1, "Classifier"). The component is the one
 whose ### target line came last before the line. Usage: cgkinds.py run.txt [--list]"""
@@ -35,7 +39,7 @@ for l in lines:
             rows.append((comp, tag.strip('@\t ').split()[1], name, span, exc.split('.')[-1], kind[:160]))
 seen = set(); uniq = []
 for r in rows:
-    k = (r[0], r[2], r[3])
+    k = (r[0], r[3])
     if k in seen: continue
     seen.add(k); uniq.append(r)
 bycomp = Counter(r[0] for r in uniq); bykind = defaultdict(list)
