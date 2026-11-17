@@ -74,7 +74,12 @@ Probe Y's two hunks (`Shell.useCompilerLibraries()` and `WellKnownNames.compiled
 - `FORTRESS_LIBRARY=one bin/fortress run Arr`: 'Unable to read serialized data for fortress/FortressLibrary$Generator⟦⟧ ... Resource not found': no jar of the one library exists.
 - On the base's code (`tools/old-fortress.sh /home/user/fortress-base37 ...`), the same compile with the variable set: 'Function array1 is not defined.' The base has no selector.
 
-So a selector alone lets a test compile a program against the one library on `main`, under the gate. Its run needs the library's jars, which the code generator cannot write today: F-34 (three components stopped whole at the wrappers, row 874, on code without the measure's patch), and the rehearsal's W8 and W10 on the way to `println` (rows 624 and 315).
+**The selector alone.** The same two hunks in `/home/user/fortress-p33`, over the prelude's form 2 and without the measure's patch, with a private caches folder and `FORTRESS_LIBRARY=one`:
+
+- `HelloOne.fss` (`run(): () = println("Hello, one library")`): exit 0. `Half.fss`: exit 0.
+- `Arr.fss`: the code generator stops, 'RuntimeException: Not in the trait table: Array1', from `STypesUtil.removeIdenticallyCoveredMethods` through `TypeAnalyzer.lteq`, `normalize` and `typeCons` (`TypeAnalyzer.scala:893`). With the measure's patch, whose `TraitTable` search covers `FortressLibrary` and `FortressBuiltin`, it compiles (above). Filed as row 1061, row 940's root met at a program's compile.
+
+So a selector alone lets a test compile a program against the one library on `main`, under the gate: a program that binds a `QQ`, which the prelude does not declare, at once, and one with an array once rows 940 and 1061 are repaired. Its run needs the library's jars, which the code generator cannot write today: F-34 (three components stopped whole at the wrappers, row 874, on code without the measure's patch), its 17 refused declarations, any one of which stops its component's jar, and the rehearsal's W8 and W10 on the way to `println` (rows 624 and 315).
 
 ## 7. Review-queue item 521: a map of names, or files of its own
 
@@ -97,7 +102,7 @@ The 82 keys of the record's section 1 that name no part of the record itself wer
 ## Not probed
 
 - The one library's half of form 2 on a running program: no program runs compiled against the one library on this code (section 6).
-- Rung Q's, R's, D's, V's and C's reproducers were not run by this planner: each row's own test fails on the base by the ledger and the gate's expected failures (rows 1050 to 1052, 940, 942, 959, 1005, 1028, 1029, 1060), and rows 812 and 822 by their notes and the measure (section 5).
+- Rung Q's, R's, D's, V's and C's reproducers were not run by this planner, but for R's kin at a program's compile (section 6): each row's own test fails on the base by the ledger and the gate's expected failures (rows 1050 to 1052, 940, 942, 959, 1005, 1028, 1029, 1060), and rows 812 and 822 by their notes and the measure (section 5).
 - A timing.
 
 ## Commands
