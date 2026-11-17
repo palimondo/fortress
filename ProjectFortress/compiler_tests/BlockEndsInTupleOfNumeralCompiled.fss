@@ -11,6 +11,11 @@ addPair(p: (ZZ32, ZZ32)): ZZ32 = do
     a + b
   end
 
+mix(r: RR32): (RR64, ZZ32) = do
+    k: ZZ32 = 3
+    (r, 7)
+  end
+
 flag: Boolean = true
 
 run(): () = do
@@ -26,6 +31,11 @@ run(): () = do
     x = if flag then (1, j) else (i, j) end
     (x1, x2) = x
     assert(x1 + x2, 8, "a branch's tuple at the type of the if's other branch")
+    r: RR32 = 0.5
+    (m1, m2) = mix(r)
+    h: RR64 = 0.5
+    assert(m1 = h, "an element that its coercion converts, beside a numeral")
+    assert(m2, 7, "the numeral beside it")
     println("PASS")
 end
 
