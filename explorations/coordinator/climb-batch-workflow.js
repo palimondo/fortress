@@ -1091,13 +1091,27 @@ const landsAfterText = (approved) => approved.map(r => RUNGS.find(m => m.id === 
   .filter(m => m && (m.landsOnlyWith || []).length)
   .map(m => m.id + ' after ' + m.landsOnlyWith.join(' and ')).join('; ') || 'none in this batch'
 
+// The HEAD the gather starts from, kept in a file so that a retry returns the first attempt's: the
+// commit stage reads the batch's own commits from it (reviews/batch-31b-review.md, process finding 1).
+const GATHER_HEAD = 'tmp/gather/head-before-batch-' + BATCH
+// The team's last commit (the fortress-repo skill's records.md): a file it holds is a file of the
+// original 2012 tree, which a commit's historical: line names (batch-31b-review.md, process finding 5).
+const TEAM_LAST = 'a874948ac'
+// A rung's reserved points, its section's "Reserved points." line, for the gather to file each one
+// reached on the review list (batch-31b-review.md, process finding 4).
+const reservedLineOf = (id) => {
+  const m = RUNGS.find(x => x.id === id)
+  const r = m && /\*\*Reserved points\.\*\*\s*([^\n]*)/.exec(String(m.section || ''))
+  return r ? r[1].trim() : ''
+}
+
 function gatherRole(approved, notLanded, items) {
   return MAIN_TREE_ROLE + [
 '# Your role: gather',
 '',
 'Compose one clean local commit per approved rung on main, then one that closes the ledger rows the rungs fixed. Nothing is merged: each branch stays as it is. You write the batch record, ' + BATCH_DIR + '/RECORD.md, once, last, with every hash it needs; no later stage rewrites it.',
 '',
-'First check that git status --porcelain is empty and that ' + BASE + ' is an ancestor of HEAD (git merge-base --is-ancestor); report it if not.',
+'First check that git status --porcelain is empty and that ' + BASE + ' is an ancestor of HEAD (git merge-base --is-ancestor); report it if not. Then record the HEAD you start from, once, before your first commit: mkdir -p tmp/gather && { [ -s ' + GATHER_HEAD + ' ] || git rev-parse HEAD > ' + GATHER_HEAD + ' ; } && cat ' + GATHER_HEAD + '. Return what it prints as headBefore: the commit stage reads the batch\'s own commits from it to its head, and not the commits that landed on main between the base and you.',
 '',
 'Start every step that can take more than a minute or two (the build of the merged tree, the library order, a harness run, the team demos, the specification\'s build) detached with nohup, in the form of the skill\'s session.md, "Long commands", and wait for it with that section\'s wait_for on its log, each wait a Bash call of its own, called again until it prints its EXIT= line. Never wait longer in one call, by a loop, a sleep or beside Monitor: a call held past five minutes lets your prompt cache lapse, and your next call writes your whole context again (climb batch 25\'s gather waited twice for 600 s on the demos, two refills of 354K each).',
 '',
@@ -1111,8 +1125,9 @@ function gatherRole(approved, notLanded, items) {
 '2. Its record, record.md, folded. The FACTS.md entry under the section of its area (the file\'s README gives the rule), after the section\'s last entry: the fact, its source and its test in a few lines. Each change to an existing ledger row: a note that adds a fact with ' + LEDGER + ' note N "TEXT"; a row\'s new line, and any change to what a row says (its claim narrowed, a half fixed, its test promoted or renamed, its notes at the limit), with ' + LEDGER + ' rewrite N FILE, the whole line in a file under tmp/gather/, its claim and notes stating the gap as it stands now and not its repair history. A note the tool refuses for length goes in through rewrite, the row\'s notes cut back to what holds now: none is left out. Each new row: its line, its number cell ?, into a file under tmp/gather/, then ' + LEDGER + ' add FILE --section "TITLE", the section its writer names or the one its class fits; the tool numbers it and checks it against the template, and a row it refuses you correct to the template, keeping its claim. Replace the row\'s placeholder (NEW-<rung>-<n>) with its number everywhere the rung\'s files and tests cite it, before the rung\'s commit. The handover line in the RECORD.md of the batch, section "Handover lines" (the first section of the old handover file is retired into the first section of PLAN.md, which the coordinator keeps). The rung\'s "Revival change" section is folded into no file: copy it, both its parts word for word, or its line "Revival change: none" with the reason, to tmp/gather/<slug>-revival-change.md for step 7. Write nothing under .claude/: the batch writes no skill text, and the skill writer writes the skill from RECORD.md after the landing. Any file:line a record cites that an earlier rung\'s hunk shifted is re-anchored by symbol.',
 '3. The corrections still owed: each leftForGather item of the rung\'s skeptic, below; each sentence of the specification that the rung\'s REPORT.md lists as made false by its change and that the rung did not edit, an Appendix I Effect or a note on walk or the compiled path, corrected to what the code does, each clause checked against the code line it states. Such a sentence states what the code does, so it is not a text mismatch.',
 '4. Its items for the curator, from the list at the end of this role. ' + PLAN_RULE + ' The evidence named is the rung\'s file that carries the point, at the line it is now at.',
+'   Its reserved points too: the kinds of change its section names in its "Reserved points." line (reservedPoints below; where that is empty, the line in the rung\'s section of ' + BATCH_RECORD + '), and any point its worker or skeptic marks as reserved. Each one the rung reached that changes what a program does or accepts (a value or a message it prints, the declaration a call runs, a program loaded, compiled or refused where the base did otherwise) goes on the review list, by the coordinator\'s rule for a reversible reserved point: it lands with its default, and goes on the review list. File it under "' + PLAN_SECTIONS[1] + '", in the batch\'s group "Climb batch ' + BATCH + ', listed for his review" (where PLAN.md lacks the group, make it after the last such group), one entry per rung holding its points, each with its evidence as file:line and the default: as landed. Give each point the id <rung>.reserved.<n>, numbered from 1 within the rung, and return it in reservedFiled and in curatorItems. A reserved point the rung reports as none, not reached or unchanged is not filed. RECORD.md\'s points to report (step 7) still list every point.',
 '   A text mismatch is not blocking. Where one rung\'s specification text and another rung\'s code disagree and the decisions on record settle it, fix the side they settle. Where they do not, it is reversible and lands as a point to report: the text stands as the rung wrote it; the path that departs gets a ledger row and a gated XXX test asserting the text\'s rule, or, where no such test can show the departure, as when it shows only in the one library\'s world, a gated test of today\'s behaviour, the row saying why; the text\'s entry in Specification/appendices/changes.tex names that row among its departures; all in the later rung\'s commit, and the mismatch goes in your forCurator.',
-'5. One commit: the applied source and tests, the rung\'s REPORT.md, SKEPTIC.md and JUDGE.md if any, a decision record if it has one (record.md is folded, not landed: take it out of the index and the tree once step 2 has folded it), FACTS.md, the ledger and its history file, the handover, and PLAN.md when step 4 wrote to it. Stage them by an explicit list and read git diff --cached --stat before you commit. Title: what the repair does, in plain words; body: the two or three sentences of record.md that say why, and where the commit touches any path outside explorations/ and .claude/, a line beginning "historical:" naming the files of the original 2012 tree it edits, from the provenance block. The skill\'s footer. Do not push.',
+'5. One commit: the applied source and tests, the rung\'s REPORT.md, SKEPTIC.md and JUDGE.md if any, a decision record if it has one (record.md is folded, not landed: take it out of the index and the tree once step 2 has folded it), FACTS.md, the ledger and its history file, the handover, and PLAN.md when step 4 wrote to it. Stage them by an explicit list and read git diff --cached --stat before you commit. Title: what the repair does, in plain words; body: the two or three sentences of record.md that say why, and where the commit touches any path outside explorations/ and .claude/, a line beginning "historical:" naming the files of the original 2012 tree it edits, or "historical: none" where it edits none. Write that line from what you staged, never from the rung\'s historicalFiles or the historical line of its REPORT.md, which name the worker\'s files and not its skeptic\'s or your own corrections (climb batch 31b\'s rung E commit missed the team file its skeptic edited): it is each path that git diff --cached --no-renames --name-only prints and that the team\'s last commit holds, so a renamed or deleted file of that tree is named by its old path, git diff --cached --no-renames --name-only | while read -r p ; do git cat-file -e ' + TEAM_LAST + ':"$p" 2>/dev/null && echo "$p" ; done. The skill\'s footer. Do not push.',
 '',
 '## After the rungs',
 '',
@@ -1129,6 +1144,7 @@ function gatherRole(approved, notLanded, items) {
 '',
 JSON.stringify(approved.map(r => Object.assign({ rung: r.rung, slug: r.slug, branch: r.branch, state: r.state,
   historicalFiles: (r.worker && r.worker.historicalFiles) || [], rowsClosed: (r.worker && r.worker.rowsClosed) || [], newRows: (r.worker && r.worker.newRows) || [],
+  reservedPoints: reservedLineOf(r.rung),
   skepticFixes: ((r.verdict && r.verdict.fixes) || []).map(f => f && (f.commit + ' ' + f.kind + ': ' + f.finding)),
   rulings: (r.judge && r.judge.rulings) || [], leftForGather: (r.verdict && r.verdict.leftForGather) || [],
   pointsReached: [].concat((r.worker && r.worker.pointsReached) || [], (r.verdict && r.verdict.pointsReached) || []) }, rungTextCommands(r))), null, 2),
@@ -1137,7 +1153,7 @@ JSON.stringify(approved.map(r => Object.assign({ rung: r.rung, slug: r.slug, bra
 '',
 JSON.stringify(items, null, 2),
 '',
-'Return the structured result the tool requires: each rung\'s commit hash, the order and why, the conflicts and how each was resolved, the rows opened and closed, forCurator (your own points, a text mismatch the decisions do not settle among them, as gather.1, gather.2), curatorItems, one entry for every id above and every gather.N with the PLAN.md section and entry that holds it, and curatorUnrouted, every id you could not put in, with the reason. Nothing waits on these: the batch goes on to its review, gate and commit either way.',
+'Return the structured result the tool requires: headBefore, each rung\'s commit hash, the order and why, the conflicts and how each was resolved, the rows opened and closed, forCurator (your own points, a text mismatch the decisions do not settle among them, as gather.1, gather.2), reservedFiled (step 4\'s reserved points, by id), curatorItems, one entry for every id above, every gather.N and every <rung>.reserved.N with the PLAN.md section and entry that holds it, and curatorUnrouted, every id you could not put in, with the reason. Nothing waits on these: the batch goes on to its review, gate and commit either way.',
 '',
   ].join('\n')
 }
@@ -1152,14 +1168,20 @@ const GATHER_SCHEMA = {
     rowsOpened: { type: 'array', items: { type: 'string' }, description: 'one line per row added: its number, its placeholder and its rung' },
     rowsClosed: { type: 'array', items: { type: 'string' }, description: 'one line per row closed: its number, the commit and the test' },
     notLandedFolded: { type: 'array', items: { type: 'string' } },
+    headBefore: { type: 'string', description: 'the hash HEAD was at before your first commit, as ' + GATHER_HEAD + ' holds it' },
     head: { type: 'string', description: 'the hash HEAD is at when you finish' },
     forCurator: { type: 'array', items: { type: 'string' }, description: 'every point for the curator this gather finds itself, one entry each with its evidence as file:line; each goes into PLAN.md as gather.1, gather.2 in this order; empty if none' },
+    reservedFiled: { type: 'array', description: 'one entry per reserved point a landed rung reached that changes what a program does or accepts, filed on the review list in PLAN.md (step 4); empty if none',
+      items: { type: 'object', properties: {
+        id: { type: 'string', description: 'the rung, .reserved. and its number within the rung, as O.reserved.1' },
+        text: { type: 'string', description: 'the point and its evidence as file:line, as the entry gives it' },
+      }, required: ['id', 'text'] } },
     curatorItems: CURATOR_ROUTED,
     curatorUnrouted: { type: 'array', description: 'every item for the curator you could not put into PLAN.md, for the coordinator; empty if none', items: { type: 'object', properties: {
       id: { type: 'string' }, why: { type: 'string' } }, required: ['id', 'why'] } },
     summary: { type: 'string' },
   },
-  required: ['commits', 'conflicts', 'unresolved', 'curatorItems', 'curatorUnrouted', 'summary'],
+  required: ['headBefore', 'commits', 'conflicts', 'unresolved', 'reservedFiled', 'curatorItems', 'curatorUnrouted', 'summary'],
 }
 
 // The merged-diff review, once, beside the gate (POSITIONS.md, "A blocking second review does
@@ -1236,28 +1258,9 @@ const ATOMIC_OTHER = 'atomic0 atomic1 atomic2 atomic3 atomic4 atomic5 atomic6 ne
 const ATOMIC_COMPILER = 'AtomicTopLevelObjectVar AtomicTopLevelVar MutableTopLevelVarInLoop FirstLoadThreadsRungG AlsoArmThrowsJoinsCompiled CallArgumentsForkCompiled AtomicOwnWriteNestedCompiled AtomicNestedSameBodyCompiled NestedAtomicAbortCompiled AtomicNestedViewCompiled AtomicSharedReadsCompiled AtomicThrowRevertsCompiled AtomicExprCompiled AtomicFieldCompiled'
 const GATE_FUNCTIONS = TOOLS + '/gate-functions.sh'   // gate_summary, gate_compare, last_landed_summary, ladder_filter, ladder_compare, mg_phases; its gate_summary writes the machine line
 
-function gateRole(expectedMoves, expectedChecker, specData) {
-  return MAIN_TREE_ROLE + [
-'# Your role: the gate',
-'',
-'Run the full gate once on the tree as it stands, as the skill\'s gate.md gives it, and report what it says. You change no source and commit nothing: the review is committing in this tree beside you, and the commit stage lands your outputs. Logs go to ' + LOG_DIR + '/, which is untracked; your three outputs are ' + GATE_OUT + '/summary.txt, checker-count.txt and distance.txt, written by the functions and scripts below and never by hand. Start every long step detached with nohup and wait for it with wait_for, both as the skill\'s session.md, "Long commands", gives them.',
-'',
-'1. mkdir -p ' + LOG_DIR + ' ' + GATE_OUT + '. The disk check of gate.md\'s step 1.',
-'2. rm -rf ProjectFortress/TEST-RESULTS, then ant compileAll to ' + LOG_DIR + '/compileAll.txt; BUILD SUCCESSFUL must end it. At once, before step 3, start the distance stage in the background, once per gate run and never a second beside it; it reads only ProjectFortress/build and the library sources, with its own caches and temporary folder, and step 9 reads it:',
-'',
-'        nohup bash -c \'( ' + DIST_RUN + ' ' + GATE_OUT + '/distance.txt ' + LOG_DIR + '/distance ) > ' + LOG_DIR + '/distance.txt 2>&1; echo EXIT=$? >> ' + LOG_DIR + '/distance.txt\' >/dev/null 2>&1 &',
-'',
-'3. If step 2\'s build printed "Caches <tree>/default_repository/caches started again, empty", run the library order (the skill\'s build-and-caches.md) to ' + LOG_DIR + '/library.txt. Then, before anything else compiles into the caches, the ladder\'s two copies: mkdir -p ' + LOG_DIR + '/ladder/root, then cp -a default_repository/caches to ' + LOG_DIR + '/ladder/root/ladder-caches and to ' + LOG_DIR + '/ladder/root/pristine.',
-'4. ant testFast to ' + LOG_DIR + '/testFast.txt, then ant testSystem to ' + LOG_DIR + '/testSystem.txt, never both at once. Both run at four threads, pinned in build.xml whatever the shell exports (POSITIONS.md, "The suites run Fortress in parallel.").' + (specData
-  ? ' Then ant testSpecData to ' + LOG_DIR + '/testSpecData.txt: ' + specData + '; every example must pass.'
-  : ''),
-'5. The summary, with the machine it ran on, and its comparison with the last landed one. Its functions, and those of step 7, are in ' + GATE_FUNCTIONS + ': source it from ' + MAIN + ', in each call that uses them, since each call starts a new shell, after the call\'s whole setup of the skill\'s build-and-caches.md, its exports and its unset JAVA_TOOL_OPTIONS, not FORTRESS_HOME alone: gate_summary\'s machine lines read that shell\'s java -version and FORTRESS_THREADS, and climb batch 26\'s gate, which set FORTRESS_HOME alone, committed the proxy\'s "Picked up JAVA_TOOL_OPTIONS" line and FORTRESS_THREADS=unset:',
-'',
-'        source ' + GATE_FUNCTIONS,
-'',
-'   Then gate_summary ' + LOG_DIR + ' ' + GATE_OUT + '/summary.txt "gate batch ' + BATCH + '", and gate_compare "$(last_landed_summary)" ' + GATE_OUT + '/summary.txt. A COUNT DOWN or SUITE GONE line is red, with the suite named: it almost always means a .test file or a tests= line went missing. A count that went up is the batch\'s new tests. A suite that is new in the summary is not red by itself.',
-'6. The four-thread atomic runs of gate.md, their lines appended to the summary:',
-'',
+// The gate's atomic_runs, which the gate's step 6 defines and a run of its stages again after a repair
+// of tests only (gateSuitesRole) defines the same way.
+const ATOMIC_FN = [
 '        ATOMIC_OTHER="' + ATOMIC_OTHER + '"        # other_compiler_tests/',
 '        ATOMIC_COMPILER="' + ATOMIC_COMPILER + '"  # compiler_tests/',
 '        atomic_runs () {                  # atomic_runs <out-file>; appends "# atomic ..." lines, exit 1 if any is not PASS',
@@ -1285,6 +1288,31 @@ function gateRole(expectedMoves, expectedChecker, specData) {
 '            done',
 '            ! grep \'^# atomic \' "$O" | grep -q \'FAIL\\|TIMEOUT-TWICE\\|NO-PASS\\|COMPILE-FAILED\'   # only its own lines: the summary may hold a suite\'s BUILD FAILED',
 '        }',
+]
+
+function gateRole(expectedMoves, expectedChecker, specData) {
+  return MAIN_TREE_ROLE + [
+'# Your role: the gate',
+'',
+'Run the full gate once on the tree as it stands, as the skill\'s gate.md gives it, and report what it says. You change no source and commit nothing: the review is committing in this tree beside you, and the commit stage lands your outputs. Logs go to ' + LOG_DIR + '/, which is untracked; your three outputs are ' + GATE_OUT + '/summary.txt, checker-count.txt and distance.txt, written by the functions and scripts below and never by hand. Start every long step detached with nohup and wait for it with wait_for, both as the skill\'s session.md, "Long commands", gives them.',
+'',
+'1. mkdir -p ' + LOG_DIR + ' ' + GATE_OUT + '. The disk check of gate.md\'s step 1.',
+'2. rm -rf ProjectFortress/TEST-RESULTS, then ant compileAll to ' + LOG_DIR + '/compileAll.txt; BUILD SUCCESSFUL must end it. At once, before step 3, start the distance stage in the background, once per gate run and never a second beside it; it reads only ProjectFortress/build and the library sources, with its own caches and temporary folder, and step 9 reads it:',
+'',
+'        nohup bash -c \'( ' + DIST_RUN + ' ' + GATE_OUT + '/distance.txt ' + LOG_DIR + '/distance ) > ' + LOG_DIR + '/distance.txt 2>&1; echo EXIT=$? >> ' + LOG_DIR + '/distance.txt\' >/dev/null 2>&1 &',
+'',
+'3. If step 2\'s build printed "Caches <tree>/default_repository/caches started again, empty", run the library order (the skill\'s build-and-caches.md) to ' + LOG_DIR + '/library.txt. Then, before anything else compiles into the caches, the ladder\'s two copies: mkdir -p ' + LOG_DIR + '/ladder/root, then cp -a default_repository/caches to ' + LOG_DIR + '/ladder/root/ladder-caches and to ' + LOG_DIR + '/ladder/root/pristine.',
+'4. ant testFast to ' + LOG_DIR + '/testFast.txt, then ant testSystem to ' + LOG_DIR + '/testSystem.txt, never both at once. Both run at four threads, pinned in build.xml whatever the shell exports (POSITIONS.md, "The suites run Fortress in parallel.").' + (specData
+  ? ' Then ant testSpecData to ' + LOG_DIR + '/testSpecData.txt: ' + specData + '; every example must pass.'
+  : ''),
+'5. The summary, with the machine it ran on, and its comparison with the last landed one. Its functions, and those of step 7, are in ' + GATE_FUNCTIONS + ': source it from ' + MAIN + ', in each call that uses them, since each call starts a new shell, after the call\'s whole setup of the skill\'s build-and-caches.md, its exports and its unset JAVA_TOOL_OPTIONS, not FORTRESS_HOME alone: gate_summary\'s machine lines read that shell\'s java -version and FORTRESS_THREADS, and climb batch 26\'s gate, which set FORTRESS_HOME alone, committed the proxy\'s "Picked up JAVA_TOOL_OPTIONS" line and FORTRESS_THREADS=unset:',
+'',
+'        source ' + GATE_FUNCTIONS,
+'',
+'   Then gate_summary ' + LOG_DIR + ' ' + GATE_OUT + '/summary.txt "gate batch ' + BATCH + '", and gate_compare "$(last_landed_summary)" ' + GATE_OUT + '/summary.txt. A COUNT DOWN or SUITE GONE line is red, with the suite named: it almost always means a .test file or a tests= line went missing. A count that went up is the batch\'s new tests. A suite that is new in the summary is not red by itself.',
+'6. The four-thread atomic runs of gate.md, their lines appended to the summary:',
+'',
+...ATOMIC_FN,
 '',
 '   Run atomic_runs ' + GATE_OUT + '/summary.txt: ' + (3 * (ATOMIC_COMPILER + ' ' + ATOMIC_OTHER).split(' ').length) + ' lines. Any FAIL, NO-PASS, COMPILE-FAILED or TIMEOUT-TWICE is red; a single timeout whose re-run passes is not.',
 '7. The ladder regression, as gate.md\'s "The ladder regression" runs it, with OUT at ' + LOG_DIR + '/ladder and LADDER_ROOT at ' + LOG_DIR + '/ladder/root, where step 3 put the two copies. The eighteen microGPT components are compiled only, never linked or run here. Compare with ladder_compare and mg_phases from ' + GATE_FUNCTIONS + ', sourced as in step 5:',
@@ -1355,9 +1383,10 @@ const GATE_SCHEMA = {
 
 // After a repair on the merged tree, the gate runs again only for a path it reads (POSITIONS.md,
 // "A tests-only repair does not rerun the gate." and "Nothing is built or run twice on the same
-// code."): under ProjectFortress/ but a test file a passing run of the repair exercised, under
-// Library/, or build.xml. Every other path, the specification's text and the skill's among them,
-// leaves the first gate's tables standing, recorded beside its summary.
+// code."): the whole gate for a path under ProjectFortress/ that is not a test file, under Library/,
+// or build.xml; only the stages that read a test file, for one that no passing run of the repair
+// exercised (stagesReading, gateSuitesRole). Every other path, the specification's text and the
+// skill's among them, leaves the first gate's tables standing, recorded beside its summary.
 const TEST_FILE = /^ProjectFortress\/(tests|[A-Za-z_]+_tests)\/[^/]+\.(fss|fsi|test)$/
 const repoPath = (p) => p.trim().replace(/^\.\//, '')
 const codePathsOf = (paths) => strings(paths).map(repoPath).filter(p => !p.startsWith('explorations/') && !p.startsWith('.claude/') && !TEST_FILE.test(p))
@@ -1366,22 +1395,32 @@ const GATE_READS = 'ProjectFortress/, Library/ or build.xml'
 const gateReads = (p) => /^(ProjectFortress|Library)\//.test(p) || p === 'build.xml'
 const gateCodeOf = (paths) => codePathsOf(paths).filter(gateReads)
 const ungatedOf = (paths) => codePathsOf(paths).filter(p => !gateReads(p))
+// The gate's stages that read a test file (the skill's gate.md, "The steps"; tests-running.md, "The two
+// suites"): testSystem reads ProjectFortress/tests/, testFast the other test folders, and the atomic
+// runs their programs by name. Whether the ladder reads one, its pass list says, which the gate reads.
+const ATOMIC_PROGRAMS = ATOMIC_COMPILER.split(' ').map(p => 'ProjectFortress/compiler_tests/' + p + '.fss')
+  .concat(ATOMIC_OTHER.split(' ').map(p => 'ProjectFortress/other_compiler_tests/' + p + '.fss'))
+const stagesReading = (tests) => ({
+  suites: ['testFast', 'testSystem'].filter(s => tests.some(p => (s === 'testSystem') === p.startsWith('ProjectFortress/tests/'))),
+  atomic: tests.some(p => ATOMIC_PROGRAMS.includes(p)) })
+const testNameOf = (p) => p.replace(/^.*\//, '').replace(/\.[^.]*$/, '')
+const namesTest = (line, p) => new RegExp('(^|[^A-Za-z0-9_])' + testNameOf(p).replace(/[^A-Za-z0-9_]/g, '\\$&') + '([^A-Za-z0-9_]|$)').test(line)
 
 function repairTestsStep(kind, failing) {
   return [
 '',
 '## Your tests, and whether the gate runs again',
 '',
-'Record the hash HEAD is at before your first commit and after your last, return both, and in pathsChanged every path git diff --name-only <before> <after> prints. The script decides from it whether the whole gate runs again after you: a path the gate reads that is not a test file (under ProjectFortress/ or Library/, or build.xml) reruns it; the specification\'s text and other prose do not, and the first gate\'s tables stand beside a record of those paths; test files do not, when your runs below pass them.',
+'Record the hash HEAD is at before your first commit and after your last, return both, and in pathsChanged every path git diff --name-only <before> <after> prints. The script decides from it whether the gate runs again after you: a path the gate reads that is not a test file (under ProjectFortress/ or Library/, or build.xml) reruns the whole gate; the specification\'s text and other prose do not, and the first gate\'s tables stand beside a record of those paths; test files do not, when your runs below pass them, and where they do not, only the gate\'s stages that read those files run again, the first gate\'s other stages standing.',
 '',
-'Every test file you add or change you run in the harness on the merged tree, placed where the gate reads it, all the files of one corpus together in one JVM, as the gate\'s tracks run them (the skill\'s tests-running.md: ONE_JVM=1 junit.sh for the .test files of each compiled corpus, harness-one.sh once for the interpreter tests), each run captured under ' + LOG_DIR + '/repair-' + kind + '-tests/, not committed. In testRuns return one entry per file: the file, the test paths its lines exercise, the summary row it adds to (fast-compiler/CompilerJUTest, fast-library/LibraryJUTest, or system), the JUnit cases it adds, its verdict (pass only when its run printed OK), and the capture. A test path you changed that no run exercises, or a run that did not pass, reruns the gate.',
+'Every test file you add or change you run in the harness on the merged tree, placed where the gate reads it, all the files of one corpus together in one JVM, as the gate\'s tracks run them (the skill\'s tests-running.md: ONE_JVM=1 junit.sh for the .test files of each compiled corpus, harness-one.sh once for the interpreter tests), each run captured under ' + LOG_DIR + '/repair-' + kind + '-tests/, not committed. In testRuns return one entry per file: the file, the test paths its lines exercise, the summary row it adds to (fast-compiler/CompilerJUTest, fast-library/LibraryJUTest, or system), the JUnit cases it adds, its verdict (pass only when its run printed OK), and the capture. A test path you changed that no run exercises, a file you deleted among them, or a run that did not pass, reruns the gate\'s stages that read it.',
 ...(kind === 'gate' ? [
 '',
 'The gate was red on these lines:',
 '',
 JSON.stringify(strings(failing), null, 2),
 '',
-'In failingAnswered return one entry per line, in order: the line, and the testRuns file whose passing run now answers it, or empty where none does. The gate does not run again only when every line is answered and your commit changed no path that reruns it.',
+'In failingAnswered return one entry per line, in order: the line, and the testRuns file whose passing run now answers it, or empty where none does. The gate does not run again only when every line is answered and your commit changed no path that reruns it. A line no passing run answers that names a test file you changed, as one you withdrew, reruns the gate\'s stages that read that file; any other such line reruns the whole gate.',
 ] : strings(failing).length ? [
 '',
 'The gate that ran beside the review was red on these lines:',
@@ -1455,35 +1494,92 @@ const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, {
   required: ['slug', 'landed', 'stopped', 'filesChanged', 'pointsReached', 'summary', 'headBefore', 'headAfter', 'pathsChanged', 'testRuns', 'holdsSettled'],
 })
 
-// Whether the gate runs again after a repair on the merged tree (repairRerun): when the repair,
-// or the review's corrections before it, changed a path the gate reads that is not a test file;
-// when a test path they changed is not exercised by a passing run; when the repair did not say
-// what it changed; and, after the gate's repair, when the gate's own counts fell, when it named
-// no failing line, or when a line it failed on is not answered by a passing run.
+// Whether the gate runs again after a repair on the merged tree (repairRerun), and how much of it.
+// The whole gate (rerun true) when the repair did not say what it changed, or when it, or the
+// review's corrections before it, changed a path the gate reads that is not a test file; and, after
+// the gate's repair, when the gate named no failing line, or when a line it failed on is answered
+// by no passing run and names no test file the repair changed. Only the stages that read the
+// changed test files (rerun 'suites', with stagesReading's suites and atomic, gateSuitesRole) when
+// the change is of test files and paths no stage reads, and a test path they changed is exercised
+// by no passing run, one deleted among them, a run did not pass, the gate's own counts fell, or a
+// line it failed on that no passing run answers names a changed test file. In climb batch 31 the
+// gate's repair withdrew one test of compiler_tests/, and the second gate ran every stage again, 20
+// minutes and 114K, where only testFast reads that folder (reviews/batch-31-review.md, section 6).
 function repairRerun(repair, reviewPaths, redGate) {
   if (!repair) return { rerun: true, why: 'the repair returned nothing' }
   if (!Array.isArray(repair.pathsChanged)) return { rerun: true, why: 'the repair did not list the paths it changed' }
   const changed = strings(repair.pathsChanged).concat(strings(reviewPaths))
   const code = gateCodeOf(changed)
   if (code.length) return { rerun: true, why: 'changed a path the gate reads (' + GATE_READS + '), not a test file: ' + code.join(', ') }
+  const tests = testPathsOf(changed)
+  const again = []   // the reasons for running the stages that read the changed test files again
   const runs = Array.isArray(repair.testRuns) ? repair.testRuns.filter(t => t && typeof t === 'object') : []
   const passing = runs.filter(t => t.verdict === 'pass')
-  if (passing.length < runs.length) return { rerun: true, why: 'a test run of the repair did not pass: ' + runs.filter(t => t.verdict !== 'pass').map(t => t.file).join(', ') }
+  if (passing.length < runs.length) again.push('a test run of the repair did not pass: ' + runs.filter(t => t.verdict !== 'pass').map(t => t.file).join(', '))
   const exercised = new Set([].concat.apply([], passing.map(t => testPathsOf([t.file].concat(strings(t.paths))))))
-  const unrun = testPathsOf(changed).filter(p => !exercised.has(p))
-  if (unrun.length) return { rerun: true, why: 'test path(s) no passing run of the repair exercises: ' + unrun.join(', ') }
+  const unrun = tests.filter(p => !exercised.has(p))
+  if (unrun.length) again.push('test path(s) no passing run of the repair exercises: ' + unrun.join(', '))
   const lines = redGate ? strings(redGate.failing) : []
   if (redGate) {
-    if (strings(redGate.countsDown).length) return { rerun: true, why: 'the gate\'s own counts fell or a suite went: ' + strings(redGate.countsDown).join('; ') }
+    if (strings(redGate.countsDown).length) again.push('the gate\'s own counts fell or a suite went: ' + strings(redGate.countsDown).join('; '))
     if (!lines.length) return { rerun: true, why: 'the gate was red and named no failing line for the repair to answer' }
     const answers = Array.isArray(repair.failingAnswered) ? repair.failingAnswered : []
     const passed = new Set(passing.map(t => repoPath(String(t.file))))
     const open = lines.filter(l => !answers.some(a => a && String(a.failing).trim() === l.trim() && typeof a.file === 'string' && passed.has(repoPath(a.file))))
-    if (open.length) return { rerun: true, why: 'gate line(s) no passing run of the repair answers: ' + open.join('; ') }
+    const loose = open.filter(l => !tests.some(p => namesTest(l, p)))
+    if (loose.length) return { rerun: true, why: 'gate line(s) no passing run of the repair answers' + (tests.length ? ' and that name no test file it changed' : '') + ': ' + loose.join('; ') }
+    if (open.length) again.push('gate line(s) no passing run of the repair answers, each naming a test file it changed: ' + open.join('; '))
   }
+  if (again.length) return tests.length
+    ? Object.assign({ rerun: 'suites', why: again.join('; '), tests }, stagesReading(tests))
+    : { rerun: true, why: again.join('; ') }
   const ungated = ungatedOf(changed)
   const kinds = [testPathsOf(changed).length ? 'test files' : '', ungated.length ? 'paths no gate stage reads (' + ungated.join(', ') + ')' : ''].filter(Boolean)
   return { rerun: false, runs: passing, answered: lines.length ? repair.failingAnswered : [], ungated, why: (kinds.length ? kinds.join(', ') + ' and ' : '') + 'records only' }
+}
+
+// The gate's stages that read the test files a repair changed, run again on the tree as it stands
+// (repairRerun's rerun 'suites'). The gate before's other stages stand, since no path they read
+// changed (the skill's gate.md, "When to run it"). Its summary is the gate's own form: gate_summary
+// over TEST-RESULTS, which keeps the gate before's results of the suites not run, then the other
+// stages' lines, its own or the gate before's, kept in a folder of their own before anything runs.
+const keptBefore = (kind) => LOG_DIR + '/before-suites-' + kind
+function gateSuitesRole(again, kind, expectedMoves) {
+  const KEEP = keptBefore(kind)
+  const suites = again.suites
+  const B = 'explorations/compile-ladder/baseline-2026-09-19'
+  const stand = ['its build and the library order'].concat(['testFast', 'testSystem'].filter(s => suites.indexOf(s) < 0),
+    ['testSpecData where it ran'], again.atomic ? [] : ['the atomic runs'], ['the checker count', 'the distance stage'])
+  return MAIN_TREE_ROLE + [
+'# Your role: the gate, again for the test files a repair changed',
+'',
+'The gate ran on the merged tree. Then the repair on the merged tree (' + kind + ') changed test files and no other path the gate reads (' + GATE_READS + '), and its own runs do not answer for them all: ' + again.why + '. The test files it changed:',
+'',
+JSON.stringify(again.tests, null, 2),
+'',
+'A gate\'s results stay valid until the tree changes under ProjectFortress/ or Library/, or in build.xml, outside the test files (the skill\'s gate.md, "When to run it"). So you run again, on the tree as it stands, only the gate\'s stages that read these files: ' + suites.join(' and ') + (again.atomic ? ', the atomic runs, since a file above is one of their programs,' : '') + ' and the ladder regression where step 4 says; and the gate before you stands for every other stage: ' + stand.join(', ') + ', and the ladder regression unless step 4 runs it. You change no source and commit nothing; the commit stage lands the gate\'s outputs. You rewrite ' + GATE_OUT + '/summary.txt, by the functions below and never by hand, and ' + GATE_OUT + '/ladder/ only where step 4 runs; checker-count.txt and distance.txt there, and ' + LOG_DIR + '/checker-count/ and ' + LOG_DIR + '/distance/, stay as the gate before you wrote them. Start every long step detached with nohup and wait for it with wait_for, both as the skill\'s session.md, "Long commands", gives them. If a step fails, run the rest, as gate.md asks, so that the summary holds every step\'s result.',
+'',
+'1. The disk check of gate.md\'s step 1. Then keep the gate before you, once: [ -d ' + KEEP + ' ] || { mkdir -p ' + KEEP + ' && cp -p ' + GATE_OUT + '/summary.txt ' + LOG_DIR + '/*.txt ' + KEEP + '/ ; }. Run no ant compileAll of your own, and do not remove ProjectFortress/TEST-RESULTS: the summary reads there the gate before\'s results of every suite you do not run.',
+'2. ' + suites.map(s => 'rm -rf ProjectFortress/TEST-RESULTS/' + (s === 'testFast' ? 'fast-*' : 'system-*') + ', then ant ' + s + ' to ' + LOG_DIR + '/' + s + '.txt').join('; then ') + (suites.length > 1 ? ', never both at once. Both run' : '. It runs') + ' at four threads, pinned in build.xml whatever the shell exports, and builds first, which on this tree compiles nothing new.',
+(again.atomic
+  ? '3. The four-thread atomic runs of gate.md, into a file of their own:\n\n' + ATOMIC_FN.join('\n') + '\n\n   Run atomic_runs ' + LOG_DIR + '/atomic-again.txt: ' + (3 * (ATOMIC_COMPILER + ' ' + ATOMIC_OTHER).split(' ').length) + ' lines. Any FAIL, NO-PASS, COMPILE-FAILED or TIMEOUT-TWICE is red; a single timeout whose re-run passes is not.'
+  : '3. The atomic runs stand: none of their programs is among the files above.'),
+'4. The ladder regression again only if a file above is one of the programs of ' + B + '/pass-list.txt (its first column, a path under ProjectFortress/: tail -n +2 ' + B + '/pass-list.txt | cut -f1). Then run its four scripts in ' + LOG_DIR + '/ladder/, which the gate copied there, again, in the order of gate.md\'s "The ladder regression", step 2 (the driver prunes its caches to the pristine copy itself); compare as its step 3 says, into ' + LOG_DIR + '/ladder-again.txt; and copy ladder.tsv, microgpt-phase.md and the comparison into ' + GATE_OUT + '/ladder/, as the gate did. Otherwise run nothing of it.',
+'5. The summary. Its functions are in ' + GATE_FUNCTIONS + ': source it from ' + MAIN + ', in each call that uses them, after the call\'s whole setup of the skill\'s build-and-caches.md, its exports and its unset JAVA_TOOL_OPTIONS, not FORTRESS_HOME alone, since gate_summary\'s machine lines read that shell:',
+'',
+'        source ' + GATE_FUNCTIONS,
+'',
+'   Then gate_summary ' + LOG_DIR + ' ' + GATE_OUT + '/summary.txt "gate batch ' + BATCH + '": its rows hold your suites\' results and the gate before\'s of the others. Append to it, in this order: the atomic lines (' + (again.atomic ? 'yours: cat ' + LOG_DIR + '/atomic-again.txt' : 'the gate before\'s: grep \'^# atomic \' ' + KEEP + '/summary.txt') + '); the ladder lines (yours, from ' + LOG_DIR + '/ladder-again.txt, each prefixed "# ladder ", where step 4 ran; else the gate before\'s: grep \'^# ladder \' ' + KEEP + '/summary.txt); the checker count\'s and the distance\'s, grep -E \'^# (checker|distance) \' ' + KEEP + '/summary.txt; and last one line, tab-separated: "# suites-again", the stages you ran, "after the repair (' + kind + ')", git rev-parse --short HEAD, and "the other stages\' lines are the gate before\'s". Then gate_compare "$(last_landed_summary)" ' + GATE_OUT + '/summary.txt. A COUNT DOWN or SUITE GONE line is red, with the suite named.',
+'',
+'## What green means',
+'',
+'What it means for the gate, read on the summary you wrote: zero failures and zero errors in every suite row, BUILD SUCCESSFUL at the end of each suite you ran, no COUNT DOWN and no SUITE GONE line, every # atomic line PASS, no # ladder DOWN, STDOUT or MISSING line the manifest did not declare, and no # checker line the gate reads as red (CRASH CHANGED, SHADOW STALE, NO TOTAL). Declared ladder moves:',
+'',
+(expectedMoves.length ? expectedMoves.map(m => '     - ' + m).join('\n') : '     (none: no rung of this batch expects to move a ladder file)'),
+'',
+'Return the structured result; for a stage you did not run, give the gate before\'s figures and say it stands. If red, name every failing test and copy the first failure\'s output lines into it.',
+'',
+  ].join('\n')
 }
 
 // The push is held only by a step taken that cannot be undone, or that still acts against a
@@ -1544,6 +1640,9 @@ JSON.stringify(beside, null, 2),
 }
 
 const COMMIT_TITLE = 'Record the gate\'s tables and the microGPT walk check'
+// The first commit before the batch's own, which the commit stage's step 2 reads from: the HEAD the
+// gather started from (its headBefore); the base only where the gather returned no hash.
+const batchFrom = (gather) => (gather && typeof gather.headBefore === 'string' && /^[0-9a-f]{7,40}$/.test(gather.headBefore.trim())) ? gather.headBefore.trim() : BASE
 const MG_LOG = LOG_DIR + '/microgpt-walk.txt'
 const MG_DIR = LOG_DIR + '/microgpt-walk'
 
@@ -1551,13 +1650,16 @@ const MG_DIR = LOG_DIR + '/microgpt-walk'
 // batch fixed through ledger.py, so this stage lands the gate's outputs, writes FACTS.md's landed
 // figures, runs the microGPT walk check, which takes about a minute (POSITIONS.md, "The microGPT
 // walk check is quick."), pushes main to its three branches, and removes the worktrees.
-function commitRole(gather, gate, heldBy, beside) {
+function commitRole(gather, gate, heldBy, beside, again) {
   const held = heldBy.length > 0
+  const from = batchFrom(gather)
   beside = beside || []
   const answered = beside.some(b => strings((b.answered || []).map(a => a && a.failing)).length)
   const tree = beside.length
     ? 'The gate ran on the tree before a repair, or the review\'s corrections, that changed no path the gate reads but test files the repair ran, and did not run again; its tables stand, ' + (answered ? 'the lines it was red on answered by the repair\'s passing runs' : 'green') + ' (step 1a).'
-    : 'The gate is green on the tree as it stands.'
+    : again
+      ? 'The gate is green on the tree as it stands: after a repair that changed test files and no other path the gate reads, its stages that read those files (' + again.suites.concat(again.atomic ? ['the atomic runs'] : []).join(', ') + ', and the ladder regression where one is its program) ran again on this tree, and its other stages stand from the gate before, since no path they read changed (the summary\'s "# suites-again" line).'
+      : 'The gate is green on the tree as it stands.'
   return MAIN_TREE_ROLE + [
 '# Your role: commit',
 '',
@@ -1570,7 +1672,7 @@ tree + (held ? ' Land it on the local main; the script holds the push (step 3).'
 '   The tool runs the quick pair, MicroGptFlatQuick and MicroGptAplQuick, under walk, both at once, each from an empty private cache: two passes against the reference values, about a minute in all. Never pass it full.',
 '1. Copy the gate\'s outputs into the tree: mkdir -p ' + GATE_DIR + ' && cp -R ' + GATE_OUT + '/. ' + GATE_DIR + '/, and ' + LOG_DIR + '/distance/errors.tsv to ' + SITES + ' (mkdir -p its folder), the per-site list the next batch\'s rungs read as their before. Write the landed figures into explorations/coordinator/FACTS.md, numbers only, by python3 ' + TOOLS + '/record.py set N FILE (its header gives the form), FILE the entry\'s whole new line under ' + LOG_DIR + '/, one call per entry, with --by "climb batch ' + BATCH + ' commit stage" and a --note naming the lines read; the tool writes FACTS-history.md beside it, and python3 ' + TOOLS + '/record.py check --base <the commit before your edits> prints 0 failures before the commit. In F-53, from ' + GATE_DIR + '/distance.txt and checker-count.txt: every figure it gives of the last landed gate, the lines of distance.txt it cites and the batch number in its title and in the paths it cites. In F-240, in its own form, the two stages\' seconds at the last landed gate: the count stage\'s, which its table does not record, from the gate\'s log, echo $(( $(stat -c %Y ' + LOG_DIR + '/checker-count/run.txt) - $(stat -c %Y ' + LOG_DIR + '/checker-count/javac.txt) )), the stage\'s start to its last write, written "about N s" to the nearest 5 s (where F-240 names the gate\'s call times as that figure\'s source, name the file times of the gate\'s log; where the two files are gone, leave the figure and say so in your summary); the distance stage\'s from distance.txt, its #seconds line\'s total and FortressLibrary figure, the first load of its #machine line and the components its first line counts, and never without the load of the whole stage: the gate starts the stage beside its library order and its suites (the gate\'s step 2), so the entry\'s words that the stage ran beside the first minutes of testFast, and that its time is one under that load, stay in it with this gate\'s figures; the figures F-240 gave of the gate before, as the figures it now compares them against, with that gate\'s batch; and the batch number in its title and in the path it cites. Change no other word; a sentence the new figures make false you name in your summary for the coordinator. When a landed commit changed a file under Specification/ (git diff --name-only ' + BASE + '..HEAD -- Specification/), Specification/fortress.pdf takes the PDF of the landed text: where the gather kept its build, ' + SPEC_PDF + ', and git diff --name-only <the gather\'s head, in its result below> HEAD -- Specification/ prints nothing, copy that file to Specification/fortress.pdf and build nothing, since it is the same text; otherwise build the PDF once, in Specification/fortress/, ./ant genSource then ./ant tex, each logged under ' + LOG_DIR + '/, and copy Specification/fortress/fortress.pdf to Specification/fortress.pdf. Then wait for step 0 with wait_for ' + MG_LOG + ', called again until it prints EXIT= (or 10 minutes have passed, which you then report), and append to ' + GATE_DIR + '/summary.txt its verdict lines, each prefixed "# microgpt-walk ": grep -h "VERDICT\\|^rc=" ' + MG_DIR + '/*.txt for the run\'s folder. A FAIL there is reported, and holds nothing. One commit, titled "' + COMMIT_TITLE + '": the summary, the two tables, ladder/, the per-site list, FACTS.md with FACTS-history.md, and the PDF; the logs under ' + LOG_DIR + '/ are never committed. When the PDF is in it, its message carries the line "historical: Specification/fortress.pdf, built from the landed text", which step 2 asks of a commit that touches a path outside explorations/ (climb batches 25 and 26 amended their commit for it).',
 ...besideStep(beside),
-'2. Check every commit since ' + BASE + ' (git log ' + BASE + '..HEAD --format=%B): each ends with the skill\'s two footer lines, a model\'s name in its Co-Authored-By line being fine and never reported, and each whose diff touches a path outside explorations/ and .claude/ carries a historical: line. Then run git diff --name-only ' + BASE + ' HEAD -- .claude/: it should print nothing, since a batch writes no skill text (the skill writer writes the skill from ' + BATCH_DIR + '/RECORD.md after the landing). Return every path it prints in skillTouched, for the coordinator; it holds nothing.',
+'2. Check the batch\'s own commits, from the HEAD the gather started from, ' + from + ', to yours (git log ' + from + '..HEAD --format=%B): each ends with the skill\'s two footer lines, a model\'s name in its Co-Authored-By line being fine and never reported, and each whose diff touches a path outside explorations/ and .claude/ carries a historical: line. Then run git diff --name-only ' + from + ' HEAD -- .claude/: it should print nothing, since a batch writes no skill text (the skill writer writes the skill from ' + BATCH_DIR + '/RECORD.md after the landing). Return every path it prints in skillTouched, and no other, for the coordinator; it holds nothing. Read no commit before ' + from + ' for either check: a commit between the base and the gather is not the batch\'s, and a skill update that landed on main then is the skill writer\'s (climb batch 31b\'s commit stage listed six such paths).',
 held
   ? '3. Do NOT push: not main and no other branch. The script holds the push, because the batch took steps that cannot be undone or that act against a decision on record, and only the curator lifts them:\n\n' + heldBy.map(h => '- ' + h).join('\n') + '\n\n   Append to ' + BATCH_DIR + '/RECORD.md a paragraph headed "Not pushed." naming each, with its rung and evidence and the hash origin/main stays at; commit it locally.'
   : '3. Push main to its three branches, as the skill\'s committing.md says: git push origin main, then ' + PUSH_BRANCHES.map(b => 'git push origin main:' + b).join(', then ') + '. Retry a failed push up to four times, 2, 4, 8 and 16 seconds apart.',
@@ -1600,7 +1702,7 @@ const COMMIT_SCHEMA = {
     pushHeld: { type: 'boolean' },
     heldBy: { type: 'array', items: { type: 'string' } },
     microgptWalk: { type: 'string', description: 'each program\'s VERDICT and rc= lines, or why the check did not finish' },
-    skillTouched: { type: 'array', items: { type: 'string' }, description: 'every path git diff --name-only BASE HEAD -- .claude/ prints; empty if none' },
+    skillTouched: { type: 'array', items: { type: 'string' }, description: 'every path git diff --name-only <the gather\'s headBefore> HEAD -- .claude/ prints, step 2\'s command; empty if none' },
     summary: { type: 'string' },
   },
   required: ['mainHead', 'pushed', 'pushHeld', 'microgptWalk', 'skillTouched', 'summary'],
@@ -1731,7 +1833,7 @@ function recoverJudgeMain(kind) {
 function recoverGather() {
   return [
     'You are in the main tree, ' + MAIN + ', and it need not be clean: a dirty tree now is the earlier attempt\'s work in progress and your starting point. Check only that ' + BASE + ' is still an ancestor of HEAD.',
-    'Read git log --format="%h %s" ' + BASE + '..HEAD, git status --short, git diff --cached --stat and git diff --stat. An approved rung whose commit is already on main is done: never apply its patch again. Before you apply another, regenerate it and run git apply --reverse --check on it: if that succeeds, it is applied and not committed; continue that rung after the apply. A file with conflict markers is a 3-way apply left half resolved.',
+    'Read git log --format="%h %s" ' + BASE + '..HEAD, git status --short, git diff --cached --stat and git diff --stat. ' + GATHER_HEAD + ' holds the HEAD the first attempt started from: never write it again, and return it as headBefore. An approved rung whose commit is already on main is done: never apply its patch again. Before you apply another, regenerate it and run git apply --reverse --check on it: if that succeeds, it is applied and not committed; continue that rung after the apply. A file with conflict markers is a 3-way apply left half resolved.',
     'The record may already carry a rung\'s fold. Before you fold, grep FACTS.md and the ledger (' + LEDGER + ' find with the row\'s words, and for each placeholder its claim) for its lines, and fold only what is missing: never a line or a row twice. A row closed already is not closed again (' + LEDGER + ' show N). The same holds for PLAN.md\'s entries and RECORD.md.',
     'Retry a git command that fails on index.lock.',
   ]
@@ -1758,6 +1860,15 @@ function recoverGate() {
     bgCheck(MAIN),
     'A step whose log ends in EXIT=0 with BUILD SUCCESSFUL is done: do not run it again, and above all do not repeat step 2 once step 4 has finished, since its rm -rf ProjectFortress/TEST-RESULTS deletes the suites\' results. Step 3\'s copies stand only if both exist. The distance stage: when its log ends in EXIT= it finished; when not and a java DistanceMulti runs in ' + MAIN + ', it still runs; either way do not start it again. Only when its log has no EXIT= line and no such process runs, remove the log and start it again.',
     'Steps 5 to 9 write into summary.txt, step 5 anew and the later ones appending: continue at the first whose lines are not there; if one stopped partway, run again from step 5, so that no line lands twice (the distance stage itself is not run again for that, only its comparison).',
+  ]
+}
+
+function recoverGateSuites(kind) {
+  const KEEP = keptBefore(kind)
+  return [
+    'You are in the main tree, ' + MAIN + '. If ' + KEEP + '/ exists, the earlier attempt\'s step 1 kept the gate before you there: never copy over it again, and read the gate before\'s summary there, not in ' + GATE_OUT + '/, which step 5 rewrites. Never remove ProjectFortress/TEST-RESULTS.',
+    bgCheck(MAIN),
+    'A suite whose log in ' + LOG_DIR + '/ is newer than ' + KEEP + '/ and ends in its BUILD line and EXIT= is done: do not run it again. Remove an atomic-again.txt or ladder-again.txt that a step left partway, and run that step again. Step 5 writes the summary anew, so run it whole once the steps before it are done.',
   ]
 }
 
@@ -1950,8 +2061,12 @@ if (!gather || gather.unresolved) {
   log('Gather stopped: ' + ((gather && gather.summary) || 'agent died'))
   return finish({ landed: false, reason: 'gather unresolved' })
 }
-mergedItems.push(...numbered('gather', gather.forCurator))
-const reviewItems = rungItems.concat(numbered('gather', gather.forCurator))
+if (batchFrom(gather) === BASE) log('The gather returned no headBefore: the commit stage reads every commit since the base for its check of footers and .claude/')
+// The reserved points the gather filed on the review list, each by its id (<rung>.reserved.<n>).
+const reservedItems = (Array.isArray(gather.reservedFiled) ? gather.reservedFiled : [])
+  .filter(e => e && typeof e.id === 'string' && e.id.trim() && typeof e.text === 'string').map(e => ({ id: e.id.trim(), text: e.text }))
+mergedItems.push(...numbered('gather', gather.forCurator), ...reservedItems)
+const reviewItems = rungItems.concat(numbered('gather', gather.forCurator), reservedItems)
 
 // The commits each rung's branch holds after its worker's: the skeptic's fixes and a repair round,
 // which the review reads, there being no second skeptic.
@@ -1998,6 +2113,8 @@ if (gateIsStale) log('The review\'s corrections touched ' + reviewGated.length +
 else if (reviewUngated.length) log('The review\'s corrections touched ' + reviewUngated.length + ' path(s) outside explorations/ that no gate stage reads (' + reviewUngated.join(', ') + '); the gate stands, and the commit stage records why')
 const redBeside = !!(gate && !gate.stopped && !gate.green && !gateIsStale)
 let redAnswered = false
+let suitesAfterReview = null   // the review's repair changed test files its runs did not answer for: those stages again
+let suitesRan = null           // the last gate that ran only the stages a repair's test files reach, for the commit stage
 
 if (reviewBlocks) {
   const decision = reviewDecision
@@ -2019,8 +2136,9 @@ if (reviewBlocks) {
     const after = repairRerun(report.repairReview, reviewPaths, null)
     report.repairReviewRerun = after
     if (after.rerun) {
-      log('After the review\'s repair the gate runs again: ' + after.why)
+      log('After the review\'s repair the gate runs again' + (after.rerun === 'suites' ? ', only its stages that read the test files the repair changed (' + after.suites.concat(after.atomic ? ['the atomic runs'] : []).join(', ') + '): ' : ': ') + after.why)
       gateIsStale = true
+      if (after.rerun === 'suites') suitesAfterReview = after
     } else {
       const red = redBeside ? repairRerun(report.repairReview, reviewPaths, gate) : null
       if (red) report.repairReviewRed = red
@@ -2045,8 +2163,14 @@ if (!gateIsStale && reviewUngated.length && !beside.some(b => b.kind === 'review
 }
 
 if (gateIsStale || !gate) {
-  gate = await callAgent(head('gate') + gateRole(expectedMoves, expectedChecker, specData), { label: 'gate:after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
-  report.gateAfterReview = gate
+  if (suitesAfterReview && gate && !gate.stopped) {
+    gate = await callAgent(head('gate') + gateSuitesRole(suitesAfterReview, 'review', expectedMoves), { label: 'gate:suites-after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGateSuites('review'))
+    report.gateSuitesAfterReview = gate
+    suitesRan = suitesAfterReview
+  } else {
+    gate = await callAgent(head('gate') + gateRole(expectedMoves, expectedChecker, specData), { label: 'gate:after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
+    report.gateAfterReview = gate
+  }
   beside.length = 0
 }
 
@@ -2062,9 +2186,12 @@ if (!gate.green && !redAnswered) {
   const after = repairRerun(report.repairGate, [], gate)
   report.repairGateRerun = after
   if (after.rerun) {
-    log('After the gate\'s repair the gate runs again: ' + after.why)
-    gate = await callAgent(head('gate') + gateRole(expectedMoves, expectedChecker, specData), { label: 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
+    const only = after.rerun === 'suites'
+    log('After the gate\'s repair the gate runs again' + (only ? ', only its stages that read the test files the repair changed (' + after.suites.concat(after.atomic ? ['the atomic runs'] : []).join(', ') + '): ' : ': ') + after.why)
+    gate = await callAgent(head('gate') + (only ? gateSuitesRole(after, 'gate', expectedMoves) : gateRole(expectedMoves, expectedChecker, specData)),
+      { label: only ? 'gate2:suites' : 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, only ? recoverGateSuites('gate') : recoverGate())
     report.gate2 = gate
+    suitesRan = only ? after : null
     beside.length = 0
     if (!gate || !gate.green) {
       log('Gate red after one repair: the batch stops here, nothing pushed')
@@ -2085,11 +2212,13 @@ const heldBy = pushHeldBy(approved, review, mergedRepairs)
 const holdsSettled = holdsSettledBy(approved, review, mergedRepairs)
 if (holdsSettled.length) log('Settled by a repair on the merged tree, so no longer holding the push: ' + holdsSettled.join('; '))
 if (heldBy.length) log('Push held: ' + heldBy.length + ' step(s) that cannot be undone or still act against a decision on record: ' + heldBy.join('; '))
-const commit = await callAgent(head('commit') + commitRole(gather, gate, heldBy, beside), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
+const commit = await callAgent(head('commit') + commitRole(gather, gate, heldBy, beside, suitesRan), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
 report.commit = commit
-// A batch writes no skill text (skills-agenda-audit.md): a path under .claude/ that changed since the
-// base is listed for the coordinator, and holds nothing.
-if (commit) mergedItems.push(...numbered('skill-touched', strings(commit.skillTouched).map(p => 'The batch changed ' + p.trim() + ' (git diff --name-only ' + BASE + ' HEAD -- .claude/), though a batch writes no skill text: only the skill writer edits the skills, after the landing.')))
+// A batch writes no skill text (skills-agenda-audit.md): a path under .claude/ that the batch's own
+// commits changed, from the gather's start to the commit stage's head, is listed for the coordinator,
+// and holds nothing. A path that command cannot print, one not under .claude/, makes no item.
+const touched = strings(commit && commit.skillTouched).map(repoPath).map(p => p.startsWith(MAIN + '/') ? p.slice(MAIN.length + 1) : p).filter(p => p.startsWith('.claude/'))
+if (commit) mergedItems.push(...numbered('skill-touched', touched.map(p => 'The batch changed ' + p + ' (git diff --name-only ' + batchFrom(gather) + ' HEAD -- .claude/, the batch\'s own commits), though a batch writes no skill text: only the skill writer edits the skills, after the landing.')))
 // The quick pair prints "VERDICT: n PASS, 0 FAIL of n -- ALL PASS" each when it passes. Anything
 // else, a failing check, a run cut off or refused, is listed for the coordinator; it holds nothing.
 const mgPassed = (t) => typeof t === 'string' && (t.match(/-- ALL PASS/g) || []).length >= 2 && !/-- FAILED|rc=[1-9]/.test(t)

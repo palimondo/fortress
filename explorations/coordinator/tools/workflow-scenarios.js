@@ -26,11 +26,17 @@
 // batch 27's demo), but by one marked as one that cannot be undone or settled with no evidence; the disk under its
 // floor, or no reading of it, stopping the run before the scatter; no skill text written and no cold read in any run (the batch's revival-change material
 // goes into its RECORD.md for the skill writer: reviews/skills-agenda-audit.md), a path under .claude/ that
-// changed listed as skill-touched, and a gather's stray deltaEntries routed nowhere; testSpecData in the gate
+// changed listed as skill-touched, and a gather's stray deltaEntries routed nowhere; the commit stage's checks of
+// footers and .claude/ over the batch's own commits, from the gather's headBefore, and from the base only where the
+// gather gave none, and no item of a path outside .claude/; a reserved point the gather filed listed for the
+// curator; after a repair of tests only that its runs do not answer for, the gate's stages that read those files
+// again (testFast, testSystem, the atomic runs) and the whole gate where a red line names no file it changed, a
+// red stage-only run stopping the batch; testSpecData in the gate
 // when the rung that brings it lands, and not when it is dropped; the stops on a usage limit and the resumes.
 // And in every scenario, each brief: no undefined, NaN or object rendered; the head and the skill named; the
 // skill's revival-changes part named by none; the worker's "Revival change" section in its two labelled parts,
-// the gather's copy of it into RECORD.md, the review's check of it, the commit stage's check of .claude/; no
+// the gather's copy of it into RECORD.md, the review's check of it, the commit stage's check of .claude/; the
+// gather's record of the HEAD it starts from, its historical: lines from its staged diff, its reserved points; no
 // global.map restore, no copy of the base, no one-thread pin, no
 // stopsMet, no run_bg (the permission check refuses it; the literal nohup form instead), no person named but
 // in PLAN.md's heading; the worker's seed command; the skeptic's old-code tool, journal command and "You
@@ -126,7 +132,11 @@ const repairStub = (paths, runs, answered, extra) => () => Object.assign({ slug:
 const review = (x) => () => Object.assign({ approved: true, blockingCode: [], routed: [], fixed: [], fixesChecked: [], pathsOutsideExplorations: [], pointsReached: [], forCurator: [], curatorItems: [], summary: 's' }, x)
 const codeFinding = { review: review({ approved: false, blockingCode: ['stub code finding'] }), 'judge:review': () => ({ decision: 'repair', forCurator: [], instructions: ['1. fix'], ruling: 'r', kind: 'review', summary: 's' }) }
 const red = (lines) => () => ({ green: false, failing: lines || ['XXXStub.test: stub'], countsDown: [], stopped: false, summary: 's' })
-const gatherStub = (x) => () => Object.assign({ unresolved: false, summary: 'stub', commits: [], conflicts: [], curatorItems: [], curatorUnrouted: [] }, x || {})
+const HEAD_BEFORE = 'abc0123'   // the gather's headBefore, the first commit before the batch's own
+const gatherStub = (x) => () => Object.assign({ unresolved: false, summary: 'stub', headBefore: HEAD_BEFORE, commits: [], conflicts: [], reservedFiled: [], curatorItems: [], curatorUnrouted: [] }, x || {})
+const gateRepair = () => ({ decision: 'repair', forCurator: [], instructions: ['1. fix'], ruling: 'r', kind: 'gate', summary: 's' })
+// A repair that withdraws the compiled test the gate was red on: two test files gone, no run of them.
+const WITHDRAWN = ['ProjectFortress/compiler_tests/XXXStub.test', 'ProjectFortress/compiler_tests/XXXStub.fss', 'explorations/compile-ladder/climb-batch-x/REPAIR-gate.md']
 const SKILL_PATH = '.claude/skills/fortress-repo/references/revival-changes.md'
 const commitStub = (x) => () => Object.assign({ mainHead: 'h', pushed: ['main', 'claude/worker-brief-fable-vnnuv8', 'blinded-fable'], pushHeld: false, microgptWalk: MG_PASS, skillTouched: [], summary: 's' }, x || {})
 const nul = () => null
@@ -169,6 +179,12 @@ const SCEN = [
     after: 'gather, gate, review, commit', landed: true, held: false, items: ['skill-touched.1', 'skill-touched.2'] },
   { name: 'C3 the commit stage returns no skillTouched: nothing listed, the batch lands', over: { commit: () => { const c = commitStub()(); delete c.skillTouched; return c } },
     after: 'gather, gate, review, commit', landed: true, itemsLack: ['skill-touched.1'] },
+  { name: 'C4 a gather that returns no headBefore: the commit stage reads every commit since the base, and the run says so', over: { gather: () => { const g = gatherStub()(); delete g.headBefore; return g } },
+    after: 'gather, gate, review, commit', landed: true, commitFrom: 'BASE', logHas: 'returned no headBefore' },
+  { name: 'C5 the commit stage returns a path under .claude/ given whole and one outside it: one item, of the batch\'s own commits', over: { commit: commitStub({ skillTouched: ['/home/user/fortress/' + SKILL_PATH, 'Library/FortressLibrary.fss'] }) },
+    after: 'gather, gate, review, commit', landed: true, items: ['skill-touched.1'], itemsLack: ['skill-touched.2'], itemText: { 'skill-touched.1': 'The batch changed ' + SKILL_PATH + ' (git diff --name-only ' + HEAD_BEFORE + ' HEAD -- .claude/' } },
+  { name: 'P1 the gather files a reserved point R0 reached: listed for the curator, and the review checks its entry', over: { gather: () => gatherStub({ reservedFiled: [{ id: R(0) + '.reserved.1', text: 'which + runs for (3.0 asif RR64) + 17, x.fss:1' }] })() },
+    after: 'gather, gate, review, commit', landed: true, items: ['R0.reserved.1'], promptHas: { review: ['"id": "' + R(0) + '.reserved.1"'] } },
   { name: 'G1 the rung that brings testSpecData lands: the gate runs it', over: {}, after: 'gather, gate, review, commit', landed: true, specData: true },
   { name: 'G2 the rung that brings testSpecData is dropped: the gate runs it only if the landed summary has it', over: JOINS.length ? { ['skeptic:' + JOINS[0]]: refused, ['judge:' + JOINS[0]]: judge('drop') } : {},
     after: 'gather, gate, review, commit', landed: true, specData: false },
@@ -201,6 +217,22 @@ const SCEN = [
     after: 'gather, gate, review, judge:review, repair:review, gate:after-review, judge:gate, repair:gate, gate2', landed: false },
   { name: 'A9 a red gate beside a code finding, its tests-only repair answers the line', over: Object.assign({}, codeFinding, { gate: red(), 'repair:review': repairStub(TESTS_ONLY, [RUN_OK], [{ failing: 'XXXStub.test: stub', file: RUN_OK.file }]) }),
     after: 'gather, gate, review, judge:review, repair:review, commit', landed: true, step1a: true },
+  // After a repair of tests only that its runs do not answer for: the gate's stages that read those files again.
+  { name: 'T1 the gate\'s repair withdraws the compiled test the gate was red on: only testFast runs again, the other stages stand', over: { gate: red(['compiler_tests/XXXStub: Saw wrong failure']), 'judge:gate': gateRepair, 'repair:gate': repairStub(WITHDRAWN, []) },
+    after: 'gather, gate, review, judge:gate, repair:gate, gate2:suites, commit', landed: true,
+    promptHas: { 'gate2:suites': ['rm -rf ProjectFortress/TEST-RESULTS/fast-*, then ant testFast to ', '3. The atomic runs stand', 'grep -E \'^# (checker|distance) \'', '"# suites-again"', '"ProjectFortress/compiler_tests/XXXStub.fss"'], commit: ['its stages that read those files (testFast,'] },
+    promptLacks: { 'gate2:suites': ['ant testSystem to ', 'rm -rf ProjectFortress/TEST-RESULTS,', 'ant compileAll to ', 'checker-count/run.sh', 'distance/run.sh', 'atomic_runs ()'] } },
+  { name: 'T2 as T1, the red line naming a test the repair did not change: the whole gate again', over: { gate: red(['compiler_tests/XXXOther: Saw wrong failure']), 'judge:gate': gateRepair, 'repair:gate': repairStub(WITHDRAWN, []) },
+    after: 'gather, gate, review, judge:gate, repair:gate, gate2, commit', landed: true },
+  { name: 'T3 the review\'s repair changes a walk test it does not run: only testSystem runs again after the review', over: Object.assign({}, codeFinding, { 'repair:review': repairStub(['ProjectFortress/tests/XXXStubWalk.fss', 'explorations/compile-ladder/climb-batch-x/REPAIR-review.md'], []) }),
+    after: 'gather, gate, review, judge:review, repair:review, gate:suites-after-review, commit', landed: true,
+    promptHas: { 'gate:suites-after-review': ['rm -rf ProjectFortress/TEST-RESULTS/system-*, then ant testSystem to ', 'before-suites-review'] }, promptLacks: { 'gate:suites-after-review': ['ant testFast to '] } },
+  { name: 'T4 the gate\'s repair changes an atomic program and its run fails: testFast and the atomic runs again', over: { gate: red(['# atomic AtomicExprCompiled run2 threads=4 FAIL']), 'judge:gate': gateRepair,
+      'repair:gate': repairStub(['ProjectFortress/compiler_tests/AtomicExprCompiled.fss'], [Object.assign({}, RUN_OK, { file: 'ProjectFortress/compiler_tests/AtomicExprCompiled.fss', paths: ['ProjectFortress/compiler_tests/AtomicExprCompiled.fss'], verdict: 'fail' })]) },
+    after: 'gather, gate, review, judge:gate, repair:gate, gate2:suites, commit', landed: true,
+    promptHas: { 'gate2:suites': ['ant testFast to ', 'atomic_runs ()', 'atomic-again.txt'] }, promptLacks: { 'gate2:suites': ['ant testSystem to ', '3. The atomic runs stand'] } },
+  { name: 'T5 as T1, and the stages run again are red: the batch stops, nothing pushed', over: { gate: red(['compiler_tests/XXXStub: Saw wrong failure']), 'judge:gate': gateRepair, 'repair:gate': repairStub(WITHDRAWN, []), 'gate2:suites': red(['still']) },
+    after: 'gather, gate, review, judge:gate, repair:gate, gate2:suites', landed: false },
   { name: 'A11 the review repair returns nothing three times: lands, its finding listed', over: Object.assign({}, codeFinding, { 'repair:review': nul }),
     after: 'gather, gate, review, judge:review, repair:review, repair:review:attempt2, repair:review:attempt3, gate:after-review, commit', landed: true, items: ['review-unrepaired.1'] },
   { name: 'A13 the review returns nothing three times: lands on its gate, listed', over: { review: nul },
@@ -355,6 +387,8 @@ function check(sc, out) {
   if (sc.notLanded) { const g = calls.find(c => c.label === 'gather'); for (const k of sc.notLanded) if (!g || g.prompt.indexOf('"rung": "' + subst(k) + '"') < 0 || g.prompt.indexOf('"Not landed"') < 0) probs.push('the gather\'s prompt does not fold ' + subst(k) + ' as not landed') }
   if (sc.items) { const ids = (result && result.forCurator || []).map(i => i.id); for (const id of sc.items) if (!ids.includes(subst(id))) probs.push('item ' + subst(id) + ' not in the result (' + ids.join(', ') + ')') }
   if (sc.itemsLack) { const ids = (result && result.forCurator || []).map(i => i.id); for (const id of sc.itemsLack) if (ids.includes(subst(id))) probs.push('item ' + subst(id) + ' is in the result, where it should not be') }
+  for (const [id, t] of Object.entries(sc.itemText || {})) { const it = (result && result.forCurator || []).find(i => i.id === subst(id)); if (!it || String(it.text).indexOf(t) < 0) probs.push('item ' + subst(id) + ' does not say ' + JSON.stringify(t) + ': ' + JSON.stringify(it && it.text)) }
+  if (sc.logHas && !logs.some(l => l.indexOf(sc.logHas) >= 0)) probs.push('no log line says ' + JSON.stringify(sc.logHas))
   if (sc.gateJudgeTier) { const j = calls.find(c => c.label === 'judge:gate'); if (!j || String(j.opts.model) !== sc.gateJudgeTier) probs.push('judge:gate model ' + (j && j.opts.model) + ' (expected ' + sc.gateJudgeTier + ')') }
   if (sc.specData !== undefined && JOINS.length) {
     const g = calls.find(c => c.label === 'gate')
@@ -397,7 +431,11 @@ function check(sc, out) {
       const chk = p.slice(p.indexOf('## What you check'), p.indexOf('## You build nothing to check'))
       if (/(^|[^A-Za-z])ant compileAll|rebuil|git (checkout|switch|stash|reset)/.test(chk)) probs.push(c.label + ' asks for a build or a checkout in its checks')
     }
-    if (c.label === 'commit' && (p.indexOf('git diff --name-only BASE HEAD -- .claude/') < 0 || p.indexOf('skillTouched') < 0)) probs.push('the commit stage does not check .claude/ against the base or return skillTouched')
+    if (c.label === 'commit') {   // step 2 reads the batch's own commits: from the gather's headBefore, the base only where it gave none
+      const from = sc.commitFrom || HEAD_BEFORE
+      if (p.indexOf('git diff --name-only ' + from + ' HEAD -- .claude/') < 0 || p.indexOf('git log ' + from + '..HEAD --format=%B') < 0 || p.indexOf('skillTouched') < 0) probs.push('the commit stage does not check .claude/ and the footers over the batch\'s own commits, from ' + from + ', or return skillTouched')
+      if (from !== 'BASE' && /git (diff --name-only BASE HEAD|log BASE\.\.HEAD --format=%B)/.test(p)) probs.push('the commit stage still checks .claude/ or the footers from the base')
+    }
     if (c.label === 'commit') {
       if (p.indexOf('Do NOT push') < 0 && !(p.indexOf('git push origin main:claude/worker-brief-fable-vnnuv8') >= 0 && p.indexOf('git push origin main:blinded-fable') >= 0)) probs.push('the commit stage does not push to the three branches')
       const mg = p.match(/mg-run\.sh[^']*'/)   // step 0's line, to the end of its nohup bash -c '...'
@@ -405,6 +443,11 @@ function check(sc, out) {
       if (p.indexOf('<short hash>') >= 0) probs.push('the commit stage still replaces hash placeholders')
     }
     if (c.label === 'gather' && (p.indexOf('/ledger.py add FILE') < 0 || p.indexOf('/ledger.py close N --commit') < 0 || p.indexOf('"Revival changes, for the skill writer"') < 0 || p.indexOf('Write nothing under .claude/') < 0)) probs.push('the gather lacks ledger.py add, close, the copy of the revival-change material into RECORD.md, or the rule to write nothing under .claude/')
+    if (c.label === 'gather') {
+      if (!/\[ -s tmp\/gather\/head-before-batch-\S+ \] \|\| git rev-parse HEAD > tmp\/gather\/head-before-batch-/.test(p) || p.indexOf('as headBefore') < 0) probs.push('the gather does not record, once, the HEAD it starts from as headBefore')
+      if (p.indexOf('git diff --cached --no-renames --name-only | while read -r p ; do git cat-file -e a874948ac:"$p"') < 0) probs.push('the gather does not write the historical: line from its staged diff against the team\'s last commit')
+      if (p.indexOf('"reservedPoints":') < 0 || p.indexOf('<rung>.reserved.<n>') < 0 || p.indexOf('listed for his review"') < 0 || p.indexOf('reservedFiled') < 0) probs.push('the gather does not file the rungs\' reserved points on the review list in PLAN.md, with each rung\'s reserved points and the ids')
+    }
     if (/^gate/.test(c.label) && (p.indexOf('source explorations/coordinator/tools/gate-functions.sh') < 0 || !/gate_summary \S+ \S+ "gate batch [^"]+"/.test(p) || p.indexOf('four threads') < 0)) probs.push(c.label + ' lacks the source of the gate\'s functions, gate_summary\'s machine label or the four threads')
     if (/^gate/.test(c.label) && /\b(gate_summary|gate_compare|last_landed_summary|ladder_filter|ladder_compare|mg_phases) \(\) \{/.test(p)) probs.push(c.label + ' defines a gate function inline, which tools/gate-functions.sh holds')
     if (c.label === 'review' && (p.indexOf('NEW-[A-Z]-[0-9]') < 0 || p.indexOf('skepticFixes') < 0)) probs.push('the review does not check the placeholders or the skeptics\' fixes')
