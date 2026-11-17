@@ -1,0 +1,17 @@
+component GenericBesidePlainObjectNoReturnTypeWalk
+export Executable
+
+(* A plain declaration on an object type that writes no return type loads beside a generic one whose domain holds it, and runs for a value of the object type. *)
+
+pick[\T extends Number\](a: T): ZZ32 = 1
+pick(a: NN32) = 2
+
+run(): () = do
+    u: NN32 = 4
+    z: ZZ64 = widen(6)
+    assert(pick(u), 2, "an NN32 value takes the plain declaration")
+    assert(pick(z), 1, "a ZZ64 value takes the generic declaration")
+    println("PASS")
+  end
+
+end

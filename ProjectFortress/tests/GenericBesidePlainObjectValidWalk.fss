@@ -1,0 +1,19 @@
+component GenericBesidePlainObjectValidWalk
+export Executable
+
+(* A plain declaration on an object type inside a generic one that returns its type parameter, its result that object type, is a valid overloading, and runs for values of the object type (overloading.tex, section "Declarations with Static Parameters"). *)
+
+pickFirst[\T extends Number\](a: T, b: T): T = a
+pickFirst(a: NN32, b: NN32): NN32 = b
+
+run(): () = do
+    u: NN32 = 4
+    v: NN32 = 5
+    z: ZZ32 = 3
+    y: ZZ32 = 7
+    assert(pickFirst(u, v), v, "two NN32 values take the plain declaration, which returns its second argument")
+    assert(pickFirst(z, y), 3, "two ZZ32 values take the generic declaration at ZZ32, which returns its first argument")
+    println("PASS")
+  end
+
+end

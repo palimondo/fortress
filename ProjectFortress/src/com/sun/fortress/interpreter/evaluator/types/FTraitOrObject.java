@@ -94,8 +94,13 @@ abstract public class FTraitOrObject extends FTraitOrObjectOrGeneric {
         }
     }
 
+    /*
+     * A declared type that is not a value type may not extend a value type.
+     * The symbolic type that stands for a type parameter is no declared type:
+     * its bound may be a value type, which is then its one instance.
+     */
     private void enforceValueness() {
-        if (isValueType()) return;
+        if (isValueType() || this instanceof SymbolicType) return;
         for (FType t : getExtends()) {
             if (t instanceof FTraitOrObjectOrGeneric && t.isValueType()) {
                 error(at, errorMsg(this, ": non-value subtype of value type ", t));

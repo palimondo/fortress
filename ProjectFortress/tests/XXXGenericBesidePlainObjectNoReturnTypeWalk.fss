@@ -1,0 +1,14 @@
+component XXXGenericBesidePlainObjectNoReturnTypeWalk
+export Executable
+
+(* Must be refused at load: the declaration on the object type NN32 writes no return type and returns a String, which is not below the ZZ32 that pick[\T extends Number\] returns (overloading.tex, section "Declarations with Static Parameters"). *)
+
+pick[\T extends Number\](a: T): ZZ32 = 1
+pick(a: NN32) = "two"
+
+run(): () = do
+    u: NN32 = 4
+    println(pick(u))
+  end
+
+end

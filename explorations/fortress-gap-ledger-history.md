@@ -10499,3 +10499,21 @@ rewritten
 note added
 
 | 112 | a `value` object may declare a `var` field: walk accepts it, mutates it in place, and the object then aliases like a reference object | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/objects.tex`, "Objects", "Value Objects" | none | run-b2 | `value object Counter(var n: ZZ32)` with `n := n + 1` prints `built Counter(1)` / `after bump Counter(2)`, with no diagnostic at any phase. After `d = c` and `c.bump()`, `c = VCounter(2)   d = VCounter(2)`, so the licence to copy value objects is not taken either. Nothing enforces the valueness of objects; the trait rule is enforced (row 115). Probes `explorations/run-b2/probes/g1a_varfield.fss`, `g1a_copy.fss`, in the parent of `22ea0cd90`; full text: history, row 112 |
+
+### Row 550
+
+rewritten
+
+| 550 | walk refuses at load a plain declaration inside a generic one that returns its type parameter, 'fails the Return Type Rule', where the rule holds over every instance: `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: ZZ64, b: ZZ64): ZZ64` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericBesidePlainReturnParam.fss` | climb batch 7b rung W | siblings: 539, 779. Every instance whose domain holds two `ZZ64` has `T` at or above `ZZ64`. Walk compares the plain one's range with the generic's, its type parameters standing for themselves (`validOnDeclaredDomains`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:772`, at c124c6b65), and `ZZ64` is not below `T`. That reading is sound (it refuses `ProjectFortress/tests/XXXGenericBesidePlainReturnRule.fss`'s invalid pair) and stricter than the rule where the range mentions a parameter; for two generics walk reads the instances that hold the inner domain (`returnRuleAtEveryInstance`, `OverloadedFunction.java:1165`). full text: history, row 550 |
+
+### Row 1036
+
+rewritten
+
+| 1036 | under walk, a generic function returned at a declared arrow return type, or bound to an object's field declared with an arrow type, stays generic and is not its instance at that type: for `pick(): Vector[\RR64,3\] -> Vector[\RR64,3\] = half`, `pick()(w)` runs for a `w: Vector[\RR64,2\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/var-ref.tex`, "Identifier References" | `explorations/compile-ladder/plan-31/probes/planner/PArrowRet.fss` | climb batch 31 planner | siblings: 1019, 387. Both forms print 'ran at size 2' at c0c35b4f9e: `PArrowRet.fss`, and `PArrowField.fss` beside it, a field `g: Vector[\RR64,3\] -> Vector[\RR64,3\] = half` in an object's body. Walk receives the instance only at a parameter, a typed local variable and an assignment (the calls of `Fcn.received`: `interpreter/evaluator/BaseEnv.java:333`, `:614`; `values/NonPrimitive.java:273`), and applies no declared return type (row 387). Compiled, the checker refuses the call (`PArrowRetC.fss`: 'Sz[\3\]->Sz[\3\] is not applicable to an argument of type Sz[\2\]'). No test yet: climb batch 31's rung V writes the expected failure. |
+
+### Row 115
+
+rewritten
+
+| 115 | value traits work, and a reference object extending a value trait is rejected: the trait rule is the one valueness rule that is enforced | POSITIVE-VERIFIED | — | `basic/traits.tex`, "Value Traits" | none | run-b2 | The good case runs (`a.area + b.area = 18.0`, `Sq(3.0) SEQV Sq(3.0) = true`), though both instances print as `Shape(area=9.0)`, the inherited getter's rendering; `object Bad(s: RR64) extends Shape` gives `Bad: non-value subtype of value type Shape`. The note at the head of `basic/traits.tex` ("Traits") that value traits are not yet supported is stale for this tree. Object valueness is not enforced (row 112). Probes `explorations/run-b2/probes/g1a_valtrait.fss`, `g1a_valtrait_bad.fss`, in the parent of `22ea0cd90`; full text: history, row 115 |

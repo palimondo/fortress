@@ -1,0 +1,16 @@
+component NonValueBelowValueTypeWalk
+export Executable
+
+(* Must be refused at load: an object declared without the value modifier extends a value trait (traits.tex, section "Value Traits"). *)
+
+value trait Stamp
+    getter mark(): ZZ32
+end
+
+object Plain(x: ZZ32) extends Stamp
+    getter mark(): ZZ32 = x
+end
+
+run(): () = println(Plain(3).mark)
+
+end

@@ -7881,3 +7881,7 @@ pointer words refreshed in: F-24
 ### F-374
 
 2026-11-17 02:50Z · added · from `explorations/compile-ladder/rung-atomic-expr-field/REPORT.md`, "What changed and why" · by climb batch 31 gather: rung A of climb batch 31, folded from its record lines
+
+### F-375
+
+2026-11-17 02:51Z · added · from `explorations/compile-ladder/rung-walk-value-bound/REPORT.md`, "What changed and why" · by climb batch 31 gather: rung V of climb batch 31, folded from its record lines
