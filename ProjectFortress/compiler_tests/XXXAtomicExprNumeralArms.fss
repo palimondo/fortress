@@ -1,0 +1,14 @@
+(* An atomic expression over an if whose arms are numerals has its body's value at a declared return type. atomic.tex, section "Atomic Expressions". *)
+component XXXAtomicExprNumeralArms
+export Executable
+
+g: ZZ32 := 3
+
+pick(): ZZ32 = atomic if g > 0 then 1 else 0 end
+
+run(): () = do
+  assert(pick(), 1, "numeral arms of an atomic if")
+  println("PASS")
+end
+
+end

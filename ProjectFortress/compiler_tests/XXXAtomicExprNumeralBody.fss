@@ -1,0 +1,13 @@
+(* An atomic expression over a numeral has the numeral's value at a declared return type. atomic.tex, section "Atomic Expressions". *)
+component XXXAtomicExprNumeralBody
+export Executable
+
+one(): ZZ32 = atomic 1
+
+run(): () = do
+  println("REACHED")
+  assert(one(), 1, "a numeral as an atomic expression's body")
+  println("PASS")
+end
+
+end
