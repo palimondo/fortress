@@ -167,6 +167,14 @@ Samples whose stack holds an edited member: `defaultNumeral` 45 (0.7 %), `tupleJ
 
 The moves follow from work landed since the baseline, not from this rung: the three passes from the top-level tuple binding's compile (row 988's repair, 060f3ec096; their first error names a top-level `VarDecl`); `expTest` stops in name binding, before the checker, on `asFloat`, which `Number` no longer declares (P-165); `simpleExp`'s numeral now converts where it stands (P-173), and its next error is the prelude's missing `=/=` at `RR64` (row 1059); `ho`'s message names the numeral type by its revived name (P-174). None of the thirteen holds a subscript before a superscript or a subscript (`grep -n '\]\^\|\]\[' ` prints nothing).
 
+## Names added
+
+The rung adds no name to the Java or Scala; it adds the test components `NumeralEndsUntypedBlockCompiled`, `SubscriptThenSuperscriptCompiled`, `LocalTupleBindingMixedTypes`, `LocalTupleBindingMixedRefused`, `TopLevelVarByAssignExport` (an api and its component), `TopLevelVarByAssignImport` and `XXXNumeralEndsUntypedTryCompiled`. `grep -rlw --include=*.fss --include=*.fsi "component <name>\|api <name>" ProjectFortress Library` finds each only in its own file, and `find ProjectFortress -name '*<name>*'` outside `compiler_tests/` finds only the suites' cache entries. The objects and functions the programs declare (`Mat`, `Grid`, `Maker`, `mk`, `two`, `named`) are their components' own.
+
+## The specification
+
+The rung edits no text of the specification (`git diff --name-only 1609258002 -- Specification` prints nothing); see "Sentences of the specification made false".
+
 ## Sentences of the specification made false
 
 None. The four repairs bring the compiled path to what `juxtameaning.tex`, `variables.tex`, `literals.tex` and `blocks.tex` say; no Appendix I Effect names rows 1005, 1028, 1029 or 1060 (`grep -n '1005\|1028\|1029\|1060' Specification/appendices/changes.tex` prints none). The Effect of the numerals' entry lists the implementations' departures from its text (`Specification/appendices/changes.tex:5466-5480`); NEW-C-1 is a departure that the list does not name, for the gather.
