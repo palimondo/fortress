@@ -4,7 +4,7 @@
 - spec: a block's value and type are those of its last expression (Specification/basic/expressions/blocks.tex:54-56), and a tuple's coercion is distributed element by element (Specification/basic/conversions-coercions.tex:829-830); a numeral converts where it stands (P-173)
 - precedent: the checker's join that converts each numeral of a result position at a declared type, with cases for a block, `do`, `if`, `case` and `try` (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:1340-1363 at 647163a9c4), and the coercion oracle's tuple that holds a numeral, converted element by element where it stands (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala:189-196)
 - deviation: the join's new tuple case builds the coercion of an element that is neither a numeral result nor of the element's type, as the oracle's tuple case does and the join's other cases do not (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:1374-1377); none from the specification's spelling
-- historical: ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala and Specification/appendices/changes.tex, both in the team's tree at a874948ac
+- historical: ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala, ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala (the skeptic's fix 129e8c5bc8) and Specification/appendices/changes.tex, all in the team's tree at a874948ac
 
 ## What changed and why
 
