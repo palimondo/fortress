@@ -2,7 +2,7 @@
 
 - problem: row 991 of the gap ledger, `den(self)` in `trait Q comprises { R }` refused by the JVM's verifier, and row 695, `twin(self): S = self`; the library's site is `Library/FortressLibrary.fss:570`
 - spec: the type of `self` in a trait with a `comprises` clause or a self-type parameter, `Specification/basic/expressions/var-ref.tex:64-76`; "every value of type T is a value of one of the listed types", `Specification/basic/traits.tex:248`
-- precedent: `conditionallyCastParameter`, which casts an argument where its static type and the declared type differ, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7325`
+- precedent: `conditionallyCastParameter`, which casts an argument where its static type and the declared type differ, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7329`
 - deviation: the new cast is emitted only for a value that has self's type and only at a strict subtype of the trait, where the precedent casts at every difference of the two types; `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7308-7319`
 - historical: `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java`, `Specification/appendices/changes.tex`; none other
 
