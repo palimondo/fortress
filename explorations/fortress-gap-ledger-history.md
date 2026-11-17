@@ -10853,3 +10853,75 @@ rewritten
 rewritten
 
 | 1074 | compiled, a `try` whose block and catch clause end in numerals, at a binding without a declared type, keeps a numeral type and the compile refuses it: `x = try 4 catch e Exception => 5 end`, 'NaturalNumeral cannot be written in a program except as a parameter's type.' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNumeralEndsUntypedTryCompiled.test` | climb batch 33 rung C | siblings: 1060, NEW-C-2. The default at a place that fixes no type (`defaultNumeral`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:1259`, at 89819a591d) finds a join's numerals through `joinNumerals` (`:1323-1338`), which has no case for a `try`, though `numeralResult` (`:1315`) and `joinInto` (`:1363`) have one. At a declared type the numerals convert. Walk runs the program and prints PASS. After a local declaration, `x = do k: ZZ32 = 3; try 4 catch e Exception => 5 end end`, the code generator stops instead: 'Error trying to close method scope.', on the base too. Workaround: declare the binding's type, as `x: ZZ32 = try ...`. |
+
+### Row 959
+
+closed by 18240c9d8
+
+| 959 | on both paths a `typecase` arm that names a type no declaration defines loads, compiles and matches every value: neither library declares `IntLiteral`, and `typecase v of IntLiteral => ... ZZ32 => ... end` takes the first arm for a `ZZ32` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/expressions/typecase.tex`, "Typecase Expressions" | `ProjectFortress/tests/XXXTypecaseUndefinedArmWalk.fss` | climb batch 29 rung N | The parser makes the arm `Id =>` a `VarType` (`parser/DelimitedExpr.rats:241-248`), and no phase of either path reports the undefined name: on climb batch 29b's merged tree a program of that `typecase` compiles and runs, 'the IntLiteral arm', 'PASS', and walk prints the same. Met when `IntLiteral` left the one library: `tests/IntegerConversionsWalk.fss`'s `shown` printed '-2147483648 : IntLiteral' for the `ZZ32` -2^31, until the arms were removed. A type name elsewhere, as `theType[\IntLiteral\]()`, is refused: 'IntLiteral is undefined.' The one library's `Int`, `Long`, `Float`, `BigNum` and `UnsignedLong` name no type, so under walk an arm `Int` takes `1.5` and `"s"`. |
+
+### Row 812
+
+closed by 5073eb2aa
+
+| 812 | the code generator crashes on a generic trait that defines a member of a trait whose `comprises` clause lists a type at a `where`-clause type variable: `ComprisesWhereFunctionalMethodChecker`, compiled, stops 'E is not in the kind env [][]' | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/trait-parameters.tex`, "Where Clauses" | none | climb batch 21b rung C's skeptic | siblings: 822. Run: `fortress compile -debug stacktrace` of `ProjectFortress/compiler_tests/ComprisesWhereFunctionalMethodChecker.fss`: 'E is not in the kind env [][]' at the object's `extends C[\E\]`, from `TypeAnalyzer.lteq` in `STypesUtil.removeIdenticallyCoveredMethods` (`scala_src/useful/STypesUtil.scala:1587`), called by `CodeGen.<init>` (`compiler/codegen/CodeGen.java:488`), at c124c6b65, whose analyzer binds no static parameter of the extender. A dotted member gives the same. With the body in the object only, it compiles and runs (`compile-ladder/rung-codegen-where/REPORT.md`, 5). Walk runs it. No gated test: a crash. Since `06cd094706`, `genericMethodTakesOneParameter` meets it too. |
+
+### Row 822
+
+closed by 5073eb2aa
+
+| 822 | the code generator stops, 'T is not in the kind env', normalizing a type inside a generic function's `typecase`: the one library's `app[\T,E extends T,F extends T\]` (`Library/List.fss:93`), which the checker passes, is refused | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/typecase.tex`, "Typecase Expressions" | none | the code generator's distance probe | siblings: 812, 789. The stack: `CodeGen.forVarRef`, `TypeAnalyzer.normalize`, `pExc`. Measured on the library only, by the probe's code generation per declaration with the checker's failures caught (`explorations/perf-probes/codegen-distance/REPORT.md`, section 3, note (c)); not reproduced apart from it; that the analyzer lacks the function's static parameters is untraced. The probe's other kind-env refusal, `object ArrayList[\E\]` (`Library/List.fss:252`), 'E is not in the kind env', stops in `CodeGen`'s constructor (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:488` at c124c6b65), row 812's site and message. Row 789 holds the message in the checker. No gated test. |
+
+### Row 1066
+
+closed by 5073eb2aa
+
+| 1066 | the code generator leaves unbound the names of a `typecase` clause's tuple pattern, as `(s: String, n: ZZ32) => s \|\| n.asString`: a read of one compiles as a top-level variable, so the run dies, `NoClassDefFoundError: P$s`, and in a generic function the compile stops, 'T is not in the kind env' | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/typecase.tex`, "Typecase Expressions" | `ProjectFortress/compiler_tests/TypecaseTupleNamesCompiled.test` | climb batch 33 rung V | siblings: 822, 498, 964. `CodeGen.forTypecase` bound a clause's own name only (`bindAndGenerateClauseBody`), so `forVarRef` read a pattern's name as a fresh import and normalized its type with no static parameter in scope (`compiler/codegen/CodeGen.java:6892` at 1609258002b0); the one library's `app`, `APPCOV` and `__bigOperator2` have the form. Walk and the checker bind the names. Rung V's commit binds each name to its element (`bindElementsAndGenerateClauseBody`); the test fails on the base and passes after. |
+
+### Row 1051
+
+closed by 1f6c166b0
+
+| 1051 | a compiled conditional with `self` in one arm and a value of the listed type in the other, at a type that the `comprises` clause of self's trait lists, fails the JVM's verification at class load: `chosen(c: Boolean): R = if c then self else R(0, 0) end` in `trait Q comprises { R }` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXComprisesValueAtConditionalArmRun.test` | climb batch 31 rung K | siblings: 991. 'VerifyError: Bad return type … Q$DefaultTraitMethods.chosen … Type java/lang/Object (current frame, stack[0]) is not assignable to …$R'. The arms leave the trait's interface and the object's class on the stack, which the verifier merges to `Object`; the cast of a returned value (`CodeGen.castToTypeBelow`) reads the conditional's static type, which is not self's, and emits nothing. With `self` in both arms it runs. The link is clean (`ComprisesValueAtConditionalArmRunLink`). Workaround: bind `self` at the listed type first, `r: R = self`, and write `r` in the arm. The same at a self-type parameter, the shape of `StandardTotalOrder`'s `MIN` and `MAX`. |
+
+### Row 1050
+
+closed by 1f6c166b0
+
+| 1050 | a compiled function expression or local function that returns `self` at a type that its trait's `comprises` clause lists, or as the trait's self-type parameter, fails the JVM's verification when the closure's class loads: `fn (): R => self` in `trait Q comprises { R }` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXComprisesValueFromClosureRun.test` | climb batch 31 rung K | siblings: 991, 695. 'VerifyError: Bad return type … $\=fn@….apply()L…$R; … Type …$Q (current frame, stack[0]) is not assignable to …$R'. `CodeGen.forFnExpr` and `forLetFn` return the body's value with no cast; a method's returned value gets one (`castToTypeBelow`, `compiler/codegen/CodeGen.java`). The checker accepts it and the link is clean (`ComprisesValueFromClosureRunLink`). The same for `fn (): S => self` in `trait Shape[\S extends Shape[\S\]\]`. Workaround: bind `self` at the listed type first, `r: R = self`, and return `r`. |
+
+### Row 1052
+
+closed by 1f6c166b0
+
+| 1052 | a compiled default body of a trait with a self-type parameter that calls a method on a value of that parameter dies at load, `ClassCircularityError`, where the object lists the trait first: `tagOf(other: S) = other.tag` in `trait Shape[\S extends Shape[\S\]\]`, for `object Pt extends Shape[\Pt\]` | NEGATIVE-BOUNDED | implementation gap (runtime) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXSelfTypeParameterReceiverRun.test` | climb batch 31 rung K | siblings: 695. 'ClassCircularityError: …$Pt', under `Class.forName` in `runtimeSystem/MethodInstantiater.java:269`, which loads the static argument's class to choose the call's opcode while that class's parent, the trait's instance, is expanded. Row 695's notes held it (`pick(self, other: S): S`); it stands on the base and after rung K. A body that does not call on the value runs; so does the trait bounded by another trait and listed second. The link is clean (`SelfTypeParameterReceiverRunLink`). Walk runs it. Workaround: declare the method in the object. |
+
+### Row 540
+
+closed by e501de7a1
+
+| 540 | a method call on the result of a call typed by the intersection of its candidates' return types crashes `fortress compile` with a `ClassCastException`, `IntersectionType` to `NamedType`: `choose(m).left()`, where the checker types `choose(m)` by `LeftResult ∩ RightResult` | NEGATIVE-VERIFIED | implementation gap (codegen) | `advanced/overloading.tex`, "Coercion and Overloading Resolution" | `ProjectFortress/compiler_tests/XXXCoverageReturnMethodCall.test` | climb batch 7b rung C, its skeptic | siblings: 559. The family: `choose(s: S): LeftResult`, `choose(t: T): RightResult`, `choose(v: V): BothResult` over `S comprises { U, V }`, `T comprises { V, W }`, `U excludes W`, `m: M` with `M` below `S` and `T`. `CodeGen.forMethodInvocation` casts the receiver's static type to `NamedType` (`CodeGen.java:6515` at c124c6b65); it needs the method's owner found among the conjuncts. `choose(m).right()`, a method call on a variable bound to the call and a getter crash too; passing the result to a function of either type, an `if` expression and a tuple binding compile and run. The typing stays (P-60). full text: history, row 540 |
+
+### Row 1060
+
+closed by 8979406af
+
+| 1060 | compiled, a numeral that ends a block after a local declaration, at a binding without a declared type, keeps its numeral type, so a later conversion of the variable dies: `x = do`, `k: ZZ32 = 3`, `4`, `end`, then `y: ZZ32 = x`, 'NoClassDefFoundError: fortress/CompilerBuiltin$v' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/expressions/blocks.tex`, "Do Expressions" | `ProjectFortress/compiler_tests/XXXNumeralEndsUntypedBlockCompiled.test` | climb batch 31b rung E | siblings: 1014. The checker's default at a place that fixes no type (`defaultNumeral`, `joinNumerals` and `tupleJoin`, `scala_src/typechecker/impls/Functionals.scala:1259-1331` at 7fb38bbe30) has no case for a `LocalVarDecl` or a `LetFn`, so `x` is a `NaturalNumeral[\1,10,4\]`: `println(x)` prints 4, and `y: ZZ32 = x` calls the coercion as a function value. The same block ending in `(1, k)`, bound and taken apart, dies with a `ClassCastException` of an `FZZ32` to a numeral type. Walk prints 4 for both. At a declared type the numeral converts where it stands (`NumeralEndsBlockAfterDeclarationCompiled`). Workaround: declare the binding's type. |
+
+### Row 1005
+
+closed by 8979406af
+
+| 1005 | on the compiled path a subscript followed by a superscript, `x[5]^2`, `(B.f())[5]^2` or `B.f()[5]^2`, stops the compile: '** bug! Result of typechecking still contains intermediate nodes.' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/operators/juxtameaning.tex`, "Juxtaposition" | `ProjectFortress/compiler_tests/XXXSubscriptThenSuperscriptCompiled.test` | climb batch 32 rung S | siblings: 1, 84. The parser builds a `MathPrimary` of two math items, a subscripting and an exponentiation (`ProjectFortress/src/com/sun/fortress/parser/Expression.rats:478-488`, at `21045c6c65`), and the checker leaves it in the tree; a single item, `x[5]` or `x^2`, is simplified by the parser and compiles. Walk fails on the same forms as row 1 says. A subscript inside a dotted primary is not such an item, so `B.data[5]^2` compiles and runs. Workaround: `(x[5])^2`, or bind the element first. |
+
+### Row 1029
+
+closed by 8979406af
+
+| 1029 | the compiled checker does not check a declared type of a local tuple binding's name against its element where other names declare none and the right side is no tuple expression: `(total: ZZ64, part) = two()`, `two(): (ZZ32, ZZ32)`, compiles and stops at run time with a `ClassCastException` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/variables.tex`, "Local Variable Declarations" | ProjectFortress/compiler_tests/XXXLocalTupleBindingMixedTypes.test | climb batch 32 rung D | siblings: 474. Where only some names declare a type, the case types the names without one from the right side and keeps the others unchecked (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala:425-430`; the same at db352c1776); `(e: String, f) = two()` compiles and prints 7. Walk converts or refuses, 'RHS expression type ZZ32 is not assignable to LHS type String'. The top-level form checks the right side again against each name's type (`Decls.scala:324-336`, `compiler_tests/TopLevelTupleBindingMixedTypes`). Workaround: declare every name's type, or none. |
+
+### Row 1028
+
+closed by 8979406af
+
+| 1028 | the compiled export check does not match a top-level variable that a component declares mutable by `:=` against the api's `var` declaration: `tally: ZZ32 := 0` under `var tally: ZZ32`, 'Unmatched declarations … due to different modifiers' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/variables.tex`, "Top-Level Variable Declarations" | ProjectFortress/compiler_tests/XXXTopLevelVarByAssignExport.test | climb batch 32 rung D | siblings: 844. The specification: the modifier `var` is optional when `:=` is used. The export check compares the declarations' modifiers, and `:=` sets the variable mutable without the modifier. The same for a tuple binding, `(a, b): (ZZ32, ZZ32) := (0, 9)`. Walk runs a program that imports such a variable. At db352c1776. Workaround: write `var` in the component. |
