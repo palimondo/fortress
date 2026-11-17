@@ -10487,3 +10487,15 @@ rewritten
 rewritten
 
 | 340 | a `typecase` that is a function's or method's body, its integer-literal clause values coerced to the declared `ZZ32`, crashes the code generator: 'Error trying to close method scope' | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification-1.0-frozen/basic/expressions/typecase.tex:53-55, 110-111`, "Typecase Expressions" | `ProjectFortress/compiler_tests/XXXTypecaseBodyCoerceRungG.test` | ours (the `Maybe` fork's inference probe) | siblings: 498, 526. ASM's `Frame.merge` fails under `CodeGen.methodReturnAndFinish` (`CodeGen.java:3477-3481`, c124c6b65), an `Error` at `:2874`; by the dump, two paths reach the coercion at unlike stacks. Workaround: `do … end` around it. Same crash (walk runs all but the last): an `if` argument coerced to an overloaded method's parameter; a size read in a clause; a named tuple clause spread into a call (`XXXTupleClauseSpreadRungG`); `r = try … end` then `r = -1` (`XXXTryCompareCoerceRungE`); a numeral-valued `try` operand (row 526); a `ZZ32` function's `try` body with a numeral `catch` value (83b1cae78). The coercion desugarer's `typecase` binds a pattern name. full text: history, row 340 |
+
+### Row 641
+
+rewritten
+
+| 641 | compiled code calls `BaseTask.inATransaction()` before every read and write of a mutable local or top-level variable, outside `atomic` too: about 1 to 2 ns a check, 64 % of a loop over an array with mutable locals (7 checks an element), 9 to 15 % of a scalar accumulator loop | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | `explorations/perf-probes/transactions/run.sh` | transaction-check probe | Emitted by `compiler/codegen/VarCodeGen.java:483-546` (a local), `:620-726` (a local captured by a task) and `:326-362` (a top-level `var`), not by `MutableFValue`; a mutable field (`MutableFieldVar`, `:202-236`) has no check. Measured on `8f0bc7389` at one thread by a shadow of `inATransaction()` returning `false`: TxArray 23.17 against 8.39 ns an element, TxScalar 20.42 against 18.67 ns. Not measured: four threads, code inside `atomic`, microGPT. Compiled path only: under walk `TxArray.fss` stops at load, `ZZ32Vector is undefined.` `explorations/perf-probes/transactions/REPORT.md`. |
+
+### Row 112
+
+note added
+
+| 112 | a `value` object may declare a `var` field: walk accepts it, mutates it in place, and the object then aliases like a reference object | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/objects.tex`, "Objects", "Value Objects" | none | run-b2 | `value object Counter(var n: ZZ32)` with `n := n + 1` prints `built Counter(1)` / `after bump Counter(2)`, with no diagnostic at any phase. After `d = c` and `c.bump()`, `c = VCounter(2)   d = VCounter(2)`, so the licence to copy value objects is not taken either. Nothing enforces the valueness of objects; the trait rule is enforced (row 115). Probes `explorations/run-b2/probes/g1a_varfield.fss`, `g1a_copy.fss`, in the parent of `22ea0cd90`; full text: history, row 112 |
