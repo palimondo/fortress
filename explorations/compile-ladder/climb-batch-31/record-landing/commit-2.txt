@@ -1,0 +1,12 @@
+Record: PLAN, the review queue and the run's folder after climb batch 31's landing, run 1
+
+The routing of the record-landing run for climb batch 31, run 1 (landing 7858d0e97b).
+
+- PLAN, "Where we stand": Runs, The live thread, Landed, Probed and Next state run 1 as landed on his go of 23:04 UTC on 2026-11-16; Next asks his word on findings 3 and 4 before run 2 and invents no answer.
+- PLAN, phase 4: climb batch 31's line as run 1 landed and run 2 not launched; F-34's line keeps the 24 on 832f7d0d91 and says that the count after run 1 is due; the rehearsal's and the merge's lines with rows 990, 991, 81, 997, 998 and 542 closed; the answers needed name items 558, 518, 519 and 572.
+- PLAN, "Pavol's answers": items 97 to 100, the review's four findings; item 96 points to queue item 558.
+- PLAN, climb batch 31's list: 20 lines cut to pointers; six new lines (rows 1043, 1053, 1050 and 1052, forks V4 and H2, the record's other forks).
+- PLAN, parked lists: row 695 leaves the open candidates; climb batch 7b's line on row 542 moved to PLAN-history as built.
+- Review queue: 21 new items, 558 to 578; 516, 518, 519 and 522 reworded with the record's defaults; 517 and 520 moved to (a) by their closed rows; the head's counts, 236 open.
+- PLAN-history: one section for this landing, with each line that left PLAN word for word.
+- The run's folder: the sort, the evidence, the reports, the checks, final.apply, final.rewrite and diff.md.
