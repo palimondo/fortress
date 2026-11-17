@@ -1,3 +1,0 @@
-tests=XXXOverloadReturnObjectDomain
-compile
-compile_err_contains=the return type of Circle->Circle @

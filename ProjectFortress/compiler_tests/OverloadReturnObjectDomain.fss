@@ -1,0 +1,33 @@
+(* A generic declaration that returns its type parameter beside a declaration on an object type that returns that type: the pair is valid, and each call runs the most specific declaration that takes its arguments. *)
+component OverloadReturnObjectDomain
+export Executable
+
+trait Shape end
+object Circle extends Shape end
+object Square extends Shape end
+
+object Box[\U extends Object\](v: U)
+  keep(self): Box[\U\] = do println("keep Box"); self end
+end
+
+ident[\T\](x: T): T = do println("ident generic"); x end
+ident(x: Circle): Circle = do println("ident Circle"); x end
+
+keep[\T\](x: T): T = do println("keep generic"); x end
+
+pick[\T\](x: T, y: T): T = do println("pick generic"); x end
+pick(x: Circle, y: Circle): Circle = do println("pick Circle"); y end
+
+run(): () = do
+  c: Circle = ident(Circle)
+  s: Square = ident(Square)
+  h: Shape = Circle
+  r: Shape = ident(h)
+  b: Box[\Square\] = keep(Box[\Square\](Square))
+  k: Square = keep(Square)
+  p: Circle = pick(Circle, Circle)
+  q: Shape = pick(Circle, Square)
+  println("PASS")
+end
+
+end

@@ -1,0 +1,16 @@
+(* A generic declaration that returns its type parameter beside a declaration on a tuple of object types that returns that tuple type: the pair is valid, and each call runs the most specific declaration that takes its argument. *)
+component XXXOverloadReturnTupleDomain
+export Executable
+
+object Circle end
+
+ident[\T\](x: T): T = do println("ident generic"); x end
+ident(x: (Circle, Circle)): (Circle, Circle) = do println("ident pair"); x end
+
+run(): () = do
+  (a, b) = ident((Circle, Circle))
+  c: Circle = ident(Circle)
+  println("PASS")
+end
+
+end

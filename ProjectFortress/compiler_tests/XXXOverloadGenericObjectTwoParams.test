@@ -1,0 +1,3 @@
+tests=XXXOverloadGenericObjectTwoParams
+compile
+compile_err_contains=V is not in the kind env

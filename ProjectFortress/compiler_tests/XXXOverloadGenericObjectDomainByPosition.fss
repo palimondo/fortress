@@ -1,0 +1,15 @@
+(* A generic declaration that returns its type parameter beside a declaration on a generic object type with as many static parameters: the compiled path refuses the pair, whose static parameters do not correspond position by position. *)
+component XXXOverloadGenericObjectDomainByPosition
+export Executable
+
+object Box[\U extends Object\](v: U) end
+
+keep[\T\](x: T): T = x
+keep[\U extends Object\](x: Box[\U\]): Box[\U\] = x
+
+run(): () = do
+  b: Box[\String\] = keep(Box[\String\]("s"))
+  println("PASS")
+end
+
+end

@@ -1,0 +1,17 @@
+(* A generic declaration that returns its type parameter beside a declaration on a generic object type with two static parameters: the pair is valid, and each call runs the most specific declaration that takes its argument. *)
+component XXXOverloadGenericObjectTwoParams
+export Executable
+
+object Square end
+object Duo[\U extends Object, V extends Object\](u: U, v: V) end
+
+keep[\T\](x: T): T = x
+keep[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+
+run(): () = do
+  d: Duo[\Square, Square\] = keep(Duo[\Square, Square\](Square, Square))
+  k: Square = keep(Square)
+  println("PASS")
+end
+
+end

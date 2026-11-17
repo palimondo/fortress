@@ -7885,3 +7885,13 @@ pointer words refreshed in: F-24
 ### F-375
 
 2026-11-17 02:51Z · added · from `explorations/compile-ladder/rung-walk-value-bound/REPORT.md`, "What changed and why" · by climb batch 31 gather: rung V of climb batch 31, folded from its record lines
+
+### F-376
+
+2026-11-17 02:52Z · added · from `explorations/compile-ladder/rung-return-rule-object/REPORT.md`, "What changed and why" · by climb batch 31 gather: rung X of climb batch 31, folded from its record lines
+
+### F-75
+
+2026-11-17 02:52Z · rewritten · from `explorations/compile-ladder/rung-return-rule-object/REPORT.md`, "What changed and why" · by climb batch 31 gather: rung X of climb batch 31: the rule at an object type, row 542 fixed, the tuple pair of row 1048
+
+- F-75 **The compiled checker checks the Return Type Rule over every instance, and a positional rule: when two generic declarations in the more-specific relation declare as many static parameters of their own, those parameters agree in kind by position, and the more specific return type is a subtype of the other once the other's parameters are read as its own by position.** The equal-count scope and the comparison of kinds are the rung's choices. It builds P-45. Checking every instance, as P-45 asks, it also refuses a generic declaration beside a plain one whose domain is an object type, a pair that the type group's 2011 paper (`Papers/Types/`) accepts, since the paper sets aside the instances whose domains cannot meet (row 542, open). In the interpreter's library the two rules refuse no pair: the distance holds no return-type or overloading error (F-53). Gated by `compiler_tests/OverloadGeneric*` and `OverloadBoundNamesForced`, which accept; `XXXOverloadReturnEveryInstance` and `XXXOverloadPermutedStaticParams`, which pin the two rules' refusals; and `XXXOverloadReturnObjectDomain`, which pins row 542's. Detail: `compile-ladder/rung-return-type-rule/decision-record.md` sections 1 and 2.

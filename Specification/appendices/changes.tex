@@ -3096,11 +3096,19 @@ which it accepted before and whose compiled class then failed verification, and
 an override whose return type reorders its static parameters, which it accepted
 before and which then failed at run time (row~398).
 Neither implementation runs every set these rules allow.
-The compiled type checker refuses more than the Return Type Rule where the more
-specific declaration's parameter type is an object type, as in
-\EXP{\VAR{ident}\llbracket{}T\rrbracket(x\COLON{}T)\COLON{}T} beside
+The compiled type checker's Return Type Rule sets aside the instances of the
+less specific declaration whose parameter type meets the more specific
+declaration's only in \TYP{BottomType} where the more specific declaration's
+parameter type is an object type, below which there is only the object: it
+accepts \EXP{\VAR{ident}\llbracket{}T\rrbracket(x\COLON{}T)\COLON{}T} beside
 \EXP{\VAR{ident}(x\COLON \TYP{Circle})\COLON \TYP{Circle}} where \TYP{Circle} is an
-object (row~542); the compiled code generator fails on two declarations with
+object, and the pair compiles and runs.
+It still compares those instances, and so refuses more than the Return Type
+Rule, where that parameter type is a tuple of object types, as in the same
+\VAR{ident} beside
+\EXP{\VAR{ident}(x\COLON (\TYP{Circle}, \TYP{Circle}))\COLON (\TYP{Circle}, \TYP{Circle})}
+(row~1048);
+the compiled code generator fails on two declarations with
 static parameters whose bounds differ, the pair the Return Type Rule allows in
 \secref{overloading-static-params} among them, and on the example of the type
 group's paper of 2019 that overloads a method over an array list and a list
