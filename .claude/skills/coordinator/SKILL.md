@@ -239,7 +239,7 @@ FACTS and POSITIONS hold the project only, since workers read them. They state t
 At session start and after each compaction, take these steps in order. If the curator names another form of the boot, that word replaces these steps. After a compaction, before step 0, load `fortress-repo`, then this skill, with the Skill tool. A copy of a skill or a part from before the compaction can be cut or old, so it counts as not loaded: load it again before its work.
 
 0. Check the serving model: run `explorations/coordinator/tools/model-now.sh`, which prints the model of this turn's reply. If it prints nothing, use the `get_session` tool with no session ID: its `session_context.model` and `external_metadata.last_served_model`. If the model is neither Opus nor Fable, act as on the model check's alarm (below). Then check the transcript backup (below).
-1. `POSITIONS.md`, whole. Read it in pages: it exceeds one page of the Read tool.
+1. Run `explorations/coordinator/tools/positions-facts.sh`, which prints the FACTS entries that POSITIONS cites, and read each of its parts (`--part N`). Then read `POSITIONS.md` whole, in pages: it exceeds one page of the Read tool. So you read the decisions with the facts that they rest on.
 2. `PLAN.md`, its first section.
 3. The boot note, then the held list.
 4. `git log --oneline -15`, for a worker's commit newer than the boot note.
@@ -248,7 +248,7 @@ At session start and after each compaction, take these steps in order. If the cu
 7. Run `explorations/coordinator/check-index.sh | head -30`: it prints first the notes that lack an INDEX line. Add a line for each, without reading INDEX whole.
 8. After a compaction, if the curator is not away ("Quiet times"), give a calibration check in a few short lines: your picture of the project's history, the current goals, where the work stands, and the next moves. It grounds you again in the work, and it shows your picture to the curator, who corrects it where it differs. Leave out a running batch.
 
-`FACTS.md` and `INDEX.md` stay unread. Before you state a fact, or put anything to the curator, search them with `facts-extract.sh`. Never read INDEX whole. Read FACTS whole only at a batch landing:
+Apart from the entries of step 1, `FACTS.md` and `INDEX.md` stay unread. Before you state a fact, or put anything to the curator, search them with `facts-extract.sh`. Never read INDEX whole. Read FACTS whole only at a batch landing:
 
 1. At the first batch landing after the boot, unless the boot was full, read `FACTS.md` whole, in pages. Do it before step 1 of `references/batch.md`, "The landing". If the boot falls inside a batch landing, take the boot's steps, read FACTS whole, then go on with the landing. Ask the curator nothing about the boot.
 2. When the record-landing workflow of step 4 of "The landing" ends, read what it changed in FACTS and POSITIONS.
