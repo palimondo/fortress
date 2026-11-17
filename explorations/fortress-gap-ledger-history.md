@@ -10517,3 +10517,75 @@ rewritten
 rewritten
 
 | 115 | value traits work, and a reference object extending a value trait is rejected: the trait rule is the one valueness rule that is enforced | POSITIVE-VERIFIED | — | `basic/traits.tex`, "Value Traits" | none | run-b2 | The good case runs (`a.area + b.area = 18.0`, `Sq(3.0) SEQV Sq(3.0) = true`), though both instances print as `Shape(area=9.0)`, the inherited getter's rendering; `object Bad(s: RR64) extends Shape` gives `Bad: non-value subtype of value type Shape`. The note at the head of `basic/traits.tex` ("Traits") that value traits are not yet supported is stale for this tree. Object valueness is not enforced (row 112). Probes `explorations/run-b2/probes/g1a_valtrait.fss`, `g1a_valtrait_bad.fss`, in the parent of `22ea0cd90`; full text: history, row 115 |
+
+### Row 695
+
+rewritten
+
+| 695 | a compiled default body that returns `self` as its trait's self-type parameter dies at class load, `VerifyError: Bad return type`, where that parameter is an object type: `twin(self): S = self` in `trait Shape[\S extends Shape[\S\]\]`, for `object Pt extends Shape[\Pt\]` | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | `ProjectFortress/compiler_tests/XXXSelfTypeReturnSelfRun.test` | self-typed bodies measurement | siblings: 365. The body returns the trait-typed `self` with no cast. The checker accepts it (P-146, F-225), so a compiled program that runs it fails: `XXXSelfTypeReturnSelfRun` prints `REACHED`, then dies in `Shape[\Pt\]`'s `$DefaultTraitMethods.twin`; `SelfTypeReturnSelfRunLink` links it. At a trait type it runs, the verifier not checking a return of an interface type: `SelfTypeReturnSelfAtTraitRun`. The same `VerifyError` with `comprises S` on the trait; with `pick(self, other: S): S` and `pair` beside it, `ClassCircularityError`; controls with no body returning `self` as `S` run (`explorations/reviews/self-typed-bodies-judgement.md`, "The measurement", 911a4f2b0). Walk is not affected. |
+
+### Row 990
+
+closed by 74f53ec88
+
+| 990 | on the compiled path a generic trait that gives a body to a method which it also inherits with a body from an extended generic trait that is not its first gets the method twice in its class, a `ClassFormatError` at class load: 'Duplicate method name "mx?0"' in `Tord[\Z\]`'s class | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | explorations/compile-ladder/plan-31/probes/planner/PDupMethod3.fss | climb batch 31's planner | siblings: 571, 565, 732. Under the compiler's prelude at 84f1c37190: `trait Tord[\T\] extends { Pord[\T\], Mmx[\T\] }` declares `mx(self, other: T): T` with a body, as `Mmx[\T\]` does; the compile exits 0 and the run dies before any output, '… in class file PDupMethod3$Tord⟦Z⟧$DefaultTraitMethods'; walk prints 2, -1, true, false. Without `Tord`'s own `mx` it runs. It is the rehearsal's W6: 27 classes of the one library, 244 methods, as `MAX` in `StandardTotalOrder` beside `StandardMinMax`'s, and there which copy is first varies from compile to compile (`explorations/compile-ladder/plan-31/probes/switch-rehearsal.md`). Site: `CodeGen.dumpMethodChaining` (`compiler/codegen/CodeGen.java:926`). |
+
+### Row 732
+
+closed by 74f53ec88
+
+| 732 | the code generator gives an object no forwarder for a method body that it inherits from an imported api's trait that is not first in its extends clause, so a call of that method on the object dies with `AbstractMethodError` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | none | climb batch 16's Q1 probe | siblings: 733. `dumpMethodChaining` forwards only a declaration with a body (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:968`, at c124c6b65), and an imported api trait's methods come from the api, which gives no body; the first extended trait's come through the class hierarchy (`:934-940`). Probe: api `Q1ApiB` with `trait B pick(self): String end`, its component giving the body `"b"`; a program with `trait C other(self): String = "c" end`, `object O extends { C, B } end`, `pick(O)`: 'Receiver class ...$O does not define or inherit an implementation of ... pick?0()' of interface `Q1ApiB$B`. With `extends { B, C }` it runs `b`, as walk does either way. |
+
+### Row 571
+
+closed by 74f53ec88
+
+| 571 | the compiled path writes one method twice into an object's class, a `ClassFormatError` at class load, when the object declares the meet of two inherited functional methods whose self parameter is not first, narrower than each in a different parameter | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/advanced/overloading.tex`, "Meet Rule"; `Specification/basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/XXXFunctionalMethodMeetNarrowedSelfNotFirst.test` | climb batch 8 rung O's second skeptic | siblings: 564, 565, 566. The checker accepts the program and it links (`FunctionalMethodMeetNarrowedSelfNotFirstLink`). With self second of three the run stops before any output, 'ClassFormatError: Duplicate method name "pick?1" ... in class file SkSelfMid$C'; with self last, "pick?2"; self first, one narrowed parameter, or equal types run; walk prints `C`, `A` (`explorations/compile-ladder/rung-overloading-checker/SKEPTIC.md` sections 2 and 3). A cover through `comprises` clauses with self second stops so too, "mark?1" (`compile-ladder/rung-checker-overloading/SKEPTIC.md` section 2, item 7). Not traced. full text: history, row 571 |
+
+### Row 81
+
+closed by 3f7fd7281
+
+| 81 | `label` / `exit` is unimplemented in the code generator | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification-1.0-frozen/appendices/grammars/concrete-syntax.tex:972`, "Expressions" | none | ours | `Can't compile Label` (`CodeGen.sayWhat`). `CodeGen` declares no `forLabel` or `forExit`, so the node reaches `defaultCase`, which throws `sayWhat` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1674-1676`, `:1558-1561`). Workaround: write the loop without `exit`, as a `while` over a mutable flag. Probe `explorations/compiler-probes/p31.fss` (a `label L` round a `seq` loop that exits `with i`), in the parent of `c69cb2064`. In the one library `Indexed.indexOf` uses it (`Library/FortressLibrary.fss:2188-2194`), so the trait of every string and array is refused: it stands on the path of every compiled program there (the rehearsal, W9). full text: history, row 81 |
+
+### Row 875
+
+closed by 5a076e9bc
+
+| 875 | the code generator refuses Library/OneShotFlag.fss's object OneShot, 'Can't compile AtomicExpr', at its method tryOnce, an atomic expression over its var field (Library/OneShotFlag.fss:18) | NEGATIVE-VERIFIED | implementation gap (codegen) | basic/expressions/atomic.tex, "Atomic Expressions" | explorations/compile-ladder/plan-25/probes/codegen.sh | climb batch 25's planner | Measured on the library only, by the code generator per declaration with the checker's failures caught (codegen.sh); OneShotFlag is one of the two components that List imports, outside F-34's twelve. Not reproduced apart from the library. By reading: CodeGen compiles a do-block marked atomic (compiler/codegen/CodeGen.java:1733-1767 at 25238e60c) and has no case for the AtomicExpr node, which defaultCase refuses (:1672, row 818's site); tryOnce's body, atomic if ... end, is an AtomicExpr. |
+
+### Row 319
+
+closed by 5a076e9bc
+
+| 319 | a mutable field of an object is outside the transaction on the compiled path: `atomic do n := n + 1 end` on a field loses updates above one thread, while walk is exact | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/atomic.tex`, "Atomic Expressions"; `Specification/basic/memory-model.tex`, "Programming Discipline" | none | ours | `VarCodeGen.MutableFieldVar` reads with a bare `GETFIELD` and writes with a bare `PUTFIELD` on a non-volatile field (`ProjectFortress/src/com/sun/fortress/compiler/codegen/VarCodeGen.java:202-231`); walk's `ReferenceCell` holds fields and variables alike (`interpreter/env/ReferenceCell.java:25-29`). Compiled at `FORTRESS_THREADS=4`: 34481 to 38910 of 40000 in five runs; exact at one thread, and under walk at one and four. `MutableFieldVar` is built for every `VarDecl` field, mutable or not (`CodeGen.java:4620-4636` at c124c6b65, the team's TODO "need to spot for 'final' fields"), so moving fields into the transaction changes every object's fields. probe and full text: history, row 319 |
+
+### Row 997
+
+closed by b6fb208e2
+
+| 997 | under walk a generic method of a trait, whose type parameter's bound is the trait's static parameter, stops at an instance at a value object: `Holder[\RR32\]().held()`, for `held[\T extends S\]()` in `Holds[\S\]`, ends 'T@...: non-value subtype of value type RR32' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Trait Declarations" | none | number-object merge probe | siblings: 115, 762. `FTraitOrObject.enforceValueness` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTraitOrObject.java:97-104`, at 832f7d0d91) reads the symbolic type that walk makes for `T`, which extends its bound, as a type that is not a value type below a value type. It runs at `ZZ64`, a trait (`ProjectFortress/tests/TraitGenericMethodInference.fss:62`); a function's own `T extends ZZ32` and an object's `T extends RR64` run. Reproducer: that test's `Holder` at `RR32` or `NN32` (`explorations/compile-ladder/plan-31/probes/number-object-merge.md`, obstacle 5), where a scratch tree passes it by skipping the check for a symbolic type. Walk only. |
+
+### Row 998
+
+closed by b6fb208e2
+
+| 998 | walk's load check loads a generic declaration beside a plain one over an object type whose return type breaks the Return Type Rule: `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: NN32, b: NN32): String` loads and prints `plain`; at `ZZ64`, a trait, walk refuses it | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | none | number-object merge probe | siblings: 697, 788, 550. Row 697's cause for a generic beside a plain declaration: the parameter-by-parameter check calls the two lists excluding where they differ at an object type (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:511`, at 832f7d0d91), and the reading on declared domains runs only for a pair that this check refuses (`validOnDeclaredDomains`, `:772`). The same cause would load row 550's valid pair at an object type. Run under walk on the base's code from an empty cache (`explorations/compile-ladder/plan-31/probes/number-object-merge.md`, obstacle 6). Not run on the compiled path. |
+
+### Row 542
+
+closed by 1ce04203c
+
+| 542 | the compiled checker's Return Type Rule refuses a generic declaration beside a plain one whose domain is an object type, a pair the paper's rule accepts: `ident[\T\](x: T): T` beside `ident(x: Circle): Circle`, `Circle` an object | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/advanced/overloading.tex`, "Declarations with Static Parameters"; `Specification/basic/types-vals-vars.tex`, "Object Trait Types" | `ProjectFortress/compiler_tests/XXXOverloadReturnObjectDomain.fss` | climb batch 7b rung C's skeptic | siblings: 853. Refused: 'the return type of Circle->Circle ...'. `satisfiesReturnTypeRule` (`scala_src/overloading/OverloadingOracle.scala:83` at c124c6b65) keeps `T` quantified and checks instances whose domain meet, `Circle ∩ T`, is `Bottom`; the paper quantifies over the instances whose domain is not `Bottom` (`Papers/Types/overloading-check.tick:180`), and below an object type is only the object. `f[\T\](x: T): T` beside `f[\U\](x: Box[\U\]): Box[\U\]` with `object Box[\U\]` is refused too. full text: history, row 542 |
+
+### Row 991
+
+closed by 6df780a7d
+
+| 991 | on the compiled path a value typed by a trait with a `comprises` clause, passed where the one listed object type is expected, fails the JVM's verification when the class loads: `den(self)` in `trait Q comprises { R }` for `den(r: R)`; the checker accepts it and walk prints `true` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Trait Declarations" | explorations/compile-ladder/plan-31/probes/planner/PComprisesCast.fss | climb batch 31's planner | siblings: 307, 695, 815. Under the compiler's prelude at 84f1c37190: 'VerifyError: Bad type on operand stack … PComprisesCast$Q$DefaultTraitMethods.fin … Type PComprisesCast$Q (current frame, stack[0]) is not assignable to PComprisesCast$R'. The code generator emits no cast where the checker lets the trait's value stand for the listed type (P-60); `CodeGen.conditionallyCastParameter` (`compiler/codegen/CodeGen.java:7208`) is where an argument is cast. It is the rehearsal's W7: `trait QQ comprises { Ratio }` passes `self` to `numerator` and `denominator` on 23 lines (`Library/FortressLibrary.fss:554-660`), thrown from the library's static initializer at the first numeral coercion into `QQ`. |
+
+### Row 695
+
+closed by 6df780a7d
+
+| 695 | a compiled default body that returns `self` as its trait's self-type parameter dies at class load, `VerifyError: Bad return type`, where that parameter is an object type: `twin(self): S = self` in `trait Shape[\S extends Shape[\S\]\]`, for `object Pt extends Shape[\Pt\]` | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | `ProjectFortress/compiler_tests/SelfTypeReturnSelfRun.test` | self-typed bodies measurement | siblings: 365, 991. The body returned the trait-typed `self` with no cast; the checker accepts it (P-146, F-225). The code generator now casts `self` there (`CodeGen.castToTypeBelow`, F-377), and `SelfTypeReturnSelfRun`, promoted from its `XXX` name, runs; `SelfTypeReturnSelfRunLink` links it. At a trait type it ran before: `SelfTypeReturnSelfAtTraitRun`. What stays is in rows of its own: a function expression or local function that returns `self` so (row 1050), and the `ClassCircularityError` of a default body that calls a method on a value of the self-type parameter, as `pick(self, other: S): S` did here (row 1052). Walk is not affected. full text: history, row 695 |
