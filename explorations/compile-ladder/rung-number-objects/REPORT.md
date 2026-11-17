@@ -157,10 +157,13 @@ Each on the old code with `explorations/coordinator/tools/old-fortress.sh /home/
 - A `typecase` arm at `Int`, `Long`, `Float`, `BigNum` or `UnsignedLong` takes every value, with no message (row 959; fork O4).
 - An overloading: `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: ZZ64, b: ZZ64): ZZ64` loads (row 550, the promoted test); a plain declaration with no written return type beside a generic one over the five loads unjudged (row 1044), where it was refused (row 785).
 - `x asif RR64` and the like are the value itself; `(3.0 asif RR64) + 17` runs the object's `+`, where the base ran the trait's body through `asFloat(self)`, with the same value.
+- Added by the skeptic: an overloading that loads where the base refused it, two plain declarations over one of the five whose more specific one breaks the Subtype Rule: `f(x: Number): ZZ32` beside `f(x: ZZ64): String` is refused on the base, 'Overloading of f(x:FortressLibrary.ZZ64):FortressLibrary.String ZZ64->String ... and f(x:FortressLibrary.Number):FortressLibrary.ZZ32 Number->ZZ32', and loads after, printing `f(ZZ64) s f(ZZ32) s`; so too at `RR64` (row 697's reading of an object type as excluding; `SKEPTIC.md`, "Programs").
 
 ## Every pair that walk refuses at load after the change and loaded before
 
 None among the library and the plain tests: every test of `ant testSystem` loads the library, and all 869 passed. For the 163 expected-failure walk tests, which stay green whether their failure is a refusal at load or a failure at run time, the comparison of their outputs on the old code and the new was not made: the session's automatic permission check refused the run of the base build's `harness-one.sh` with `FORTRESS_HOME` set to the base build (the form of `worktrees.md`, "Running the old code"), "Destructive or Unwanted Actions", and by `session.md` that run was not tried another way. On the edit all 163 passed (`Saw expected failure` or `Saw expected exception`).
+
+Added by the skeptic: the 163 expected-failure walk tests, run directly with `old-fortress.sh` and with `bin/fortress`, keep their failures; none moves between a refusal at load and a failure at run time. Their outputs differ only in lists of overloads and in the counts of one race, `XXXAtomicNestedReadsKeptWalk` (`SKEPTIC.md`, "The expected-failure tests").
 
 ## Sentences of the specification
 
@@ -173,6 +176,8 @@ Changed, in the Effect of the entry on the natives' bindings, in place, as Appen
 - before: "Where a binding declares ℕ32, ℕ64 or Char at a position at which its helper takes or answers a Java int or long, or UnsignedLong, the interpreter's object of ℕ64, at an argument, the compiler composes ..." / after: "... a Java int or long, the compiler composes ...".
 
 Made false and not edited, for the gather: `Specification/appendices/changes.tex:4882-4886`, "and it reads the declaring type, not the value's, so a program's object that extends a carried trait of \library\ against its \KWD{comprises} clause, which the interpreter loads (row~551 of the revival's gap ledger), still reaches the helper with a value that no Java type carries": no carried type of the library has a `comprises` clause now (the five were the ones), and a program's object below one of the five is refused at load. No other Effect or note names the five objects (a grep of `Specification/` for the five names as words finds only these lines and the dimensions chapter's unrelated `Float` example). The trait wording of `Specification/basic-lib/basic-integers.tex:16`, `:106`, `:229` is the chapter's presentation of a built-in type, as for `Boolean`; it is listed under the questions.
+
+Added by the skeptic: that sentence is brought in line on the branch, after the change, citing row 928 (`SKEPTIC.md`, "Corrections").
 
 ## Points to report
 
