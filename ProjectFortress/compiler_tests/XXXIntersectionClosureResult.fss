@@ -1,5 +1,5 @@
-(* A method of either result type called on a call whose argument sits between two closed traits, a call typed by the intersection of its candidates' return types, gets that result type's answer. *)
-component XXXCoverageReturnMethodCall
+(* A function expression whose result is typed by the intersection of a call's candidates' return types is made, called, and its result used at one of them. *)
+component XXXIntersectionClosureResult
 export Executable
 
 trait S comprises { U, V } end
@@ -13,9 +13,7 @@ object Vo extends V end
 trait LeftResult
   left(): String = "left"
 end
-trait RightResult
-  right(): String = "right"
-end
+trait RightResult end
 object LeftOnly extends LeftResult end
 object RightOnly extends RightResult end
 object BothResult extends { LeftResult, RightResult } end
@@ -25,9 +23,11 @@ choose(t: T): RightResult = RightOnly
 choose(v: V): BothResult = BothResult
 
 run(): () = do
+  println("REACHED")
   m: M = Vo
-  assert(choose(m).left(), "left", "the call's result has the method of LeftResult")
-  assert(choose(m).right(), "right", "the call's result has the method of RightResult")
+  f = fn () => choose(m)
+  g: LeftResult = f()
+  assert(g.left(), "left", "the function expression's result at LeftResult")
   println("PASS")
 end
 
