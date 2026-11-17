@@ -1,9 +1,13 @@
-(* A conditional with self in one arm and a value of the listed type in the other, returned at the type that the comprises clause of self's trait lists, runs compiled (traits.tex, section "Trait Declarations"). *)
+(* A conditional or a case expression with self in one arm and a value of the listed type in the other, returned at the type that the comprises clause of self's trait lists, runs compiled (traits.tex, section "Trait Declarations"). *)
 component ComprisesValueAtConditionalArmRun
 export Executable
 
 trait Q comprises { R }
     chosen(c: Boolean): R = if c then self else R(0, 0) end
+    chosenByCase(k: ZZ32): R = case k of
+        1 => self
+        else => R(0, 0)
+      end
 end
 
 value object R(n: ZZ32, d: ZZ32) extends Q end
@@ -12,6 +16,8 @@ run(): () = do
     q: Q = R(1, 2)
     assert(q.chosen(true).d, 2, "the arm that is self")
     assert(q.chosen(false).d, 0, "the arm at the listed type")
+    assert(q.chosenByCase(1).d, 2, "the case clause that is self")
+    assert(q.chosenByCase(2).d, 0, "the case's else clause at the listed type")
     println("PASS")
   end
 
