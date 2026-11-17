@@ -1,0 +1,5 @@
+{"type":"launched"}
+{"type":"started","key":"v2:f0b823f17011e43f394f54c89fbe187098e7b9c77eb5d55d1c8ed49ff2607a1c","agentId":"ad2c931119a124819","label":"disk","phase":"Disk"}
+{"type":"result","key":"v2:f0b823f17011e43f394f54c89fbe187098e7b9c77eb5d55d1c8ed49ff2607a1c","agentId":"ad2c931119a124819","result":{"dfOutput":"Filesystem     1024-blocks     Used Available Capacity Mounted on\n/dev/vda         264212084 25513108  14802844      64% /"},"remoteControlDeviceReport":false,"toolsUsed":["Bash","StructuredOutput"]}
+{"type":"started","key":"v2:563f656021251ff4a86e324878243c8767e1376c88c4b0d276f6c546da5e5611","agentId":"a94cd3d7f52755439","label":"rung:O","phase":"Rung"}
+{"type":"started","key":"v2:90a3fd67637081462ffcd34a5bf5f56c1dea1c565d8d998afe5a987fd55c74af","agentId":"ab8dfed101ec9d1c3","label":"rung:T","phase":"Rung"}
