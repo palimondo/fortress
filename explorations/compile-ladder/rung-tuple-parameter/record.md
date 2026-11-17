@@ -55,4 +55,4 @@ Rung T of climb batch 31b landed on its branch: a compiled method's one tuple pa
 
 ## Revival change
 
-Revival change: none. The change repairs the compiled path to what the specification gives and walk already does: every program of the rung's tests prints under walk the values its compiled run now prints, and no rule of the language, the specification or the library changes. The JVM convention it states is the implementation's own, which no source of the team describes.
+Revival change: none. The change repairs the compiled path to what the specification gives and walk already does: every program of the rung's tests prints under walk the values its compiled run now prints, except the cases of `object Two` that the skeptic added to `GenericMethodTupleParameterCompiled`, which walk does not reach (NEW-T-4), and no rule of the language, the specification or the library changes. The JVM convention it states is the implementation's own, which no source of the team describes.
