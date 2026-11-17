@@ -1,0 +1,3 @@
+tests=XXXComprisesValueFromClosureRun
+run
+run_out_contains=REACHED

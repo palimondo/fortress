@@ -52,11 +52,11 @@ fast-library 86, fast-othercompiler 263, each with 0 failures and 0 errors. No e
 
 ## Where the fix belongs, and the precedent search
 
-The forwarders of a class are gathered in one place, `CodeGen.dumpMethodChaining` (CodeGen.java:929), which the object's and the trait's code both call (CodeGen.java:4909 and :5658 on the base). The comparison belongs in `STypesUtil` beside the other helpers that list a type's methods.
+The forwarders of a class are gathered in one place, `CodeGen.dumpMethodChaining` (CodeGen.java:929), which the object's and the trait's code both call (CodeGen.java:4913 and :5663 on the base). The comparison belongs in `STypesUtil` beside the other helpers that list a type's methods.
 
 What the team's and the revival's code already did here:
 
-- `removeIdenticallyCoveredMethods` (STypesUtil.scala:1574), the team's rule, with the schema comparison that fails on self-typed generic traits. It has three callers: `dumpMethodChaining`, the two calls of `properlyInheritedMethodsNotIdenticallyCovered` (CodeGen.java:499 and :1147 on the base) and `methodsNamed` (CodeGen.java:6784 on the base). I changed the first only: one site of four.
+- `removeIdenticallyCoveredMethods` (STypesUtil.scala:1574), the team's rule, with the schema comparison that fails on self-typed generic traits. It has three callers: `dumpMethodChaining`, the two calls of `properlyInheritedMethodsNotIdenticallyCovered` (CodeGen.java:499 and :1147 on the base) and `methodsNamed` (CodeGen.java:6789 on the base). I changed the first only: one site of four.
 - `providedAndOverridden` (STypesUtil.scala:1684), from commit 2d22d3a35d, by which the compiled checker reads what a type provides. It compares parameter types at the instance, through a `paramsOf` that each of its two callers passes (`OverloadingChecker.paramsWithoutSelf`, scala_src/typechecker/OverloadingChecker.scala:196; `AbstractMethodChecker.domainApart`, AbstractMethodChecker.scala:188), each with its own private copy of the renaming apart. I followed its comparison; `paramsWithoutSelfApart` is a third copy of the renaming, public in `STypesUtil`, since the two others are private to classes outside this rung's files.
 - `isAbstractFnDecl` (AbstractMethodChecker.scala:274): `mods.isAbstract || ((!body.isDefined) && tt.getName.getApiName.isNone)`, with the team's note on PROJECTFORTRESS-3. `hasBodyInItsTrait` is its reading on the code generator's side.
 - `firstSupertraitMethods` (CodeGen.java:1067), row 733's repair, which names an api's trait as the extends clause names it. It is unchanged, and row 733's test passes in the suite.

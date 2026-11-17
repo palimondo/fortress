@@ -1,5 +1,5 @@
 (* A compiled default body that returns self as its trait's self parameter answers the receiver. *)
-component XXXSelfTypeReturnSelfRun
+component SelfTypeReturnSelfRun
 export Executable
 
 trait Shape[\S extends Shape[\S\]\]
@@ -12,7 +12,6 @@ object Pt(t: String) extends Shape[\Pt\]
 end
 
 run(): () = do
-    println("REACHED")
     assert(twin(Pt("b")).tag, "b", "twin answers its receiver")
     println("PASS")
   end

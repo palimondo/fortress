@@ -1,0 +1,68 @@
+(* A value typed by a trait stands, compiled, where a type that the trait's comprises clause lists is expected: as an argument of a function, a method and a constructor, as a returned value, at a typed binding and at an assignment. *)
+component ComprisesValueAtListedTypeCompiled
+export Executable
+
+trait Q comprises { R }
+    getter fin(): Boolean = (den(self) > 0)
+    numBy(t: Taker): ZZ32 = t.num(self)
+    both(): ZZ32 = sum(self, self)
+    listed(): R = self
+    bound(): ZZ32 = do
+        r: R = self
+        r.d
+      end
+    assigned(): ZZ32 = do
+        var r: R = R(0, 0)
+        r := self
+        r.d
+      end
+    held(): ZZ32 = Holder(self).r.d
+    kept[\T extends Object\](x: T): R = self
+    cased(): R = typecase self of
+        r: R => self
+      end
+end
+
+value object R(n: ZZ32, d: ZZ32) extends Q end
+
+den(r: R): ZZ32 = r.d
+sum(a: R, b: R): ZZ32 = a.n + b.d
+
+object Taker
+    num(r: R): ZZ32 = r.n
+end
+
+object Holder(r: R) end
+
+trait Shape comprises { Disc, Square }
+    area(): ZZ32 = typecase self of
+        c: Disc => discArea(c)
+        q: Square => squareArea(q)
+      end
+end
+
+object Disc(r: ZZ32) extends Shape end
+object Square(s: ZZ32) extends Shape end
+
+discArea(c: Disc): ZZ32 = 3 c.r c.r
+squareArea(q: Square): ZZ32 = q.s q.s
+
+run(): () = do
+    q: Q = R(1, 2)
+    assert(q.fin, "a function's argument")
+    assert(q.numBy(Taker), 1, "a method's argument")
+    assert(q.both(), 3, "two arguments")
+    assert(q.listed().d, 2, "a returned value")
+    assert(q.bound(), 2, "a typed binding")
+    assert(q.assigned(), 2, "an assignment")
+    assert(q.held(), 2, "a value parameter")
+    assert(q.kept[\ZZ32\](7).d, 2, "a returned value of a generic method")
+    assert(q.cased().d, 2, "a returned typecase whose arm is self")
+    d: Shape = Disc(2)
+    s: Shape = Square(5)
+    assert(d.area(), 12, "the first listed type after a typecase")
+    assert(s.area(), 25, "the second listed type after a typecase")
+    println("PASS")
+  end
+
+end
