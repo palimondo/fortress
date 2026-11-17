@@ -1,0 +1,21 @@
+(* A conditional with self in one arm and a value of the self-type parameter in the other, returned at that parameter, runs compiled. *)
+component XXXSelfTypeArmRun
+export Executable
+
+trait Tord[\T extends Tord[\T\]\]
+    lt(self, other: T): Boolean
+    mx(self, other: T): T = if lt(other, self) then self else other end
+end
+
+object Num(v: ZZ32) extends Tord[\Num\]
+    lt(self, other: Num): Boolean = v < other.v
+end
+
+run(): () = do
+    println("REACHED")
+    assert(mx(Num(7), Num(5)).v, 7, "the arm that is self")
+    assert(mx(Num(3), Num(5)).v, 5, "the arm that is the other value")
+    println("PASS")
+  end
+
+end
