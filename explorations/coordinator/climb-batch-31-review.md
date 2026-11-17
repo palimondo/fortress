@@ -62,7 +62,11 @@ Each is in `CLIMB-BATCH-31.md` as committed with this review.
 
 The ways: (1) V reads a `comprises` clause that lists one object as that object, in this check, and promotes the test in run 1: P-60 is the ground, and V's briefing gains P-60; (2) V leaves the test at `ZZ64` an expected failure, its valid pair at `NN32` is the positive test, and rung O promotes the `ZZ64` test in run 2. I recommend (2) if the coordinator wants no new reading in walk tonight: it costs one sentence in V's step 2 and one in O's step 1. The record as corrected leaves (1) open and names the guard; it does not choose.
 
+*Decided by the coordinator after this check, on 2026-11-17: way (2). It is fork V4 of the record's section 3, its 27th fork: V's check reads no `comprises` clause, the test at `ZZ64` stays an expected failure in run 1, and rung O promotes it and closes row 550.*
+
 **B2. Rung V, step 2: a plain declaration that writes no return type.** Row 785: walk's check refuses a pair whose more specific declaration writes no return type, at a trait, and at an object the shortcut of `:511` hides it. V takes that shortcut away for a generic declaration beside a plain one. I ran `pick[\T extends Number\](a: T): ZZ32 = 1` beside `pick(a: NN32) = 2` under walk: it loads today and prints 2. After V it may be refused for no rule of the team's. V's reserved point covers such a pair only where the library or an existing test holds one. A sentence for V's step 2 would close it: "A plain declaration that writes no return type beside a generic one still loads: test one." Not added: it extends the rung.
+
+*Decided by the coordinator after this check: the sentence is added to V's step 2, as a guard that passes on the base.*
 
 **B3. Run 2's forks O3 and O4 need no night's default.** Review-queue items 518 and 519 had no default on record. Run 2 launches after run 1 has landed, about five hours and a half from now. If the curator is back by then, put the two to him before run 2's launch; if not, the defaults stand, and neither bends a decision (section C).
 
