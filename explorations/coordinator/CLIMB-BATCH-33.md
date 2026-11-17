@@ -1,5 +1,6 @@
 <!-- The record of climb batch 33, in two runs (climb batch 33 and climb batch 33b), for the coordinating session, the curator and the batch's workers: the first rungs of microGPT's slice under P-33. Run 1: the selector by which the compile command reads the one library beside the compiler's prelude, with a test track under the gate (S); a typecase arm at an undefined name refused (D); the kind environment of two generic forms (V); self at a self type or a listed type in a conditional's arm, a closure and a default body, review-queue item 572 (Q); four of the checker's smaller gaps (C). Run 2, on run 1's landed tree: a method entry found by its api, the root of rows 940, 942 and 1061 (R); the prelude's half of P-178 by the carriers' review's way C in its form 2, built once for both libraries (N). -->
 <!-- History. Drafted 2026-11-17 by the planning worker of climb batch 33, on Opus, against `main` at `1c7e7415aa`, whose code is that of `c3b16ef2d1`, the base build `/home/user/fortress-base37` (`git diff --stat c3b16ef2d1 HEAD -- . ':!explorations' ':!docs' ':!.claude'` prints nothing). -->
+<!-- Checked 2026-11-17 by a fresh reader on Fable before any launch; its findings, and each change that it made here with its reason: `coordinator/climb-batch-33-review.md`. -->
 <!-- **No go.** The curator asked on 2026-11-13 for this batch to be planned and said that its start is not authorized ("You should work on planning next batch (Start's not authorized yet!)"). This record launches nothing. Section 2 is written for his go or his refusal. -->
 <!-- Sources: the planner's brief (`<scratchpad>/batch31/planner-33-brief.md`); POSITIONS P-33 with its history, P-178 with its history, P-37 with its history, P-17, P-60, P-146, P-148, P-167, P-173; FACTS F-34, F-53, F-352, F-353; `compile-ladder/plan-31/probes/switch-rehearsal.md`; `compile-ladder/plan-31/probes/probe-y.md`; `reviews/plan-review-2026-11-10.md`, section 7; `reviews/carriers-ways-2026-11-13.md`, whole; `coordinator/CLIMB-BATCH-31.md`, section 2, "The merge" and "For the batch after, in this order", and section 3, item 5; `reviews/batch-31-review.md`, "The steps due before run 2"; `reviews/batch-31b-review.md`, Part 5 and "The steps due before the batch after"; review-queue items 513, 521, 522 and 572; the ledger rows named in section 1; the `coordinator` skill's `references/batch.md`, "The go" and "The workflow"; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; the code at the sites. -->
 <!-- The planner's probes: `compile-ladder/plan-33/PROBES.md`, with the prelude probe's patch and the programs in `compile-ladder/plan-33/probes/`, run in two worktrees of the planner's own, `/home/user/fortress-p33` and `/home/user/fortress-p33m`, seeded from the base build and removed after. The two compiled tracks ran twice in scratch; no gate stage ran. -->
@@ -282,7 +283,7 @@ Each program is shortened to the lines that matter.
       trait C[\E\] extends AnyC cat(self, f: AnyC): AnyC = self end
       object Ci[\E\](item: E) extends C[\E\] end
 
-- Today: the compile stops: 'E is not in the kind env'. A second form, a `typecase` inside a generic function whose arms name its type parameters, stops the same way. Four declarations of the one library, among them `List`'s, stop at this wall.
+- Today: the compile stops: 'E is not in the kind env'. A second form stops the same way: a `typecase` inside a generic function, where an arm binds a value at a type that names the function's type parameters and then uses that value. Four declarations of the one library, among them `List`'s, stop at this wall.
 - After: both compile and run as under walk.
 
 **Q. `self` returned from an arm, a closure or a default body.**
@@ -294,7 +295,7 @@ Each program is shortened to the lines that matter.
           lt(self, other: T): Boolean
           mx(self, other: T): T = if lt(other, self) then self else other end
 
-- Today: it compiles. When an object of that trait runs it: 'VerifyError: Bad return type'. The one library's `MIN` and `MAX` have this form, so the first compiled program on the one library meets it. That is review-queue item 572, which the coordinator placed first in this batch.
+- Today: it compiles. When an object of that trait runs it: 'VerifyError: Bad return type'. The one library's `MIN` and `MAX` have this form, so the first compiled program on the one library meets it. That is review-queue item 572. The coordinator took it into this batch without asking you. You can still undo that before the launch.
 - After: it runs. A function expression that returns `self`, and a default body that calls a method on another value of the same type, also run.
 
 **C. Four of the checker's small gaps.**
@@ -341,7 +342,7 @@ Each program is shortened to the lines that matter.
 
 Probe Y asked whether the second set of run-time value classes is a map of names over the first set, or files of its own.
 
-- For the seven number types: neither. Their hand-written classes now name no library, so one set serves both.
+- For the seven number types: neither, by the probe's reading. Their hand-written classes extend no class that the code generator writes, so one set can serve both. They still name the prelude's string type in one method, `asString`. The string's own rung must free that. No program has run to show it.
 - For `Boolean`, `Char`, the flat string and the Java-backed types: files of their own. The two libraries give these types different shapes, an object in one and a trait in the other, so a map of names cannot serve.
 - No decision of yours is needed. P-33 already names the second set as the mechanism. That work is for the batch after.
 
@@ -354,11 +355,12 @@ Probe Y asked whether the second set of run-time value classes is a map of names
 ### The measures
 
 - **Declarations of the one library that the code generator refuses** (F-34): 17, in 5 kinds, on today's code. The script prints 18: it counts one declaration twice.
-  - V should take the 4 of the kind environment, so 13, if nothing stands behind them. Behind `List`'s `ArrayList` stands a second crash, row 812's, which V also repairs. So 13 to 17.
+  - V should take the 4 that stop at rung V's wall, so 13, if nothing stands behind them. Behind `List`'s `ArrayList` stands a second crash, row 812's, which V also repairs. So 13 to 17.
   - N moves none. The probe measured 17 with its form in place.
   - S, D, Q, C and R move none: their walls are not of this kind.
 - **Programs that run compiled against the one library:** the rehearsal ran three in a scratch tree (F-352). On `main`: none today, none after run 1, none after run 2. The first one runs after the batch after (below).
 - **Programs that compile against the one library under the selector:** none today. After run 1: two, a `println` and a `QQ` binding. After run 2: three, the array program among them.
+- **microGPT itself:** it does not compile against the one library after this batch. The reviewer tried the flat program once under the selector. The checker refuses its helper file `FlatArrays` first, with 17 errors of static types, the ones that F-58 counts. That work is a later phase's. This batch moves the library's side only: after run 2 a small program with an array compiles against the one library. No program can run there until the one library compiles whole, which is the batch after's work.
 - The checker's two measures stay 0 and 0.
 
 ### What the batch leaves out
@@ -386,7 +388,7 @@ The agents run on the regular tiers (`tier-mode.sh status` prints `regular`).
 
 - **Run 1: about 4.1 million tokens written, 4.9 million with the reserve. The range is 3.6 to 5.6 million. About 4 hours, and 4 and three quarters with the reserve.** Five workers write about 2.0 million, five skeptics about 1.2 million, and the fixed roles about 0.9 million. The reserve is 0.8 million and 45 minutes: one ruling on the review with its repair, and one on the gate with its repair and a second gate.
 - **Run 2: about 2.6 million, 3.4 million with the reserve. The range is 2.2 to 4.0 million. About 3 hours, 3 and three quarters with the reserve.** N writes about 1.0 million with its skeptic, R about 0.7 million.
-- The evidence: climb batch 31's run 1 wrote 5.08 million with six rungs in 4 hours 23 minutes, and its run 2 3.93 million with three rungs in 3 hours 24 minutes. Its fixed roles wrote about 0.9 million in each run.
+- The evidence: climb batch 31's run 1 wrote 5.08 million with six rungs in 4 hours 23 minutes, and its run 2 3.93 million with three rungs in 3 hours 24 minutes. Its fixed roles wrote 0.90 million in run 1 and 1.25 million in run 2. A rung with its skeptic wrote 0.53 million on average in run 1 and 0.89 million in run 2.
 - **The disk.** The script stops a run under 1.5 G for each rung plus 4 G. Run 1 needs 11.5 G. Run 2 needs 7 G. Free on 17 November, with the planner's two scratch trees in place: 14.3 G.
 
 ### Your review list from this record
@@ -395,6 +397,7 @@ The agents run on the regular tiers (`tier-mode.sh status` prints `regular`).
 - Item 521, answered by the probe (above).
 - The choice for the batch after: no skipping mode in the compiler (above).
 - Row 1061, filed by the planner.
+- The words of P-33, "one build serving both by a second set of the run time's value classes". After run 2 the seven number types use no second set. The entry's words are brought in line after the landing, and you see the old and the new words.
 
 ## 3. The forks, with their defaults
 
@@ -477,7 +480,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Rows.** Close 959.
 
-**Specification.** `typecase.tex`'s section names no such refusal; list each sentence that your change makes false, or none.
+**Specification.** `typecase.tex`'s section names no such refusal. The rule that refuses the program is the general one: "it is a static error for a reference to a name to occur where it is not in scope in the appropriate namespace" (`Specification/basic/declarations.tex:571-572`). List each sentence that your change makes false, or none.
 
 **Files.** `compiler/disambiguator/` (the type disambiguator), and the parser only if the arm must be marked there; your tests. Not: `CodeGen.java`, the checker's Scala, the libraries' text except a reserved line, microGPT.
 
@@ -492,7 +495,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 **The decisions this rung builds.** P-60; section 3's fork V1.
 
 **What you build, in order.**
-1. **Tests first.** `compiler_tests/ComprisesWhereMemberCompiled.test` (`compile`, `link`, `run`), from row 812's program, printing as walk prints; `compiler_tests/TypecaseGenericArmsCompiled.test`, a generic function with `app`'s arms over the program's own generic trait. Seen failing on the base with the two messages.
+1. **Tests first.** `compiler_tests/ComprisesWhereMemberCompiled.test` (`compile`, `link`, `run`), from row 812's program, printing as walk prints; `compiler_tests/TypecaseGenericArmsCompiled.test`, a generic function with `app`'s arms over the program's own generic trait. Seen failing on the base with the two messages. The second form fails only where an arm's body reads the value that the arm binds: on the base, `pick[\T, E extends T, F extends T\](a: Bx[\E\], b: Bx[\F\])` with the arm `(a': Bx[\T\], b': Bx[\T\]) => a'.same(b')` stops, 'E is not in the kind env [][]', at the function's first parameter, and the same function with arms that return a string alone compiles and runs (`climb-batch-33-review.md`, finding 1). So the message can name another parameter than `T`: pin 'is not in the kind env'.
 2. **The cause** of each, by file and member: find where the kind environment is made for the type that is normalized.
 3. **The repair** (fork V1).
 4. **The one library's four sites,** by reading: whether each passes this wall, and what stands behind it (row 812's crash stands behind `ArrayList`).
@@ -571,7 +574,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 3. **The payload classes.** The seven in `runtimeValues/` become abstract payload classes over `FValue`, their `make` reaching the object's class (fork N2), with a names table that follows S's selector. The stub file's entries for the seven go.
 4. **The code generator** (forks N1 and N3): a payload object's class over its payload class, with its constructor and factory, forwarders for every trait, the cast at a dotted call's receiver, and one name for the type in every place: its RTTI, a dispatch test's RTTI, a generic instance's name. Read every site that names an object's class, not only the three that the probe met.
 5. **The one library** (fork N4): the table's entries for `FortressLibrary`'s five and `FortressBuiltin`'s two, under the selector. Run `explorations/compile-ladder/plan-31/probes/planner/codegen-measure.sh` once on a scratch copy of your final tree: 17 refused (18 printed) and the seven emitted, as the probe measured. If the measure's patch no longer applies to your `NamingCzar.java`, bring its hunk in line by hand in the scratch copy.
-6. **The team's test and row 566** (forks N5 and N6): `Compiled6.bx` takes its second message; `XXXComprisesMeetGenericTrait` runs under the default hash mode and under `-XX:+UnlockExperimentalVMOptions -XX:hashCode=0` in `JAVA_FLAGS`.
+6. **The team's test and row 566** (forks N5 and N6): `Compiled6.bx` takes its second message; `XXXComprisesMeetGenericTrait` runs under the default hash mode and under `-XX:+UnlockExperimentalVMOptions -XX:hashCode=0` in `JAVA_FLAGS`, on your tree and once on the base's code under the same two modes (`tools/old-fortress.sh`). Two orders that pass do not show the cause. Row 566's message names an instance stamped `fortress|CompilerBuiltin%ZZ32`, the two names of fork N3, so read which name the failing cast holds on the base and on your tree, and say in the row whether the one name repairs it.
 7. **The whole suites once,** `ant testFast` and `ant testSystem`.
 8. **The stages** once on your final tree; the shadow patch once.
 
@@ -581,7 +584,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Specification.** Grep Appendix I's Effects and the callouts for the prelude's number traits and for row 866; list each sentence that your change makes false, before and after.
 
-**Files.** `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi` and `.fss`, the seven declarations; `compiler/runtimeValues/F{ZZ32,ZZ64,ZZ,NN32,NN64,RR32,RR64}.java` and a new names class there; `src/fortress/CompilerBuiltin.java`, the seven's stub entries; `compiler/NamingCzar.java`; `compiler/OverloadSet.java`, the dispatch test's RTTI; `compiler/codegen/CodeGen.java`: `methodCall` (`:624`), `dumpMethodChaining` (`:1023`), `forObjectDeclPrePass` (`:4822`), the RTTI's class in `RttiClassAndInterface` and its helpers, the dotted call's receiver in `forMethodInvocation`; your tests. Not: the one library's text; walk; the checker's Scala; microGPT.
+**Files.** `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi` and `.fss`, the seven declarations; `compiler/runtimeValues/F{ZZ32,ZZ64,ZZ,NN32,NN64,RR32,RR64}.java` and a new names class there; `src/fortress/CompilerBuiltin.java`, the seven's stub entries; `compiler/NamingCzar.java`; `compiler/OverloadSet.java`, the dispatch test's RTTI; `compiler/codegen/CodeGen.java`: a field and a helper beside `springBoardClass` (`:233`) with its copy in the private constructor (`:367`), as the probe's patch has them, `methodCall` (`:611`, its choice of the opcode at `:624`), `dumpMethodChaining` (`:1023`), `forObjectDeclPrePass` (`:4822`), the RTTI's class in `RttiClassAndInterface` and its helpers, the dotted call's receiver in `forMethodInvocation`; your tests. Not: the one library's text; walk; the checker's Scala; microGPT.
 
 **Reserved points.** A model line: none. A team test changed. A program that ran and is now refused, beyond row 866's form.
 
@@ -620,7 +623,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
   - Q: `forFnExpr` (`:3867`), `forLetFn` (`:3941`), `forIf` (`:4485`), `castToTypeBelow` (`:7630`) and a new member directly above it; `MethodInstantiater.java`.
   - The gather's order is the script's: of two rungs that share a file, the one whose lowest edited line is lower goes first (`climb-batch-workflow.md`, "Gather", "The order"). The manifest's order V, Q is that order as this record expects it.
   - If V's cause lies in a member that Q names, V reports it and builds its repair outside it.
-- **Run 2.** N and R share `CodeGen.java` only if R edits `methodsNamed` (`:7028`), which N does not edit; N's lowest edited line is `methodCall` (`:624`), so N goes first. If R's root lies in a member that N names, R reports it and builds its repair in the Scala.
+- **Run 2.** N and R share `CodeGen.java` only if R edits `methodsNamed` (`:7028`), which N does not edit; N's lowest edited line is far above it, the field beside `springBoardClass` (`:233`) in the probe's patch, so N goes first. If R's root lies in a member that N names, R reports it and builds its repair in the Scala.
 - **The distance stage's shadow patch** edits a copy of `CodeGen.java` by text. A rung that edits `CodeGen.java` runs it once and reports its exit; if it no longer applies, the rung reports the lines, and the gather repairs the tool.
 - **They meet on the merged tree:** the suites, the atomic runs, the ladder and the two stages; the gather's 52 demos; the commit stage's microGPT quick checks.
 
@@ -742,6 +745,7 @@ After run 2:
 - **F-352:** row 866 and row 942 named as open, and the carriers' wall as one piece; **F-338:** row 940.
 - **F-34** again, if the count moved; **F-353:** the second set, which the numbers no longer need.
 - **F-379:** the prelude's open traits (row 1003).
+- **P-33:** "one build serving both by a second set of the run time's value classes (F-353)": the seven number types use no second set after N; its words are the curator's entry, so the change is told to him with the old and the new words.
 - **P-178** and **P-37** stay true. PLAN's and row 1003's "the tree does not do it yet" is done for the prelude.
 
 ### For the skill writer: the sentences of `fortress-repo` this batch makes false
