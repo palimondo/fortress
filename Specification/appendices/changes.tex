@@ -4444,7 +4444,9 @@ assigns it at that type, so a compiled program that runs such a body with the
 parameter at an object type runs.
 A function expression or a local function that returns \KWD{self} as the self
 parameter still fails the JVM's verification when its class is loaded
-(row~1050 of the revival's gap ledger).
+(row~1050 of the revival's gap ledger), and so does a default body that
+returns a conditional expression with \KWD{self} in one arm and another
+value of the self parameter in the other (row~1051).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/var-ref.tex},
 lines 53--54 and 64--69, which stand unchanged and are now followed by the new
 sentence:

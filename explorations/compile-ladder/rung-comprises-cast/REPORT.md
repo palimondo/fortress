@@ -134,7 +134,7 @@ One sentence changed, in the Effect of the self-type entry of Appendix I, `Speci
 
 Before: "The code generator compiles a default body that returns `self` as the self parameter with no conversion to the type of the instance, so a program that runs such a body, which the compiled type checker now accepts, with the parameter at an object type fails the JVM's verification when the body's class is loaded (row 695 of the revival's gap ledger)."
 
-After: "The code generator converts `self` to the type of the instance where a default body returns it as the self parameter, passes it as a single argument, binds it or assigns it at that type, so a compiled program that runs such a body with the parameter at an object type runs. A function expression or a local function that returns `self` as the self parameter still fails the JVM's verification when its class is loaded (row 1050 of the revival's gap ledger)."
+After: "The code generator converts `self` to the type of the instance where a default body returns it as the self parameter, passes it as a single argument, binds it or assigns it at that type, so a compiled program that runs such a body with the parameter at an object type runs. A function expression or a local function that returns `self` as the self parameter still fails the JVM's verification when its class is loaded (row 1050 of the revival's gap ledger)." The judge's repair of the merged-diff review then added to that last sentence the clause on the conditional arm, row 1051 (`explorations/compile-ladder/climb-batch-31/JUDGE-review.md`, "Instructions for the repair").
 
 The specification was not built here; the gather builds it once.
 
