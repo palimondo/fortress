@@ -1,4 +1,4 @@
-(* A typecase arm whose type names, inside an arrow type or a static argument, a type no declaration defines is refused at load. *)
+(* A typecase arm whose type names, inside an arrow type, a static argument or after the clause's own name, a type no declaration defines is refused at load. *)
 component TypecaseUndefinedNameInArmTypeWalk
 export Executable
 
@@ -16,9 +16,16 @@ kindOfMaybe(v: Any): String =
     else => "another type"
   end
 
+kindOfNamed(v: Any): String =
+  typecase v of
+    x: NoSuchNamedType => "the named arm"
+    else => "another type"
+  end
+
 run(): () = do
     println(kind(inc))
     println(kindOfMaybe(3))
+    println(kindOfNamed(3))
     println "PASS"
   end
 

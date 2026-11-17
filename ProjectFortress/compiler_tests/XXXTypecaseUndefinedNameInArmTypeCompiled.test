@@ -2,3 +2,4 @@ tests=XXXTypecaseUndefinedNameInArmTypeCompiled
 compile
 compile_err_contains=NoSuchArgType is undefined.
 compile_err_WIcontains=NoSuchStaticArg is undefined.
+compile_err_matches=(?s).*NoSuchNamedType is undefined.*
