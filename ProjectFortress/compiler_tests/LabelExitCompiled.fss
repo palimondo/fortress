@@ -104,7 +104,18 @@ trait Holder[\T extends Object\]
       end
       none
     end found
+  indexOf(e: T, same: (T, T) -> Boolean): Maybe[\ZZ32\] =
+      label found
+          for i <- 0#count() do
+              if same(item(i), e) then exit found with Just[\ZZ32\](i) end
+          end
+          NothingObject[\ZZ32\]
+      end found
 end
+
+isJust(m: Maybe[\ZZ32\]): ZZ32 = if m.isNothing then 0 else 1 end
+
+sameText(a: String, b: String): Boolean = a = b
 
 object Words extends Holder[\String\]
   item(i: ZZ32): String = if i = 5 then "five" else "other" end
@@ -164,6 +175,8 @@ run(): () = do
   check("an exit leaves the evaluation of the label block in which its function was made, not a later one", descend(4, fn (): ZZ32 => 0), 102)
   check("an exit out of a loop in a generic trait's method, the form of the library's indexOf", Words.find(fn (s: String): Boolean => s = "five"), 5)
   check("a loop of that method that no iteration exits", Words.find(fn (s: String): Boolean => s = "six"), -1)
+  check("an exit with a Just beside a block that ends in a Nothing, as the library's indexOf", isJust(Words.indexOf("five", sameText)), 1)
+  check("the same method where no iteration exits", isJust(Words.indexOf("six", sameText)), 0)
   check("an exit out of the first arm of a do with also", outOfArm(1), 1)
   check("the same arms without an exit", outOfArm(2), 102)
   check("a label and its exit inside one atomic block, whose writes stay", insideAtomic(1), 13)
