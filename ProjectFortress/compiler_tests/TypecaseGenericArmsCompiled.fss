@@ -1,4 +1,4 @@
-(* A typecase in a generic function whose arms bind values at types that name the function's type parameters, and read them, compiles and runs each arm. *)
+(* A typecase in a generic function whose arms bind values at types that name the function's type parameters, and read them, compiles and runs each arm (typecase.tex, section "Typecase Expressions": the first clause that matches runs). *)
 component TypecaseGenericArmsCompiled
 export Executable
 
@@ -24,7 +24,6 @@ app[\T, E extends T, F extends T\](a: Bx[\E\], b: Bx[\F\]): ZZ32 =
   end
 
 run(): () = do
-  (* typecase.tex, section "Typecase Expressions": the first arm that matches runs, with each identifier bound at its arm's type *)
   assert(app[\Shape, Shape, Shape\](B[\Shape\](1), B[\Shape\](2)), 3, "both boxes of T")
   assert(app[\Shape, Shape, Sq\](B[\Shape\](1), B[\Sq\](2)), 12, "a box of T, then a box of F")
   assert(app[\Shape, Sq, Shape\](B[\Sq\](1), B[\Shape\](2)), 21, "a box of E, then a box of T")

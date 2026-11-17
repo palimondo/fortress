@@ -1,4 +1,4 @@
-(* Members that a generic trait defines for a trait whose comprises clause lists it at a where-clause type variable compile and run: called functionally, dotted, and inside a generic function at its own type parameter. *)
+(* Members that a generic trait defines for a trait whose comprises clause lists it at a where-clause type variable compile and run: called functionally, dotted, and inside a generic function at its own type parameter (traits.tex, section "Trait Declarations": the listed type holds at every value of the variable). *)
 component ComprisesWhereMemberCompiled
 export Executable
 
@@ -23,7 +23,6 @@ which(x: AnyC): String =
 joined[\T\](c: C[\T\]): String = c.pair(c.name(), "d")
 
 run(): () = do
-  (* trait-parameters.tex, section "Where Clauses": each member below is defined in C, below AnyC's comprises clause *)
   x: AnyC = cat(Ci[\ZZ32\](3), Ci[\String\]("s"))
   assert(which(x), "first", "the functional cat returns its first argument")
   assert(x.name(), "C", "the dotted name runs on a value of type AnyC")

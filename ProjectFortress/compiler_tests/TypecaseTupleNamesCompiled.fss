@@ -1,4 +1,4 @@
-(* A typecase clause whose tuple pattern names its elements binds each name to its element of the matched tuple, compiled. *)
+(* A typecase clause whose tuple pattern names its elements binds each name to its element of the matched tuple, compiled (typecase.tex, section "Typecase Expressions": the first clause that matches runs). *)
 component TypecaseTupleNamesCompiled
 export Executable
 
@@ -11,7 +11,6 @@ joinPair(a: Any, b: Any): String =
   end
 
 run(): () = do
-  (* typecase.tex, section "Typecase Expressions": the first clause that matches runs, each name bound to its element *)
   assert(joinPair("a", 1), "a1", "a string, then an integer")
   assert(joinPair(2, "b"), "2b", "an integer, then a string")
   assert(joinPair("c", "d"), "c", "two strings, the second element unnamed")
