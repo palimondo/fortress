@@ -1,0 +1,6 @@
+tests=ExitAfterLabelCompletedCompiled
+link
+run
+run_exits_nonzero=true
+run_out_contains=REACHED
+run_out_does_not_contain=the exit returned
