@@ -229,7 +229,10 @@ object ExportChecker {
               val rtopt = NodeUtil.optTypeOrPatternToType(lvalueInComp.getIdType)
               // should be with the same type and the same mutability
               val diffType = ! equalOptTypes(ltopt, rtopt)
-              val diffMods = ! lvalueInAPI.getMods.equals(lvalueInComp.getMods)
+              // The var modifier is compared as the mutability: a component
+              // declares a mutable variable by var or by := alone (variables.tex,
+              // "Top-Level Variable Declarations").
+              val diffMods = ! lvalueInAPI.getMods.remove(Modifiers.Var).equals(lvalueInComp.getMods.remove(Modifiers.Var))
               val diffMuts = ! lvalueInAPI.isMutable == lvalueInComp.isMutable
               var cause = ""
               if ( diffType ) cause = addMessage(cause, "different types")
