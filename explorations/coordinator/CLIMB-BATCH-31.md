@@ -562,7 +562,7 @@ The measure is the number of declarations of the one library that the code gener
 
 ### For the batch after, in this order
 
-1. The prelude's half of the merge: the probe of way (a), then its rung.
+1. The prelude's half of the merge, by P-178's detail, the carriers' review's way D, built in the code generator for both libraries: its probe, then its rung.
 2. Row 959: an arm at a name that no declaration defines is refused.
 3. The missing type environment (rows 812 and 822): 4 of the refused declarations, the one for `List` among them.
 4. A method call on a value of two types at once (row 540), and row 818, in the code that T leaves, with rows 1054, 1055 and 1056, the tuple's forms that still fail compiled near T's code.
