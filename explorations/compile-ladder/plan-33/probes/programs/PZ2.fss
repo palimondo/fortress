@@ -1,0 +1,25 @@
+component PZ2
+export Executable
+object Box[\T extends Object\](v: T)
+  get(): T = v
+end
+first[\T extends Object\](b: Box[\T\]): T = b.get()
+pick(x: ZZ32): String = "ZZ32"
+pick(x: String): String = "String"
+run(): () = do
+  b = Box[\ZZ32\](5)
+  println(first(b) + 1)
+  y: Any = b
+  typecase y of
+    Box[\ZZ32\] => println("Box of ZZ32")
+    else => println("other box")
+  end
+  k: ZZ32 = 12
+  println(pick(k))
+  println(k = 12)
+  println(k.asZZ)
+  println(|(-k)|)
+  println(k GCD 18)
+  println(k CMP 3)
+end
+end

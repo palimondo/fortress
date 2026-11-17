@@ -1,0 +1,8 @@
+component Arr
+export Executable
+run(): () = do
+  a = array1[\ZZ32, 8\]()
+  for i <- seq(0#8) do a[i] := i i end
+  println("a[5] = " || a[5].asString)
+end
+end

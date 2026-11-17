@@ -1,0 +1,7 @@
+component Half
+export Executable
+run(): () = do
+  q: QQ = 1/2
+  println(q)
+end
+end

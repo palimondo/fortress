@@ -1,0 +1,802 @@
+diff --git a/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi b/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi
+index ec7c918d0f..528b61ad4d 100644
+--- a/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi
++++ b/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi
+@@ -100,7 +100,7 @@ value object Infinity extends Number end
+ value object NegativeInfinity extends Number end
+ value object IndefiniteNumber extends Number end
+ 
+-trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, NN64 } 
++value object ZZ extends { Number, Equality[\ZZ\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     coerce(x: ZZ32)
+     coerce(x: ZZ64)
+@@ -144,7 +144,7 @@ trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, N
+     ceilingAverage(self, other: ZZ): ZZ
+ end
+ 
+-trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
++value object ZZ64 extends { Number, Equality[\ZZ64\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     coerce(x: ZZ32) 
+     getter asZZ32(): ZZ32
+@@ -207,7 +207,7 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
+     unsigned(self): NN64
+ end
+ 
+-trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excludes { ZZ64, RR32, RR64 }
++value object ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     getter asZZ32(): ZZ32
+     getter asZZ(): ZZ
+@@ -270,7 +270,7 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
+     unsigned(self): NN32
+ end
+ 
+-trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR64 }
++value object NN32 extends { Number, Equality[\NN32\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     getter asNN32(): NN32
+     getter asZZ(): ZZ
+@@ -329,7 +329,7 @@ trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR6
+     signed(self): ZZ32
+ end
+ 
+-trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR64, NN32, ZZ }
++value object NN64 extends { Number, Equality[\NN64\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     coerce(x: NN32)
+     getter asNN64(): NN64
+@@ -398,7 +398,7 @@ trait NaturalNumeral[\nat n, nat r, nat v\] extends AnyNaturalNumeral end
+ trait RadixPointNumeral[\nat n, nat m, nat r, nat v\] extends AnyRadixPointNumeral end
+ 
+ 
+-trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
++value object RR64 extends { Number, Equality[\RR64\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
+     coerce(x: RR32)
+@@ -441,7 +441,7 @@ trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
+     opr SQRT(self):RR64
+ end
+ 
+-trait RR32 extends { Number, Equality[\RR32\] } excludes { ZZ64, ZZ32, RR64 }
++value object RR32 extends { Number, Equality[\RR32\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
+ end
+diff --git a/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss b/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss
+index cb7d7cb0f5..6783dca988 100644
+--- a/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss
+@@ -513,7 +513,7 @@ value object Infinity extends Number end
+ value object NegativeInfinity extends Number end
+ value object IndefiniteNumber extends Number end
+ 
+-trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, NN64 }
++value object ZZ extends { Number, Equality[\ZZ\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
+     coerce(x: ZZ32) = x.asZZ
+     coerce(x: ZZ64) = x.asZZ
+@@ -574,7 +574,7 @@ trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, N
+     ceilingAverage(self, other: ZZ): ZZ = (self + other + 1) <<< (-1)
+ end
+ 
+-trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
++value object ZZ64 extends { Number, Equality[\ZZ64\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jBigToZZ64(v)
+     coerce(x: ZZ32) = jIntToLong(x)
+     getter asZZ32(): ZZ32 = jLongOverflowingToInt(self)
+@@ -659,7 +659,7 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
+     unsigned(self): NN64 = jMakeNN64FromZZ64(self)
+ end
+ 
+-trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excludes { ZZ64, RR32, RR64 }
++value object ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jBigToZZ64(v).asZZ32
+     getter asZZ32(): ZZ32 = self
+     getter asZZ64(): ZZ32 = self
+@@ -750,7 +750,7 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
+     unsigned(self): NN32 = jMakeNN32FromZZ32(self)
+ end
+ 
+-trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR64 }
++value object NN32 extends { Number, Equality[\NN32\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = narrow(jMakeNN64FromZZ64(jBigToZZ64(v)))
+     getter asNN32(): NN32 = self
+     getter asZZ(): ZZ = jMakeZZfromNN32(jMakeZZ32FromNN32(self))
+@@ -815,7 +815,7 @@ trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR6
+     signed(self): ZZ32 = jMakeZZ32FromNN32(self)
+ end
+ 
+-trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR64, NN32, ZZ }
++value object NN64 extends { Number, Equality[\NN64\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jMakeNN64FromZZ64(jBigToUnsignedZZ64(v))
+     coerce(x: NN32) = jMakeNN64FromZZ64(jUnsignedIntToLong(jMakeZZ32FromNN32(x)))
+     getter asNN64(): NN64 = self
+@@ -890,7 +890,7 @@ trait NaturalNumeral[\nat n, nat r, nat v\] extends AnyNaturalNumeral end
+ trait RadixPointNumeral[\nat n, nat m, nat r, nat v\] extends AnyRadixPointNumeral end
+ 
+ 
+-trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
++value object RR64 extends { Number, Equality[\RR64\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jNumeralToDouble(v, jBigToZZ64(r).asZZ32, 0)
+     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToDouble(v, jBigToZZ64(r).asZZ32, jBigToZZ64(m).asZZ32)
+     coerce(x: RR32) = jFloatToDouble(x)
+@@ -952,7 +952,7 @@ trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
+ 
+ end
+ 
+-trait RR32 extends { Number, Equality[\RR32\] } excludes { ZZ64, ZZ32, RR64 }
++value object RR32 extends { Number, Equality[\RR32\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jNumeralToFloat(v, jBigToZZ64(r).asZZ32, 0)
+     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToFloat(v, jBigToZZ64(r).asZZ32, jBigToZZ64(m).asZZ32)
+ end
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+index 4c7b84c807..ee0732c4a5 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+@@ -601,6 +601,47 @@ public class NamingCzar {
+         bl(NodeFactory.makeVoidType(span), "FVoid");
+     }
+ 
++    /**
++     * PROBE 33 (way C, form 2): the built-in number types that are value objects
++     * whose class the code generator writes over a hand-written payload class.
++     * Each entry: the type's name, its payload class, the JVM type of its payload.
++     */
++    private static final String[][] payloadObjects = {
++        { "ZZ32", runtimeValues + "FZZ32", "I" },
++        { "ZZ64", runtimeValues + "FZZ64", "J" },
++        { "ZZ",   runtimeValues + "FZZ",   "Ljava/lang/String;" },
++        { "NN32", runtimeValues + "FNN32", "I" },
++        { "NN64", runtimeValues + "FNN64", "J" },
++        { "RR32", runtimeValues + "FRR32", "F" },
++        { "RR64", runtimeValues + "FRR64", "D" },
++    };
++
++    /** The payload class and JVM payload type of the object {@code name} of component {@code api}, or null. */
++    public static String[] payloadFor(String name, APIName api) {
++        if (!api.getText().equals(WellKnownNames.fortressBuiltin())) return null;
++        for (String[] e : payloadObjects) if (e[0].equals(name)) return new String[] { e[1], e[2] };
++        return null;
++    }
++
++    /** PROBE 33: the prelude's object class whose payload class is {@code payloadClass}, or null. */
++    public static String payloadObjectClassOfPayload(String payloadClass) {
++        for (String[] e : payloadObjects)
++            if (e[1].equals(payloadClass)) return javaPackageClassForApi(fortLib, "/") + "$" + e[0];
++        return null;
++    }
++
++    /** The class that the code generator writes for a payload object's type, or null. */
++    public static String payloadObjectClass(com.sun.fortress.nodes.Type t) {
++        if (!(t instanceof com.sun.fortress.nodes.TraitType)) return null;
++        Id id = ((com.sun.fortress.nodes.TraitType) t).getName();
++        String name = id.getText();
++        if (((com.sun.fortress.nodes.TraitType) t).getArgs().size() > 0) return null;
++        if (id.getApiName().isSome() && !id.getApiName().unwrap().getText().equals(WellKnownNames.fortressBuiltin())) return null;
++        for (String[] e : payloadObjects)
++            if (e[0].equals(name)) return javaPackageClassForApi(fortLib, "/") + "$" + name;
++        return null;
++    }
++
+     /**
+      * Determine whether given TraitType is special, meaning, implemented
+      * by hand, with a non-standard naming convention.
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+index e344d27ab6..2f6400bad3 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+@@ -1092,7 +1092,9 @@ nameTemp + "\n" +
+                 // getstatic fullname.RTTI
+                 // swap
+                 // invokevirtual RTTI.runtimeSupertypeOf
+-                mv.visitFieldInsn(Opcodes.GETSTATIC, fullname, Naming.RTTI_FIELD, Naming.RTTI_CONTAINER_DESC);
++                // PROBE 33: a payload object's RTTI is a static field of the object's class, not of its payload class.
++                String rttiOwner = NamingCzar.payloadObjectClassOfPayload(fullname);
++                mv.visitFieldInsn(Opcodes.GETSTATIC, rttiOwner != null ? rttiOwner : fullname, Naming.RTTI_FIELD, Naming.RTTI_CONTAINER_DESC);
+                 mv.visitInsn(Opcodes.SWAP);
+                 mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Naming.RTTI_CONTAINER_TYPE, Naming.RTTI_SUBTYPE_METHOD_NAME, Naming.RTTI_SUBTYPE_METHOD_SIG);
+             }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+index f98c66b389..82b6aa9ab2 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+@@ -231,6 +231,18 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+     final String packageAndClassName;
+     public String traitOrObjectName; // set to name of current trait or object, as necessary.
+     private String springBoardClass; // set to name of trait default methods class, if we are emitting it.
++    /** PROBE 33: the payload class of the built-in number object being compiled, else null. */
++    private String payloadObjectSuper;
++
++    private static int payloadLoadOpcode(String jvmType) {
++        switch (jvmType.charAt(0)) {
++            case 'J': return LLOAD;
++            case 'D': return DLOAD;
++            case 'F': return FLOAD;
++            case 'L': return ALOAD;
++            default: return ILOAD;
++        }
++    }
+ 
+     // traitsAndObjects appears to be dead code.
+     // private final Map<String, ClassWriter> traitsAndObjects =
+@@ -370,6 +382,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+         this.packageAndClassName = c.packageAndClassName;
+         this.traitOrObjectName = c.traitOrObjectName;
+         this.springBoardClass = c.springBoardClass;
++        this.payloadObjectSuper = c.payloadObjectSuper;
+ 
+         this.typeAnalyzer = new_ta;
+         this.pa = c.pa;
+@@ -627,6 +640,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             opcode = INVOKEVIRTUAL;
+         }
+         String methodClass = NamingCzar.jvmTypeDesc(receiverType, thisApi(), false);
++        String payloadClass = NamingCzar.payloadObjectClass(receiverType);
++        if (payloadClass != null) methodClass = payloadClass; // PROBE 33
+         mv.visitMethodInsn(opcode, methodClass, methodName, sig);
+     }
+ 
+@@ -1029,7 +1044,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+          *
+          * In that case, there is nothing to do.
+          */
+-        if (!includeCurrent && superInterfaces.length <= 1) return;
++        if (!includeCurrent && superInterfaces.length <= 1 && payloadObjectSuper == null) return;
+ 
+         TraitType currentTraitObjectType = STypesUtil.declToTraitType(currentTraitObjectDecl);
+         List<TraitTypeWhere> extendsClause = NodeUtil.getExtendsClause(currentTraitObjectDecl);
+@@ -1039,7 +1054,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+          * Initialize alreadyIncluded to empty, or to the inherited methods
+          * from the first t
+          */
+-        if (extendsClause.size() == 0 || !(extendsClause.get(0).getBaseType() instanceof TraitType)) {
++        if (payloadObjectSuper != null || extendsClause.size() == 0 || !(extendsClause.get(0).getBaseType() instanceof TraitType)) {
+             alreadyIncluded =
+                 new IndexedRelation<IdOrOpOrAnonymousName,
+                              scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>();
+@@ -4860,7 +4875,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+         }
+ 
+         String abstractSuperclass;
+-        if (superInterfaces.length > 0) {
++        // PROBE 33 (way C, form 2): a built-in number object's class extends its payload class.
++        final String[] payload = NamingCzar.payloadFor(classId.getText(), thisApi());
++        String savedPayloadObject = payloadObjectSuper;
++        payloadObjectSuper = payload == null ? null : payload[0];
++        if (payload != null) {
++            abstractSuperclass = payload[0];
++        } else if (superInterfaces.length > 0) {
+             abstractSuperclass = superInterfaces[0] + NamingCzar.springBoard;
+         } else {
+             abstractSuperclass = NamingCzar.internalObject;
+@@ -4869,9 +4890,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+         traitOrObjectName = cnb.className;
+         debug("forObjectDeclPrePass ",x," classFile = ", traitOrObjectName);
+ 
+-        boolean isSingletonObject = NodeUtil.getParams(x).isNone();
++        boolean isSingletonObject = NodeUtil.getParams(x).isNone() && payload == null;
+         List<Param> params;
+-        if (!isSingletonObject) {
++        if (payload != null) {
++            params = Collections.<Param>emptyList();
++        } else if (!isSingletonObject) {
+             params = NodeUtil.getParams(x).unwrap();				//TUPLE CONSTRUCTOR PROBLEM
+             String init_sig = NamingCzar.jvmSignatureFor(params, "V", thisApi());
+ 
+@@ -4975,6 +4998,29 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+         cw.visit( InstantiatingClassloader.JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER + ACC_FINAL,
+                 cnb.className, null, abstractSuperclass, classInterfaces);
+ 
++        if (payload != null) {
++            // PROBE 33: the factory make(payload) and the constructor that passes the payload up.
++            String payloadDesc = Naming.internalToDesc(payload[0]);
++            CodeGenMethodVisitor fmv = cw.visitCGMethod(ACC_STATIC + ACC_PUBLIC, "make",
++                    "(" + payload[1] + ")" + payloadDesc, null, null);
++            fmv.visitCode();
++            fmv.visitTypeInsn(NEW, cnb.className);
++            fmv.visitInsn(DUP);
++            fmv.visitVarInsn(payloadLoadOpcode(payload[1]), 0);
++            fmv.visitMethodInsn(INVOKESPECIAL, cnb.className, "<init>", "(" + payload[1] + ")V");
++            fmv.visitInsn(ARETURN);
++            fmv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
++            fmv.visitEnd();
++            CodeGenMethodVisitor imv = cw.visitCGMethod(ACC_PUBLIC, "<init>", "(" + payload[1] + ")V", null, null);
++            imv.visitCode();
++            imv.visitVarInsn(ALOAD, 0);
++            imv.visitVarInsn(payloadLoadOpcode(payload[1]), 1);
++            imv.visitMethodInsn(INVOKESPECIAL, payload[0], "<init>", "(" + payload[1] + ")V");
++            imv.visitInsn(RETURN);
++            imv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
++            imv.visitEnd();
++        }
++
+         if (isSingletonObject) {
+             
+             initializedStaticFields_TO.add(new InitializedStaticField() {
+@@ -5022,7 +5068,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+         currentTraitObjectDecl = x;
+         //create CodeGen for init method
+         // has different set of parameter variables in scope
+-        CodeGen initCodeGen = initializeInitMethod(params);
++        CodeGen initCodeGen = payload != null ? new CodeGen(this) : initializeInitMethod(params);
+         
+         initCodeGen.initializedInstanceFields_O = new ArrayList<InitializedInstanceField>();
+ //        List<Binding> fieldsForEnv = new ArrayList<Binding>();
+@@ -5140,7 +5186,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+         }
+         debug("End of processing declarations for ", x);
+         
+-        initCodeGen.instanceInitForObject(abstractSuperclass);
++        if (payload == null) initCodeGen.instanceInitForObject(abstractSuperclass);
+         
+ 	debug("Dump method chaining for ", x);
+         dumpMethodChaining(superInterfaces, false);
+@@ -5181,6 +5227,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+         
+         // Needed (above) to embed a reference to the Rtti information for this type.
+         RttiClassAndInterface(x,cnb, xldata);
++        payloadObjectSuper = savedPayloadObject;
+         debug("End forObjectDeclPrePass for ", x);
+     }
+ 
+@@ -6173,7 +6220,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             mv.visitTypeInsn(NEW, rttiClassName);
+             // init
+             mv.visitInsn(DUP);
+-            mv.visitLdcInsn(org.objectweb.asm.Type.getType(cnb.classDesc));
++            // PROBE 33: a payload object's RTTI names its type by the payload class, as descriptors do.
++            mv.visitLdcInsn(org.objectweb.asm.Type.getType(payloadObjectSuper != null
++                    ? Naming.internalToDesc(payloadObjectSuper) : cnb.classDesc));
+             mv.visitMethodInsn(INVOKESPECIAL, rttiClassName, "<init>", "(Ljava/lang/Class;)V");
+             // store
+             mv.visitFieldInsn(PUTSTATIC, rttiClassName,
+@@ -7312,6 +7361,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+                     throw sayWhat(x, ASSUMPTION_PARTIAL_CALL); // the receiver dispatches too
+                 // put object on stack
+                 obj.accept(this);
++                // PROBE 33: a payload object's value is typed by its payload class; its methods are the object's.
++                String payloadClass = NamingCzar.payloadObjectClass(receiverType);
++                if (payloadClass != null) mv.visitTypeInsn(CHECKCAST, payloadClass);
+                 // put args on stack
+                 if (receiverType instanceof TraitType &&
+                     callTakesTupleBoxed((TraitType) receiverType, method, domain_type)) {
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java
+index 8eeecaf4a9..90fe87934c 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java
+@@ -11,24 +11,41 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public final class FNN32 extends fortress.CompilerBuiltin.NN32.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.NN32 {
++/** PROBE 33 (way C, form 2): the payload of the value object NN32; the code generator writes the object's class over it. */
++public abstract class FNN32 extends FValue {
+     final int val;
+ 
+-    private FNN32(int x) { val = x; }
++    protected FNN32(int x) { val = x; }
+     public String toString() { return Integer.toUnsignedString(val);}
+     public FJavaString asString() { return FJavaString.make(Integer.toUnsignedString(val));}
+     public int getValue() {return val;}
+     public static FNN32 make(int x) {
+-        return new FNN32(x);
++        try { return (FNN32) MAKE.invokeExact(x); } catch (Throwable t) { throw new Error(t); }
+     }
+     public static FNN32 plus(FNN32 a, FNN32 b) {return make(a.getValue() + b.getValue());}
+-    
+-    @Override
+-    public RTTI getRTTI() { return RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.NN32.RTTIc {
+-        private RTTIc() { super(FNN32.class); };
+-        public static final RTTI ONLY = new RTTIc();
++    /** PROBE 33: the object's class, by the selected library's name for it. */
++    static final String OBJECT_CLASS = LibraryNames.numberObjectClass("NN32");
++    private static final java.lang.invoke.MethodHandle MAKE;
++    static {
++        try {
++            Class<?> c = Class.forName(OBJECT_CLASS, false, FNN32.class.getClassLoader());
++            MAKE = java.lang.invoke.MethodHandles.publicLookup().findStatic(c, "make",
++                java.lang.invoke.MethodType.methodType(FNN32.class, int.class));
++        } catch (ReflectiveOperationException e) {
++            throw new Error("No class " + OBJECT_CLASS + " for NN32", e);
++        }
+     }
+-}
+\ No newline at end of file
++
++    /** PROBE 33: compiled code names a static argument NN32 by its payload class; its RTTI is the object's. */
++    public static final class RTTIc {
++        public static final RTTI ONLY;
++        static {
++            try {
++                Class<?> c = Class.forName(OBJECT_CLASS, true, FNN32.class.getClassLoader());
++                ONLY = (RTTI) c.getField("RTTI").get(null);
++            } catch (ReflectiveOperationException e) {
++                throw new Error("No RTTI of " + OBJECT_CLASS, e);
++            }
++        }
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java
+index 224c61ad1e..6b885fa1da 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java
+@@ -11,21 +11,40 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-import com.sun.fortress.compiler.runtimeValues.FNN64.RTTIc;
+ 
+-public class FNN64  extends fortress.CompilerBuiltin.NN64.DefaultTraitMethods implements fortress.CompilerBuiltin.NN64  {
++/** PROBE 33 (way C, form 2): the payload of the value object NN64; the code generator writes the object's class over it. */
++public abstract class FNN64 extends FValue {
+     final long val;
+ 
+-    private FNN64(long x) { val = x; }
++    protected FNN64(long x) { val = x; }
+     public String toString() { return Long.toUnsignedString(val);}
+     public long getValue() {return val;}
+-    public static FNN64 make(long x) {return new FNN64(x);}
+-    
+-    @Override
+-    public RTTI getRTTI() { return RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.NN64.RTTIc {
+-        private RTTIc() { super(FNN64.class); };
+-        public static final RTTI ONLY = new RTTIc();
++    public static FNN64 make(long x) {
++        try { return (FNN64) MAKE.invokeExact(x); } catch (Throwable t) { throw new Error(t); }
++    }
++    /** PROBE 33: the object's class, by the selected library's name for it. */
++    static final String OBJECT_CLASS = LibraryNames.numberObjectClass("NN64");
++    private static final java.lang.invoke.MethodHandle MAKE;
++    static {
++        try {
++            Class<?> c = Class.forName(OBJECT_CLASS, false, FNN64.class.getClassLoader());
++            MAKE = java.lang.invoke.MethodHandles.publicLookup().findStatic(c, "make",
++                java.lang.invoke.MethodType.methodType(FNN64.class, long.class));
++        } catch (ReflectiveOperationException e) {
++            throw new Error("No class " + OBJECT_CLASS + " for NN64", e);
++        }
++    }
++
++    /** PROBE 33: compiled code names a static argument NN64 by its payload class; its RTTI is the object's. */
++    public static final class RTTIc {
++        public static final RTTI ONLY;
++        static {
++            try {
++                Class<?> c = Class.forName(OBJECT_CLASS, true, FNN64.class.getClassLoader());
++                ONLY = (RTTI) c.getField("RTTI").get(null);
++            } catch (ReflectiveOperationException e) {
++                throw new Error("No RTTI of " + OBJECT_CLASS, e);
++            }
++        }
+     }
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR32.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR32.java
+index 29274be56a..532ebeb3dc 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR32.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR32.java
+@@ -11,21 +11,40 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public class FRR32  extends fortress.CompilerBuiltin.RR32.DefaultTraitMethods
+-implements fortress.CompilerBuiltin.RR32, fortress.CompilerBuiltin.RR64 {
++/** PROBE 33 (way C, form 2): the payload of the value object RR32; the code generator writes the object's class over it. */
++public abstract class FRR32 extends FValue {
+     final float val;
+ 
+-    private FRR32(float x) { val = x; }
++    protected FRR32(float x) { val = x; }
+     public String toString() { return "" + val;}
+     public float getValue() {return val;}
+-    public static FRR32 make(float x) {return new FRR32(x);}
+-    
+-    @Override
+-    public RTTI getRTTI() { return RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.RR32.RTTIc {
+-        private RTTIc() { super(FRR32.class); };
+-        public static final RTTI ONLY = new RTTIc();
++    public static FRR32 make(float x) {
++        try { return (FRR32) MAKE.invokeExact(x); } catch (Throwable t) { throw new Error(t); }
+     }
+ 
++    /** PROBE 33: the object's class, by the selected library's name for it. */
++    static final String OBJECT_CLASS = LibraryNames.numberObjectClass("RR32");
++    private static final java.lang.invoke.MethodHandle MAKE;
++    static {
++        try {
++            Class<?> c = Class.forName(OBJECT_CLASS, false, FRR32.class.getClassLoader());
++            MAKE = java.lang.invoke.MethodHandles.publicLookup().findStatic(c, "make",
++                java.lang.invoke.MethodType.methodType(FRR32.class, float.class));
++        } catch (ReflectiveOperationException e) {
++            throw new Error("No class " + OBJECT_CLASS + " for RR32", e);
++        }
++    }
++
++    /** PROBE 33: compiled code names a static argument RR32 by its payload class; its RTTI is the object's. */
++    public static final class RTTIc {
++        public static final RTTI ONLY;
++        static {
++            try {
++                Class<?> c = Class.forName(OBJECT_CLASS, true, FRR32.class.getClassLoader());
++                ONLY = (RTTI) c.getField("RTTI").get(null);
++            } catch (ReflectiveOperationException e) {
++                throw new Error("No RTTI of " + OBJECT_CLASS, e);
++            }
++        }
++    }
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java
+index 4e0579da5e..cb6fec71a0 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java
+@@ -11,21 +11,40 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public final class FRR64 extends fortress.CompilerBuiltin.RR64.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.RR64 {
++/** PROBE 33 (way C, form 2): the payload of the value object RR64; the code generator writes the object's class over it. */
++public abstract class FRR64 extends FValue {
+     final double val;
+ 
+-    private FRR64(double x) { val = x; }
++    protected FRR64(double x) { val = x; }
+     public String toString() { return String.valueOf(val); }
+     public FJavaString asString() { return FJavaString.make(String.valueOf(val)); }
+     public double getValue() {return val;}
+-    public static FRR64 make(double x) {return new FRR64(x);}
+-
+-    @Override
+-    public RTTI getRTTI() { return RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.RR64.RTTIc {
+-        private RTTIc() { super(FRR64.class); };
+-        public static final RTTI ONLY = new RTTIc();
++    public static FRR64 make(double x) {
++        try { return (FRR64) MAKE.invokeExact(x); } catch (Throwable t) { throw new Error(t); }
++    }
++    /** PROBE 33: the object's class, by the selected library's name for it. */
++    static final String OBJECT_CLASS = LibraryNames.numberObjectClass("RR64");
++    private static final java.lang.invoke.MethodHandle MAKE;
++    static {
++        try {
++            Class<?> c = Class.forName(OBJECT_CLASS, false, FRR64.class.getClassLoader());
++            MAKE = java.lang.invoke.MethodHandles.publicLookup().findStatic(c, "make",
++                java.lang.invoke.MethodType.methodType(FRR64.class, double.class));
++        } catch (ReflectiveOperationException e) {
++            throw new Error("No class " + OBJECT_CLASS + " for RR64", e);
++        }
++    }
++
++    /** PROBE 33: compiled code names a static argument RR64 by its payload class; its RTTI is the object's. */
++    public static final class RTTIc {
++        public static final RTTI ONLY;
++        static {
++            try {
++                Class<?> c = Class.forName(OBJECT_CLASS, true, FRR64.class.getClassLoader());
++                ONLY = (RTTI) c.getField("RTTI").get(null);
++            } catch (ReflectiveOperationException e) {
++                throw new Error("No RTTI of " + OBJECT_CLASS, e);
++            }
++        }
+     }
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ.java
+index 4f0af99964..0343af706c 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ.java
+@@ -11,23 +11,42 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-import com.sun.fortress.compiler.runtimeValues.FZZ.RTTIc;
+ import java.math.BigInteger;
+ 
+-public class FZZ  extends fortress.CompilerBuiltin.ZZ.DefaultTraitMethods implements fortress.CompilerBuiltin.ZZ  {
++/** PROBE 33 (way C, form 2): the payload of the value object ZZ; the code generator writes the object's class over it. */
++public abstract class FZZ extends FValue {
+     final BigInteger val;
+ 
+-    private FZZ(String x) { val = new BigInteger(x); }
++    protected FZZ(String x) { val = new BigInteger(x); }
+     public String toString() { return val.toString();}
+     public BigInteger getValue() {return val;}
+-    public static FZZ make(String x) {return new FZZ(x);}
+-    public static FZZ make(BigInteger x) {return new FZZ(x.toString());}
+-    
+-    @Override
+-    public RTTI getRTTI() { return RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.ZZ.RTTIc {
+-        private RTTIc() { super(FZZ.class); };
+-        public static final RTTI ONLY = new RTTIc();
++    public static FZZ make(String x) {
++        try { return (FZZ) MAKE.invokeExact(x); } catch (Throwable t) { throw new Error(t); }
++    }
++    public static FZZ make(BigInteger x) {return make(x.toString());}
++    /** PROBE 33: the object's class, by the selected library's name for it. */
++    static final String OBJECT_CLASS = LibraryNames.numberObjectClass("ZZ");
++    private static final java.lang.invoke.MethodHandle MAKE;
++    static {
++        try {
++            Class<?> c = Class.forName(OBJECT_CLASS, false, FZZ.class.getClassLoader());
++            MAKE = java.lang.invoke.MethodHandles.publicLookup().findStatic(c, "make",
++                java.lang.invoke.MethodType.methodType(FZZ.class, String.class));
++        } catch (ReflectiveOperationException e) {
++            throw new Error("No class " + OBJECT_CLASS + " for ZZ", e);
++        }
++    }
++
++    /** PROBE 33: compiled code names a static argument ZZ by its payload class; its RTTI is the object's. */
++    public static final class RTTIc {
++        public static final RTTI ONLY;
++        static {
++            try {
++                Class<?> c = Class.forName(OBJECT_CLASS, true, FZZ.class.getClassLoader());
++                ONLY = (RTTI) c.getField("RTTI").get(null);
++            } catch (ReflectiveOperationException e) {
++                throw new Error("No RTTI of " + OBJECT_CLASS, e);
++            }
++        }
+     }
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java
+index e75c182c3e..d792e9382b 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java
+@@ -11,11 +11,15 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public final class FZZ32 extends fortress.CompilerBuiltin.ZZ32.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.ZZ32 {
++/**
++ * PROBE 33 (way C, form 2): the payload of the value object ZZ32.  The code
++ * generator writes the object's own class, which extends this one; this class
++ * extends nothing generated, so it names no library and needs no stub.
++ */
++public abstract class FZZ32 extends FValue {
+     final int val;
+ 
+-    private FZZ32(int x) { val = x; }
++    protected FZZ32(int x) { val = x; }
+     public String toString() { return String.valueOf(val);}
+     public FJavaString asString() { return FJavaString.make(String.valueOf(val));}
+     public int getValue() {return val;}
+@@ -29,16 +33,41 @@ public final class FZZ32 extends fortress.CompilerBuiltin.ZZ32.DefaultTraitMetho
+         return make(b.intValue());
+     }
+ 
++    /** PROBE 33: the object's class, by the selected library's name for it. */
++    static final String OBJECT_CLASS = LibraryNames.numberObjectClass("ZZ32");
++    private static final java.lang.invoke.MethodHandle MAKE;
++    static {
++        try {
++            Class<?> c = Class.forName(OBJECT_CLASS, false, FZZ32.class.getClassLoader());
++            MAKE = java.lang.invoke.MethodHandles.publicLookup().findStatic(c, "make",
++                java.lang.invoke.MethodType.methodType(FZZ32.class, int.class));
++        } catch (ReflectiveOperationException e) {
++            throw new Error("No class " + OBJECT_CLASS + " for ZZ32", e);
++        }
++    }
++
+     public static FZZ32 make(int x) {
+-        return new FZZ32(x);
++        try {
++            return (FZZ32) MAKE.invokeExact(x);
++        } catch (Throwable t) {
++            throw new Error(t);
++        }
+     }
+     public static FZZ32 plus(FZZ32 a, FZZ32 b) {return make(a.getValue() + b.getValue());}
+     
+-    @Override
+-    public RTTI getRTTI() { return RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.ZZ32.RTTIc {
+-        private RTTIc() { super(FZZ32.class); };
+-        public static final RTTI ONLY = new RTTIc();
++    /**
++     * PROBE 33: compiled code names a static argument ZZ32 by its payload class, so it
++     * reads the type's RTTI here; it is the RTTI of the object's class.
++     */
++    public static final class RTTIc {
++        public static final RTTI ONLY;
++        static {
++            try {
++                Class<?> c = Class.forName(OBJECT_CLASS, true, FZZ32.class.getClassLoader());
++                ONLY = (RTTI) c.getField("RTTI").get(null);
++            } catch (ReflectiveOperationException e) {
++                throw new Error("No RTTI of " + OBJECT_CLASS, e);
++            }
++        }
+     }
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ64.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ64.java
+index a29845ec6c..e746e5f9ef 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ64.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ64.java
+@@ -11,19 +11,39 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public class FZZ64  extends fortress.CompilerBuiltin.ZZ64.DefaultTraitMethods implements fortress.CompilerBuiltin.ZZ64  {
++/** PROBE 33 (way C, form 2): the payload of the value object ZZ64; the code generator writes the object's class over it. */
++public abstract class FZZ64 extends FValue {
+     final long val;
+ 
+-    private FZZ64(long x) { val = x; }
++    protected FZZ64(long x) { val = x; }
+     public String toString() { return "" + val;}
+     public long getValue() {return val;}
+-    public static FZZ64 make(long x) {return new FZZ64(x);}
+-    
+-    @Override
+-    public RTTI getRTTI() { return RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.ZZ64.RTTIc {
+-        private RTTIc() { super(FZZ64.class); };
+-        public static final RTTI ONLY = new RTTIc();
++    public static FZZ64 make(long x) {
++        try { return (FZZ64) MAKE.invokeExact(x); } catch (Throwable t) { throw new Error(t); }
++    }
++    /** PROBE 33: the object's class, by the selected library's name for it. */
++    static final String OBJECT_CLASS = LibraryNames.numberObjectClass("ZZ64");
++    private static final java.lang.invoke.MethodHandle MAKE;
++    static {
++        try {
++            Class<?> c = Class.forName(OBJECT_CLASS, false, FZZ64.class.getClassLoader());
++            MAKE = java.lang.invoke.MethodHandles.publicLookup().findStatic(c, "make",
++                java.lang.invoke.MethodType.methodType(FZZ64.class, long.class));
++        } catch (ReflectiveOperationException e) {
++            throw new Error("No class " + OBJECT_CLASS + " for ZZ64", e);
++        }
++    }
++
++    /** PROBE 33: compiled code names a static argument ZZ64 by its payload class; its RTTI is the object's. */
++    public static final class RTTIc {
++        public static final RTTI ONLY;
++        static {
++            try {
++                Class<?> c = Class.forName(OBJECT_CLASS, true, FZZ64.class.getClassLoader());
++                ONLY = (RTTI) c.getField("RTTI").get(null);
++            } catch (ReflectiveOperationException e) {
++                throw new Error("No RTTI of " + OBJECT_CLASS, e);
++            }
++        }
+     }
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java
+new file mode 100644
+index 0000000000..ab8154c18c
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java
+@@ -0,0 +1,19 @@
++/*******************************************************************************
++    PROBE 33: the names of the classes that the code generator writes for the
++    built-in number objects, in the library that the compiled path reads.
++ ******************************************************************************/
++
++package com.sun.fortress.compiler.runtimeValues;
++
++public final class LibraryNames {
++    private LibraryNames() {}
++
++    /** The selected library: the prelude unless FORTRESS_LIBRARY or fortress.library says "one". */
++    public static final boolean ONE_LIBRARY =
++        "one".equals(System.getProperty("fortress.library", System.getenv("FORTRESS_LIBRARY")));
++
++    /** The JVM name of the class of the value object that is the number type {@code t}. */
++    public static String numberObjectClass(String t) {
++        return (ONE_LIBRARY ? "fortress.FortressLibrary$" : "fortress.CompilerBuiltin$") + t;
++    }
++}

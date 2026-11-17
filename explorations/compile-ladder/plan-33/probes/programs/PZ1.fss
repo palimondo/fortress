@@ -1,0 +1,20 @@
+component PZ1
+export Executable
+run(): () = do
+  k: ZZ32 = 3
+  m: ZZ32 = k + 4
+  println(m)
+  println(m.asString)
+  println(k < 5)
+  println(k MAX 9)
+  println(k.asZZ)
+  z: Any = k
+  typecase z of
+    ZZ32 => println("ZZ32 arm")
+    else => println("other arm")
+  end
+  var acc: ZZ32 := 0
+  for i <- seq(0#10) do acc := acc + i end
+  println(acc)
+end
+end
