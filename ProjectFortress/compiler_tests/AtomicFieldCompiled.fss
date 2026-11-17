@@ -1,0 +1,60 @@
+(* A var field is inside an atomic block's transaction: parallel increments are exact on a var value parameter, a var field of the body and a generic object's var value parameter, and an immutable field reads as before. *)
+component AtomicFieldCompiled
+export Executable
+
+object Ctr(var n: ZZ32)
+    getter count(): ZZ32 = n
+    bump(): () = atomic do n := n + 1 end
+end
+
+object Tally(start: ZZ32)
+    var total: ZZ32 = start
+    step: ZZ32 = 2
+    getter sum(): ZZ32 = total
+    getter first(): ZZ32 = start
+    getter stride(): ZZ32 = step
+    add(): () = atomic do total := total + step end
+    steady(): Boolean = atomic do
+        once = total
+        twice = total
+        (once = twice)
+      end
+    reset(x: ZZ32): () = do total := x end
+end
+
+object Box[\T extends Object\](var val: T)
+    getter contents(): T = val
+    update(f: T -> T): () = atomic do val := f(val) end
+end
+
+inc(x: ZZ32): ZZ32 = x + 1
+
+rounds: ZZ32 = 40000
+
+torn: ZZ32 := 0
+
+run(): () = do
+    c = Ctr(0)
+    t = Tally(5)
+    b = Box[\ZZ32\](0)
+    before = t.sum
+    t.reset(7)
+    for i <- 1#rounds do c.bump() end
+    for i <- 1#rounds do
+        t.add()
+        if NOT t.steady() then atomic do torn := torn + 1 end end
+    end
+    for i <- 1#rounds do b.update(inc) end
+    expected: ZZ32 = 7 + 2 rounds
+    if (c.count = rounds) AND (before = 5) AND (t.sum = expected) AND (torn = 0)
+            AND (b.contents = rounds) AND (t.first = 5) AND (t.stride = 2) then
+        println("PASS")
+    else
+        println("FAIL: value parameter " c.count " (expected " rounds "), body field " t.sum
+                " (expected " expected "), torn reads " torn
+                ", generic value parameter " b.contents " (expected " rounds
+                "), immutable fields " t.first " and " t.stride " (expected 5 and 2)")
+    end
+  end
+
+end

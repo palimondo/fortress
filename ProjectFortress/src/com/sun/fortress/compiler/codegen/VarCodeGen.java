@@ -199,38 +199,41 @@ public abstract class VarCodeGen {
 
     }
 
-    public static class MutableFieldVar extends NeedsType {
-        public MutableFieldVar(IdOrOp id, Type fortressType, String owner, String name, String desc) {
-            super(id, fortressType, owner, name, desc);
+    /** A var field of an object, a var value parameter among them.  The object's field holds a
+     *  MutableFValue cell and the value lives in the cell, as for a top-level var, so that reads
+     *  and writes go through the current transaction and a nested code-generation context
+     *  captures the cell: it is a MutableStaticBinding whose cell is reached through the object.
+     */
+    public static class MutableFieldVar extends MutableStaticBinding {
+        private final IdOrOp id;
+
+        public MutableFieldVar(IdOrOp id, Type fortressType, String owner, String name,
+                               String typeInternalName) {
+            super(id, fortressType, owner, name, typeInternalName);
+            this.id = id;
         }
 
-        public void pushValue(CodeGenMethodVisitor mv) {
+        protected void pushCell(CodeGenMethodVisitor mv) {
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitFieldInsn(Opcodes.GETFIELD, packageAndClassName, objectFieldName, classDesc);
         }
 
-
-        public void assignValue(CodeGenMethodVisitor mv) {
-            // URG, another case of meeting assumptions.
-            // We get here with the value to assign on the stack, but not the 
-            // object, so load the object, and then swap them, and add a return val
-            // to keep the rest of codegen happy.
-            mv.visitVarInsn(Opcodes.ALOAD,0);
-            mv.visitInsn(Opcodes.SWAP);
-            mv.visitFieldInsn(Opcodes.PUTFIELD, packageAndClassName, objectFieldName, classDesc);
-            //            mv.visitMethodInsn(Opcodes.INVOKESTATIC, NamingCzar.internalFortressVoid, NamingCzar.make,
-            //                               Naming.makeMethodDesc("", NamingCzar.descFortressVoid));
+        /** The field's write in the object's constructor: a new cell around the value on the
+         *  stack, stored in the object's field. */
+        public VarCodeGen firstWrite() {
+            return new FieldVar(id, fortressType, packageAndClassName, objectFieldName, classDesc) {
+                public void assignValue(CodeGenMethodVisitor mv) {
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC,
+                                       "com/sun/fortress/compiler/runtimeValues/MutableFValue",
+                                       "make",
+                                       "(" + NamingCzar.descFortressAny + ")" + classDesc);
+                    super.assignValue(mv);
+                }
+            };
         }
 
         public String toString() {
             return "VarCodeGen[MutableFieldVar] " + name + ":" + fortressType;
-        }
-
-
-        @Override
-        public void outOfScope(CodeGenMethodVisitor mv) {
-            // TODO Auto-generated method stub
-
         }
 
     }
@@ -319,7 +322,7 @@ public abstract class VarCodeGen {
             this.typeInternalName = typeInternalName;
         }
 
-        private void pushCell(CodeGenMethodVisitor mv) {
+        protected void pushCell(CodeGenMethodVisitor mv) {
             mv.visitFieldInsn(Opcodes.GETSTATIC, packageAndClassName, objectFieldName, classDesc);
         }
 

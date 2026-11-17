@@ -1,0 +1,34 @@
+(* A loop body and a function expression inside an object's method read and write the object's var field itself, not a copy made when the body or the function was built. *)
+component VarFieldCapturedCompiled
+export Executable
+
+object Ctr(var n: ZZ32)
+    var m: ZZ32 = 10
+    getter count(): ZZ32 = n
+    getter other(): ZZ32 = m
+    fill(k: ZZ32): () = for i <- 1#k do atomic do n := n + 1 end end
+    reader(): () -> ZZ32 = fn () => n + m
+    writer(): ZZ32 -> () = fn (x: ZZ32) => do n := x; m := x + 1 end
+    set(x: ZZ32): () = do n := x; m := x end
+end
+
+run(): () = do
+    c = Ctr(1)
+    r = c.reader()
+    w = c.writer()
+    first = r()
+    c.set(5)
+    second = r()
+    w(7)
+    third = c.count + c.other
+    c.fill(1000)
+    fourth = c.count
+    if (first = 11) AND (second = 10) AND (third = 15) AND (fourth = 1007) then
+        println("PASS")
+    else
+        println("FAIL: a function's reads " first " and " second " (expected 11 and 10), after a function's write "
+                third " (expected 15), after a loop's writes " fourth " (expected 1007)")
+    end
+  end
+
+end

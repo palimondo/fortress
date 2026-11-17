@@ -1867,6 +1867,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         mv.visitLabel(exit);
     }
 
+    /** An atomic expression over a body that is no do block: the code of the atomic block that
+     *  holds the body alone, which is what the parser makes of atomic do e end. */
+    public void forAtomicExpr(com.sun.fortress.nodes.AtomicExpr x) {
+        Expr body = x.getExpr();
+        forAtomicBlock(ExprFactory.makeBlock(NodeUtil.getSpan(x), NodeUtil.getExprType(x), true, true,
+                                             Collections.<Expr>singletonList(body)));
+    }
+
 
     public void forBlock(Block x) {
         if (x.isAtomicBlock()) {
@@ -4817,9 +4825,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         	
         	String paramName = p.getName().getText();
    		   	Type paramType = (Type)p.getIdType().unwrap();
-   		   	String typeDesc = NamingCzar.jvmBoxedTypeDesc(paramType, thisApi());
    		   	Id id = NodeFactory.makeId(NodeUtil.getSpan(p.getName()), paramName);
-   		   	VarCodeGen vcg = new VarCodeGen.FieldVar(id,
+   		   	// A var value parameter is kept in a cell, as a top-level var is, so that a
+   		   	// transaction tracks it: the object's field holds the cell and is written once.
+   		   	boolean inCell = NodeUtil.isMutable(p);
+   		   	String typeDesc = inCell ? NamingCzar.descFortressMutableFValueInternal
+   		   	                         : NamingCzar.jvmBoxedTypeDesc(paramType, thisApi());
+   		   	VarCodeGen.MutableFieldVar cellVcg = !inCell ? null :
+   		   	    new VarCodeGen.MutableFieldVar(id, paramType, cnb.className, paramName,
+   		   	                                   NamingCzar.jvmBoxedTypeName(paramType, thisApi()));
+   		   	VarCodeGen vcg = inCell ? cellVcg : new VarCodeGen.FieldVar(id,
                paramType,
                cnb.className,
                paramName,
@@ -4832,7 +4847,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                null /* for non-generic */, null /* instance has no value */);
    		   	
    		   	//2) add field with initializer as a refernce to the parameter
-   		   	initCodeGen.instanceFields.put(vcg, ExprFactory.makeVarRef(id));
+   		   	initCodeGen.instanceFields.put(inCell ? cellVcg.firstWrite() : vcg, ExprFactory.makeVarRef(id));
    		   	
    		   	//3) add param to scope for init method only
    		   	initCodeGen.addStaticVar(new VarCodeGen.ParamVar(id, paramType, initCodeGen));
@@ -4847,7 +4862,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         // 3) add field to scope for use in methods
         for (Decl d : header.getDecls()) {
             if (d instanceof VarDecl) {
-         	   // TODO need to spot for "final" fields.  Right now we assume mutable, not final.
+         	   // A var field is kept in a cell, as a var value parameter is; any other field
+         	   // holds its value, and is written only by the constructor.
                final VarDecl vd = (VarDecl) d;
                final CodeGen cg = this;
          	   int numDecls = vd.getLhs().size();
@@ -4855,9 +4871,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          		   LValue l = vd.getLhs().get(i);
          		   String fieldName = l.getName().getText();
          		   Type fieldType = (Type)l.getIdType().unwrap();
-         		   String typeDesc = NamingCzar.jvmBoxedTypeDesc(fieldType, thisApi());
          		   Id id = NodeFactory.makeId(NodeUtil.getSpan(l.getName()), fieldName);
-         		   VarCodeGen fieldVcg = new VarCodeGen.MutableFieldVar(id,
+         		   boolean inCell = l.isMutable();
+         		   String typeDesc = inCell ? NamingCzar.descFortressMutableFValueInternal
+         		                            : NamingCzar.jvmBoxedTypeDesc(fieldType, thisApi());
+         		   VarCodeGen.MutableFieldVar cellVcg = !inCell ? null :
+         		       new VarCodeGen.MutableFieldVar(id, fieldType, cnb.className, fieldName,
+         		                                      NamingCzar.jvmBoxedTypeName(fieldType, thisApi()));
+         		   VarCodeGen fieldVcg = inCell ? cellVcg : new VarCodeGen.FieldVar(id,
                          fieldType,
                          cnb.className,
                          fieldName,
@@ -4865,7 +4886,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         		   
          		   //1) add field to class
          		   cw.visitField(
-         	             ACC_PUBLIC,
+         	             inCell ? ACC_PUBLIC + ACC_FINAL : ACC_PUBLIC,
          	             fieldName, typeDesc,
          	             null /* for non-generic */, null /* instance has no value */);
          		   
@@ -4879,7 +4900,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          				   sayWhat(vd, "incorrect initialization for declared fields tuple");
          			   init = tupleExprs.get(i);
          		   }
-         		   initCodeGen.instanceFields.put(fieldVcg, init);
+         		   initCodeGen.instanceFields.put(inCell ? cellVcg.firstWrite() : fieldVcg, init);
          		   
          		   //3) add field to scope for method codegen
          		   addStaticVar(fieldVcg);
