@@ -122,9 +122,10 @@ public class Instantiater extends ClassVisitor {
         	String newParams = newDesc.substring(newDesc.indexOf("(") +1,
 					   							 newDesc.indexOf(")"));
         	if(params.split(";").length == 1 && //single generic parameter 
-        			newParams.startsWith("LTuple") &&  //tuple substituted in
-        			// not one already a tuple, which takes the elements in a method beside it
-        			!Naming.demangleFortressDescriptor(params).startsWith("LTuple")) {
+        			// a tuple substituted in, not a class whose name begins Tuple, nor a
+        			// parameter already a tuple, whose elements a method beside it takes
+        			newParams.startsWith("L" + Naming.TUPLE_OX) &&
+        			!Naming.demangleFortressDescriptor(params).startsWith("L" + Naming.TUPLE_OX)) {
         		//System.out.println(access + " " + name + " " + signature + " " +this.instanceName);
         		if ( (this.access_flags & Opcodes.ACC_INTERFACE) == 0 &&  //not in an interface
         			 (access & Opcodes.ACC_STATIC) == 0) {  //and not a static method, so generate a body  

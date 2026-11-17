@@ -1,3 +1,4 @@
 tests=TupleNamedComponentGenericParam
+link
 run
-run_out_contains=REACHED
+run_out_contains=PASS
