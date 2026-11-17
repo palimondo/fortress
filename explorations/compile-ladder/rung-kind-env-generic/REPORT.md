@@ -133,7 +133,7 @@ None. `grep -rn "kind env\|row~812\|row~822" Specification/` finds nothing; Appe
 ## Decisions
 
 1. **Extend the analyzer at the constructor's call** (`CodeGen.java:500-502`), by `extendJ` with the type's static parameters and `where` clause, as `:2204-2205` and `:5915-5916` do. Not taken: a change in `STypesUtil.removeIdenticallyCoveredMethods` (outside the rung's files); `TypeAnalyzer.staticParam` answering a missing variable (`TypeAnalyzer.scala:1102`; hides every such gap, and the checker's code).
-2. **Extend the analyzer for a generic body in `GenericMethodBodyMakerFnDecl`**, from the declaration's header, its `where` clause included (V1 names the `where` clause's variables). Not taken: `generateGenericFunctionClass` from `FnNameInfo.static_params` (`CodeGen.java:2645`), which has no `where` clause; `forFnDecl`, which also serves the non-generic paths; a hook on `GenericMethodBodyMaker`, whose other maker (`OverloadSet.java:2421-2430`) writes dispatch bytecode and normalizes no type.
+2. **Extend the analyzer for a generic body in `GenericMethodBodyMakerFnDecl`**, from the declaration's header, its `where` clause included (V1 names the `where` clause's variables). Not taken: `generateGenericFunctionClass` from `FnNameInfo.static_params` (`CodeGen.java:2659`), which has no `where` clause; `forFnDecl`, which also serves the non-generic paths; a hook on `GenericMethodBodyMaker`, whose other maker (`OverloadSet.java:2421-2430`) writes dispatch bytecode and normalizes no type.
 3. **Bind a tuple pattern's names in `forTypecase`, in this rung.** Evidence: row 822's recorded stack (`CodeGen.forVarRef`, `TypeAnalyzer.normalize`) is the fresh-import path that only an unbound name takes (the base's trace of test 2: `CodeGen.forVarRef(CodeGen.java:6892)`); with the kind environment alone, test 2 stops at 'Error trying to close method scope' on `GETSTATIC TypecaseGenericArmsCompiled$a'.ONLY`; the brief's test is `app`'s arms, which read those names. Not taken: test 2 with single-name clauses and the tuple names left to an `XXX` test and a row, which leaves `app`, `APPCOV` and `__bigOperator2` at the unbound name; binding the names in a desugarer, a phase that walk shares.
 4. **Test 1 also calls a member of `C` in a generic function** (`joined[\T\]`), the path behind the constructor's wall (F-34's `ArrayList`), since test 2, after `forTypecase`'s edit, no longer needs the body's environment (`P812g` and the scratch copy above). Not taken: a third topic test for the generic body alone.
 5. **Test 2's `else` clause reads the parameters** (`sz[\E\](a) - sz[\F\](b)`), not `0`: a numeral arm in a function whose declared result is `ZZ32` meets row 340 (`PNoFork`). Not taken: `do 0 end`, row 340's workaround, which writes the workaround into a test of another topic.
@@ -149,6 +149,10 @@ None. `grep -rn "kind env\|row~812\|row~822" Specification/` finds nothing; Appe
 - NEW-V-1, a typecase tuple pattern's names unbound on the compiled path: home 1, repaired in this rung; `TypecaseTupleNamesCompiled`, and the arms of `TypecaseGenericArmsCompiled`. A row is given in `record.md` so that the record finds the defect by its words; it closes with this rung's commit.
 - `APPCOV`'s fall-through `()` where its result type is a trait, by reading only: not measured, no home taken; the rung that first runs `APPCOV` compiled meets it.
 - Row 340 met again (`PNoFork`, a numeral `else` arm): its row holds it; nothing added.
+
+## A refused call
+
+To size a note on row 540, I ran `ledger.py note 540 ... --check`; the automatic permission check refused it, and the brief forbids `note` in any case. Nothing was written. The row was sized by reading it (`facts-extract.sh 'ledger:540'`: 1,141 characters, 632 in its notes), and `record.md` gives it no note.
 
 ## For FACTS
 
