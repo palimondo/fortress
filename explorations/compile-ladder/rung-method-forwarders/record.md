@@ -32,7 +32,11 @@ The code is commit d6553284ed on `wip/rung-method-forwarders`, cut from c1ce2a35
 
 | NEW-M-1 | the compiled checker refuses an object that reaches a generic trait's method along two paths, one of them through a trait that declares the method again at the same parameter types, and accepts the same object where the traits have no static parameters; walk runs the lower trait's declaration | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/TraitMethodDiamondRedeclaredCompiled.test` | climb batch 31 rung M | siblings: 990. Plain: `trait Top m(): String = "Top" end`, `trait Plain extends Top end`, `trait Again extends Top m(): String = "Again" end`, `object O extends { Plain, Again } end` compiles and prints `Again`, on c1ce2a35e1 and after rung M, in each order of the extends clause; the test asserts it. Generic: `P[\T extends P[\T\]\]` with `m(o: T)`, `A[\T\]` and `B[\T\]` below it, `B` declaring `m(o: T)` again, `object O extends { A[\O\], B[\O\] }`: 'There are multiple declarations of m with the same parameter type: (O)'; walk prints `B`. Which answer the traits chapter gives is not decided: by its text `O` inherits both declarations. |
 
-Both lines pass `ledger.py check --rows`, the second but for its number.
+- **New row NEW-M-2**, the skeptic's, for the same section:
+
+| NEW-M-2 | a compiled call of an object's own functional method with self not first, beside an inherited one over a wider parameter type, runs the object's declaration for every argument where the receiver itself has the own declaration's parameter type, with no error | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/XXXFunctionalMethodSelfSecondReceiverTested.test` | climb batch 31 rung M's skeptic | siblings: 573, 571. `object Pq extends { K, P }` declares `mark(x: K, self)` beside `P`'s `mark(x: Any, self)`: `mark(1, Pq)` and `mark("s", Pq)` answer 3 where walk answers 1; with self first both paths answer 1. It is row 573's site, the dispatch method's type test on `aload_0`, the receiver, which here passes. On c1ce2a35e1 the class did not load ('Duplicate method name "mark?1"', row 571); since rung M it loads and answers wrongly. |
+
+The three lines pass `ledger.py check --rows`, the two new rows but for their numbers.
 
 ## Handover line
 
