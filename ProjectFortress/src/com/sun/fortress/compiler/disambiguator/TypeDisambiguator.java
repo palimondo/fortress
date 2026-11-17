@@ -56,7 +56,9 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
     private final TypeNameEnv _env;
     private final Set<IdOrOpOrAnonymousName> _onDemandImports;
     private final List<StaticError> _errors;
-    private Boolean forTypecaseClause = false;
+    // In a typecase clause's type, the names that the clause binds where they name no type:
+    // the elements of a tuple of names, as (x, y) => ...; empty elsewhere.
+    private Set<VarType> typecaseTupleNames = Collections.<VarType>emptySet();
     private Boolean rewriteTypecaseClause = false;
 
     public TypeDisambiguator(TypeNameEnv env, Set<IdOrOpOrAnonymousName> onDemandImports, List<StaticError> errors) {
@@ -237,17 +239,13 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
 
     @Override
     public Node forTypecaseClause(final TypecaseClause that) {
-        forTypecaseClause = true;
         Span span = NodeUtil.getSpan(that);
         Option<Id> name_result = that.getName();
         TypeOrPattern tp = that.getMatchType();
         TypeOrPattern matchType_result;
+        typecaseTupleNames = tupleElementNames(tp);
         matchType_result = (TypeOrPattern) recur(tp);
-        if (name_result.isNone() && matchType_result instanceof VarType &&
-            _env.hasTypeParam(((VarType)matchType_result).getName()).isNone()) {
-            name_result = Option.<Id>some(((VarType)matchType_result).getName());
-            matchType_result = NodeFactory.makeAnyType(span);
-        }
+        typecaseTupleNames = Collections.<VarType>emptySet();
         if (rewriteTypecaseClause && matchType_result instanceof TupleType) {
             List<PatternBinding> ps = new ArrayList<PatternBinding>();
             for (Type t : ((TupleType)matchType_result).getElements()) {
@@ -257,10 +255,23 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
                                                        NodeFactory.makePatternArgs(span, ps));
         }
         // the body binds no name by a type: a name there that names no type is undefined
-        forTypecaseClause = false;
         rewriteTypecaseClause = false;
         Block body_result = (Block) recur(that.getBody());
         return forTypecaseClauseOnly(that, that.getInfo(), name_result, matchType_result, body_result);
+    }
+
+    /** The names that are elements of a tuple type, at any depth of nested tuples. */
+    private static Set<VarType> tupleElementNames(TypeOrPattern t) {
+        Set<VarType> names = Collections.newSetFromMap(new IdentityHashMap<VarType, Boolean>());
+        if (t instanceof TupleType) addTupleElementNames((TupleType) t, names);
+        return names;
+    }
+
+    private static void addTupleElementNames(TupleType t, Set<VarType> names) {
+        for (Type e : t.getElements()) {
+            if (e instanceof VarType) names.add((VarType) e);
+            else if (e instanceof TupleType) addTupleElementNames((TupleType) e, names);
+        }
     }
 
     @Override
@@ -387,9 +398,9 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
                     _onDemandImports.add(n);
                 }
                 if (typeConses.isEmpty()) {
-                    // In a typecase clause a bare name that names no type is a binding;
-                    // a name applied to static arguments cannot be one.
-                    if (forTypecaseClause && that instanceof VarType)
+                    // A name that names no type is undefined, in a typecase clause's type too,
+                    // except an element of a tuple of names, which the clause binds.
+                    if (that instanceof VarType && typecaseTupleNames.contains(that))
                         rewriteTypecaseClause = true;
                     else
                         error(NodeUtil.nameString(n) + " is undefined.", n);
