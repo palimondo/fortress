@@ -80,7 +80,7 @@ At load, walk checks the overload sets, some `comprises` clauses, inherited abst
   - Beside a generic declaration, it does not judge by the Return Type Rule a declaration without static parameters that writes no return type and whose parameter types are object types, as the number types other than `QQ` are: `pick[\T extends Number\](a: T): ZZ32 = 1` beside `pick(a: NN32) = "two"` loads (ledger row 1044). Write the return type.
   - It reads no `comprises` clause for the Return Type Rule. So it refuses a valid pair over a program's own trait that comprises one object, as `pickFirst[\T extends Number\](a: T, b: T): T` beside `pickFirst(a: Mine, b: Mine): Mine`, where `Mine` extends `Number` and comprises one object.
   - It refuses a valid pair where the generic declaration's result is a tuple that holds its type parameter, as `pt[\T extends Number\](a: T): (T, ZZ32)` beside `pt(a: RR64): (RR64, ZZ32)`: 'fails the Return Type Rule' (ledger row 1058).
-  - It reads two parameter lists as excluding where every parameter at which they differ is an object type, also an object below the other's type. So `f(x: Number): ZZ32` beside `f(x: ZZ64): String` loads, which the checker refuses (ledger row 697).
+  - It reads two parameter lists as excluding where, in one of them, every parameter at which the two differ is an object type, even an object below the other list's type there. So `f(x: Number): ZZ32` beside `f(x: ZZ64): String` loads, which the checker refuses (ledger row 697).
   - It loads two generic dotted methods of one name that differ in their number of parameters, as `tk[\U\](y: U, z: U)` beside `tk[\U\](y: U, z: U, w: U)`. A call then fails with 'Cannot find definition for method' (ledger row 1057). Give the two methods two names.
   - It loads a pair that breaks the Return Type Rule over an arrow type, as `ident[\T\](x: T): T` beside `ident(x: Circle -> Circle): (Circle -> Circle)`: a function of type `Any -> Circle` is also a `Circle -> Circle`, and at that instance the generic one returns `Any -> Circle`. The checker refuses the pair (ledger row 1049).
 
@@ -132,13 +132,13 @@ Walk refuses a helper's binding at load in these cases. The message names the st
 
 - The class or the method does not exist: 'not found' or 'names no static method of'.
 - The result type, or a parameter type other than `self`'s, is not carried by the list above: 'no Java type carries the declared'.
-- The binding is in a method of a type that carries no `self`, as a program's own object: 'no Java type carries T, the type of self.', with the type's name as T. Match ', the type of self.' to tell it from the refusal above.
-- No method of that name, or more than one, has exactly the Java types of the lists, with `self`'s first in a method: 'has no overload that fits the declaration's types', or 'overloads that fit'.
+- The binding is in a method of a type whose `self` walk does not carry, as a program's own object: 'no Java type carries T, the type of self.', with the type's name as T. Match ', the type of self.' to tell it from the refusal above.
+- No method of that name, or more than one, has exactly the Java types of the list above, with `self`'s first in a method: 'has no overload that fits the declaration's types', or 'overloads that fit'.
 
 The check has two gaps:
 
 - Walk checks the binding of a dotted method of a generic trait or object only when the program makes an instance, at run time. So a program that makes no instance loads. One that makes an instance stops there with the same message, as an `InterpreterBug` (ledger row 864). Test such a binding with a program that makes an instance.
-- Walk reads the type that declares the method, not the type of the value. So a program's object that extends `JavaBufferedWriter` loads. A call of its inherited native method then stops with 'No Java FortressBufferedWriter carries' and the object's name (ledger row 928). Extend `WriteStream` instead.
+- Walk reads the type that declares the method, not the type of the value. So a program's object that extends `JavaBufferedWriter` loads. A call of its inherited native method then stops with 'No Java FortressBufferedWriter carries' and the object's name (ledger row 928). Extend `WriteStream`, the library's trait of an output stream (`Library/Stream.fsi`), instead.
 
 A glue class bound over `String`, and a helper bound in a method of `String` as `self`, receive the wrong text for a `CatString`: the name of the type, not its characters (ledger row 846). `||` builds a `CatString` when the joined string is longer than `maxLeafSize`, 32 characters by default. A `||` of string literals folds into one literal, a `FlatString`, so a test that needs a `CatString` joins a literal with a variable. Bind such a native over `FlatString`, and beside it an overload over `String` that passes `s.asFlatString`, as `printlnWithThread` does (`Library/FortressLibrary.fss:4640-4644`). In a method of `String`, call that overload with `self`.
 

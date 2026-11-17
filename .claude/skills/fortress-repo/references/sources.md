@@ -1402,3 +1402,13 @@ The landing of climb batch 31b on `main` made area parts false or incomplete, fr
 - `interpreter.md`, "What walk checks": the number types other than `QQ` as object types (row 1044); the `comprises` clause not read, now at a program's own trait (row 550, fixed at `f6e24650e`; `OverloadedFunction.java:880`); new: the tuple result (row 1058), the object-type shortcut (row 697), the generic dotted methods of different arity (row 1057).
 - `interpreter.md`, "Natives": `RR64` alone in `double`, and the list for `self` merged into one sentence (`interpreter/glue/StaticNativeApp.java`, `javaFor`, `javaForSelf`; F-379); the check's gap at `JavaBufferedWriter` (row 928), since an object below `ZZ32` is refused at load (row 551; `tests/NumberTypeExtendRefusedWalk.fss`); `ZZ32.overflow()` (`interpreter/glue/prim/ZZ32.java:41`).
 - `library.md`, "Designing a change": `RR64`'s own bindings (`Library/FortressLibrary.fss:540-547`).
+
+## The cold read of climb batch 31b's skill changes, 2026-11-17
+
+From the cold read of `ed05ab19b1` and `182b3885ee` (`explorations/compile-ladder/climb-batch-31b/skills/cold-read.md`); settled by the record-landing workflow's writer task. Each fact checked on `main` at `182b3885ee`.
+
+- `revival-changes.md`, the opening: the plain test of today's behaviour where the rules do not decide (`tests-writing.md`, "How a defect is recorded", case 3).
+- `revival-changes.md`, "Dispatch and overloading": "where the trait itself extends `Number`", wording only. "Traits and objects": the pointer to `compiler.md` for row 1037.
+- `revival-changes.md`, "Numbers": the seven value objects bound to the interpreter's library, and the rule stated as an instruction (P-178); "On both paths" for the undefined names (`compiler/disambiguator/TypeDisambiguator.java:376`, which both paths run; row 959); each replacement named beside its team name (`06cd094706~1:ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi`).
+- `compiler.md`, "Traps of the compiled path": the descriptor of a `VerifyError` (F-378); row 1055's workaround and row 1056's example from the rows; row 1060's example conversion from the row.
+- `interpreter.md`, "What walk checks": row 697's condition from the row's own words and `OverloadedFunction.java:511`. "Natives": the type whose `self` walk does not carry (`StaticNativeApp.javaForSelf`); "the list above"; `WriteStream` (`Library/Stream.fsi:32`).
