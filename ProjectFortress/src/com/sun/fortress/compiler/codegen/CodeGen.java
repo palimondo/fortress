@@ -2493,6 +2493,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             Expr body = fndecl.getBody().unwrap();
             List<Param> params = fndecl.getHeader().getParams();
             int modifiers = ACC_PUBLIC | ACC_STATIC ;
+            cg.declaredResult = fndecl.getHeader().getReturnType().unwrap(null);
             cg.generateActualMethodCode(modifiers, applied_method, modified_sig, params, selfIndex,
                                         selfIndex != Naming.NO_SELF, body);
         }
@@ -2860,6 +2861,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 //                sig, sig, null, n, true, null);
 //        mname = disambiguated_mname;
         
+        cg.declaredResult = returnType;
         cg.generateActualMethodCode(modifiers, mname, sig, params, selfIndex,
                                     true, body);
 
@@ -2946,6 +2948,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             modifiers |= ACC_STATIC;
         }
 
+        cg.declaredResult = returnType;
         cg.generateActualMethodCode(modifiers, mname, sig, params, selfIndex,
                                     inAMethod, body);
 
@@ -3005,6 +3008,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         // Compile the body in the parameter environment
 
         body.accept(this);
+        if (declaredResult != null) castToTypeBelow(body, declaredResult);
         try {
             exitMethodScope(selfIndex, selfVar, paramsGen);
         } catch (Throwable t) {
@@ -5390,6 +5394,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 VarCodeGen vcg = vcgs.get(i);
                 args.get(i).accept(this);
                 conditionallyCastParameter(Wrapper.make(vcg.fortressType), domain_types.get(i));
+                castToTypeBelow(args.get(i), domain_types.get(i));
                 vcg.assignValue(mv);
             }
         }
@@ -7281,10 +7286,37 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 conditionallyCastParameter(arg, domain_type);
             } else {
                 arg.accept(this);
+                castToTypeBelow(arg, domain_type);
             }
         }
     }
 
+
+    /* The declared return type of the method whose code this generator emits, or null. */
+    private Type declaredResult = null;
+
+    /*
+     * The checker reads self, in a trait whose comprises clause lists types
+     * and in a trait with a self-type parameter, as also a value of those
+     * types (traits.tex, section "Trait Declarations"), so self, or a value
+     * that has its type, may stand where such a type is declared.  The JVM's
+     * verifier knows only the trait's interface, so the value on the stack is
+     * cast where the declared type is a strict subtype of the trait.  A trait
+     * that lists a type at a where-clause variable gets no cast: there the
+     * checker's type names a variable of its own, which no class has.
+     */
+    private void castToTypeBelow(Expr expr, Type declared) {
+        if (!(declared instanceof TraitType || declared instanceof VarType)) return;
+        Option<Type> ot = expr.getInfo().getExprType();
+        if (ot.isNone() || !(ot.unwrap() instanceof TraitSelfType)) return;
+        TraitSelfType self_t = (TraitSelfType) ot.unwrap();
+        Type apparent = self_t.getNamed();
+        if (self_t.getComprised().isEmpty() || !(apparent instanceof TraitType)) return;
+        if (typeAnalyzer.opensSizes(apparent)) return;
+        if (typeAnalyzer.lteq(apparent, declared) || !typeAnalyzer.lteq(declared, apparent)) return;
+        String cast_to = NamingCzar.jvmTypeDesc(declared, thisApi(), false, true);
+        InstantiatingClassloader.generalizedCastTo(mv, cast_to);
+    }
 
     private void conditionallyCastParameter(Expr expr, Type domain_type) {
         conditionallyCastParameter(expr == null ?
