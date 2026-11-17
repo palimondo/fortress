@@ -2,7 +2,6 @@
 component NumberTypesAreObjectsWalk
 export Executable
 
-(* The arms at the five names that a value takes, one typecase for each name. *)
 arms(x: Any): String = do
     inZZ32: String = typecase x of
             ZZ32 => "ZZ32 "
