@@ -7295,7 +7295,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 // Evaluate the object
                 obj.accept(this);
                 castReceiver(receiverCast);
-
+                
                 String castToArrowType = emitFindGenericMethodClosure(
                         methodName, receiverType, prepended_domain, range_type,
                         string_sargs, anySymbolic);
@@ -7449,9 +7449,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                         } else {
                             return receiverType;
                         }
-
+                       
                     }
-
+                
             }
             return at;
         }
