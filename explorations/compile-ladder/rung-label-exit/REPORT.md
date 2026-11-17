@@ -80,7 +80,7 @@ Names added, and the grep for a competing declaration over both test corpora and
 
 - A label's value is its body's, or the `with` value of an exit that names it; an exit without a `with` clause has `()` (`label.tex:52-66`). Built.
 - The `finally` clauses of the `try` expressions between an exit and its label run, innermost first (`label.tex:72-76`). Not built: the compiled `try` runs its `finally` clause only on the paths that row 890 names.
-- A group of implicit threads completes abruptly when one of its threads does, and every thread of the group has then not run, completed or been stopped early (`evaluation/parallelism.tex:86-93`). Built by the landed join of forked arms.
+- A group of implicit threads completes abruptly when one of its threads does, and every thread of the group has then not run, completed or been stopped early (`evaluation/parallelism.tex:95-100`). Built by the landed join of forked arms.
 - An exit out of an `atomic` block retains the block's writes (`atomic.tex:60-63`). Not built: see the points.
 - The specification says nothing of an exit that runs after its label block has completed, and names no `LabelException` (`grep -rn LabelException Specification/ --include=*.tex`: nothing).
 
