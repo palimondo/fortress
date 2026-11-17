@@ -94,7 +94,7 @@ Each compiled and run by `old-fortress.sh` on the base build and by `bin/fortres
 | program | what it does | old | new |
 |---|---|---|---|
 | `compiler_tests/AtomicFieldCompiled` at four threads | above | FAIL, updates lost on each var field | PASS |
-| PFieldInTask | `fill(k) = for i <- 1#k do atomic do n := n + 1 end end` inside the object, on a var value parameter and a var body field, 40,000 each | `0` and `1` at one thread and at four | `40000` and `40001` at one thread and at four |
+| PFieldInTask | `fill(k) = for i <- 1#k do atomic do n := n + 1 end end` inside the object, on a var value parameter and a var body field, 40,000 each | `0` and `1` at one thread and at four | `40000` and `40001` at one thread and at four, as walk gives at four threads |
 | PFieldClosure | a function expression in a method reads and writes two var fields; a setter from outside, `c.n := 9` | `11 11 5 11 9` | `11 10 7 14 9` |
 | PBoxKinds | `Box[\T\](var val: T)` at `String`, at a tuple type and at an arrow type; a singleton object's var field; a tuple-typed var field with a setter | `b 7 8 4`, then `VerifyError` in `Pair.pr` (row 397) | the same five results |
 | PValueVar | `value object V(var n: ZZ32)`: `V(1) === V(1)`, then `a.bump()` | `true false 2` | `false false 2` |
