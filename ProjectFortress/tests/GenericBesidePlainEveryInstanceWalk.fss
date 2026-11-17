@@ -1,0 +1,40 @@
+component GenericBesidePlainEveryInstanceWalk
+export Executable
+
+(* A plain declaration inside a generic one is a valid overloading where every instance of the generic that applies to its arguments returns a type at or above its result: a static argument of its parameter type fixes the type parameter, or an object type stands at one parameter of the returned type parameter and a trait type at another (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait Source[\T\]
+    getter item(): T
+end
+object Counted extends Source[\ZZ32\]
+    getter item(): ZZ32 = 1
+end
+object Named extends Source[\String\]
+    getter item(): String = "named"
+end
+
+take[\T\](a: Source[\T\]): T = a.item
+take(a: Source[\ZZ32\]): ZZ32 = 0
+
+trait Shape end
+object Circle extends Shape end
+object Square extends Shape end
+
+kind(x: Any): String = typecase x of
+    Circle => "Circle"
+    Square => "Square"
+    else => "other"
+  end
+
+first[\T\](a: T, b: T): T = a
+first(a: Shape, b: Circle): Circle = b
+
+run(): () = do
+    assert(take(Counted), 0, "a Source of ZZ32 takes the plain declaration")
+    assert(take(Named), "named", "a Source of String takes the generic declaration at String")
+    assert(kind(first(Square, Circle)), "Circle", "a Shape and a Circle take the plain declaration, which returns its second argument")
+    assert(kind(first(Circle, Square)), "Circle", "a Circle and a Square take the generic declaration, which returns its first argument")
+    println("PASS")
+  end
+
+end

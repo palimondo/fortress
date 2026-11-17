@@ -1,0 +1,16 @@
+component OverloadedGenericValueBoundWalk
+export Executable
+
+(* An overloaded generic function whose own type parameter is bounded by a value object loads, and runs for a value of that object. *)
+
+width[\T extends NN32\](a: T): ZZ32 = 32
+width(a: String): ZZ32 = 0
+
+run(): () = do
+    u: NN32 = 4
+    assert(width(u), 32, "an NN32 value takes the generic declaration")
+    assert(width("s"), 0, "a String takes the plain declaration")
+    println("PASS")
+  end
+
+end
