@@ -1,4 +1,4 @@
-(* An atomic block and a try with a catch clause are each the second argument of a call whose arguments run in order. Specification/basic/expressions/atomic.tex, section "Atomic Expressions"; Specification/basic/expressions/try.tex, section "Try Expressions". *)
+(* An atomic block, a try with a catch clause and a label block are each the second argument of a call whose arguments run in order. Specification/basic/expressions/atomic.tex, section "Atomic Expressions"; Specification/basic/expressions/try.tex, section "Try Expressions"; Specification/basic/expressions/label.tex, section "Label and Exit". *)
 component XXXAtomicBlockLaterArgument
 export Executable
 
@@ -17,10 +17,16 @@ bump(k: ZZ32): ZZ32 = two(k, atomic do
 
 caught(k: ZZ32): ZZ32 = two(k, try boomVal(k) catch e Boom => e.code end)
 
+left(k: ZZ32): ZZ32 = two(k, label out
+    if k > 0 then exit out with k end
+    k + 100
+  end out)
+
 run(): () = do
   println("REACHED")
   assert(bump(3), 6, "an atomic block as a call's second argument")
   assert(caught(4), 8, "a try as a call's second argument")
+  assert(left(5), 10, "a label block as a call's second argument")
   println("PASS")
 end
 

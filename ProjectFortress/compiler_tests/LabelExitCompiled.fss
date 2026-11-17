@@ -1,0 +1,174 @@
+(* An exit leaves its label's block, whose value is the exit's with value or (): out of a while, out of a parallel for, out of a function expression, through a label nested in its target and through a try that catches every exception. label.tex, section "Label and Exit". *)
+component LabelExitCompiled
+export Executable
+
+var bad: ZZ32 = 0
+
+check(what: String, got: ZZ32, expected: ZZ32): () =
+  if got = expected then () else
+    bad := bad + 1
+    println("FAIL " || what || ": " || got.asString || ", expected " || expected.asString)
+  end
+
+outOfWhile(n: ZZ32): ZZ32 = label found
+    none: ZZ32 = -1
+    i: ZZ32 := 0
+    while i < 10 do
+      if i = n then exit found with i end
+      i += 1
+    end
+    none
+  end found
+
+noValue(n: ZZ32): ZZ32 = do
+  var steps: ZZ32 := 0
+  label skip
+    steps := steps + 1
+    if n > 0 then exit skip end
+    steps := steps + 10
+  end skip
+  steps
+end
+
+noTarget(n: ZZ32): ZZ32 = label only
+    if n > 0 then exit with n end
+    n
+  end only
+
+outOfFor(n: ZZ32, r: ZZ32): ZZ32 = label found
+    none: ZZ32 = -1
+    for i <- 0#n do
+      if i MOD 7 = r then exit found with i end
+    end
+    none
+  end found
+
+nested(n: ZZ32): ZZ32 = label outer
+    ten: ZZ32 = 10
+    inner: ZZ32 = label middle
+        if n = 1 then exit outer with ten end
+        if n = 2 then exit middle with 2 ten end
+        3 ten
+      end middle
+    inner + 1
+  end outer
+
+severalExits(n: ZZ32): String = label method
+    if n < 0 then exit method with "negative" end
+    if n = 0 then exit method with "zero" end
+    if n > 100 then
+      exit method with "large"
+    end
+    "small"
+  end method
+
+object Boom extends UncheckedException end
+
+throughTry(n: ZZ32): ZZ32 = do
+  var caught: ZZ32 := 0
+  r: ZZ32 = label out
+      try
+        if n = 1 then exit out with 5 n end
+        if n = 2 then throw Boom end
+      catch e
+        Exception => caught := caught + 1
+      end
+      7 + caught
+    end out
+  r + 100 caught
+end
+
+call(f: ZZ32 -> ZZ32, x: ZZ32): ZZ32 = f(x) + 1000
+
+outOfFunction(n: ZZ32): ZZ32 = label out
+    call(fn (x: ZZ32): ZZ32 => if x > 2 then exit out with x else x end, n)
+  end out
+
+descend(depth: ZZ32, leave: () -> ZZ32): ZZ32 = label here
+    if depth = 0 then
+      leave()
+    elif depth = 2 then
+      descend(depth - 1, fn (): ZZ32 => exit here with 50 depth) + 1
+    else
+      descend(depth - 1, leave) + 1
+    end
+  end here
+
+trait Holder[\T extends Object\]
+  item(i: ZZ32): T
+  count(): ZZ32
+  find(p: T -> Boolean): ZZ32 = label found
+      none: ZZ32 = -1
+      for i <- 0#count() do
+        if p(item(i)) then exit found with i end
+      end
+      none
+    end found
+end
+
+object Words extends Holder[\String\]
+  item(i: ZZ32): String = if i = 5 then "five" else "other" end
+  count(): ZZ32 = 20
+end
+
+var left: ZZ32 = 0
+var right: ZZ32 = 0
+
+outOfArm(n: ZZ32): ZZ32 = label out
+    do
+      if n = 1 then exit out with n end
+    also do
+      atomic do left := left + 1 end
+    also do
+      atomic do right := right + 1 end
+    end
+    n + 100
+  end out
+
+insideAtomic(n: ZZ32): ZZ32 = do
+  r: ZZ32 = atomic do
+    left := 5
+    label out
+      right := 7
+      if n = 1 then exit out with n end
+      right := 8
+      n + 100
+    end out
+  end
+  r + left + right
+end
+
+run(): () = do
+  check("an exit with a value out of a while", outOfWhile(3), 3)
+  check("a while that no exit leaves", outOfWhile(20), -1)
+  check("an exit without a value", noValue(1), 1)
+  check("a label that no exit leaves", noValue(0), 11)
+  check("an exit without a target", noTarget(4), 4)
+  one: ZZ32 = outOfFor(100, 3)
+  check("the label's value is a value that an iteration exits with", one MOD 7, 3)
+  check("that iteration is one of the loop's", if 0 <= one AND one < 100 then 1 else 0 end, 1)
+  check("a for that only one iteration exits", outOfFor(7, 5), 5)
+  check("a for that no iteration exits", outOfFor(100, 9), -1)
+  check("an inner exit that names the outer label", nested(1), 10)
+  check("an exit that names the inner label", nested(2), 21)
+  check("nested labels that no exit leaves", nested(3), 31)
+  assert(severalExits(-1), "negative", "the first exit of a label that is a function's body")
+  assert(severalExits(0), "zero", "the second exit")
+  assert(severalExits(500), "large", "the third exit")
+  assert(severalExits(5), "small", "no exit")
+  check("a catch of every exception does not catch an exit", throughTry(1), 5)
+  check("the same try catches a throw", throughTry(2), 108)
+  check("the same try completes normally", throughTry(3), 7)
+  check("an exit out of a function expression", outOfFunction(5), 5)
+  check("a function expression that does not exit", outOfFunction(1), 1001)
+  check("an exit leaves the evaluation of the label block in which its function was made, not a later one", descend(4, fn (): ZZ32 => 0), 102)
+  check("an exit out of a loop in a generic trait's method, the form of the library's indexOf", Words.find(fn (s: String): Boolean => s = "five"), 5)
+  check("a loop of that method that no iteration exits", Words.find(fn (s: String): Boolean => s = "six"), -1)
+  check("an exit out of the first arm of a do with also", outOfArm(1), 1)
+  check("the same arms without an exit", outOfArm(2), 102)
+  check("a label and its exit inside one atomic block, whose writes stay", insideAtomic(1), 13)
+  check("the same block without an exit", insideAtomic(2), 115)
+  if bad = 0 then println("PASS") else println("FAIL") end
+end
+
+end

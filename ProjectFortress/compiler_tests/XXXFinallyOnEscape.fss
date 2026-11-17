@@ -1,4 +1,4 @@
-(* A try's finally clause runs when an exception leaves the try block, passed on or thrown on as a ForbiddenException. *)
+(* A try's finally clause runs when an exception leaves the try block, passed on or thrown on as a ForbiddenException, and when an exit leaves it for an enclosing label. *)
 component XXXFinallyOnEscape
 export Executable
 
@@ -26,6 +26,16 @@ forbidden(): () = do
   end
 end
 
+exits(): () = label out
+    try
+      exit out
+    catch e
+      Bang => log := "caught"
+    finally
+      log := log || "finally"
+    end
+  end out
+
 thrownBy(f: () -> ()): String = do
   seen: String := "nothing thrown"
   try
@@ -47,6 +57,9 @@ run(): () = do
   b = thrownBy(fn () => forbidden())
   assert(b, "forbidden", "try.tex, section \"Try Expressions\": a listed type gives a ForbiddenException")
   assert(log, "finally", "try.tex, section \"Try Expressions\": the finally clause runs after the forbid clause")
+  log := ""
+  exits()
+  assert(log, "finally", "label.tex, section \"Label and Exit\": the finally clauses between an exit and its label are run")
   println("PASS")
 end
 

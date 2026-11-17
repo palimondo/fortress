@@ -1773,6 +1773,89 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         if (n > 1) joinForkedArms(groupStart, tasks, taskVars);
     }
 
+    /*
+     * label and exit (Specification/basic/expressions/label.tex, section
+     * "Label and Exit").  An exit completes abruptly: it throws a LabelExit
+     * that names the evaluation of the label block that it leaves, and the
+     * block's handler takes the exits that name its own evaluation and throws
+     * every other on.  The evaluation's identity is an immutable local of
+     * the block under the label's name, which the checker lets no variable
+     * in scope share; so a function expression or a task whose body exits
+     * holds it as it holds any variable of the block, and an exit reaches
+     * its label from a loop's body, through the library's code and from
+     * another task.  A group of forked arms joins its arms before the exit
+     * passes it (joinForkedArms), and no catch clause takes it, since it is
+     * no FException.
+     */
+    private static final String LABEL_EXIT = "com/sun/fortress/runtimeSystem/LabelExit";
+    private static final String LABEL_EXIT_TARGET = LABEL_EXIT + "$Target";
+
+    public void forLabel(com.sun.fortress.nodes.Label x) {
+        debug("forLabel ", x);
+        Id name = x.getName();
+
+        // The identity of this evaluation of the block.
+        mv.visitTypeInsn(NEW, LABEL_EXIT_TARGET);
+        mv.visitInsn(DUP);
+        mv.visitMethodInsn(INVOKESPECIAL, LABEL_EXIT_TARGET, "<init>", "()V");
+        VarCodeGen target =
+            new VarCodeGen.LocalVar(name, NodeFactory.makeAnyType(NodeUtil.getSpan(name)), this);
+        target.assignValue(mv);
+
+        Label start = new Label();
+        Label end = new Label();
+        Label handler = new Label();
+        Label done = new Label();
+
+        // The label's name is in scope in the body only.
+        CodeGen cg = new CodeGen(this);
+        cg.addLocalVar(target);
+        mv.visitLabel(start);
+        x.getBody().accept(cg);
+        mv.visitLabel(end);
+        mv.visitJumpInsn(GOTO, done);
+
+        // After the body's code, so that the entry of a label, a try or an
+        // atomic block nested in the body comes first in the exception table.
+        mv.visitTryCatchBlock(start, end, handler, LABEL_EXIT);
+
+        // The exit's value is the block's, at the block's type.
+        mv.visitLabel(handler);
+        target.pushValue(mv);
+        mv.visitMethodInsn(INVOKEVIRTUAL, LABEL_EXIT, "valueAt",
+                           "(Ljava/lang/Object;)Ljava/lang/Object;");
+        Option<Type> labelType = x.getInfo().getExprType();
+        if (labelType.isNone())
+            throw sayWhat(x, "Missing type information for a label block");
+        if (!(labelType.unwrap() instanceof BottomType))
+            InstantiatingClassloader.generalizedCastTo(mv,
+                NamingCzar.jvmTypeDesc(labelType.unwrap(), thisApi(), false, true));
+
+        mv.visitLabel(done);
+        target.outOfScope(mv);
+    }
+
+    public void forExit(com.sun.fortress.nodes.Exit x) {
+        debug("forExit ", x);
+        // The disambiguator gives every exit its target.
+        if (x.getTarget().isNone())
+            throw sayWhat(x, "An exit without a target");
+        VarCodeGen target = getLocalVarOrNull(x.getTarget().unwrap());
+        if (target == null)
+            throw sayWhat(x, "An exit whose label is not in scope");
+
+        // The with value first, so that nothing of the exit is on the
+        // operand stack while it is evaluated.
+        if (x.getReturnExpr().isSome())
+            x.getReturnExpr().unwrap().accept(this);
+        else
+            pushVoid();
+        target.pushValue(mv);
+        mv.visitMethodInsn(INVOKESTATIC, LABEL_EXIT, "of",
+                           "(Ljava/lang/Object;Ljava/lang/Object;)L" + LABEL_EXIT + ";");
+        mv.visitInsn(ATHROW);
+    }
+
     public void defaultCase(Node x) {
         throw sayWhat(x);
     }
