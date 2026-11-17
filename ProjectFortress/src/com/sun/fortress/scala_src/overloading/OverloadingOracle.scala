@@ -111,8 +111,15 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
 	    // Build the special arrow that we use when checking the return type rule
 	    val nta = ta.extend(nsp1, None)
 	    val ntsa = new TypeSchemaAnalyzer()(nta)
-	    val newr2 = bindEscaped(str.replaceIn(r2))
-	    val ra = ntsa.normalizeUA(SArrowType(STypeInfo(s1, p1, nsp1, None), nta.meet(d1,bindEscaped(str.replaceIn(d2))), newr2, nta.mergeEffect(e1,e2), i1 && i2, None))
+	    // Only the instances of g whose domain meets f's in a type other than
+	    // Bottom count.  Below an object type there is only the object, so where a
+	    // kept type parameter of g is a whole parameter type and f's parameter
+	    // type there is an object type, the two meet only at the instances where
+	    // the parameter holds the object: there the parameter is read as its union
+	    // with the object type, which ranges over just those instances.
+	    val meeting = meetingInstances(d1, d2, kept)
+	    val newr2 = meeting(bindEscaped(str.replaceIn(r2)))
+	    val ra = ntsa.normalizeUA(SArrowType(STypeInfo(s1, p1, nsp1, None), nta.meet(d1,meeting(bindEscaped(str.replaceIn(d2)))), newr2, nta.mergeEffect(e1,e2), i1 && i2, None))
 	    // Now test against that special arrow
 	    val result = sa.subtypeUA(fa, ra)
 	    if (!result) {
@@ -125,6 +132,39 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
 	  case None => true
 	}
     }
+
+  // For the Return Type Rule: the reading of g's kept type parameters at the instances
+  // whose domain can meet f's domain d1.  A kept type parameter that is a whole parameter
+  // type of g's domain d2, where d1 has an object type at that position, is replaced by
+  // its union with that object type; every other type is left as it is.
+  private def meetingInstances(d1: Type, d2: Type, kept: List[StaticParam]): Type => Type = {
+    def positions(d: Type): Option[List[Type]] = d match {
+      case STupleType(_, es, None, Nil) => Some(es)
+      case _: TupleType => None
+      case t => Some(List(t))
+    }
+    def isObject(t: Type): Boolean = t match {
+      case tt: TraitType => toOption(ta.traits.typeCons(tt.getName)).exists(_.isInstanceOf[ObjectTraitIndex])
+      case STraitSelfType(_, named, _) => isObject(named)
+      case _ => false
+    }
+    val typeParams = kept.filter(_.getKind.isInstanceOf[KindType])
+    if (typeParams.isEmpty) return (t: Type) => t
+    val held: List[(StaticParam, List[Type])] = (positions(d1), positions(d2)) match {
+      case (Some(fs), Some(gs)) if fs.size == gs.size =>
+        typeParams.flatMap { p =>
+          val os = fs.zip(gs).collect { case (o, SVarType(_, id, _)) if id.getText == p.getName.asInstanceOf[Id].getText && isObject(o) => o }.distinct
+          if (os.isEmpty) None else Some((p, os))
+        }
+      case _ => Nil
+    }
+    if (held.isEmpty) return (t: Type) => t
+    val str = new StaticTypeReplacer(held.map(_._1),
+                held.map { case (p, os) =>
+                  val ts: List[Type] = makeVarType(NU.getSpan(p), p.getName.asInstanceOf[Id]) :: os
+                  makeTypeArg(NU.getSpan(p), makeUnionType(NU.getSpan(p), false, toJavaList(ts)), p.isLifted): StaticArg })
+    (t: Type) => str.replaceIn(t)
+  }
 
   // Which static parameters of the domain gd the relation fd <: gd forces equal to
   // their solutions in newargs: the constraint of that relation, with the bounds,

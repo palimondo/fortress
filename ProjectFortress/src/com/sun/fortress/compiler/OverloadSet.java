@@ -1797,7 +1797,9 @@ nameTemp + "\n" +
                 Type f_return = f.getReturnType();
                 if (f_return instanceof BottomType) {
                     CodeGen.castToBottom(mv);
-                } else {
+                } else if (!armResultIsCastToRange(f)) {
+                    // otherwise the cast to this dispatcher's range, below, serves: the
+                    // arm's declared return type names the arm's own static parameters
                     String returnType = NamingCzar.makeBoxedTypeName(f_return,f.tagA);
                     InstantiatingClassloader.generalizedCastTo(mv, returnType);
                 }
@@ -1825,6 +1827,7 @@ nameTemp + "\n" +
                 }
             }
             
+            castArmResultToRange(mv, f);
             mv.visitInsn(Opcodes.ARETURN);
 
             if (lookahead != null)
@@ -1941,7 +1944,30 @@ nameTemp + "\n" +
             System.err.println("Emitting call " + f.tagF + sig);
 
         invokeParticularMethod(mv, f, sig);
+        castArmResultToRange(mv, f);
         mv.visitInsn(Opcodes.ARETURN);
+    }
+
+    /**
+     * Where this dispatcher's declared range is one of its static parameters and the
+     * arm f declares another return type, casts the arm's result to the range.  The
+     * Return Type Rule makes the result a value of the range at every instance at
+     * which the arm is reached; the JVM's verifier, which reads the arm's declared
+     * return type, is told so.
+     */
+    private void castArmResultToRange(MethodVisitor mv, TaggedFunctionName f) {
+        if (armResultIsCastToRange(f))
+            InstantiatingClassloader.generalizedCastTo(mv,
+                    NamingCzar.jvmBoxedTypeName(principalMember.getReturnType(), principalMember.tagA));
+    }
+
+    private boolean armResultIsCastToRange(TaggedFunctionName f) {
+        if (principalMember == null || f == principalMember) return false;
+        Type range = principalMember.getReturnType();
+        Type f_return = f.getReturnType();
+        if (!(range instanceof VarType) || f_return instanceof BottomType) return false;
+        return !(f_return instanceof VarType
+                 && ((VarType) f_return).getName().getText().equals(((VarType) range).getName().getText()));
     }
 
     /**

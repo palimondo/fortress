@@ -1,0 +1,5 @@
+tests=OverloadReturnObjectDomain
+compile
+link
+run
+run_out_WIcontains=ident Circle ident generic ident Circle keep Box keep generic pick Circle pick generic PASS

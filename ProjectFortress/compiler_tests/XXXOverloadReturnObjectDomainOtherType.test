@@ -1,0 +1,3 @@
+tests=XXXOverloadReturnObjectDomainOtherType
+compile
+compile_err_contains=the return type of Circle->String @

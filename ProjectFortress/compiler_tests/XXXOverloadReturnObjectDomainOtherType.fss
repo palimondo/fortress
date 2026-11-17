@@ -1,0 +1,16 @@
+(* A generic declaration that returns its type parameter beside a declaration on an object type that returns another type fails the Return Type Rule at the instance T = Circle. *)
+component XXXOverloadReturnObjectDomainOtherType
+export Executable
+
+trait Shape end
+object Circle extends Shape end
+
+g[\T\](x: T): T = x
+g(x: Circle): String = "circle"
+
+run(): () = do
+  a: Any = g(Circle)
+  println("PASS")
+end
+
+end
