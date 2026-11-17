@@ -122,6 +122,10 @@ After:
 
 The sentence says what the compiled path does; `OverloadReturnObjectDomain` shows it. The specification was not built here: the gather builds it once.
 
+The skeptic narrowed this sentence after the report (SKEPTIC.md, fix 1): its first clause said of every parameter type what the edit does at an object type only. As it stands on the branch:
+
+> The compiled type checker's Return Type Rule sets aside the instances of the less specific declaration whose parameter type meets the more specific declaration's only in BottomType where the more specific declaration's parameter type is an object type, below which there is only the object: it accepts ident⟦T⟧(x: T): T beside ident(x: Circle): Circle where Circle is an object, and the pair compiles and runs. It still compares those instances, and so refuses more than the Return Type Rule, where that parameter type is a tuple of object types, as in the same ident beside ident(x: (Circle, Circle)): (Circle, Circle);
+
 Other sentences made false: none. `Specification/advanced/overloading.tex:636-637` ("with its Return Type Rule checked over every instance of the less specific declaration") stays true beside the rule's own words, "for every argument type other than BottomType".
 
 ## Points to report
@@ -169,4 +173,4 @@ NEW-X-2's two programs and commands. `LeakB`: `trait Shape end`, `object Circle 
 
 ## Commands worked out
 
-- The profile: the count stage's `java` line (`explorations/coordinator/tools/checker-count/run.sh:104-106`) with `-XX:StartFlightRecording=filename=F,settings=profile`, on the classes the stage compiled into its scratch folder; then `jfr view hot-methods F` and `jfr print --events jdk.ExecutionSample --stack-depth 64 F`, counting the samples whose stack names a method.
+- The profile: the count stage's `java` line (`explorations/coordinator/tools/checker-count/run.sh:95-97`) with `-XX:StartFlightRecording=filename=F,settings=profile`, on the classes the stage compiled into its scratch folder; then `jfr view hot-methods F` and `jfr print --events jdk.ExecutionSample --stack-depth 64 F`, counting the samples whose stack names a method.
