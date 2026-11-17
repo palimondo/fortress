@@ -1,0 +1,32 @@
+(* A typecase clause's name, alone or in a tuple pattern, bound at a trait above its selector's object type, takes a method call as the object it is, compiled (typecase.tex, section "Typecase Expressions": its static type is the intersection of the two). *)
+component XXXTypecaseClauseNameAboveSelector
+export Executable
+
+trait Shape
+  nm(): String
+end
+object Sq extends Shape
+  nm(): String = "sq"
+end
+
+object Probe
+  viaOne(a: Sq): String =
+    typecase a of
+      x: Shape => x.nm()
+      else => "else"
+    end
+  viaPair(a: Sq, b: Any): String =
+    typecase (a, b) of
+      (x: Shape, n: ZZ32) => x.nm() || n.asString
+      else => "else"
+    end
+end
+
+run(): () = do
+  println("REACHED")
+  assert(Probe.viaOne(Sq), "sq", "a clause's name at a trait above the selector's object type")
+  assert(Probe.viaPair(Sq, 1), "sq1", "a tuple pattern's name at a trait above its element's object type")
+  println("PASS")
+end
+
+end

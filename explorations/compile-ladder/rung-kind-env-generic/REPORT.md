@@ -95,7 +95,7 @@ By reading, then by F-34's measure run once on this rung's code (`explorations/c
 F-34 on `c3b16ef2d1`: 17 in 5 kinds, 4 of them the kind environment. Now none:
 
 - `ArrayList` (`Library/List.fss:252`): passes this wall and is emitted; both its walls were this rung's, row 812's at the constructor and the generic methods' bodies (`fill[\T\]`, `enlargeLeft[\T\]`, `:311-334`). Behind it the measure shows nothing; it skips the dispatch methods and runs no emitted class (F-34).
-- `APPCOV` (`Library/CovariantCollection.fss:30`): passes and is emitted (`CovariantCollection refused 0 emitted 25`). By reading, behind it: its `typecase` has no `else` clause, so the fall-through pushes `()` where `CovariantCollection[\T\]` is returned (`CodeGen.java:2553-2563`), which the JVM's verifier may refuse; no class is run.
+- `APPCOV` (`Library/CovariantCollection.fss:30`): passes and is emitted (`CovariantCollection refused 0 emitted 25`). Its `typecase` has no `else` clause, but the pre-typecheck desugarer gives it one that throws `MatchFailure` (`ProjectFortress/src/com/sun/fortress/compiler/desugarer/TypecaseExprDesugarer.java:43-49`, applied at `ProjectFortress/src/com/sun/fortress/compiler/PreTypeCheckDesugarer.java:118`), so a compiled fall-through throws `MatchFailure`, as the chapter says, and pushes no `()` (the skeptic's program `SkM`, `SKEPTIC.md`); no class of `APPCOV` is run.
 - `app` (`Library/List.fss:93`): passes this wall; its arms 2 and 3 call a generic method on a value typed by an intersection, `a'.appendRC[\F\](b')` on `List[\E\] ∩ List[\T\]`, and stop at `CodeGen.forMethodInvocation`'s cast to `TraitType` (`@@CG FAIL FnDecl app ... ClassCastException CodeGen.forMethodInvocation:7377`, a line of the measure's patched scratch tree): row 540's wall, rung I's member.
 - `__bigOperator2` (`Library/FortressLibrary.fss:1656`): passes this wall; `outer'.unwrap` on `BigOperator[\I0,O0,R0,L0\] ∩ BigOperator[\I0,I0,I0,L0\]` stops at the same member's cast to `NamedType` (`ClassCastException CodeGen.forMethodInvocation:7430`, the same tree): row 540, rung I.
 
@@ -147,7 +147,9 @@ None. `grep -rn "kind env\|row~812\|row~822" Specification/` finds nothing; Appe
 - Row 812: home 1, repaired; `ComprisesWhereMemberCompiled`.
 - Row 822: home 1, repaired; `TypecaseGenericArmsCompiled`.
 - NEW-V-1, a typecase tuple pattern's names unbound on the compiled path: home 1, repaired in this rung; `TypecaseTupleNamesCompiled`, and the arms of `TypecaseGenericArmsCompiled`. A row is given in `record.md` so that the record finds the defect by its words; it closes with this rung's commit.
-- `APPCOV`'s fall-through `()` where its result type is a trait, by reading only: not measured, no home taken; the rung that first runs `APPCOV` compiled meets it.
+- `APPCOV`'s fall-through: no defect. A compiled `typecase` without `else` throws `MatchFailure`, also where its result type is a trait (the skeptic's `SkM`, `SKEPTIC.md`).
+- NEW-V-2, a compiled `typecase` clause's name bound at a trait above its selector's object type fails the JVM's verification at a method call on it, alone (on the base too) and in a tuple pattern (since this rung): home 2, `compiler_tests/XXXTypecaseClauseNameAboveSelector.test` with `TypecaseClauseNameAboveSelectorLink.test`; found by the skeptic; row in `record.md`.
+- NEW-V-3, under walk a tuple pattern's names beside an element given by its type alone are not bound to their elements: home 2, `tests/XXXTypecaseTypeOnlyElementWalk.fss`; found by the skeptic; row in `record.md`.
 - Row 340 met again (`PNoFork`, a numeral `else` arm): its row holds it; nothing added.
 
 ## A refused call

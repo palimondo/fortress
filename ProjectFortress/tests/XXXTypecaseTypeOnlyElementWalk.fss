@@ -1,0 +1,24 @@
+(* Under walk, a name of a typecase clause's tuple pattern beside an element given by its type alone is bound to its own element, not to the whole tuple (typecase.tex, section "Typecase Expressions"). *)
+component XXXTypecaseTypeOnlyElementWalk
+export Executable
+
+tag(x: String): String = "string " || x
+
+first(a: Any, b: Any): String =
+  typecase (a, b) of
+    (s: String, ZZ32) => tag(s)
+    else => "other"
+  end
+
+second(a: Any, b: Any): String =
+  typecase (a, b) of
+    (ZZ32, s: String) => tag(s)
+    else => "other"
+  end
+
+run(): () = do
+  assert(first("m", 1), "string m", "the name before a type-only element")
+  assert(second(2, "n"), "string n", "the name after a type-only element")
+end
+
+end
