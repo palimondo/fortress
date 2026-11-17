@@ -565,10 +565,10 @@ The measure is the number of declarations of the one library that the code gener
 1. The prelude's half of the merge: the probe of way (a), then its rung.
 2. Row 959: an arm at a name that no declaration defines is refused.
 3. The missing type environment (rows 812 and 822): 4 of the refused declarations, the one for `List` among them.
-4. A method call on a value of two types at once (row 540), and row 818, in the code that T leaves.
+4. A method call on a value of two types at once (row 540), and row 818, in the code that T leaves, with rows 1054, 1055 and 1056, the tuple's forms that still fail compiled near T's code.
 5. A stable order of the code generator's output (fork S; row 996).
-6. The checker's smaller gaps, above.
-7. Row 1035, and row 571 if rung M leaves it open.
+6. The checker's smaller gaps, above, with row 1060.
+7. Row 1035; row 571 is fixed by run 1's rung M.
 8. Functions with a variable number of arguments, and the class written twice, when a program compiles against the one library.
 
 ### Cost and time

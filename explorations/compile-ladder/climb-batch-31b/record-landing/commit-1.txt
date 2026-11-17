@@ -1,0 +1,11 @@
+Record: FACTS and POSITIONS in line with climb batch 31b's landing, run 2 of climb batch 31
+
+The record-landing run for climb batch 31b (landing 00dd16a891, review 257cae950): 17 FACTS entries and 5 POSITIONS entries through record.py, each with its history block. No ledger row changes.
+
+- F-34: the count with rows 81 and 875 fixed was taken, 21 refused on 7858d0e97b, by kind; no count after run 2; the unpatched figure and the walls' kinds moved to the probes' reports.
+- F-378, F-379, F-380, the batch's new entries: brought under 1,600 characters, the members and lines left to the rungs' reports; F-379 names row 697 beside rows 550 and 1044, a pair at the five types that walk now loads against the Subtype Rule.
+- F-75, F-240, F-257, F-139, F-140: a clause that the landing made false or stale cut or replaced (the merge now shown by the distance; the clause on a fall; row 550 for row 1058; row 528's stack overflow; row 527's message).
+- F-299, F-308, F-32, F-327: the count is 373 of 401 with its source, and what each entry's `NN64` figure counts.
+- F-229, F-361, F-375: the witness's reason told in the past; "nothing landed" said of the probe's scratch tree; the reports' old-against-new runs stated as they are.
+- F-285: seven citations of `Library/FortressLibrary.fss` moved by 84 lines.
+- P-68, P-166, P-162, P-165, P-163: a sentence that the tree made false, changed by the fewest words under his rule of 2026-10-31; each decision unchanged (P-68's trait clause cut; `value object ZZ`; `Float`'s bindings named `RR64`'s; a line number).

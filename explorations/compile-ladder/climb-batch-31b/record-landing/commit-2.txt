@@ -1,0 +1,13 @@
+Record: PLAN, the review queue and the run's folder after climb batch 31b's landing, run 2 of climb batch 31
+
+The routing of the record-landing run for climb batch 31b (landing 00dd16a891, review 257cae950).
+
+- PLAN, "Where we stand": Runs, The live thread, Landed, Probed and Next state run 2 as landed; the code generator's count is 21 before run 2 and not taken after, 17 expected if rung T's four pass their next wall.
+- PLAN, phase 4: a line for climb batch 31b; the natives line at 373 of 401; F-34's, the rehearsal's and the merge's lines with rows 819, 992 and 832 closed and the one library's half of P-178 built; the prelude's defects with row 1059.
+- PLAN, "Pavol's answers": items 97 and 98 as landed at their defaults, open for his review; item 99 without run 2's rung; a new item 101, finding 1 of the review.
+- PLAN, the parked lists and the earlier batches' lists: rows 550, 1014, 1030 and 1031 built; review-routed.2 of climb batch 32 moved to PLAN-history as built; rows 697 and 959 at the five types.
+- PLAN, climb batch 31b's list: five lines cut to pointers and six new lines (rows 1054 to 1060, finding 1, the forks of run 2, rung O's reserved points).
+- Review queue: 11 new items, 579 to 589; 516, 518 and 519 reworded as landed at their defaults and still open; 512, 513, 544, 563, 564, 568, 570, 572, 577 and 578 brought in line; 79, 371, 372 and 515 in (a) reworded; the head's counts, 247 open, and a group for climb batch 31b.
+- The batch file: rows 1054 to 1056 and 1060 placed in the list for the batch after; row 571 marked fixed there.
+- PLAN-history: one section for this landing, with each line that left PLAN or changed in it word for word.
+- The run's folder: the sort, the evidence, the reports, the checks, final.apply and diff.md.
