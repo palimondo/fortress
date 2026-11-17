@@ -3737,11 +3737,10 @@ that extends both unlisted does, is not a static error: it runs the declaration
 that covers its value, and, where those declarations and every declaration more
 specific than them that the call may run have no static parameters, its type is
 the intersection of the return types of its most specific declarations.
-The compiled type checker departs from this in four ways: it types such a call
+The compiled type checker departs from this in three ways: it types such a call
 by the intersection only in a family none of whose declarations has static
 parameters, and otherwise by one of its most specific declarations (row~543 of
-the revival's gap ledger); its code generator stops at a method call on a value
-of such a type (row~540); it refuses the case for declarations with static
+the revival's gap ledger); it refuses the case for declarations with static
 parameters (row~546); and its verdict on a trait between the two that provides
 both declarations of a functional method can depend on the components it
 compiled before (row~547).
