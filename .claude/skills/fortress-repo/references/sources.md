@@ -1367,3 +1367,14 @@ The landing of climb batch 31, run 1, on `main` made area parts false or incompl
 - `interpreter.md`, "What walk checks": three departures of the load check (F-375; rows 1044, 550, 1049).
 - `gate.md`, "The atomic runs": twenty-four programs, with `AtomicExprCompiled` and `AtomicFieldCompiled`. `explorations/compile-ladder/climb-batch-31/gate/summary.txt`; `explorations/coordinator/climb-batch-workflow.js`, `ATOMIC_COMPILER`.
 - `SKILL.md`, "The caches": the quoted start of an `interpreter_cache/` entry names no file, since a quoted path made the harness attach that file to each agent that loaded the skill. The landing's process finding 6.
+
+## The cold read of climb batch 31's skill changes, 2026-11-17
+
+From the cold read of `33ecda80af` and `16472318bf` (`explorations/compile-ladder/climb-batch-31/skills/cold-read.md`); settled by the record-landing workflow's writer task. Each fact checked on `main` at `16472318bf`.
+
+- `SKILL.md`: the cache entry's start without the path, which "The caches" already gives; the Return Type Rule named in "Fortress as a language"; "Nothing refuses a `var` field in a value object" moved from `compiler.md` (row 112); the `exit` out of an `atomic` block moved from `compiler.md` to "Parallelism and mutable state", since it holds on both paths (row 1039).
+- `compiler.md`, "Traps of the compiled path": the `finally` clause's three cases (row 890); the atomic expression defined at first use; the `label` block that ends in a numeral, with `exit ... with` (`compiler_tests/XXXLabelNumeralValueCompiled.fss`; row 340); "a place that fixes a type" and the checker as the refuser (row 1043); `LabelExit` as a Java exception and `LabelException` as the library's (row 1041; `runtimeSystem/LabelExit.java`); the dispatch method's test restated (rows 573, 1038); `trait T` in row 1053's example.
+- `compiler.md`, "The checker's gaps": the pair that the Return Type Rule accepts restated (row 1048); the sort of the tied candidates, and where to look first (rows 499, 1046); the traits chapter by its file, and "Assert neither path's answer", as for row 786 (row 1037).
+- `gate.md`, "The atomic runs": the count of programs cut; the list gives them.
+- `interpreter.md`, "What walk checks": `NN32` is an object in walk's library (`LibraryBuiltin/FortressBuiltin.fsi:132`; row 1044); `ZZ64` comprises the one object `Long` (row 550); why the arrow pair breaks the Return Type Rule (row 1049).
+- `revival-changes.md`, "Traits and objects": row 1037 beside the rule to declare a method again without `override`; "also where `X` is an object type" and "still" cut; `MIN` and `MAX` from the switch-over, since the compiler's prelude declares neither (`Library/CompilerAlgebra.fss:17-23`), with the types that declare their own (P-47); the default body defined; the sentence on where the workaround `s: X = self` has run cut, as the climb batch 31 judgement foresaw.

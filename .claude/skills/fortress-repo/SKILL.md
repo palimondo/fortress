@@ -98,7 +98,7 @@ HotSpot, the JVM's compiler, then compiles the hot bytecode to machine code. A n
 A run keeps the results of its phases in the caches, so that a later run can reuse them. The caches are folders in `default_repository/caches/`, or in a private caches folder that a run names. An entry is one file in a cache, written for one source file.
 
 - `interpreter_parsed_cache/`: walk's parsed tree of each file, `X-<hash>.tfi` for an api and `X-<hash>.tfs` for a component.
-- `interpreter_cache/`: walk's tree of each component after the phases. Walk loads it back and interprets it. The entry is a text dump of the tree. It starts `(Component @"`, then the source's absolute path.
+- `interpreter_cache/`: walk's tree of each component after the phases. Walk loads it back and interprets it. The entry is a text dump of the tree. It starts `(Component @"`.
 - `analyzed_cache/`: the results of the phases that `fortress compile` reuses.
 - `bytecode_cache/`: one jar for each compiled component.
 
@@ -110,7 +110,7 @@ In the first three caches, `<hash>` is a hash of the source's absolute path, and
 
 Fortress evaluates in parallel by default, not in Java's left-to-right order. The iterations of a `for` loop, the elements of a tuple, and the arguments and operands of a call can run at once. A loop is sequential only if every generator is `seq(...)`. The parallel parts run as tasks on a work-stealing pool, the fork/join pool of Doug Lea (a `java.util.concurrent.ForkJoinPool`). `FORTRESS_THREADS` sets its number of threads. Tasks, transactions and the pool are built twice, independently: for walk in `interpreter/evaluator/tasks/`, and for the compiled path in `runtimeSystem/`.
 
-`x = e` declares an immutable variable. `var x: T = e` and `x: T := e` declare a mutable one, and `x := e` assigns to it (`Specification/basic/variables.tex`). These are Scala's `val` and `var`, or Swift's `let` and `var`. A field is immutable unless it is declared with `var`. A value object is a tuple, `()`, or an object whose declaration, or a trait that it extends, has the `value` modifier, as the library's numbers, characters and booleans do. It has only immutable fields and value semantics, like a Swift `struct`. Any other object, except a function, is a reference object, like an instance of a Swift class. Each construction makes a new reference object, distinct from all others (`Specification/basic/objects.tex:24-33`).
+`x = e` declares an immutable variable. `var x: T = e` and `x: T := e` declare a mutable one, and `x := e` assigns to it (`Specification/basic/variables.tex`). These are Scala's `val` and `var`, or Swift's `let` and `var`. A field is immutable unless it is declared with `var`. A value object is a tuple, `()`, or an object whose declaration, or a trait that it extends, has the `value` modifier, as the library's numbers, characters and booleans do. It has only immutable fields and value semantics, like a Swift `struct`. Nothing refuses a `var` field in a value object, so give it none. Any other object, except a function, is a reference object, like an instance of a Swift class. Each construction makes a new reference object, distinct from all others (`Specification/basic/objects.tex:24-33`).
 
 Parallel code stays free of races in these ways:
 
@@ -123,11 +123,13 @@ So `acc := acc + x` inside a parallel `for`, with no `atomic`, is a race. The su
 
 Inside an `atomic` block, the compiled code tracks each mutable variable that the block reads or writes, an object's `var` field among them. From the switch-over, it also tracks each array element that the block reads or writes (`references/compiler.md`).
 
+An `exit` out of an `atomic` block loses the block's writes, on both paths (ledger row 1039). Set a flag in the block, and exit after the block.
+
 ## Fortress as a language
 
 Each point below corrects an assumption from a language that you know. `references/tests-writing.md` gives the form of a program.
 
-- **Dispatch is on every argument, at run time.** A call chooses among overloads by the run-time types of all its arguments, as in Julia, not by static types as in Java. The checker accepts two overloads only if their parameter types exclude each other, one is strictly more specific, or a third covers their meet. The more specific one's return type must fit the other's. Walk checks part of this at load.
+- **Dispatch is on every argument, at run time.** A call chooses among overloads by the run-time types of all its arguments, as in Julia, not by static types as in Java. The checker accepts two overloads only if their parameter types exclude each other, one is strictly more specific, or a third covers their meet. The more specific one's return type must fit the other's: the Return Type Rule. Walk checks part of this at load.
 - **Functional methods.** A method with `self` among its parameters is called `f(x)`, not `x.f()`. It overloads with top-level functions. Most operators are declared so: `opr +(self, other: T): T`. A functional method's name is reserved in every program that imports it, so do not name a variable after it. One type must not have a dotted and a functional method of the same name.
 - **Traits and objects, no classes.** A trait has methods and abstract fields, and extends several traits. An object is a leaf. `excludes {A, B}` says that no value has both types. `comprises {A, B}` says that every value has a listed type, near Scala's `sealed`. No type may extend two instantiations of one generic trait. This exclusion rule is why the number types are flat (below).
 - **Static parameters.** They are written `[\T\]`, and `[i]` indexes. Their kinds are types, sizes (a `nat` or `int` parameter used as a value is a `ZZ32`, but a `ZZ` where it is one of a numeral type's numbers: `references/revival-changes.md`, "Numbers"), `bool` and `opr`. Generics are invariant: there is no `+T` or `-T`. An unbounded type parameter is bounded by `Any`, which holds tuples, functions and `()`, as `Object` does not. A type parameter that a call does not fix takes its bound. Under walk, one whose bound names the parameter itself stays open, and every value passes it. Walk instantiates a reduction or a comprehension without static arguments at the type declared for its value: a local variable's type, or a top-level or local function's return type. Without one, it uses the join, the least common supertype, of its elements' run-time types. Some other cases still get the empty type `Bottom` under walk (`references/revival-changes.md`, "Static parameters").
