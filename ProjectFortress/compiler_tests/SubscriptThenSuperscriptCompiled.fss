@@ -1,0 +1,27 @@
+(* A subscript followed by a superscript or by another subscript applies each in turn, left to right (juxtameaning.tex, section "Juxtaposition"). *)
+component SubscriptThenSuperscriptCompiled
+export Executable
+
+object Mat(v: ZZ32)
+    opr [i: ZZ32]: ZZ32 = v + i
+end
+
+object Grid(v: ZZ32)
+    opr [i: ZZ32]: Mat = Mat(v + i)
+end
+
+mk(): Mat = Mat(1)
+
+run(): () = do
+    x = Mat(7)
+    assert(x[5]^2, 144, "x[5]^2")
+    y: ZZ32 = x[2]^3
+    assert(y, 729, "x[2]^3 at a declared type")
+    assert((mk())[5]^2, 36, "(mk())[5]^2")
+    g = Grid(7)
+    assert(g[1][2], 10, "g[1][2]")
+    assert(g[1][2]^2, 100, "g[1][2]^2")
+    println("PASS")
+end
+
+end

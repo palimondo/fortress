@@ -310,10 +310,15 @@ trait Operators { self: STypeChecker with Common =>
             val newExpr = item match {
               case SExponentiationMI(_,op,expr) =>
                 EF.makeOpExpr(op, head, toJavaOption(expr))
+              // A subscript is a call of the subscript operator's method, as
+              // the desugaring before the checker writes every subscript
+              // expression (AssignmentAndSubscriptDesugarer.desugarSubscriptExpr).
               case SSubscriptingMI(_,op,exprs,sargs) =>
-                EF.makeSubscriptExpr(span, head,
-                                              toJavaList(exprs), some(op),
-                                              toJavaList(sargs))
+                EF.makeMethodInvocation(EF.makeSubscriptExpr(span, head,
+                                                             toJavaList(exprs), some(op),
+                                                             toJavaList(sargs)),
+                                        head, op, toJavaList(sargs),
+                                        EF.makeMaybeTupleExpr(NU.getSpan(op), toJavaList(exprs)))
               case _ =>
                 syntaxError(item, "Non-expression element is expected.")
                 head
@@ -352,6 +357,9 @@ trait Operators { self: STypeChecker with Common =>
           // THE FRONT ITEM WAS NOT A FN FOLLOWED BY AN EXPR, REASSOCIATE REST
           } else {
             val (head, tail) = associateMathItems( newFront, rest )
+            // Where every item applied in turn to the front, as in x[5]^2, the
+            // primary is that one application, which no juxtaposition takes.
+            if ( tail.isEmpty ) return checkExpr(head, expected)
             // Otherwise, left-associate the sequence, which has only expression
             // elements, only the last of which may be a function.
             val newTail = tail.map( (e:MathItem) =>
