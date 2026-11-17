@@ -1,1 +1,2 @@
 load_exception_contains=NoSuchArgType is undefined.
+load_exception_WIcontains=NoSuchStaticArg is undefined.
