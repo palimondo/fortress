@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Take F-34's measure on run 1's tree","toolUseId":"toolu_0145quwBZS8Shb2oMZww1VZV","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Take F-34's measure on run 1's tree","toolUseId":"toolu_0145quwBZS8Shb2oMZww1VZV","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
