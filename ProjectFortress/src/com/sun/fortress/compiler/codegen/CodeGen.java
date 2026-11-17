@@ -7353,20 +7353,24 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
     /*
      * Whether the generic method that a dotted call names, with nsargs static arguments, at the
-     * tuple domain_type, declares one parameter: each generic declaration of the name that
-     * the receiver's type holds with nsargs static parameters declares one.
+     * tuple domain_type, declares one parameter: a generic declaration of the name that the
+     * receiver's type holds with nsargs static parameters declares one, and none declares a
+     * parameter for each of the tuple's elements.  A declaration of another number of
+     * parameters cannot take the call.
      */
     private boolean genericMethodTakesOneParameter(Type receiverType, IdOrOp method, int nsargs,
                                                    Type domain_type) {
         if (!(domain_type instanceof TupleType) || NodeUtil.isVoidType(domain_type)) return false;
         if (!(receiverType instanceof TraitType)) return false;
+        int n = ((TupleType) domain_type).getElements().size();
         boolean one = false;
         for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m :
                  methodsNamed((TraitType) receiverType, method, Naming.NO_SELF)) {
             Functional fnl = m._1();
             if (fnl.staticParameters().size() != nsargs) continue;
-            if (fnl.parameters().size() != 1) return false;
-            one = true;
+            int k = fnl.parameters().size();
+            if (k == 1) one = true;
+            else if (k == n) return false;
         }
         return one;
     }

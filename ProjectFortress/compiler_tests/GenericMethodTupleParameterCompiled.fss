@@ -13,6 +13,11 @@ end
 
 object Picker extends Pick end
 
+object Two
+    tk[\U\](y: (U, U)): U = do (a, c) = y; c end
+    tk[\U\](y: U, z: U, w: U): U = w
+end
+
 run(): () = do
     b = Box[\ZZ32\](1)
     assert(b.first[\ZZ32\]((2, 3)), 2, "first of a pair expression")
@@ -23,6 +28,9 @@ run(): () = do
     (u, v) = b.wrap[\(ZZ32, ZZ32)\](pr)
     assert(10 u + v, 45, "wrap at a pair static argument, of a pair variable")
     assert(Picker.second[\ZZ32\]((6, 7)), 7, "a trait's generic method of a pair")
+    assert(Two.tk[\ZZ32\]((8, 9)), 9, "a generic method of a pair beside one of three parameters")
+    assert(Two.tk[\ZZ32\](pr), 5, "a generic method of a pair variable beside one of three parameters")
+    assert(Two.tk[\ZZ32\](1, 2, 3), 3, "a generic method of three parameters beside one of a pair")
     println("PASS")
 end
 
