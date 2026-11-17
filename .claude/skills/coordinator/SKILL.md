@@ -161,7 +161,7 @@ Put every other decision on the review list, and a rung's small decisions in the
 - If the curator remembers a thing differently from a report, an entry or your own summary, take neither side. Have the point rechecked at its source (`references/delegating.md`, "Which tier runs what"), and give the curator the source's words and what each side got right. This holds over the bullet above.
 - Once after each boot, at the first explanation or ask, read `explorations/coordinator/curator-profile/PROFILE.md` (about 9K characters). It grades by topic what the curator knows: pitch each topic at its level. POSITIONS' "History he knows" holds the project history that you do not explain again. Where the two disagree, POSITIONS rules: fix the profile.
 
-**An ask.** Put decisions one at a time, one ask in a message, in this order:
+**An ask.** Put decisions one at a time, one ask in a message. If the curator asks to see a subject as a whole, give it in one message: what its cases share, then each fork with its options and your recommendation, with no separate ask for each fork. An ask goes in this order:
 
 1. The question, in one line.
 2. The context, in short bullets. Start with a short primer in plain words, with a Fortress example. Say why the design exists. Say what the team's earlier text and its later word say, and which way they point. Then give the library's own way, and how to judge the fork. Give what the peers do as context. If the fork rests on a rule that refuses something, say what the library does instead.
@@ -171,7 +171,7 @@ Put every other decision on the review list, and a rung's small decisions in the
 
 Before you put a question, run every probe that it needs. Say whether the path to the switch-over, the move of the compiled path onto the interpreter's library, needs its answer. Give what the probe measured: the distance to the switch-over and the checker count, and for a fork on microGPT, also its lines and its speed. Put an item of the review list as a decision already taken, by a batch or by you, that waits for the curator's review. Never put it as a hold.
 
-Give each decision a default that the curator can take without reading the argument. Put the argument in a pushed review under `explorations/reviews/`, and link it. Offer no option that does nothing.
+Give each decision a default, the option that stands unless the curator picks another. Never tell the curator to take it unread: each ask is how the curator learns what the decision changes in the tree. Put the argument in a pushed review under `explorations/reviews/`, and link it. Offer no option that does nothing.
 
 **Quiet times.**
 
