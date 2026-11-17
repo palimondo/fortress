@@ -1,0 +1,12 @@
+(* A numeral compared by = with a zero of RR32 goes to RR32's own =, and the answer is true. *)
+component XXXNumeralEqualsRR32Compiled
+export Executable
+
+run(): () = do
+    c: RR32 = 0
+    println("REACHED")
+    assert(c = 0, "u = 0 at RR32")
+    println("PASS")
+  end
+
+end

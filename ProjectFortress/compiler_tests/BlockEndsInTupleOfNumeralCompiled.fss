@@ -1,0 +1,32 @@
+(* A tuple with a numeral element converts element by element at a declared tuple type, at the end of a block, nested in a tuple and at an if's other branch (conversions-coercions.tex, section "Coercions for Tuple and Arrow Types"). *)
+component BlockEndsInTupleOfNumeralCompiled
+export Executable
+
+pair(k: ZZ32): (ZZ32, ZZ32) = do (1, k) end
+
+nest(): ((ZZ32, ZZ32), String) = ((10, 20), "s")
+
+addPair(p: (ZZ32, ZZ32)): ZZ32 = do
+    (a, b) = p
+    a + b
+  end
+
+flag: Boolean = true
+
+run(): () = do
+    (a, b) = pair(5)
+    assert(a + b, 6, "the numeral and the value")
+    (p, s) = nest()
+    (c, d) = p
+    assert(c + d, 30, "the numerals of the inner tuple")
+    assert(s, "s", "the string beside them")
+    j: ZZ32 = 7
+    assert(addPair(do (1, j) end), 8, "a block as an argument at the parameter's tuple type")
+    i: ZZ32 = 2
+    x = if flag then (1, j) else (i, j) end
+    (x1, x2) = x
+    assert(x1 + x2, 8, "a branch's tuple at the type of the if's other branch")
+    println("PASS")
+end
+
+end

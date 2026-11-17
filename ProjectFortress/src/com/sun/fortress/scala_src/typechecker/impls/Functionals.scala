@@ -1309,6 +1309,8 @@ trait Functionals { self: STypeChecker with Common =>
     case SCaseExpr(_, _, _, _, _, clauses, els) => (els.toList ++ clauses.map(_.getBody)).exists(numeralResult)
     case STry(_, body, catchC, _, None) =>
       numeralResult(body) || catchC.exists { case SCatch(_, _, cs) => cs.exists { case SCatchClause(_, _, b) => numeralResult(b) } }
+    case SLetExpr(_, body) => numeralResult(body)
+    case STupleExpr(_, es, None, Nil, _) => es.exists(numeralResult)
     case _ => false
   }
 
@@ -1361,6 +1363,22 @@ trait Functionals { self: STypeChecker with Common =>
                    .map(ncs => Some(SCatch(i, name, ncs)))
              })
           yield STry(SExprInfo(sp, p, Some(d)), nb, nc, forbid, None)
+      // a block's last element after a local declaration is the declaration's body
+      case SLocalVarDecl(SExprInfo(sp, p, _), body, lhs, rhs) if !body.getExprs.isEmpty =>
+        block(body).map(b => SLocalVarDecl(SExprInfo(sp, p, Some(d)), b, lhs, rhs))
+      case SLetFn(SExprInfo(sp, p, _), body, fns) if !body.getExprs.isEmpty =>
+        block(body).map(b => SLetFn(SExprInfo(sp, p, Some(d)), b, fns))
+      // a tuple converts element by element, each element where it stands
+      case t@STupleExpr(SExprInfo(sp, p, _), es, None, Nil, inApp) => d match {
+        case STupleType(_, ds, None, Nil) if ds.size == es.size =>
+          val nes = es.zip(ds).map { case (x, xt) =>
+            if (numeralResult(x)) joinInto(x, xt)
+            else if (getType(x).exists(isSubtype(_, xt))) Some(x)
+            else coercions.buildCoercion(x, xt) }
+          if (nes.forall(_.isDefined)) Some(STupleExpr(SExprInfo(sp, p, Some(d)), nes.map(_.get), None, Nil, inApp))
+          else None
+        case _ => if (getType(t).exists(isSubtype(_, d))) Some(t) else None
+      }
       // a result that already has the type stays as it is
       case x if !NumeralConversion.isNumeral(x) && !numeralResult(x) && getType(x).exists(t => isSubtype(t, d)) => Some(x)
       case _ => None

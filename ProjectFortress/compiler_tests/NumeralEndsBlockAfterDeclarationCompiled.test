@@ -1,0 +1,4 @@
+tests=NumeralEndsBlockAfterDeclarationCompiled
+link
+run
+run_out_contains=PASS

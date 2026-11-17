@@ -1,0 +1,3 @@
+tests=NumeralNotEqualsRR32Compiled
+compile
+compile_err_contains=Could not check call to operator NE

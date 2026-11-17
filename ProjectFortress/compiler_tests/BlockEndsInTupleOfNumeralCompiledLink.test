@@ -1,2 +1,2 @@
-tests=XXXBlockEndsInTupleOfNumeralCompiled
+tests=BlockEndsInTupleOfNumeralCompiled
 link

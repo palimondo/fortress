@@ -1,0 +1,16 @@
+(* A numeral that ends a block after a local declaration, at a binding without a declared type, takes its default, ZZ32 (blocks.tex, section "Do Expressions"). *)
+component XXXNumeralEndsUntypedBlockCompiled
+export Executable
+
+run(): () = do
+    x = do
+        k: ZZ32 = 3
+        4
+      end
+    println("REACHED")
+    y: ZZ32 = x
+    assert(y, 4, "the block's value at its default")
+    println("PASS")
+  end
+
+end

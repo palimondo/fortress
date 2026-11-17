@@ -1,0 +1,3 @@
+tests=XXXNumeralEqualsRR32Compiled
+run
+run_out_contains=REACHED
