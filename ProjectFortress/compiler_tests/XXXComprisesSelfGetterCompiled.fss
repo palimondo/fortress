@@ -1,0 +1,17 @@
+(* A getter of the type that the comprises clause lists, read on self in the trait, compiles (var-ref.tex, section "Identifier References"; types-vals-vars.tex, section "Intersection and Union Types"). *)
+component XXXComprisesSelfGetterCompiled
+export Executable
+
+trait Q comprises { R }
+    den(): ZZ32 = self.d
+end
+
+value object R(n: ZZ32, d: ZZ32) extends Q end
+
+run(): () = do
+    q: Q = R(1, 2)
+    assert(q.den(), 2, "the listed type's getter read on self")
+    println("PASS")
+  end
+
+end
