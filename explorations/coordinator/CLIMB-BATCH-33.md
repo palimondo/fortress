@@ -1,6 +1,7 @@
 <!-- The record of climb batch 33, in two runs (climb batch 33 and climb batch 33b), for the coordinating session, the curator and the batch's workers: the first rungs of microGPT's slice under P-33. Run 1: the selector by which the compile command reads the one library beside the compiler's prelude, with a test track under the gate (S); a typecase arm at an undefined name refused (D); the kind environment of two generic forms (V); self at a self type or a listed type in a conditional's arm, a closure and a default body, review-queue item 572 (Q); four of the checker's smaller gaps (C). Run 2, on run 1's landed tree: a method entry found by its api, the root of rows 940, 942 and 1061 (R); the prelude's half of P-178 by the carriers' review's way C in its form 2, built once for both libraries (N). -->
 <!-- History. Drafted 2026-11-17 by the planning worker of climb batch 33, on Opus, against `main` at `1c7e7415aa`, whose code is that of `c3b16ef2d1`, the base build `/home/user/fortress-base37` (`git diff --stat c3b16ef2d1 HEAD -- . ':!explorations' ':!docs' ':!.claude'` prints nothing). -->
 <!-- Checked 2026-11-17 by a fresh reader on Fable before any launch; its findings, and each change that it made here with its reason: `coordinator/climb-batch-33-review.md`. -->
+<!-- Amended 2026-11-17 by the same planner at the coordinator's request, after the curator asked why varargs and rows 540 and 315 were not in the batch: rung I (row 540) added to run 1; rungs W (row 315) and G (row 624, varargs) added to run 2; the probes in `compile-ladder/plan-33/PROBES.md`, section 11. -->
 <!-- **No go.** The curator asked on 2026-11-13 for this batch to be planned and said that its start is not authorized ("You should work on planning next batch (Start's not authorized yet!)"). This record launches nothing. Section 2 is written for his go or his refusal. -->
 <!-- Sources: the planner's brief (`<scratchpad>/batch31/planner-33-brief.md`); POSITIONS P-33 with its history, P-178 with its history, P-37 with its history, P-17, P-60, P-146, P-148, P-167, P-173; FACTS F-34, F-53, F-352, F-353; `compile-ladder/plan-31/probes/switch-rehearsal.md`; `compile-ladder/plan-31/probes/probe-y.md`; `reviews/plan-review-2026-11-10.md`, section 7; `reviews/carriers-ways-2026-11-13.md`, whole; `coordinator/CLIMB-BATCH-31.md`, section 2, "The merge" and "For the batch after, in this order", and section 3, item 5; `reviews/batch-31-review.md`, "The steps due before run 2"; `reviews/batch-31b-review.md`, Part 5 and "The steps due before the batch after"; review-queue items 513, 521, 522 and 572; the ledger rows named in section 1; the `coordinator` skill's `references/batch.md`, "The go" and "The workflow"; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; the code at the sites. -->
 <!-- The planner's probes: `compile-ladder/plan-33/PROBES.md`, with the prelude probe's patch and the programs in `compile-ladder/plan-33/probes/`, run in two worktrees of the planner's own, `/home/user/fortress-p33` and `/home/user/fortress-p33m`, seeded from the base build and removed after. The two compiled tracks ran twice in scratch; no gate stage ran. -->
@@ -9,7 +10,7 @@
 
 ## 1. The manifest, rung by rung
 
-The batch's generator writes each run's manifest from this section. Each rung's `section` is its section 4 heading, word for word without its backticks. Run 1, climb batch 33, holds S, D, V, Q and C in that order; run 2, climb batch 33b, holds N and R. V and Q share `compiler/codegen/CodeGen.java`, and their order is that of their lowest edited lines; in run 2, N's lowest line in that file is above R's (section 4, "The rule the rungs keep"). The expected minutes order the scatter only. REC stands for `doc:explorations/coordinator/CLIMB-BATCH-33.md#`, PRB for `doc:explorations/compile-ladder/plan-33/PROBES.md#`, PY for `doc:explorations/compile-ladder/plan-31/probes/probe-y.md#`, REH for `doc:explorations/compile-ladder/plan-31/probes/switch-rehearsal.md#`, CW for `doc:explorations/reviews/carriers-ways-2026-11-13.md#`, SPEC for `doc:Specification/`, and SRC for `code:ProjectFortress/src/com/sun/fortress/`. A briefing key marked (check) is also in the rung's `checks` list, which its skeptic, a judge and a repair round read. Every key was checked with `facts-extract.sh --check` on `main`, each matching one place (PRB, section 10).
+The batch's generator writes each run's manifest from this section. Each rung's `section` is its section 4 heading, word for word without its backticks. Run 1, climb batch 33, holds S, D, V, Q, I and C in that order; run 2, climb batch 33b, holds N, W, G and R. In run 1, V, Q and I share `compiler/codegen/CodeGen.java`; in run 2, N, W and G share `compiler/NamingCzar.java`, and N, G and R share `CodeGen.java`. The order of each run is that of the rungs' lowest edited lines in the files that they share (section 4, "The rule the rungs keep"). The expected minutes order the scatter only. REC stands for `doc:explorations/coordinator/CLIMB-BATCH-33.md#`, PRB for `doc:explorations/compile-ladder/plan-33/PROBES.md#`, PY for `doc:explorations/compile-ladder/plan-31/probes/probe-y.md#`, REH for `doc:explorations/compile-ladder/plan-31/probes/switch-rehearsal.md#`, CW for `doc:explorations/reviews/carriers-ways-2026-11-13.md#`, SPEC for `doc:Specification/`, and SRC for `code:ProjectFortress/src/com/sun/fortress/`. A briefing key marked (check) is also in the rung's `checks` list, which its skeptic, a judge and a repair round read. Every key was checked with `facts-extract.sh --check` on `main`, each matching one place (PRB, section 10).
 
 | run | id | slug | title | expected minutes |
 |---|---|---|---|---|
@@ -17,16 +18,19 @@ The batch's generator writes each run's manifest from this section. Each rung's 
 | 1 | D | `rung-typecase-undefined-arm` | A typecase arm at a name that no declaration defines is refused | 150 |
 | 1 | V | `rung-kind-env-generic` | The kind environment of a generic declaration's types on the compiled path | 200 |
 | 1 | Q | `rung-self-arm-closure` | self at a self type or a listed type: a conditional's arm, a closure, a default body | 200 |
+| 1 | I | `rung-intersection-receiver` | A method call on a value typed by an intersection | 150 |
 | 1 | C | `rung-checker-small-gaps` | Four of the checker's smaller gaps | 220 |
 | 2 | N | `rung-number-payload-objects` | The prelude's seven number types as value objects over hand-written payload classes | 300 |
+| 2 | W | `rung-closure-name-once` | One class name for each function expression that shares a source span with another | 150 |
+| 2 | G | `rung-varargs` | A varargs parameter compiled as one immutable array of the arguments | 280 |
 | 2 | R | `rung-api-method-index` | A method of an imported api's trait found by its api | 200 |
 
-Fields common to the seven rungs:
+Fields common to the ten rungs:
 
 - **path:** `/home/user/fortress-<slug without its rung- prefix>`, as `/home/user/fortress-library-selector`; **branch:** `wip/<slug>`.
 - **writes state:** no. **joins the gate:** S's test track joins `testFast` (section 4, S); otherwise none, but the specification's build at each run's gather. **expected moves:** none.
-- **lands only with:** none. In each run every rung lands on its own. N and R are written on run 1's landed tree: N's names table follows S's selector and N's check on the one library needs it, and R's gated test of row 1061 compiles a program under S's selector.
-- **its test is the stage:** no. **the stages:** S, D, V, C, N and R run the count stage and the distance stage once on their final trees, as a step of their sections: S edits the command that the stages' driver calls, D the disambiguator that both paths run, V, C and R the checker's Scala, N the table that the checker's rewrite of the bindings reads. Q runs neither and lists its files (`STAGE_BLIND`). V, Q, N and R each run the distance stage's shadow patch once on their final trees, since that tool edits a copy of `CodeGen.java`.
+- **lands only with:** none. In each run every rung lands on its own. N, W, G and R are written on run 1's landed tree: N's names table follows S's selector, and the tests of W, G and R compile programs under it. G and W need no other rung of run 2: the planner compiled their programs under the selector without row 1061's repair (PRB, section 11).
+- **its test is the stage:** no. **the stages:** S, D, V, C, N and R run the count stage and the distance stage once on their final trees, as a step of their sections: S edits the command that the stages' driver calls, D the disambiguator that both paths run, V, C and R the checker's Scala, N the table that the checker's rewrite of the bindings reads. Q, I, W and G run neither and list their files (`STAGE_BLIND`): their edits are in the code generator, which the stages do not run. V, Q, I, N, G and R each run the distance stage's shadow patch once on their final trees, since that tool edits a copy of `CodeGen.java`; W too if it edits that file.
 - **expected checker count:** none declared; the count stays 0 and the distance 0 with `#crash none`, as climb batch 31b's gate left them (F-53). **expected checker crash:** none.
 
 ### S
@@ -131,6 +135,25 @@ Fields common to the seven rungs:
   - SRC `runtimeSystem/MethodInstantiater.java#Class cl = Class.forName(new_owner_class_name, true, icl)` (check): the load of row 1052.
   - REC `Forks the batch takes` (check): the defaults you build.
 
+### I
+- **slug:** `rung-intersection-receiver`
+- **worktree:** `/home/user/fortress-intersection-receiver`
+- **section:** `I. A method call on a value typed by an intersection on the compiled path: the receiver found among the conjuncts (row 540)`
+- **blurb:** where a call's result is typed by the intersection of its candidates' return types, as choose(m) is by LeftResult and RightResult, a method call on it crashes the compile: 'ClassCastException: IntersectionType cannot be cast to NamedType' (row 540). The checker's typing is right and stays. The one library's __filter stops at this wall. The rung finds the method's owner among the conjuncts and casts the receiver to it.
+- **points to report:**
+  - The owner as found: the rule that picks the conjunct, where several declare the method, and the cast.
+  - Row 540's test promoted to a run test, failing on the base and passing after; the variable, the getter and the `.right()` forms of its notes.
+  - Whether the distance stage's shadow patch still applies to your `CodeGen.java`.
+  - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
+- **briefing** (7 keys, 5 checks):
+  - P-60 (check): a `comprises` clause speaks of values; the typing by the intersection stays.
+  - ledger:540 (check): the method call on an intersection, which closes.
+  - SPEC `advanced/overloading.tex#Coercion and Overloading Resolution`: how a call's type is fixed.
+  - SRC `compiler/codegen/CodeGen.java#public void forMethodInvocation(MethodInvocation x)` (check): the dotted call.
+  - SRC `compiler/codegen/CodeGen.java#private Type sanitizePossibleStupidIntersectionType(Type receiverType)` (check): where the receiver's type is narrowed today.
+  - REH `3. The code generator over the library today, against F-34`: the library's site, `__filter`.
+  - REC `Forks the batch takes` (check): the defaults you build.
+
 ### C
 - **slug:** `rung-checker-small-gaps`
 - **worktree:** `/home/user/fortress-checker-small-gaps`
@@ -196,6 +219,55 @@ Fields common to the seven rungs:
   - `map:compile-path-walkthrough.md#6. The run: the second JVM and the class loader`: how a class is loaded and named at the run.
   - REC `Forks the batch takes` (check): the defaults you build.
 
+### W
+- **slug:** `rung-closure-name-once`
+- **worktree:** `/home/user/fortress-closure-name-once`
+- **section:** `W. One class name for each function expression on the compiled path, where two share a source span: the right operand of AND: that is a reduction (row 315)`
+- **blurb:** the code generator names a function expression's class by its source span alone, so two function expressions at one span get one name, and the compile dies: 'ZipException: duplicate entry'. The one library's = on lists and on its ordered sequences meets it at (|self| = |other|) AND: (BIG AND [(a,b) <- self.zip(other)] a = b): the thunk that AND: makes of its operand and a closure of the reduction share the operand's span (row 315). The compiled = of two integers names that class. The rung gives each function expression a name of its own, with its test under the selector.
+- **points to report:**
+  - Which two nodes share the span, by the desugaring that makes each.
+  - The naming as built: which expression keeps today's name, how the second is named, and why the result does not depend on a hash order.
+  - Row 315's test under the selector, failing on the base and passing after; its run test, an expected failure until the one library compiles whole.
+  - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
+- **briefing** (8 keys, 4 checks):
+  - ledger:315 (check): the closure class written twice, which closes.
+  - PRB `11. Varargs` (check): the program, its two variants that compile, and the span.
+  - SRC `compiler/NamingCzar.java#public static String gensymArrowClassName(String desc, Span sp)` (check): where the name is made.
+  - SRC `compiler/codegen/CodeGen.java#public void forFnExpr(FnExpr x)`: its caller, which run 1's rung Q edited.
+  - REH `W10. A closure class written twice into the jar`: the library's site, on the path of `=` on two integers.
+  - ledger:996: the order of the code generator's output, on which the name must not depend.
+  - REC `S. The library selector`: the selector under which the test compiles.
+  - REC `Forks the batch takes` (check): the defaults you build.
+
+### G
+- **slug:** `rung-varargs`
+- **worktree:** `/home/user/fortress-varargs`
+- **section:** `G. A varargs parameter on the compiled path: the arguments that no plain parameter takes passed as one immutable array, at a call and in a dispatch method, under the selector (row 624)`
+- **blurb:** the code generator refuses every function and method with a varargs parameter, 'Can't compile VarArgs yet', and every call of one (row 624). The one library declares assert, deny, the list constructor and its stream's print and println so, and println is on the path of every program. The specification and the decisions on record fix the value: an immutable one-dimensional array of the arguments that no plain parameter takes, typed ImmutableArray[T, ZZ32], as walk builds it with the library's __immutableFactory1. The rung compiles it under the selector; the prelude declares no such array type, so there it stays refused.
+- **points to report:**
+  - The convention as built: the JVM parameters of a varargs declaration, where the array is made, at a call and in a dispatch method, and how a call of each arity reaches the varargs declaration.
+  - Row 624's test under the selector, failing on the base and passing after; the run test, an expected failure until the one library compiles whole; the bytecode of one call, with the array made and filled.
+  - The prelude's two expected-failure tests: unchanged, or their message.
+  - The measure on a scratch copy of your final tree: how many of the refused declarations remain, and what stops `Generator2` and `CatString` behind varargs.
+  - Whether the distance stage's shadow patch still applies to your `CodeGen.java`.
+  - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
+- **briefing** (15 keys, 10 checks):
+  - P-37 (check): the prelude gains no declaration, so no array type there.
+  - F-86 (check): the checker types the parameter as `ImmutableArray[\T, ZZ32\]` and applies the expansion rule.
+  - ledger:624 (check): the refusal, which closes under the selector.
+  - ledger:604: the checker's refusal under the prelude, which stays.
+  - SPEC `basic/functions.tex#Function Declarations` (check): the parameter's type, and the revival callout that names the array.
+  - SPEC `basic/functions.tex#Function Applications` (check): which arguments the parameter holds, in order.
+  - SPEC `basic/overloading.tex#Applicability for Functionals with Varargs and Keyword Parameters` (check): the expansion rule that a dispatch method follows.
+  - SRC `interpreter/evaluator/values/NonPrimitive.java#private Environment buildEnvFromParams` (check): walk's way, the precedent.
+  - `code:Library/FortressLibrary.fsi#__immutableFactory1[\T, nat b0, nat s0\]()`: the library's factory that walk calls.
+  - SRC `compiler/NamingCzar.java#private static String makeUnboxedTupleDescriptor` (check): one of the four refusals.
+  - SRC `compiler/OverloadSet.java#public static String getSignature(IntersectionType t, int paramCount, TypeAnalyzer ta)`: a dispatch method's signature by arity.
+  - PRB `11. Varargs` (check): the stand-in, the test and the measure.
+  - REH `W8. `: `println`'s path through the stream's varargs methods.
+  - REC `S. The library selector`: the selector under which the test compiles.
+  - REC `Forks the batch takes` (check): the defaults you build.
+
 ### R
 - **slug:** `rung-api-method-index`
 - **worktree:** `/home/user/fortress-api-method-index`
@@ -243,9 +315,10 @@ None yet. You asked on 13 November for this batch to be planned, and said that i
 
 ### The two runs
 
-- **Run 1, climb batch 33, five rungs:** S, D, V, Q and C.
-- **Run 2, climb batch 33b, two rungs:** N and R, on run 1's landed tree.
-- **Why two runs.** N and R need S on `main` first. N's table of names follows S's selector, and R's test compiles a program under it. A rung cannot build on another rung of its own run.
+- **Run 1, climb batch 33, six rungs:** S, D, V, Q, I and C.
+- **Run 2, climb batch 33b, four rungs:** N, W, G and R, on run 1's landed tree.
+- **Why two runs.** N, W, G and R need S on `main` first. N's table of names follows S's selector, and the tests of W, G and R compile programs under it. A rung cannot build on another rung of its own run.
+- **Why I is in run 1.** Rung N of run 2 edits the same method of the code generator. In run 1 no rung edits it.
 
 ### Run 1, rung by rung
 
@@ -310,6 +383,18 @@ Each program is shortened to the lines that matter.
 - Today: it compiles, and the run dies: 'NoClassDefFoundError: fortress/CompilerBuiltin$v'. Three more gaps go with it: `x[5]^2` stops the compile; `tally: ZZ32 := 0` does not match the interface file's `var tally: ZZ32`; and in `(total: ZZ64, part) = pair()` the type of `total` goes unchecked.
 - After: each compiles and runs as under walk.
 
+**I. A method call on a value of two types at once.**
+
+- What it changes: the code generator.
+- The program that fails today, where `choose` has one declaration for each of two traits and the checker types `choose(m)` as both results at once:
+
+      choose(s: S): LeftResult = LeftResult
+      choose(t: T): RightResult = RightResult
+      println(choose(m).left())
+
+- Today: the compile crashes: 'ClassCastException: IntersectionType cannot be cast to NamedType' (row 540). The one library's `__filter` stops at this wall.
+- After: it compiles and runs as under walk. The checker's typing does not change.
+
 ### Run 2, rung by rung
 
 **N. The prelude's seven number types become value objects.**
@@ -326,6 +411,32 @@ Each program is shortened to the lines that matter.
 - The probe: I built this form in a scratch tree. The seven types compiled. Programs with each type ran. Both compiled test tracks passed, 1,694 and 263 tests, except four tests whose answer the change itself gives. On the one library, the same form adds no refused declaration.
 - One build serves both libraries for these seven types. So the numbers need no second set of run-time classes (review-queue item 521, below).
 - The one library's seven take this form later, in the rung where the first program runs on the one library, so that their test can fail first. This rung's code generator already serves them.
+
+**W. Two hidden functions, one class name.**
+
+- What it changes: the code generator's names for function classes.
+- The program that fails today, with the selector:
+
+      same(xs: List[\ZZ32\], ys: List[\ZZ32\]): Boolean =
+          (|xs| = |ys|) AND: (BIG AND [(a, b) <- xs.zip[\ZZ32\](ys)] a = b)
+
+- Today: the compile stops: 'ZipException: duplicate entry: ...$\=fn@5\!23-66.class' (row 315). The compiler makes two hidden functions from that line, one for `AND:` and one for `BIG AND`, at the same place in the source, and names both after that place.
+- After: it compiles. The one library's `=` on lists has this form, and the compiled `=` on two integers needs its class.
+- Its run waits until the one library compiles whole.
+
+**G. Functions with a variable number of arguments.**
+
+- What it changes: the code generator.
+- The program that fails today, with the selector:
+
+      count(xs: ZZ32...): ZZ32 = |xs|
+      println(count(4, 5, 6))
+
+- Today: the compile stops: 'Can't compile VarArgs yet' (row 624).
+- After: it compiles. The extra arguments become one array that cannot be changed, as under walk. The specification and its revision say so already, so there is nothing to decide.
+- The one library's `assert`, `deny`, list constructor, `print` and `println` take arguments this way, and `println` stands on the path of every program.
+- Its run waits until the one library compiles whole, so the rung is checked by the compile and by a reading of the bytecode.
+- Against the prelude it stays refused, since the prelude has no array type (your P-37).
 
 **R. A method found by its interface on the compiled path.**
 
@@ -350,51 +461,65 @@ Probe Y asked whether the second set of run-time value classes is a map of names
 ### The merge
 
 - Rung S: one change of the commands, no code-generator file.
-- Rungs V and Q both edit the code generator's main file, `CodeGen.java`, in different methods. D, C and S share no file with them. In run 2, N and R share `CodeGen.java` only if R's repair reaches one method there, which no other rung edits.
-- No two rungs edit the same method. The order and the files are in section 4, "The rule the rungs keep".
+- Rungs V, Q and I edit the code generator's main file, `CodeGen.java`, in different methods. D, C and S share no file with them.
+- In run 2, N, W and G edit the code generator's table of names, `NamingCzar.java`, and N, G and R edit `CodeGen.java`, each in methods of its own. None needs another rung of run 2.
+- No two rungs of one run edit the same method. Rung I of run 1 and rung N of run 2 edit one method, the dotted call's code, and N is read again on I's landed code. The order and the files are in section 4, "The rule the rungs keep".
 
 ### The measures
 
 - **Declarations of the one library that the code generator refuses** (F-34): 17, in 5 kinds, on today's code. The script prints 18: it counts one declaration twice.
-  - V should take the 4 that stop at rung V's wall, so 13, if nothing stands behind them. Behind `List`'s `ArrayList` stands a second crash, row 812's, which V also repairs. So 13 to 17.
+  - Run 1: V should take the 4 that stop at its wall, and I the 1 of row 540, so 12, if nothing stands behind them. Behind `List`'s `ArrayList` stands a second crash, row 812's, which V also repairs. So 12 to 17.
+  - Run 2: G should take the 10 of varargs. In the planner's probe, 8 of them then compiled, and 2 stopped at another wall, one of which may be varargs' own operator form. W should take the 2 of row 315. So 1 or 2 after run 2, if nothing stands behind the walls removed.
   - N moves none. The probe measured 17 with its form in place.
   - S, D, Q, C and R move none: their walls are not of this kind.
 - **Programs that run compiled against the one library:** the rehearsal ran three in a scratch tree (F-352). On `main`: none today, none after run 1, none after run 2. The first one runs after the batch after (below).
-- **Programs that compile against the one library under the selector:** none today. After run 1: two, a `println` and a `QQ` binding. After run 2: three, the array program among them.
+- **Programs that compile against the one library under the selector:** none today. After run 1: two, a `println` and a `QQ` binding. After run 2: five, an array program, a varargs call and the `AND:` reduction among them.
 - **microGPT itself:** it does not compile against the one library after this batch. The reviewer tried the flat program once under the selector. The checker refuses its helper file `FlatArrays` first, with 17 errors of static types, the ones that F-58 counts. That work is a later phase's. This batch moves the library's side only: after run 2 a small program with an array compiles against the one library. No program can run there until the one library compiles whole, which is the batch after's work.
 - The checker's two measures stay 0 and 0.
 
 ### What the batch leaves out
 
 - **The rest of the carriers** (row 874): `Boolean`, `Char`, the flat string, the reader, the writer and the two array stores, on the one library. Rung N's machinery serves them, but each needs a second hand-written class for the one library. That is the batch after's first rung.
-- **The other 13 to 17 refused declarations**: functions with a variable number of arguments (row 624, 10 of them, `println`'s path among them), a closure class written twice (row 315), a method call on a value of two types at once (row 540). The one library cannot be compiled to bytecode until they are gone, so no program runs on it until then.
+- **The refused declarations that remain after run 2,** 1 or 2 by the planner's probe: `Generator2`, which stops at a third wall behind varargs ('Error trying to close method scope', not traced), and perhaps `CatString`. Each declaration counts at its first wall, so others may show once these go. The one library cannot be compiled to bytecode until none is left.
 - **The checker's other gaps** (rows 1007, 1009, 1010, 1012 and 1015): none has a test yet, and two of them touch a decision of yours (P-51).
 - **The stable order of the code generator's output** (row 996; item 522). The selector's tests do not need it. Its rung goes with the next rung that edits the order of the dispatch methods.
 - **Rows 818, 1054, 1055, 1056 and 1035,** in code that rung T of the last batch left.
 
+### What still stands before the first program runs on the one library
+
+After both runs, these stand between `main` and `Hello` compiled and run against the one library:
+
+- **The carriers** (row 874): `Boolean`, `Char`, `FlatString`, the reader, the writer and the two stores, by rung N's machinery, with their hand-written classes as the second set under the selector; the one library's seven number objects in the same form (fork N4); the converters for a helper's `String` and `Object`.
+- **The names of the prelude in the run time:** the helpers' 105 exception names, which name the prelude's classes (probe Y, section 3, item 4), and the string type that `FValue.asString()` returns (the check of this record, A3).
+- **`NN32`'s two getters** (row 993), which stop `FortressBuiltin`'s compile.
+- **The refused declarations that remain** (above), and whatever stands behind them.
+- **The library order of fourteen compiles** in the selector's track, about 200 s a gate.
+
+Then `Hello` runs. At the run, the rehearsal met more: the dispatch's package (row 994, at `seq`), the rest of row 995, and the JVM's verifier, which every rehearsal run had off.
+
 ### For the batch after, in this order
 
-1. The carriers of `Boolean`, `Char`, `FlatString`, the reader, the writer and the two stores on the one library (row 874), by rung N's machinery, with their hand-written classes as the second set under the selector; and the one library's seven number objects in the same form (fork N4), with the first program that runs on the one library as their test.
-2. Varargs (row 624) and the closure class written twice (row 315): the last walls before `println` compiles on the one library.
-3. Row 540, the intersection receiver, the last of the 17. Then the one library compiles whole, and `Hello` runs against it under the gate. Its library order of fourteen compiles joins the selector's track.
+1. The carriers, the run time's prelude names and `NN32`'s getters, above, with the first program that runs on the one library as their test.
+2. `Generator2`'s third wall, and what else the measure shows then. Then the one library compiles whole, and `Hello` runs against it under the gate. Its library order of fourteen compiles joins the selector's track.
+3. Varargs' and row 315's run tests promoted, with the first program that runs.
 4. The walls that only a running program shows: row 994 (the dispatch's package, met at `seq`), `NN32`'s two getters (row 993), what is left of row 995, and the count of what the JVM's verifier refuses in the emitted library. The rehearsal's `Arr` and `Dot` become tests.
 5. Row 996, the stable order, with the next rung on the dispatch's order; rows 818, 1054 to 1056 and 1035; the checker's other gaps.
 6. Then the matrix and the library's `DOT`, whose walls the last batch removed, as tests; then microGPT's own needs under the checker (F-58).
 
-One choice for the batch after is worth your eye now. The rehearsal and probe Y ran programs early by letting the compiler skip each declaration that it refuses. My default is not to do that on `main`: the one library is compiled only when it compiles whole (items 2 and 3). The other way runs `Hello` sooner, but puts a skipping mode into the compiler.
+One choice for the batch after is worth your eye now. The rehearsal and probe Y ran programs early by letting the compiler skip each declaration that it refuses. My default is not to do that on `main`: the one library is compiled only when it compiles whole (item 2). The other way runs `Hello` sooner, but puts a skipping mode into the compiler.
 
 ### Cost and time
 
 The agents run on the regular tiers (`tier-mode.sh status` prints `regular`).
 
-- **Run 1: about 4.1 million tokens written, 4.9 million with the reserve. The range is 3.6 to 5.6 million. About 4 hours, and 4 and three quarters with the reserve.** Five workers write about 2.0 million, five skeptics about 1.2 million, and the fixed roles about 0.9 million. The reserve is 0.8 million and 45 minutes: one ruling on the review with its repair, and one on the gate with its repair and a second gate.
-- **Run 2: about 2.6 million, 3.4 million with the reserve. The range is 2.2 to 4.0 million. About 3 hours, 3 and three quarters with the reserve.** N writes about 1.0 million with its skeptic, R about 0.7 million.
+- **Run 1: about 4.6 million tokens written, 5.4 million with the reserve. The range is 4.0 to 6.4 million. About 4 hours and a half, and 5 hours and a quarter with the reserve.** Six workers write about 2.3 million, six skeptics about 1.4 million, and the fixed roles about 0.9 million. The reserve is 0.8 million and 45 minutes: one ruling on the review with its repair, and one on the gate with its repair and a second gate.
+- **Run 2: about 4.5 million, 5.3 million with the reserve. The range is 3.8 to 6.2 million. About 4 hours and a half, 5 hours and a quarter with the reserve.** N writes about 1.1 million with its skeptic, G about 1.0 million, R about 0.7 million, W about 0.5 million, and the fixed roles about 1.25 million, as in the last batch's second run.
 - The evidence: climb batch 31's run 1 wrote 5.08 million with six rungs in 4 hours 23 minutes, and its run 2 3.93 million with three rungs in 3 hours 24 minutes. Its fixed roles wrote 0.90 million in run 1 and 1.25 million in run 2. A rung with its skeptic wrote 0.53 million on average in run 1 and 0.89 million in run 2.
-- **The disk.** The script stops a run under 1.5 G for each rung plus 4 G. Run 1 needs 11.5 G. Run 2 needs 7 G. Free on 17 November, with the planner's two scratch trees in place: 14.3 G.
+- **The disk.** The script stops a run under 1.5 G for each rung plus 4 G. Run 1 needs 13 G. Run 2 needs 10 G. Free on 17 November, after the planner's scratch trees went: about 15 G.
 
 ### Your review list from this record
 
-- The 21 forks of section 3. Each takes its default. None is consequential by the rule.
+- The 28 forks of section 3. Each takes its default. None is consequential by the rule.
 - Item 521, answered by the probe (above).
 - The choice for the batch after: no skipping mode in the compiler (above).
 - Row 1061, filed by the planner.
@@ -412,8 +537,8 @@ None. The way of the prelude's half (fork H2 of climb batch 31) is settled by P-
 
 Each fork below builds within a decision on record or chooses where the record leaves an implementation open, and each can be undone.
 
-1. **B1. One record, two runs.** Run 1 is S, D, V, Q and C; run 2 is N and R on run 1's landed tree. **Default: so.** Way not taken: one run of seven, in which N's names would not follow the selector and R's row 1061 would have no gated test. The reason: `references/batch.md`, "The go".
-2. **B2. What the batch takes from the list for the batch after.** Of `CLIMB-BATCH-31.md`'s list: the prelude's half (N), row 959 (D), rows 812 and 822 (V), and four of the checker's smaller gaps, those with a test (C). **Default: so.** The rest wait, each with its home in section 2. The reason: each taken piece is defined by its test and its rows; the ones left need a test first (rows 1007, 1009, 1010, 1012, 1015), sit in members that N edits (rows 540, 818, 1054 to 1056), or are behind the library's compile (rows 624 and 315 need a program on the one library to show their library forms).
+1. **B1. One record, two runs.** Run 1 is S, D, V, Q, I and C; run 2 is N, W, G and R on run 1's landed tree. **Default: so.** Way not taken: one run of ten, in which N's names would not follow the selector, and the tests of W, G and R would have no selector to compile under. The reason: `references/batch.md`, "The go".
+2. **B2. What the batch takes from the list for the batch after.** Of `CLIMB-BATCH-31.md`'s list: the prelude's half (N), row 959 (D), rows 812 and 822 (V), four of the checker's smaller gaps, those with a test (C), row 540 (I, in run 1, before N edits its method), and varargs and row 315 (G and W, in run 2, whose tests compile under S's selector; PRB, section 11). **Default: so.** The rest wait, each with its home in section 2. The reason: each taken piece is defined by its test and its rows; the ones left need a test first (rows 1007, 1009, 1010, 1012, 1015) or sit in members that N edits (rows 818, 1054 to 1056).
 3. **B3. The first rung of the batch is item 572 (Q), as the coordinator took it** (review-queue item 572, 1a). **Default: so; Q is in run 1.**
 4. **S1. The selector is `FORTRESS_LIBRARY=one` in the environment or `-Dfortress.library=one`, read once for the JVM, as probe Y built it.** The compile, the run and the harness's run step follow it, since the run step is a process that inherits the environment. **Default: so.** Way not taken: an option of each command, which every script passes on. The reason: the harness's tracks are started with their environment.
 5. **S2. The caches folder follows the selection: `default_repository/caches-one` unless a caches folder is named; the build's stamp and `ant cleanCache` cover both folders.** **Default: so.** Probe Y named the folder by hand; its section 3, hack 2, gives this form.
@@ -433,6 +558,13 @@ Each fork below builds within a decision on record or chooses where the record l
 19. **N5. Row 566's test is promoted only if it passes under both hash modes.** It passed in the probe, where nothing touched its dispatch. **Default: so; else it stays an expected failure and its row gets a note.**
 20. **N6. The team's test `Compiled6.bx` takes its second message, 'Objects can only extend traits.'** Its program's object below `ZZ32` is now refused, which is P-178's answer. **Default: so; a reserved point.**
 21. **R1. The root is repaired, and the team's search of the trait table by the prelude's names stays.** It goes with the prelude. **Default: so; the worker reports whether any test still reaches it.**
+22. **I1. The method's owner is found among the intersection's conjuncts: the conjunct that declares or inherits the called method, the most specific where several do, and the receiver is cast to it.** The checker's typing stays (P-60). **Default: so.** Way not taken: the checker types such a result by one candidate, which narrows what P-60 reads.
+23. **W1. A second function expression at a span that already names a class in its component takes that name with an ordinal suffix, in the order in which the code generator meets them; the first keeps today's name.** **Default: so.** Way not taken: a name from a counter for every function expression, which renames every closure class. The reason: no other class's name changes, and the name follows the tree's order, not a hash order (row 996).
+24. **G1. A declaration's varargs part is one JVM parameter of the type `ImmutableArray[\T, ZZ32\]`; its value is an `ImmutableArray1[\T, 0, n\]` that the library's `__immutableFactory1` makes and the caller fills in order, as walk does.** **Default: so.** The reason: the specification's revival callout on the parameter's type, F-86 and walk's `buildEnvFromParams` fix the value; no decision on record names its JVM form, and a varargs part has no fixed width.
+25. **G2. The array is made where the varargs declaration is chosen: at the call, for a declaration that is not overloaded; in the dispatch method's branch, for an overloaded name, whose dispatch methods hold the varargs declaration at each arity that a call uses, by the expansion rule.** **Default: so.** Way not taken: one method per arity, which writes the body again for each.
+26. **G3. A spread argument at a call, as `f(1, xs...)`, which no line of the libraries writes, is not built.** **Default: so; an expected-failure test and a new row if the parser takes it.**
+27. **G4. Against the prelude a varargs declaration stays refused, since the prelude declares no `ImmutableArray` (P-37); row 624's two prelude tests stay expected failures.** **Default: so.**
+28. **G5. The rung's run test is an expected failure until the one library compiles whole; the check is the compile under the selector and the skeptic's reading of one call's bytecode.** **Default: so.** Way not taken: varargs held until a program runs on the one library, which varargs itself holds back, since `println` needs it.
 
 ## 4. The rungs
 
@@ -540,6 +672,29 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Overlaps by file.** V edits `CodeGen.java` too: "The rule the rungs keep".
 
+### I. A method call on a value typed by an intersection on the compiled path: the receiver found among the conjuncts (row 540)
+
+**The mission.** Where the checker types a call's result by the intersection of its candidates' return types, as `choose(m)` by `LeftResult` and `RightResult` (P-60's reading of `comprises`), a method call on that result crashes the compile: `CodeGen.forMethodInvocation` casts the receiver's static type to `NamedType` (`:7323`), after `sanitizePossibleStupidIntersectionType` (`:7420`) leaves the intersection as it is (row 540). The one library's `__filter` (`Library/FortressLibrary.fss:1404`) is the refused declaration of this kind. You find the method's owner among the conjuncts and cast the receiver to it.
+
+**The decisions this rung builds.** P-60, whose typing stays. Section 3's fork I1.
+
+**What you build, in order.**
+1. **The test first.** Promote `compiler_tests/XXXCoverageReturnMethodCall` to `compile`, `link`, `run`, with the answer that walk prints; add the forms of the row's notes: `choose(m).right()`, the call on a variable bound to the result, and a getter. Seen failing on the base: 'IntersectionType cannot be cast'.
+2. **The owner** (fork I1), and the cast.
+3. **The whole compiled suite once,** `ant testFast`.
+
+**The stages.** None. List your files (`STAGE_BLIND`). Run the shadow patch once and report its exit.
+
+**Rows.** Close 540.
+
+**Specification.** List each sentence that your change makes false, or none.
+
+**Files.** `compiler/codegen/CodeGen.java`: `forMethodInvocation` (`:7186`) and `sanitizePossibleStupidIntersectionType` (`:7420`); your tests. Not: `castToTypeBelow` and the members that Q names; `forTypecase` and the kind environment (V's); the checker; microGPT.
+
+**Reserved points.** A model line: none. A change of which declaration a call reaches.
+
+**Overlaps by file.** V and Q edit `CodeGen.java` too: "The rule the rungs keep". Rung N of run 2 edits `forMethodInvocation` after you, on your landed code.
+
 ### C. Four of the checker's smaller gaps: a subscript then a superscript, a top-level variable made mutable by `:=` under an api's `var`, a typed name in a local tuple binding, and a block's numeral at an untyped binding (rows 1005, 1028, 1029 and 1060)
 
 **The mission.** Four gaps of the compiled checker, each held by an expected-failure test: `XXXSubscriptThenSuperscriptCompiled` (row 1005), `XXXTopLevelVarByAssignExport` (row 1028), `XXXLocalTupleBindingMixedTypes` (row 1029) and `XXXNumeralEndsUntypedBlockCompiled` (row 1060). Walk runs each program. You repair the four in the checker.
@@ -589,7 +744,57 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Reserved points.** A model line: none. A team test changed. A program that ran and is now refused, beyond row 866's form.
 
-**Overlaps by file.** R may edit `CodeGen.java`: "The rule the rungs keep".
+**Overlaps by file.** W and G edit `NamingCzar.java`, G and R `CodeGen.java`: "The rule the rungs keep". Rung I of run 1 changed `forMethodInvocation`: a receiver typed by an intersection is cast to the conjunct that owns the method. Your cast to a payload object's class applies to the receiver's type after that choice; read I's landed code before you edit there.
+
+### W. One class name for each function expression on the compiled path, where two share a source span: the right operand of `AND:` that is a reduction (row 315)
+
+**The mission.** The code generator names a function expression's class by its component and source span alone (`NamingCzar.gensymArrowClassName`, `:892`, from `CodeGen.forFnExpr` and `forLetFn`), so two function expressions at one span get one name, and the jar takes the first and the compile dies: 'ZipException: duplicate entry' (row 315). The one library's `=` on lists and on its ordered sequences meets it at `(|self| = |other|) AND: (BIG AND [(a,b) <- self.zip[\E\](other)] a = b)` (`Library/List.fss:127-128`, and `LexicographicOrder`'s `=`), and the compiled `=` on two integers names that class (the rehearsal's W10). The planner's probe under the selector (PROBES, section 11): the thunk that `AND:` makes of its right operand and a closure of the reduction's desugaring share the operand's span; the reduction alone, in parentheses or not, and an operand that is a block, compile. You give each function expression a name of its own.
+
+**The decisions this rung builds.** None names the mechanism. Section 3's fork W1.
+
+**What you build, in order.**
+1. **The test first,** in S's track: `probes/programs/LexSame.fss`, `compile` under the selection. Seen failing on run 1's landed tree: 'duplicate entry: LexSame$\=fn@5\!23-66.class'. Its run test, an expected failure until the one library compiles whole.
+2. **The two nodes,** by the desugaring that makes each; say which closure of the reduction takes the span.
+3. **The naming** (fork W1), the same from compile to compile.
+4. **The whole compiled suite once,** `ant testFast`: every closure class is named here.
+
+**The stages.** None. List your files (`STAGE_BLIND`). Run the shadow patch once if you edited `CodeGen.java`.
+
+**Rows.** Close 315.
+
+**Specification.** None names a class. List any sentence that your change makes false, or none.
+
+**Files.** `compiler/NamingCzar.java`, `gensymArrowClassName` (`:888-900`); `CodeGen.java`'s two calls of it only if the name needs the node; your tests. Not: N's table of payload objects and G's tuple descriptors in `NamingCzar.java`; microGPT.
+
+**Reserved points.** A model line: none. A class name that a test or a tool reads.
+
+**Overlaps by file.** N and G edit `NamingCzar.java`: "The rule the rungs keep".
+
+### G. A varargs parameter on the compiled path: the arguments that no plain parameter takes passed as one immutable array, at a call and in a dispatch method, under the selector (row 624)
+
+**The mission.** The code generator refuses every function and method with a varargs parameter and every call of one, 'Can't compile VarArgs yet' (row 624): `NamingCzar` throws it for a tuple type with a varargs part (`:1307`, `:1317`, `:1457`, `:1568`), `jvmSignatureFor` unwraps each parameter's declared type (`:962`, `:968`), and `forLetFn` refuses a local function's. The value is settled: the specification binds the parameter to the arguments that no plain binding takes, in order ("Function Applications"); its revival callout gives the type, `ImmutableArray[\T, ZZ32\]`, an immutable one-dimensional array, on both paths ("Function Declarations"); the checker types the parameter so and applies a varargs declaration by the expansion rule (F-86); walk makes it with the library's `__immutableFactory1` and fills it in order (`NonPrimitive.buildEnvFromParams`). The one library declares `assert`, `deny`, `<|...|>` and `WriteStream`'s `print` and `println` so, and `println` is on every program's path (the rehearsal's W8). The prelude declares no array type, so there it stays refused. The planner's stand-in (PROBES, section 11) shows the test failing first under the selector, and the measure's ten of varargs gone at their first wall.
+
+**The decisions this rung builds.** P-37, by which the prelude gains no array type; F-86. Section 3's forks G1 to G5.
+
+**What you build, in order.**
+1. **The test first,** in S's track: `probes/programs/VarargsCount.fss`, `compile` under the selection; then a call of each arity of an overloaded name with a varargs member, as the library's `assert`, and a varargs method of a trait called on an object. Seen failing on run 1's landed tree: 'Can't compile VarArgs yet'. The run test, an expected failure until the one library compiles whole.
+2. **The declaration** (fork G1): its JVM signature and its parameter in the body.
+3. **The call** (fork G2): the array made and filled where the declaration is chosen, at a call and in a dispatch method's branch, an operator's application among the calls.
+4. **The prelude** (fork G4): its two tests, unchanged or with the message that names the missing array type.
+5. **The measure** on a scratch copy of your final tree: `explorations/compile-ladder/plan-31/probes/planner/codegen-measure.sh`; what stops `Generator2` and `CatString`.
+6. **The whole compiled suite once,** `ant testFast`.
+
+**The stages.** None. List your files (`STAGE_BLIND`). Run the shadow patch once and report its exit.
+
+**Rows.** Close 624 under the selector, with a note that it stays against the prelude; a new row for a spread argument if fork G3 meets one.
+
+**Specification.** The revival callout of `functions.tex`, "the code generator does not yet compile a function with a varargs parameter": before and after.
+
+**Files.** `compiler/NamingCzar.java`, the tuple descriptors (`:1304-1330`), the two visitors' tuple cases (`:1457`, `:1568`) and `jvmSignatureFor` over parameters (`:958-990`); `compiler/codegen/FnNameInfo.java`; `compiler/OverloadSet.java`, a dispatch method's signature and branches by arity; `compiler/codegen/CodeGen.java`: `forFnDecl` (`:3315`), `forLetFn`'s refusal (`:3957`, Q's landed member), `evaluateSubExprsAppropriately` (`:5675`) and `evalArg` (`:7540`); your tests. Not: N's members of `CodeGen.java`, `NamingCzar.java` and `OverloadSet.java` (`emitInstanceOfNG`); `forMethodInvocation`, I's and N's; microGPT.
+
+**Reserved points.** A model line: none. A change of which declaration a call reaches.
+
+**Overlaps by file.** N and W edit `NamingCzar.java`, N and R edit `CodeGen.java`: "The rule the rungs keep".
 
 ### R. A method of an imported api's trait found by its api on the compiled path: an object's overload beside an inherited method, a call at an assumed trait, and a program's compile against the one library (rows 942, 940 and 1061)
 
@@ -615,16 +820,21 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Reserved points.** A model line: none. A change of which declaration a dispatch method reaches.
 
-**Overlaps by file.** N edits `CodeGen.java`: "The rule the rungs keep".
+**Overlaps by file.** N and G edit `CodeGen.java`: "The rule the rungs keep".
 
 ### The rule the rungs keep, and how they meet
 
-- **Run 1.** S, D and C share no file with any other rung. V and Q share `compiler/codegen/CodeGen.java`, by declaration:
+- **Run 1.** S, D and C share no file with any other rung. V, Q and I share `compiler/codegen/CodeGen.java`, by declaration:
   - V: `forTypecase` (`:2524`) and the members that set up the kind environment; `TypeAnalyzer.scala`'s lookup (`:1102`).
   - Q: `forFnExpr` (`:3867`), `forLetFn` (`:3941`), `forIf` (`:4485`), `castToTypeBelow` (`:7630`) and a new member directly above it; `MethodInstantiater.java`.
-  - The gather's order is the script's: of two rungs that share a file, the one whose lowest edited line is lower goes first (`climb-batch-workflow.md`, "Gather", "The order"). The manifest's order V, Q is that order as this record expects it.
+  - I: `forMethodInvocation` (`:7186`) and `sanitizePossibleStupidIntersectionType` (`:7420`).
+  - The gather's order is the script's: of two rungs that share a file, the one whose lowest edited line is lower goes first (`climb-batch-workflow.md`, "Gather", "The order"). The manifest's order V, Q, I is that order as this record expects it.
   - If V's cause lies in a member that Q names, V reports it and builds its repair outside it.
-- **Run 2.** N and R share `CodeGen.java` only if R edits `methodsNamed` (`:7028`), which N does not edit; N's lowest edited line is far above it, the field beside `springBoardClass` (`:233`) in the probe's patch, so N goes first. If R's root lies in a member that N names, R reports it and builds its repair in the Scala.
+- **Run 2.** By file and member:
+  - `NamingCzar.java`: N, its table of payload objects and their lookups, new members beside `bl` (about `:600`); W, `gensymArrowClassName` (`:888-900`); G, the tuple descriptors and `jvmSignatureFor` over parameters (`:958` on).
+  - `CodeGen.java`: N, the field beside `springBoardClass` (`:233`), `methodCall`, `dumpMethodChaining`, `forObjectDeclPrePass`, the RTTI's class and `forMethodInvocation`'s receiver; G, `forFnDecl` (`:3315`), `forLetFn`'s refusal, `evaluateSubExprsAppropriately` and `evalArg`; R, `methodsNamed` (`:7028`) only.
+  - `OverloadSet.java`: N, `emitInstanceOfNG`; G, a dispatch method's signature and branches by arity.
+  - The order by the lowest edited lines: N, W, G, R. If R's root lies in a member that N or G names, R reports it and builds its repair in the Scala. If G's call needs `forMethodInvocation`, G reports it: that member is I's and N's.
 - **The distance stage's shadow patch** edits a copy of `CodeGen.java` by text. A rung that edits `CodeGen.java` runs it once and reports its exit; if it no longer applies, the rung reports the lines, and the gather repairs the tool.
 - **They meet on the merged tree:** the suites, the atomic runs, the ladder and the two stages; the gather's 52 demos; the commit stage's microGPT quick checks.
 
@@ -637,7 +847,7 @@ The planner's brief of 2026-11-17, piece by piece, with its home here.
 - **The selector on `main`** (the brief's group 1): rung S. Item 521: answered by the probe, no fork (section 2; PROBES, section 7).
 - **The prelude's half of P-178** (group 2): rung N, by way C's form 2, probed on both libraries; `NN32` and `RR32` of the prelude included.
 - **Item 572** (group 3): rung Q, in run 1.
-- **The rest** (group 4): of `CLIMB-BATCH-31.md`'s list, D (row 959), V (rows 812, 822) and C (four of the checker's gaps); of the walls that only a switched tree shows, R takes row 942's root with row 1061, N row 995 for the numbers and row 866; rows 874, 993 and 994 wait for the batch after, in section 2's order. Item 513 leaves to a rung: the class of `FlatString` while it stays an object, and of `Boolean`, `Char`, the Java-backed traits and the stores, by N's machinery with their own hand-written classes for the one library; F-322's two readings of a helper's `String` parameter; ropes and a program's own `String` compiled, which wait on other rows. PLAN's line that "his decision on the carriers of the other built-in types comes first (review-queue items 513 and 514)" is stale.
+- **The rest** (group 4): of `CLIMB-BATCH-31.md`'s list, D (row 959), V (rows 812, 822), C (four of the checker's gaps), and, at the coordinator's request after the curator's question, I (row 540), G (varargs, row 624) and W (row 315) (PROBES, section 11); of the walls that only a switched tree shows, R takes row 942's root with row 1061, N row 995 for the numbers and row 866; rows 874, 993 and 994 wait for the batch after, in section 2's order. Item 513 leaves to a rung: the class of `FlatString` while it stays an object, and of `Boolean`, `Char`, the Java-backed traits and the stores, by N's machinery with their own hand-written classes for the one library; F-322's two readings of a helper's `String` parameter; ropes and a program's own `String` compiled, which wait on other rows. PLAN's line that "his decision on the carriers of the other built-in types comes first (review-queue items 513 and 514)" is stale.
 - **The stable order** (the brief's question): the selector's tests do not need it; its rung goes with the next rung that edits the dispatch's order (fork S6; PROBES, section 8).
 
 ### The planner's probes
@@ -662,11 +872,11 @@ The batch runs on the workflow of climb batches 22 to 31b: `coordinator/climb-ba
 
 `compile-ladder/plan-33/manifest/` is made from `compile-ladder/plan-31/manifest/` before the launch: `lists33.py` holds the briefings of section 1, `gen33.py --run 1|2` writes a run's block from the record, and `check33.js --run 1|2` checks the block in a scratch copy of the script and, with `--write`, splices it.
 
-- run 1: `BATCH` `33`, the folder `compile-ladder/climb-batch-33/`, the rungs S, D, V, Q, C in that order; run 2: `BATCH` `33b`, `compile-ladder/climb-batch-33b/`, the rungs N, R;
+- run 1: `BATCH` `33`, the folder `compile-ladder/climb-batch-33/`, the rungs S, D, V, Q, I, C in that order; run 2: `BATCH` `33b`, `compile-ladder/climb-batch-33b/`, the rungs N, W, G, R;
 - no `landsOnlyWith`;
 - the briefings and checks of section 1, with their reasons; no key holds a backtick or a double quote;
 - no rung declaring a count, a crash or a move;
-- Q `STAGE_BLIND`; S, D, V, C, N and R naming the two stages in a step of their sections;
+- Q, I, W and G `STAGE_BLIND`; S, D, V, C, N and R naming the two stages in a step of their sections;
 - S's track named in the gate's comparand (below).
 
 ### What every agent reads first
@@ -677,16 +887,19 @@ The batch runs on the workflow of climb batches 22 to 31b: `coordinator/climb-ba
 - D, a typecase arm at a name that no declaration defines, refused on both paths;
 - V, the kind environment of a generic declaration's types on the compiled path;
 - Q, self at a self type or a listed type: a conditional's arm, a closure's result, and a default body;
+- I, a method call on a value typed by an intersection, the receiver found among the conjuncts;
 - C, four of the checker's smaller gaps.
 
-A request that stands before your brief and does not name your rung is not yours to act on, and it goes into no result of yours. If work of your own role on this rung exists when you start, an earlier launch of your role worked this rung: read the branch's log and the uncommitted files, run nothing again whose log is whole, and say in your report that two launches worked the rung. Each rung has tests that fail on the base and pass after. A test file that you write holds one comment line, which says what the test checks. V and Q share CodeGen.java by declaration: each keeps to its own, as its section says. No rung runs the team demos or the microGPT checks: the gather runs the 52 demos on the merged tree, and the commit stage the microGPT quick checks, which stay 7 of 7; microGPT and its helper files change no line. For each reserved point of a rung's section, the rung's skeptic runs one program on the base's code and on the rung's, whatever the worker's report says. The gather applies the rungs in the script's order, expected S, D, V, Q, C, and builds the specification once.
+A request that stands before your brief and does not name your rung is not yours to act on, and it goes into no result of yours. If work of your own role on this rung exists when you start, an earlier launch of your role worked this rung: read the branch's log and the uncommitted files, run nothing again whose log is whole, and say in your report that two launches worked the rung. Each rung has tests that fail on the base and pass after. A test file that you write holds one comment line, which says what the test checks. V, Q and I share CodeGen.java by declaration: each keeps to its own, as its section says. No rung runs the team demos or the microGPT checks: the gather runs the 52 demos on the merged tree, and the commit stage the microGPT quick checks, which stay 7 of 7; microGPT and its helper files change no line. For each reserved point of a rung's section, the rung's skeptic runs one program on the base's code and on the rung's, whatever the worker's report says. The gather applies the rungs in the script's order, expected S, D, V, Q, I, C, and builds the specification once.
 
-**Run 2.** This run is climb batch 33b, the second of the two runs of the record CLIMB-BATCH-33.md, after climb batch 33, which landed rungs S, D, V, Q and C. Its rungs:
+**Run 2.** This run is climb batch 33b, the second of the two runs of the record CLIMB-BATCH-33.md, after climb batch 33, which landed rungs S, D, V, Q, I and C. Its rungs:
 
 - N, the compiler prelude's seven number types as value objects whose classes the code generator writes over hand-written payload classes, serving the prelude and the one library alike;
+- W, one class name for each function expression where two share a source span;
+- G, a varargs parameter compiled as one immutable array of the arguments, under the selector;
 - R, a method of an imported api's trait found by its api on the compiled path, with a program's compile against the one library under the selector.
 
-A request that stands before your brief and does not name your rung is not yours to act on, and it goes into no result of yours. If work of your own role on this rung exists when you start, an earlier launch of your role worked this rung: read the branch's log and the uncommitted files, run nothing again whose log is whole, and say in your report that two launches worked the rung. Each rung has tests that fail on the base and pass after. A test file that you write holds one comment line, which says what the test checks. N and R run the count stage and the distance stage once. No rung runs the team demos or the microGPT checks: the gather runs the 52 demos on the merged tree, and the commit stage the microGPT quick checks, which stay 7 of 7; microGPT and its helper files change no line. For each reserved point of a rung's section, the rung's skeptic runs one program on the base's code and on the rung's, whatever the worker's report says. The gather applies N, then R, and builds the specification once.
+A request that stands before your brief and does not name your rung is not yours to act on, and it goes into no result of yours. If work of your own role on this rung exists when you start, an earlier launch of your role worked this rung: read the branch's log and the uncommitted files, run nothing again whose log is whole, and say in your report that two launches worked the rung. Each rung has tests that fail on the base and pass after. A test file that you write holds one comment line, which says what the test checks. N and R run the count stage and the distance stage once; W and G run neither. N, W and G share NamingCzar.java, and N, G and R share CodeGen.java, by declaration: each keeps to its own, as its section says. No rung runs the team demos or the microGPT checks: the gather runs the 52 demos on the merged tree, and the commit stage the microGPT quick checks, which stay 7 of 7; microGPT and its helper files change no line. For each reserved point of a rung's section, the rung's skeptic runs one program on the base's code and on the rung's, whatever the worker's report says. The gather applies N, W, G, then R, and builds the specification once.
 
 ### Before the launch
 
@@ -695,11 +908,11 @@ The coordinator, for run 1, after the curator's go:
 1. **The check of this record by a fresh reader on Fable,** its changes in place (`references/batch.md`, "The go").
 2. **The generator** for `--run 1`, its checks and the splice, as the manual's "Before the launch", step 4, gives them; the keys into this record and into PROBES checked with `facts-extract.sh --check`. The base is `main`'s head after that commit.
 3. **The base build.** `/home/user/fortress-base37` at `c3b16ef2d1` has `main`'s code and serves while `main` moves only under `explorations/`, `docs/` and `.claude/` (`git diff --stat c3b16ef2d1 <base> -- . ':!explorations' ':!docs' ':!.claude'` prints nothing); its trial seed and the old code's run.
-4. **The disk:** 11.5 G or more free; `git status --porcelain` empty in the main tree. `/home/user/fortress-base36` is an older base build that no run of this record reads.
+4. **The disk:** 13 G or more free; `git status --porcelain` empty in the main tree. `/home/user/fortress-base36` is an older base build that no run of this record reads.
 5. **The launch from a turn that no message of the curator's started,** a check-in's turn.
-6. **Check-ins** for about 4 hours and three quarters, 45 minutes apart.
+6. **Check-ins** for about 5 hours and a quarter, 45 minutes apart.
 
-For run 2, after run 1's landing: sections N and R read again against the landed tree, with S's selector's names and files as landed; a base build at run 1's landing; the generator's block for `--run 2`, checked and spliced; then steps 4 to 6 with 7 G free and check-ins for about 3 hours and three quarters.
+For run 2, after run 1's landing: sections N, W, G and R read again against the landed tree, with S's selector's names and files and I's change of `forMethodInvocation` as landed; a base build at run 1's landing; the generator's block for `--run 2`, checked and spliced; then steps 4 to 6 with 10 G free and check-ins for about 5 hours and a quarter.
 
 ### The launch arguments
 
@@ -709,33 +922,33 @@ For run 2, after run 1's landing: sections N and R read again against the landed
 
 The comparands for run 1 are climb batch 31b's, in `compile-ladder/climb-batch-31b/gate/`: 63 suites, 3,515 tests, `CompilerJUTest` 1,694, the system shards 871, 24 atomic programs in 72 runs, the count 0 and the distance 0 with `#crash none`.
 
-- `testFast`: the compiler track's count plus V's two tests, Q's owed test and its promotions keeping their count, C's promotions keeping theirs, D's compiled test; and one new suite, S's track, with its two compile tests and its expected failure.
+- `testFast`: the compiler track's count plus V's two tests, Q's owed test and its promotions keeping their count, C's promotions keeping theirs, I's promotion and its added forms, D's compiled test; and one new suite, S's track, with its two compile tests and its expected failure. In run 2, S's track gains R's, W's and G's compile tests and W's and G's run tests as expected failures.
 - `testSystem`: D's walk test promoted in place.
 - The atomic runs: unchanged, 24 programs, each three times `PASS`.
 - The ladder: no rung declares a move.
 - The checker count: 0; the distance: 0, `#crash none`; reported, never red.
 - The 52 team demos at the gather. microGPT's quick pair at the commit stage, 7 of 7 each.
-- **The measure,** once after each run's landing, by the coordinator or the post-batch reviewer in a scratch worktree: `explorations/compile-ladder/plan-31/probes/planner/codegen-measure.sh <scratch-worktree> <out-dir>`. Before, on `c3b16ef2d1`: 17 (18 printed) in 5 kinds, 742 emitted. After run 1: 13 to 17. After run 2: the same as after run 1, with the seven number objects emitted over their payload classes. If a rung's edit of `NamingCzar.java` stops the measure's patch from applying, its hunk is brought in line by hand.
+- **The measure,** once after each run's landing, by the coordinator or the post-batch reviewer in a scratch worktree: `explorations/compile-ladder/plan-31/probes/planner/codegen-measure.sh <scratch-worktree> <out-dir>`. Before, on `c3b16ef2d1`: 17 (18 printed) in 5 kinds, 742 emitted. After run 1: 12 to 17. After run 2: 1 or 2, if nothing stands behind the walls removed (G's ten, W's two). If a rung's edit of `NamingCzar.java` stops the measure's patch from applying, its hunk is brought in line by hand.
 - For run 2 the comparands are run 1's gate.
 
 ### The ledger
 
 New rows go into the ledger only through `ledger.py add`, by the gather.
 
-- **Run 1, closed:** 959 (D); 812, 822 (V); 1051, 1050, 1052 (Q); 1005, 1028, 1029, 1060 (C). Row 1051 gains the owed test's name (Q).
-- **Run 2, closed:** 1003, 866, 698, and 566 if fork N5 promotes its test (N); 942, 940, 1061 (R). Row 995 gains a note (N).
+- **Run 1, closed:** 959 (D); 812, 822 (V); 1051, 1050, 1052 (Q); 540 (I); 1005, 1028, 1029, 1060 (C). Row 1051 gains the owed test's name (Q).
+- **Run 2, closed:** 1003, 866, 698, and 566 if fork N5 promotes its test (N); 315 (W); 624 under the selector, with a note that it stays against the prelude (G); 942, 940, 1061 (R). Row 995 gains a note (N).
 
 ### After the landing
 
 - **PLAN:** phase 4's F-34 line with the new count and its kinds by row; the merge's line: the prelude's half landed with run 2; the line on the walls that only the switch shows: S's selector landed, item 513's "comes first" taken out, rows 874, 993 and 994 the batch after's; "Next" and the line of climb batch 33.
-- **The review queue:** this record's 21 forks as new items; item 521 answered by the probe; item 572 landed; item 522 unchanged.
+- **The review queue:** this record's 28 forks as new items; item 521 answered by the probe; item 572 landed; item 522 unchanged.
 - **The post-batch review** of each run.
 
 ### For the record-landing workflow
 
 The batch edits no FACTS or POSITIONS entry. After run 1, these are false or name a closed row as open:
 
-- **F-34:** the count and its kinds, if V's repair reaches the four of the kind environment; rows 812 and 822 named as open. **F-281** and **F-181:** row 812.
+- **F-34:** the count and its kinds, if V's and I's repairs reach their five; rows 812, 822 and 540 named as open. **F-281** and **F-181:** row 812.
 - **F-361** and **F-379:** row 959.
 - **F-225** and **F-377:** rows 1051, 1050 and 1052.
 - **F-363, F-369** and **F-380:** rows 1005, 1029 and 1060.
@@ -744,7 +957,7 @@ The batch edits no FACTS or POSITIONS entry. After run 1, these are false or nam
 After run 2:
 
 - **F-352:** row 866 and row 942 named as open, and the carriers' wall as one piece; **F-338:** row 940.
-- **F-34** again, if the count moved; **F-353:** the second set, which the numbers no longer need.
+- **F-34** again: rows 624 and 315 named as open, and the count after G and W. **F-86:** "The code generator refuses varargs (row 624)": under the selector it compiles them. **F-352:** rows 624 and 315 named as walls that stand. **F-353:** the second set, which the numbers no longer need.
 - **F-379:** the prelude's open traits (row 1003).
 - **P-33:** "one build serving both by a second set of the run time's value classes (F-353)": the seven number types use no second set after N; its words are the curator's entry, so the change is told to him with the old and the new words.
 - **P-178** and **P-37** stay true. PLAN's and row 1003's "the tree does not do it yet" is done for the prelude.
@@ -769,6 +982,7 @@ After run 2:
 - `references/compiler.md`, "What the two paths share": "the compiled `compiler/runtimeValues/` (`FZZ32`, `FRR64`)": payload classes now (N).
 - `references/compiler.md`, "The compiler's prelude, until the switch-over": "a brief may ask to declare each built-in number type as one `value object`": done (N).
 - `references/revival-changes.md:95`: "The compiler's prelude declares no `QQ`, and still declares the other seven as traits that a type can extend (row 1003). So the checker accepts such an object, and the object dies when its class loads (row 866)": the seven are value objects in the prelude, and such an object is refused (N).
+- No sentence names varargs, row 540 or row 315 as a limit of the compiled path, so I, W and G make none false. `references/compiler.md`, "What the compiled path cannot compile yet", lacks one that stays true after G: against the prelude a varargs declaration is refused, 'Can't compile VarArgs yet', since the prelude has no array type; under the selector it compiles. A sentence to add (G).
 
 ## 7. Files cited, with their links
 

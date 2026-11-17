@@ -1,0 +1,7 @@
+component LexSame
+export Executable
+import List.{...}
+same(xs: List[\ZZ32\], ys: List[\ZZ32\]): Boolean =
+  (|xs| = |ys|) AND: (BIG AND [(a, b) <- xs.zip[\ZZ32\](ys)] a = b)
+run(): () = println(same(emptyList[\ZZ32\](), emptyList[\ZZ32\]()))
+end

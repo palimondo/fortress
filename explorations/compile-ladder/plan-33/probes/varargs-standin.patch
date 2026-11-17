@@ -1,0 +1,242 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/Shell.java b/ProjectFortress/src/com/sun/fortress/Shell.java
+index eb2fd67f2a..07eefcb708 100644
+--- a/ProjectFortress/src/com/sun/fortress/Shell.java
++++ b/ProjectFortress/src/com/sun/fortress/Shell.java
+@@ -374,8 +374,13 @@ public final class Shell {
+ 	setExtendsObjectPreDesugaring(false);
+ 	setAssignmentPreDesugaring(false);
+ 	setAssignmentDesugaring(true);
+-        WellKnownNames.useCompilerLibraries();
+-        Types.useCompilerLibraries();
++        if (WellKnownNames.compiledPathUsesOneLibrary) {
++            WellKnownNames.useFortressLibraries();
++            Types.useFortressLibraries();
++        } else {
++            WellKnownNames.useCompilerLibraries();
++            Types.useCompilerLibraries();
++        }
+     }
+ 
+     public static void useInterpreterLibraries() {
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+index 4c7b84c807..0490b41912 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+@@ -599,6 +599,22 @@ public class NamingCzar {
+         bl(fortLib, "ZZ32Vector", "FZZ32Vector");
+         bl(fortLib, "StringVector", "FStringVector");
+         bl(NodeFactory.makeVoidType(span), "FVoid");
++        // SWITCH HACK (rehearsal): the one library's types that a hand-written run-time class carries.
++        bl(oneLib, "ZZ32", "FZZ32");
++        bl(oneLib, "ZZ64", "FZZ64");
++        bl(oneLib, "RR64", "FRR64");
++        bl(oneLib, "NN64", "FNN64");
++        bl(oneLib, "ZZ", "FZZ");
++        bl(oneLib, "JavaBufferedReader", "FJavaBufferedReader");
++        bl(oneLib, "JavaBufferedWriter", "FJavaBufferedWriter");
++        bl(oneLib, "JavaArrayStore", "FJavaArrayStore");
++        bl(oneLib, "JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl(oneBuiltin, "Float", "FRR64");
++        bl(oneBuiltin, "Boolean", "FBoolean");
++        bl(oneBuiltin, "RR32", "FRR32");
++        bl(oneBuiltin, "NN32", "FNN32");
++        bl(oneBuiltin, "Char", "FCharacter");
++        bl(NodeFactory.makeAPIName(span, "FlatString"), "FlatString", "FJavaString");
+     }
+ 
+     /**
+@@ -798,7 +814,8 @@ public class NamingCzar {
+             if (! s1.equals(s2)) {
+                 // System.err.println(s1 + " MISMATCH " + s2);
+             }
+-            result[i] = s2;
++            // SWITCH HACK (rehearsal): a carried type in an extends clause is its own interface, not its carrier class.
++            result[i] = specialFortressTypes.containsKey(parentType) ? s1 : s2;
+         }
+         return result;
+     }
+@@ -825,6 +842,10 @@ public class NamingCzar {
+         if (!(sep.equals("."))) {
+             api = Useful.replace(api, ".", sep);
+         }
++        // SWITCH HACK (rehearsal): FlatString's classes go in the package fortress, so that FJavaString, a Java class in a
++        // named package, can extend FlatString's class.
++        // Its outer class is FlatStringC, since Java source allows no class FlatString nested in a class FlatString.
++        if (api.equals("FlatString")) return fortressPackage + sep + "FlatStringC";
+         if (!defaultLib) return api;
+         return fortressPackage + sep + api;
+     }
+@@ -933,16 +954,39 @@ public class NamingCzar {
+                         rangeDesc);
+     }
+ 
++    /** VARARGS PROBE: the type of a varargs parameter, the one library's ImmutableArray[\T, ZZ32\]. */
++    public static com.sun.fortress.nodes.Type varargsArrayType(com.sun.fortress.nodes.Type t) {
++        APIName lib = NodeFactory.makeAPIName(span, "FortressLibrary");
++        com.sun.fortress.nodes.Type zz32 = NodeFactory.makeTraitType(NodeFactory.makeId(span, lib, "ZZ32"));
++        return NodeFactory.makeTraitType(NodeFactory.makeId(span, lib, "ImmutableArray"),
++            NodeFactory.makeTypeArg(t), NodeFactory.makeTypeArg(zz32));
++    }
++
++    /** VARARGS PROBE: a domain with a varargs part, the part as one array parameter. */
++    public static final boolean PROBE_VARARGS = Boolean.parseBoolean(System.getProperty("probe.varargs", "true"));
++    public static com.sun.fortress.nodes.TupleType withoutVarargs(com.sun.fortress.nodes.TupleType t) {
++        if (!PROBE_VARARGS) throw new CompilerError(t,"Can't compile VarArgs yet");
++        List<com.sun.fortress.nodes.Type> es = new java.util.ArrayList<com.sun.fortress.nodes.Type>(t.getElements());
++        es.add(varargsArrayType(t.getVarargs().unwrap()));
++        return NodeFactory.makeTupleType(NodeUtil.getSpan(t), es);
++    }
++
++    /** VARARGS PROBE: a parameter's type, a varargs parameter's being its array type. */
++    public static com.sun.fortress.nodes.Type paramTypeOf(com.sun.fortress.nodes.Param p) {
++        if (p.getVarargsType().isSome()) return varargsArrayType(p.getVarargsType().unwrap());
++        return (com.sun.fortress.nodes.Type) p.getIdType().unwrap();
++    }
++
+     // CodeGen, several methods
+     public static String jvmSignatureFor(List<com.sun.fortress.nodes.Param> domain,
+             String rangeDesc, APIName ifNone) {
+         // This special case handles single void argument type properly.
+         if (domain.size() == 1)
+-            return jvmSignatureFor(NodeUtil.optTypeOrPatternToType(domain.get(0).getIdType()).unwrap(), rangeDesc, ifNone);
++            return jvmSignatureFor(paramTypeOf(domain.get(0)), rangeDesc, ifNone);
+         String args = "";
+         StringBuilder buf = new StringBuilder();
+         for (Param p : domain) {
+-            buf.append(jvmBoxedTypeDesc((com.sun.fortress.nodes.Type) p.getIdType().unwrap(), ifNone));
++            buf.append(jvmBoxedTypeDesc(paramTypeOf(p), ifNone));
+         }
+         args = buf.toString();
+         return Naming.makeMethodDesc(args, rangeDesc);
+@@ -961,13 +1005,13 @@ public class NamingCzar {
+             String rangeDesc, APIName ifNone) {
+         // This special case handles single void argument type properly.
+         if (domain.size() == 1)
+-            return jvmSignatureFor(NodeUtil.optTypeOrPatternToType(domain.get(0).getIdType()).unwrap(), rangeDesc, ifNone);
++            return jvmSignatureFor(paramTypeOf(domain.get(0)), rangeDesc, ifNone);
+         String args = "";
+         StringBuilder buf = new StringBuilder();
+         int i = 0;
+         for (Param p : domain) {
+             if (i != self_index_to_skip)
+-                buf.append(jvmBoxedTypeDesc((com.sun.fortress.nodes.Type) p.getIdType().unwrap(), ifNone));
++                buf.append(jvmBoxedTypeDesc(paramTypeOf(p), ifNone));
+             i++;
+         }
+         args = buf.toString();
+@@ -1305,7 +1349,7 @@ public class NamingCzar {
+         if ( NodeUtil.isVoidType(t) )
+             return Naming.SNOWMAN;
+         if (t.getVarargs().isSome())
+-            throw new CompilerError(t,"Can't compile VarArgs yet");
++            t = withoutVarargs(t); // VARARGS PROBE
+         if (!t.getKeywords().isEmpty())
+             throw new CompilerError(t,"Can't compile Keyword args yet");
+         return jvmTypeDesc(t, ifNone, false, true);
+@@ -1315,7 +1359,7 @@ public class NamingCzar {
+         if ( NodeUtil.isVoidType(t) )
+             throw new Error("Unexpected case in unboxed tuple descriptor");
+         if (t.getVarargs().isSome())
+-            throw new CompilerError(t,"Can't compile VarArgs yet");
++            t = withoutVarargs(t); // VARARGS PROBE
+         if (!t.getKeywords().isEmpty())
+             throw new CompilerError(t,"Can't compile Keyword args yet");
+         String res = "";
+@@ -1455,7 +1499,7 @@ public class NamingCzar {
+                 if ( NodeUtil.isVoidType(t) )
+                     return withLSemi ? descFortressVoid : internalFortressVoid;
+                 if (t.getVarargs().isSome())
+-                    throw new CompilerError(t,"Can't compile VarArgs yet");
++                    t = withoutVarargs(t); // VARARGS PROBE
+                 if (!t.getKeywords().isEmpty())
+                     throw new CompilerError(t,"Can't compile Keyword args yet");
+                 if (boxed) {
+@@ -1566,7 +1610,7 @@ public class NamingCzar {
+                 if ( NodeUtil.isVoidType(t) )
+                     return descFortressVoid;
+                 if (t.getVarargs().isSome())
+-                    throw new CompilerError(t,"Can't compile VarArgs yet");
++                    t = withoutVarargs(t); // VARARGS PROBE
+                 if (!t.getKeywords().isEmpty())
+                     throw new CompilerError(t,"Can't compile Keyword args yet");
+                 String res = "";
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java b/ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java
+index 0ac121119a..17874f7a55 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java
+@@ -141,6 +141,9 @@ public class WellKnownNames {
+             new String[] { fortressLibrary(), fortressBuiltin(), anyTypeLibrary() };
+     }
+ 
++    public static final boolean compiledPathUsesOneLibrary =
++        "one".equals(System.getProperty("fortress.library", System.getenv("FORTRESS_LIBRARY")));
++
+     public static boolean areCompilerLibraries() {
+         return _fortressLibrary.equals("CompilerLibrary");
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+index f98c66b389..1ed2f58c36 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+@@ -2169,7 +2169,21 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+ //                " and an expr ", link.getExpr(), " What do we do now");
+     }
+ 
++    /** VARARGS PROBE: each varargs parameter becomes a parameter of its array type before code generation. */
++    private static Component varargsParamsAsArrays(Component x) {
++        return (Component) x.accept(new com.sun.fortress.nodes.NodeUpdateVisitor() {
++            @Override
++            public Node forParam(Param that) {
++                if (that.getVarargsType().isNone()) return super.forParam(that);
++                return new Param(that.getInfo(), that.getName(), that.getMods(),
++                    Option.<TypeOrPattern>some(NamingCzar.varargsArrayType(that.getVarargsType().unwrap())),
++                    that.getDefaultExpr(), Option.<Type>none());
++            }
++        });
++    }
++
+     public void forComponent(Component x) {
++        if (NamingCzar.PROBE_VARARGS) x = varargsParamsAsArrays(x);
+         debug("forComponent ",x.getName(),NodeUtil.getSpan(x));
+ 
+         for ( Import i : x.getImports() ) {
+@@ -7543,7 +7557,21 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+         } else if (arg instanceof TupleExpr) {
+             TupleExpr targ = (TupleExpr) arg;
+             Type arg_t = domain_type; // arg.getInfo().getExprType().unwrap();
+-            if (arg_t instanceof TupleType) {
++            if (arg_t instanceof TupleType && ((TupleType) arg_t).getVarargs().isSome()) {
++                // VARARGS PROBE, a stand-in for the measure only: the plain arguments, each extra
++                // argument compiled and dropped, and a null of the array type in the varargs place.
++                TupleType vt = (TupleType) arg_t;
++                List<Type> plain = vt.getElements();
++                List<Expr> exprs = targ.getExprs();
++                for (int i = 0; i < exprs.size(); i++) {
++                    exprs.get(i).accept(this);
++                    if (i < plain.size()) conditionallyCastParameter(exprs.get(i), plain.get(i));
++                    else mv.visitInsn(POP);
++                }
++                mv.visitInsn(ACONST_NULL);
++                mv.visitTypeInsn(CHECKCAST, NamingCzar.jvmTypeDesc(NamingCzar.varargsArrayType(vt.getVarargs().unwrap()), thisApi(), false));
++                paramCount = plain.size() + 1;
++            } else if (arg_t instanceof TupleType) {
+                 TupleType arg_tt = (TupleType) arg_t;
+                 List<Type> arg_tts = arg_tt.getElements();
+                 List<Expr> exprs = targ.getExprs();
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+index eb4e82d14f..892b2c9fcb 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+@@ -94,6 +94,12 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
+ 	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
+ 	  if (candidate.isSome && name.toString == "GeneratorLibrary") return candidate
+ 	}
++	// SWITCH HACK (rehearsal): the same search over the one library's two prelude apis.
++	if (java.lang.Boolean.parseBoolean(System.getProperty("probe.search", "true")))
++	for (lib <- List("FortressLibrary", "FortressBuiltin"); name: APIName <- globalEnv.apiNames) {
++	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
++	  if (candidate.isSome && name.toString == lib) return candidate
++	}
+ // 	for (name: APIName <- globalEnv.apiNames) {
+ // 	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
+ // 	  if (candidate.isSome) return candidate

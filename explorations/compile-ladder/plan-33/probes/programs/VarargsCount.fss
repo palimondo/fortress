@@ -1,0 +1,5 @@
+component VarargsCount
+export Executable
+count(xs: ZZ32...): ZZ32 = |xs|
+run(): () = println(count(4, 5, 6))
+end
