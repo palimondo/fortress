@@ -1,0 +1,22 @@
+(* An exit is no exception: a catch clause of every exception, in a try between the exit and its label, does not take it. label.tex, section "Label and Exit". *)
+component XXXExitThroughCatchWalk
+export Executable
+
+var caught: ZZ32 = 0
+
+leave(n: ZZ32): ZZ32 = label out
+    try
+      if n = 1 then exit out with n end
+    catch e
+      Exception => caught := caught + 1
+    end
+    n + 100
+  end out
+
+run(): () = do
+  assert(leave(2), 102, "a try that completes normally")
+  assert(leave(1), 1, "the label's value is the exit's")
+  assert(caught, 0, "no catch clause ran")
+end
+
+end

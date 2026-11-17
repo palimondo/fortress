@@ -1,0 +1,16 @@
+(* A label block whose value is a numeral or the with value of an exit, at a declared number type, has that type's value. label.tex, section "Label and Exit". *)
+component XXXLabelNumeralValueCompiled
+export Executable
+
+find(n: ZZ32): ZZ32 = label found
+    if n = 3 then exit found with n end
+    -1
+  end found
+
+run(): () = do
+  assert(find(3), 3, "the exit's value")
+  assert(find(4), -1, "the numeral that ends the block")
+  println("PASS")
+end
+
+end

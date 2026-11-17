@@ -7873,3 +7873,7 @@ pointer words refreshed in: F-24
 ### F-372
 
 2026-11-17 02:47Z · added · from `explorations/compile-ladder/rung-method-forwarders/REPORT.md`, "What changed and why" · by climb batch 31 gather: rung M of climb batch 31, folded from its record lines
+
+### F-373
+
+2026-11-17 02:50Z · added · from `explorations/compile-ladder/rung-label-exit/REPORT.md`, "What changed and why" · by climb batch 31 gather: rung L of climb batch 31, folded from its record lines

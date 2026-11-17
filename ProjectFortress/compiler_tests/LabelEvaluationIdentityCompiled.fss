@@ -1,0 +1,20 @@
+(* An exit made in one evaluation of a label block and run inside a later evaluation of the same block leaves the evaluation that made it. *)
+component LabelEvaluationIdentityCompiled
+export Executable
+
+descend(depth: ZZ32, leave: () -> ZZ32): ZZ32 = label here
+    if depth = 0 then
+      leave()
+    elif depth = 2 then
+      descend(depth - 1, fn (): ZZ32 => exit here with 50 depth) + 1
+    else
+      descend(depth - 1, leave) + 1
+    end
+  end here
+
+run(): () = do
+  assert(descend(4, fn (): ZZ32 => 0), 102, "the exit made at depth 2 and run at depth 0 leaves the evaluation at depth 2")
+  println("PASS")
+end
+
+end

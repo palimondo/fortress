@@ -1,0 +1,18 @@
+(* An exit that runs after its label block has completed ends the program: no label takes it. *)
+component ExitAfterLabelCompletedCompiled
+export Executable
+
+var kept: () -> () = fn (): () => ()
+
+make(): () = label gone
+    kept := fn (): () => exit gone
+  end gone
+
+run(): () = do
+  make()
+  println("REACHED")
+  kept()
+  println("the exit returned")
+end
+
+end
