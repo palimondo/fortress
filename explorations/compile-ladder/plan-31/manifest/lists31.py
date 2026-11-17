@@ -12,9 +12,9 @@
 # bullets in section 1, in their order, each as the record writes it, its backticks dropped and REC, REH, PRB, MRG,
 # SPEC and SRC spelled out as section 1's opening paragraph gives them, each with the record's reason, its first
 # letter capitalized; a check is marked on its entry. The forks: the record's one forks key, REC "Forks the batch
-# takes", section 3's forks whole, in every briefing once, as a check. Run 2's lists are the record's as written
-# against run 1's base: its sections are read again against run 1's landed tree before run 2's launch (the record's
-# section 4), and this file is run again then.
+# takes", section 3's forks whole, in every briefing once, as a check. Run 2's lists were brought in line again on
+# 2026-11-17, when its sections were read again against run 1's landed tree (7858d0e97b) before run 2's launch: T
+# gained rung K's cast, O rows 785 and 1044, and E P-50 and rows 1043 and 340.
 # lists(ids) gives the lists of the rungs ids, a rung left out by --without dropping from the block; LISTS and REASONS
 # are lists(IDS).
 # `python3 -B lists31.py [--run 1|2]` checks every key with facts-extract.sh --check (each must match exactly one
@@ -139,6 +139,7 @@ T_BRIEFING = [
   (SPEC + "basic/expressions/method-invocation.tex#Dotted Method Invocations", "A dotted call's argument.", CHECK),
   ('code:' + SRC + "compiler/codegen/CodeGen.java#private Type receiverPrependedDomainType", "Where the receiver joins a tuple domain's elements.", CHECK),
   ('code:' + SRC + "compiler/codegen/CodeGen.java#private void generateForwardingFor(Functional from_fnl, Functional to_fnl", "The forwarder, as run 1 left it.", CHECK),
+  ('code:' + SRC + "compiler/codegen/CodeGen.java#private void castToTypeBelow", "Rung K's cast of one argument, which a bridge method may need for a self among a tuple's elements."),
   (REC + "M. The methods that a trait's or an object's class inherits", "What rung M built in the same code, which you build on."),
   ("map:compile-path-walkthrough.md#5. Code generation", "How the code generator walks a method and a call."),
   (FORKS_SECTION, "The defaults you build.", CHECK),
@@ -160,6 +161,8 @@ O_BRIEFING = [
   ("ledger:550", "The valid pair at ZZ64 that walk refuses, whose test you promote.", CHECK),
   ("ledger:959", "A typecase arm at a name that no declaration defines.", CHECK),
   ("ledger:330", "The row of the decision on round, truncate and the brackets."),
+  ("ledger:785", "A plain declaration with no written return type, which walk refuses over a trait type."),
+  ("ledger:1044", "The same declaration over an object type, which walk loads unjudged."),
   (MRG + "What was built", "The probe's change, file by file, and what it left undone.", CHECK),
   (MRG + "Obstacles, in the order met", "Each obstacle and how the probe passed it.", CHECK),
   (MRG + "The bodies of trait RR64 that go through asFloat(self)", "Which bodies of the trait run today, and which survive.", CHECK),
@@ -177,11 +180,14 @@ E_BRIEFING = [
   ("P-173", "A numeral converts where it stands, a declared return type among the places.", CHECK),
   ("P-176", "One value for each place where a numeral is written.", CHECK),
   ("P-174", "The numeral types and their coercions."),
+  ("P-50", "The body of a label and each value of an exit take the label's expected type, the decision for the label's kin.", CHECK),
   ("P-37", "The prelude is not changed for this.", CHECK),
   ("P-148", "The checker's timing, if your edit is there.", CHECK),
   ("ledger:1014", "The numeral that ends a block after a declaration, which closes.", CHECK),
   ("ledger:1030", "The tuple with a numeral element, which closes.", CHECK),
   ("ledger:1031", "The tuple binding over an if, a kin that you report on."),
+  ("ledger:1043", "A numeral as the value of an atomic expression, a kin that you report on."),
+  ("ledger:340", "The code generator's crash at a coerced value, whose label case is a kin that you report on."),
   (SPEC + "basic/expressions/blocks.tex#Do Expressions", "A block's value and type."),
   (SPEC + "basic/conversions-coercions.tex#Coercions for Tuple and Arrow Types", "How a tuple converts, element by element.", CHECK),
   ("map:compile-path-walkthrough.md#What it writes onto the tree", "What the checker writes onto the tree, the coercions among it.", CHECK),

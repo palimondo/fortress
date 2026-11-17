@@ -1,3 +1,194 @@
+<!-- The check of run 2 of climb batch 31 (climb batch 31b: rungs T, O and E) before its launch, on 2026-11-17, by a fresh reader, on `main` at `d7ae0da17c`, whose code is that of run 1's landing `7858d0e97b` and of the base build `/home/user/fortress-base36` (`a3e35bbdb0`). It stands above the check of run 1 of the night before, which is kept whole below. The reproducers ran once each in a worktree of the reader's own, `/home/user/fortress-rev31b`, seeded from the base build and removed after; `FORTRESS_THREADS=1`. No suite, no stage of the gate and no measure was run. -->
+
+# Run 2, before its launch
+
+## For the curator
+
+**What this is.** Run 1 landed. You wrote that run 2 starts with the defaults of the planner, and that you review them after. I read the record of run 2 as a stranger, in place of your reading before the launch. I changed no design.
+
+**What I checked.**
+
+- The sections of rungs T, O and E, against the code that run 1 landed.
+- Each line of code, of the specification and of the ledger that those sections cite.
+- Each program that the record says fails today. I ran each one once.
+- Each rung against your decisions, with their histories.
+- Whether the three rungs can merge.
+- The estimate of the cost and of the time.
+- The part of the record that is written for you.
+- The script of the batch, so that the run can start.
+
+**What I found.**
+
+- **No rung must be held out.** No default reverses or bends a decision of yours. No rung changes a line of microGPT or of its helper files.
+- **Every program of rungs T and O fails as the record says,** with the message that the record gives.
+- **Rung E: the main program fails as the record says. Two smaller points were not correct.**
+  - The record said that `u = 0` gives `true` for a zero `u` of type `RR32` on the compiled path. It does not. The program compiles. When it runs, it ends 'StackOverflowError'. The small library of the compiled path has no `=` for `RR32`, and two general declarations call each other. Under walk the answer is `true`.
+  - The record gave one form as a case of the rung's defect: a block that ends in `if c then 1 else 2 end`. It fails in another way. The compile stops: 'Error trying to close method scope'. That is an older defect, row 340.
+- **Rung O: one of its two new tests cannot fail first.** It checks that the five number types still behave as before. All of that is true today. It is a guard. The test that an object cannot extend `ZZ32` fails first, as the record says.
+- **The three rungs can merge.** No pair changes one behaviour in two ways. No rung needs the result of another.
+- **The estimate is higher than the record's.** About 3.0 million tokens written if no judge rules, and about 3.8 million with a reserve. About 3 hours, or 3 hours and three quarters with the reserve. Run 1 had no reserve, and it needed one.
+
+**What I changed in the record.**
+
+- The line numbers that run 1 moved.
+- The figures that the gate of run 2 compares with.
+- Two more points that rung O reports. Both are things that a program sees differently after the merge.
+- Three more tests that rung E runs once. Rungs A and L of run 1 left them.
+- The two points of rung E above, and the guard of rung O.
+- The part for you on run 2. It now gives, for each rung, the change, the program, the message and each fork with its default and the other way.
+- The estimate.
+
+**For your review after the run.** Three things are close to a decision of yours. None bends one.
+
+- **Fork E2 is wider than the record said.** At `RR32`, `u = 0` crashes on the compiled path, and `u =/= 0` is refused. The default does not change the small library of the compiled path (your decision P-37). So the two paths differ at `RR32` until the switch-over. The other way adds `=` and `=/=` for `RR32` there.
+- **Fork O4.** After the merge, an arm `typecase x of Int => ...` takes every value, with no message. That is true of every unknown name today (row 959).
+- **Fork O3.** `round` of an `RR64` stays a `ZZ64`. Your decision P-68 makes it a `ZZ` in a later rung.
+
+**What I did not check.** I ran no suite and no stage of the gate. I did not take the measure. I did not run the programs of the tests that rung E only runs once.
+
+## The findings, by what each needs
+
+### A. Changes of the record that I made
+
+Each is in `CLIMB-BATCH-31.md`, `lists31.py` or `climb-batch-workflow.js` as committed with this review. Each has one reason.
+
+1. **Section 4, its first paragraph.** It now says that run 2's sections cite lines of `7858d0e97b`. Reason: the paragraph gave `c0c35b4f9e` for every section.
+2. **Rung T, moved lines** (`reviews/batch-31-review.md`, Part 5). `changes.tex:3323` is `:3333`. `forVarDeclPrePass` is `CodeGen.java:6614`. The members of its "Files" have their lines: `generateForwardingFor` `:793`, `forMethodInvocation` `:7071`, `receiverPrependedDomainType` `:7211`. Reason: run 1 moved them.
+3. **Rung T, "the operator application's call" is named:** `forOpExpr` (`CodeGen.java:5531`). Reason: the phrase named no member.
+4. **Rung T, "The decisions this rung builds":** what rung M and rung K left in its code (`allMethodsNotReplaced` `:980`, `hasBodyInItsTrait` `:1051`, M's line `:873`, K's `castToTypeBelow` `:7436-7459`). Its briefing gains `castToTypeBelow` as a key. Its "Files" gain the specification's sentence, which its own paragraph "Specification" asks it to edit. Reason: Part 5 names them as new to the section.
+5. **Rung T, steps 2 and 3: the message seen on the base.** Row 832's call: 'ClassCastException'. Row 819's operator: 'Error trying to close method scope'. Reason: the two steps said "test first" and gave no message.
+6. **Rung O, moved lines.** `changes.tex:4812-4815` is `:4826-4829`, and `:4847` is `:4861`. Reason: run 1 moved them.
+7. **Rung O, a new paragraph "What the merge meets for the first time", two points to report, one reserved point and two briefing keys (rows 785 and 1044).** Part 5's two points: rung V's reading of a generic declaration beside a plain one acts at the five types for the first time; and a plain declaration with no written return type is refused over a trait type and loads unjudged over an object type. Reason: Part 5, "To add, 1" and "To add, 2". I ran the second: `pick[\T extends Number\](a: T): ZZ32 = 1` beside `pick(a: ZZ64) = 2` is refused on the base, 'fails the Return Type Rule'.
+8. **Rung O, step 1: the first test is a guard.** Finding B1 below. Reason: the section says "The test first", and that test passes on the base.
+9. **Rung E, moved lines.** `changes.tex:5421-5427` is `:5435-5441`. The members that write a reference to a function as a value are named: `forFnRef` `:4101` and `forFunctionalRef` `:4182`. K's cast at a returned value (`:3126`, `:7424`) stays. Reason: run 1 moved them, and Part 5 names the members.
+10. **Rung E, step 3: three more kin by a run,** `XXXAtomicExprNumeralArms`, `XXXAtomicExprNumeralBody` (row 1043) and `XXXLabelNumeralValueCompiled` (row 340's label case); its points to report, its rows and its briefing (P-50 as a check, rows 1043 and 340). Reason: Part 5.
+11. **Rung E, step 1: the `if` form.** Finding B2 below. Reason: the step gave one message for four forms, and one form fails with another.
+12. **Rung E, step 4, fork E2 in sections 2 and 3, and section 5's line on the routed step: `c = 0` at `RR32`.** Finding B3 below. Reason: the record said that the case passes, and it does not.
+13. **Section 2, "Run 2, rung by rung", written again.** It has your words of 17 November, the three rungs with the messages of today's runs, rows 832 and 819 under T, the four things that a program sees differently after O, the guard, the kin of E, and each fork with its default and the other way. Fork O7 has its other way. Reason: the part gave T, O and E in fewer words than run 1's rungs, said "I ran it today" for runs of 16 November, and gave no other way for E1 and O7.
+14. **Section 2, "The go", "The two runs", "Cost and time" and "Your review list".** Run 1 landed; run 2 has your word; the agents' models; run 1 as it ran; run 2's estimate with its reserve; the disk today. Reason: stale text.
+15. **Section 6.** The gate's comparands for run 2, with their figures. The sentence for a second launch in run 2's first reading names every role (process finding 8). "Before the launch" for run 2 says what is done. "The generator" says that run 2's block is spliced. Reason: Part 5's frame and "The steps due before run 2", step 7.
+16. **The head comment:** your word for run 2, and one sentence on this check. Reason: the record's history names its checks.
+17. **`lists31.py`:** the four changes of briefing above, and its header. Reason: the manifest follows the record.
+18. **`climb-batch-workflow.js`:** run 2's block spliced; and `atomic_runs` reads only its own lines of the gate's summary. Before, it returned 1 whenever the summary held 'BUILD FAILED' (process finding 10, first fault). Reason: "The steps due before run 2", step 7.
+
+### B. Findings of the reproducers
+
+Each on the base build's code, once.
+
+**B1. Rung O's first test cannot fail first.** `NumberTypesAreObjectsWalk` asserts four things. I wrote them as one program and ran it under walk on the base:
+
+- a `typecase` with arms at `ZZ32`, `ZZ64`, `ZZ`, `NN64` and `RR64` printed `ZZ32 ZZ64 ZZ NN64 RR64 other` for one value of each and an `NN32`;
+- `ilkName` printed the five type names;
+- `(x asif T) = x` printed `true` five times;
+- `(3.0 asif RR64) + 17` printed `20.0`.
+
+So every assertion holds before the merge. The rung has two tests that do fail first: the refusal of `object Mine extends ZZ32`, and row 550's test, which is refused on the base ('fails the Return Type Rule') and is promoted. The record now calls the first test a guard. No design changed.
+
+**B2. Rung E, step 1: one of the three added forms fails for another reason than the rung's gap.** A function whose block ends in `if c then 1 else 2 end` after a local declaration: the compile stops, 'Error trying to close method scope', at the function. That is row 340's message, and the row's notes name "an `if` argument coerced" among its forms. The float numeral and the negative numeral fail as row 1014 does: 'NoClassDefFoundError: fortress/CompilerBuiltin$v'. The record now gives the two messages. If E's repair does not reach the `if` form, E writes it as an expected-failure test of its own with a note on row 340, and builds nothing more. That keeps fork E1.
+
+**B3. Rung E, step 4: `c = 0` for `c: RR32` does not answer `true` on the compiled path.** The record of 16 November said "Five cases pass. One fails". The planner's program stopped at the compile on `c =/= 0`, so the other five cases never ran (`PROBES.md`, section 9). I ran the five without that line:
+
+- `a = 0`, `a =/= 0` at `NN32` and `b = 0`, `b =/= 0` at `NN64`: `true`, `false`, `true`, `false`.
+- `c = 0` at `RR32`: 'StackOverflowError'. The frames repeat: `Equality[\RR32\]`'s `=` (`Library/CompilerAlgebra.fss:26`, `self === other`), then `===` at `(RR32, RR32)` (`Library/CompilerLibrary.fss:67`, `a=b`). `trait RR32` of the prelude declares only its two coercions (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:955-958`).
+
+No ledger row holds this defect. Row 908 names the prelude's `===` and not the recursion. The record now gives rung E the row as `NEW-E-2`, and the case as an expected-failure test. The Effect's sentence at `changes.tex:5435-5441` says that both implementations answer at `RR32`; E narrows it, as fork E2 already asked for `=/=`.
+
+**The verdicts, rung by rung.**
+
+- **T, `PTupleIndex.fss` (row 992):** compiles; the run dies, 'VerifyError: Bad type on operand stack', at `PTupleIndex$A2.get(FZZ32, FZZ32)`, "Type 'PTupleIndex$A2' ... is not assignable to ... FZZ32". As the record says.
+- **T, row 832's program:** compiles; the run dies, 'ClassCastException'. The record gave no message; it has one now.
+- **T, row 819's two operators:** the compile stops, 'Error trying to close method scope'. As row 819 says.
+- **O, `P551.fss` with its own `asFloat` (walk):** loads and prints `Mine`. As the record says.
+- **O, `PInt.fss` (walk):** `Int other`. As the record says.
+- **O, row 550's test (walk):** refused, 'fails the Return Type Rule'. As fork V4 left it.
+- **O, the guard:** finding B1.
+- **E, `P1014.fss` (row 1014):** compiles; the run dies, 'NoClassDefFoundError: fortress/CompilerBuiltin$v'. As the record says.
+- **E, row 1030's test program:** compiles; the run prints `REACHED` and dies with the same error. As the record says.
+- **E, `PEqNum.fss`:** the compile stops at `c =/= 0`, 'Could not check call to operator NE'. As the record says. The other cases: finding B3.
+- **E, the three added forms:** finding B2.
+
+Not run: the programs of E's four kin tests. Each is an expected-failure test of the gated suite, which run 1's second gate passed.
+
+### C. Points for the coordinator before the launch
+
+1. **The base and the base build.** `git diff --stat a3e35bbdb0 main -- ProjectFortress Library build.xml bin Specification .claude` prints nothing, before my commits and after them: they change only files under `explorations/`. So `/home/user/fortress-base36` holds the code of `main`'s head. The launch's `base` is `main`'s head after my commits; `baseBuild` is `/home/user/fortress-base36`. Run 1 was launched the same way (`c1ce2a35e1` on `/home/user/fortress-base35` at `c72e195fd7`).
+2. **`compiler_tests/OverloadReturnObjectDomain.fss:26` is not traced** ("The steps due before run 2", step 5; judge-gate.3). No commit touches the file since rung X's. Its line binds `b: Box[\Square\] = keep(Box[\Square\](Square))`, a call that two generic declarations fit. Run 2's gate reads the test, and rung E may edit the checker. If its answer hangs on the suite's order, the gate can turn red on it as run 1's first gate did on its sibling. The reserve of the estimate covers one such ruling. I did not trace it: the time went to the reproducers.
+3. **The script's fixes of step 7.** Made: process finding 10's first fault (A18 above), and finding 8 for run 2's first reading (A15). Not made, because neither is small:
+   - Finding 2, the second gate's reach. `gateRole` takes no list of stages, and `repairRerun` answers only whether the whole gate runs again. A second gate costs about 20 minutes and 0.11M; the reserve holds one.
+   - Finding 10's second fault, 'Saw failure' printed with no exit code. It is in the test harness, not in the script.
+4. **The measure on the landed tree** (step 2) is not in the record yet. `PLAN.md` and F-34 still give 24. A worktree `/home/user/fortress-measure36` exists, so another worker has it.
+5. **The third atomic program.** Rung A's handover offers `VarFieldCapturedCompiled`. Fork B2 names two programs, and the script's list holds those two. I did not add a third: it changes what the gate runs.
+6. **The skill that run 2's workers read.** Step 3 asks that they read the skill as the record-landing workflow updates it. That workflow is running. A worker reads the skill of its own worktree, which is cut from the base. If the skill's update lands after the launch's base, the workers read the skill of before run 1. For T, O and E its sentences on rows 551, 1014 and 1030 are still true on the base. Its sentences that `label`, `exit` and an `atomic` expression do not compile are false, and no rung of run 2 rests on them.
+7. **The disk.** `df` gives 13.9 G free with the base build in place and my worktree removed. Run 2's floor is 8.5 G. The base builds 32 to 35 hold 1.2 G that no run reads.
+8. **A defect that no row holds:** the stack overflow of finding B3. Rung E files it. If rung E does not land, the row is the coordinator's to file.
+9. **A sentence of the probe notes that misleads:** `PROBES.md`, section 9, "it reports no other line", is true of the checker and was read as "the other five cases pass". I did not edit the probe notes: the record now holds the result.
+10. **The launch** from a turn that no message of his started, with check-ins for about 3 hours and three quarters.
+
+### D. Points that would change a decision of the curator's
+
+**No rung must be held out.** His message of 17 November gives every fork of run 2 its default. I read each default against the entry that it stands near, and against the entry's history.
+
+- **T1, a bridge method.** No decision on record speaks of it. P-156's sentence "`m[i, j]` passes its tuple `(i, j)` as before" is about the value, and T changes no value.
+- **O1, O2, O5, O6, O7.** Within P-178 and P-167. P-178's history ends with his own words for "both paths ... before the switch-over" (the note of 2026-11-16 01:57Z). Rung O builds the one library's half. The prelude's half is fork H2, which builds nothing and is on his review list.
+- **O3, `round` stays `ZZ64`.** P-68: "one library rung after the switch-over, which first counts the interpreter tests whose output changes, then makes the brackets, `round` and `truncate` return `ZZ`". The default keeps what runs and leaves the change to that rung. It deletes the one declaration with P-68's type, which never ran (`Library/FortressLibrary.fss:480`). It does not bend the sentence. P-68's clause "but `ZZ` in the `FortressLibrary` component's `trait RR64`" becomes false with rung O; the record lists it for the record-landing workflow.
+- **O4, the merge does not wait for row 959.** P-167: "walk's native objects stop being types that a program sees or prints; its five native number objects go altogether (P-178)". The default does what the sentence says. What a program that still writes `Int` in an arm sees is in no entry. The default leaves a wrong answer with no message for the time of one batch. That is his to weigh after the run, and it bends nothing.
+- **E1.** No decision speaks of it.
+- **E2, with finding B3.** P-37: "So no declaration is added to the compiler's prelude", with two exceptions, "each so that both paths do the same before the switch-over". The default adds no declaration, so it follows the first sentence. The exception for the numerals names the design of P-174 and P-176, the numeral types and their coercions, and not the operators of a number type. So the default reads the exception as it is written. After rung E the two paths still differ at `RR32`: walk answers `c = 0` and `c =/= 0`, and the compiled path crashes on the first and refuses the second. That difference is wider than the record told him on 16 November. It is the first point for his review, and it holds no rung: the default changes no behaviour, and it can be undone by two declarations.
+- **A new point under rung O, no fork:** after the merge a plain declaration with no written return type beside a generic one loads unjudged at the five types (row 1044), where walk refuses it today (row 785's refusal, which no rule of the team's gives). P-45 says that the Return Type Rule holds at every instance; walk does not judge such a body at any object type today. The merge widens that gap to the five types and bends no sentence.
+
+**The premises stated as the curator's.** Each one that a section of T, O or E names is in its entry: P-156 (T); P-178, P-160, P-167, P-68, P-87, P-37 (O); P-173, P-176, P-174, P-37, P-148, P-50 (E). "Your decision P-178 asks for the merge on both paths before the switch-over" (section 2, "The merge") is in the entry and in its history. I found no premise without an entry.
+
+### E. The citations of run 2
+
+Read on `main`, whose code is `7858d0e97b`'s. After the changes of section A, every one holds:
+
+- `CodeGen.java`: `generateForwardingFor` `:793`, M's line `:873`, `allMethodsNotReplaced` `:980`, `hasBodyInItsTrait` `:1051`, the returned value's cast `:3126`, `forFnRef` `:4101`, `forFunctionalRef` `:4182`, `forOpExpr` `:5531`, `forVarDeclPrePass` `:6614`, `forMethodInvocation` `:7071`, `receiverPrependedDomainType` `:7211`, `castToTypeBelow` `:7417` and `:7436`, `declaredResult` `:7424`.
+- Walk: `LanguageTypes.java:33-37` (the five entries of `OBJECTS`) and `:53` (`numberTraitName`); `ObjectPrims.java:55`; `StaticNativeApp.java:64` and `:117-120`; the `UnsignedLong` clause of `BuiltinPrimitiveRewriter.java` (`:189-192`); `BuildEnvironments.forObjectDecl1` (`:454`); the five constructor classes of `interpreter/glue/prim/`, 2,041 lines together; `OverloadedFunction.java:513-527`; `FTraitOrObject.java:102-103`; 'Attempt to extend object type' (`interpreter/rewrite/DesugarerVisitor.java:1436`).
+- The library: the five traits with `comprises { Int }` and the others (`Library/FortressLibrary.fss:384-387`, `:776-778`, `:878-880`, `:987-989`, `:1089-1091`, and the api); the five objects (`FortressBuiltin.fss:61`, `:379`, `:388`, `:533`, `:544`); `round(self): ZZ` (`FortressLibrary.fss:480`); the 54 lines that name the five objects in the library's four files.
+- Tests: `tests/NativeHelperFloatCarriedWalk.fss:5-6`; `tests/NumberPrintTest.fss:31` and `:35`; `tests/asifTest.fss:102`; `tests/XXXGenericBesidePlainReturnParam.fss`; the six expected-failure tests that rung E promotes or runs; `compiler_tests/XXXNativeHelperOwnUnsignedLongCompiled.fss`.
+- The specification: `changes.tex:3333` (row 832), `:4826-4829` and `:4861` (the interpreter's objects), `:5435-5441` (the Effect on `u = 0`).
+- Ledger rows 992, 832, 819, 1003, 1000, 551, 550, 959, 330, 785, 1044, 1014, 1030, 1031, 1043 and 340; F-361; the probe's note, "The bodies of `trait RR64`" (56 bodies); the gate's files of run 1 (`compile-ladder/climb-batch-31/gate/`: the count 0, the distance 0, `#crash none`).
+- Every briefing key of T, O and E matches one place: `python3 -B explorations/compile-ladder/plan-31/manifest/lists31.py` prints `bad lists 0`.
+
+One figure is loose and I left it: fork O6's "about 2,000 lines that nothing calls". The five classes are 2,041 lines together, and their constructors stay.
+
+### F. The merge of run 2
+
+**The gather can merge the three rungs.**
+
+- O shares no code file and no test file with T or E. Of the tests that name one of the five objects, none is a test that T or E writes, promotes or runs.
+- T and E can meet in `CodeGen.java`: T at `:793`, `:5531`, `:7071` and `:7211`, E only at `:4101` or `:4182`. The nearest pair is 1,349 lines apart. If E's cause lies in a member of T's, E does not edit there (fork E1).
+- All three edit `Specification/appendices/changes.tex`: T at `:3333`, O at `:4826-4861`, E at `:5435-5441`. Apart. The record's sentence "O shares no file with T or E" is true of code and tests; rung O's section now names the shared file.
+- T edits `compiler/NamingCzar.java`; the measure's patch has a hunk there, and the record says what to do.
+
+**No pair changes one behaviour two ways, and none needs another's result.** The manifest's `landsOnlyWith` is empty for each, and that is correct: T's and E's tests run under the prelude, which O does not touch; O's tests run under walk, which T and E do not touch. Two things that only the merged tree shows: the count and the distance stages with E's checker edit on O's library, which the gate runs; and the measure after run 2.
+
+### G. The estimate
+
+- **Run 1 as it ran:** 5.08M written in 4 h 23 min, against 4.3M and 5 h 30 (`reviews/batch-31-review.md`, section 5). Workers 1.75M (0.29M each), skeptics 1.41M for six and 0.24M lost to the restart, fixed roles 0.90M, two rulings with two repairs and a second gate 0.77M.
+- **Run 2, tokens written:**
+  - Workers 1.1M: O 0.45M, the largest section and the only rung with walk's suite and the two stages; T 0.35M, as M; E 0.30M.
+  - Skeptics 0.8M: 0.24M each by run 1's figure, and more for O, whose section has five reserved points.
+  - Fixed roles 0.9M: the gather and the commit stage do not shrink much with three rungs.
+  - Sum 2.8M to 3.0M with no ruling; the three-rung climb batch 30 wrote 2.92M.
+  - Reserve 0.8M: one ruling on the review with its repair (0.29M in run 1), and one ruling on the gate with its repair and a second gate (0.49M).
+  - **About 3.0M, and 3.8M with the reserve; between 2.5M and 4.3M.** The record had 3.0M between 2.4M and 3.8M, with no reserve.
+- **The models.** The workers and the fixed roles run on Opus, and Fable only for a judge's second ruling (`tools/tier-mode.sh status` prints `regular`). Run 1's figures are of Fable. I know no figure for how the two differ in tokens written for one rung, so the range is wide on both sides.
+- **The time: about 3 hours, and 3 hours and three quarters with the reserve.** Run 1's workers took 22 to 43 minutes, its skeptics 12 to 21, its gather 44, each gate about 21, the review, the judges and the commit stage about 25 together. Three workers on four CPUs, with O's `ant testSystem` and two rungs' `ant testFast` beside each other, take about an hour. The record had 4 hours and a half.
+- **The disk:** the floor is 8.5 G; 13.9 G are free.
+
+### H. The section for the curator
+
+After change A13 it lets him judge each rung after the fact. For T, O and E it gives the change, a program with today's message, and each fork with the default taken and the other way; O1 to O7 are in "The merge". It has lists and no table. Its terms are defined at the head of section 2 or where they are used ("bridge method", "forwarder", "guard"). What stays, which I did not change: "The merge" gives forks O1 to O7 apart from rung O's part, so he reads two places for one rung; and the passive sentences that the check of run 1 named.
+
+### I. Ready to launch
+
+- `python3 -B explorations/compile-ladder/plan-31/manifest/lists31.py`: `bad lists 0`, for both runs.
+- `gen31.py --run 2` wrote the block: T, O and E, batch `31b`, 267 lines.
+- `node check31.js --run 2`: `problems: 0`; then with `--write`: spliced into `explorations/coordinator/climb-batch-workflow.js`. A second run after the last edit of the record: "the tracked script's block equals the generated one", `problems: 0`.
+- `node explorations/coordinator/tools/workflow-scenarios.js`: `problems: 0`, after the fix of `atomic_runs` and again after the splice.
+
+
 <!-- The check of climb batch 31's record, `CLIMB-BATCH-31.md` (`c72e195fd7` on `main`), with its probe notes `compile-ladder/plan-31/PROBES.md`, before the launch of run 1 on the curator's go of 2026-11-16 23:04 UTC, by a fresh reader on Fable that night: run 1's citations at their sources, its reproducers run once on the base build's code, each repair against the team's sources, each rung against the decisions on record, the 26 forks sorted by the `coordinator` skill's rule, the merge of run 1's six rungs, the measure and the estimate, and the section for the curator; with the changes made to the record in place. It replaces the check of 2026-11-13, which git keeps (`98dbf519ed` and after). -->
 <!-- Run in a worktree of the reader's own, `/home/user/fortress-check31b`, seeded from `/home/user/fortress-base34` (`c0c35b4f9e`) and removed after; `FORTRESS_THREADS=1` unless a line says four; another worker built a base build beside it. No suite, no stage of the gate and no measure was run. Of run 2 only the decisions, the forks and the merge were checked. -->
 
