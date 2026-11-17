@@ -1,0 +1,4 @@
+tests=TupleVarFieldCompiled
+link
+run
+run_out_contains=PASS

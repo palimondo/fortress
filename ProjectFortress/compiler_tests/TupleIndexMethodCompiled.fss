@@ -30,6 +30,44 @@ object M3 extends Arr[\ZZ32, (ZZ32, ZZ32, ZZ32)\]
     put(t: (ZZ32, ZZ32, ZZ32), e: ZZ32): () = do (a, b, c) = t; written := 1000 a + 100 b + 10 c + e end
 end
 
+(* The generic trait second in the extends clause: its bodies are forwarded. *)
+trait Named
+    name(): String = "named"
+end
+
+object X2 extends { Named, Arr[\ZZ32, (ZZ32, ZZ32)\] }
+    offset(t: (ZZ32, ZZ32)): (ZZ32, ZZ32) = t
+    get(t: (ZZ32, ZZ32)): ZZ32 = do (a, b) = t; 10 a + b end
+    put(t: (ZZ32, ZZ32), e: ZZ32): () = ()
+end
+
+(* Generic, as the library's arrays are: a trait with a size parameter, and the tuple's element a type parameter. *)
+trait Grid[\T, nat w\] extends Arr[\T, (ZZ32, ZZ32)\]
+    offset(t: (ZZ32, ZZ32)): (ZZ32, ZZ32) = do (a, b) = t; (a + w, b) end
+end
+
+object G[\T, nat w\](v: T) extends Grid[\T, w\]
+    get(t: (ZZ32, ZZ32)): T = v
+    put(t: (ZZ32, ZZ32), e: T): () = ()
+end
+
+object Sel[\T\](v: T) extends Arr[\T, (T, ZZ32)\]
+    offset(t: (T, ZZ32)): (T, ZZ32) = do (x, k) = t; (x, k + 1) end
+    get(t: (T, ZZ32)): T = do (x, k) = t; x end
+    put(t: (T, ZZ32), e: T): () = ()
+end
+
+(* A self of a trait that comprises one object stands among the tuple's elements. *)
+trait Q extends Arr[\ZZ32, (R, ZZ32)\] comprises { R }
+    offset(t: (R, ZZ32)): (R, ZZ32) = t
+    get(t: (R, ZZ32)): ZZ32 = do (r, k) = t; k end
+    put(t: (R, ZZ32), e: ZZ32): () = ()
+    viaSelf(): ZZ32 = self.read((self, 8))
+    viaTrait(): ZZ32 = do c: Arr[\ZZ32, (R, ZZ32)\] = self; c[self, 9] end
+end
+
+object R extends Q end
+
 run(): () = do
     assert(M2.get((3, 4)), 34, "get at a pair, on the object")
     (p, q) = M2.offset((3, 4))
@@ -52,6 +90,21 @@ run(): () = do
     assert(written, 2346, "an indexed assignment at a triple")
     b: Arr[\ZZ32, (ZZ32, ZZ32, ZZ32)\] = M3
     assert(b[4, 5, 6], 345, "a subscript at a triple, through the trait's type")
+    assert(X2.read((3, 4)), 34, "read at a pair, the generic trait second in the extends clause")
+    x2: Arr[\ZZ32, (ZZ32, ZZ32)\] = X2
+    assert(x2[5, 6], 56, "a subscript at a pair, through the trait's type, the trait second")
+    g = G[\String, 3\]("g")
+    (u, w) = g.offset((1, 2))
+    assert(10 u + w, 42, "offset of a generic trait with a size parameter")
+    assert(g[1, 2], "g", "a subscript at a pair, on a generic object")
+    gs: Arr[\String, (ZZ32, ZZ32)\] = g
+    assert(gs.read((1, 2)), "g", "read at a pair, through the trait's type, on a generic object")
+    sl = Sel[\String\]("x")
+    assert(sl.read(("y", 2)), "y", "read at a pair whose element is a type parameter")
+    ss: Arr[\String, (String, ZZ32)\] = sl
+    assert(ss.get(("z", 3)), "z", "get at a pair whose element is a type parameter, through the trait's type")
+    assert(R.viaSelf(), 8, "read at a pair that holds self, through the trait's body")
+    assert(R.viaTrait(), 9, "a subscript at a pair that holds self, through the trait's type")
     println("PASS")
 end
 

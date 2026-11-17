@@ -3327,10 +3327,9 @@ The full reasoning is in
 in the revival's repository.
 \item[Effect] A type parameter declared without a bound may be instantiated
 with a tuple type or with \TYP{()}, on the compiled path as in the interpreter.
-On the compiled path some such instances compile and then fail at run time: an
+On the compiled path one such instance compiles and then fails at run time: an
 instance at \TYP{()} where a parameter has the type parameter's type (row~339
-of the revival's gap ledger), and a generic dotted method whose one parameter
-has a tuple type (row~832).
+of the revival's gap ledger).
 Until the compiled path is switched over to the interpreter's library, the
 compiler's own library declares the concatenation of a \TYP{String} with an
 \TYP{Object}, and \VAR{print} and \VAR{println} of an \TYP{Object}, not of

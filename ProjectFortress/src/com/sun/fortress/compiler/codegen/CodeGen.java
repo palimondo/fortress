@@ -839,8 +839,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             if (inst != null) {
                 fromReturnType = inst.replaceIn(fromReturnType);
                 toReturnType = inst.replaceIn(toReturnType);
-                fromParamType = inst.replaceIn(fromParamType);
-                toParamType = inst.replaceIn(toParamType);
+                fromParamType = paramTypeAtInstance(fromParamType, inst);
+                toParamType = paramTypeAtInstance(toParamType, inst);
             }
             
             String from_sig = NamingCzar.jvmSignatureFor(
@@ -864,7 +864,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 mname = Naming.fmDottedName(singleName(name), selfIndex);
             } else {
                 mname = singleName(name); // What about static params?
-                arity++;
+                /* Each JVM parameter of from_sig, with self, which where not narrowing
+                 * it holds first: a method whose one parameter is a tuple takes its
+                 * elements, one JVM parameter each. */
+                arity = new SignatureParser(from_sig).getJVMArguments().size() + (narrowing ? 1 : 0);
             }
             String from_name = forward_to_non_overload ? NamingCzar.mangleAwayFromOverload(mname): mname;
             /* The signature of the instance method: where not narrowing, from_sig is the
@@ -877,6 +880,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             if (already_emitted_as_overload) {
                 from_name = NamingCzar.mangleAwayFromOverload(from_name);
             }
+            else if (narrowing && selfIndex == Naming.NO_SELF &&
+                     takesTupleBoxed(fromParamType) && toParamType instanceof TupleType &&
+                     !takesTupleBoxed(toParamType))
+                /* The method that the generic trait declares over a type parameter takes the
+                 * tuple of the instance as one value; the body below takes its elements. */
+                tupleElementsBridge(from_name, from_sig,
+                        (TupleType) ((TupleType) fromParamType).getElements().get(0),
+                        receiverClass, mname, isObject ? INVOKEVIRTUAL : INVOKEINTERFACE, to_sig);
             else
                 InstantiatingClassloader.forwardingMethod(cw, from_name, ACC_PUBLIC, 0,
                     receiverClass, mname, narrowing ? (isObject ? INVOKEVIRTUAL : INVOKEINTERFACE ): INVOKESTATIC,
@@ -885,6 +896,89 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
         }
         
+    }
+
+    /*
+     * A method's JVM parameters follow its declaration.  Where its one parameter's declared
+     * type is a tuple type, it takes the tuple's elements, one JVM parameter each, and its body
+     * makes the tuple again (addParams); any other parameter is one JVM parameter.  So a
+     * parameter whose declared type names a type parameter is one JVM parameter at every
+     * instance, a tuple among them, as the generic trait's interface declares it.
+     *
+     * The parameter type from which jvmSignatureFor computes a method's JVM parameters at the
+     * instance inst, from its declared parameter type: the instance, except where the method's
+     * one parameter has a declared type that is no tuple type and the instance is a tuple.
+     * There the instance stands as the one element of a tuple, which jvmSignatureFor gives
+     * as one JVM parameter, the boxed tuple.
+     */
+    private static Type paramTypeAtInstance(Type declared, StaticTypeReplacer inst) {
+        return paramTypeAtInstance(declared, inst.replaceIn(declared));
+    }
+
+    /* The same, from the instance t of the declared parameter type. */
+    private static Type paramTypeAtInstance(Type declared, Type t) {
+        if (!(declared instanceof TupleType) && t instanceof TupleType && !NodeUtil.isVoidType(t))
+            return NodeFactory.makeTupleType(NodeUtil.getSpan(t), Useful.list(t));
+        return t;
+    }
+
+    /* Whether paramTypeAtInstance made t the one boxed tuple of its method's JVM parameters. */
+    private static boolean takesTupleBoxed(Type t) {
+        return t instanceof TupleType && ((TupleType) t).getElements().size() == 1 &&
+            ((TupleType) t).getElements().get(0) instanceof TupleType;
+    }
+
+    /*
+     * Whether the dotted method func, which shadows the dotted method super_func at the
+     * instance super_inst, takes as separate JVM parameters the elements of the tuple that
+     * super_func takes as one value there.
+     */
+    private static boolean joinsTupleElements(Functional super_func, StaticTypeReplacer super_inst,
+                                              Functional func) {
+        if (func == null || !super_func.staticParameters().isEmpty() || !func.staticParameters().isEmpty())
+            return false;
+        if (!(super_func instanceof HasSelfType) || ((HasSelfType) super_func).selfPosition() != Naming.NO_SELF ||
+            !(func instanceof HasSelfType) || ((HasSelfType) func).selfPosition() != Naming.NO_SELF)
+            return false;
+        Span span = NodeUtil.getSpan(super_func.name());
+        Type from = paramTypeAtInstance(NodeUtil.getParamType(super_func.parameters(), span), super_inst);
+        Type to = NodeUtil.getParamType(func.parameters(), span);
+        return takesTupleBoxed(from) && to instanceof TupleType && !NodeUtil.isVoidType(to) && !takesTupleBoxed(to);
+    }
+
+    /*
+     * An instance method thisName, of the signature thisSig whose one parameter is a tuple of
+     * the type tuple, that calls fwdName of fwdClass on self with the tuple's elements, one JVM
+     * parameter each, and answers its result: the bridge from a method that a generic trait
+     * declares over a type parameter, at an instance that makes the parameter a tuple, to the
+     * body that a type below it gives at the tuple type.
+     */
+    private void tupleElementsBridge(String thisName, String thisSig, TupleType tuple,
+                                     String fwdClass, String fwdName, int fwdOp, String fwdSig) {
+        MethodVisitor bmv = cw.visitMethod(ACC_PUBLIC, thisName, thisSig, null, null);
+        bmv.visitCode();
+        bmv.visitVarInsn(ALOAD, 0);
+        bmv.visitVarInsn(ALOAD, 1);
+        String owner = NamingCzar.jvmTypeDesc(tuple, thisApi(), false, true);
+        List<Type> elements = tuple.getElements();
+        int l = elements.size();
+        for (int i = 0; i < l; i++) {
+            Type t = elements.get(i);
+            String m = InstantiatingClassloader.TUPLE_TYPED_ELT_PFX + (i + Naming.TUPLE_ORIGIN);
+            String elementDesc = NamingCzar.jvmTypeDesc(t, thisApi(), true, true);
+            if (i < l-1) bmv.visitInsn(DUP);
+            bmv.visitMethodInsn(INVOKEINTERFACE, owner, m, "()" + elementDesc);
+            InstantiatingClassloader.generalizedCastTo(bmv, NamingCzar.jvmTypeDesc(t, thisApi(), false, true));
+            if (i < l-1) bmv.visitInsn(SWAP);
+        }
+        bmv.visitMethodInsn(fwdOp, fwdClass, fwdName, fwdSig);
+        String returned = Naming.sigRet(thisSig);
+        if (!returned.equals(Naming.sigRet(fwdSig)) ||
+            returned.startsWith(Naming.TUPLE_OX) || returned.startsWith(Naming.ARROW_OX))
+            InstantiatingClassloader.generalizedCastTo(bmv, returned);
+        bmv.visitInsn(ARETURN);
+        bmv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
+        bmv.visitEnd();
     }
 
 
@@ -1287,6 +1381,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                     continue;
                 
                 boolean shadowed = false;  // EQ -> EQ seen
+                Functional shadowing_func = null;
                 boolean narrowed = false;  // EQ -> LT seen
                 Functional narrowed_func = null;
                 
@@ -1422,6 +1517,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                                         System.err.println("  "+ func + " schema-narrows " + super_func);
                                 } else {
                                     shadowed = true; // could "continue" here
+                                    shadowing_func = func;
                                     if (DEBUG_OVERLOADED_METHOD_CHAINING)
                                         System.err.println("  "+ func + " shadows " + super_func);
                                 }
@@ -1438,8 +1534,15 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                     }
                 }
 
-                if (shadowed)
+                if (shadowed) {
+                    /* Equal domains in Fortress, unequal JVM parameters: the super method
+                     * over a type parameter takes the instance's tuple as one value, the body
+                     * here takes its elements (paramTypeAtInstance).  A bridge joins them. */
+                    if (joinsTupleElements(super_func, super_inst, shadowing_func))
+                        generateForwardingFor(super_func, shadowing_func, false, super_inst,
+                                              currentTraitObjectType, currentTraitObjectType, true);
                     continue;
+                }
                 if (narrowed) {
 //		    System.out.println("generateForwardingFor:");
 //		    System.out.println("  super_func = " + super_func);
@@ -3048,10 +3151,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
             
             if (! typeLevelOverloadedNamesAndSigs.contains(mname+sig+schema)) {
-            
+            /* The forwarder passes on each JVM parameter of sig: a method whose one
+             * parameter is a tuple takes its elements, one JVM parameter each. */
+            int jvm_params = new SignatureParser(sig).getJVMArguments().size();
             InstantiatingClassloader.forwardingMethod(cg.cw, mname, ACC_PUBLIC, 0,
                     traitOrObjectName, mangled_mname, INVOKEVIRTUAL,
-                    sig, sig, null, n+1, true, null);
+                    sig, sig, null, jvm_params+1, true, null);
             }
             
             mname = mangled_mname;
@@ -5543,13 +5648,23 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
         Type domain_type = ((ArrowType)(op.getInfo().getExprType().unwrap())).getDomain();
         
-        evaluateSubExprsAppropriately(x, domain_type, args);
+        boolean tupleOperand = args.size() == 1 && domain_type instanceof TupleType &&
+            !NodeUtil.isVoidType(domain_type) &&
+            (args.get(0) instanceof TupleExpr || exprType(args.get(0)) instanceof TupleType);
+        int savedParamCount = paramCount;
+        if (tupleOperand)
+            /* One operand, a tuple, at an operator whose one parameter has a tuple type: the
+             * operator takes the tuple's elements, one JVM parameter each, as a function does. */
+            evalArg(x, domain_type, args.get(0));
+        else
+            evaluateSubExprsAppropriately(x, domain_type, args);
 
         callArgsForAssumption = args;
         try {
             op.accept(this);
         } finally {
             callArgsForAssumption = null;
+            if (tupleOperand) paramCount = savedParamCount;
         }
     }
 
@@ -7140,8 +7255,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 
                 boolean anySymbolic = Useful.orReduction(prepended_method_sargs, isSymbolic);
                 
+                boolean one_parameter = genericMethodTakesOneParameter(receiverType, method,
+                        method_sargs.size(), domain_type);
                 Type prepended_domain = receiverPrependedDomainType(
-                        receiverType, domain_type);
+                        receiverType, domain_type, one_parameter);
                 
                 // DRC-WIP
                 
@@ -7176,7 +7293,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                         string_sargs, anySymbolic);
 
                 // evaluate args
-                evalArg(x, domain_type, arg);
+                if (one_parameter && domain_type instanceof TupleType)
+                    pushTupleBoxed(arg, domain_type);
+                else
+                    evalArg(x, domain_type, arg);
                 
                 String sig = NamingCzar.jvmSignatureFor(prepended_domain, range_type, thisApi());
 
@@ -7193,7 +7313,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 // put object on stack
                 obj.accept(this);
                 // put args on stack
-                evalArg(x, domain_type, arg);
+                if (receiverType instanceof TraitType &&
+                    callTakesTupleBoxed((TraitType) receiverType, method, domain_type)) {
+                    /* The method takes the tuple as one value (paramTypeAtInstance). */
+                    pushTupleBoxed(arg, domain_type);
+                    domain_type = NodeFactory.makeTupleType(NodeUtil.getSpan(domain_type), Useful.list(domain_type));
+                } else
+                    evalArg(x, domain_type, arg);
                 methodCall(method, (NamedType)receiverType, domain_type, range_type);
             }
         } finally {
@@ -7204,23 +7330,87 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
 
     /**
+     * The domain of a generic method's closure, the receiver first: the closure takes the
+     * method's parameters as the method declares them (convertGenericMethodToClosureDecl).
+     * Where the method has one parameter, its tuple is one value, the closure's second
+     * parameter; where it has several, a tuple domain gives one parameter for each.
+     *
      * @param receiverType
      * @param domain_type
+     * @param one_parameter whether the method declares one parameter
      * @return
      */
-    private Type receiverPrependedDomainType(Type receiverType, Type domain_type) {
+    private Type receiverPrependedDomainType(Type receiverType, Type domain_type, boolean one_parameter) {
         Type prepended_domain = null;
-        /* I think we start to have a problem here in the future,
-         * when generics can be parametrized by tuples.
-         * We need to figure out what this means.
-         */
-        if (domain_type instanceof TupleType) {
+        if (domain_type instanceof TupleType && !one_parameter) {
             TupleType tt = (TupleType) domain_type;
             prepended_domain = NodeFactory.makeTupleTypeOrType(tt, Useful.prepend(receiverType, tt.getElements()));
         } else {
             prepended_domain = NodeFactory.makeTupleType(domain_type.getInfo().getSpan(), Useful.list(receiverType, domain_type));
         }
         return prepended_domain;
+    }
+
+    /*
+     * Whether the generic method that a dotted call names, with nsargs static arguments, at the
+     * tuple domain_type, declares one parameter: each generic declaration of the name that
+     * the receiver's type holds with nsargs static parameters declares one.
+     */
+    private boolean genericMethodTakesOneParameter(Type receiverType, IdOrOp method, int nsargs,
+                                                   Type domain_type) {
+        if (!(domain_type instanceof TupleType) || NodeUtil.isVoidType(domain_type)) return false;
+        if (!(receiverType instanceof TraitType)) return false;
+        boolean one = false;
+        for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m :
+                 methodsNamed((TraitType) receiverType, method, Naming.NO_SELF)) {
+            Functional fnl = m._1();
+            if (fnl.staticParameters().size() != nsargs) continue;
+            if (fnl.parameters().size() != 1) return false;
+            one = true;
+        }
+        return one;
+    }
+
+    /*
+     * Whether a dotted call of the method on a receiver of the type t, at the tuple domain_type,
+     * passes its argument as one value: each declaration of the method that t holds and that
+     * can take the tuple takes it so (paramTypeAtInstance), as a declaration over a type
+     * parameter does where t makes it the tuple.  A declaration that takes the tuple's elements,
+     * by one parameter of a tuple type or by one parameter for each, keeps them separate.
+     */
+    private boolean callTakesTupleBoxed(TraitType t, IdOrOp method, Type domain_type) {
+        if (!(domain_type instanceof TupleType) || NodeUtil.isVoidType(domain_type)) return false;
+        int n = ((TupleType) domain_type).getElements().size();
+        /* The replacer of a declaration that t's own trait makes holds no static argument
+         * of t; this one gives them. */
+        StaticTypeReplacer own = null;
+        Option<TypeConsIndex> oti = typeAnalyzer.traits().typeCons(t.getName());
+        if (!t.getArgs().isEmpty() && oti.isSome() && oti.unwrap() instanceof TraitIndex &&
+            ((TraitIndex) oti.unwrap()).staticParameters().size() == t.getArgs().size())
+            own = new StaticTypeReplacer(((TraitIndex) oti.unwrap()).staticParameters(), t.getArgs());
+        boolean boxed = false;
+        for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m :
+                 methodsNamed(t, method, Naming.NO_SELF)) {
+            Functional fnl = m._1();
+            if (!fnl.staticParameters().isEmpty() || m._2() == null) continue;
+            Type declared = NodeUtil.getParamType(fnl.parameters(), NodeUtil.getSpan(method));
+            Type instance = m._2().replaceIn(declared);
+            if (own != null) instance = own.replaceIn(instance);
+            Type at = paramTypeAtInstance(declared, instance);
+            if (takesTupleBoxed(at)) {
+                if (((TupleType) ((TupleType) at).getElements().get(0)).getElements().size() == n)
+                    boxed = true;
+            } else if (at instanceof TupleType && ((TupleType) at).getElements().size() == n)
+                return false;
+        }
+        return boxed;
+    }
+
+    /* The argument of a call, of the tuple type domain_type, as one value. */
+    private void pushTupleBoxed(Expr arg, Type domain_type) {
+        arg.accept(this);
+        conditionallyCastParameter(arg, domain_type);
+        paramCount = 1;
     }
 
     private Type sanitizePossibleStupidIntersectionType(Type receiverType) {
