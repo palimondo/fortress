@@ -9,7 +9,7 @@
 set -euo pipefail
 root="$(cd "$(dirname "$0")/../../.." && pwd)"
 positions="$root/explorations/coordinator/POSITIONS.md"
-mapfile -t nums < <(grep -o 'F-[0-9]\+' "$positions" | sort -u -t- -k2,2n)
+mapfile -t nums < <(grep -oE '(^|[^[:alnum:]_])F-[0-9]+' "$positions" | grep -oE 'F-[0-9]+' | sort -u -t- -k2,2n)
 if [[ "${1:-}" == "--list" ]]; then
   printf '%s\n' "${nums[@]}"
   exit 0
