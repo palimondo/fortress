@@ -1,0 +1,54 @@
+(* A method or getter of either result type, called on a call typed by the intersection of its candidates' return types, or on a variable bound to it, gets the answer of the value's own object. *)
+component CoverageReturnMethodCall
+export Executable
+
+trait S comprises { U, V } end
+trait T comprises { V, W } end
+trait U extends S excludes W end
+trait M extends { S, T } comprises { V } end
+trait V extends M end
+trait W extends T end
+object Vo extends V end
+
+trait Tagged
+  tag(): String = "tagged"
+end
+trait LeftResult extends Tagged
+  getter side(): String = "left side"
+  left(): String = "left"
+  plusLeft(n: ZZ32): ZZ32 = n + 1
+  get(n: ZZ32): String = "left at ZZ32"
+  pick[\X extends Object\](x: X): X = x
+end
+trait RightResult extends Tagged
+  right(): String = "right"
+  get(s: String): String = "right at String"
+end
+object LeftOnly extends LeftResult end
+object RightOnly extends RightResult end
+object BothResult extends { LeftResult, RightResult }
+  tag(): String = "both"
+end
+
+choose(s: S): LeftResult = LeftOnly
+choose(t: T): RightResult = RightOnly
+choose(v: V): BothResult = BothResult
+
+run(): () = do
+  m: M = Vo
+  assert(choose(m).left(), "left", "a method of LeftResult on the call")
+  assert(choose(m).right(), "right", "a method of RightResult on the call")
+  assert(choose(m).side, "left side", "a getter of LeftResult on the call")
+  assert(choose(m).plusLeft(41), 42, "a method with an argument on the call")
+  assert(choose(m).tag(), "both", "a method that both result types inherit runs the object's own")
+  assert(choose(m).get(5), "left at ZZ32", "an overloaded method's declaration in LeftResult")
+  assert(choose(m).get("a"), "right at String", "an overloaded method's declaration in RightResult")
+  assert(choose(m).pick[\String\]("picked"), "picked", "a generic method of LeftResult on the call")
+  r = choose(m)
+  assert(r.left(), "left", "a method of LeftResult on a variable bound to the call")
+  assert(r.right(), "right", "a method of RightResult on a variable bound to the call")
+  assert(r.side, "left side", "a getter of LeftResult on a variable bound to the call")
+  println("PASS")
+end
+
+end

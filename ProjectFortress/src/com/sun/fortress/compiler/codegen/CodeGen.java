@@ -7212,6 +7212,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
         Type receiverType = exprType(obj);
         receiverType = sanitizePossibleStupidIntersectionType(receiverType);
+        /* An intersection that none of its conjuncts lies below: the call goes to the
+           method's owner among the conjuncts, and the receiver is cast to it. */
+        TraitType receiverCast = null;
+        if (receiverType instanceof IntersectionType) {
+            receiverCast = intersectionMethodOwner(x, (IntersectionType) receiverType, method, mt);
+            receiverType = receiverCast;
+        }
 //        if (!(receiverType instanceof TraitType)) {
 //            throw sayWhat(x, "receiver type "+receiverType+" is not TraitType in " + x);
 //        }
@@ -7287,7 +7294,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 
                 // Evaluate the object
                 obj.accept(this);
-                
+                castReceiver(receiverCast);
+
                 String castToArrowType = emitFindGenericMethodClosure(
                         methodName, receiverType, prepended_domain, range_type,
                         string_sargs, anySymbolic);
@@ -7312,6 +7320,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                     throw sayWhat(x, ASSUMPTION_PARTIAL_CALL); // the receiver dispatches too
                 // put object on stack
                 obj.accept(this);
+                castReceiver(receiverCast);
                 // put args on stack
                 if (receiverType instanceof TraitType &&
                     callTakesTupleBoxed((TraitType) receiverType, method, domain_type)) {
@@ -7440,13 +7449,77 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                         } else {
                             return receiverType;
                         }
-                       
+
                     }
-                
+
             }
             return at;
         }
         return receiverType;
+    }
+
+    /*
+     * The trait to which a dotted call casts a receiver whose static type is an
+     * intersection that none of its conjuncts lies below, as a call typed by the
+     * intersection of its candidates' return types is: the conjunct that declares or
+     * inherits the called method, the most specific where several do.  The checker
+     * finds the method among the methods of the conjuncts that are trait types; where
+     * its arrow names the trait that declares the method, only the conjuncts that have
+     * that declaration qualify, so that the JVM finds the method at the call's
+     * signature.  Of several conjuncts that neither lies below the other, each has
+     * that declaration and the object's class runs its own: the first is taken.
+     */
+    private TraitType intersectionMethodOwner(ASTNode x, IntersectionType it, IdOrOp method,
+                                              Option<Type> overloadingType) {
+        List<TraitType> conjuncts = new ArrayList<TraitType>();
+        traitConjuncts(it, conjuncts);
+        Id declaring = null;
+        if (overloadingType.isSome() && overloadingType.unwrap() instanceof ArrowType) {
+            Option<MethodInfo> omi = ((ArrowType) overloadingType.unwrap()).getMethodInfo();
+            if (omi.isSome()) {
+                Type self = omi.unwrap().getSelfType();
+                if (self instanceof TraitSelfType) self = ((TraitSelfType) self).getNamed();
+                if (self instanceof TraitType) declaring = ((TraitType) self).getName();
+            }
+        }
+        List<TraitType> owners = new ArrayList<TraitType>();
+        for (TraitType c : conjuncts)
+            for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m : methodsNamed(c, method, Naming.NO_SELF))
+                if (declaring == null || sameTraitName(m._3().getName(), declaring)) {
+                    owners.add(c);
+                    break;
+                }
+        if (owners.isEmpty())
+            throw sayWhat(x, "Can't find the owner of " + method.getText() + " among the conjuncts of " + it);
+        for (TraitType c : owners) {
+            boolean below = true;
+            for (TraitType d : owners)
+                if (!typeAnalyzer.lteq(c, d)) { below = false; break; }
+            if (below) return c;
+        }
+        return owners.get(0);
+    }
+
+    /* The trait types among the conjuncts of t, nested intersections opened, in their order. */
+    private static void traitConjuncts(Type t, List<TraitType> into) {
+        if (t instanceof TraitSelfType) t = ((TraitSelfType) t).getNamed();
+        if (t instanceof IntersectionType)
+            for (Type e : ((IntersectionType) t).getElements()) traitConjuncts(e, into);
+        else if (t instanceof TraitType && !into.contains(t))
+            into.add((TraitType) t);
+    }
+
+    /* Whether two trait names are one, the api compared where both name one. */
+    private static boolean sameTraitName(Id a, Id b) {
+        if (!a.getText().equals(b.getText())) return false;
+        if (a.getApiName().isNone() || b.getApiName().isNone()) return true;
+        return a.getApiName().unwrap().getText().equals(b.getApiName().unwrap().getText());
+    }
+
+    /* Casts the receiver on the stack to the owner that intersectionMethodOwner found, if any. */
+    private void castReceiver(TraitType owner) {
+        if (owner == null) return;
+        InstantiatingClassloader.generalizedCastTo(mv, NamingCzar.jvmTypeDesc(owner, thisApi(), false));
     }
 
 
