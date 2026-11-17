@@ -3,11 +3,11 @@
 - problem: the code generator had no case for a label block or an exit, 'Can't compile Label', so every declaration that holds one was refused, the one library's `Indexed.indexOf` among them (ledger row 81): `Library/FortressLibrary.fss:2189`
 - spec: "Label and Exit": `Specification/basic/expressions/label.tex:12`
 - precedent: walk's `forLabel` and `forExit`, an exit as a thrown Java object that the label's handler takes: `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java:628`
-- deviation: walk matches an exit to a label by the label's name; the compiled exit names one evaluation of the label block, as fork L1 asks: `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1793`
+- deviation: walk matches an exit to a label by the label's name, and gives 104 where the compiled exit, which names one evaluation of the label block as fork L1 asks, gives 102 (`compiler_tests/LabelEvaluationIdentityCompiled`): `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1793`
 - deviation: walk's `try` offers an exit to its `catch` clauses as the library's `LabelException`; no compiled `catch` clause takes an exit, as the specification has it: `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java:1453`
 - historical: `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1776`
 
-One launch worked this rung. Base c1ce2a35e1; head 2a8507f608; the Java of the rung is commit 3accd77d82 and did not change after it.
+One launch worked this rung. Base c1ce2a35e1; the Java of the rung is commit 3accd77d82 and did not change after it; the later commits add tests and these files.
 
 ## What changed and why
 
@@ -39,7 +39,13 @@ Passing, the last run after the last change of code, at four threads (head 9e67d
     . run ProjectFortress/compiler_tests/LabelExitCompiled (661ms) PASS
     OK (9 tests)
 
-At one thread and at four, directly (`cd ProjectFortress && ../bin/fortress compile compiler_tests/LabelExitCompiled.fss`, then `FORTRESS_THREADS=1 ../bin/fortress run LabelExitCompiled` and `FORTRESS_THREADS=4 …`): `PASS`, exit 0, each.
+and, after the test of an evaluation's identity got its own file, the same list with `LabelEvaluationIdentityCompiled.test` and `ExitAfterLabelCompletedCompiled.test` (`junit.sh final2 …`):
+
+    . run ProjectFortress/compiler_tests/LabelExitCompiled (674ms) PASS
+    . run ProjectFortress/compiler_tests/LabelEvaluationIdentityCompiled (466ms) PASS
+    OK (13 tests)
+
+At one thread and at four, directly (`cd ProjectFortress && ../bin/fortress compile compiler_tests/LabelExitCompiled.fss`, then `FORTRESS_THREADS=1 ../bin/fortress run LabelExitCompiled` and `FORTRESS_THREADS=4 …`; the same for `LabelEvaluationIdentityCompiled`): `PASS`, exit 0, each.
 
 The whole compiled suite, once, on commit 3accd77d82 (`ant testFast`): `BUILD SUCCESSFUL`, `Total time: 8 minutes 35 seconds`; the four tracks' result files sum to 2444 tests, 0 failures, 0 errors.
 
@@ -47,7 +53,7 @@ The walk tests: `explorations/compile-ladder/rung-inference-walk/harness-one.sh 
 
 The first expected-failure test, shown red on a deliberate fix: with `exit done` of `XXXExitOutOfAtomicCompiled.fss` replaced by `()` for one run, `junit.sh red … ExitOutOfAtomicCompiledLink.test XXXExitOutOfAtomicCompiled.test` printed `REACHED`, `PASS`, `Did not see expected failure`, `Tests run: 2,  Failures: 1,  Errors: 0`; the file was then restored.
 
-## Each form tested (`compiler_tests/LabelExitCompiled.fss`)
+## Each form tested (`compiler_tests/LabelExitCompiled.fss`, and `LabelEvaluationIdentityCompiled.fss` for the identity)
 
 Failing on the base as above, passing after at one thread and at four:
 
@@ -58,7 +64,7 @@ Failing on the base as above, passing after at one thread and at four:
 - a label as a function's whole body with three exits (`severalExits`);
 - an exit inside a `try` whose `catch` takes every exception, which does not take it, beside a `throw` that it takes (`throughTry`);
 - an exit out of a function expression called by another function (`outOfFunction`);
-- the identity of an evaluation: in a recursive function, the exit of a function expression made at depth 2 and called at depth 0 leaves the evaluation at depth 2, 102 and not the 104 that matching by name gives (`descend`);
+- the identity of an evaluation, in a test of its own because the paths differ on it: in a recursive function, the exit of a function expression made at depth 2 and called at depth 0 leaves the evaluation at depth 2, 102 and not the 104 that matching by name gives and walk prints (`descend` of `LabelEvaluationIdentityCompiled`);
 - the form of the library's `indexOf`: a method of a generic trait whose `for` exits with a `Just` beside a block that ends in a `Nothing` (`Holder.indexOf`), and with an index (`Holder.find`);
 - an exit out of the first arm of a `do … also do` (`outOfArm`); a label and its exit inside one `atomic` block, whose writes stay (`insideAtomic`).
 
@@ -97,13 +103,13 @@ None. No Effect of Appendix I and no note names a missing label or exit on the c
 3. **Every existing test whose pinned message changed:** none. Two existing expected-failure programs of the revival gained a case each and stay expected failures: `compiler_tests/XXXAtomicBlockLaterArgument.fss` (`left`, and the comment line) and `compiler_tests/XXXFinallyOnEscape.fss` (`exits`, and the comment line). The `VerifyError` of the first now names its method `left`.
 4. **The distance stage's shadow patch** still applies: `python3 explorations/coordinator/tools/distance/shadow-patch.py ProjectFortress/src/com/sun/fortress tmp/rung-label-exit/shadow` printed 'shadow sources written to tmp/rung-label-exit/shadow', exit 0, on 3accd77d82's `CodeGen.java`.
 5. **Sentences of the specification made false:** none.
-6. **Files edited, for STAGE_BLIND:** `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java`, `ProjectFortress/src/com/sun/fortress/runtimeSystem/LabelExit.java`; tests `ProjectFortress/compiler_tests/LabelExitCompiled.{fss,test}`, `ExitOutOfAtomicCompiledLink.test`, `XXXExitOutOfAtomicCompiled.{fss,test}`, `XXXLabelNumeralValueCompiled.{fss,test}`, `ExitAfterLabelCompletedCompiled.{fss,test}`, `XXXAtomicBlockLaterArgument.fss`, `XXXFinallyOnEscape.fss`, `ProjectFortress/tests/XXXExitOutOfAtomicWalk.fss`, `ProjectFortress/tests/XXXExitThroughCatchWalk.fss`. Neither stage ran: the section asks for none. **Beyond those named:** the two walk tests under `ProjectFortress/tests/`, and the two existing compiled test programs; no source file beyond the two named.
+6. **Files edited, for STAGE_BLIND:** `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java`, `ProjectFortress/src/com/sun/fortress/runtimeSystem/LabelExit.java`; tests `ProjectFortress/compiler_tests/LabelExitCompiled.{fss,test}`, `LabelEvaluationIdentityCompiled.{fss,test}`, `ExitOutOfAtomicCompiledLink.test`, `XXXExitOutOfAtomicCompiled.{fss,test}`, `XXXLabelNumeralValueCompiled.{fss,test}`, `ExitAfterLabelCompletedCompiled.{fss,test}`, `XXXAtomicBlockLaterArgument.fss`, `XXXFinallyOnEscape.fss`, `ProjectFortress/tests/XXXExitOutOfAtomicWalk.fss`, `ProjectFortress/tests/XXXExitThroughCatchWalk.fss`. Neither stage ran: the section asks for none. **Beyond those named:** the two walk tests under `ProjectFortress/tests/`, and the two existing compiled test programs; no source file beyond the two named.
 7. **Reserved points.** A model line: none. A change to a class name that a test or the class loader reads: none; the rung adds the classes `LabelExit` and `LabelExit$Target`, and a field named after the label in a closure or task class whose body exits, and renames nothing.
 
 ## Decisions
 
 1. **An exit is a thrown Java object that its label's handler takes.** Ways not taken: a jump inside the method for an exit that stands in its label's own method, which needs the operand stack and the handlers between the two known and leaves a second mechanism for a closure; a table of live labels per task, which a forked task does not see. Evidence: walk's `forExit` and `forLabel`; fork L1.
-2. **The identity of an evaluation is a new object in an immutable local under the label's name.** Ways not taken: walk's match by name, under which `descend(4, …)` of the test gives 104 for 102; a static identity by the label's position, which fails the same recursion; a special argument through `forFnExpr` and `delegate`, which the section keeps out of. Evidence: `FreeVariables.java:98`, `Misc.scala:704`, the test's `descend`.
+2. **The identity of an evaluation is a new object in an immutable local under the label's name.** Ways not taken: walk's match by name, under which `descend(4, …)` gives 104 for 102, and which the letter of `label.tex:61-66` also allows (question 4); a static identity by the label's position, which fails the same recursion; a special argument through `forFnExpr` and `delegate`, which the section keeps out of. Evidence: fork L1; `FreeVariables.java:98`, `Misc.scala:704`; `compiler_tests/LabelEvaluationIdentityCompiled`; the same program under walk printed `104`.
 3. **`LabelExit` is an `Error` that is no `FException`, has no stack trace, and has no public constructor.** Ways not taken: an `FException` with a Fortress value, which a `catch` of `Exception` would take, as walk's does; a constructor of one `Throwable` or of none, which `ForkJoinTask` uses to copy an exception that it rethrows in another thread, losing the target and the value. Evidence: `forTry` catches `FException` only (`CodeGen.java:2256`); `FException` has one constructor of an `FValue`.
 4. **The local's Fortress type is `Any`, and `LabelExit.Target` extends `FValue`.** A captured immutable variable becomes a field and a constructor parameter at its type's JVM descriptor and is cast to it (`CodeGen.constructWithFreeVars`), so the object must be an `Any`. Way not taken: a `LabelType` local, for which `NamingCzar` has no descriptor.
 5. **The `with` value is evaluated before anything of the exit is on the operand stack,** and a static `LabelExit.of` makes the object. Way not taken: `forThrow`'s order, `NEW`, `DUP`, then the value, which leaves an uninitialised object under a value whose own code may branch from a handler.
@@ -124,11 +130,14 @@ None. No Effect of Appendix I and no note names a missing label or exit on the c
 6. Compiled, a label block whose value joins a numeral with a `ZZ32` stops the code generator: home 2, `compiler_tests/XXXLabelNumeralValueCompiled`; row 340 rewritten.
 7. An exit that runs after its label block has completed: the specification is silent and the paths differ; home 3, `compiler_tests/ExitAfterLabelCompletedCompiled` asserts today's compiled behaviour; new row NEW-L-3.
 
+8. The paths differ on which evaluation of a label block an exit leaves where the block is evaluated again inside itself, 102 compiled and 104 under walk: the rung builds fork L1's answer, and the letter of the specification can be read for walk's; home 3, `compiler_tests/LabelEvaluationIdentityCompiled` asserts today's compiled behaviour; new row NEW-L-4.
+
 ## Questions for the curator
 
 1. Who builds the exit out of an `atomic` block (NEW-L-1)? The compiled handler and walk both discard the writes; the specification retains them (`atomic.tex:60-63`).
 2. Is an exit that passes a `try` a `LabelException` that a `catch` clause may take, as walk's `try` has it (`Evaluator.java:1453-1456`) and both libraries declare, or no exception, as `label.tex` reads and the compiled path now does (NEW-L-2, NEW-L-3)?
 3. The natural spelling of a search, `exit found with i` beside a last `-1`, waits for row 340.
+4. Which evaluation does an exit leave where its label block is being evaluated more than once (NEW-L-4)? Fork L1 gives each evaluation its own identity, and the rung built that: the exit leaves the evaluation in which its function was made. Walk takes the innermost running evaluation of that name. The specification scopes the target statically (`label.tex:39-46`), and also says that a label expression completes normally where its body completes abruptly with an exit whose target is its name (`label.tex:61-66`), which is true of the innermost evaluation's body.
 
 ## Commands worked out
 
