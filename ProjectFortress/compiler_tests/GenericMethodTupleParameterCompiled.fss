@@ -1,0 +1,29 @@
+(* A generic dotted method whose one parameter has a tuple type, written or from a tuple static argument, runs on a tuple expression and on a tuple-typed variable (method-invocation.tex, section "Dotted Method Invocations"). *)
+component GenericMethodTupleParameterCompiled
+export Executable
+
+object Box[\T\](x: T)
+    first[\U\](y: (U, U)): U = do (a, c) = y; a end
+    wrap[\U\](y: U): U = y
+end
+
+trait Pick
+    second[\U\](y: (U, U)): U = do (a, c) = y; c end
+end
+
+object Picker extends Pick end
+
+run(): () = do
+    b = Box[\ZZ32\](1)
+    assert(b.first[\ZZ32\]((2, 3)), 2, "first of a pair expression")
+    pr = (4, 5)
+    assert(b.first[\ZZ32\](pr), 4, "first of a pair variable")
+    (p, q) = b.wrap[\(ZZ32, ZZ32)\]((2, 3))
+    assert(10 p + q, 23, "wrap at a pair static argument")
+    (u, v) = b.wrap[\(ZZ32, ZZ32)\](pr)
+    assert(10 u + v, 45, "wrap at a pair static argument, of a pair variable")
+    assert(Picker.second[\ZZ32\]((6, 7)), 7, "a trait's generic method of a pair")
+    println("PASS")
+end
+
+end

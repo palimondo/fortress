@@ -1,0 +1,58 @@
+(* A trait or an object that gives, at a tuple type, the bodies of a generic trait's methods over a type parameter runs them, called from the trait's own body, on the object and through the trait's type (method-invocation.tex, section "Dotted Method Invocations"). *)
+component TupleIndexMethodCompiled
+export Executable
+
+trait Arr[\E, I\]
+    offset(i: I): I
+    get(i: I): E
+    put(i: I, e: E): ()
+    read(i: I): E = self.get(self.offset(i))
+    write(i: I, e: E): () = self.put(self.offset(i), e)
+    opr[i: I]: E = self.read(i)
+    opr[i: I] := (e: E): () = self.write(i, e)
+end
+
+var written: ZZ32 = 0
+
+trait Arr2 extends Arr[\ZZ32, (ZZ32, ZZ32)\]
+    offset(t: (ZZ32, ZZ32)): (ZZ32, ZZ32) = do (a, b) = t; (a - 1, b - 1) end
+    opr[x: ZZ32, y: ZZ32] := (e: ZZ32): () = do self[(x, y)] := e end
+end
+
+object M2 extends Arr2
+    get(t: (ZZ32, ZZ32)): ZZ32 = do (a, b) = t; 10 a + b end
+    put(t: (ZZ32, ZZ32), e: ZZ32): () = do (a, b) = t; written := 100 a + 10 b + e end
+end
+
+object M3 extends Arr[\ZZ32, (ZZ32, ZZ32, ZZ32)\]
+    offset(t: (ZZ32, ZZ32, ZZ32)): (ZZ32, ZZ32, ZZ32) = do (a, b, c) = t; (a - 1, b - 1, c - 1) end
+    get(t: (ZZ32, ZZ32, ZZ32)): ZZ32 = do (a, b, c) = t; 100 a + 10 b + c end
+    put(t: (ZZ32, ZZ32, ZZ32), e: ZZ32): () = do (a, b, c) = t; written := 1000 a + 100 b + 10 c + e end
+end
+
+run(): () = do
+    assert(M2.get((3, 4)), 34, "get at a pair, on the object")
+    (p, q) = M2.offset((3, 4))
+    assert(10 p + q, 23, "offset at a pair, given by a trait, on the object")
+    assert(M2.read((3, 4)), 23, "read at a pair, through the trait's body")
+    M2.write((3, 4), 5)
+    assert(written, 235, "write at a pair, through the trait's body")
+    assert(M2[3, 4], 23, "a subscript at a pair")
+    M2[5, 6] := 7
+    assert(written, 457, "an indexed assignment at a pair")
+    a: Arr[\ZZ32, (ZZ32, ZZ32)\] = M2
+    ij = (6, 7)
+    assert(a.get(ij), 67, "get at a pair, through the trait's type")
+    assert(a[ij], 56, "a subscript at a pair, through the trait's type")
+    assert(M3.get((3, 4, 5)), 345, "get at a triple, on the object")
+    (r, s, t) = M3.offset((3, 4, 5))
+    assert(100 r + 10 s + t, 234, "offset at a triple, on the object")
+    assert(M3.read((3, 4, 5)), 234, "read at a triple, through the trait's body")
+    M3[(3, 4, 5)] := 6
+    assert(written, 2346, "an indexed assignment at a triple")
+    b: Arr[\ZZ32, (ZZ32, ZZ32, ZZ32)\] = M3
+    assert(b[4, 5, 6], 345, "a subscript at a triple, through the trait's type")
+    println("PASS")
+end
+
+end

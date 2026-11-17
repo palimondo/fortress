@@ -1,0 +1,5 @@
+tests=TupleIndexMethodCompiled
+compile
+link
+run
+run_out_contains=PASS
