@@ -4880,10 +4880,10 @@ carries that type, which it reads by the type's name for the types of
 It refuses such a binding in a dotted method of a generic trait or object only
 where an instance's method is made, so a program that makes no instance loads
 (row~864 of the revival's gap ledger); and it reads the declaring type, not the
-value's, so a program's object that extends a carried trait of \library\
-against its \KWD{comprises} clause, which the interpreter loads (row~551 of the
-revival's gap ledger), still reaches the helper with a value that no Java type
-carries.
+value's, so a program's object that extends a carried trait of \library, as
+\TYP{JavaBufferedWriter}, which no \KWD{comprises} clause closes and the
+interpreter loads, still reaches the helper with a value that no Java type
+carries, and the call stops there (row~928 of the revival's gap ledger).
 The compiler leaves a declaration with a varargs parameter as a call of
 \VAR{builtinPrimitive}, so the type checker does not check such a binding
 against its helper (row~849 of the revival's gap ledger); no binding of
