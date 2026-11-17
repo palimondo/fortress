@@ -1,7 +1,7 @@
 component OverloadZZ32BesideUserTraitWalk
 export Executable
 
-(* A declaration over (ZZ32, ZZ32) beside one over (List, List), List a trait of the program, is a valid overloading, since ZZ32 comprises the object Int, which excludes List, and a call whose arguments are both a SortedList runs the declaration over (SortedList, SortedList) (overloading.tex, section "Incompatibility Rule"). *)
+(* A declaration over (ZZ32, ZZ32) beside one over (List, List), List a trait of the program, is a valid overloading, since ZZ32 is an object, which excludes List, and a call whose arguments are both a SortedList runs the declaration over (SortedList, SortedList) (overloading.tex, section "Incompatibility Rule"). *)
 
 trait List end
 trait SortedList extends List end

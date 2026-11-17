@@ -44,7 +44,14 @@ public class BuildNativeEnvironment extends BuildTopLevelEnvironments {
                                                 ObjectConstructor x,
                                                 String fname) {
         String pack = containing.getTopLevel().getRootValue("package").getString();
-        String classname = pack + "." + fname;
+        return nativeConstructorOfClass(containing, ft, x, pack + "." + fname);
+    }
+
+    /** The constructor of an object whose values are native, made from the Java class classname. */
+    public static Constructor nativeConstructorOfClass(Environment containing,
+                                                       FTypeObject ft,
+                                                       ObjectConstructor x,
+                                                       String classname) {
         try {
             Class cl = Class.forName(classname);
             // cl must extend Constructor,

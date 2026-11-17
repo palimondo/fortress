@@ -451,6 +451,28 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
         return Boolean.valueOf(false);
     }
 
+    /**
+     * The objects of the component FortressLibrary, which is not native, whose values are native:
+     * the number types, each built by the class of its name in the package of walk's native objects,
+     * as the objects of a native component are.
+     */
+    private static final java.util.Set<String> NATIVE_NUMBER_OBJECTS =
+            new java.util.HashSet<String>(java.util.Arrays.asList("ZZ32", "ZZ64", "ZZ", "NN64", "RR64"));
+
+    private static final String NATIVE_OBJECTS_PACKAGE = "com.sun.fortress.interpreter.glue.prim";
+
+    /** Is the singleton fname, declared in the environment containing, one of FortressLibrary's native objects? */
+    private boolean isNativeNumberObject(String fname) {
+        if (!NATIVE_NUMBER_OBJECTS.contains(fname)) return false;
+        try {
+            HasAt at = containing.getTopLevel().getAt();
+            return at instanceof Component &&
+                   WellKnownNames.fortressLibrary().equals(NodeUtil.nameString(((Component) at).getName()));
+        } catch (RuntimeException ex) {    // an environment with no top level
+            return false;
+        }
+    }
+
     protected void forObjectDecl1(ObjectDecl x) {
         // List<Modifier> mods;
 
@@ -501,8 +523,14 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
 
                 // TODO - binding into "containing", or "bindInto"?
 
-                Constructor cl = new Constructor(containing, (FTypeObject) ft, x);
+                Constructor cl = isNativeNumberObject(fname) ?
+                                 BuildNativeEnvironment.nativeConstructorOfClass(containing, (FTypeObject) ft, x,
+                                         NATIVE_OBJECTS_PACKAGE + "." + fname) :
+                                 new Constructor(containing, (FTypeObject) ft, x);
                 guardedPutValue(containing, WellKnownNames.obfuscatedSingletonConstructorName(fname, x), cl, x);
+                // A native number's values are made before its singleton is first read, by a top-level
+                // variable of the component: the constructor registers itself with its values' class.
+                if (cl instanceof NativeConstructor) cl.applyConstructor(Collections.<FValue>emptyList());
 
                 // Create a little expression to run the constructor.
                 Expr init = ExprFactory.makeTightJuxt(NodeUtil.getSpan(x),

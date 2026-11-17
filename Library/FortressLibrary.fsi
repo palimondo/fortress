@@ -289,10 +289,8 @@ end
 trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
 end
 
-trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
-                     AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
-        excludes { QQ, AnyIntegral, RR32 }
-        comprises { Float }
+value object RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
+                            AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
     coerce(x: ZZ32)
     coerce(x: RR32)
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
@@ -320,7 +318,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     (** next lower IEEE float **)
     getter nextDown():RR64
     (** The value as a float, the explicit conversion into %RR64%. **)
-    abstract asFloat(self): RR64
+    asFloat(self): RR64
     opr =(self, b:RR64):Boolean
     opr =(self, b:ZZ32):Boolean
     opr =(self, b:RR32):Boolean
@@ -510,9 +508,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
     even(self): Boolean
 end
 
-trait NN64 extends { AnyIntegral, Integral[\NN64\] }
-        excludes { ZZ, NN32 }
-        comprises { UnsignedLong }
+value object NN64 extends { AnyIntegral, Integral[\NN64\] }
     coerce(x: NN32)
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     getter asZZ32(): ZZ32
@@ -523,7 +519,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     getter bitsAsZZ64(): ZZ64
     opr |self| : NN64
     (** The value as a float, the explicit conversion into %RR64%. **)
-    abstract asFloat(self): RR64
+    asFloat(self): RR64
     opr =(self, b:NN64):Boolean
     opr =(self, b:NN32):Boolean
     opr =(self, b:QQ):Boolean
@@ -573,9 +569,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     big(self):ZZ
 end
 
-trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
-        excludes { ZZ64, ZZ, NN64, NN32 }
-        comprises { Int }
+value object ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     getter zero(): ZZ32
     getter one(): ZZ32
@@ -592,7 +586,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
 
     opr |self| : ZZ32
     (** The value as a float, the explicit conversion into %RR64%. **)
-    abstract asFloat(self): RR64
+    asFloat(self): RR64
     opr =(self, b:ZZ32):Boolean
     opr =(self, b:RR64):Boolean
     opr =(self, b:QQ):Boolean
@@ -645,9 +639,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     signed(self):ZZ32
 end
 
-trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
-        excludes { ZZ, NN64, NN32 }
-        comprises { Long }
+value object ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     coerce(x: ZZ32)
     coerce(x: NN32)
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
@@ -666,7 +658,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr |self| : ZZ64
 
     (** The value as a float, the explicit conversion into %RR64%. **)
-    abstract asFloat(self): RR64
+    asFloat(self): RR64
     opr =(self, b:ZZ64):Boolean
     opr =(self, b:ZZ32):Boolean
     opr =(self, b:NN32):Boolean
@@ -718,9 +710,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     signed(self):ZZ64
 end
 
-trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
-        excludes { NN64, NN32 }
-        comprises { BigNum }
+value object ZZ extends { AnyIntegral, Integral[\ZZ\] }
     coerce(x: ZZ32)
     coerce(x: ZZ64)
     coerce(x: NN32)
@@ -734,7 +724,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     getter asNN64(): NN64
     getter asZZ(): ZZ
     (** The value as a float, the explicit conversion into %RR64%. **)
-    abstract asFloat(self): RR64
+    asFloat(self): RR64
     opr =(self, b: ZZ):Boolean
     opr =(self, b:ZZ32):Boolean
     opr =(self, b:ZZ64):Boolean

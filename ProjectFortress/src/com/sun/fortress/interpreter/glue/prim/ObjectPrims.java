@@ -16,7 +16,6 @@ import com.sun.fortress.interpreter.evaluator.types.FType;
 import com.sun.fortress.interpreter.evaluator.types.FTypeArrow;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTuple;
 import com.sun.fortress.interpreter.evaluator.types.GenericTypeInstance;
-import com.sun.fortress.interpreter.evaluator.types.LanguageTypes;
 import com.sun.fortress.interpreter.evaluator.values.FObject;
 import com.sun.fortress.interpreter.evaluator.values.FString;
 import com.sun.fortress.interpreter.glue.NativeMeth0;
@@ -47,13 +46,10 @@ public class ObjectPrims {
     }
 
     /**
-     * The type's text, with each native number object of the library named by its trait, at the top
-     * level and inside static arguments, tuples and arrows, and every other trait or object, the
-     * library's string objects among them, by its own name.
+     * The type's text, with each trait or object named by its own name, the library's string objects
+     * among them, at the top level and inside static arguments, tuples and arrows.
      */
     static java.lang.String ilk(FType t) {
-        java.lang.String trait = LanguageTypes.numberTraitName(t);
-        if (trait != null) return trait;
         if (t instanceof GenericTypeInstance)
             return t.getName() + "[\\" + ilks(((GenericTypeInstance) t).getTypeParamsForName()) + "\\]";
         if (t instanceof FTypeTuple) return "(" + ilks(((FTypeTuple) t).getTypes()) + ")";

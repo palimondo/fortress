@@ -1,4 +1,4 @@
-(* On the compiled path, a program's own trait named UnsignedLong is read by its simple name as walk's object of NN64: a declaration over it bound to a long helper is refused through the NN64 transfer, whose type the message names. *)
+(* On the compiled path, a program's own trait named UnsignedLong takes no transfer: a declaration over it bound to a long helper is refused at the helper's own parameter type, ZZ64, which the message names. *)
 component XXXNativeHelperOwnUnsignedLongCompiled
 export Executable
 

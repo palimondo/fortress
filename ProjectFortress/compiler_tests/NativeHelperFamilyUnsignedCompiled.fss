@@ -1,4 +1,4 @@
-(* On the compiled path, the nativeHelpers that UnsignedLong's asString, asExprString and asFloat, NN64's prefix DOTMINUS and NN32's CHOOSE name compile and run when bound at the Java types the compile reads, an NN64 carried in a ZZ64 and an NN32 in a ZZ32. *)
+(* On the compiled path, the nativeHelpers that NN64's asString, asExprString, asFloat and prefix DOTMINUS, and NN32's CHOOSE, name compile and run when bound at the Java types the compile reads, an NN64 carried in a ZZ64 and an NN32 in a ZZ32. *)
 component NativeHelperFamilyUnsignedCompiled
 export Executable
 

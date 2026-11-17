@@ -1,4 +1,4 @@
-(* ZZ32's and Int's operators bound to nativeHelpers keep their values and their IntegerOverflow under walk. *)
+(* ZZ32's operators bound to nativeHelpers keep their values and their IntegerOverflow under walk. *)
 component NativeHelperFamilyZZ32Walk
 export Executable
 

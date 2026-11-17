@@ -1,4 +1,4 @@
-(* On the compiled path, the simpleDoubleArith helpers that Float's bindings name give their values at zeros, large values, the infinities and NaN. *)
+(* On the compiled path, the simpleDoubleArith helpers that RR64's bindings name give their values at zeros, large values, the infinities and NaN. *)
 component NativeHelperFamilyFloatCompiled
 export Executable
 

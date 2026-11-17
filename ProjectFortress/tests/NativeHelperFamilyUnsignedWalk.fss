@@ -1,4 +1,4 @@
-(* UnsignedLong's asString, asExprString and asFloat, NN64's prefix DOTMINUS and NN32's CHOOSE keep their values, their wraparound and their IntegerOverflow under walk, above the signed half among them. *)
+(* NN64's asString, asExprString, asFloat and prefix DOTMINUS, and NN32's CHOOSE, keep their values, their wraparound and their IntegerOverflow under walk, above the signed half among them. *)
 component NativeHelperFamilyUnsignedWalk
 export Executable
 

@@ -1,4 +1,4 @@
-(* On the compiled path, the simpleDoubleArith helpers that Float's bit, neighbour, narrowing, inequality, MIN, MAX and directed-rounding bindings and fromRawBits name give their values at zeros, large values, the smallest subnormal, the infinities and NaN. *)
+(* On the compiled path, the simpleDoubleArith helpers that RR64's bit, neighbour, narrowing, inequality, MIN, MAX and directed-rounding bindings and fromRawBits name give their values at zeros, large values, the smallest subnormal, the infinities and NaN. *)
 component NativeHelperFamilyFloatBitsCompiled
 export Executable
 

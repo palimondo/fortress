@@ -1,4 +1,4 @@
-(* Under walk, nextUp of -0.0 gives 0.0, which is not above -0.0, and nextDown of 0.0 gives -0.0, for RR32 and RR64 (Float), not the smallest subnormal of the right sign. *)
+(* Under walk, nextUp of -0.0 gives 0.0, which is not above -0.0, and nextDown of 0.0 gives -0.0, for RR32 and RR64, not the smallest subnormal of the right sign. *)
 component FloatNextUpSignedZeroWalk
 export Executable
 

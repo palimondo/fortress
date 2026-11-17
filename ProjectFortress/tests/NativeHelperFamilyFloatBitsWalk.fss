@@ -1,4 +1,4 @@
-(* Float's bit, neighbour, narrowing, inequality, MIN, MAX and directed-rounding operations, and fromRawBits, keep their values under walk at zeros, large values, the smallest subnormal, the infinities and NaN. *)
+(* RR64's bit, neighbour, narrowing, inequality, MIN, MAX and directed-rounding operations, and fromRawBits, keep their values under walk at zeros, large values, the smallest subnormal, the infinities and NaN. *)
 component NativeHelperFamilyFloatBitsWalk
 export Executable
 

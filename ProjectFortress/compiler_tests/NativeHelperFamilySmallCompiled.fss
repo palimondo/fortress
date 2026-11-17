@@ -1,4 +1,4 @@
-(* On the compiled path, top-level bindings of the helpers of Long's and BigNum's string getters, signed, codePoint and char compile into calls that keep their values. *)
+(* On the compiled path, top-level bindings of the helpers of ZZ64's and ZZ's string getters, signed, codePoint and char compile into calls that keep their values. *)
 component NativeHelperFamilySmallCompiled
 export Executable
 

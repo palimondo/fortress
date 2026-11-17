@@ -11,18 +11,21 @@
 
 package com.sun.fortress.interpreter.glue.prim;
 
-import static com.sun.fortress.exceptions.ProgramError.error;
+import com.sun.fortress.compiler.WellKnownNames;
+import com.sun.fortress.exceptions.FortressError;
+import com.sun.fortress.interpreter.Driver;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.types.FTypeObject;
 import com.sun.fortress.interpreter.evaluator.values.*;
-import com.sun.fortress.interpreter.glue.NativeMeth0;
-import com.sun.fortress.interpreter.glue.NativeMeth1;
 import com.sun.fortress.nodes.ObjectConstructor;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
- * Functions from ZZ32.
+ * The constructor of the library's object ZZ32, whose values are FInt, and the raise of
+ * IntegerOverflow and DivisionByZero and the exponent and shift counts that the glue classes of
+ * NN32, NN64, ZZ and IntLiteral share.
  */
 public class ZZ32 extends NativeConstructor {
 
@@ -35,204 +38,49 @@ public class ZZ32 extends NativeConstructor {
         return FInt.ZERO;
     }
 
-    static private abstract class ZZ2B extends NativeMeth1 {
-        protected abstract boolean f(int x, int y);
-
-        public final FValue applyMethod(FObject x, FValue y) {
-            return FBool.make(f(x.getInt(), y.getInt()));
-        }
+    public static FortressError overflow() {
+        FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
+        return new FortressError(f);
     }
 
-    static private abstract class Z2Z extends NativeMeth0 {
-        protected abstract int f(int x);
-
-        public final FValue applyMethod(FObject x) {
-            return FInt.make(f(x.getInt()));
-        }
+    public static FortressError divisionByZero() {
+        FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.divisionByZeroException);
+        return new FortressError(f);
     }
 
-    static private abstract class Z2N extends NativeMeth0 {
-        protected abstract int f(int x);
-
-        public final FValue applyMethod(FObject x) {
-            return FNN32.make(f(x.getInt()));
+    /** The exponent of a power, of any integer type, as a long. One beyond
+        64 bits becomes the long of its sign and parity nearest it, to which
+        only the bases 0, 1 and -1 can be raised. */
+    public static long powCount(FValue y) {
+        if (y instanceof FNN64) {
+            long v = y.getNN64();
+            return (v < 0) ? java.lang.Long.MAX_VALUE - 1 + (v & 1) : v;
         }
+        if (y instanceof FBigNum) {
+            BigInteger b = y.getBigInteger();
+            if (b.bitLength() < 64) return b.longValue();
+            long odd = b.testBit(0) ? 1 : 0;
+            return (b.signum() < 0) ? java.lang.Long.MIN_VALUE + odd : java.lang.Long.MAX_VALUE - 1 + odd;
+        }
+        return y.getLong();
     }
 
-    static private abstract class Z2L extends NativeMeth0 {
-        protected abstract long f(int x);
-
-        public final FValue applyMethod(FObject x) {
-            return FLong.make(f(x.getInt()));
+    public static long shiftCount(FValue y) {
+        if (y instanceof FNN64) {
+            long v = y.getNN64();
+            return (v < 0) ? java.lang.Long.MAX_VALUE : v;
         }
-    }
-
-    static private abstract class ZZ2Z extends NativeMeth1 {
-        protected abstract int f(int x, int y);
-
-        public final FValue applyMethod(FObject x, FValue y) {
-            return FInt.make(f(x.getInt(), y.getInt()));
+        if (y instanceof FBigNum) {
+            BigInteger b = y.getBigInteger();
+            if (b.bitLength() < 64) return b.longValue();
+            return (b.signum() < 0) ? java.lang.Long.MIN_VALUE : java.lang.Long.MAX_VALUE;
         }
-    }
-
-    static private abstract class ZL2Z extends NativeMeth1 {
-        protected abstract int f(int x, long y);
-
-        public final FValue applyMethod(FObject x, FValue y) {
-            return FInt.make(f(x.getInt(), y.getLong()));
-        }
-    }
-
-    public static final class Negate extends Z2Z {
-        protected int f(int x) {
-            return -x;
-        }
-    }
-
-    public static final class Add extends ZZ2Z {
-        protected int f(int x, int y) {
-            return x + y;
-        }
-    }
-
-    public static final class Sub extends ZZ2Z {
-        protected int f(int x, int y) {
-            return x - y;
-        }
-    }
-
-    public static final class Mul extends ZZ2Z {
-        protected int f(int x, int y) {
-            return x * y;
-        }
-    }
-
-    public static final class Div extends ZZ2Z {
-        protected int f(int x, int y) {
-            return x / y;
-        }
-    }
-
-    public static final class Rem extends ZZ2Z {
-        protected int f(int x, int y) {
-            return x % y;
-        }
-    }
-
-    public static final class Gcd extends ZZ2Z {
-        protected int f(int u, int v) {
-            return (int) Long.gcd(u, v);
-        }
-    }
-
-    public static final class Lcm extends ZZ2Z {
-        protected int f(int u, int v) {
-            int g = (int) Long.gcd(u, v);
-            return (u / g) * v;
-        }
-    }
-
-    public static final class Choose extends ZZ2Z {
-        protected int f(int u, int v) {
-            return rc(Long.choose(u, v));
-        }
-    }
-
-    public static final class Mod extends ZZ2Z {
-        protected int f(int u, int v) {
-            return (int) Long.mod(u, v);
-        }
-    }
-
-    public static final class BitAnd extends ZZ2Z {
-        protected int f(int u, int v) {
-            return u & v;
-        }
-    }
-
-    public static final class BitOr extends ZZ2Z {
-        protected int f(int u, int v) {
-            return u | v;
-        }
-    }
-
-    public static final class BitXor extends ZZ2Z {
-        protected int f(int u, int v) {
-            return u ^ v;
-        }
-    }
-
-    public static final class LShift extends ZL2Z {
-        protected int f(int u, long v) {
-            return ((v & ~31) == 0) ? (u << (int) v) : 0;
-        }
-    }
-
-    public static final class RShift extends ZL2Z {
-        protected int f(int u, long v) {
-            return ((v & ~31) == 0) ? (u >> (int) v) : (u >> 31);
-        }
-    }
-
-    public static final class BitNot extends Z2Z {
-        protected int f(int x) {
-            return ~x;
-        }
-    }
-
-    public static final class Eq extends ZZ2B {
-        protected boolean f(int x, int y) {
-            return x == y;
-        }
-    }
-
-    public static final class Less extends ZZ2B {
-        protected boolean f(int x, int y) {
-            return x < y;
-        }
-    }
-
-    public static final class Partition extends Z2Z {
-        protected int f(int u) {
-            return Integer.highestOneBit(u - 1);
-        }
-    }
-
-    public static final class Pow extends NativeMeth1 {
-        public FValue applyMethod(FObject x, FValue y) {
-            int base = x.getInt();
-            long exp = y.getLong();
-            if (exp < 0) {
-                return FFloat.make(1.0 / (double) Long.pow(base, -exp));
-            } else {
-                return FInt.make(rc(Long.pow(base, exp)));
-            }
-        }
-    }
-
-    public static final class ToNN32 extends Z2N {
-        protected int f(int x) {
-            return x;
-        }
-    }
-
-    public static final class ToLong extends Z2L {
-        protected long f(int x) {
-            return (long) x;
-        }
-    }
-
-    public static int rc(long i) {
-        int r = (int) i;
-        if ((long) r != i) {
-            error("Overflow of ZZ32 " + i);
-        }
-        return r;
+        return y.getLong();
     }
 
     @Override
     protected void unregister() {
         FInt.resetConstructor();
-    }
 
+    }
 }
