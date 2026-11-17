@@ -1,0 +1,18 @@
+(* A typecase arm that is a tuple of names takes, at an element whose name no declaration defines, a value of every type. *)
+component TypecaseTupleArmUndefinedNameBindsWalk
+export Executable
+
+kind(p: Any): String =
+  typecase p of
+    (NoSuchTypeHere, ZZ32) => "the tuple arm"
+    else => "another type"
+  end
+
+run(): () = do
+    assert(kind(("s", 3)), "the tuple arm", "a String in the first element")
+    assert(kind((2.5, 3)), "the tuple arm", "an RR64 in the first element")
+    assert(kind(("s", "t")), "another type", "a String in the second element")
+    println "PASS"
+  end
+
+end

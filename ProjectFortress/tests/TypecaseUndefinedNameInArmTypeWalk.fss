@@ -1,0 +1,18 @@
+(* A typecase arm whose type names, inside an arrow type, a type no declaration defines is refused at load. *)
+component TypecaseUndefinedNameInArmTypeWalk
+export Executable
+
+inc(x: ZZ32): ZZ32 = x + 1
+
+kind(v: Any): String =
+  typecase v of
+    NoSuchArgType -> ZZ32 => "the arrow arm"
+    else => "another type"
+  end
+
+run(): () = do
+    println(kind(inc))
+    println "PASS"
+  end
+
+end

@@ -1,0 +1,3 @@
+tests=XXXTypecaseUndefinedNameInArmTypeCompiled
+compile
+compile_err_contains=NoSuchArgType is undefined.
