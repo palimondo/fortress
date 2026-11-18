@@ -112,7 +112,8 @@ FACTS,2026-11-16,worker (probe/judgement/review),981,0,981,1
 FACTS,2026-11-17,batch,22885,-180,22705,21
 FACTS,2026-11-17,coordinator edit,0,-373,-373,2
 FACTS,2026-11-17,worker (probe/judgement/review),1923,0,1923,2
-FACTS,2026-11-18,coordinator edit,28,0,28,1
+FACTS,2026-11-18,batch,6230,0,6230,6
+FACTS,2026-11-18,coordinator edit,28,-431,-403,3
 INDEX,2026-09-15,worker (probe/judgement/review),12328,0,12328,1
 INDEX,2026-09-16,worker (probe/judgement/review),1774,0,1774,2
 INDEX,2026-09-17,coordinator edit,2547,0,2547,4
@@ -221,6 +222,8 @@ INDEX,2026-11-16,coordinator edit,1631,-125,1506,3
 INDEX,2026-11-16,worker (probe/judgement/review),3894,0,3894,5
 INDEX,2026-11-17,coordinator edit,5021,0,5021,4
 INDEX,2026-11-17,worker (probe/judgement/review),2755,0,2755,2
+INDEX,2026-11-18,coordinator edit,192,0,192,1
+INDEX,2026-11-18,worker (probe/judgement/review),1453,0,1453,1
 POSITIONS,2026-09-15,coordinator edit,3846,0,3846,1
 POSITIONS,2026-09-15,worker (probe/judgement/review),836,0,836,3
 POSITIONS,2026-09-16,worker (probe/judgement/review),1357,0,1357,1
@@ -297,7 +300,7 @@ POSITIONS,2026-11-13,coordinator edit,3155,-211,2944,2
 POSITIONS,2026-11-16,coordinator edit,2453,-368,2085,5
 POSITIONS,2026-11-17,coordinator edit,663,-97,566,2
 POSITIONS,2026-11-17,worker (probe/judgement/review),25,0,25,1
-POSITIONS,2026-11-18,coordinator edit,60,0,60,1
+POSITIONS,2026-11-18,coordinator edit,60,-50,10,2
 ledger,2026-09-09,worker (probe/judgement/review),39643,0,39643,1
 ledger,2026-09-14,coordinator edit,5748,0,5748,1
 ledger,2026-09-14,worker (probe/judgement/review),195996,0,195996,7
@@ -399,4 +402,5 @@ ledger,2026-11-16,worker (probe/judgement/review),6688,-2,6686,7
 ledger,2026-11-17,batch,41038,-20701,20337,20
 ledger,2026-11-17,coordinator edit,67,0,67,1
 ledger,2026-11-17,worker (probe/judgement/review),984,-63,921,2
-ledger,2026-11-18,coordinator edit,252,0,252,1
+ledger,2026-11-18,batch,9092,-4990,4102,7
+ledger,2026-11-18,coordinator edit,5745,0,5745,3

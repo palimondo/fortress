@@ -4455,3 +4455,42 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 4453,2026-11-18 01:14:43Z,09adb04df,1074,868088,386965,117399,373905,870405,387098,117467,374028,,fortress-repo: area parts after climb batch 33's landing
 4454,2026-11-18 01:23:07Z,8952ab629,1074,868088,386965,117399,373905,870405,387098,117467,374028,,fortress-repo: the cold read of climb batch 33's landing
 4455,2026-11-18 01:42:14Z,31c4f635d,1074,868088,386965,117399,373905,870405,387098,117467,374028,,"Climb batch 33's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
+4456,2026-11-18 01:43:20Z,861d5b91e,1074,868088,386965,117399,373905,870405,387098,117467,374028,,"Revival page: where it stands at the landing of climb batch 33, the record chart regenerated"
+4457,2026-11-18 01:44:29Z,ad505d77e,1074,868088,386965,117399,373905,870405,387098,117467,374028,,Orientation regression quiz: the cases revised from climb batch 33's orientation update
+4458,2026-11-18 01:45:56Z,ea1a08f88,1074,868088,386965,117399,373905,870405,387098,117467,374028,,"Boot note: run 1's record-landing ended, run 2's preparation running"
+4459,2026-11-18 01:56:16Z,f4889acd9,1078,872520,386535,117399,373905,874851,386668,117467,374028,,"F-34 on run 1's landed tree, 13 refused in 4 kinds, and rows 1076 to 1079"
+4460,2026-11-18 01:59:58Z,4fb0fa5d5,1078,872520,386535,117399,373905,874851,386668,117467,374028,,"Boot note: record writer A done (F-34, rows 1076 to 1079), writer B on run 2's sections"
+4461,2026-11-18 02:04:06Z,cfdd14daf,1078,872520,386535,117399,373905,874851,386668,117467,374028,,Climb batch 33's record read again for run 2 on run 1's landed tree
+4462,2026-11-18 02:05:18Z,7875d559d,1078,872520,386535,117399,373905,874851,386668,117467,374028,,"Climb batch 33, run 2: the review's two corrections left out, N's one cast and R's test of an imported conjunct"
+4463,2026-11-18 02:05:53Z,21f522dc5,1078,872520,386535,117399,373905,874851,386668,117467,374028,,"Boot note: run 2's sections read again, the manifest worker running"
+4464,2026-11-18 02:08:28Z,c79985147,1078,872520,386535,117399,373905,874851,386668,117467,374028,,"Climb batch 33b made ready: run 2's block (rungs N, W, G, R) spliced into the batch script"
+4465,2026-11-18 02:10:51Z,cf2a3df36,1078,872520,386535,117399,373905,874851,386668,117467,374028,,"Boot note: climb batch 33b launched, its check-in file named"
+4466,2026-11-18 03:56:16Z,83e464cf6,1078,872520,386535,117399,373905,874851,386668,117467,374028,,"Boot note: the VM restart of 03:54, climb batch 33b resumed"
+4467,2026-11-18 05:32:06Z,75f9f2fbf,1081,875041,387886,117399,373905,877368,388019,117467,374028,,"The compiler's prelude declares its seven number types as value objects, each written by the code generator over a hand-"
+4468,2026-11-18 05:34:39Z,5af98dbca,1083,877384,389517,117399,373905,879711,389654,117467,374028,,Each function expression of a component gets a class name of its own: a later one at a span already named takes the name
+4469,2026-11-18 05:37:29Z,e9bc2ed3e,1085,879568,391135,117399,373905,881895,391272,117467,374028,,"A varargs parameter is compiled as one immutable array of the arguments that no plain parameter takes, under the selecto"
+4470,2026-11-18 05:40:31Z,90ee716db,1087,881612,392152,117399,373905,883939,392289,117467,374028,,A method of an imported api's trait is found by its api on the compiled path
+4471,2026-11-18 05:43:24Z,49c11ccfd,1087,876622,392152,117399,373905,878951,392289,117467,374028,,Close the rows climb batch 33b fixed
+4472,2026-11-18 06:04:07Z,f9acd7f6c,1087,876622,392152,117399,373905,878951,392289,117467,374028,,"Climb batch 33b's gather record: rungs N, W, G and R landed in that order, nine rows opened and nine closed"
+4473,2026-11-18 06:25:55Z,17b55bcc7,1087,876622,392763,117399,373905,878951,392900,117467,374028,,Fold the review's corrections
+4474,2026-11-18 06:32:30Z,b3bfdf252,1087,876622,392763,117399,373905,878951,392900,117467,374028,,Climb batch 33b: the judge's ruling on the merged-diff review
+4475,2026-11-18 06:37:24Z,50a0aac2e,1087,876622,392763,117399,373905,878951,392900,117467,374028,,Climb batch 33b's repair after the merged-diff review: the specification no longer says that the code generator refuses 
+4476,2026-11-18 06:41:55Z,ba3c7c876,1087,876622,392765,117399,373905,878951,392902,117467,374028,batch 33b,Record the gate's tables and the microGPT walk check
+4477,2026-11-18 06:46:47Z,ec6f960f6,1087,876622,392765,117399,373905,878951,392902,117467,374028,,"Boot note: climb batch 33b landed, its review and the base build of the landed tree running"
+4478,2026-11-18 06:46:56Z,38ecc6b2a,1087,876622,392765,117399,373905,878951,392902,117467,374028,,Boot note: the times of the landing's state line
+4479,2026-11-18 06:54:04Z,3fbce9685,1087,876622,392765,117399,373905,878951,392902,117467,374028,,"F-34 on run 2's landed tree, 1 refused in 1 kind"
+4480,2026-11-18 06:54:53Z,478ad94c8,1087,876622,392765,117399,373905,878951,392902,117467,374028,,"Boot note: the base build of 33b's tree and F-34's measure, 1 refused"
+4481,2026-11-18 07:12:43Z,8c13a52ec,1087,876622,392765,117399,375358,878951,392902,117467,375481,,"Climb batch 33b's post-batch review: the four rungs against the decisions, the defaults that landed, the measure at 1 re"
+4482,2026-11-18 07:14:04Z,3f84e0148,1087,876622,392765,117399,375358,878951,392902,117467,375481,,"Boot note: 33b's post-batch review in, its record-landing launched"
+4483,2026-11-18 07:24:04Z,594909d62,1087,876622,392765,117399,375358,878951,392902,117467,375481,,Batch script: four fixes from climb batch 33b's post-batch review
+4484,2026-11-18 07:25:06Z,f8394ef62,1087,876622,392765,117399,375358,878951,392902,117467,375481,,"Batch script: the push's retry runs only after a failure with no refusal, as the committing part says"
+4485,2026-11-18 07:25:14Z,4bcc1d8b8,1087,876622,392765,117399,375358,878951,392902,117467,375481,,Boot note: the batch script's fixes after 33b's review
+4486,2026-11-18 07:59:29Z,61e9df0a3,1087,876622,392765,117399,375358,878951,392902,117467,375481,,Arrays teaching page: Part 2 brought up to date after climb batch 33b's landing
+4487,2026-11-18 08:00:16Z,5866a30dc,1087,876622,392765,117399,375358,878951,392902,117467,375481,,Boot note: the arrays page at version 3
+4488,2026-11-18 08:15:17Z,8626629ea,1088,877683,392764,117349,375358,880012,392895,117417,375481,,"Record after climb batch 33b's landing: 16 FACTS entries, P-33 and P-178, row 1089 and three rows"
+4489,2026-11-18 08:15:17Z,ff42b70e1,1088,877683,392764,117349,375550,880012,392895,117417,375673,,"Plan and review queue after climb batch 33b's landing: items 598 to 604, run 2's lines brought in line"
+4490,2026-11-18 08:45:40Z,cb05cc7c6,1088,877683,392764,117349,375550,880012,392895,117417,375673,,"Boot note: the planner of climb batch 34 running, the model comparison designed"
+4491,2026-11-18 08:53:01Z,4c5a5f121,1088,877683,392764,117349,375550,880012,392895,117417,375673,,fortress-repo: install the orientation update for climb batch 33b's landing
+4492,2026-11-18 08:54:24Z,f4d63205c,1088,877683,392764,117349,375550,880012,392895,117417,375673,,fortress-repo: bring the parts in line with climb batch 33b's landing
+4493,2026-11-18 09:01:34Z,52b7f33e6,1088,877683,392764,117349,375550,880012,392895,117417,375673,,fortress-repo: the cold read of climb batch 33b's landing
+4494,2026-11-18 09:17:40Z,c0b9347d3,1088,877683,392764,117349,375550,880012,392895,117417,375673,,"Climb batch 33b's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upd"
