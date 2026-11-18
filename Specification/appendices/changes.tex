@@ -4055,6 +4055,10 @@ runs on the compiled path.
 Neither implementation passes the elements of a spread argument,
 \EXP{f(1, \VAR{xs}\ldots)}, to the parameter: each calls the declaration
 without them (NEW-G-1 of the revival's gap ledger).
+The code generator does not yet compile a varargs declaration that is a
+method of a trait or object, or that has static parameters, beside another
+declaration of its name that takes as many parameters (NEW-G-2 of the
+revival's gap ledger).
 The interpreter is unchanged.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/functions.tex},
 lines 178--180, which stand unchanged and are now followed, after the draft

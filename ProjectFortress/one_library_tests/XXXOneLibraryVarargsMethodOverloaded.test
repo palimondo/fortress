@@ -1,0 +1,4 @@
+# A trait's varargs method beside another method of its name with as many parameters compiles under the one library's selection.
+tests=XXXOneLibraryVarargsMethodOverloaded
+compile
+compile_exception_contains=OptionUnwrapException

@@ -1,0 +1,17 @@
+(* Under the one library's selection, a trait's varargs method beside another method of its name with as many parameters compiles (overloading.tex, section "Applicability for Functionals with Varargs and Keyword Parameters"). *)
+component XXXOneLibraryVarargsMethodOverloaded
+export Executable
+
+trait Tagger
+    tag(x: String, rest: ZZ32...): ZZ32 = |rest|
+    tag(x: String, y: String): ZZ32 = 9
+end
+
+object T extends Tagger end
+
+run(): () = do
+    z: ZZ32 = 1
+    println(T.tag("a") + T.tag("b", z) + T.tag("c", "d") + T.tag("c", z, z))
+end
+
+end
