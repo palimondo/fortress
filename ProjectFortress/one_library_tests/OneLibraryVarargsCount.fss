@@ -1,8 +1,9 @@
-(* Under the one library's selection, a function with a varargs parameter compiles, with its calls of none, one and three arguments, of arguments that fork and of a tuple's elements. *)
+(* Under the one library's selection, functions with a varargs parameter compile, with their calls of none, one and three arguments, of arguments that fork and of a tuple's elements, at plain parameters too. *)
 component OneLibraryVarargsCount
 export Executable
 
 count(xs: ZZ32...): ZZ32 = |xs|
+tally(x: Any, y: Any, rest: Any...): ZZ32 = |rest|
 
 run(): () = do
   println("REACHED")
@@ -10,6 +11,7 @@ run(): () = do
   println(count(count(4), count(5, 6)))
   t: (ZZ32, ZZ32) = (4, 5)
   println(count(t))
+  println(tally(t))
 end
 
 end

@@ -7698,12 +7698,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         if (arg instanceof TupleExpr && !((TupleExpr) arg).getKeywords().isEmpty())
             throw sayWhat(arg, "Can't compile Keyword args yet");
         Type elem = vt.getVarargs().unwrap();
-        /* One argument whose value is a tuple, which the varargs parameter does not
-         * take whole: its elements are the arguments, as walk passes them. */
+        /* One argument whose value is a tuple: its elements are the arguments, as the
+         * checker reads a tuple against a varargs domain and walk passes them. */
         TupleType tupleArg = null;
         if (exprs.size() == 1 && !(arg instanceof TupleExpr)) {
             Type t = exprType(exprs.get(0));
-            if (t instanceof TupleType && !NodeUtil.isVoidType(t) && !typeAnalyzer.lteq(t, elem))
+            if (t instanceof TupleType && !NodeUtil.isVoidType(t))
                 tupleArg = (TupleType) t;
         }
         int n = tupleArg == null ? exprs.size() : tupleArg.getElements().size();
