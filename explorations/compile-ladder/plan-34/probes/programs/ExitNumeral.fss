@@ -1,0 +1,9 @@
+(* Row 340's kind against the prelude: a numeral as an exit's value in a label body at a declared ZZ32 stops the code generator, 'Error trying to close method scope'; walk prints 0. *)
+component ExitNumeral
+export Executable
+f(a: ZZ32): ZZ32 = label done
+    if a > 0 then exit done with 0 end
+    a
+  end done
+run(): () = println(f(5))
+end

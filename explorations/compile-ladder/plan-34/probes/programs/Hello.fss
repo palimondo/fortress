@@ -1,0 +1,5 @@
+(* The rehearsal's first program: one println, compiled and run against the one library. *)
+component Hello
+export Executable
+run(): () = println("Hello, one library")
+end

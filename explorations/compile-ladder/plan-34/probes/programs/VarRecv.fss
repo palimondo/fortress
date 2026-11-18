@@ -1,0 +1,10 @@
+(* Row 1076 against the prelude: a generic method called on a receiver typed by a type variable stops the code generator, 'ClassCastException: VarType to TraitType'. *)
+component VarRecv
+export Executable
+trait Gen
+  m[\T\](y: T): ZZ32 = 7
+end
+object G extends Gen end
+f[\F extends Gen\](x: F): ZZ32 = x.m[\ZZ32\](3)
+run(): () = println(f[\G\](G))
+end

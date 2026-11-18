@@ -1,0 +1,15 @@
+(* The rehearsal's Dot: two Array1 of RR64, filled in a loop, and their dot product in the program's own seq loop. *)
+component Dot
+export Executable
+run(): () = do
+  a = array1[\RR64, 1000\]()
+  b = array1[\RR64, 1000\]()
+  for i <- seq(0#1000) do
+    a[i] := asFloat(i)
+    b[i] := 1.0
+  end
+  s: RR64 := 0.0
+  for i <- seq(0#1000) do s += a[i] b[i] end
+  println("dot = " || s.asString)
+end
+end

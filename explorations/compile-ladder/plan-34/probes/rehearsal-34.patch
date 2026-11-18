@@ -1,0 +1,602 @@
+diff --git a/Library/FlatString.fss b/Library/FlatString.fss
+index 9761cf65d3..446806ecd5 100644
+--- a/Library/FlatString.fss
++++ b/Library/FlatString.fss
+@@ -26,7 +26,7 @@ private natLineSeparator(): String = builtinPrimitive(
+             "com.sun.fortress.nativeHelpers.stringOps.lineSeparator")
+ 
+ private LineSeparator(): String =do
+-    ignore(FlatString); (* This initializes the constructor for FlatString
++    (* PROBE 34 HACK: ignore(FlatString) left out, the payload object FlatString named as a value *) (* This initializes the constructor for FlatString
+                    before its type is used (in the next line). *)
+     natLineSeparator()
+   end
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index a258c6a16c..e5e972c10e 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -575,7 +575,9 @@ value object RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToFloat")
+ end
+ 
+-simplestRationalBetween(a:QQ, b:QQ): QQ = label done
++simplestRationalBetween(a:QQ, b:QQ): QQ = a (* PROBE 34 HACK: row 1078, the label body below left out *)
++(* PROBE 34 HACK: row 1078, the label body left out
++simplestRationalBetweenProbe34(a:QQ, b:QQ): QQ = label done
+     n0 : ZZ := numerator(a)
+     d0 : ZZ := denominator(a)
+     n1 : ZZ := numerator(b)
+@@ -622,6 +624,7 @@ simplestRationalBetween(a:QQ, b:QQ): QQ = label done
+     if neg then (-nr) / dr else nr/dr end
+   end done
+ 
++*)
+ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+                    AdditiveGroup[\QQ\], MultiplicativeRing[\QQ\] }
+         excludes { RR64, AnyIntegral }
+@@ -1670,9 +1673,9 @@ __bigOperator2[\I0,O0,R0,L0,I1,O1,R1,L1,E,F extends Generator[\E\]\]
+         cast[\O0\]((outer'.unwrap)(gg'.generate2[\I0,L0,L1\](outer'.reduction, inner'.reduction, fn x => (inner'.body)(innerBody(x)))))
+         else =>
+           ((outer.unwrap)(o.unlift(
+-            gg.generate[\L0\](o,fn (xs) =>
++            gg.generate[\L0\](o,fn (xs) => do xg: Generator[\E\] = xs (* PROBE 34 HACK: row 1076's stand-in *)
+             o.lift((resolvedouterBody)(((inner.unwrap)(i.unlift(
+-            xs.generate[\L1\](i,fn x=> i.lift((inner.body)(innerBody(x)))))))))))))
++            xg.generate[\L1\](i,fn x=> i.lift((inner.body)(innerBody(x))))))))) end))))
+     end
+   end
+ 
+diff --git a/Library/String.fss b/Library/String.fss
+index ee102fbe7f..f0e33f544d 100644
+--- a/Library/String.fss
++++ b/Library/String.fss
+@@ -64,9 +64,9 @@ export String
+             r:FlatString ⇒ if |r| + |s2| ≤ maxLeafSize then
+                                         s1.first || flatConcat(r, s2)
+                                     else
+-                                        concatAndBalanceIfNecessary(s1 asif String, s2)
++                                        concatAndBalanceIfNecessary(s1 asif String, s2 asif String) (* PROBE 34 HACK: row 818 *)
+                                     end
+-            r:String  ⇒ concatAndBalanceIfNecessary(s1 asif String, s2)
++            r:String  ⇒ concatAndBalanceIfNecessary(s1 asif String, s2 asif String) (* PROBE 34 HACK: row 818 *)
+         end
+       end
+ 
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 9abc388d25..a843961605 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -261,8 +261,8 @@ private exponentNN32(b:AnyIntegral):ZZ32 =
+ 
+ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asNN32
+-    getter zero(): Number = unsigned(0)
+-    getter one(): Number = unsigned(1)
++    getter zero(): NN32 = unsigned(0)
++    getter one(): NN32 = unsigned(1)
+     getter asString(): String =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
+     getter asExprString(): String =
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+index e4bdc891b2..f679d3dad8 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+@@ -601,6 +601,22 @@ public class NamingCzar {
+         bl(fortLib, "ZZ32Vector", "FZZ32Vector");
+         bl(fortLib, "StringVector", "FStringVector");
+         bl(NodeFactory.makeVoidType(span), "FVoid");
++        // SWITCH HACK (rehearsal): the one library's types that a hand-written run-time class carries.
++        bl(oneLib, "ZZ32", "FZZ32");
++        bl(oneLib, "ZZ64", "FZZ64");
++        bl(oneLib, "RR64", "FRR64");
++        bl(oneLib, "NN64", "FNN64");
++        bl(oneLib, "ZZ", "FZZ");
++        bl(oneLib, "JavaBufferedReader", "FJavaBufferedReader");
++        bl(oneLib, "JavaBufferedWriter", "FJavaBufferedWriter");
++        bl(oneLib, "JavaArrayStore", "FJavaArrayStore");
++        bl(oneLib, "JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl(oneBuiltin, "Float", "FRR64");
++        bl(oneBuiltin, "Boolean", "FBoolean");
++        bl(oneBuiltin, "RR32", "FRR32");
++        bl(oneBuiltin, "NN32", "FNN32");
++        bl(oneBuiltin, "Char", "FCharacter");
++        bl(NodeFactory.makeAPIName(span, "FlatString"), "FlatString", "FJavaString");
+     }
+ 
+     /**
+@@ -620,10 +636,22 @@ public class NamingCzar {
+         { WellKnownNames.compilerBuiltin(), "NN64", runtimeValues + "FNN64", "J" },
+         { WellKnownNames.compilerBuiltin(), "RR32", runtimeValues + "FRR32", "F" },
+         { WellKnownNames.compilerBuiltin(), "RR64", runtimeValues + "FRR64", "D" },
++        // PROBE 34 HACK (fork N4 and the carriers): the one library's seven, and Boolean, Char and FlatString.
++        { "FortressLibrary", "ZZ32", runtimeValues + "FZZ32", "I" },
++        { "FortressLibrary", "ZZ64", runtimeValues + "FZZ64", "J" },
++        { "FortressLibrary", "ZZ",   runtimeValues + "FZZ",   "Ljava/lang/String;" },
++        { "FortressLibrary", "NN64", runtimeValues + "FNN64", "J" },
++        { "FortressLibrary", "RR64", runtimeValues + "FRR64", "D" },
++        { "FortressBuiltin", "NN32", runtimeValues + "FNN32", "I" },
++        { "FortressBuiltin", "RR32", runtimeValues + "FRR32", "F" },
++        { "FortressBuiltin", "Boolean", runtimeValues + "FBoolean", "Z" },
++        { "FortressBuiltin", "Char", runtimeValues + "FCharacter", "I" },
++        { "FlatString", "FlatString", runtimeValues + "FJavaString", "Ljava/lang/String;" },
+     };
+ 
+     /** Whether api is one of the apis of the library that this compile reads. */
+     private static boolean inSelectedLibrary(String api) {
++        if (api.equals("FlatString") && WellKnownNames.compiledPathUsesOneLibrary) return true; // PROBE 34 HACK
+         return Arrays.asList(WellKnownNames.defaultLibrary()).contains(api);
+     }
+ 
+@@ -869,7 +897,8 @@ public class NamingCzar {
+             if (! s1.equals(s2)) {
+                 // System.err.println(s1 + " MISMATCH " + s2);
+             }
+-            result[i] = s2;
++            // SWITCH HACK (rehearsal): a carried type in an extends clause is its own interface, not its carrier class.
++            result[i] = specialFortressTypes.containsKey(parentType) ? s1 : s2;
+         }
+         return result;
+     }
+@@ -896,6 +925,10 @@ public class NamingCzar {
+         if (!(sep.equals("."))) {
+             api = Useful.replace(api, ".", sep);
+         }
++        // SWITCH HACK (rehearsal): FlatString's classes go in the package fortress, so that FJavaString, a Java class in a
++        // named package, can extend FlatString's class.
++        // Its outer class is FlatStringC, since Java source allows no class FlatString nested in a class FlatString.
++        // PROBE 34 (minimality): FlatString's classes keep their component's name, as on the base.
+         if (!defaultLib) return api;
+         return fortressPackage + sep + api;
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+index dd299237d1..f7e63fcc4d 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+@@ -959,7 +959,7 @@ nameTemp + "\n" +
+     
+     protected String generateClosureTableOwner(TaggedFunctionName f) {
+         //throw new CompilerError("need to determine naming scheme for function instantiated closure tables");
+-        return Naming.dotToSep(f.tagA.getText());
++        return NamingCzar.javaPackageClassForApi(f.tagA, "/") /* PROBE 34 HACK: row 994 */;
+     }
+     
+     /**
+@@ -1418,7 +1418,7 @@ nameTemp + "\n" +
+         for (Param p : f.getParameters()) ps.add((Param) p.accept(atT));
+         String sig = NamingCzar.jvmSignatureFor(ps,
+                 NamingCzar.jvmBoxedTypeDesc(atT.replaceIn(f.getReturnType()), f.tagA), f.tagA);
+-        String owner = Naming.dotToSep(f.tagA.getText());
++        String owner = NamingCzar.javaPackageClassForApi(f.tagA, "/") /* PROBE 34 HACK: row 994 */;
+         String arrow = instanceArrowSchema(f);
+         String fname = functionName(f);
+         if (otherOverloadKeys.contains(Naming.genericFunctionPkgClass(owner, fname,
+@@ -1781,11 +1781,11 @@ nameTemp + "\n" +
+                 
+                 
+                 String templateClass = Naming.genericFunctionPkgClass(
+-                        Naming.dotToSep(f.tagA.getText()), functionName, Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
++                        NamingCzar.javaPackageClassForApi(f.tagA, "/") /* PROBE 34 HACK: row 994 */, functionName, Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
+                 
+                 if (otherOverloadKeys.contains(templateClass)) {
+                     templateClass = Naming.genericFunctionPkgClass(
+-                            Naming.dotToSep(f.tagA.getText()), NamingCzar.mangleAwayFromOverload(functionName), Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
++                            NamingCzar.javaPackageClassForApi(f.tagA, "/") /* PROBE 34 HACK: row 994 */, NamingCzar.mangleAwayFromOverload(functionName), Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
+                     //templateClass = NamingCzar.mangleAwayFromOverload(templateClass);
+                 }
+                 
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java b/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
+index d45f09a12d..e9b224de09 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
+@@ -74,6 +74,27 @@ class fortressConverter {
+ 
+ }
+ 
++/** SWITCH HACK (rehearsal): a helper's Java String at the one library's trait String, carried by FJavaString. */
++class stringTraitConverter extends fortressConverter {
++    stringTraitConverter() { super("FJavaString", "getValue", "()Ljava/lang/String;", "make", "(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;"); }
++    void convertArg(MethodVisitor mv, String classDesc) {
++        mv.visitTypeInsn(Opcodes.CHECKCAST, "com/sun/fortress/compiler/runtimeValues/FJavaString");
++        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/FJavaString", toJavaTypeMethod, toJavaTypeMethodDesc);
++    }
++    void convertResult(MethodVisitor mv, String classDesc) {
++        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/sun/fortress/compiler/runtimeValues/FJavaString", constructor, constructorType);
++    }
++}
++
++/** SWITCH HACK (rehearsal): a helper's Java Object at Any: the value itself, cast on the way out. */
++class anyConverter extends fortressConverter {
++    anyConverter() { super(null, null, null, null, null); }
++    void convertArg(MethodVisitor mv, String classDesc) { }
++    void convertResult(MethodVisitor mv, String classDesc) {
++        mv.visitTypeInsn(Opcodes.CHECKCAST, "fortress/AnyType$Any");
++    }
++}
++
+ class emptyConverter extends fortressConverter {
+     static final emptyConverter ONLY = new emptyConverter();
+     private emptyConverter() {
+@@ -154,6 +175,12 @@ public class FortressMethodAdapter extends ClassVisitor {
+         initializeEntry("FZZ", "getValue", "()Ljava/math/BigInteger;",
+                 "make", "(Ljava/math/BigInteger;)L" + prefix + "FZZ;");
+         initializeEntry("FVector", "getValue", "()[I" , "make","([I)L"+ prefix + "FVector;");
++        conversionTable.put("FortressLibrary$String", new stringTraitConverter()); // SWITCH HACK
++        conversionTable.put("AnyType$Any", new anyConverter()); // SWITCH HACK
++        initializeEntry("FJavaArrayStore", "getValue", "()Lcom/sun/fortress/compiler/runtimeValues/FortressArrayStore;",
++                                    "make", "(Lcom/sun/fortress/compiler/runtimeValues/FortressArrayStore;)L" + prefix + "FJavaArrayStore;"); // SWITCH HACK
++        initializeEntry("FJavaRR64ArrayStore", "getValue", "()Lcom/sun/fortress/compiler/runtimeValues/FortressRR64ArrayStore;",
++                                    "make", "(Lcom/sun/fortress/compiler/runtimeValues/FortressRR64ArrayStore;)L" + prefix + "FJavaRR64ArrayStore;"); // SWITCH HACK
+     }
+ 
+     // Strip off the leading L + prefix, and trailing ;"
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FBoolean.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FBoolean.java
+index ff2d112a15..87d39745c5 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FBoolean.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FBoolean.java
+@@ -11,24 +11,27 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public final class FBoolean extends fortress.CompilerBuiltin.Boolean.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.Boolean  {
+-    public static final FBoolean TRUE = new FBoolean(true);
+-    public static final FBoolean FALSE = new FBoolean(false);
++import java.lang.invoke.MethodHandle;
+ 
++/** PROBE 34 HACK: the one library's Boolean written over this payload class, as rung N's numbers are. */
++public abstract class FBoolean extends FValue {
+     final boolean val;
+-
+-    FBoolean(boolean x) { val = x; }
+-    public String toString() { return "" + val;}
+-    public boolean getValue() {return val;}
+-    public static FBoolean make(boolean x) {return x ? TRUE : FALSE;}
+-
+-    @Override
+-    public RTTI getRTTI() { return /* fortress.CompilerBuiltin.Boolean. */ RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.Boolean.RTTIc {
+-        private RTTIc() { super(FBoolean.class); };
+-        public static final RTTI ONLY = new RTTIc();
++    protected FBoolean(boolean x) { val = x; }
++    public String toString() { return "" + val; }
++    public boolean getValue() { return val; }
++    public static FBoolean make(boolean x) {
++        try {
++            return (FBoolean) Make.MAKE.invokeExact(x);
++        } catch (RuntimeException | Error e) {
++            throw e;
++        } catch (Throwable t) {
++            throw new Error(t);
++        }
++    }
++    private static final class Make {
++        static final MethodHandle MAKE = LibraryNames.factory("Boolean", FBoolean.class, boolean.class);
++    }
++    public static final class RTTIc {
++        public static final RTTI ONLY = LibraryNames.rtti("Boolean", FBoolean.class);
+     }
+-
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FCharacter.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FCharacter.java
+index ce759c624f..aa4f54c082 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FCharacter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FCharacter.java
+@@ -11,28 +11,27 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public class FCharacter  extends fortress.CompilerBuiltin.Character.DefaultTraitMethods implements fortress.CompilerBuiltin.Character {
+-    // Fortress chars are not equivalent to Java chars.
+-    // Fortress supports 21-bit Unicode, so we use int to represent char instead of just Java char.
+-    final int val;
+-
+-    FCharacter(int x) { val = x; }
++import java.lang.invoke.MethodHandle;
+ 
+-    public String toString() {
+-	if (0 <= val && val <= 0xFFFF) return String.valueOf((char) val);
+-        int[] temp = { val };
+-        return new String(temp, 0, 1);
++/** PROBE 34 HACK: the one library's Char written over this payload class, as rung N's numbers are. */
++public abstract class FCharacter extends FValue {
++    final int val;
++    protected FCharacter(int x) { val = x; }
++    public String toString() { if (0 <= val && val <= 0xFFFF) return String.valueOf((char) val); int[] temp = { val }; return new String(temp, 0, 1); }
++    public int getValue() { return val; }
++    public static FCharacter make(int x) {
++        try {
++            return (FCharacter) Make.MAKE.invokeExact(x);
++        } catch (RuntimeException | Error e) {
++            throw e;
++        } catch (Throwable t) {
++            throw new Error(t);
++        }
+     }
+-
+-    public int getValue() {return val;}
+-    public static FCharacter make(int x) {return new FCharacter(x);}
+-
+-    @Override
+-    public RTTI getRTTI() { return RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.Character.RTTIc {
+-        private RTTIc() { super(FCharacter.class); };
+-        public static final RTTI ONLY = new RTTIc();
++    private static final class Make {
++        static final MethodHandle MAKE = LibraryNames.factory("Char", FCharacter.class, int.class);
++    }
++    public static final class RTTIc {
++        public static final RTTI ONLY = LibraryNames.rtti("Char", FCharacter.class);
+     }
+-
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaArrayStore.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaArrayStore.java
+new file mode 100644
+index 0000000000..73949f2e00
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaArrayStore.java
+@@ -0,0 +1,16 @@
++// PROBE 34 HACK (from probe Y): the compiled carrier of the one library's JavaArrayStore, a FortressArrayStore in a field.
++package com.sun.fortress.compiler.runtimeValues;
++
++public class FJavaArrayStore extends fortress.FortressLibrary.JavaArrayStore.DefaultTraitMethods implements fortress.FortressLibrary.JavaArrayStore {
++    final FortressArrayStore val;
++    FJavaArrayStore(FortressArrayStore x) { val = x; }
++    public String toString() { return "[JavaArrayStore]"; }
++    public FortressArrayStore getValue() { return val; }
++    public static FJavaArrayStore make(FortressArrayStore x) { return new FJavaArrayStore(x); }
++    @Override
++    public RTTI getRTTI() { return RTTIc.ONLY; }
++    public static class RTTIc extends RTTI {
++        private RTTIc() { super(FJavaArrayStore.class); }
++        public static final RTTI ONLY = new RTTIc();
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedReader.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedReader.java
+index defc829eef..dcdc78616f 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedReader.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedReader.java
+@@ -13,7 +13,7 @@ package com.sun.fortress.compiler.runtimeValues;
+ 
+ import com.sun.fortress.compiler.runtimeValues.FortressBufferedReader;
+ 
+-public class FJavaBufferedReader extends fortress.CompilerBuiltin.JavaBufferedReader.DefaultTraitMethods implements fortress.CompilerBuiltin.JavaBufferedReader {
++public class FJavaBufferedReader extends fortress.FortressLibrary.JavaBufferedReader.DefaultTraitMethods implements fortress.FortressLibrary.JavaBufferedReader /* PROBE 34 HACK: re-parented */ {
+     // This is a temporary hack until we get a full-blown theory of automatically importing all Java libraries.
+     // We need to have some basic file I/O in order to implement the BirdCount benchmark.
+     final FortressBufferedReader val;
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedWriter.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedWriter.java
+index 3c49e4703c..ee24a308ce 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedWriter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedWriter.java
+@@ -13,7 +13,7 @@ package com.sun.fortress.compiler.runtimeValues;
+ 
+ import com.sun.fortress.compiler.runtimeValues.FortressBufferedWriter;
+ 
+-public class FJavaBufferedWriter extends fortress.CompilerBuiltin.JavaBufferedWriter.DefaultTraitMethods implements fortress.CompilerBuiltin.JavaBufferedWriter {
++public class FJavaBufferedWriter extends fortress.FortressLibrary.JavaBufferedWriter.DefaultTraitMethods implements fortress.FortressLibrary.JavaBufferedWriter /* PROBE 34 HACK: re-parented */ {
+     // This is a temporary hack until we get a full-blown theory of automatically importing all Java libraries.
+     // We need to have some basic file I/O in order to implement the BirdCount benchmark.
+     final FortressBufferedWriter val;
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaRR64ArrayStore.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaRR64ArrayStore.java
+new file mode 100644
+index 0000000000..0c8ef2ac7e
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaRR64ArrayStore.java
+@@ -0,0 +1,16 @@
++// PROBE 34 HACK (from probe Y): the compiled carrier of the one library's JavaRR64ArrayStore, a FortressRR64ArrayStore in a field.
++package com.sun.fortress.compiler.runtimeValues;
++
++public class FJavaRR64ArrayStore extends fortress.FortressLibrary.JavaRR64ArrayStore.DefaultTraitMethods implements fortress.FortressLibrary.JavaRR64ArrayStore {
++    final FortressRR64ArrayStore val;
++    FJavaRR64ArrayStore(FortressRR64ArrayStore x) { val = x; }
++    public String toString() { return "[JavaRR64ArrayStore]"; }
++    public FortressRR64ArrayStore getValue() { return val; }
++    public static FJavaRR64ArrayStore make(FortressRR64ArrayStore x) { return new FJavaRR64ArrayStore(x); }
++    @Override
++    public RTTI getRTTI() { return RTTIc.ONLY; }
++    public static class RTTIc extends RTTI {
++        private RTTIc() { super(FJavaRR64ArrayStore.class); }
++        public static final RTTI ONLY = new RTTIc();
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaString.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaString.java
+index 46ee62c2d4..5d09e9e23e 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaString.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaString.java
+@@ -11,21 +11,27 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public class FJavaString extends fortress.CompilerBuiltin.JavaString.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.JavaString {
+-    final String val;
+-
+-    private FJavaString(String x) { val = x; }
+-    public String getValue() { return val;}
+-    public String toString() { return val;}
+-    public static FJavaString make(String s) { return new FJavaString(s);}
++import java.lang.invoke.MethodHandle;
+ 
+-    @Override
+-    public RTTI getRTTI() { return RTTIc.ONLY; }
+-    
+-    public static class RTTIc extends fortress.CompilerBuiltin.JavaString.RTTIc {
+-        private RTTIc() { super(FJavaString.class); };
+-        public static final RTTI ONLY = new RTTIc();
++/** PROBE 34 HACK: the one library's FlatString written over this payload class, as rung N's numbers are. */
++public abstract class FJavaString extends FValue {
++    final String val;
++    protected FJavaString(String x) { val = x; }
++    public String toString() { return val; }
++    public String getValue() { return val; }
++    public static FJavaString make(String x) {
++        try {
++            return (FJavaString) Make.MAKE.invokeExact(x);
++        } catch (RuntimeException | Error e) {
++            throw e;
++        } catch (Throwable t) {
++            throw new Error(t);
++        }
++    }
++    private static final class Make {
++        static final MethodHandle MAKE = LibraryNames.factory("FlatString", FJavaString.class, String.class);
++    }
++    public static final class RTTIc {
++        public static final RTTI ONLY = LibraryNames.rtti("FlatString", FJavaString.class);
+     }
+-
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FValue.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FValue.java
+index 27647b320d..54f5a216ea 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FValue.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FValue.java
+@@ -18,7 +18,7 @@ public abstract class FValue implements fortress.AnyType.Any {
+         return null;
+     }
+     
+-    public fortress.CompilerBuiltin.String asString() {
++    public FValue asString() /* PROBE 34 HACK: no prelude name */ {
+         return FJavaString.make("Bogus value from FValue.asString()"); /* replaced in generated code; necessary for primitive hierarchy */
+     }
+     
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java
+index c642dda1ee..2cd1f60bb9 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java
+@@ -28,7 +28,14 @@ public final class LibraryNames {
+      * FortressLibrary's ZZ32, ZZ64, ZZ, NN64 and RR64, and FortressBuiltin's NN32 and RR32.
+      */
+     public static String numberObjectClass(String t) {
+-        return ONE_LIBRARY ? null : PRELUDE_CLASS_PREFIX + t;
++        if (ONE_LIBRARY) { // PROBE 34 HACK (fork N4 and the carriers)
++            switch (t) {
++                case "NN32": case "RR32": case "Boolean": case "Char": return "fortress.FortressBuiltin$" + t;
++                case "FlatString": return "FlatString$FlatString"; // PROBE 34 (minimality)
++                default: return "fortress.FortressLibrary$" + t;
++            }
++        }
++        return PRELUDE_CLASS_PREFIX + t;
+     }
+ 
+     /** The object's class of the number type t, loaded by payload's loader without its initialisation. */
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java
+index 15e83ea7e8..a30c5ae49a 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java
+@@ -31,7 +31,7 @@ public class MutableFValue {
+         value = v;
+     }
+     
+-    public fortress.CompilerBuiltin.String asString() {
++    public FValue asString() /* PROBE 34 HACK: no prelude name */ {
+         return FJavaString.make("Bogus value from MutableFValue.asString()"); /* replaced in generated code; necessary for primitive hierarchy */
+     }
+     
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java
+index 8b0f5d3db3..fbb70f8b21 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java
+@@ -27,7 +27,7 @@ public final class Utility {
+ 
+     public static FException makeFortressException(String name, String msg) {
+ 	try {
+-	    Constructor fortressIOException = Class.forName(name).getConstructor(new Class[]{ fortress.CompilerBuiltin.String.class });
++	    Constructor fortressIOException = Class.forName(name).getConstructor(new Class[]{ fortress.FortressLibrary.String.class } /* PROBE 34 HACK */);
+ 	    return new FException((FValue)fortressIOException.newInstance(FJavaString.make(msg == null ? "" : msg)));
+ 	} catch (ClassNotFoundException x) {
+ 	    throw new FortressImplementationError(x);
+diff --git a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
+index 7dd7cbef81..0ea71891b1 100644
+--- a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
++++ b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
+@@ -280,6 +280,15 @@ public class Naming {
+     static Map<String, String> specialFortressTypes = new HashMap<String, String>();
+ 
+ 
++    /** SWITCH HACK (rehearsal): the carrier's descriptor for the descriptor of a carried type's own class, else the descriptor. */
++    public static String carrierDesc(String desc) {
++        if (desc.startsWith("Lfortress/") && desc.endsWith(";")) {
++            String tx = specialFortressDescriptors.get(desc.substring(10, desc.length() - 1));
++            if (tx != null) return tx;
++        }
++        return desc;
++    }
++
+     static void bl(String lib, String ft, String cl) {
+         cl = runtimeValues + cl;
+         specialFortressDescriptors.put(lib+ft, "L" + cl + ";");
+@@ -304,6 +313,22 @@ public class Naming {
+         bl("", SNOWMAN, "FVoid");
+         bl("", INTERNAL_SNOWMAN, "FVoid");
+         bl(COMPILER_BUILTIN, "$Vector", "FVector");
++        // SWITCH HACK (rehearsal): the one library's carriers, as NamingCzar's.
++        bl("FortressLibrary", "$ZZ32", "FZZ32");
++        bl("FortressLibrary", "$ZZ64", "FZZ64");
++        bl("FortressLibrary", "$RR64", "FRR64");
++        bl("FortressLibrary", "$NN64", "FNN64");
++        bl("FortressLibrary", "$ZZ", "FZZ");
++        bl("FortressLibrary", "$JavaBufferedReader", "FJavaBufferedReader");
++        bl("FortressLibrary", "$JavaBufferedWriter", "FJavaBufferedWriter");
++        bl("FortressLibrary", "$JavaArrayStore", "FJavaArrayStore");
++        bl("FortressLibrary", "$JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl("FortressBuiltin", "$Float", "FRR64");
++        bl("FortressBuiltin", "$Boolean", "FBoolean");
++        bl("FortressBuiltin", "$RR32", "FRR32");
++        bl("FortressBuiltin", "$NN32", "FNN32");
++        bl("FortressBuiltin", "$Char", "FCharacter");
++        bl("FlatString", "$FlatString", "FJavaString"); // PROBE 34 (minimality)
+     }
+ 
+     public static String opForString(String op, String s) {
+diff --git a/ProjectFortress/src/fortress/FortressLibrary.java b/ProjectFortress/src/fortress/FortressLibrary.java
+new file mode 100644
+index 0000000000..e7a4cf002e
+--- /dev/null
++++ b/ProjectFortress/src/fortress/FortressLibrary.java
+@@ -0,0 +1,44 @@
++// PROBE 34 HACK: bootstrap stubs of the one library's traits that hand-written run-time classes extend,
++// as fortress/CompilerBuiltin.java is for the compiler's prelude (the rehearsal's and probe Y's stub, cut down).
++package fortress;
++
++import com.sun.fortress.compiler.runtimeValues.FValue;
++import com.sun.fortress.compiler.runtimeValues.RTTI;
++
++public class FortressLibrary {
++    public static interface String extends fortress.AnyType.Any {
++        public static class RTTIc extends RTTI {
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements String {}
++    }
++    public static interface JavaBufferedReader extends fortress.AnyType.Any {
++        public static class RTTIc extends RTTI {
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaBufferedReader {}
++    }
++    public static interface JavaBufferedWriter extends fortress.AnyType.Any {
++        public static class RTTIc extends RTTI {
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaBufferedWriter {}
++    }
++    public static interface JavaArrayStore extends fortress.AnyType.Any {
++        public static class RTTIc extends RTTI {
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaArrayStore {}
++    }
++    public static interface JavaRR64ArrayStore extends fortress.AnyType.Any {
++        public static class RTTIc extends RTTI {
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaRR64ArrayStore {}
++    }
++}

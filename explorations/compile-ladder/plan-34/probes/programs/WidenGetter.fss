@@ -1,0 +1,11 @@
+(* Row 993's checker half against the prelude: an object's getter that widens the inherited getter's return type passes the checker and stops the code generator. *)
+component WidenGetter
+export Executable
+trait Tz[\I extends Tz[\I\]\]
+  getter zero(): I
+end
+object Oz extends Tz[\Oz\]
+  getter zero(): Number = 0
+end
+run(): () = println("compiled")
+end
