@@ -1,0 +1,5 @@
+# The program whose conditional operator takes a reduction as its right operand compiles, links and runs.
+tests=ConditionalReductionCompiled
+link
+run
+run_out_contains=PASS

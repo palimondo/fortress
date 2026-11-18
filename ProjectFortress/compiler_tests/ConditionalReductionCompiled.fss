@@ -1,0 +1,20 @@
+(* A conditional operator whose right operand is a reduction runs, in a plain function and in a generic one. *)
+component ConditionalReductionCompiled
+export Executable
+
+opr ADDLAZY(a: ZZ32, b: () -> ZZ32): ZZ32 = a + b()
+
+total(n: ZZ32): ZZ32 = n ADDLAZY: (SUM[i <- 0#n] i)
+
+weight[\T extends Object\](x: T, i: ZZ32): ZZ32 = i + 1
+
+totalOf[\T extends Object\](x: T, n: ZZ32): ZZ32 = n ADDLAZY: (SUM[i <- 0#n] weight(x, i))
+
+run(): () = do
+  assert(total(4), 10, "ADDLAZY: of a SUM")
+  assert(totalOf("a", 4), 14, "ADDLAZY: of a SUM in a generic, at String")
+  assert(totalOf(7, 3), 9, "ADDLAZY: of a SUM in a generic, at ZZ32")
+  println("PASS")
+end
+
+end

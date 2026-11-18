@@ -383,6 +383,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
         this.lexEnv = new BATree<String,VarCodeGen>(c.lexEnv);
         this.localFunctionNames = c.localFunctionNames;
+        this.closureClassNames = c.closureClassNames;
 
         this.inATrait = c.inATrait;
         this.inAnObject = c.inAnObject;
@@ -405,6 +406,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                    FreeVarTypes fvt, ComponentIndex ci, GlobalEnvironment env) {
         component = c;
         localFunctionNames = new HashSet<String>();
+        closureClassNames = new HashSet<String>();
         numeralCoercionSites = new ArrayList<NumeralCoercionSite>();
         packageAndClassName = NamingCzar.javaPackageClassForApi(c.getName());
         String dotted = NamingCzar.javaPackageClassForApi(c.getName(), ".");
@@ -3930,7 +3932,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         cg.cw = new CodeGenClassWriter(ClassWriter.COMPUTE_FRAMES, cw);
         cg.cw.visitSource(NodeUtil.getSpan(x).begin.getFileName(), null);
 
-        String className = NamingCzar.gensymArrowClassName(Naming.deDot(thisApi().getText()), x.getInfo().getSpan());
+        String className = NamingCzar.gensymArrowClassName(Naming.deDot(thisApi().getText()), x.getInfo().getSpan(),
+                                                            closureClassNames);
         String classFileName = className;
         Naming.XlationData xldata = null;
         if (fvts.size() > 0) {
@@ -4092,7 +4095,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         cg.cw = new CodeGenClassWriter(ClassWriter.COMPUTE_FRAMES, cw);
         cg.cw.visitSource(NodeUtil.getSpan(f).begin.getFileName(), null);
 
-        String className = NamingCzar.gensymArrowClassName(Naming.deDot(thisApi().getText()), f.getInfo().getSpan());
+        String className = NamingCzar.gensymArrowClassName(Naming.deDot(thisApi().getText()), f.getInfo().getSpan(),
+                                                            closureClassNames);
         String classFileName = className;
         Naming.XlationData xldata = null;
         if (fvts.size() > 0) {
@@ -4233,6 +4237,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     /** The unambiguous names of the local functions that forLetFn has bound,
      *  shared by every CodeGen of one component. */
     private Set<String> localFunctionNames;
+
+    /** The class names given so far to the function expressions and local
+     *  functions of the component (NamingCzar.gensymArrowClassName), shared
+     *  by every CodeGen of one component. */
+    private Set<String> closureClassNames;
 
     /** The binding of a reference to a local function, which names only
      *  local functions of a block, or null. */

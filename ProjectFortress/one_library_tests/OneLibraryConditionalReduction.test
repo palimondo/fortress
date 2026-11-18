@@ -1,0 +1,3 @@
+# The program whose conditional operators take a reduction as their right operand compiles under the one library's selection.
+tests=OneLibraryConditionalReduction
+compile
