@@ -1,0 +1,30 @@
+(* Probe, point 2: a conditional whose arms are pairs that hold self, bound at a pair of the listed type in the trait's own body and taken apart there. *)
+component ProbeTupleArmsLocalComprises
+export Executable
+
+trait Q comprises { R }
+    fst(c: Boolean, other: R): R = do
+        p: (R, R) = if c then (other, self) else (self, other) end
+        (a, b) = p
+        a
+      end
+    snd(c: Boolean, other: R): R = do
+        p: (R, R) = if c then (other, self) else (self, other) end
+        (a, b) = p
+        b
+      end
+end
+
+value object R(n: ZZ32, d: ZZ32) extends Q end
+
+run(): () = do
+    println("REACHED")
+    q: Q = R(1, 2)
+    assert(q.fst(true, R(3, 4)).d, 4, "then arm, first element")
+    assert(q.snd(true, R(3, 4)).d, 2, "then arm, second element: self")
+    assert(q.fst(false, R(3, 4)).d, 2, "else arm, first element: self")
+    assert(q.snd(false, R(3, 4)).d, 4, "else arm, second element")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,32 @@
+(* Probe, point 2: a conditional whose arms are pairs that hold self, bound at a pair of the self-type parameter in the trait's own body and taken apart there. *)
+component ProbeTupleArmsLocalSelfType
+export Executable
+
+trait Tord[\T extends Tord[\T\]\]
+    lt(self, other: T): Boolean
+    lo(self, other: T): T = do
+        p: (T, T) = if lt(other, self) then (other, self) else (self, other) end
+        (a, b) = p
+        a
+      end
+    hi(self, other: T): T = do
+        p: (T, T) = if lt(other, self) then (other, self) else (self, other) end
+        (a, b) = p
+        b
+      end
+end
+
+object Num(v: ZZ32) extends Tord[\Num\]
+    lt(self, other: Num): Boolean = v < other.v
+end
+
+run(): () = do
+    println("REACHED")
+    assert(lo(Num(7), Num(5)).v, 5, "then arm, first element")
+    assert(hi(Num(7), Num(5)).v, 7, "then arm, second element: self")
+    assert(lo(Num(3), Num(5)).v, 3, "else arm, first element: self")
+    assert(hi(Num(3), Num(5)).v, 5, "else arm, second element")
+    println("PASS")
+  end
+
+end

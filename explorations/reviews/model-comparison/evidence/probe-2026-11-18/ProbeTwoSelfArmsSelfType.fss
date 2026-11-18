@@ -1,0 +1,24 @@
+(* Probe, point 1: a typecase whose two arms are both self, returned at the self-type parameter of self's trait. *)
+component ProbeTwoSelfArmsSelfType
+export Executable
+
+trait Tord[\T extends Tord[\T\]\]
+    lt(self, other: T): Boolean
+    both(self, x: Any): T = typecase x of
+        s: String => self
+        else => self
+      end
+end
+
+object Num(v: ZZ32) extends Tord[\Num\]
+    lt(self, other: Num): Boolean = v < other.v
+end
+
+run(): () = do
+    println("REACHED")
+    assert(both(Num(7), "s").v, 7, "the String arm")
+    assert(both(Num(7), 3).v, 7, "the else arm")
+    println("PASS")
+  end
+
+end

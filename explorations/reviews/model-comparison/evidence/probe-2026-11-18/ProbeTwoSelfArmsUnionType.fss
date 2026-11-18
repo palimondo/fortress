@@ -1,0 +1,18 @@
+(* Probe, point 1: the checker's type of a typecase whose two arms are both self, printed by its refusal at a String parameter.  This program is meant to be refused. *)
+component ProbeTwoSelfArmsUnionType
+export Executable
+
+takeS(s: String): ZZ32 = 0
+
+trait Q comprises { R }
+    shown(x: Any): ZZ32 = takeS(typecase x of
+        s: String => self
+        else => self
+      end)
+end
+
+value object R(n: ZZ32, d: ZZ32) extends Q end
+
+run(): () = println("unreached")
+
+end

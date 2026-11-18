@@ -1,0 +1,23 @@
+(* Probe, point 2: a conditional whose arms are pairs that hold self, returned at a pair of the type that the comprises clause of self's trait lists. *)
+component ProbeTupleArmsComprises
+export Executable
+
+trait Q comprises { R }
+    mm(c: Boolean, other: R): (R, R) = if c then (other, self) else (self, other) end
+end
+
+value object R(n: ZZ32, d: ZZ32) extends Q end
+
+run(): () = do
+    println("REACHED")
+    q: Q = R(1, 2)
+    (a, b) = q.mm(true, R(3, 4))
+    assert(a.d, 4, "then arm, first element")
+    assert(b.d, 2, "then arm, second element: self")
+    (c, d) = q.mm(false, R(3, 4))
+    assert(c.d, 2, "else arm, first element: self")
+    assert(d.d, 4, "else arm, second element")
+    println("PASS")
+  end
+
+end

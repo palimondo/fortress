@@ -1,0 +1,25 @@
+(* Probe, point 2: a conditional whose arms are pairs that hold self, returned at a pair of the self-type parameter, as the one library's MINMAX. *)
+component ProbeTupleArmsSelfType
+export Executable
+
+trait Tord[\T extends Tord[\T\]\]
+    lt(self, other: T): Boolean
+    mm(self, other: T): (T, T) = if lt(other, self) then (other, self) else (self, other) end
+end
+
+object Num(v: ZZ32) extends Tord[\Num\]
+    lt(self, other: Num): Boolean = v < other.v
+end
+
+run(): () = do
+    println("REACHED")
+    (a, b) = mm(Num(7), Num(5))
+    assert(a.v, 5, "then arm, first element")
+    assert(b.v, 7, "then arm, second element: self")
+    (c, d) = mm(Num(3), Num(5))
+    assert(c.v, 3, "else arm, first element: self")
+    assert(d.v, 5, "else arm, second element")
+    println("PASS")
+  end
+
+end
