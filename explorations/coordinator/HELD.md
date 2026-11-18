@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-11-18)
+
+- 15:4x **His rules for the worker's test and the skeptic, for the skill writer** (`fortress-repo`'s `tests-writing.md`, "The order", and the batch script's worker step 3 and skeptic steps 2 and 3): "When you are writing tests, you should be writing the test case, state what the expected failure is, then run it. If it matches your expected failure, then you can start working on the implementation. If it fails for a different reason than you expected, you need to deal with those cases." A test that fails for an unexpected reason does not meet test first. He asked whether the skeptic can check the stated expected failure from the worker's transcript (the coordinator's answer: yes, the statement's time and the run's output are both in it). The skeptic judges the diff by reading first and, since it may fix, trims the worker's code to the smallest in the surrounding code's forms, correctness first ("that seemed harmless"). No more ceremony on test cases: "If the skeptic sees ... the worker is adding some kind of safety net around the case that it is modifying, I think that's fine. We do not need to force the worker to perform some kind of ablation testing." So the coordinator's proposal of a case-by-case tie to an edited line is dropped. On the refactor of rung K's field into a parameter: "If the tests pass, we should be fine"; the class-file cache is not built unless measured ("If it's not measured as a performance critical thing, it doesn't matter").
+
 ## Held from his page comments on the page of skill drafts, version 27 (2026-11-17)
 
 The page of skill drafts (https://claude.ai/artifact/9tX3rwtAgYHgbu8XZQtNhr , version 27) held the landed items 34 to 37 and drafts 38 to 40. Only the comment of 06:25 was sent to Claude; the other three threads are open and not sent to Claude, so no reply can go on them.
