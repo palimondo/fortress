@@ -1,0 +1,43 @@
+refused declarations 1 | emitted (OK lines) 753 | component failures 0
+  FortressLibrary      refused   1  emitted 536
+  RangeInternals       refused   0  emitted 102
+  Writer               refused   0  emitted   5
+  AnyType              refused   0  emitted   1
+  NatReflect           refused   0  emitted   4
+  CovariantCollection  refused   0  emitted  25
+  FlatString           refused   0  emitted   6
+  Stream               refused   0  emitted   4
+  List                 refused   0  emitted  26
+  TypeProxy            refused   0  emitted   1
+  OneShotFlag          refused   0  emitted   3
+  NativeArray          refused   0  emitted   3
+  String               refused   0  emitted  16
+  FortressBuiltin      refused   0  emitted  21
+kinds 1
+  1  ClassCastException: com.sun.fortress.nodes.VarType to com.sun.fortress.nodes.TraitType  [FortressLibrary 1]
+       FortressLibrary FAIL FnDecl __bigOperator2 /home/user/fortress-measure39/Library/FortressLibrary.fss:1656:1-1677:4
+rc=0 seconds=135
+MEASURE_SECONDS=173
+EXIT=0
+
+The code: ba3c7c876d63e82e91b95c531b3ecdf453a5fa1a, climb batch 33b (run 2 of climb batch 33) landed: rungs N 75f9f2fbf4, W 5af98dbca4, G e9bc2ed3e3, R 90ee716db0. The command: explorations/compile-ladder/plan-31/probes/planner/codegen-measure.sh /home/user/fortress-measure39 <out-dir>, on a scratch worktree seeded from the base build /home/user/fortress-base39, then cgkinds.py <out-dir>/run.txt --list for the list above. The patch measure-hacks.patch applied whole, no hunk dropped: NamingCzar.java's three hunks at offsets of 2, 71 and 71 lines (rung N's payload table and rung G's varargs methods above them), FortressMethodAdapter.java, Naming.java and TraitTable.scala as written; rung R edited the trait table's search in STypesUtil.scala, not TraitTable.scala. Rung N's payloadObjects table has rows for the compiler's prelude only (NamingCzar.java:606-623 at ba3c7c876d, its comment saying that the seven of the one library "have no rows yet"), so the patch's carried types of the one library are still needed. Machine: 4 CPUs, Intel Xeon @ 2.30GHz, JDK 25, FORTRESS_THREADS=1, under nice -n 19 beside one reviewer.
+
+The refused declaration and its ledger row:
+  FortressLibrary  __bigOperator2  FortressLibrary.fss:1656:1-1677:4  ClassCastException: VarType to TraitType  row 1076
+    The cast is TraitType rt_tt = ((TraitType)receiverType) in CodeGen.forMethodInvocation, CodeGen.java:7405 at ba3c7c876d (:7326 at d3747846c1); the run's frame :7471 is the line in the probe's shadow copy of CodeGen.java. Library/FortressLibrary.fss:1675, xs.generate[\L1\](...) with xs: F.
+
+Against measure-d3747846c1.txt: 13 refused in 4 kinds, 745 emitted, before; 1 refused in 1 kind, 753 emitted, now; no component failure in either. The one library's sources did not change between the two codes (git diff --stat d3747846c1 ba3c7c876d -- Library ProjectFortress/LibraryBuiltin names only CompilerBuiltin.fsi and .fss, the prelude), so the spans are the same. Declaration by declaration:
+  FortressLibrary  assert              FnDecl     308:1-320:6     VarArgs (row 624)           -> emitted, rung G
+  FortressLibrary  deny                FnDecl     326:1-338:6     VarArgs (row 624)           -> emitted, rung G
+  FortressLibrary  Generator2          TraitDecl  5062:1-5114:2   VarArgs (row 624)           -> emitted, rung G
+  List             <|_|>               FnDecl     177:1-45        VarArgs (row 624)           -> emitted, rung G
+  String           CatString           ObjectDecl 75:3-181:14     VarArgs, PREFAIL (row 624)  -> emitted, rung G
+  String           EmptyString         ObjectDecl 282:3-335:16    VarArgs, PREFAIL (row 624)  -> emitted, rung G
+  String           SubString           ObjectDecl 353:3-507:14    VarArgs, PREFAIL (row 624)  -> emitted, rung G
+  String           stringifyChars      FnDecl     337:1-347:2     VarArgs (row 624)           -> emitted, rung G
+  FlatString       FlatString          ObjectDecl 34:1-156:13     VarArgs, PREFAIL (row 624)  -> emitted, rung G
+  Stream           WriteStream         TraitDecl  33:1-78:14      OptionUnwrapException, its varargs methods in NamingCzar.jvmSignatureFor (row 624, F-34) -> emitted, rung G
+  FortressLibrary  LexicographicOrder  TraitDecl  2301:1-2313:2   closure class written twice (row 315) -> emitted, rung W
+  List             List                TraitDecl  106:1-174:2     closure class written twice (row 315) -> emitted, rung W
+  FortressLibrary  __bigOperator2      FnDecl     1656:1-1677:4   VarType to TraitType (row 1076)       -> still refused, the same kind
+Rung G took 10 and rung W 2, as run 2 planned; no declaration is newly refused. Emitted rose by 8, not 12: each of the four objects refused in the object pre-pass (CatString, EmptyString, SubString, FlatString) had, in the earlier run, a PREFAIL line and also an OK line of the declaration loop, and cgkinds.py counts every OK line as emitted, so they were among the 745 already; the other eight are new OK lines (FortressLibrary +4, List +2, String +1, Stream +1). Rows 624 and 315 are FIXED (e9bc2ed3e3, 5af98dbca4); row 1076 stays NEGATIVE-VERIFIED. No refusal lacks a row, so no row was added.
