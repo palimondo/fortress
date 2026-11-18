@@ -1,7 +1,9 @@
-(* Under the one library's selection, a conditional operator whose right operand is a reduction compiles. *)
+(* Under the one library's selection, a reduction that is the else part of a binding if, or the right operand of a conditional operator, compiles. *)
 component OneLibraryConditionalReduction
 export Executable
 import List.{...}
+
+orSum(m: Maybe[\ZZ32\], n: ZZ32): ZZ32 = if x <- m then x else SUM[i <- 0#n] i end
 
 allBelow(flag: Boolean, n: ZZ32): Boolean = flag AND: (BIG AND [i <- 0#n] i < n)
 
@@ -12,6 +14,7 @@ sameLists(xs: List[\ZZ32\], ys: List[\ZZ32\]): Boolean =
 
 run(): () = do
   println("REACHED")
+  assert(orSum(Nothing[\ZZ32\], 4) = 6, "a reduction as the else part of a binding if")
   assert(allBelow(true, 3), "AND: of a reduction over a range")
   deny(anyAbove(false, 3), "OR: of a reduction over a range")
   assert(sameLists(emptyList[\ZZ32\](), emptyList[\ZZ32\]()), "AND: of a reduction over a zip of lists")
