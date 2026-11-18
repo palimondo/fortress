@@ -10931,3 +10931,15 @@ closed by 8979406af
 rewritten
 
 | 1052 | a compiled default body of a trait with a self-type parameter that calls a method on a value of that parameter dies at load, `ClassCircularityError`, … | FIXED | implementation gap (runtime) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/SelfTypeParameterReceiverRun.test` | climb batch 31 rung K | fixed `1f6c166b0`; full text: history, row 1052 |
+
+### Row 995
+
+rewritten
+
+| 995 | on the compiled path a type that a hand-written class carries has two names at run time: its `RTTIc` holds the trait's interface, and compiled descriptors name the carrier class, so a static argument inferred from a value's run-time type makes another instantiation than the one compiled code names | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | none | switch-over rehearsal | siblings: 874, 866. `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5999` (`cnb.classDesc`), at 832f7d0d91. Seen only in a scratch tree switched onto the one library, whose tables made `FZZ32` the carrier of `ZZ32` (`explorations/compile-ladder/plan-31/probes/switch-rehearsal.md`, W12): the dispatch of the generic `seq` infers `E` from a range's `Generator[\ZZ32\]`, 'ClassCastException: … CompactFullParScalarRange cannot be cast to … Generator⟦fortress\|FortressLibrary%ZZ32⟧'. The prelude has the two names and infers no static argument from a carried type's RTTI. Walk reads such a value at its trait. The repair follows the choice of the carriers, which is not taken. |
+
+### Row 496
+
+rewritten
+
+| 496 | a generic declaration beside a plain one dies compiled when reached through an argument of static type `Any`: `peek[\X\](t: Tag[\X\])` beside `peek(a: Any)` on the `ZZ32` spelling, `grab[\X\](t: Tag[\X\]): Marker[\X\]` beside `grab(a: Any)` casting to `Marker⟦X⟧` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/XXXGenericBesidePlainZZ32.test` | climb batch 6.5 rung G; the mie-probes scope note | siblings: 495, 538, 699. The specification and walk run the generic declaration. The dispatcher is not a template, so its arms are not called at the template's parameters (`OverloadSet.java:1342-1353`), and it is not passed the static return type (`:2048` at c124c6b65; PLAN phase 5). How a call resolved to the plain declaration reaches the generic one is not traced. Also gated: `XXXGenericBesidePlainStatic`. Also: `k(x: ZZ64): ZZ64` beside `k[\T\](x: T): T` called at `ZZ32` dies at load, 'VerifyError: Bad return type' (`explorations/compile-ladder/rung-inference-checker/probes/skeptic/S2CtxConvWinsZ.fss`, in the parent of `ab067d9b6`); walk refuses that set. full text: history, row 496 |

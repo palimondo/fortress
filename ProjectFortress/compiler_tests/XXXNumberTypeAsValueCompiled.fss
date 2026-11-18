@@ -1,0 +1,11 @@
+(* A built-in number type named as a value compiles, since ZZ32 is a value object without value parameters, a singleton declaration (objects.tex, section "Object Declarations"). *)
+component XXXNumberTypeAsValueCompiled
+export Executable
+
+run(): () = do
+  x: Object = ZZ32
+  println(x.asString)
+  println("PASS")
+end
+
+end

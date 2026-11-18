@@ -231,6 +231,19 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     final String packageAndClassName;
     public String traitOrObjectName; // set to name of current trait or object, as necessary.
     private String springBoardClass; // set to name of trait default methods class, if we are emitting it.
+    /* The payload class of the built-in number object whose class is being written, else null. */
+    private String payloadObjectSuper;
+
+    /* The opcode that loads a local of the JVM type jvmType, a payload's type. */
+    private static int payloadLoadOpcode(String jvmType) {
+        switch (jvmType.charAt(0)) {
+            case 'J': return LLOAD;
+            case 'D': return DLOAD;
+            case 'F': return FLOAD;
+            case 'L': return ALOAD;
+            default: return ILOAD;
+        }
+    }
 
     // traitsAndObjects appears to be dead code.
     // private final Map<String, ClassWriter> traitsAndObjects =
@@ -370,6 +383,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         this.packageAndClassName = c.packageAndClassName;
         this.traitOrObjectName = c.traitOrObjectName;
         this.springBoardClass = c.springBoardClass;
+        this.payloadObjectSuper = c.payloadObjectSuper;
 
         this.typeAnalyzer = new_ta;
         this.pa = c.pa;
@@ -628,7 +642,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         } else {
             opcode = INVOKEVIRTUAL;
         }
-        String methodClass = NamingCzar.jvmTypeDesc(receiverType, thisApi(), false);
+        /* A payload object's methods are its class's, which descriptors do not name:
+           they name its payload class.  The receiver was cast to it (castReceiver). */
+        String methodClass = NamingCzar.payloadObjectClass(receiverType);
+        if (methodClass == null)
+            methodClass = NamingCzar.jvmTypeDesc(receiverType, thisApi(), false);
         mv.visitMethodInsn(opcode, methodClass, methodName, sig);
     }
 
@@ -1031,7 +1049,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          *
          * In that case, there is nothing to do.
          */
-        if (!includeCurrent && superInterfaces.length <= 1) return;
+        if (!includeCurrent && superInterfaces.length <= 1 && payloadObjectSuper == null) return;
 
         TraitType currentTraitObjectType = STypesUtil.declToTraitType(currentTraitObjectDecl);
         List<TraitTypeWhere> extendsClause = NodeUtil.getExtendsClause(currentTraitObjectDecl);
@@ -1041,7 +1059,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          * Initialize alreadyIncluded to empty, or to the inherited methods
          * from the first t
          */
-        if (extendsClause.size() == 0 || !(extendsClause.get(0).getBaseType() instanceof TraitType)) {
+        if (payloadObjectSuper != null || extendsClause.size() == 0 || !(extendsClause.get(0).getBaseType() instanceof TraitType)) {
             alreadyIncluded =
                 new IndexedRelation<IdOrOpOrAnonymousName,
                              scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>();
@@ -4909,7 +4927,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         }
 
         String abstractSuperclass;
-        if (superInterfaces.length > 0) {
+        /* A built-in number object's class extends its payload class, which holds the value;
+           it is no singleton, and it takes its traits' bodies by forwarders. */
+        final String[] payload = NamingCzar.payloadFor(classId.getText(), thisApi());
+        String savedPayloadObject = payloadObjectSuper;
+        payloadObjectSuper = payload == null ? null : payload[0];
+        if (payload != null) {
+            abstractSuperclass = payload[0];
+        } else if (superInterfaces.length > 0) {
             abstractSuperclass = superInterfaces[0] + NamingCzar.springBoard;
         } else {
             abstractSuperclass = NamingCzar.internalObject;
@@ -4918,9 +4943,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         traitOrObjectName = cnb.className;
         debug("forObjectDeclPrePass ",x," classFile = ", traitOrObjectName);
 
-        boolean isSingletonObject = NodeUtil.getParams(x).isNone();
+        boolean isSingletonObject = NodeUtil.getParams(x).isNone() && payload == null;
         List<Param> params;
-        if (!isSingletonObject) {
+        if (payload != null) {
+            params = Collections.<Param>emptyList();
+        } else if (!isSingletonObject) {
             params = NodeUtil.getParams(x).unwrap();				//TUPLE CONSTRUCTOR PROBLEM
             String init_sig = NamingCzar.jvmSignatureFor(params, "V", thisApi());
 
@@ -5024,6 +5051,29 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         cw.visit( InstantiatingClassloader.JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER + ACC_FINAL,
                 cnb.className, null, abstractSuperclass, classInterfaces);
 
+        if (payload != null) {
+            // The factory make(payload) and the constructor that passes the payload up.
+            String payloadDesc = Naming.internalToDesc(payload[0]);
+            CodeGenMethodVisitor fmv = cw.visitCGMethod(ACC_STATIC + ACC_PUBLIC, "make",
+                    "(" + payload[1] + ")" + payloadDesc, null, null);
+            fmv.visitCode();
+            fmv.visitTypeInsn(NEW, cnb.className);
+            fmv.visitInsn(DUP);
+            fmv.visitVarInsn(payloadLoadOpcode(payload[1]), 0);
+            fmv.visitMethodInsn(INVOKESPECIAL, cnb.className, "<init>", "(" + payload[1] + ")V");
+            fmv.visitInsn(ARETURN);
+            fmv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
+            fmv.visitEnd();
+            CodeGenMethodVisitor imv = cw.visitCGMethod(ACC_PUBLIC, "<init>", "(" + payload[1] + ")V", null, null);
+            imv.visitCode();
+            imv.visitVarInsn(ALOAD, 0);
+            imv.visitVarInsn(payloadLoadOpcode(payload[1]), 1);
+            imv.visitMethodInsn(INVOKESPECIAL, payload[0], "<init>", "(" + payload[1] + ")V");
+            imv.visitInsn(RETURN);
+            imv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
+            imv.visitEnd();
+        }
+
         if (isSingletonObject) {
             
             initializedStaticFields_TO.add(new InitializedStaticField() {
@@ -5071,7 +5121,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         currentTraitObjectDecl = x;
         //create CodeGen for init method
         // has different set of parameter variables in scope
-        CodeGen initCodeGen = initializeInitMethod(params);
+        CodeGen initCodeGen = payload != null ? new CodeGen(this) : initializeInitMethod(params);
         
         initCodeGen.initializedInstanceFields_O = new ArrayList<InitializedInstanceField>();
 //        List<Binding> fieldsForEnv = new ArrayList<Binding>();
@@ -5189,7 +5239,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         }
         debug("End of processing declarations for ", x);
         
-        initCodeGen.instanceInitForObject(abstractSuperclass);
+        if (payload == null) initCodeGen.instanceInitForObject(abstractSuperclass);
         
 	debug("Dump method chaining for ", x);
         dumpMethodChaining(superInterfaces, false);
@@ -5230,6 +5280,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         
         // Needed (above) to embed a reference to the Rtti information for this type.
         RttiClassAndInterface(x,cnb, xldata);
+        payloadObjectSuper = savedPayloadObject;
         debug("End forObjectDeclPrePass for ", x);
     }
 
@@ -6229,6 +6280,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                     Naming.RTTI_SINGLETON, Naming.RTTI_CONTAINER_DESC);                
 
             voidEpilogue();
+
+            if (payloadObjectSuper != null) {
+                /* A payload object's RTTI names its type by its payload class, as descriptors
+                   do, where a static argument's name is formed from it (RTHelpers); its class
+                   stays the object's, which lies below the classes of its traits' RTTIs. */
+                mv = cw.visitCGMethod(ACC_PUBLIC, "className", "()Ljava/lang/String;", null, null);
+                mv.visitCode();
+                mv.visitLdcInsn(Naming.dotToSep(Naming.demangleFortressIdentifier(Naming.sepToDot(payloadObjectSuper))));
+                areturnEpilogue();
+            }
         } else {
             InstantiatingClassloader.
             emitDictionaryAndFactoryForGenericRTTIclass(cw, rttiClassName,
@@ -6939,6 +7000,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             debug("forVarRef fresh import ", v);
             Type ty = NodeUtil.getExprType(v).unwrap();
             ty = typeAnalyzer.normalize(ty);
+            /* A built-in number object is no singleton (forObjectDeclPrePass): its class has
+               no field that holds a sole value, so its name is not compiled as a value. */
+            if (ty instanceof TraitType && NamingCzar.payloadObjectClass(ty) != null &&
+                ((TraitType) ty).getName().getText().equals(id.getText()))
+                throw sayWhat(v, "Can't compile the number type " + id.getText() + " as a value yet");
             /* TODO if ty is an intersection type,
              * need to be sure it really is normalized.
              * Because of bugs in static analysis, it is not.
@@ -7343,7 +7409,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 
                 // Evaluate the object
                 obj.accept(this);
-                castReceiver(receiverCast);
+                castReceiver(receiverCast, receiverType);
                 
                 String castToArrowType = emitFindGenericMethodClosure(
                         methodName, receiverType, prepended_domain, range_type,
@@ -7369,7 +7435,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                     throw sayWhat(x, ASSUMPTION_PARTIAL_CALL); // the receiver dispatches too
                 // put object on stack
                 obj.accept(this);
-                castReceiver(receiverCast);
+                castReceiver(receiverCast, receiverType);
                 // put args on stack
                 if (receiverType instanceof TraitType &&
                     callTakesTupleBoxed((TraitType) receiverType, method, domain_type)) {
@@ -7577,10 +7643,15 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         return a.getApiName().unwrap().getText().equals(b.getApiName().unwrap().getText());
     }
 
-    /* Casts the receiver on the stack to the owner that intersectionMethodOwner found, if any. */
-    private void castReceiver(TraitType owner) {
-        if (owner == null) return;
-        InstantiatingClassloader.generalizedCastTo(mv, NamingCzar.jvmTypeDesc(owner, thisApi(), false));
+    /* Casts the receiver on the stack to the class whose method the call names (methodCall):
+       a payload object's class, where receiverType, the owner that intersectionMethodOwner
+       found or the receiver's own type, is a payload object's; else that owner, if any. */
+    private void castReceiver(TraitType owner, Type receiverType) {
+        String payloadObject = NamingCzar.payloadObjectClass(receiverType);
+        if (payloadObject != null)
+            mv.visitTypeInsn(CHECKCAST, payloadObject);
+        else if (owner != null)
+            InstantiatingClassloader.generalizedCastTo(mv, NamingCzar.jvmTypeDesc(owner, thisApi(), false));
     }
 
 

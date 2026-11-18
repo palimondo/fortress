@@ -11,21 +11,42 @@
 
 package com.sun.fortress.compiler.runtimeValues;
 
-import com.sun.fortress.compiler.runtimeValues.FNN64.RTTIc;
+import java.lang.invoke.MethodHandle;
 
-public class FNN64  extends fortress.CompilerBuiltin.NN64.DefaultTraitMethods implements fortress.CompilerBuiltin.NN64  {
+/**
+ * The payload of the value object NN64, its JVM long.  The code generator writes the
+ * object's class, which extends this one; this class extends nothing generated, and
+ * LibraryNames gives the name of the object's class.  Compiled descriptors name the
+ * type NN64 by this class.
+ */
+public abstract class FNN64 extends FValue {
     final long val;
 
-    private FNN64(long x) { val = x; }
+    protected FNN64(long x) { val = x; }
     public String toString() { return Long.toUnsignedString(val);}
     public long getValue() {return val;}
-    public static FNN64 make(long x) {return new FNN64(x);}
-    
-    @Override
-    public RTTI getRTTI() { return RTTIc.ONLY; }
-    
-    public static class RTTIc extends fortress.CompilerBuiltin.NN64.RTTIc {
-        private RTTIc() { super(FNN64.class); };
-        public static final RTTI ONLY = new RTTIc();
+
+    /** A NN64 of the value x: an instance of the object's class, made by its make. */
+    public static FNN64 make(long x) {
+        try {
+            return (FNN64) Make.MAKE.invokeExact(x);
+        } catch (RuntimeException | Error e) {
+            throw e;
+        } catch (Throwable t) {
+            throw new Error(t);
+        }
+    }
+
+    /** The object's class's make, found when the first value is made. */
+    private static final class Make {
+        static final MethodHandle MAKE = LibraryNames.factory("NN64", FNN64.class, long.class);
+    }
+
+    /**
+     * The RTTI of NN64.  Compiled code names a static argument NN64 by this class, and the
+     * run time reads its RTTI here: the RTTI of the object's class.
+     */
+    public static final class RTTIc {
+        public static final RTTI ONLY = LibraryNames.rtti("NN64", FNN64.class);
     }
 }

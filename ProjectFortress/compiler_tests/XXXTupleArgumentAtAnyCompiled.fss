@@ -1,0 +1,13 @@
+(* A tuple expression written as the argument of a function whose one parameter has type Any compiles and passes the tuple, since every tuple type is a subtype of Any (types-vals-vars.tex, section "Tuple Types"). *)
+component XXXTupleArgumentAtAnyCompiled
+export Executable
+
+f(x: Any): String = "a value"
+
+run(): () = do
+  k: ZZ32 = 3
+  assert(f((k, k)), "a value", "a pair at a parameter of type Any")
+  println("PASS")
+end
+
+end

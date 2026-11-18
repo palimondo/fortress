@@ -1,0 +1,3 @@
+tests=NumberTypeExtendRefusedCompiled
+compile
+compile_err_contains=Invalid type in extends clause: ZZ32

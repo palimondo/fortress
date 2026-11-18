@@ -1,0 +1,15 @@
+(* A typecase clause whose type the selector's static type excludes is refused as unreachable: ZZ32 is an object, which excludes a trait of the program. *)
+component TypecaseArmExcludedRefused
+export Executable
+
+trait Shape end
+object Sq extends Shape end
+
+kindOf(x: ZZ32): String = typecase x of
+    Shape => "shape"
+    else => "integer"
+  end
+
+run(): () = println(kindOf(3))
+
+end

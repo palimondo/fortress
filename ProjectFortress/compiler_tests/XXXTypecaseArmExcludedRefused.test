@@ -1,0 +1,3 @@
+tests=TypecaseArmExcludedRefused
+compile
+compile_err_contains=The typecase clause, Shape, is unreachable.

@@ -1,0 +1,12 @@
+(* On the compiled path, a program's object below ZZ32 is refused, since the built-in number type ZZ32 (basic-integers.tex, section "Integers") is an object. *)
+component NumberTypeExtendRefusedCompiled
+export Executable
+
+object MyNum extends ZZ32 end
+
+run():() = do
+  println(MyNum + 1)
+  println("PASS")
+end
+
+end

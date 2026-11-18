@@ -62,7 +62,8 @@ public class ArrayStoreJUTest extends TestCaseWrapper {
         }
     }
 
-    private static Any zz(int i) { return FZZ32.make(i); }
+    /* An element: a ZZ32 payload of its own class, since FZZ32.make needs the prelude's compiled class. */
+    private static Any zz(int i) { return new FZZ32(i) {}; }
     private static int zz(Object o) { return ((FZZ32) o).getValue(); }
 
     private static void outsideATransaction() {

@@ -513,7 +513,7 @@ value object Infinity extends Number end
 value object NegativeInfinity extends Number end
 value object IndefiniteNumber extends Number end
 
-trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, NN64 }
+value object ZZ extends { Number, Equality[\ZZ\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     coerce(x: ZZ32) = x.asZZ
     coerce(x: ZZ64) = x.asZZ
@@ -574,7 +574,7 @@ trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, N
     ceilingAverage(self, other: ZZ): ZZ = (self + other + 1) <<< (-1)
 end
 
-trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
+value object ZZ64 extends { Number, Equality[\ZZ64\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jBigToZZ64(v)
     coerce(x: ZZ32) = jIntToLong(x)
     getter asZZ32(): ZZ32 = jLongOverflowingToInt(self)
@@ -659,7 +659,7 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     unsigned(self): NN64 = jMakeNN64FromZZ64(self)
 end
 
-trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excludes { ZZ64, RR32, RR64 }
+value object ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jBigToZZ64(v).asZZ32
     getter asZZ32(): ZZ32 = self
     getter asZZ64(): ZZ32 = self
@@ -750,7 +750,7 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     unsigned(self): NN32 = jMakeNN32FromZZ32(self)
 end
 
-trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR64 }
+value object NN32 extends { Number, Equality[\NN32\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = narrow(jMakeNN64FromZZ64(jBigToZZ64(v)))
     getter asNN32(): NN32 = self
     getter asZZ(): ZZ = jMakeZZfromNN32(jMakeZZ32FromNN32(self))
@@ -815,7 +815,7 @@ trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR6
     signed(self): ZZ32 = jMakeZZ32FromNN32(self)
 end
 
-trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR64, NN32, ZZ }
+value object NN64 extends { Number, Equality[\NN64\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jMakeNN64FromZZ64(jBigToUnsignedZZ64(v))
     coerce(x: NN32) = jMakeNN64FromZZ64(jUnsignedIntToLong(jMakeZZ32FromNN32(x)))
     getter asNN64(): NN64 = self
@@ -890,7 +890,7 @@ trait NaturalNumeral[\nat n, nat r, nat v\] extends AnyNaturalNumeral end
 trait RadixPointNumeral[\nat n, nat m, nat r, nat v\] extends AnyRadixPointNumeral end
 
 
-trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
+value object RR64 extends { Number, Equality[\RR64\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jNumeralToDouble(v, jBigToZZ64(r).asZZ32, 0)
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToDouble(v, jBigToZZ64(r).asZZ32, jBigToZZ64(m).asZZ32)
     coerce(x: RR32) = jFloatToDouble(x)
@@ -952,7 +952,7 @@ trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
 
 end
 
-trait RR32 extends { Number, Equality[\RR32\] } excludes { ZZ64, ZZ32, RR64 }
+value object RR32 extends { Number, Equality[\RR32\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jNumeralToFloat(v, jBigToZZ64(r).asZZ32, 0)
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToFloat(v, jBigToZZ64(r).asZZ32, jBigToZZ64(m).asZZ32)
 end

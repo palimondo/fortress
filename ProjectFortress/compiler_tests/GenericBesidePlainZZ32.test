@@ -1,0 +1,4 @@
+tests=GenericBesidePlainZZ32
+link
+run
+run_out_contains=PASS

@@ -100,7 +100,7 @@ value object Infinity extends Number end
 value object NegativeInfinity extends Number end
 value object IndefiniteNumber extends Number end
 
-trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, NN64 } 
+value object ZZ extends { Number, Equality[\ZZ\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce(x: ZZ32)
     coerce(x: ZZ64)
@@ -144,7 +144,7 @@ trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, N
     ceilingAverage(self, other: ZZ): ZZ
 end
 
-trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
+value object ZZ64 extends { Number, Equality[\ZZ64\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce(x: ZZ32) 
     getter asZZ32(): ZZ32
@@ -207,7 +207,7 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
     unsigned(self): NN64
 end
 
-trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excludes { ZZ64, RR32, RR64 }
+value object ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     getter asZZ32(): ZZ32
     getter asZZ(): ZZ
@@ -270,7 +270,7 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     unsigned(self): NN32
 end
 
-trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR64 }
+value object NN32 extends { Number, Equality[\NN32\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     getter asNN32(): NN32
     getter asZZ(): ZZ
@@ -329,7 +329,7 @@ trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR6
     signed(self): ZZ32
 end
 
-trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR64, NN32, ZZ }
+value object NN64 extends { Number, Equality[\NN64\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce(x: NN32)
     getter asNN64(): NN64
@@ -398,7 +398,7 @@ trait NaturalNumeral[\nat n, nat r, nat v\] extends AnyNaturalNumeral end
 trait RadixPointNumeral[\nat n, nat m, nat r, nat v\] extends AnyRadixPointNumeral end
 
 
-trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
+value object RR64 extends { Number, Equality[\RR64\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
     coerce(x: RR32)
@@ -441,7 +441,7 @@ trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
     opr SQRT(self):RR64
 end
 
-trait RR32 extends { Number, Equality[\RR32\] } excludes { ZZ64, ZZ32, RR64 }
+value object RR32 extends { Number, Equality[\RR32\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
 end

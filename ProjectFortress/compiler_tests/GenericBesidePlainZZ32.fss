@@ -1,5 +1,5 @@
-(* A generic declaration beside a plain one, called with a value of static type Any whose type fixes the type parameter, runs the generic declaration at that instance; ledger row 496. *)
-component XXXGenericBesidePlainZZ32
+(* A generic declaration beside a plain one, called with a value of static type Any whose type fixes the type parameter, runs the generic declaration at that instance. *)
+component GenericBesidePlainZZ32
 export Executable
 
 trait Tag[\X\] end
@@ -11,7 +11,6 @@ peek(a: Any): Any = "the Any declaration"
 
 run(): () = do
   a: Any = IntTag
-  println("REACHED")
   answer = typecase peek(a) of
       Marker[\ZZ32\] => "Marker[ZZ32]"
       String => "the Any declaration"
