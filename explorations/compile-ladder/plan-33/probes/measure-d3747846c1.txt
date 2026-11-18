@@ -1,0 +1,36 @@
+refused declarations 13 | emitted (OK lines) 745 | component failures 0
+  FortressLibrary      refused   5  emitted 532
+  String               refused   4  emitted  15
+  List                 refused   2  emitted  24
+  Stream               refused   1  emitted   3
+  FlatString           refused   1  emitted   6
+  Writer               refused   0  emitted   5
+  NatReflect           refused   0  emitted   4
+  FortressBuiltin      refused   0  emitted  21
+  NativeArray          refused   0  emitted   3
+  OneShotFlag          refused   0  emitted   3
+  AnyType              refused   0  emitted   1
+  TypeProxy            refused   0  emitted   1
+  CovariantCollection  refused   0  emitted  25
+  RangeInternals       refused   0  emitted 102
+kinds 4
+  9  Can't compile VarArgs yet  [String 4, FortressLibrary 3, List 1, FlatString 1]
+       FortressLibrary FAIL FnDecl assert /home/user/fortress-measure38/Library/FortressLibrary.fss:308:1-320:6
+       FortressLibrary FAIL FnDecl deny /home/user/fortress-measure38/Library/FortressLibrary.fss:326:1-338:6
+       FortressLibrary FAIL TraitDecl Generator2 /home/user/fortress-measure38/Library/FortressLibrary.fss:5062:1-5114:2
+       List FAIL FnDecl <|_|> /home/user/fortress-measure38/Library/List.fss:177:1-45
+       String PREFAIL ObjectDecl CatString /home/user/fortress-measure38/Library/String.fss:75:3-181:14
+       String PREFAIL ObjectDecl EmptyString /home/user/fortress-measure38/Library/String.fss:282:3-335:16
+       String PREFAIL ObjectDecl SubString /home/user/fortress-measure38/Library/String.fss:353:3-507:14
+       String FAIL FnDecl stringifyChars /home/user/fortress-measure38/Library/String.fss:337:1-347:2
+       FlatString PREFAIL ObjectDecl FlatString /home/user/fortress-measure38/Library/FlatString.fss:34:1-156:13
+  2  java.util.zip.ZipException: duplicate entry: <closure class>  [FortressLibrary 1, List 1]
+       FortressLibrary FAIL TraitDecl LexicographicOrder /home/user/fortress-measure38/Library/FortressLibrary.fss:2301:1-2313:2
+       List FAIL TraitDecl List /home/user/fortress-measure38/Library/List.fss:106:1-174:2
+  1  ClassCastException: com.sun.fortress.nodes.VarType to com.sun.fortress.nodes.TraitType  [FortressLibrary 1]
+       FortressLibrary FAIL FnDecl __bigOperator2 /home/user/fortress-measure38/Library/FortressLibrary.fss:1656:1-1677:4
+  1  OptionUnwrapException at edu.rice.cs.plt.tuple.Null.unwrap:58  [Stream 1]
+       Stream FAIL TraitDecl WriteStream /home/user/fortress-measure38/Library/Stream.fss:33:1-78:14
+rc=0 seconds=154
+MEASURE_SECONDS=193
+EXIT=0
