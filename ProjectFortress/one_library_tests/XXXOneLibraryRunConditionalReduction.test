@@ -1,0 +1,4 @@
+# The program whose binding if takes a reduction as its else part, and whose conditional operators take one as their right operand, compiled under the one library's selection, runs: it fails while the one library has no jars.
+tests=OneLibraryConditionalReduction
+run
+run_out_does_not_contain=REACHED

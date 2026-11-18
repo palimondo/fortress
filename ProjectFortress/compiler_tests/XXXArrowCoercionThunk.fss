@@ -1,0 +1,21 @@
+(* A function of no parameters whose arrow type coerces to its parameter's arrow type runs, wrapped by the arrow coercion, also where it is a conditional operator's thunk of a reduction (conversions-coercions.tex, section "Coercions for Tuple and Arrow Types"). *)
+component XXXArrowCoercionThunk
+export Executable
+
+callThunk(h: () -> ZZ64): ZZ64 = h()
+
+seven(): ZZ32 = 7
+
+opr ADDWIDE(a: ZZ64, b: () -> ZZ64): ZZ64 = a + b()
+
+total(m: ZZ64, n: ZZ32): ZZ64 = m ADDWIDE: (SUM[i <- 0#n] i)
+
+run(): () = do
+  println("REACHED")
+  m: ZZ64 = 4
+  assert(callThunk(seven) = 7, "a () -> ZZ32 function at a () -> ZZ64 parameter")
+  assert(total(m, 4) = 10, "a () -> ZZ32 thunk of a SUM at a () -> ZZ64 parameter")
+  println("PASS")
+end
+
+end

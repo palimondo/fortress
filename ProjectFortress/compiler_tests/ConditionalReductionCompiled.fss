@@ -1,0 +1,30 @@
+(* A conditional operator whose right operand is a reduction runs, in a plain function, a generic one and a generic trait's method. *)
+component ConditionalReductionCompiled
+export Executable
+
+opr ADDLAZY(a: ZZ32, b: () -> ZZ32): ZZ32 = a + b()
+
+total(n: ZZ32): ZZ32 = n ADDLAZY: (SUM[i <- 0#n] i)
+
+weight[\T extends Object\](x: T, i: ZZ32): ZZ32 = i + 1
+
+totalOf[\T extends Object\](x: T, n: ZZ32): ZZ32 = n ADDLAZY: (SUM[i <- 0#n] weight(x, i))
+
+trait Bag[\T extends Object\]
+  getter item(): T
+  weighted(n: ZZ32): ZZ32 = n ADDLAZY: (SUM[i <- 0#n] weight(self.item, i))
+end
+
+object StringBag(s: String) extends Bag[\String\]
+  getter item(): String = s
+end
+
+run(): () = do
+  assert(total(4), 10, "ADDLAZY: of a SUM")
+  assert(totalOf("a", 4), 14, "ADDLAZY: of a SUM in a generic, at String")
+  assert(totalOf(7, 3), 9, "ADDLAZY: of a SUM in a generic, at ZZ32")
+  assert(StringBag("a").weighted(4), 14, "ADDLAZY: of a SUM in a generic trait's method")
+  println("PASS")
+end
+
+end

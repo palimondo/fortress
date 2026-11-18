@@ -1,0 +1,3 @@
+# The program that passes functions of no parameters whose arrow types coerce to their parameters' arrow types compiles and links.
+tests=XXXArrowCoercionThunk
+link

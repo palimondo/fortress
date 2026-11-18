@@ -1,0 +1,4 @@
+# The program that passes functions of no parameters whose arrow types coerce to their parameters' arrow types runs: it fails while the coercion's function expression reads its own parameter as a top-level variable.
+tests=XXXArrowCoercionThunk
+run
+run_out_contains=REACHED

@@ -1,0 +1,13 @@
+(* A function argument whose arrow type coerces to the parameter's arrow type is converted at the call (conversions-coercions.tex, section "Coercions for Tuple and Arrow Types"). *)
+component XXXArrowCoercionFnArgument
+export Executable
+
+callWide(f: ZZ32 -> ZZ64, x: ZZ32): ZZ64 = f(x)
+
+inc(y: ZZ32): ZZ32 = y + 1
+
+run(): () = do
+  assert(callWide(inc, 4) = 5, "a ZZ32 -> ZZ32 function at a ZZ32 -> ZZ64 parameter")
+end
+
+end

@@ -1,0 +1,5 @@
+# The program whose conditional operator takes a reduction as its right operand, in a function, a generic and a generic trait's method, compiles, links and runs.
+tests=ConditionalReductionCompiled
+link
+run
+run_out_contains=PASS

@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.objectweb.asm.Type;
 
@@ -959,8 +960,20 @@ public class NamingCzar {
         return desc + "$" + "implementation" + implementationCount++;
     }
 
-    public static String gensymArrowClassName(String desc, Span sp) {
-        return desc + "$fn@" + sp.toStringWithoutFiles();
+    /**
+     * The class name of a function expression or a local function of a
+     * component: the component's name and the source span.  The first of the
+     * component at a span takes the name alone; each later one at that span
+     * takes it with the next ordinal, #2, #3 and on, in the order in which
+     * the code generator meets them.  taken holds the names given so far in
+     * the component, and gets the new one.
+     */
+    public static String gensymArrowClassName(String desc, Span sp, Set<String> taken) {
+        String name = desc + "$fn@" + sp.toStringWithoutFiles();
+        String result = name;
+        for (int k = 2; !taken.add(result); k++)
+            result = name + "#" + k;
+        return result;
     }
 
     public static String makeInnerClassName(APIName api, Id id) {
