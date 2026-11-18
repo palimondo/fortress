@@ -1,4 +1,4 @@
-(* The api of XXXAsIfApiTraitCompiled: a trait that declares a functional method twice and a dotted method twice. *)
+(* The api of AsIfApiTraitCompiled: a trait that declares a functional method twice and a dotted method twice. *)
 api AsIfApiTraitApi
 
 trait S

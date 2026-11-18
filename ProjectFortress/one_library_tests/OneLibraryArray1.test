@@ -1,0 +1,3 @@
+# The program that makes, writes and reads an array1 compiles under the one library's selection.
+tests=OneLibraryArray1
+compile

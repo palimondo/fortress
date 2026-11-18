@@ -1,0 +1,6 @@
+# Method calls on an intersection-typed call result whose conjunct is an imported api's trait compile and run the chosen declarations.
+tests=IntersectionApiTraitCompiled
+compile
+link
+run
+run_out_contains=PASS

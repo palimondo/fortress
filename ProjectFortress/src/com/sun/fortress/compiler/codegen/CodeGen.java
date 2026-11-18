@@ -7123,7 +7123,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             new ArrayList<scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>();
         boolean anyBody = false;
         for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m : methodsNamed(t, name, selfIndex)) {
-            if (!m._1().body().isSome()) continue;
+            if (!hasBodyInItsTrait(m._1(), m._3())) continue;
             anyBody = true;
             String sig = staticBodySig(m);
             if (sigParams(Naming.removeNthSigParameter(sig, 0)).equals(callParams))
@@ -7164,7 +7164,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         String callParams = sigParams(NamingCzar.jvmSignatureFor(domain_type, range_type, thisApi()));
         boolean hasBody = false;
         for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m : methodsNamed(t, method, Naming.NO_SELF))
-            if (m._1().body().isSome()) hasBody = true;
+            if (hasBodyInItsTrait(m._1(), m._3())) hasBody = true;
         if (!hasBody) return false;
         obj.accept(this);
         evalArg(x, domain_type, x.getArg());

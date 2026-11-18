@@ -1,9 +1,13 @@
 (* A call of a method that an imported api's trait declares twice, functional or dotted, whose every argument and receiver is a type assumption, runs the body that the assumed types choose (type-annotation.tex, section "Type Assumption"). *)
-component XXXAsIfApiTraitCompiled
+component AsIfApiTraitCompiled
 import AsIfApiTraitApi.{ S, tag }
 export Executable
 
 object O extends S end
+object P extends S
+    tag(self, s: String): String = "p" || s
+    m(s: String): String = "p" || s
+end
 
 run(): () = do
     k: ZZ32 = 1
@@ -11,6 +15,10 @@ run(): () = do
     assert(tag(O asif S, k asif ZZ32), "n", "tag(O asif S, k asif ZZ32)")
     assert((O asif S).m("d" asif String), "sd", "(O asif S).m(d asif String)")
     assert((O asif S).m(k asif ZZ32), "n", "(O asif S).m(k asif ZZ32)")
+    assert(tag(P, "d"), "pd", "tag(P, d) runs P's own body")
+    assert(tag(P asif S, "d" asif String), "sd", "tag(P asif S, d asif String)")
+    assert(P.m("d"), "pd", "P.m(d) runs P's own body")
+    assert((P asif S).m("d" asif String), "sd", "(P asif S).m(d asif String)")
     println("PASS")
 end
 

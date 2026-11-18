@@ -1,0 +1,6 @@
+# Calls at type assumptions of an imported api's trait that declares the method twice compile and run the chosen bodies.
+tests=AsIfApiTraitCompiled
+compile
+link
+run
+run_out_contains=PASS
