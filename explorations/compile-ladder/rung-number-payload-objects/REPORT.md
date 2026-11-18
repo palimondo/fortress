@@ -64,7 +64,7 @@ No `$DefaultTraitMethods` springboard is written for the seven, since they are o
 
 ## The failing run and the passing run
 
-The tests were written first and run through the harness on the base's code, before the edit was first built (the build started at 02:23, `tmp/` log `build-1.txt`):
+The tests were written first and run through the harness on the base's code, before the edit was first built (the first build started at 02:25:18):
 
     ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh base ProjectFortress/compiler_tests XXXNumberTypeExtendRefusedCompiled.test OverloadZZ32BesideUserTraitCompiled.test NumberObjectsCompiled.test XXX6bx.test
     # junit.sh base 2026-11-18T02:18:34Z; ... tree c799851472 with the next rung applied, not yet
