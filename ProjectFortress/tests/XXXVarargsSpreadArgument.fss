@@ -1,0 +1,12 @@
+(* A spread argument passes its elements to a varargs parameter after the arguments before it, in order (functions.tex, section "Function Applications"). *)
+component XXXVarargsSpreadArgument
+export Executable
+
+count(xs: ZZ32...): ZZ32 = |xs|
+twice(ys: ZZ32...): ZZ32 = count(1, ys...)
+
+run(): () = do
+    assert(twice(4, 5), 3, "count(1, ys...) with two elements in ys")
+end
+
+end

@@ -8950,3 +8950,13 @@ pointers to F-360 rewritten to F-379 in: F-361
 2026-11-18 05:34Z · rewritten · from `explorations/compile-ladder/rung-closure-name-once/SKEPTIC.md`, "3. My programs" · by climb batch 33b gather: rung W's skeptic measured the arrow coercion that the entry listed as not measured
 
 - F-128 **Under `walk`, the interpreter converts by coercion at its three kinds of type check.** They are a parameter, a varargs parameter included; an overloaded call that no declaration fits without coercion, which walk then dispatches again; and a typed binding or assignment. Walk chooses the coercion by the run-time value (P-59). Not converted, as measured: a value other than a numeral at a declared return (row 387; a numeral converts there, F-341), a coercion with its own static parameter, unless it is a numeral coercion (row 513), and an overloaded function's tuple parameter or a tuple-typed field (row 395). Not converted, by the code, and not measured: a varargs or keyword element of the specification's tuple coercion, and its arrow coercion. Gated by `tests/Coercion*RungC.fss`. Detail: `compile-ladder/rung-interp-coercion/REPORT.md` sections 1, 5 and 9.
+
+### F-390
+
+2026-11-18 05:36Z · added · from `explorations/compile-ladder/rung-varargs/REPORT.md`, "The convention as built" · by climb batch 33b gather
+
+### F-86
+
+2026-11-18 05:36Z · rewritten · from `explorations/compile-ladder/rung-varargs/REPORT.md`, "The convention as built" · by climb batch 33b gather: row 624 fixed under the selection by rung G; the prelude still refuses varargs
+
+- F-86 **The compiled checker types a varargs parameter as the team's `ImmutableArray[\T, ZZ32\]`, and applies a varargs declaration by the specification's expansion rule.** The rule reads such a declaration as one declaration for each number of arguments that it can take (`Specification/basic/overloading.tex`, "Applicability for Functionals with Varargs and Keyword Parameters"). Over the interpreter's library, a body uses the parameter as that array. The compiled library declares no `ImmutableArray`, so under it each use of such a parameter is refused (row 604). The code generator refuses varargs (row 624). Gated by `compiler_tests/Varargs*`, and the refusals by the `XXXVarargs*` tests of rows 604 and 624. Detail: `compile-ladder/rung-checker-defects/REPORT.md` section 4.

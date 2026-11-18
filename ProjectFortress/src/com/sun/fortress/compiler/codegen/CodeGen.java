@@ -729,7 +729,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
     private VarCodeGen addParam(Param p) {
         VarCodeGen v =
-            new VarCodeGen.ParamVar(p.getName(), (Type)p.getIdType().unwrap(), this);
+            new VarCodeGen.ParamVar(p.getName(), NamingCzar.paramType(p), this);
         addLocalVar(v);
         return v;
     }
@@ -3183,7 +3183,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         String mname;
         
         int n = params.size();
-        if (n == 1 && params.get(0).getIdType().unwrap() instanceof TupleType) {
+        if (n == 1 && params.get(0).getIdType().isSome() &&
+            params.get(0).getIdType().unwrap() instanceof TupleType) {
         	Param p0 = params.get(0);
             TupleType tuple_type = ((TupleType) p0.getIdType().unwrap());
             if (tuple_type.getElements().size() == 0) n = 0;  //single void argument not used
@@ -3312,7 +3313,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         List<VarCodeGen> paramsGen = new ArrayList<VarCodeGen>(params.size());
         int index = 0;
         
-        if (params.size() == 1 && selfIndex == Naming.NO_SELF && 
+        if (params.size() == 1 && selfIndex == Naming.NO_SELF && params.get(0).getIdType().isSome() &&
                 (params.get(0).getIdType().unwrap() instanceof TupleType) ) {
             Param p0 = params.get(0);
             TupleType tuple_type = ((TupleType) p0.getIdType().unwrap());
@@ -4016,9 +4017,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 throw sayWhat(f, "Can't compile a local function with this modifier yet");
             if (h.getContract().isSome())
                 throw sayWhat(f, "Can't compile a local function with a contract yet");
-            for (Param p : h.getParams())
-                if (p.getVarargsType().isSome())
-                    throw new CompilerError(f, "Can't compile VarArgs yet");
             if (f.getBody().isNone())
                 throw sayWhat(f, "A local function without a body");
             if (h.getReturnType().isNone())
@@ -4070,12 +4068,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     private Type localFunctionArrowType(FnDecl f) {
         FnHeader h = f.getHeader();
         Span span = NodeUtil.getSpan(f);
-        List<Type> domain = new ArrayList<Type>();
-        for (Param p : h.getParams())
-            domain.add(NodeUtil.optTypeOrPatternToType(p.getIdType()).unwrap());
-        Type d = domain.size() == 0 ? NodeFactory.makeVoidType(span)
-            : domain.size() == 1 ? domain.get(0)
-            : NodeFactory.makeTupleType(span, domain);
+        // A varargs parameter is the domain's varargs part.
+        Type d = NodeUtil.getParamType(h.getParams(), span);
         return NodeFactory.makeArrowType(span, d, h.getReturnType().unwrap());
     }
 
@@ -4465,9 +4459,15 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
         List<Expr> assumptionArgs = callArgsForAssumption;
         callArgsForAssumption = null;
+        /* A varargs declaration's call of the dispatch method at its number of arguments. */
+        Type callArrow = arrow;
+        if (varargsDispatchDomain != null) {
+            callArrow = NodeFactory.makeArrowType(NodeUtil.getSpan(arrow), varargsDispatchDomain, arrow.getRange());
+            varargsDispatchDomain = null;
+        }
         if (assumptionArgs == null ||
             !assumedArgumentsCall(x, arrow, pkgClass, theFunction, assumptionArgs, decoration.length() > 0))
-            callStaticSingleOrOverloaded(x, arrow, pkgClass, theFunction);
+            callStaticSingleOrOverloaded(x, callArrow, pkgClass, theFunction);
         if (arrow.getRange() instanceof BottomType) {
             infiniteLoop(); // prevent bottoms from reaching other code and generating verify errors.
         }
@@ -5782,6 +5782,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
      * @param args
      */
     private void evaluateSubExprsAppropriately(ASTNode x, Type domain_type, List<Expr> args) {
+        if (domain_type instanceof TupleType && ((TupleType) domain_type).getVarargs().isSome()) {
+            evalVarargsArgs(x, (TupleType) domain_type, null, args);
+            return;
+        }
         if (pa.worthParallelizing(x)) {
             forExprsParallel(args, domain_type, null);
         } else {
@@ -7748,10 +7752,172 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         return exprType;
     }
 
+    /*
+     * The domain at which the function reference of the call being compiled is
+     * called, where its declaration has a varargs parameter and the call goes to
+     * the dispatch method at its number of arguments: set by evalVarargsArgs, read
+     * once by forFunctionalRef.
+     */
+    private Type varargsDispatchDomain = null;
+
+    /*
+     * The arguments of a call whose declaration has a varargs parameter, the
+     * domain vt: the plain arguments, then those that no plain parameter takes,
+     * each at the varargs type, as the expansion rule reads the declaration at
+     * the call's number of arguments (overloading.tex, section "Applicability for
+     * Functionals with Varargs and Keyword Parameters").  The array is made where
+     * the declaration is chosen: here, from the further arguments, in order
+     * (functions.tex, section "Function Applications"); or, where the call's name
+     * has a dispatch method at that number of arguments, in its branch for the
+     * declaration (OverloadSet.armCallsVarargsDeclaration), which takes them
+     * one by one.  arg is the call's argument, or null for an operator's operands.
+     */
+    private void evalVarargsArgs(ASTNode x, TupleType vt, Expr arg, List<Expr> exprs) {
+        if (arg instanceof TupleExpr && ((TupleExpr) arg).getVarargs().isSome())
+            throw sayWhat(arg, "Can't compile a spread argument to a varargs parameter yet");
+        if (arg instanceof TupleExpr && !((TupleExpr) arg).getKeywords().isEmpty())
+            throw sayWhat(arg, "Can't compile Keyword args yet");
+        Type elem = vt.getVarargs().unwrap();
+        /* One argument whose value is a tuple: its elements are the arguments, as the
+         * checker reads a tuple against a varargs domain and walk passes them. */
+        TupleType tupleArg = null;
+        if (exprs.size() == 1 && !(arg instanceof TupleExpr)) {
+            Type t = exprType(exprs.get(0));
+            if (t instanceof TupleType && !NodeUtil.isVoidType(t))
+                tupleArg = (TupleType) t;
+        }
+        int n = tupleArg == null ? exprs.size() : tupleArg.getElements().size();
+        int p = vt.getElements().size();
+        List<Type> ts = new ArrayList<Type>(vt.getElements());
+        while (ts.size() < n) ts.add(elem);
+        Span span = NodeUtil.getSpan(vt);
+        Type expanded = n == 0 ? NodeFactory.makeVoidType(span)
+            : n == 1 ? ts.get(0) : NodeFactory.makeTupleType(span, ts);
+        if (tupleArg != null) {
+            exprs.get(0).accept(this);
+            String owner = NamingCzar.jvmTypeDesc(tupleArg, thisApi(), false, true);
+            for (int i = 0; i < n; i++) {
+                String m = InstantiatingClassloader.TUPLE_TYPED_ELT_PFX + (i + Naming.TUPLE_ORIGIN);
+                String sig = "()" + NamingCzar.jvmTypeDesc(tupleArg.getElements().get(i), thisApi(), true, true);
+                if (i < n - 1) mv.visitInsn(DUP);
+                mv.visitMethodInsn(INVOKEINTERFACE, owner, m, sig);
+                conditionallyCastParameter((Expr) null, ts.get(i));
+                if (i < n - 1) mv.visitInsn(SWAP);
+            }
+        } else if (n > 1 && arg instanceof TupleExpr && pa.worthParallelizing((TupleExpr) arg)) {
+            forExprsParallel(exprs, expanded, null);
+        } else {
+            for (int i = 0; i < n; i++) {
+                exprs.get(i).accept(this);
+                conditionallyCastParameter(exprs.get(i), ts.get(i));
+            }
+        }
+        if (varargsCallDispatches(x, n)) {
+            varargsDispatchDomain = expanded;
+            if (arg != null) paramCount = n;
+        } else {
+            int[] slots = new int[n - p];
+            String elemDesc = NamingCzar.jvmBoxedTypeDesc(elem, thisApi());
+            for (int j = slots.length - 1; j >= 0; j--) {
+                slots[j] = mv.createCompilerLocal("varargs$" + j, elemDesc);
+                mv.visitVarInsn(ASTORE, slots[j]);
+            }
+            emitVarargsArray(mv, elem, slots, thisApi());
+            for (int j = 0; j < slots.length; j++)
+                mv.disposeCompilerLocal(slots[j]);
+            if (arg != null) paramCount = p + 1;
+        }
+    }
+
+    /*
+     * Whether the call x of n arguments, of a function or operator whose chosen
+     * declaration has a varargs parameter, goes to a dispatch method of n
+     * parameters: one that the declaring component writes where another
+     * declaration of the name takes n arguments (partitionByArgCount).  A call of
+     * a closure or of a generic declaration calls the declaration itself.
+     */
+    private boolean varargsCallDispatches(ASTNode x, int n) {
+        FunctionalRef fn = null;
+        if (x instanceof _RewriteFnApp && ((_RewriteFnApp) x).getFunction() instanceof FunctionalRef)
+            fn = (FunctionalRef) ((_RewriteFnApp) x).getFunction();
+        else if (x instanceof OpExpr)
+            fn = ((OpExpr) x).getOp();
+        if (fn == null || fn.getNames().size() != 1 || !fn.getStaticArgs().isEmpty()) return false;
+        if (fn instanceof FnRef && localFunctionOrNull((FnRef) fn) != null) return false;
+        IdOrOp name = fn.getNames().get(0);
+        IdOrOp local = NodeFactory.makeLocalIdOrOp(fn.getOriginalName());
+        Option<APIName> oapi = name.getApiName();
+        Set<? extends Functional> defs;
+        if (oapi.isSome() && !oapi.unwrap().equals(thisApi())) {
+            ApiIndex ai = env.api(oapi.unwrap());
+            if (ai == null) return false;
+            defs = ai.functions().matchFirst(local);
+        } else {
+            defs = ci.functions().matchFirst(local);
+        }
+        for (Functional d : defs)
+            if (!d.staticParameters().isEmpty()) return false;
+        return partitionByArgCount(defs).containsKey(n);
+    }
+
+    /*
+     * The array of a varargs parameter, of the values in the JVM locals slots,
+     * in order, made as walk makes it (NonPrimitive.buildEnvFromParams): the
+     * library's factory __immutableFactory1[\T, 0, k\]() makes an
+     * ImmutableArray1[\T, 0, k\], and init puts each value at its index, from 0.
+     * The factory is a generic function, so its instance is a closure, which is
+     * applied as a call of a generic function is (forFnRef, generateHigherOrderCall).
+     * The template's name is that of the factory's declared header in the library,
+     * __immutableFactory1[\T, nat b0, nat s0\]():ImmutableArray1[\T,b0,s0\].
+     * The result, on the stack, is a value of the parameter's type,
+     * ImmutableArray[\T, ZZ32\] (NamingCzar.varargsParamType).
+     */
+    public static void emitVarargsArray(MethodVisitor mv, Type elem, int[] slots, APIName api) {
+        Span span = NodeUtil.getSpan(elem);
+        TraitType varargsType = (TraitType) NamingCzar.varargsParamType(elem);
+        APIName lib = varargsType.getName().getApiName().unwrap();
+        Type zz32 = ((TypeArg) varargsType.getArgs().get(1)).getTypeArg();
+        Id array1 = NodeFactory.makeId(span, lib, "ImmutableArray1");
+        Type schemaRange = NodeFactory.makeTraitType(span, false, array1,
+            Useful.<StaticArg>list(NodeFactory.makeTypeArg(NodeFactory.makeVarType(span, "T")),
+                                   NodeFactory.makeIntArg(span, "b0"), NodeFactory.makeIntArg(span, "s0")),
+            Collections.<StaticParam>emptyList());
+        List<StaticArg> sargs = Useful.<StaticArg>list(NodeFactory.makeTypeArg(elem),
+            NodeFactory.makeIntArgVal(span, "0"), NodeFactory.makeIntArgVal(span, String.valueOf(slots.length)));
+        Type range = NodeFactory.makeTraitType(span, false, array1, sargs, Collections.<StaticParam>emptyList());
+        ArrowType schema = NodeFactory.makeArrowType(span, NodeFactory.makeVoidType(span), schemaRange);
+        ArrowType instance = NodeFactory.makeArrowType(span, NodeFactory.makeVoidType(span), range);
+        Pair<String, String> pcm = NamingCzar.idToPackageClassAndName(
+            NodeFactory.makeId(span, lib, WellKnownNames.varargsFactoryName), api);
+        String PCN = Naming.genericFunctionPkgClass(pcm.first(), pcm.second(),
+            NamingCzar.instantiatedGenericDecoration(sargs, api), NamingCzar.jvmTypeDesc(schema, api, false));
+        mv.visitFieldInsn(GETSTATIC, PCN, Naming.CLOSURE_FIELD_NAME, NamingCzar.jvmTypeDesc(instance, api, true));
+        mv.visitMethodInsn(INVOKEINTERFACE, NamingCzar.makeArrowDescriptor(instance, api),
+                           Naming.APPLY_METHOD, NamingCzar.jvmSignatureFor(instance, api));
+        String owner = NamingCzar.jvmTypeDesc(varargsType, api, false);
+        String initSig = NamingCzar.jvmSignatureFor(NodeFactory.makeTupleType(span, Useful.list(zz32, elem)),
+                                                    NodeFactory.makeVoidType(span), api);
+        String elemName = NamingCzar.jvmBoxedTypeName(elem, api);
+        for (int j = 0; j < slots.length; j++) {
+            mv.visitInsn(DUP);
+            mv.visitLdcInsn(Integer.valueOf(j));
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressZZ32, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descInt, NamingCzar.descFortressZZ32));
+            mv.visitVarInsn(ALOAD, slots[j]);
+            InstantiatingClassloader.generalizedCastTo(mv, elemName);
+            mv.visitMethodInsn(INVOKEINTERFACE, owner, WellKnownNames.arrayPutter, initSig);
+            mv.visitInsn(POP);
+        }
+    }
+
     /**
      * @param arg
      */
     private void evalArg(ASTNode x, Type domain_type, Expr arg) {
+        if (domain_type instanceof TupleType && ((TupleType) domain_type).getVarargs().isSome()) {
+            evalVarargsArgs(x, (TupleType) domain_type, arg, callArgList(arg));
+            return;
+        }
         if (arg instanceof VoidLiteralExpr) {
             paramCount = 0;
         } else if (arg instanceof TupleExpr) {
@@ -8430,14 +8596,26 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         MultiMap<Integer, Functional> partitionedByArgCount =
             new MultiMap<Integer, Functional>(DefaultComparator.<Integer>normal());
 
+        /* A declaration with a varargs parameter is a member at each number of
+         * arguments from its plain parameters' to the most that another member
+         * takes, read there by the expansion rule (overloading.tex, section
+         * "Applicability for Functionals with Varargs and Keyword Parameters").
+         * Beyond, it is alone, and a call makes its array (evalVarargsArgs). */
+        int most = -1;
+        for (Functional d : defs)
+            most = Math.max(most, d.parameters().size() - (OverloadSet.VarargsExpansion.expands(d) ? 1 : 0));
         for (Functional d : defs) {
-            partitionedByArgCount.putItem(d.parameters().size(), d);
+            if (OverloadSet.VarargsExpansion.expands(d)) {
+                for (int k = d.parameters().size() - 1; k <= most; k++)
+                    partitionedByArgCount.putItem(k, new OverloadSet.VarargsExpansion((DeclaredFunction) d, k));
+            } else
+                partitionedByArgCount.putItem(d.parameters().size(), d);
         }
 
-        for (Functional d : defs) {
-            Set<Functional> sf = partitionedByArgCount.get(d.parameters().size());
+        for (Integer k : new ArrayList<Integer>(partitionedByArgCount.keySet())) {
+            Set<Functional> sf = partitionedByArgCount.get(k);
             if (sf != null && sf.size() <= 1)
-                partitionedByArgCount.remove(d.parameters().size());
+                partitionedByArgCount.remove(k);
         }
         return partitionedByArgCount;
     }

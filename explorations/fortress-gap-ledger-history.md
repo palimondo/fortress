@@ -10955,3 +10955,15 @@ rewritten
 rewritten
 
 | 1062 | a program compiled against the one library under `FORTRESS_LIBRARY=one` does not run: the one library has no jars, and the run dies at its first library class, 'NoClassDefFoundError: fortress/FortressLibrary$String', before `run()` prints | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/programs.tex`, "Programs" | ProjectFortress/one_library_tests/XXXOneLibraryRunHalf.test | climb batch 33 rung S | siblings: 874, 624, 315, 1061. The compile writes only the program's jar, `default_repository/caches-one/bytecode_cache/OneLibraryHalf.jar`; no compile writes the one library's (F-34): row 874 stops `FortressLibrary` and `FortressBuiltin` at the wrappers, and rows 624 and 315 stand on `println`'s path. F-352's second kind of walls (rows 995, 866, 942, 994, 993) follow. `bin/run_classpath` takes the caches folder of the selection, so a run without it finds no jar: 'Could not load OneLibraryHalf'. |
+
+### Row 304
+
+rewritten
+
+| 304 | the code generator compiles a local function as a closure, but refuses three forms that the specification allows: a local function with static parameters of its own, two local functions of one name in a block, and the `atomic` modifier | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/functions.tex`, "Local Function Declarations" | `ProjectFortress/compiler_tests/XXXLocalFunctionGenericCompiled.test` | ours (kernels probe) | siblings: 624, 701, 865. `CodeGen.forLetFn` throws 'Can't compile a local function with static parameters of its own yet', 'Can't compile overloaded local functions yet' and 'Can't compile a local function with this modifier yet' (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:3588-3592` at d96242f0a), after the checker passes each program. Other reproducers: `XXXLocalFunctionOverloadedCompiled.test`, `XXXLocalFunctionAtomicCompiled.test`. Also refused there: varargs (row 624), a helper binding (row 865), a contract (row 701). Walk: only without static parameters (row 1020). Workaround: lift the function to component level, or give each overload its own name. |
+
+### Row 1062
+
+rewritten
+
+| 1062 | a program compiled against the one library under `FORTRESS_LIBRARY=one` does not run: the one library has no jars, and the run dies at its first library class, 'NoClassDefFoundError: fortress/FortressLibrary$String', before `run()` prints | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/programs.tex`, "Programs" | ProjectFortress/one_library_tests/XXXOneLibraryRunHalf.test | climb batch 33 rung S | siblings: 874, 624, 315, 1061. The compile writes only the program's jar, `default_repository/caches-one/bytecode_cache/OneLibraryHalf.jar`; no compile writes the one library's (F-34): row 874 stops `FortressLibrary` and `FortressBuiltin` at the wrappers, and row 624 stands on `println`'s path. F-352's second kind of walls (rows 995, 942, 994, 993) follow. `bin/run_classpath` takes the caches folder of the selection, so a run without it finds no jar: 'Could not load OneLibraryHalf'. `one_library_tests/XXXOneLibraryRunConditionalReduction.test` fails so too. |

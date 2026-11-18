@@ -1016,16 +1016,50 @@ public class NamingCzar {
                         rangeDesc);
     }
 
+    /*
+     * A varargs parameter holds the arguments that no plain parameter takes, in
+     * order, as one immutable one-dimensional array, ImmutableArray[\T, ZZ32\] of
+     * the library in use, the type at which the checker binds it in the body
+     * (functions.tex, sections "Function Declarations" and "Function
+     * Applications").  So the varargs part of a domain is one JVM parameter of
+     * that type, after the plain parameters.  The compiler's own library declares
+     * no ImmutableArray, so there a varargs parameter stays refused.
+     */
+    public static com.sun.fortress.nodes.Type varargsParamType(com.sun.fortress.nodes.Type elem) {
+        if (WellKnownNames.areCompilerLibraries())
+            throw new CompilerError(elem, "Can't compile VarArgs yet: the library in use, " +
+                                    WellKnownNames.fortressLibrary() +
+                                    ", declares no ImmutableArray, the type of a varargs parameter");
+        return Types.makeVarargsParamType(elem);
+    }
+
+    /* A domain with a varargs part: its plain types, then the varargs part's array type. */
+    public static com.sun.fortress.nodes.Type varargsDomainAsArray(TupleType t) {
+        com.sun.fortress.nodes.Type array = varargsParamType(t.getVarargs().unwrap());
+        if (!t.getKeywords().isEmpty())
+            throw new CompilerError(t,"Can't compile Keyword args yet");
+        if (t.getElements().isEmpty()) return array;
+        List<com.sun.fortress.nodes.Type> es = new ArrayList<com.sun.fortress.nodes.Type>(t.getElements());
+        es.add(array);
+        return NodeFactory.makeTupleType(NodeUtil.getSpan(t), es);
+    }
+
+    /* A parameter's type in the body and in the method's descriptor: a varargs parameter's is its array. */
+    public static com.sun.fortress.nodes.Type paramType(Param p) {
+        if (p.getVarargsType().isSome()) return varargsParamType(p.getVarargsType().unwrap());
+        return NodeUtil.optTypeOrPatternToType(p.getIdType()).unwrap();
+    }
+
     // CodeGen, several methods
     public static String jvmSignatureFor(List<com.sun.fortress.nodes.Param> domain,
             String rangeDesc, APIName ifNone) {
         // This special case handles single void argument type properly.
         if (domain.size() == 1)
-            return jvmSignatureFor(NodeUtil.optTypeOrPatternToType(domain.get(0).getIdType()).unwrap(), rangeDesc, ifNone);
+            return jvmSignatureFor(paramType(domain.get(0)), rangeDesc, ifNone);
         String args = "";
         StringBuilder buf = new StringBuilder();
         for (Param p : domain) {
-            buf.append(jvmBoxedTypeDesc((com.sun.fortress.nodes.Type) p.getIdType().unwrap(), ifNone));
+            buf.append(jvmBoxedTypeDesc(paramType(p), ifNone));
         }
         args = buf.toString();
         return Naming.makeMethodDesc(args, rangeDesc);
@@ -1044,13 +1078,13 @@ public class NamingCzar {
             String rangeDesc, APIName ifNone) {
         // This special case handles single void argument type properly.
         if (domain.size() == 1)
-            return jvmSignatureFor(NodeUtil.optTypeOrPatternToType(domain.get(0).getIdType()).unwrap(), rangeDesc, ifNone);
+            return jvmSignatureFor(paramType(domain.get(0)), rangeDesc, ifNone);
         String args = "";
         StringBuilder buf = new StringBuilder();
         int i = 0;
         for (Param p : domain) {
             if (i != self_index_to_skip)
-                buf.append(jvmBoxedTypeDesc((com.sun.fortress.nodes.Type) p.getIdType().unwrap(), ifNone));
+                buf.append(jvmBoxedTypeDesc(paramType(p), ifNone));
             i++;
         }
         args = buf.toString();
@@ -1076,6 +1110,8 @@ public class NamingCzar {
         if (spliceAt == 0)
             args += jvmTypeDesc(spliceType, ifNone);
 
+        if (domain instanceof TupleType && ((TupleType) domain).getVarargs().isSome())
+            domain = varargsDomainAsArray((TupleType) domain);
         if (domain instanceof com.sun.fortress.nodes.TupleType) {
             TupleType tt = (TupleType) domain;
             int i = 0;
@@ -1303,7 +1339,7 @@ public class NamingCzar {
              List<com.sun.fortress.nodes.Param> params) {
         List<com.sun.fortress.nodes.Type> res = new ArrayList(params.size());
         for (com.sun.fortress.nodes.Param p : params) {
-            res.add(NodeUtil.optTypeOrPatternToType(p.getIdType()).unwrap());
+            res.add(paramType(p));
         }
         // Always normalize to tuple types.
         if (res.size() > 1) {
@@ -1388,7 +1424,7 @@ public class NamingCzar {
         if ( NodeUtil.isVoidType(t) )
             return Naming.SNOWMAN;
         if (t.getVarargs().isSome())
-            throw new CompilerError(t,"Can't compile VarArgs yet");
+            return makeBoxedTypeName(varargsDomainAsArray(t), ifNone);
         if (!t.getKeywords().isEmpty())
             throw new CompilerError(t,"Can't compile Keyword args yet");
         return jvmTypeDesc(t, ifNone, false, true);
@@ -1397,8 +1433,11 @@ public class NamingCzar {
     private static String makeUnboxedTupleDescriptor(TupleType t, final APIName ifNone, boolean specialFortressAsInterfaces) {
         if ( NodeUtil.isVoidType(t) )
             throw new Error("Unexpected case in unboxed tuple descriptor");
-        if (t.getVarargs().isSome())
-            throw new CompilerError(t,"Can't compile VarArgs yet");
+        if (t.getVarargs().isSome()) {
+            com.sun.fortress.nodes.Type d = varargsDomainAsArray(t);
+            if (!(d instanceof TupleType)) return makeBoxedTypeName(d, ifNone);
+            t = (TupleType) d;
+        }
         if (!t.getKeywords().isEmpty())
             throw new CompilerError(t,"Can't compile Keyword args yet");
         String res = "";
@@ -1538,7 +1577,7 @@ public class NamingCzar {
                 if ( NodeUtil.isVoidType(t) )
                     return withLSemi ? descFortressVoid : internalFortressVoid;
                 if (t.getVarargs().isSome())
-                    throw new CompilerError(t,"Can't compile VarArgs yet");
+                    return varargsDomainAsArray(t).accept(this);
                 if (!t.getKeywords().isEmpty())
                     throw new CompilerError(t,"Can't compile Keyword args yet");
                 if (boxed) {
@@ -1649,7 +1688,7 @@ public class NamingCzar {
                 if ( NodeUtil.isVoidType(t) )
                     return descFortressVoid;
                 if (t.getVarargs().isSome())
-                    throw new CompilerError(t,"Can't compile VarArgs yet");
+                    return varargsDomainAsArray(t).accept(this);
                 if (!t.getKeywords().isEmpty())
                     throw new CompilerError(t,"Can't compile Keyword args yet");
                 String res = "";

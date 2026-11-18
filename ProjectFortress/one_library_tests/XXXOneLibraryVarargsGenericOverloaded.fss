@@ -1,0 +1,13 @@
+(* Under the one library's selection, a generic function with a varargs parameter beside another declaration of its name with as many parameters compiles (overloading.tex, section "Applicability for Functionals with Varargs and Keyword Parameters"). *)
+component XXXOneLibraryVarargsGenericOverloaded
+export Executable
+
+pick[\T\](xs: T...): ZZ32 = |xs|
+pick(a: String): ZZ32 = 7
+
+run(): () = do
+  z: ZZ32 = 7
+  println(pick("s") + pick(z) + pick(z, z))
+end
+
+end

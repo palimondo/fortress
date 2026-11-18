@@ -1,0 +1,3 @@
+# Calls of each arity of an overloaded name with a varargs member compile under the one library's selection.
+tests=OneLibraryVarargsOverloaded
+compile

@@ -1,0 +1,4 @@
+# A generic function with a varargs parameter beside another declaration of its name with as many parameters compiles under the one library's selection.
+tests=XXXOneLibraryVarargsGenericOverloaded
+compile
+compile_exception_contains=OptionUnwrapException

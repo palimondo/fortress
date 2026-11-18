@@ -184,6 +184,64 @@ abstract public class OverloadSet implements Comparable<OverloadSet> {
         }
     }
 
+    /**
+     * A top-level function with a varargs parameter, read at one number of
+     * arguments as the expansion rule reads it (overloading.tex, section
+     * "Applicability for Functionals with Varargs and Keyword Parameters"): its
+     * plain parameters, then one parameter of the varargs type for each further
+     * argument.  The dispatch method of that many parameters holds it as a
+     * member; its branch makes the varargs array of the further arguments and
+     * calls the declaration itself (armCallsVarargsDeclaration).
+     */
+    public static class VarargsExpansion extends DeclaredFunction {
+        private final DeclaredFunction declared;
+
+        public VarargsExpansion(DeclaredFunction declared, int arity) {
+            super(expandedAt(declared.ast(), arity));
+            this.declared = declared;
+            if (_thunk.isNone())
+                _thunk = edu.rice.cs.plt.tuple.Option.<edu.rice.cs.plt.lambda.Thunk<edu.rice.cs.plt.tuple.Option<Type>>>some(
+                    edu.rice.cs.plt.lambda.SimpleBox.make(declared.getReturnType()));
+        }
+
+        /** The declaration, with its varargs parameter. */
+        public DeclaredFunction declared() { return declared; }
+
+        /** The number of its plain parameters. */
+        public int plainCount() { return declared.parameters().size() - 1; }
+
+        /** The type of each argument that its varargs parameter takes. */
+        public Type elementType() {
+            List<Param> ps = declared.parameters();
+            return ps.get(ps.size() - 1).getVarargsType().unwrap();
+        }
+
+        /** Whether f is a top-level function without static parameters whose last
+         *  parameter is a varargs parameter.  A call of a generic one calls it
+         *  itself (CodeGen.varargsCallDispatches). */
+        public static boolean expands(Functional f) {
+            if (!(f instanceof DeclaredFunction) || f instanceof VarargsExpansion) return false;
+            if (!f.staticParameters().isEmpty()) return false;
+            List<Param> ps = f.parameters();
+            return !ps.isEmpty() && NodeUtil.isVarargsParam(ps.get(ps.size() - 1));
+        }
+
+        private static FnDecl expandedAt(FnDecl d, int arity) {
+            com.sun.fortress.nodes.FnHeader h = d.getHeader();
+            List<Param> ps = h.getParams();
+            Param va = ps.get(ps.size() - 1);
+            List<Param> out = new ArrayList<Param>(ps.subList(0, ps.size() - 1));
+            Span span = NodeUtil.getSpan(va);
+            for (int i = out.size(); i < arity; i++)
+                out.add(NodeFactory.makeParam(NodeFactory.makeId(span, va.getName().getText() + "$" + i),
+                                              va.getVarargsType().unwrap()));
+            com.sun.fortress.nodes.FnHeader nh = new com.sun.fortress.nodes.FnHeader(
+                h.getStaticParams(), h.getMods(), h.getName(), h.getWhereClause(), h.getThrowsClause(),
+                h.getContract(), out, h.getReturnType());
+            return new FnDecl(d.getInfo(), nh, d.getUnambiguousName(), d.getBody(), d.getImplementsUnambiguousName());
+        }
+    }
+
 
     /**
      * The set of functions that are less-specific-than-or-equal to the
@@ -1810,7 +1868,9 @@ nameTemp + "\n" +
                 //no inferences needed
                 loadThisForMethods(mv);
     
-                for (int j = 0; j < f_type_structures.length; j++) {
+                int loaded = f.tagF instanceof VarargsExpansion ?
+                    ((VarargsExpansion) f.tagF).plainCount() : f_type_structures.length;
+                for (int j = 0; j < loaded; j++) {
                     // Load actual parameter
                     if (j != selfIndex()) {
                         mv.visitVarInsn(Opcodes.ALOAD, j + firstArgIndex);
@@ -1819,7 +1879,9 @@ nameTemp + "\n" +
                 }
            
                 StaticTypeReplacer atT = atTemplateParams(f);
-                if (atT != null)
+                if (f.tagF instanceof VarargsExpansion)
+                    armCallsVarargsDeclaration(mv, f, firstArgIndex);
+                else if (atT != null)
                     invokeArmAtTemplateParams(mv, f, atT);
                 else
                     invokeParticularMethod(mv, f, jvmSignatureFor(f));
@@ -1931,6 +1993,8 @@ nameTemp + "\n" +
 
         int i = firstArgIndex;
         List<Param> params = f.getParameters();
+        if (f.tagF instanceof VarargsExpansion)
+            params = params.subList(0, ((VarargsExpansion) f.tagF).plainCount());
         
         for (Param p : params) {
             mv.visitVarInsn(Opcodes.ALOAD, i);
@@ -1945,9 +2009,29 @@ nameTemp + "\n" +
         if (CodeGenerationPhase.debugOverloading >= 3)
             System.err.println("Emitting call " + f.tagF + sig);
 
-        invokeParticularMethod(mv, f, sig);
+        if (f.tagF instanceof VarargsExpansion)
+            armCallsVarargsDeclaration(mv, f, firstArgIndex);
+        else
+            invokeParticularMethod(mv, f, sig);
         castArmResultToRange(mv, f);
         mv.visitInsn(Opcodes.ARETURN);
+    }
+
+    /*
+     * The branch of a varargs declaration, its plain arguments on the stack: the
+     * further arguments, this dispatch method's parameters after the plain ones,
+     * become the declaration's varargs array, in order, and the declaration is
+     * called at its own signature (functions.tex, section "Function Applications").
+     */
+    private void armCallsVarargsDeclaration(MethodVisitor mv, TaggedFunctionName f, int firstArgIndex) {
+        VarargsExpansion ve = (VarargsExpansion) f.tagF;
+        int p = ve.plainCount();
+        int[] slots = new int[paramCount - p];
+        for (int j = 0; j < slots.length; j++)
+            slots[j] = firstArgIndex + p + j;
+        CodeGen.emitVarargsArray(mv, ve.elementType(), slots, f.tagA);
+        TaggedFunctionName declared = new TaggedFunctionName(f.tagA, ve.declared());
+        invokeParticularMethod(mv, declared, jvmSignatureFor(declared));
     }
 
     /**

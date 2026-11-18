@@ -1,0 +1,3 @@
+# An application of the list constructor, an operator with a varargs parameter, compiles under the one library's selection.
+tests=OneLibraryVarargsOperator
+compile
