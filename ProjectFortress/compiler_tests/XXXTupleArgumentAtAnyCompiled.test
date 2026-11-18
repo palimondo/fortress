@@ -1,0 +1,3 @@
+tests=XXXTupleArgumentAtAnyCompiled
+compile
+compile_exception_contains=Error trying to close method scope
