@@ -111,13 +111,19 @@ If you would look something up before you act, say what you would look up, where
     - `same(a: Any, b: Any): String = "any"` and `same(a: NN32, b: NN32): String = "nn32"`.
     Its `run()` binds `u: NN32 = 0` and `a: Any = u`. What do `k(5)`, `width(1.5)`, `g(5)`, `same(u, 0)` and `same(a, 0)` give, under walk and on the compiled path? Is any of these answers a known departure from the rule, and what do you write so that your program does not depend on it?
 
-35. Your brief asks for compiled tests, in `compiler_tests/`, of a program's own ordered type: one test for each of the three default bodies below, each value checked by a gated test that passes wherever the program can give the value compiled. Each part is a program of its own. Each declares `trait Ord[\T extends Ord[\T\]\]` with an abstract `lt(self, other: T): Boolean`, and `object Late(x: ZZ32) extends Ord[\Late\]`, which declares `lt(self, other: Late): Boolean = x < other.x`. Its `run()` asserts one value, then prints `PASS`.
+35. Your brief asks for compiled tests, in `compiler_tests/`, of a program's own ordered type: one test for each of the four default bodies below, each value checked by a gated test that passes wherever the program can give the value compiled. Each part is a program of its own. Each declares `trait Ord[\T extends Ord[\T\]\]` with an abstract `lt(self, other: T): Boolean`, and `object Late(x: ZZ32) extends Ord[\Late\]`, which declares `lt(self, other: Late): Boolean = x < other.x`. Its `run()` asserts one value, then prints `PASS`.
     - (a) The trait's default body is `same(self): T = self`, and `run()` asserts that `same(Late(1)).x` is 1.
     - (b) The trait's default body is `larger(self, other: T): T = if lt(other, self) then self else other end`, and `run()` asserts that `larger(Late(1), Late(2)).x` is 2.
     - (c) The trait also declares an abstract `getter key(): ZZ32`, which `Late` gives as `x`, and its default body is `keyOf(other: T): ZZ32 = other.key`. `run()` asserts that `Late(1).keyOf(Late(2))` is 2.
+    - (d) The trait's default body is `chosen(other: T, y: Any): T = typecase y of s: String => self else => other end`, written on lines, and `run()` asserts that `Late(1).chosen(Late(2), "s").x` is 1.
     For each, say what the compiled path does with the program today, before the switch-over, and whether the switch-over changes it. Give the test's `.test` file or files, any change to the program, and the result through the harness that you expect.
 
 36. You port a test written against the team's library into a walk test in `ProjectFortress/tests/`. Its helper `kind(x: Number): String` is a `typecase` over `x` with the arms `Int => "Int"`, `Float => "Float"` and `else => "other"`, and its `run()` asserts that `kind(3)` is `"Int"` and that `kind(1.5)` is `"Float"`. Your port adds a type of lengths, `Meters`, that holds a `ZZ32`, adds two lengths with `+` as `ZZ32` does, and can be passed to `kind`. You plan to declare it `object Meters(v: ZZ32) extends ZZ32`, so that it takes `ZZ32`'s operators.
     - (a) Before you add `Meters`, with the test's arms as they are, what does each of the two assertions give under walk?
     - (b) Write the `typecase`, the declaration of `Meters` and the assertions that you keep. What does `kind(Meters(2))` give?
     - (c) What does the planned declaration of `Meters` do under walk, and on the compiled path today? What does yours do on each?
+
+37. You port into a walk test in `ProjectFortress/tests/` a helper written against the team's library, `shape(v: Any): String`, a `typecase` over `v` with the arms `(Int, String) => "number and text"` and `x => "other"`. Its `run()` asserts that `shape((3, "a"))` is `"number and text"` and that `shape(2.5)` is `"other"`.
+    - (a) What does walk do with the test as written? What does the compiled path do with the same program?
+    - (b) Write the helper that you keep. What does `shape(("b", "a"))` give under walk?
+    - (c) Suppose that you had changed only the last arm. What would walk do with the test, and what would `shape(("b", "a"))` give? What would the compiled path do with that program?
