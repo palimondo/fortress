@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Refactor declaredResult to parameter","toolUseId":"toolu_01Kdq48ffCcyJf7CSckiBLfr","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Refactor declaredResult to parameter","toolUseId":"toolu_01Kdq48ffCcyJf7CSckiBLfr","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
