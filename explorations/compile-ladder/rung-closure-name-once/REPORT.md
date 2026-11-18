@@ -2,8 +2,8 @@
 
 # Rung W: one class name for each function expression
 
-- problem: row 315, 'java.util.zip.ZipException: duplicate entry: LexSame$\=fn@5\!23-66.class' under the selector (`explorations/compile-ladder/plan-33/PROBES.md:110`), and the one library's two refused declarations of that kind, `LexicographicOrder` and `List` (`explorations/compile-ladder/plan-33/probes/measure-d3747846c1.txt:27-29`)
-- spec: none; the specification names no class of a function expression: `grep -rn -i 'class file\|classfile\|class name' Specification/basic Specification/basic-lib` prints nothing. The form that meets the defect is the conditional operator's sugar, `Specification/advanced/subscripting.tex:86-88` ("x OP: y is syntactic sugar for x OP (fn () => y)")
+- problem: row 315, 'java.util.zip.ZipException: duplicate entry: LexSame$\=fn@5\!23-66.class' under the selector (`explorations/compile-ladder/plan-33/PROBES.md:113`), and the one library's two refused declarations of that kind, `LexicographicOrder` and `List` (`explorations/compile-ladder/plan-33/probes/measure-d3747846c1.txt:27-29`)
+- spec: none; the specification names no class of a function expression: `grep -rn -i 'class file\|classfile\|class name' Specification/basic Specification/basic-lib` prints nothing. The form that meets the defect is the conditional operator's sugar, `Specification/advanced/subscripting.tex:90-91` ("x OP: y is syntactic sugar for x OP (fn () => y)")
 - precedent: the per-component table that every nested code generator shares, numbered in the order the code generator meets its entries, `numeralCoercionSites` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:286-290`, `:396`, `:410`, `:7858`), and the shared set `localFunctionNames` (`CodeGen.java:4237-4239`); the first name at a span is the team's own form (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:901-907`)
 - deviation: a later function expression at a span already named takes `#2`, `#3` after the span, a character that no class name of the code generator held before (`NamingCzar.java:905-906`); for a generic one the class file is `...#2⟦⟧` (`CodeGen.java:3937-3946`)
 - historical: `ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java`, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java` (both in the team's last commit `a874948ac`; there `gensymArrowClassName` is at `NamingCzar.java:838-840` and its one call at `CodeGen.java:3448`)
@@ -108,7 +108,7 @@ Not edited: N's table of payload objects and G's tuple descriptors in `NamingCza
 
 ## 6. What the specification settles
 
-That the programs are valid: `x OP: y` is `x OP (fn () => y)` (`Specification/advanced/subscripting.tex:86-88`), and a reduction is an expression. It names no class, so the naming is the implementation's (fork W1).
+That the programs are valid: `x OP: y` is `x OP (fn () => y)` (`Specification/advanced/subscripting.tex:90-91`), and a reduction is an expression. It names no class, so the naming is the implementation's (fork W1).
 
 ## 7. Programs run old against new
 
