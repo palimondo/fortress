@@ -77,7 +77,7 @@ Walk then interprets the tree. The tree has no static types, so walk finds a typ
 
 `fortress compile` runs the same phases with the static type checker, in Scala, switched on. After the phases, the code generator writes JVM bytecode into a jar. A type error stops the compile.
 
-Each path has its own library today. At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's prelude, three files of its library, is deleted (`references/compiler.md`). The compiled checker already finds no error in the interpreter's library. For the `FortressLibrary` component, the count stage shows this as a total of 0 (`references/compiler.md`). The switch-over waits for walk's natives: each function that the interpreter's library binds with `builtinPrimitive` (`references/interpreter.md`, "Natives") must first have a binding that the compiled path runs.
+Each path has its own library today. With `FORTRESS_LIBRARY=one`, `fortress compile` reads the one library instead, and a program compiled so does not run yet (`references/build-and-caches.md`, "The caches"). At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's prelude, three files of its library, is deleted (`references/compiler.md`). The compiled checker already finds no error in the interpreter's library. For the `FortressLibrary` component, the count stage shows this as a total of 0 (`references/compiler.md`). The switch-over waits for walk's natives: each function that the interpreter's library binds with `builtinPrimitive` (`references/interpreter.md`, "Natives") must first have a binding that the compiled path runs.
 
 ### The compiled runtime
 
@@ -95,7 +95,7 @@ HotSpot, the JVM's compiler, then compiles the hot bytecode to machine code. A n
 
 ### The caches
 
-A run keeps the results of its phases in the caches, so that a later run can reuse them. The caches are folders in `default_repository/caches/`, or in a private caches folder that a run names. An entry is one file in a cache, written for one source file.
+A run keeps the results of its phases in the caches, so that a later run can reuse them. The caches are folders in `default_repository/caches/`, in `default_repository/caches-one/` with `FORTRESS_LIBRARY=one`, or in a private caches folder that a run names. An entry is one file in a cache, written for one source file.
 
 - `interpreter_parsed_cache/`: walk's parsed tree of each file, `X-<hash>.tfi` for an api and `X-<hash>.tfs` for a component.
 - `interpreter_cache/`: walk's tree of each component after the phases. Walk loads it back and interprets it. The entry is a text dump of the tree. It starts `(Component @"`.

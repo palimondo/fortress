@@ -1,7 +1,7 @@
 # Running tests
 
 **track**
-: One of the four JVMs of `ant testFast`.
+: One of the five JVMs of `ant testFast`.
 
 **shard**
 : One of the four JVMs of `ant testSystem`. Shard i of n takes every n-th file of the sorted list, from index i.
@@ -11,12 +11,13 @@
 
 ## The two suites
 
-`ant testFast` runs about 2,100 tests in four tracks at once, in about 5 to 7 minutes:
+`ant testFast` runs about 2,560 tests in five tracks, four at once, in about 5 to 7 minutes:
 
 - compiler: `CompilerJUTest` over `ProjectFortress/compiler_tests/` and `parser_tests/`. It is the longest track, so it sets the total time.
 - library: `LibraryJUTest` over `library_tests/`.
 - othercompiler: `OtherCompilerJUTest` over `other_compiler_tests/`.
-- misc: the unit `*JUTest` classes.
+- misc: the unit `*JUTest` classes, except `OneLibraryJUTest`.
+- onelibrary: `OneLibraryJUTest` over `one_library_tests/`, with `FORTRESS_LIBRARY=one`. It starts when another track ends.
 
 `ant testSystem` runs `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's test folder. It runs about 680 tests in four shards, in about 2 to 4 minutes.
 
@@ -112,7 +113,7 @@ The direct run and the harness use different heaps (`interpreter.md`, "Running a
 
 ### Compiled tests
 
-Compiled tests are the `.test` files in `compiler_tests/`, `library_tests/` and `other_compiler_tests/`. They link with the library's jars in the tree's `default_repository/caches`. If a build started the caches again, or the tree's caches are empty, run the library order first (`build-and-caches.md`).
+Compiled tests are the `.test` files in `compiler_tests/`, `library_tests/` and `other_compiler_tests/`. They link with the library's jars in the tree's `default_repository/caches`. If a build started the caches again, or the tree's caches are empty, run the library order first (`build-and-caches.md`). The tests of `one_library_tests/` compile against the one library: run them with `ant testOneLibrary`.
 
 The script is `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh`. `climb-batch-N` is the folder's real name, not a placeholder. Run your own tree's copy: it runs the tree that it is in.
 
@@ -142,3 +143,4 @@ To run tracks of testFast whole, run their target. Each target runs its tracks a
 - `ant testOtherCompiler`: the othercompiler track.
 - `ant testLibrary`: the library track.
 - `ant testQuick`: the three tracks.
+- `ant testOneLibrary`: the onelibrary track.

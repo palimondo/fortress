@@ -31,7 +31,7 @@ A test program has this form:
 - A compiled test with a `run` key ends `run()` with `println("PASS")`, unless a `run_out` key checks its output (below).
 - Under walk, `assert(x, y, msg)` checks that `x` equals `y`. It and `=/=` call a type's own `=` only if the type extends a `FortressLibrary` trait that declares `=`, such as `Equality` (ledger row 807). Otherwise they compare by `SEQV` (`revival-changes.md`, "Traits and objects"). If a type `P` has its own `=`, make `P` extend `Equality[\P\]`, or write `assert(x = y, msg)`. The compiler's library declares the two-value `assert` only for `ZZ32`, `String` and `Character`; its `assert(flag, msg)` takes any `Boolean`.
 - Do not name a variable or a parameter after a functional method of the library, such as `big`, `even`, `numerator` or `shift`. The disambiguator, the phase that binds names, refuses it: "Variable even is already declared."
-- A superscript is `^` and what follows it, as the exponent in `x^2` or the transpose `^T`. It can follow a dotted access: `p.wq^T` is `(p.wq)^T`. After a call or a subscript, parenthesise first, as `(f(x))^T` and `(x[5])^2`: `f(x)^T` is a static error, and `x[5]^2` stops the compile, and under walk fails or gives the wrong element (ledger rows 1005 and 1).
+- A superscript is `^` and what follows it, as the exponent in `x^2` or the transpose `^T`. It can follow a dotted access: `p.wq^T` is `(p.wq)^T`. After a call or a subscript, parenthesise first, as `(f(x))^T` and `(x[5])^2`: `f(x)^T` is a static error, and `x[5]^2` compiles, but under walk fails or gives the wrong element (ledger row 1).
 - A test of run-time arithmetic or concatenation needs a variable operand, not a literal, because an expression of literals alone folds before the run (`revival-changes.md`, "Numbers").
 
 ## Where a test goes, and how it passes
@@ -42,13 +42,14 @@ Interpreter (walk): write `ProjectFortress/tests/Name.fss`, whose component is `
 - It is green if it throws no exception, exits 0, and neither its standard output nor its standard error contains `fail` or `FAIL`. A longer word counts too: `failure` fails the test. Only a file whose name contains `QuickCheckTest` is exempt.
 - An api that it imports, and a helper component, go in `ProjectFortress/test_library/`. In `tests/`, a helper would run as a test.
 - The harness skips files whose names end in `Syntax.fss`, `DynamicSemantics.fss` or `Satisfiability.fss`, or contain `GenomeUtil`.
-- For a refusal at load, put `Name.test` beside `tests/Name.fss`, with `load_exception_contains=<message>`. A plain test is green if walk refuses the program at load as named. A failure while the top-level variables are initialised counts as a refusal. An `XXX` test here records a refusal that walk misses: it is green while the program loads and runs clean, and red once walk refuses it.
+- For a refusal at load, put `Name.test` beside `tests/Name.fss`, with `load_exception_contains=<message>`. A plain test is green if walk refuses the program at load as named. A failure while the top-level variables are initialised, or a static error of a phase before the run, such as the disambiguator's, counts as a refusal. An `XXX` test here records a refusal that walk misses: it is green while the program loads and runs clean, and red once walk refuses it.
 
 Compiled: write `Name.fss` and `Name.test` in the compiled test folder that holds tests of its kind:
 
 - `library_tests/`: the compiler's library. A test of the interpreter's library is an interpreter test (above).
 - `parser_tests/`: the parser.
 - `compiler_tests/`: the rest, beside the team's numbered `CompiledN` tests.
+- `one_library_tests/`: a wall that only the one library shows. Its tests compile with `FORTRESS_LIBRARY=one`, and `ant testOneLibrary` and `testFast` run them.
 - `other_compiler_tests/`: the team's compiled tests that do not fit the `CompiledN` series. Put no new test there.
 
 The `.test` files are the whole list of tests: a `.fss` that no `.test` file names never runs. A `.test` file is a Java property file. It names the commands to run and the checks on their output, as lit's RUN and CHECK lines do:

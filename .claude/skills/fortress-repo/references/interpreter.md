@@ -54,7 +54,7 @@ An edit of a phase that both paths run, or of the desugaring switches, can chang
 
 ## What walk checks
 
-Walk does not check static types (`SKILL.md`, "The phases"). The commands that stop after a phase, and `unparse`, use the compiler's prelude and the compiled path's desugaring switches (`compiler.md`, "The `fortress` commands"). So `fortress typecheck` does not check a walk program, and `desugar` or `unparse` does not print the tree that walk runs. That tree is the component's entry in `interpreter_cache/` (`SKILL.md`, "The caches").
+Walk does not check static types (`SKILL.md`, "The phases"). The commands that stop after a phase, and `unparse`, use the compiled path's desugaring switches, and the compiler's prelude unless `FORTRESS_LIBRARY=one` selects the one library (`compiler.md`, "The `fortress` commands"). So by default `fortress typecheck` does not check a walk program, and `desugar` or `unparse` does not print the tree that walk runs. That tree is the component's entry in `interpreter_cache/` (`SKILL.md`, "The caches").
 
 Under walk, the disambiguator, the phase that binds names, refuses a program's own top-level type that has the name of a type of `FortressLibrary`, such as `Index` or `Indexed`: "Type name may refer to: Index, FortressLibrary.Index". Give such a type another name.
 

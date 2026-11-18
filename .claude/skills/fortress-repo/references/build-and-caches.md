@@ -70,6 +70,8 @@ All the caches are gitignored. A caches folder also holds:
 
 Only these runs read `default_repository/caches`: `fortress compile`, `fortress run`, `fortress junit` (and `junit.sh`), `ant testOnly`, and a direct walk run. These runs use private caches (`-Dfortress.caches` and `FORTRESS_CACHES`), and need neither the library order nor warm caches: `harness-one.sh`, the gate's ladder regression (`gate.md`) and both ant suites. `harness-one.sh` keeps its private cache beside its scratch folder between calls (`tests-running.md`).
 
+With `FORTRESS_LIBRARY=one`, a run that names no private caches folder uses `default_repository/caches-one` in place of `default_repository/caches`, because a caches folder holds one library's jars. Set the variable, not the property `-Dfortress.library=one` alone: the class path scripts read only the variable, so the compile writes to `caches-one` and the run reads `caches`: 'Could not load P'. No compile writes the one library's jars yet, so a program compiled with the variable dies at its first library class: 'NoClassDefFoundError: fortress/FortressLibrary$String' (ledger row 1062).
+
 ## The library order
 
 The first of its compiles, `LibraryBuiltin/AnyType`, holds the top type `Any`, which both libraries share. The other four are the compiler's own. All five take about 100 to 110 s after `ant compileAll`.
@@ -108,8 +110,8 @@ Run `ant compileAll` from the tree's root. It is the only build: `ProjectFortres
 
 - It makes the parser and the syntax tree again only if their sources changed.
 - javac compiles only the changed Java files and the files that depend on them. scalac runs only if its inputs changed, and then compiles every Scala file.
-- It decides by a stamp whether it deletes the caches. `ProjectFortress/build/implementation.stamp` is a hash of the built implementation, and each caches folder holds the stamp of the build that filled it. At its end, the build keeps `default_repository/caches` if its stamp equals the new one, and empties it if not. It does not touch a private caches folder. It prints `Caches <folder> kept` or `Caches <folder> started again, empty`. The comment "The caches and the implementation" in `build.xml` gives the rule.
-- `ant cleanCache` deletes the caches, whatever their stamp.
+- It decides by a stamp whether it deletes the caches. `ProjectFortress/build/implementation.stamp` is a hash of the built implementation, and each caches folder holds the stamp of the build that filled it. At its end, the build keeps `default_repository/caches` and `default_repository/caches-one`, each if its stamp equals the new one, and empties it if not. It does not touch a private caches folder. It prints `Caches <folder> kept` or `Caches <folder> started again, empty`. The comment "The caches and the implementation" in `build.xml` gives the rule.
+- `ant cleanCache` deletes both folders, whatever their stamp.
 - With nothing changed, it takes about 4 s. After an edit, it takes about 25 to 60 s on an idle machine, scalac about 19 s of it, and about 50 to 80 s on a new or cleaned tree. While other agents build, it takes up to about 140 s.
 - After a build that started the caches again, yours or a test target's, run the library order before the next compiled run. So each edit of Java or Scala costs about 2 to 3 minutes before a compiled run: the build, then the library order.
 - If it fails, fix the error and run the same command again. Clear nothing by hand.
