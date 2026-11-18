@@ -7000,6 +7000,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             debug("forVarRef fresh import ", v);
             Type ty = NodeUtil.getExprType(v).unwrap();
             ty = typeAnalyzer.normalize(ty);
+            /* A built-in number object is no singleton (forObjectDeclPrePass): its class has
+               no field that holds a sole value, so its name is not compiled as a value. */
+            if (ty instanceof TraitType && NamingCzar.payloadObjectClass(ty) != null &&
+                ((TraitType) ty).getName().getText().equals(id.getText()))
+                throw sayWhat(v, "Can't compile the number type " + id.getText() + " as a value yet");
             /* TODO if ty is an intersection type,
              * need to be sure it really is normalized.
              * Because of bugs in static analysis, it is not.

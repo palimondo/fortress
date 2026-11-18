@@ -1,0 +1,3 @@
+tests=XXXNumberTypeAsValueCompiled
+compile
+compile_exception_contains=Can't compile the number type ZZ32 as a value yet
