@@ -1,0 +1,6 @@
+# An object overloading a functional method of an imported api's trait, beside a local trait of the same name, compiles and runs each body.
+tests=ApiTraitShadowedNameCompiled
+compile
+link
+run
+run_out_contains=PASS
