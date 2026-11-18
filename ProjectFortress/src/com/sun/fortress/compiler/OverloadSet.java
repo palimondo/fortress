@@ -216,9 +216,12 @@ abstract public class OverloadSet implements Comparable<OverloadSet> {
             return ps.get(ps.size() - 1).getVarargsType().unwrap();
         }
 
-        /** Whether f is a top-level function whose last parameter is a varargs parameter. */
+        /** Whether f is a top-level function without static parameters whose last
+         *  parameter is a varargs parameter.  A call of a generic one calls it
+         *  itself (CodeGen.varargsCallDispatches). */
         public static boolean expands(Functional f) {
             if (!(f instanceof DeclaredFunction) || f instanceof VarargsExpansion) return false;
+            if (!f.staticParameters().isEmpty()) return false;
             List<Param> ps = f.parameters();
             return !ps.isEmpty() && NodeUtil.isVarargsParam(ps.get(ps.size() - 1));
         }
