@@ -1,0 +1,39 @@
+(* A method called on a call typed by the intersection of its candidates' return types, one of them an imported api's trait that declares the method twice, gets the answer of the declaration that the call chooses. *)
+component IntersectionApiTraitCompiled
+import IntersectionApiTraitApi.{ Tagged, LeftResult }
+export Executable
+
+trait S comprises { U, V } end
+trait T comprises { V, W } end
+trait U extends S excludes W end
+trait M extends { S, T } comprises { V } end
+trait V extends M end
+trait W extends T end
+object Vo extends V end
+
+trait RightResult extends Tagged
+    right(): String = "right"
+    get(s: String): String = "right at String"
+end
+object LeftOnly extends LeftResult end
+object RightOnly extends RightResult end
+object BothResult extends { LeftResult, RightResult }
+    tag(): String = "both"
+end
+
+choose(s: S): LeftResult = LeftOnly
+choose(t: T): RightResult = RightOnly
+choose(v: V): BothResult = BothResult
+
+run(): () = do
+    m: M = Vo
+    assert(choose(m).left(), "left", "a method of the api's LeftResult on the call")
+    assert(choose(m).right(), "right", "a method of RightResult on the call")
+    assert(choose(m).get(5), "left at ZZ32", "the api's LeftResult's declaration at ZZ32")
+    assert(choose(m).get(true), "left at Boolean", "the api's LeftResult's declaration at Boolean")
+    assert(choose(m).get("a"), "right at String", "RightResult's declaration at String")
+    assert(choose(m).tag(), "both", "a method that both result types inherit runs the object's own")
+    println("PASS")
+end
+
+end

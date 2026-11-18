@@ -1,0 +1,6 @@
+# The order operator on two ZZ32 values at type assumptions compiles, links and runs ZZ32's own body.
+tests=AsIfNumberOrderCompiled
+compile
+link
+run
+run_out_contains=PASS

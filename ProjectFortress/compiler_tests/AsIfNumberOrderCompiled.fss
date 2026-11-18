@@ -1,0 +1,14 @@
+(* The prelude's order operator on two ZZ32 values at type assumptions, `(k asif ZZ32) < (j asif ZZ32)`, links and runs ZZ32's own body (type-annotation.tex, section "Type Assumption"). *)
+component AsIfNumberOrderCompiled
+export Executable
+
+run(): () = do
+    k: ZZ32 = 3
+    j: ZZ32 = 4
+    assert((k asif ZZ32) < (j asif ZZ32), "(k asif ZZ32) < (j asif ZZ32)")
+    assert(NOT ((j asif ZZ32) < (k asif ZZ32)), "NOT ((j asif ZZ32) < (k asif ZZ32))")
+    println((k asif ZZ32) < (j asif ZZ32))
+    println("PASS")
+end
+
+end

@@ -8960,3 +8960,13 @@ pointers to F-360 rewritten to F-379 in: F-361
 2026-11-18 05:36Z · rewritten · from `explorations/compile-ladder/rung-varargs/REPORT.md`, "The convention as built" · by climb batch 33b gather: row 624 fixed under the selection by rung G; the prelude still refuses varargs
 
 - F-86 **The compiled checker types a varargs parameter as the team's `ImmutableArray[\T, ZZ32\]`, and applies a varargs declaration by the specification's expansion rule.** The rule reads such a declaration as one declaration for each number of arguments that it can take (`Specification/basic/overloading.tex`, "Applicability for Functionals with Varargs and Keyword Parameters"). Over the interpreter's library, a body uses the parameter as that array. The compiled library declares no `ImmutableArray`, so under it each use of such a parameter is refused (row 604). The code generator refuses varargs (row 624). Gated by `compiler_tests/Varargs*`, and the refusals by the `XXXVarargs*` tests of rows 604 and 624. Detail: `compile-ladder/rung-checker-defects/REPORT.md` section 4.
+
+### F-391
+
+2026-11-18 05:39Z · added · from `explorations/compile-ladder/rung-api-method-index/REPORT.md`, "What changed and why" · by climb batch 33b gather
+
+### F-338
+
+2026-11-18 05:39Z · rewritten · from `explorations/compile-ladder/rung-api-method-index/REPORT.md`, "What changed and why" · by climb batch 33b gather: rung R: allMethods names an api's trait with its api, and row 940 is fixed
+
+- F-338 **The code generator compiles an object or trait whose first supertrait is an imported api's trait, also where a later supertrait gives a same-named method.** `dumpMethodChaining` reads the first supertrait's methods through `CodeGen.firstSupertraitMethods`, which names the trait of the supertrait's own declarations as the extends clause names it; `STypesUtil.allMethods` names it as the api's declaration does, without the api, and the code generator's trait table, over the component, finds such a name only in the component and the four prelude apis (`TraitTable.scala:72-101`). The same root still stops `methodsNamed` at a type-assumption call (row 940). Test: `TraitTableApiTraitCompiled`; row 940's `XXXAsIfApiTraitCompiled`. Detail: `compile-ladder/rung-codegen-trait-table/REPORT.md`, sections 1, 2 and 6.

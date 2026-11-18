@@ -1,0 +1,26 @@
+(* An object that overloads a functional method inherited from an imported api's trait B runs each body, in a component that declares an unrelated trait also named B (traits.tex, section "Method Declarations"). *)
+component ApiTraitShadowedNameCompiled
+import ApiTraitShadowedNameApi.{ C, tag }
+export Executable
+
+trait B
+    other(): String = "local B"
+end
+object L extends B end
+
+object O extends C
+    tag(self, x: String): String = "O"
+end
+
+run(): () = do
+    s: String = "s"
+    assert(tag(O, s), "O", "tag(O, s) runs O's own body")
+    assert(tag(O, L), "api B", "tag(O, L) runs the api trait B's body")
+    c: C = O
+    assert(tag(c, s), "O", "tag(c, s) with c: C runs O's own body")
+    assert(tag(c, L), "api B", "tag(c, L) with c: C runs the api trait B's body")
+    assert(L.other(), "local B", "the local trait B's method")
+    println("PASS")
+end
+
+end

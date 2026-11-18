@@ -1,0 +1,11 @@
+(* The component of the api ApiTraitShadowedNameApi. *)
+component ApiTraitShadowedNameApi
+export ApiTraitShadowedNameApi
+
+trait B
+    tag(self, x: Object): String = "api B"
+end
+
+trait C extends B end
+
+end

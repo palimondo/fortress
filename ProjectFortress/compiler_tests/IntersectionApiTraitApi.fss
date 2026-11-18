@@ -1,0 +1,15 @@
+(* The component of the api IntersectionApiTraitApi. *)
+component IntersectionApiTraitApi
+export IntersectionApiTraitApi
+
+trait Tagged
+    tag(): String = "tagged"
+end
+
+trait LeftResult extends Tagged
+    left(): String = "left"
+    get(n: ZZ32): String = "left at ZZ32"
+    get(b: Boolean): String = "left at Boolean"
+end
+
+end

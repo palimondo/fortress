@@ -1,0 +1,19 @@
+(* A call at a type assumption of an imported api's trait, on an object that overrides the method, runs the assumed trait's body (type-annotation.tex, section "Type Assumption"). *)
+component AsIfApiTraitOverrideCompiled
+import AsIfApiTraitOverrideApi.{ R, stamp }
+export Executable
+
+object Q extends R
+    stamp(self, s: String): String = "q" || s
+    seal(s: String): String = "q" || s
+end
+
+run(): () = do
+    assert(stamp(Q, "d"), "qd", "stamp(Q, d) runs Q's own body")
+    assert(stamp(Q asif R, "d" asif String), "rd", "stamp(Q asif R, d asif String)")
+    assert(Q.seal("d"), "qd", "Q.seal(d) runs Q's own body")
+    assert((Q asif R).seal("d" asif String), "rd", "(Q asif R).seal(d asif String)")
+    println("PASS")
+end
+
+end

@@ -145,8 +145,22 @@ object STypesUtil {
   // which is more specific, taking inheritance into account.
   def makeSpecialArrowFromFunctionalMethod(f: FunctionalMethod): Option[ArrowType] =
     makeArrowFromFunctional(f, true, false,
-                            Some(NF.makeTraitType(f.declaringTrait,
+                            Some(NF.makeTraitType(nameBySelfType(f.declaringTrait, toOption(f.selfType)),
                                                   staticParamsToArgs(f.traitStaticParameters))))
+
+  /**
+   * The name of a trait or object, given by its declaration's header, with the api that the
+   * declaration's self type names it by: in an api the header names the trait without the api,
+   * and the self type names it with the api, so that a trait table over a component that
+   * imports the api finds it.  The header's name where the self type names no trait of that
+   * name in an api.
+   */
+  def nameBySelfType(header: Id, selfType: Option[SelfType]): Id = selfType match {
+    case Some(s: TraitSelfType) => s.getNamed match {
+      case t: TraitType if t.getName.getApiName.isSome && t.getName.getText == header.getText => t.getName
+      case _ => header }
+    case _ => header
+  }
   
   /**
    *  Return the arrow type of the given Functional index.
@@ -1649,7 +1663,7 @@ object STypesUtil {
              data <- set)
           result.add(name, data)
         if (includeSelf) {
-	  for ((name, set) <- declaredMethods(ti.ast.getHeader.getName.asInstanceOf[Id], ti, None);
+	  for ((name, set) <- declaredMethods(tt_name, ti, None);
                data <- set)
             result.add(name, data)
         }

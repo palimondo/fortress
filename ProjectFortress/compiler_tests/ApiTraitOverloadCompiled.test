@@ -1,0 +1,6 @@
+# An object that overloads a functional method it inherits from an imported api's trait compiles and runs each body.
+tests=ApiTraitOverloadCompiled
+compile
+link
+run
+run_out_contains=PASS

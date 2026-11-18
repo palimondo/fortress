@@ -1,5 +1,5 @@
 (* An object that declares a functional method beside one of the same name that it inherits from an imported api's trait, the two overloading validly, runs each body (traits.tex, section "Method Declarations"). *)
-component XXXApiTraitOverloadCompiled
+component ApiTraitOverloadCompiled
 import ApiTraitOverloadApi.{ B, tag }
 export Executable
 
