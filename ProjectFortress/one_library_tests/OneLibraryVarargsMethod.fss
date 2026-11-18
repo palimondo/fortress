@@ -1,0 +1,16 @@
+(* Under the one library's selection, a trait's method with a varargs parameter, called on an object with none, one and six varargs arguments, compiles. *)
+component OneLibraryVarargsMethod
+export Executable
+
+trait Tagger
+    tag(x: String, rest: ZZ32...): ZZ32 = |rest|
+end
+
+object T extends Tagger end
+
+run(): () = do
+    z: ZZ32 = 1
+    println(T.tag("a") + T.tag("b", z) + T.tag("c", z, z, z, z, z, z))
+end
+
+end

@@ -1,0 +1,3 @@
+# A trait's method with a varargs parameter, called on an object, compiles under the one library's selection.
+tests=OneLibraryVarargsMethod
+compile

@@ -1,0 +1,12 @@
+(* Under the one library's selection, a function with a varargs parameter, called with none, one and three arguments, compiles. *)
+component OneLibraryVarargsCount
+export Executable
+
+count(xs: ZZ32...): ZZ32 = |xs|
+
+run(): () = do
+  println("REACHED")
+  println(count() + count(4) + count(4, 5, 6))
+end
+
+end

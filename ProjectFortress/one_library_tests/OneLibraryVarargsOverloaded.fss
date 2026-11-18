@@ -1,0 +1,20 @@
+(* Under the one library's selection, calls of each arity of an overloaded name with a varargs member compile: the program's own check, and the library's assert. *)
+component OneLibraryVarargsOverloaded
+export Executable
+
+check(flag: Boolean): ZZ32 = 1
+check(flag: Boolean, msg: String): ZZ32 = 2
+check(x: Any, y: Any, rest: Any...): ZZ32 = 3 + |rest|
+
+run(): () = do
+  z: ZZ32 = 5
+  b: Boolean = true
+  println(check(b) + check(b, "m") + check(z, z) + check(z, z, "a") + check(z, z, "a", z))
+  assert(b)
+  assert(b, "m")
+  assert(z, z)
+  assert(z, z, "a")
+  assert(z, z, "a", z)
+end
+
+end

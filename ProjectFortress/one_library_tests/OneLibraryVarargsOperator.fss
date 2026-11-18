@@ -1,0 +1,12 @@
+(* Under the one library's selection, an application of an enclosing operator with a varargs parameter, the list constructor, compiles. *)
+component OneLibraryVarargsOperator
+import List.{...}
+export Executable
+
+run(): () = do
+    z: ZZ32 = 4
+    xs = <|z, 5, 6|>
+    println(|xs|)
+end
+
+end
