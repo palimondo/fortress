@@ -1,4 +1,4 @@
-(* Each of the seven number types of basic-integers.tex and basic-floats.tex, compiled: its arithmetic, a getter, a typecase arm, a function's result type below Number, a generic box and an overloaded call give their values. *)
+(* Each of the seven number types that numbers.tex, section "Rational Numbers", names besides QQ, compiled: its arithmetic, a getter, a typecase arm, a function's result type below Number, a generic box and an overloaded call give their values. *)
 component NumberObjectsCompiled
 export Executable
 
