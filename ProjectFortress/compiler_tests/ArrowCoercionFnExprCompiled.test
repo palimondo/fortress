@@ -1,0 +1,5 @@
+# The program that passes a function expression whose arrow type coerces to its parameter's arrow type compiles, links and runs.
+tests=ArrowCoercionFnExprCompiled
+link
+run
+run_out_contains=PASS

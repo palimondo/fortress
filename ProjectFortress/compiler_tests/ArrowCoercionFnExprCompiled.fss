@@ -1,0 +1,12 @@
+(* A function expression whose arrow type coerces to its parameter's arrow type runs, wrapped in the arrow coercion's function expression (conversions-coercions.tex, section "Coercions for Tuple and Arrow Types"). *)
+component ArrowCoercionFnExprCompiled
+export Executable
+
+callWide(f: ZZ32 -> ZZ64, x: ZZ32): ZZ64 = f(x)
+
+run(): () = do
+  assert(callWide(fn (y: ZZ32): ZZ32 => y + 1, 4) = 5, "a ZZ32 -> ZZ32 function expression at a ZZ32 -> ZZ64 parameter")
+  println("PASS")
+end
+
+end
