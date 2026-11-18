@@ -6404,9 +6404,12 @@ The interpreter makes binary calls of an operator repeated between three or
 more operands (row~29).
 The interpreter skips the coverage check for a generic object (row~665), and
 departs on two generic functional methods of one type (rows~779 and~780).
-Keyword parameters are built in neither implementation (row~652); the code
-generator refuses a varargs parameter (row~624), and an object takes none
-(row~11).
+Keyword parameters are built in neither implementation (row~652).
+The code generator refuses a varargs parameter under the compiled path's own
+library, which declares no \TYP{ImmutableArray}; against \library\ it compiles
+one, but a program compiled against \library\ does not run yet (row~1062), and
+\secref{revival-varargs} names the forms that it does not yet compile.
+An object takes no varargs parameter (row~11).
 The code generator refuses the modifier \KWD{override} (row~650); nothing
 checks \KWD{io}, and nothing reads \KWD{atomic} on a function.
 An underscore before a digit is read as a radix (row~15).
