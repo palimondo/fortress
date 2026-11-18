@@ -10973,3 +10973,57 @@ rewritten
 rewritten
 
 | 1062 | a program compiled against the one library under `FORTRESS_LIBRARY=one` does not run: the one library has no jars, and the run dies at its first library class, 'NoClassDefFoundError: fortress/FortressLibrary$String', before `run()` prints | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/programs.tex`, "Programs" | ProjectFortress/one_library_tests/XXXOneLibraryRunHalf.test | climb batch 33 rung S | siblings: 874, 624, 315, 1061. The compile writes only the program's jar, `default_repository/caches-one/bytecode_cache/OneLibraryHalf.jar`; no compile writes the one library's (F-34): row 874 stops `FortressLibrary` and `FortressBuiltin` at the wrappers. F-352's second kind of walls (rows 995, 942, 994, 993) follow. The code generator makes the one library's `ZZ32` from a JVM int as `FZZ32.make`, where its descriptors name `FortressLibrary$ZZ32` (fork N4). `bin/run_classpath` takes the caches folder of the selection, so a run without it finds no jar: 'Could not load OneLibraryHalf'. `one_library_tests/XXXOneLibraryRunConditionalReduction.test` and `XXXOneLibraryRunVarargs.test` fail so. |
+
+### Row 1003
+
+closed by 75f9f2fbf
+
+| 1003 | the compiler's prelude declares each of `ZZ32`, `ZZ64`, `ZZ`, `NN64` and `RR64` as an open trait, not as the one `value object` of P-178 that the one library and walk declare | NEGATIVE-VERIFIED | design limit (prelude) | silent | `ProjectFortress/compiler_tests/XXXObjectExtendsZZ32Compiled.test` | number-object merge probe | siblings: 866, 698, 1000, 542, 959. The prelude's traits: `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:103`, `:147`, `:210`, `:332`, `:401`, at 046c410c43; a program's object below `ZZ32` compiles against them (row 866). The one library's objects: `Library/FortressLibrary.fss:384`, `:846`, `:951`, `:1063`, `:1170`, walk's values made by the classes of their names (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:459-470`); test `ProjectFortress/tests/NumberTypesAreObjectsWalk.fss`. The prelude's half waits for a probe of the code generator's way (`explorations/coordinator/CLIMB-BATCH-31.md`, fork H2). |
+
+### Row 866
+
+closed by 75f9f2fbf
+
+| 866 | on the compiled path, a program's object that extends `ZZ32` compiles, and its run dies when the object's class loads: `MyNum + 1`, for `object MyNum extends ZZ32`, ends 'IncompatibleClassChangeError: class ...$MyNum can not implement ...FZZ32, because it is not an interface' | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/compiler_tests/XXXObjectExtendsZZ32Compiled.test` | climb batch 24 rung W's skeptic | siblings: 551, 698. The prelude's `trait ZZ32` lists no `comprises` clause (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:210`), so the checker takes the extender; `FZZ32` is a class (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java:14`, at c124c6b65). The one library's `ZZ32` is a `value object` (`Library/FortressLibrary.fsi:572`), so walk refuses such an object at load (`ProjectFortress/tests/NumberTypeExtendRefusedWalk.fss`). The same naming of a parent by its carrier (`compiler/NamingCzar.java:799-824`) is the rehearsal's W14. full text: history, row 866 Ends when the prelude's `ZZ32` takes P-178's form, or at the switch-over. |
+
+### Row 698
+
+closed by 75f9f2fbf
+
+| 698 | the compiler prelude's `trait ZZ32` lists no `comprises` clause, so `add(a: ZZ32, b: ZZ32)` beside `add(a: List, b: List)` over a user trait `List` is refused by the compiled Meet Rule, where walk, on the one library whose `ZZ32` is an object, runs the pair | NEGATIVE-VERIFIED | implementation gap (prelude) | `advanced/overloading.tex`, "Incompatibility Rule" | `ProjectFortress/compiler_tests/XXXOverloadZZ32BesideUserTrait.test` | POPL 2019 examples sorting | siblings: 866. 'Invalid overloading of add in component ...: (List, List)->List ... and (ZZ32, ZZ32)->ZZ32', the talk's slide 2 set (`explorations/reviews/popl2019-examples.md`). The prelude declares `trait ZZ32 ... excludes { ZZ64, RR32, RR64 }` with no `comprises` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:210`, at c124c6b65); the one library declares `value object ZZ32` (`Library/FortressLibrary.fsi:572`, at 046c410c43), which excludes every type that it does not extend. Walk runs the set: `ProjectFortress/tests/OverloadZZ32BesideUserTraitWalk.fss`. Ends at the switch-over; the prelude takes no new declaration. |
+
+### Row 566
+
+closed by 75f9f2fbf
+
+| 566 | the compiled dispatch among functional methods of traits with static parameters casts the argument to the wrong instance and dies with `ClassCastException` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/advanced/overloading.tex`, "Meet Rule", "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXComprisesMeetGenericTrait.test` | climb batch 8 rung O | siblings: 546, 571. Row 546's family as functional methods (`tag(self)` in each trait, `object Vo extends V[\ZZ32\]`), which the checker accepts and which links (`ComprisesMeetGenericTraitLink`), dies with 'ClassCastException: class ...$Vo cannot be cast to class ...$\=V?fortress\|CompilerBuiltin\%ZZ32?'; walk prints 'tag(s) = 3' and 'PASS'. Not traced. full text: history, row 566 |
+
+### Row 315
+
+closed by 5af98dbca
+
+| 315 | the code generator writes two closure classes under one name where two function expressions share a source position, and the compile dies with `ZipException: duplicate entry`: the one library's `LexicographicOrder` and `List`, at `BIG AND [(a,b) <- self.zip[\E\](other)] a = b` | NEGATIVE-BOUNDED | implementation gap (codegen) | `basic/conversions-coercions.tex`, "Coercion Invocations" | explorations/compile-ladder/plan-31/probes/planner/codegen-measure.sh | ladder rung 4 | siblings: 565. The name comes from the source position alone (`NamingCzar.gensymArrowClassName`, `compiler/NamingCzar.java:892`). At 84f1c37190 only the library's two sites show it, under the measure: 'duplicate entry: FortressLibrary$\=fn@2227\!12-52??.class' (`Library/List.fss:128` alike); which two nodes share the span is not traced, and the prelude cannot write the form (no `zip`, no `BIG AND`). The row's two older programs, `5 :OP: 6` over three overloads and `sz(fn () => 2147483646 + 1)`, compile and run there, 3 and 2147483647 (`explorations/coordinator/climb-batch-31-review.md`, A3). full text: history, row 315 |
+
+### Row 942
+
+closed by 90ee716db
+
+| 942 | the code generator stops, 'Not in the trait table: B', on an object that declares a functional method beside one of its name that it inherits, with a body, from an imported api's trait, the two overloading validly, as `tag(self, n: ZZ32)` in `object O extends B` beside `B`'s `tag(self, s: String)` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXApiTraitOverloadCompiled.test` | climb batch 28 rung T | siblings: 733, 732, 940. Stack: `TypeAnalyzer.typeCons` ← `OverloadingOracle.lteq` ← `OverloadSet.fLessSpecThanG` (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:532`) ← `OverloadSet.split` ← `CodeGen.generateTopLevelOverloads` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7168` at 157323e51) ← `forObjectDeclPrePass` (`:4677`), before `dumpMethodChaining`, so row 733's repair does not reach it; also with `B` a later supertrait. With the api's method abstract, or no method of that name in the object, it compiles. Walk prints each body. Mechanism past `typeCons` not traced. For the prelude, `TraitTable.scala:76-100` searches its apis by name: hidden. |
+
+### Row 940
+
+closed by 90ee716db
+
+| 940 | the code generator stops, 'Not in the trait table: S', at a type assumption of an imported api's trait that declares the called method twice or more: a functional call whose arguments are all assumptions, as `tag(O asif S, "d" asif String)`, or a dotted call at an assumed receiver | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/type-annotation.tex`, "Type Assumption" | `ProjectFortress/compiler_tests/XXXAsIfApiTraitCompiled.test` | climb batch 28 rung T | siblings: 733, 941, 942. `methodsNamed` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:6469` at 157323e51) gathers the assumed trait's methods with `STypesUtil.allMethodsNotIdenticallyCovered`, whose entries for the trait's own declarations lack the api; `removeIdenticallyCoveredMethods` compares two of one name (`STypesUtil.scala:1587`), and the trait table, over the component, does not find that name. A dotted call, `(O asif S).m("d" asif String)`, reaches it by `assumedReceiverCall` (`:6554`). With the trait local both compile. Walk prints `sd`. In the library, `SubString`'s `(self asif String) CMP (other asif String)` (`Library/String.fss:397`) stops so. |
+
+### Row 1061
+
+closed by 90ee716db
+
+| 1061 | with the compile command switched onto the one library, a program that names one of its generic traits stops the code generator, 'Not in the trait table: Array1', for `a = array1[\ZZ32, 8\]()`: a method entry names the trait without its api | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | none | climb batch 33's planner | siblings: 940, 942. Stack: `TypeAnalyzer.typeCons` ← `normalize` ← `lteq` ← `STypesUtil.removeIdenticallyCoveredMethods` (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1584-1588`, at c3b16ef2d1). Seen with probe Y's two lines of the selector alone and a private caches folder, where a program of one `println`, and one that binds a `QQ`, compile. With the trait table's search extended to `FortressLibrary` and `FortressBuiltin` (`compile-ladder/plan-31/probes/planner/measure-hacks.patch`) it compiles: row 940's root. Detail: `compile-ladder/plan-33/PROBES.md`, section 6. On `main`, `FORTRESS_LIBRARY=one bin/fortress compile` of that `Arr.fss` stops so. |
+
+### Row 624
+
+closed by e9bc2ed3e
+
+| 624 | the code generator does not compile a function or a method with a varargs parameter: a top-level function stops with "Can't compile VarArgs yet", a trait method with `OptionUnwrapException` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/functions.tex`, "Function Declarations", "Function Applications" | `ProjectFortress/compiler_tests/XXXVarargsCodeGeneration.test` | climb batch 10 rung C and its first skeptic | siblings: 304, 604. `NamingCzar` throws it (`compiler/NamingCzar.java:1308`, `:1318`, `:1458`, `:1569` at c124c6b65), and `CodeGen.forLetFn` for a local function (`CodeGen.java:3597`); for a method `jvmSignatureFor` unwraps every parameter's type (`NamingCzar.java:945`). `XXXVarargsMethodCodeGeneration` holds a trait's method. A varargs call stops its caller too: the one library's `test stringifyChars()` (`Library/String.fss:337`) calling `assert`, 'Can't compile VarArgs yet' from `CodeGen.resolveMethodAndSignature`. Walk binds the parameter to an `ImmutableArray1`. `WriteStream` (`Library/Stream.fss:70-71`) puts it on every one-library program's path. full text: history, row 624 |
