@@ -1,0 +1,6 @@
+# Calls at type assumptions of an imported api's trait on an object that overrides the methods compile and run the trait's bodies.
+tests=AsIfApiTraitOverrideCompiled
+compile
+link
+run
+run_out_contains=PASS

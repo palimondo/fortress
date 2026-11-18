@@ -1,0 +1,10 @@
+(* The component of the api AsIfApiTraitOverrideApi. *)
+component AsIfApiTraitOverrideApi
+export AsIfApiTraitOverrideApi
+
+trait R
+    stamp(self, s: String): String = "r" || s
+    seal(s: String): String = "r" || s
+end
+
+end
