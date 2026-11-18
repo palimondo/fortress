@@ -16,6 +16,7 @@ import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -599,6 +600,75 @@ public class NamingCzar {
         bl(fortLib, "ZZ32Vector", "FZZ32Vector");
         bl(fortLib, "StringVector", "FStringVector");
         bl(NodeFactory.makeVoidType(span), "FVoid");
+    }
+
+    /**
+     * The built-in number types that are value objects whose class the code generator writes
+     * over a payload class of runtimeValues, which holds the JVM value.  Each row: the api that
+     * declares the object, its name, its payload class, and the JVM type of the payload, which
+     * the object's constructor and its factory make take.  Descriptors still name each type by
+     * its payload class, as the table of carried types above does.  The one library's seven,
+     * FortressLibrary's ZZ32, ZZ64, ZZ, NN64 and RR64 and FortressBuiltin's NN32 and RR32, have
+     * no rows yet.
+     */
+    private static final String[][] payloadObjects = {
+        { WellKnownNames.compilerBuiltin(), "ZZ32", runtimeValues + "FZZ32", "I" },
+        { WellKnownNames.compilerBuiltin(), "ZZ64", runtimeValues + "FZZ64", "J" },
+        { WellKnownNames.compilerBuiltin(), "ZZ",   runtimeValues + "FZZ",   "Ljava/lang/String;" },
+        { WellKnownNames.compilerBuiltin(), "NN32", runtimeValues + "FNN32", "I" },
+        { WellKnownNames.compilerBuiltin(), "NN64", runtimeValues + "FNN64", "J" },
+        { WellKnownNames.compilerBuiltin(), "RR32", runtimeValues + "FRR32", "F" },
+        { WellKnownNames.compilerBuiltin(), "RR64", runtimeValues + "FRR64", "D" },
+    };
+
+    /** Whether api is one of the apis of the library that this compile reads. */
+    private static boolean inSelectedLibrary(String api) {
+        return Arrays.asList(WellKnownNames.defaultLibrary()).contains(api);
+    }
+
+    /**
+     * The row of the payload object name declared by api, or null; with api null, a bare name,
+     * the row of the library that this compile reads.
+     */
+    private static String[] payloadObjectRow(String api, String name) {
+        for (String[] e : payloadObjects)
+            if (e[1].equals(name) && (api == null ? inSelectedLibrary(e[0]) : e[0].equals(api)))
+                return e;
+        return null;
+    }
+
+    /**
+     * The payload class and the JVM type of the payload of the object name that the component
+     * api declares, or null if it is no payload object.
+     */
+    public static String[] payloadFor(String name, APIName api) {
+        String[] e = payloadObjectRow(api.getText(), name);
+        return e == null ? null : new String[] { e[2], e[3] };
+    }
+
+    /**
+     * The class that the code generator writes for the payload object whose payload class is
+     * payloadClass, in the library that this compile reads, or null.
+     */
+    public static String payloadObjectClassOfPayload(String payloadClass) {
+        for (String[] e : payloadObjects)
+            if (e[2].equals(payloadClass) && inSelectedLibrary(e[0]))
+                return javaPackageClassForApi(e[0], "/") + "$" + e[1];
+        return null;
+    }
+
+    /**
+     * The class that the code generator writes for the payload object t, which holds the
+     * object's methods, or null if t is no payload object's type.
+     */
+    public static String payloadObjectClass(com.sun.fortress.nodes.Type t) {
+        if (!(t instanceof com.sun.fortress.nodes.TraitType)) return null;
+        com.sun.fortress.nodes.TraitType tt = (com.sun.fortress.nodes.TraitType) t;
+        if (tt.getArgs().size() > 0) return null;
+        Id id = tt.getName();
+        String[] e = payloadObjectRow(id.getApiName().isSome() ? id.getApiName().unwrap().getText() : null,
+                                      id.getText());
+        return e == null ? null : javaPackageClassForApi(e[0], "/") + "$" + e[1];
     }
 
     /**

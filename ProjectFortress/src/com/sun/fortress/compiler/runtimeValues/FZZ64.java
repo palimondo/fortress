@@ -11,19 +11,42 @@
 
 package com.sun.fortress.compiler.runtimeValues;
 
-public class FZZ64  extends fortress.CompilerBuiltin.ZZ64.DefaultTraitMethods implements fortress.CompilerBuiltin.ZZ64  {
+import java.lang.invoke.MethodHandle;
+
+/**
+ * The payload of the value object ZZ64, its JVM long.  The code generator writes the
+ * object's class, which extends this one; this class extends nothing generated, and
+ * LibraryNames gives the name of the object's class.  Compiled descriptors name the
+ * type ZZ64 by this class.
+ */
+public abstract class FZZ64 extends FValue {
     final long val;
 
-    private FZZ64(long x) { val = x; }
+    protected FZZ64(long x) { val = x; }
     public String toString() { return "" + val;}
     public long getValue() {return val;}
-    public static FZZ64 make(long x) {return new FZZ64(x);}
-    
-    @Override
-    public RTTI getRTTI() { return RTTIc.ONLY; }
-    
-    public static class RTTIc extends fortress.CompilerBuiltin.ZZ64.RTTIc {
-        private RTTIc() { super(FZZ64.class); };
-        public static final RTTI ONLY = new RTTIc();
+
+    /** A ZZ64 of the value x: an instance of the object's class, made by its make. */
+    public static FZZ64 make(long x) {
+        try {
+            return (FZZ64) Make.MAKE.invokeExact(x);
+        } catch (RuntimeException | Error e) {
+            throw e;
+        } catch (Throwable t) {
+            throw new Error(t);
+        }
+    }
+
+    /** The object's class's make, found when the first value is made. */
+    private static final class Make {
+        static final MethodHandle MAKE = LibraryNames.factory("ZZ64", FZZ64.class, long.class);
+    }
+
+    /**
+     * The RTTI of ZZ64.  Compiled code names a static argument ZZ64 by this class, and the
+     * run time reads its RTTI here: the RTTI of the object's class.
+     */
+    public static final class RTTIc {
+        public static final RTTI ONLY = LibraryNames.rtti("ZZ64", FZZ64.class);
     }
 }

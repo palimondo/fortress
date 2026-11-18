@@ -13,5 +13,7 @@ compile
 compile_err_equals=\
 ${STATIC_TESTS_DIR}/Compiled6.bx.fss:17:11-19:19:\n\
 \ No such method ZZ32.foo.\n\
-File Compiled6.bx.fss has 1 error.\n
+${STATIC_TESTS_DIR}/Compiled6.bx.fss:17:28-30:\n\
+\ Objects can only extend traits.\n\
+File Compiled6.bx.fss has 2 errors.\n
 compile_out_equals=

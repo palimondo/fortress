@@ -1092,7 +1092,9 @@ nameTemp + "\n" +
                 // getstatic fullname.RTTI
                 // swap
                 // invokevirtual RTTI.runtimeSupertypeOf
-                mv.visitFieldInsn(Opcodes.GETSTATIC, fullname, Naming.RTTI_FIELD, Naming.RTTI_CONTAINER_DESC);
+                // A payload object's RTTI is a static field of the object's class; descriptors name its payload class.
+                String rttiOwner = NamingCzar.payloadObjectClassOfPayload(fullname);
+                mv.visitFieldInsn(Opcodes.GETSTATIC, rttiOwner != null ? rttiOwner : fullname, Naming.RTTI_FIELD, Naming.RTTI_CONTAINER_DESC);
                 mv.visitInsn(Opcodes.SWAP);
                 mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, Naming.RTTI_CONTAINER_TYPE, Naming.RTTI_SUBTYPE_METHOD_NAME, Naming.RTTI_SUBTYPE_METHOD_SIG);
             }

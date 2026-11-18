@@ -11,11 +11,18 @@
 
 package com.sun.fortress.compiler.runtimeValues;
 
-public final class FZZ32 extends fortress.CompilerBuiltin.ZZ32.DefaultTraitMethods
-        implements fortress.CompilerBuiltin.ZZ32 {
+import java.lang.invoke.MethodHandle;
+
+/**
+ * The payload of the value object ZZ32, its JVM int.  The code generator writes the
+ * object's class, which extends this one; this class extends nothing generated, and
+ * LibraryNames gives the name of the object's class.  Compiled descriptors name the
+ * type ZZ32 by this class.
+ */
+public abstract class FZZ32 extends FValue {
     final int val;
 
-    private FZZ32(int x) { val = x; }
+    protected FZZ32(int x) { val = x; }
     public String toString() { return String.valueOf(val);}
     public FJavaString asString() { return FJavaString.make(String.valueOf(val));}
     public int getValue() {return val;}
@@ -29,16 +36,28 @@ public final class FZZ32 extends fortress.CompilerBuiltin.ZZ32.DefaultTraitMetho
         return make(b.intValue());
     }
 
+    /** A ZZ32 of the value x: an instance of the object's class, made by its make. */
     public static FZZ32 make(int x) {
-        return new FZZ32(x);
+        try {
+            return (FZZ32) Make.MAKE.invokeExact(x);
+        } catch (RuntimeException | Error e) {
+            throw e;
+        } catch (Throwable t) {
+            throw new Error(t);
+        }
     }
     public static FZZ32 plus(FZZ32 a, FZZ32 b) {return make(a.getValue() + b.getValue());}
-    
-    @Override
-    public RTTI getRTTI() { return RTTIc.ONLY; }
-    
-    public static class RTTIc extends fortress.CompilerBuiltin.ZZ32.RTTIc {
-        private RTTIc() { super(FZZ32.class); };
-        public static final RTTI ONLY = new RTTIc();
+
+    /** The object's class's make, found when the first value is made. */
+    private static final class Make {
+        static final MethodHandle MAKE = LibraryNames.factory("ZZ32", FZZ32.class, int.class);
+    }
+
+    /**
+     * The RTTI of ZZ32.  Compiled code names a static argument ZZ32 by this class, and the
+     * run time reads its RTTI here: the RTTI of the object's class.
+     */
+    public static final class RTTIc {
+        public static final RTTI ONLY = LibraryNames.rtti("ZZ32", FZZ32.class);
     }
 }

@@ -1,4 +1,4 @@
-(* Each of the seven number types of basic-integers.tex and basic-floats.tex, compiled: its arithmetic, a getter, a typecase arm, a generic box and an overloaded call give their values. *)
+(* Each of the seven number types of basic-integers.tex and basic-floats.tex, compiled: its arithmetic, a getter, a typecase arm, a function's result type below Number, a generic box and an overloaded call give their values. *)
 component NumberObjectsCompiled
 export Executable
 
@@ -24,6 +24,11 @@ arm(x: Any): String = typecase x of
     NN32 => "NN32"
     RR64 => "RR64"
     RR32 => "RR32"
+    else => "other"
+  end
+
+toNumber(h: Any): String = typecase h of
+    (ZZ32 -> Number) => "to Number"
     else => "other"
   end
 
@@ -96,6 +101,21 @@ run(): () = do
   assert(kind(f), "RR32", "overloaded call at RR32")
   h: RR64 = unbox(Box[\RR32\](f))
   assert(h = 2.5, "Box of RR32")
+
+  fz32: ZZ32 -> ZZ32 = fn (y: ZZ32): ZZ32 => y
+  fz64: ZZ32 -> ZZ64 = fn (y: ZZ32): ZZ64 => a
+  fz: ZZ32 -> ZZ = fn (y: ZZ32): ZZ => z
+  fn32: ZZ32 -> NN32 = fn (y: ZZ32): NN32 => u
+  fn64: ZZ32 -> NN64 = fn (y: ZZ32): NN64 => n
+  fr32: ZZ32 -> RR32 = fn (y: ZZ32): RR32 => f
+  fr64: ZZ32 -> RR64 = fn (y: ZZ32): RR64 => r
+  assert(toNumber(fz32), "to Number", "ZZ32 below Number")
+  assert(toNumber(fz64), "to Number", "ZZ64 below Number")
+  assert(toNumber(fz), "to Number", "ZZ below Number")
+  assert(toNumber(fn32), "to Number", "NN32 below Number")
+  assert(toNumber(fn64), "to Number", "NN64 below Number")
+  assert(toNumber(fr32), "to Number", "RR32 below Number")
+  assert(toNumber(fr64), "to Number", "RR64 below Number")
   println("PASS")
 end
 end
