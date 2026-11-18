@@ -1453,3 +1453,14 @@ The orientation workflow's update of `revival-changes.md` for climb batch 33b, r
 - The opening, the sentences on ledger rows: the `XXX` test and the plain test given as two instructions, the rule unchanged. `tests-writing.md`, "How a defect is recorded", items 2 and 3.
 - "Numbers", the rule that the number types are flat siblings: both libraries declare the seven as value objects; the compiler's prelude declares no `QQ`; both paths refuse an object declaration below one of the seven, the compiled checker with 'Invalid type in extends clause: ZZ32'. F-379; F-388; rows 1003 and 866, fixed at `75f9f2fbf4`; `TypeHierarchyChecker.scala:212`; `compiler_tests/XXXNumberTypeExtendRefusedCompiled.test`. The scope to a declaration: `scala_src/typechecker/impls/Misc.scala:366`; `compiler_tests/XXX6bx.test`.
 - "Numbers", the rule that `Number` declares nothing: the `QQ` example scoped to walk, since the compiler's prelude declares no `QQ`.
+
+## Climb batch 33b's landing, 2026-11-18
+
+The landing of climb batch 33b on `main` made area parts false or short, from the list in the record-landing run's `owed.md` and `diff.md` (`explorations/compile-ladder/climb-batch-33b/record-landing/`) and `explorations/reviews/batch-33b-review.md`, Part 3; settled by the record-landing workflow's writer task. Each claim checked on `main` at `4c5a5f121e`.
+
+- `SKILL.md`, "The compiled runtime": an `RR64`'s class extends `FRR64`, which holds the `double`. F-388; `compiler/runtimeValues/FRR64.java:22-23`.
+- `compiler.md`, "What the two paths share": the prelude's number objects' classes extend the payload classes. F-388; `FZZ32.java:22`, `FRR64.java:22`.
+- `compiler.md`, the prelude's section: the prelude declares each built-in number type as one `value object`. F-388.
+- `compiler.md`, "What the compiled path cannot compile yet": a number type named as a value (row 1082; `CodeGen.java:7020`); varargs refused against the prelude and compiled with the variable, except row 1086's overloaded forms (F-390; `NamingCzar.java:1028-1034`). The type assumption's fourth refused form (row 1088) and the trait's body over an object's override (F-391).
+- `compiler.md`, "Traps of the compiled path": a `typecase` clause at an excluded type refused (row 1081; F-388); the prelude `String`'s placeholder comparisons (row 1089; `LibraryBuiltin/CompilerBuiltin.fss:393-398`); a tuple argument at `Any` (row 1080); an arrow coercion to no parameters (row 1084); a spread argument dropped (row 1085); `RR64[n,n]` at a return type under the prelude (row 1087).
+- `revival-changes.md`, "Numbers", the rule on argument conversion: walk does not convert a function argument by an arrow coercion. Row 1083; F-128.

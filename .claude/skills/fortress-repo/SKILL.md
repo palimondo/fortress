@@ -91,7 +91,7 @@ A generic declaration is compiled once, as a template class. The first time that
 
 The class loader is code of this tree that the revival changes, so a failure while a class loads can be its defect (`references/compiler.md`).
 
-HotSpot, the JVM's compiler, then compiles the hot bytecode to machine code. A number is a boxed object, also inside a specialised class: `RR64` is the class `FRR64`. An array is a library object, read and written through its `get` and `put` methods.
+HotSpot, the JVM's compiler, then compiles the hot bytecode to machine code. A number is a boxed object, also inside a specialised class: an `RR64`'s class extends `FRR64`, which holds the `double`. An array is a library object, read and written through its `get` and `put` methods.
 
 ### The caches
 

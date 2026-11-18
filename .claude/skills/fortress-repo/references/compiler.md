@@ -18,7 +18,7 @@ The phases' names in the code are parse, PREDISAMBIGUATEDESUGAR, DISAMBIGUATE, G
 
 After the phases, each path has its own code for these:
 
-- Values: walk's `interpreter/evaluator/values/` (`FInt`, `FFloat`), and the compiled `compiler/runtimeValues/` (`FZZ32`, `FRR64`).
+- Values: walk's `interpreter/evaluator/values/` (`FInt`, `FFloat`), and the compiled `compiler/runtimeValues/` (`FZZ32`, `FRR64`), which the classes of the prelude's number objects extend.
 - Number natives: walk's glue classes, in `interpreter/glue/prim/` (`ZZ32.java`, `ZZ64.java`).
 - Dispatch: walk searches at run time, in `OverloadedFunction`. The compiled path calls a dispatch method that `OverloadSet` generates.
 - The run: `fortress run` starts a second JVM (`bin/run`), which never enters `Shell.java`.
@@ -31,7 +31,7 @@ The phases differ too: walk turns off some desugarings that the compiled path ru
 
 The compiled path uses the compiler's own prelude: `LibraryBuiltin/CompilerBuiltin.fss`, `Library/CompilerLibrary.fss` and `Library/CompilerAlgebra.fss`. With `FORTRESS_LIBRARY=one`, it uses the one library in their place. `Library/CompilerSystem.fss` is the compiled path's `System`.
 
-Do not add a declaration to the three prelude files: the switch-over deletes them, and their tests stay. Two exceptions (P-37): its numeral types and coercions follow `revival-changes.md`, "Numbers", and a brief may ask to declare each built-in number type as one `value object`, the form that both libraries are to take. If a helper of `nativeHelpers/` that the one library binds is wrong, fix the helper's Java, even if the prelude binds it, and leave the prelude's text: its binding gives the fix. Change with it a compiled test that pinned the old result.
+Do not add a declaration to the three prelude files: the switch-over deletes them, and their tests stay. Two exceptions (P-37): its numeral types and coercions follow `revival-changes.md`, "Numbers", and it declares each built-in number type as one `value object`, the form that both libraries are to take. If a helper of `nativeHelpers/` that the one library binds is wrong, fix the helper's Java, even if the prelude binds it, and leave the prelude's text: its binding gives the fix. Change with it a compiled test that pinned the old result.
 
 ## What the compiled path cannot compile yet
 
@@ -39,7 +39,10 @@ For a construct that it cannot compile yet, the code generator calls `sayWhat` o
 
 - `spawn`;
 - an object expression;
-- an array literal, such as `[1 2 3]`.
+- an array literal, such as `[1 2 3]`;
+- a built-in number type named as a value, as `x: Object = ZZ32`: 'Can't compile the number type ZZ32 as a value yet' (ledger row 1082).
+
+Against the compiler's prelude, it refuses a varargs parameter: 'Can't compile VarArgs yet: the library in use, CompilerLibrary, declares no ImmutableArray, ...'. With `FORTRESS_LIBRARY=one`, it compiles one. It still stops on a varargs method, or a generic varargs function, beside another declaration of its name with as many parameters (ledger row 1086). Give the varargs declaration its own name.
 
 It compiles a local function as a closure, also one that calls itself or another local function of its block. It refuses these forms (ledger row 304):
 
@@ -51,7 +54,10 @@ A type assumption `e asif T` has the value of `e`, but the call around it choose
 
 - a call of a functional method or an overloaded function with an assumption at some of its arguments but not all: 'Can't compile a dispatched call whose arguments are not all type assumptions';
 - a generic method on an assumed receiver: 'Can't compile a type assumption at the receiver of a generic method yet';
-- a call of an overloaded generic function with an assumption at an argument: 'Can't compile a type assumption at a call of an overloaded generic function yet'.
+- a call of an overloaded generic function with an assumption at an argument: 'Can't compile a type assumption at a call of an overloaded generic function yet';
+- a call, at an assumption of a generic trait, of a method whose parameter has the trait's type parameter, as `stamp(self, x: T)` in `Tagged[\T\]`: 'Can't find the body that Tagged[\String\] gives stamp at ...' (ledger row 1088).
+
+At an assumption of a trait, the call runs the trait's body, also where the object overrides it (F-391).
 
 It also refuses a function or method with a contract (`requires`, `ensures`, `invariant`). It compiles a declaration whose own header or `extends` entry has a `where` clause, and emits nothing for the clause. A call of a function or method whose own clause introduces a `where`-clause variable, as `where [\nat n\]` does, links, but dies at run time with `NoClassDefFoundError` (ledger row 867). `compiler_tests/XXXWhereVariableCallCompiled.test` records it: copy its form for such a call. The disambiguator, which both paths run, drops a trait's or object's contract, so the code generator never sees one, and walk does not check one either (ledger row 781). It refuses a function or method with a modifier other than `getter`, `setter`, `io`, `private`, `abstract` and `test`, such as `override` (ledger row 650). A trait or object that extends a generic trait compiles with `Any` as the static argument. With `Bottom`, `Self` or an abbreviated type there, the code generator refuses the declaration. An abbreviated type is a short form, such as `RR64[3]` for an array type. With a tuple that holds `Any` there, the code generator crashes (ledger row 889).
 
@@ -117,7 +123,7 @@ The wrapper generator wraps every method of a class that it is given, the privat
   - At a binding without a declared type, the checker refuses a `try` whose block and `catch` clause end in numerals, as `x = try 4 catch e Exception => 5 end`: 'NaturalNumeral cannot be written in a program except as a parameter's type.' (ledger row 1074). It also refuses a tuple binding to a `case` or a `try` whose branches are numeral tuples, as `(a, b) = case k of 1 => (1, 2) else => (3, 4) end`: 'Right-hand side has type OR(...), but left-hand side is a tuple of 2 variables.' (ledger row 1075). Declare the types, as `(a, b): (ZZ32, ZZ32) = case ...`.
   - A numeral with a radix point at a place that fixes no type, which rounds to an infinity at `RR64`, gives `Infinity`, as under walk (ledger row 980). Assert no value for it in a test.
   - A `nat` or `int` parameter of 2^31 or more, used as a value, raises a `java.lang.Error` that no `catch` sees (ledger row 962). Assert no value for it in a test.
-  - As a `typecase`'s selector, a numeral keeps its own type, as `NaturalNumeral[\1,10,7\]`, so `typecase 7 of ZZ32 => ...` is refused as unreachable (ledger row 963). Bind the selector to a variable first, as `x = 7`, then write `typecase x of ...`.
+  - As a `typecase`'s selector, a numeral keeps its own type, as `NaturalNumeral[\1,10,7\]`, so `typecase 7 of ZZ32 => ...` is refused as unreachable (ledger row 963). Bind the selector to a variable first, as `x = 7`, then write `typecase x of ...`. The checker also refuses as unreachable a clause at a type that the selector's static type excludes, as a program's trait `Shape` for `x: ZZ32` (ledger row 1081).
   - A `label` block that ends in a numeral, where an `exit ... with` gives the block a `ZZ32` value, stops the code generator: 'Error trying to close method scope' (ledger row 340). Bind the numeral to a typed variable first, as `none: ZZ32 = -1`, and end the block with the variable.
   - At a place that fixes a type (`revival-changes.md`, "Numbers"), the checker refuses an atomic expression whose value is a numeral, as `atomic if c then 1 else 0 end`, and `atomic 1` fails the JVM's verification (ledger row 1043). Write `atomic do ... end`.
 - An `exit` that runs after its `label` block has completed, from a function made in the block, ends a compiled program with the Java exception `LabelExit`, which no `catch` clause takes. Under walk, a `catch` clause of the library's `LabelException` takes it. The rules do not settle which is right (ledger row 1041).
@@ -130,6 +136,11 @@ The wrapper generator wraps every method of a class that it is given, the privat
 - In a `typecase` over a value `x` of a type parameter `X`, as `X extends Shape`, a clause `x': Marked =>` gives its binder `x'` the intersection of `Marked` and `X`. The checker refuses a call on `x'` of a method of `X`'s bound, as `x'.name()` for a method `name` of `Shape` (ledger row 1072). Call it on the selector, as `x.name()`.
 - In a trait with a `comprises` clause, the checker refuses a getter of a listed type read on `self`: `self.d` in `trait Q comprises { R }`, `d` a field of `R`, gives '(Q & {R}) has no getter called d' (ledger row 1071). Bind `self` at the listed type first, as `r: R = self`, and read `r.d`.
 - A function expression whose type is an intersection dies when its closure is made. Such a type comes from a call typed by the intersection of its candidates' return types, as `fn () => choose(m)`, where `choose` has declarations at two traits that `m`'s type extends, each with its own return type (`compiler_tests/XXXIntersectionClosureResult.fss`): 'Unable to read serialized data for Intersection??' (ledger row 559). Write none in a compiled program.
+- Until the switch-over, the prelude's `String` gives `<`, `=`, `>`, `<=`, `>=` and `=/=` the placeholder body `false`. So at an assumption, `("ab" asif String) < ("cd" asif String)` is `false` (ledger row 1089). Compare strings without an assumption.
+- A tuple expression as the argument of a parameter of type `Any` stops the code generator: 'Error trying to close method scope' (ledger row 1080). Bind it first, as `p: Any = (k, k)`, and pass `p`.
+- A function argument whose arrow type of no parameters coerces to its parameter's, as `() -> ZZ32` at `() -> ZZ64`, dies when called with `NoClassDefFoundError` (ledger row 1084). Declare the function at the parameter's arrow type.
+- A spread argument to a varargs parameter, as `f(1, ys...)`, is dropped on both paths (ledger row 1085). Pass the elements as arguments.
+- Until the switch-over, a matrix type at a declared return type, as `RR64[n,n]`, crashes the checker: 'Not in the trait table: CompilerLibrary.Array2' (ledger row 1087).
 - An api and the component that implements it must have the same name. If there is none, the link fails ("Could not find an implementation for API"), and the run dies with `NoClassDefFoundError`.
 - The compiled dispatch ignores the contravariance of a parameter of arrow type. The property `fortress.disable.contravariance` is true by default, so `OverloadSet` passes no variance. If a compiled call with function arguments picks another declaration than walk does, look here first.
 - A clean link does not prove that every call has its method. These die at run time with `NoSuchMethodError`:
