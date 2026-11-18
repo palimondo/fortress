@@ -40,8 +40,9 @@
 // global.map restore, no copy of the base, no one-thread pin, no
 // stopsMet, no run_bg (the permission check refuses it; the literal nohup form instead), no person named but
 // in PLAN.md's heading; the worker's seed command; the skeptic's old-code tool, journal command and "You
-// build nothing to check"; no skeptic brief carrying the worker's report text; the commit's three pushes and
-// the quick microGPT check.
+// build nothing to check"; no skeptic brief carrying the worker's report text; the commit's one atomic push of
+// the three refs, its retry the same command whole (C6), and the quick microGPT check; a merged-tree repair's
+// build of the specification kept, and taken by the commit stage only from a repair that landed (D5, D6).
 //
 // With --sizes RUN_DIR (a batch run's directory, journal.jsonl and agent transcripts beside it, such as
 // climb batch 10's): renders every role's brief with that run's real agent results as the stubs' returns
@@ -146,6 +147,10 @@ const DF_LOW = 'Filesystem     1024-blocks     Used Available Capacity Mounted o
 const HOLD = { point: 'a team demo that reached its end stops on the merged tree, against P-79', evidence: 'x:1', holdsPush: true, cannotBeUndone: false }
 const settles = (x) => Object.assign({ holdsSettled: [{ id: 'hold.1', settled: true, evidence: 'demos: 52 run, 52 reached their end' }] }, x || {})
 const LIMIT_MESSAGE = 'You\'ve hit your weekly limit, resets Oct 2, 10am (UTC)'
+// The fortress-repo skill's one push of main (committing.md, "Pushing").
+const ATOMIC_PUSH = 'git push --atomic origin main main:claude/worker-brief-fable-vnnuv8 main:blinded-fable'
+// A review repair that edits only the specification's text, with the hash of its last commit.
+const SPEC_ONLY = ['Specification/appendices/changes.tex', 'explorations/compile-ladder/climb-batch-x/REPAIR-review.md']
 
 // after: the agents after the scatter, in order. agentsPrefix: every agent, in order (S<n> is the n-th rung of the
 // scatter). landed, held, items, states: the result.
@@ -183,6 +188,11 @@ const SCEN = [
     after: 'gather, gate, review, commit', landed: true, commitFrom: 'BASE', logHas: 'returned no headBefore' },
   { name: 'C5 the commit stage returns a path under .claude/ given whole and one outside it: one item, of the batch\'s own commits', over: { commit: commitStub({ skillTouched: ['/home/user/fortress/' + SKILL_PATH, 'Library/FortressLibrary.fss'] }) },
     after: 'gather, gate, review, commit', landed: true, items: ['skill-touched.1'], itemsLack: ['skill-touched.2'], itemText: { 'skill-touched.1': 'The batch changed ' + SKILL_PATH + ' (git diff --name-only ' + HEAD_BEFORE + ' HEAD -- .claude/' } },
+  { name: 'C6 the commit stage pushes the three refs in the skill\'s one atomic command, and its first attempt returns nothing: the retry runs that command again whole', over: { commit: nul, 'commit:attempt2': commitStub() },
+    after: 'gather, gate, review, commit, commit:attempt2', landed: true,
+    promptHas: { commit: [ATOMIC_PUSH, 'run that same command again, whole, never one ref alone', 'git ls-remote origin refs/heads/main refs/heads/claude/worker-brief-fable-vnnuv8 refs/heads/blinded-fable'],
+      'commit:attempt2': ['run step 3\'s one command again, whole, never one ref alone', ATOMIC_PUSH] },
+    promptLacks: { 'commit:attempt2': ['push only what a branch lacks', 'git fetch origin'] } },
   { name: 'P1 the gather files a reserved point R0 reached: listed for the curator, and the review checks its entry', over: { gather: () => gatherStub({ reservedFiled: [{ id: R(0) + '.reserved.1', text: 'which + runs for (3.0 asif RR64) + 17, x.fss:1' }] })() },
     after: 'gather, gate, review, commit', landed: true, items: ['R0.reserved.1'], promptHas: { review: ['"id": "' + R(0) + '.reserved.1"'] } },
   { name: 'G1 the rung that brings testSpecData lands: the gate runs it', over: {}, after: 'gather, gate, review, commit', landed: true, specData: true },
@@ -249,6 +259,13 @@ const SCEN = [
     after: 'gather, gate, review, judge:review, repair:review, gate:after-review, commit', landed: true },
   { name: 'D4 the review\'s corrections touch the specification\'s text and, against its brief, the skill: the gate stands, the text recorded beside it, the skill path listed', over: { review: review({ pathsOutsideExplorations: ['Specification/basic/types.tex', SKILL_PATH], fixed: ['types.tex'], headBefore: 'h1', headAfter: 'h2' }), commit: commitStub({ skillTouched: [SKILL_PATH] }) },
     after: 'gather, gate, review, commit', landed: true, step1a: true, ungatedIn1a: 'Specification/basic/types.tex', notIn1a: '.claude/', items: ['skill-touched.1'] },
+  { name: 'D5 the review\'s repair changes only the specification\'s text and keeps its build: the commit stage takes it first, by its commit, then the gather\'s', over: Object.assign({}, codeFinding, { 'repair:review': repairStub(SPEC_ONLY, [], [], { headAfter: 'def4567' }) }),
+    after: 'gather, gate, review, judge:review, repair:review, commit', landed: true, step1a: true, ungatedIn1a: 'Specification/appendices/changes.tex',
+    promptHas: { 'repair:review': ['specification.md, "Building it"', 'copy Specification/fortress/fortress.pdf to /home/user/fortress/tmp/repair-review/fortress-batch-'],
+      commit: ['git diff --name-only <the commit of its text> HEAD -- Specification/', '(1) /home/user/fortress/tmp/repair-review/fortress-batch-', 'on the text of its last commit, def4567; (2) /home/user/fortress/tmp/gather/fortress-batch-'] } },
+  { name: 'D6 as D5, the repair does not land: the commit stage takes only the gather\'s build', over: Object.assign({}, codeFinding, { 'repair:review': repairStub(SPEC_ONLY, [], [], { headAfter: 'def4567', landed: false }) }),
+    after: 'gather, gate, review, judge:review, repair:review, commit', landed: true, step1a: true, items: ['review-unrepaired.1'],
+    promptHas: { commit: ['(1) /home/user/fortress/tmp/gather/fortress-batch-'] }, promptLacks: { commit: ['tmp/repair-review/'] } },
   { name: 'B1 launched without args.baseBuild', over: {}, args: { base: 'BASE' }, agents: '', threwWith: 'args.baseBuild is required' },
   { name: 'L1 the weekly limit as a null from the second rung\'s skeptic on', over: {}, limitAt: 'skeptic:S1', limitAs: 'null',
     agentsPrefix: 'disk, rung:S0, skeptic:S0, rung:S1, skeptic:S1, skeptic:S1:attempt2, skeptic:S1:attempt3', halts: 'skeptic:S1' },
@@ -437,7 +454,8 @@ function check(sc, out) {
       if (from !== 'BASE' && /git (diff --name-only BASE HEAD|log BASE\.\.HEAD --format=%B)/.test(p)) probs.push('the commit stage still checks .claude/ or the footers from the base')
     }
     if (c.label === 'commit') {
-      if (p.indexOf('Do NOT push') < 0 && !(p.indexOf('git push origin main:claude/worker-brief-fable-vnnuv8') >= 0 && p.indexOf('git push origin main:blinded-fable') >= 0)) probs.push('the commit stage does not push to the three branches')
+      if (p.indexOf('Do NOT push') < 0 && p.indexOf(ATOMIC_PUSH) < 0) probs.push('the commit stage does not push the three refs in the skill\'s one atomic command')
+      if (/git push origin main(:|,)/.test(p)) probs.push('the commit stage still pushes a ref alone')
       const mg = p.match(/mg-run\.sh[^']*'/)   // step 0's line, to the end of its nohup bash -c '...'
       if (!mg || / full/.test(mg[0])) probs.push('the commit stage does not run the quick microGPT check')
       if (p.indexOf('<short hash>') >= 0) probs.push('the commit stage still replaces hash placeholders')
