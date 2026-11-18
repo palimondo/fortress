@@ -1464,3 +1464,13 @@ The landing of climb batch 33b on `main` made area parts false or short, from th
 - `compiler.md`, "What the compiled path cannot compile yet": a number type named as a value (row 1082; `CodeGen.java:7020`); varargs refused against the prelude and compiled with the variable, except row 1086's overloaded forms (F-390; `NamingCzar.java:1028-1034`). The type assumption's fourth refused form (row 1088) and the trait's body over an object's override (F-391).
 - `compiler.md`, "Traps of the compiled path": a `typecase` clause at an excluded type refused (row 1081; F-388); the prelude `String`'s placeholder comparisons (row 1089; `LibraryBuiltin/CompilerBuiltin.fss:393-398`); a tuple argument at `Any` (row 1080); an arrow coercion to no parameters (row 1084); a spread argument dropped (row 1085); `RR64[n,n]` at a return type under the prelude (row 1087).
 - `revival-changes.md`, "Numbers", the rule on argument conversion: walk does not convert a function argument by an arrow coercion. Row 1083; F-128.
+
+## The cold read of climb batch 33b's skill changes, 2026-11-18
+
+From the cold read of `4c5a5f121e` and `f4d63205c7` (`explorations/compile-ladder/climb-batch-33b/skills/cold-read.md`); settled by the record-landing workflow's writer task.
+
+- `SKILL.md`, "The compiled runtime": the payload class scoped to the prelude. F-388 (the one library's seven have no rows yet).
+- `compiler.md`, the prelude's section: the second exception restated as the seven number types, each one `value object`.
+- `compiler.md`, "What the compiled path cannot compile yet": a varargs program compiled with the variable does not run yet (row 1062); row 1086's stop, `OptionUnwrapException`, and its count of parameters (`one_library_tests/XXXOneLibraryVarargsMethodOverloaded.test`; `CodeGen.partitionByMethodArgCount`, `:8623-8638`); row 1088's call.
+- `compiler.md`, "Traps of the compiled path": the exclusion of an object type and the remedy for row 1081; a string value is a `JavaString` (`LibraryBuiltin/CompilerBuiltin.fss:420-430`; row 1089); row 1084's death at the callee's call, and the coercion at one parameter (the row; `compiler_tests/ArrowCoercionFnExprCompiled.test`); row 1085's compiled half in the checker (the row, `Functionals.scala:87`).
+- `revival-changes.md`, the rule on argument conversion: row 1083's example and workaround.
