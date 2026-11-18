@@ -1,0 +1,11 @@
+(* Under the one library's selection, a local function with a varargs parameter, called with none, one and three arguments, compiles. *)
+component OneLibraryVarargsLocalFunction
+export Executable
+
+run(): () = do
+    count(xs: ZZ32...): ZZ32 = |xs|
+    z: ZZ32 = 4
+    println(count() + count(z) + count(z, z, z))
+end
+
+end
