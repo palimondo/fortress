@@ -1,0 +1,8 @@
+opus-p1 claude-opus-5-5 xhigh p1 b703148f-80dd-4fd1-a058-ac1bd7965868 2026-11-18T12:39:24Z
+opus-p2 claude-opus-5-5 xhigh p2 3bc0fb97-4f99-4efd-95fc-03834fd11d13 2026-11-18T12:39:25Z
+opus-p2 exit=0 2026-11-18T12:45:11Z
+opus-p1 exit=0 2026-11-18T12:46:50Z
+fable52-p1 claude-fable-5-2 high p1 85f04830-f404-4f89-a038-576950ebf1dc 2026-11-18T12:46:58Z
+fable52-p2 claude-fable-5-2 high p2 49561ac3-5ed0-495a-8403-39711dd8ad7a 2026-11-18T12:46:58Z
+fable52-p2 exit=0 2026-11-18T12:51:06Z
+fable52-p1 exit=0 2026-11-18T12:52:24Z
