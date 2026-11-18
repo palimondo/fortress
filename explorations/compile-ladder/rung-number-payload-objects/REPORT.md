@@ -55,9 +55,9 @@ No `$DefaultTraitMethods` springboard is written for the seven, since they are o
 | the RTTI's class, for the run-time subtype test | `CodeGen.RttiClassAndInterface`, the `<clinit>` of the RTTI class, `CodeGen.java:6289` | object's class `fortress/CompilerBuiltin$ZZ32` |
 | a static argument's RTTI in compiled code | `runtimeSystem/MethodInstantiater.java:137-141` and `FZZ32.RTTIc.ONLY` (`FZZ32.java:60-62`) | payload class's `RTTIc`, whose `ONLY` is the object's RTTI |
 | a dispatch test's RTTI | `OverloadSet.emitInstanceOfNG`, `OverloadSet.java:1153-1155` | object's class's static `RTTI` |
-| a dotted call's method and receiver | `CodeGen.methodCall`, `:645-649`; `CodeGen.castReceiver`, `:7646-7654` | object's class |
-| a functional method's static wrapper | `CodeGen.functionalForwardingMethod`, `:3725-3769` (unchanged: it casts `self` to `traitOrObjectName`) | object's class |
-| a forwarder that narrows, a trait-named class | `NamingCzar.jvmTypeDescAsTrait` (`:1479`), read at `CodeGen.java:828`, `:837`, `:1583` | object's class |
+| a dotted call's method and receiver | `CodeGen.methodCall`, `:647-651`; `CodeGen.castReceiver`, `:7659-7667` | object's class |
+| a functional method's static wrapper | `CodeGen.functionalForwardingMethod`, `:3728-3772` (unchanged: it casts `self` to `traitOrObjectName`) | object's class |
+| a forwarder that narrows, a trait-named class | `NamingCzar.jvmTypeDescAsTrait` (`:1531`), read at `CodeGen.java:828`, `:837`, `:1583` | object's class |
 | Java code that makes a value | `FZZ32.make` (`FZZ32.java:40-48`), `LibraryNames.factory` (`LibraryNames.java:48-55`) | payload class, reaching the object's class |
 | the run time's equality and printing | `nativeHelpers/equalityRule.java:38-50` (`instanceof FZZ32`); `nativeHelpers/stringOps.java:106` (a value's class name, `ZZ32`) | payload class; the object's class, printed `ZZ32` |
 | the run's copy of the carried table | `runtimeSystem/Naming.java:298-302`, unchanged | payload class |

@@ -38,7 +38,7 @@ No fix changes code, so no suite was needed.
 
 - The reserved point "a change of which declaration a dispatch method reaches" is reached (program 1), not only the static call at an assumption that the report lists.
 - The record's FACTS entry and finding 3 say a call at an assumption runs the trait's body and always finds one; at a method of a generic trait whose parameter has the trait's type parameter the code generator stops (row 1088).
-- Two readers of `FunctionalMethod.declaringTrait` by its bare name remain, unmeasured and outside the rung's files: `OverloadingChecker.scala:144` (`declarer`, where a miss gives `None`) and `OverloadSet.java:2504` (the closure table's owner).
+- Two readers of `FunctionalMethod.declaringTrait` by its bare name remain, unmeasured and outside the rung's files: `OverloadingChecker.scala:144` (`declarer`, where a miss gives `None`) and `OverloadSet.java:2590` (the closure table's owner).
 
 ## Failure modes (item 11)
 
