@@ -1,0 +1,9 @@
+Plan and review queue after climb batch 33's landing, run 1: items 590 to 597, PLAN item 102, built lines moved
+
+- PLAN, "Where we stand": the runs, the live thread, the landed batches, the probes' line and "Next" brought to run 1's landing and the steps due before run 2.
+- PLAN, phase 4: a line for climb batch 33 with the list for the batch after; climb batch 31's line, F-34's line, the walls that only the switch shows, the merge and the other lines that the landing made stale brought in line.
+- PLAN, elsewhere: row 1069 on a parked line; the class-file read's cost in phase 6; the stale anchors of rung C's and rung D's hunks moved.
+- PLAN: item 102, finding 1 of the review, under "Pavol's answers"; climb batch 33's review group in the groups' form, with three new lines and six lines cut to pointers to their queue items.
+- PLAN-history: item 99, rows 959, 1050 and 1052, 1060, fork O4 and review-routed.1, built, and the old text of each rewritten line.
+- Review queue: items 590 to 597 filed; 519 and 587 moved to (a), answered by closed rows; 572, 521, 540, 584, 571, 58, 323 and 513 brought in line; the counts, 251 open.
+- The run's folder: the sort, the evidence, the writers' files and reports, the check, the cold read, the mechanical checks, the judge's files and diff.md.

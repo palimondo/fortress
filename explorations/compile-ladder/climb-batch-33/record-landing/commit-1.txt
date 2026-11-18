@@ -1,0 +1,10 @@
+Record after climb batch 33's landing, run 1: 23 FACTS entries, P-12 and row 1052
+
+- F-34: the code generator's count stays 17 in 5 kinds on c3b16ef2d1's code; after run 1 it is not measured, 12 to 14 expected; rows 822, 812 and 540 fixed since; the rungs' own runs, 15 and 16.
+- F-302: the margin is not measured since nothing on main runs against the one library yet.
+- F-385: two limits of the class-file read, by reading: no cache, and a generated class has no class file.
+- F-386: for two instances of one generic trait the choice of conjunct changes no answer, by reading.
+- F-377: the two casts that the verifier does not need, one a planner's default and one a worker's choice, neither decided by the curator.
+- F-9, F-76, F-181, F-225, F-281, F-282, F-293, F-352, F-353, F-361, F-363, F-369, F-380 and the new F-381 to F-387: the batch's drafts brought to the record's form, with lists and line numbers left to the reports they cite.
+- P-12: the sentence that the selector made false, changed by the fewest words under the curator's rule of 2026-10-31; the decision is unchanged.
+- Row 1052: a note that a generic object that lists a self-typed trait first may still meet the circularity, by reading.
