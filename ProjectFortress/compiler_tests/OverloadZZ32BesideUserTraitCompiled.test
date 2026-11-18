@@ -1,0 +1,4 @@
+tests=OverloadZZ32BesideUserTraitCompiled
+link
+run
+run_out_contains=PASS

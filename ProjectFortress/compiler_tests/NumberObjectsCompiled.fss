@@ -1,0 +1,101 @@
+(* Each of the seven number types of basic-integers.tex and basic-floats.tex, compiled: its arithmetic, a getter, a typecase arm, a generic box and an overloaded call give their values. *)
+component NumberObjectsCompiled
+export Executable
+
+object Box[\T extends Object\](v: T)
+  get(): T = v
+end
+unbox[\T extends Object\](b: Box[\T\]): T = b.get()
+
+kind(x: ZZ32): String = "ZZ32"
+kind(x: ZZ64): String = "ZZ64"
+kind(x: ZZ): String = "ZZ"
+kind(x: NN32): String = "NN32"
+kind(x: NN64): String = "NN64"
+kind(x: RR32): String = "RR32"
+kind(x: RR64): String = "RR64"
+kind(x: String): String = "String"
+
+arm(x: Any): String = typecase x of
+    ZZ => "ZZ"
+    ZZ64 => "ZZ64"
+    ZZ32 => "ZZ32"
+    NN64 => "NN64"
+    NN32 => "NN32"
+    RR64 => "RR64"
+    RR32 => "RR32"
+    else => "other"
+  end
+
+boxArm(y: Any): String = typecase y of
+    Box[\ZZ32\] => "Box of ZZ32"
+    Box[\RR64\] => "Box of RR64"
+    else => "other box"
+  end
+
+run(): () = do
+  k: ZZ32 = 3
+  m: ZZ32 = k + 4
+  assert(m, 7, "ZZ32 +")
+  assert(m.asString, "7", "ZZ32 asString")
+  assert(k < 5, "ZZ32 <")
+  assert(k MAX 9, 9, "ZZ32 MAX")
+  assert(k GCD 18, 3, "ZZ32 GCD")
+  assert((k CMP 2) = GreaterThan, "ZZ32 CMP")
+  assert(arm(k), "ZZ32", "typecase arm at ZZ32")
+  assert(kind(k), "ZZ32", "overloaded call at ZZ32")
+  assert(unbox(Box[\ZZ32\](5)) + 1, 6, "Box of ZZ32")
+  assert(boxArm(Box[\ZZ32\](5)), "Box of ZZ32", "typecase arm at Box of ZZ32")
+  var acc: ZZ32 := 0
+  for i <- seq(0#10) do acc := acc + i end
+  assert(acc, 45, "ZZ32 sum in a loop")
+
+  a: ZZ64 = 3000000000
+  assert((a + a) = 6000000000, "ZZ64 +")
+  assert((a - 2999999999).asZZ32, 1, "ZZ64 asZZ32")
+  assert(arm(a), "ZZ64", "typecase arm at ZZ64")
+  assert(kind(a), "ZZ64", "overloaded call at ZZ64")
+  assert(unbox(Box[\ZZ64\](a)) = a, "Box of ZZ64")
+
+  z: ZZ = 123456789012345678901234567890
+  assert((z + z) = 246913578024691357802469135780, "ZZ +")
+  assert(k.asZZ = 3, "ZZ32 asZZ")
+  assert(arm(z), "ZZ", "typecase arm at ZZ")
+  assert(kind(z), "ZZ", "overloaded call at ZZ")
+  assert(unbox(Box[\ZZ\](z)) = z, "Box of ZZ")
+
+  u: NN32 = 7
+  assert((u + u) = 14, "NN32 +")
+  assert(u.asNN32 = 7, "NN32 asNN32")
+  assert(arm(u), "NN32", "typecase arm at NN32")
+  assert(kind(u), "NN32", "overloaded call at NN32")
+  assert(unbox(Box[\NN32\](u)) = u, "Box of NN32")
+
+  n: NN64 = 5
+  assert((n + n) = 10, "NN64 +")
+  assert(n.asNN64 = 5, "NN64 asNN64")
+  assert(arm(n), "NN64", "typecase arm at NN64")
+  assert(kind(n), "NN64", "overloaded call at NN64")
+  assert(unbox(Box[\NN64\](n)) = n, "Box of NN64")
+
+  r: RR64 = 1.5
+  assert((r r + 0.25) = 2.5, "RR64 juxtaposition and +")
+  assert(r < 2.0, "RR64 <")
+  assert(NOT r.isNaN, "RR64 isNaN")
+  assert((k.asRR64() + r) = 4.5, "ZZ32 asRR64")
+  assert(arm(r), "RR64", "typecase arm at RR64")
+  assert(kind(r), "RR64", "overloaded call at RR64")
+  assert(unbox(Box[\RR64\](r)) = r, "Box of RR64")
+  assert(boxArm(Box[\RR64\](r)), "Box of RR64", "typecase arm at Box of RR64")
+
+  f: RR32 = 2.5
+  g: RR64 = f + f
+  assert(g = 5.0, "RR32 + through RR64")
+  assert(f.asString, "2.5", "RR32 asString")
+  assert(arm(f), "RR32", "typecase arm at RR32")
+  assert(kind(f), "RR32", "overloaded call at RR32")
+  h: RR64 = unbox(Box[\RR32\](f))
+  assert(h = 2.5, "Box of RR32")
+  println("PASS")
+end
+end
