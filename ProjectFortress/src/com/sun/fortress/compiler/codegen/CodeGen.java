@@ -2772,9 +2772,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             int modifiers = ACC_PUBLIC | ACC_STATIC ;
             /* The body's types name the declaration's static parameters and where-clause variables. */
             CodeGen bcg = new CodeGen(cg, cg.typeAnalyzer.extendJ(header.getStaticParams(), header.getWhereClause()));
-            bcg.declaredResult = header.getReturnType().unwrap(null);
             bcg.generateActualMethodCode(modifiers, applied_method, modified_sig, params, selfIndex,
-                                         selfIndex != Naming.NO_SELF, body);
+                                         selfIndex != Naming.NO_SELF, body,
+                                         header.getReturnType().unwrap(null));
         }
      }
     
@@ -3140,9 +3140,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 //                sig, sig, null, n, true, null);
 //        mname = disambiguated_mname;
         
-        cg.declaredResult = returnType;
         cg.generateActualMethodCode(modifiers, mname, sig, params, selfIndex,
-                                    true, body);
+                                    true, body, returnType);
 
         /*
          * Next emit an abstract redirecter, this makes life better
@@ -3230,9 +3229,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             modifiers |= ACC_STATIC;
         }
 
-        cg.declaredResult = returnType;
         cg.generateActualMethodCode(modifiers, mname, sig, params, selfIndex,
-                                    inAMethod, body);
+                                    inAMethod, body, returnType);
 
     }
 
@@ -3274,7 +3272,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
      */
     private void generateActualMethodCode(int modifiers, String mname, String sig,
                                           List<Param> params, int selfIndex,
-                                          boolean inAMethod, Expr body) {
+                                          boolean inAMethod, Expr body,
+                                          Type declaredResult) {
 
         mv = cw.visitCGMethod(modifiers, mname, sig, null, null);
         mv.visitCode();
@@ -3290,7 +3289,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         // Compile the body in the parameter environment
 
         body.accept(this);
-        if (declaredResult != null) castToTypeBelow(body, declaredResult);
+        castToTypeBelow(body, declaredResult);
         try {
             exitMethodScope(selfIndex, selfVar, paramsGen);
         } catch (Throwable t) {
@@ -7993,9 +7992,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         }
     }
 
-
-    /* The declared return type of the method whose code this generator emits, or null. */
-    private Type declaredResult = null;
 
     /*
      * The checker reads self, in a trait whose comprises clause lists types
