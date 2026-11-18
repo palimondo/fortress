@@ -50,7 +50,7 @@ His last words of 22:5x on 11-13, "how did you can of?", could not be read; the 
 - The skill drafts page, https://claude.ai/artifact/9tX3rwtAgYHgbu8XZQtNhr , version 28 (source `<scratchpad>/skill-drafts-page/page-2.html`): read whole up to item 40 at 06:25 UTC on 11-17; items 41 and 42 landed and unread; nothing under "Proposed changes"; the next item is 43.
 - The page of `fortress-repo` changes, https://claude.ai/artifact/4MiaAx2EmfK59E8d4DP9J3 , version 26 (source `<scratchpad>/fortress-repo-page/page.html`; 125 items, 17 new at 26).
 - The revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5 (source `explorations/coordinator/process-engineering/revival-story.html`), at climb batch 33.
-- The arrays page, https://claude.ai/artifact/7TVTSHjAtY6AvZjDztnq8q , version 2.
+- The arrays page, https://claude.ai/artifact/7TVTSHjAtY6AvZjDztnq8q , version 3 (Part 2 brought up to date after 33b, `61e9df0a37`; source `<scratchpad>/arrays-primer/page.html`).
 - The house style's reference page: https://claude.ai/artifact/FoTnH7KzXt5MtGk3tTcZ8W . After a compaction, publish a page by its URL.
 - His words of 14:1x on 11-10, what he wants of the project: "I wanted to learn and I am not learning much yet"; he enjoyed choosing the numerals' shape and looks forward to designing arrays.
 
