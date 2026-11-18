@@ -49,7 +49,7 @@ Compiled: write `Name.fss` and `Name.test` in the compiled test folder that hold
 - `library_tests/`: the compiler's library. A test of the interpreter's library is an interpreter test (above).
 - `parser_tests/`: the parser.
 - `compiler_tests/`: the rest, beside the team's numbered `CompiledN` tests.
-- `one_library_tests/`: a wall that only the one library shows. Its tests compile with `FORTRESS_LIBRARY=one`, and `ant testOneLibrary` and `testFast` run them.
+- `one_library_tests/`: a test whose program compiles against the one library, for a defect that only that library shows. Its tests compile with `FORTRESS_LIBRARY=one`, and `ant testOneLibrary` and `testFast` run them. Give a plain test there a `compile` command only: a program compiled so does not run yet (ledger row 1062).
 - `other_compiler_tests/`: the team's compiled tests that do not fit the `CompiledN` series. Put no new test there.
 
 The `.test` files are the whole list of tests: a `.fss` that no `.test` file names never runs. A `.test` file is a Java property file. It names the commands to run and the checks on their output, as lit's RUN and CHECK lines do:

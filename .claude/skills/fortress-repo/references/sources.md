@@ -1434,3 +1434,14 @@ The landing of climb batch 33, run 1, on `main` made area parts false or incompl
 - `tests-writing.md`: `x[5]^2` compiles, walk still fails (F-387; rows 1005, fixed, and 1); a static error of a phase counts as a refusal at load (F-383; `tests/unit_tests/FileTests.java:875-878`); the folder `one_library_tests/` (F-381).
 - `tests-running.md`: five tracks, about 2,560 tests, the onelibrary track, the misc track without `OneLibraryJUTest`, and `ant testOneLibrary` (`build.xml:1146-1156`, `:1262`, `:1277-1279`; the review, Part 3).
 - `build-and-caches.md`, "The caches" and "Building": `caches-one`, the variable and not the property alone (the review's section 2, S1; `bin/fortress_classpath:27`, `bin/run_classpath:27`), no library jars (row 1062); the build's stamp and `ant cleanCache` over both folders (`build.xml:363-377`, `:553-565`, `:863`).
+
+## The cold read of climb batch 33's skill changes, 2026-11-18
+
+From the cold read of `77a3dcd55b` and `09adb04dfa` (`explorations/compile-ladder/climb-batch-33/skills/cold-read.md`); settled by the record-landing workflow's writer task. Each fact checked on `main` at `09adb04dfa`.
+
+- `SKILL.md`, "The phases": `FORTRESS_LIBRARY` named as an environment variable.
+- `build-and-caches.md`, "The caches": "the jars of a single library"; the class path scripts named (`bin/fortress:20`, `bin/run:25`); the property alone restated; the library order without the variable.
+- `compiler.md`, the prelude's section: the three files before the variable. "The runtime": the called method's class in place of "owner", and F-385's number cut. "Traps of the compiled path": the messages of rows 1074 and 1075 (the rows); walk's stop on row 964's clause restated; rows 1067 and 1072 restated with "binder"; row 559's example (`compiler_tests/XXXIntersectionClosureResult.fss`).
+- `interpreter.md`, "What walk checks": a typecheck with the variable reads walk's library after the compiled path's desugarings (`Shell.java:377-388`).
+- `revival-changes.md`, "Traits and objects": row 1070's workaround at `X`, since the missing cast holds for both readings of `self` (F-377; the regression key's run of case 35 (d)); the test's scope sentence cut; row 1052's limit with an action (F-385). "Numbers": the replacements moved after the undefined names; `x =>` refused as an undefined type (F-382); row 1064's binder restated.
+- `tests-writing.md`, "Where a test goes": `one_library_tests/` restated, and a plain test there given a `compile` command only (row 1062; `ProjectFortress/one_library_tests/`).
