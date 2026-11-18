@@ -1445,3 +1445,11 @@ From the cold read of `77a3dcd55b` and `09adb04dfa` (`explorations/compile-ladde
 - `interpreter.md`, "What walk checks": a typecheck with the variable reads walk's library after the compiled path's desugarings (`Shell.java:377-388`).
 - `revival-changes.md`, "Traits and objects": row 1070's workaround at `X`, since the missing cast holds for both readings of `self` (F-377; the regression key's run of case 35 (d)); the test's scope sentence cut; row 1052's limit with an action (F-385). "Numbers": the replacements moved after the undefined names; `x =>` refused as an undefined type (F-382); row 1064's binder restated.
 - `tests-writing.md`, "Where a test goes": `one_library_tests/` restated, and a plain test there given a `compile` command only (row 1062; `ProjectFortress/one_library_tests/`).
+
+## Climb batch 33b's update, 2026-11-18
+
+The orientation workflow's update of `revival-changes.md` for climb batch 33b, run 2 of climb batch 33 (`explorations/compile-ladder/climb-batch-33b/orientation/`), installed from its `orientation.md` by its `judgement.md`, which judged the opening and "Numbers" "install" and held "Traits and objects", which keeps its text. Base: `revival-changes.md` at `8952ab6296`, 33,294 bytes; after, 33,216. `sources-mapping.md` in that folder gives each change's source, except its two rows for "Traits and objects".
+
+- The opening, the sentences on ledger rows: the `XXX` test and the plain test given as two instructions, the rule unchanged. `tests-writing.md`, "How a defect is recorded", items 2 and 3.
+- "Numbers", the rule that the number types are flat siblings: both libraries declare the seven as value objects; the compiler's prelude declares no `QQ`; both paths refuse an object declaration below one of the seven, the compiled checker with 'Invalid type in extends clause: ZZ32'. F-379; F-388; rows 1003 and 866, fixed at `75f9f2fbf4`; `TypeHierarchyChecker.scala:212`; `compiler_tests/XXXNumberTypeExtendRefusedCompiled.test`. The scope to a declaration: `scala_src/typechecker/impls/Misc.scala:366`; `compiler_tests/XXX6bx.test`.
+- "Numbers", the rule that `Number` declares nothing: the `QQ` example scoped to walk, since the compiler's prelude declares no `QQ`.
