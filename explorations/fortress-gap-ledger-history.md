@@ -10925,3 +10925,9 @@ closed by 8979406af
 closed by 8979406af
 
 | 1028 | the compiled export check does not match a top-level variable that a component declares mutable by `:=` against the api's `var` declaration: `tally: ZZ32 := 0` under `var tally: ZZ32`, 'Unmatched declarations … due to different modifiers' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/variables.tex`, "Top-Level Variable Declarations" | ProjectFortress/compiler_tests/XXXTopLevelVarByAssignExport.test | climb batch 32 rung D | siblings: 844. The specification: the modifier `var` is optional when `:=` is used. The export check compares the declarations' modifiers, and `:=` sets the variable mutable without the modifier. The same for a tuple binding, `(a, b): (ZZ32, ZZ32) := (0, 9)`. Walk runs a program that imports such a variable. At db352c1776. Workaround: write `var` in the component. |
+
+### Row 1052
+
+rewritten
+
+| 1052 | a compiled default body of a trait with a self-type parameter that calls a method on a value of that parameter dies at load, `ClassCircularityError`, … | FIXED | implementation gap (runtime) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/SelfTypeParameterReceiverRun.test` | climb batch 31 rung K | fixed `1f6c166b0`; full text: history, row 1052 |
