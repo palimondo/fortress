@@ -1,0 +1,4 @@
+# A call at an assumption of a generic trait, of a method whose parameter has the trait's type parameter, stops the code generator.
+tests=XXXAsIfGenericTraitParamCompiled
+compile
+compile_exception_contains=Can't find the body that

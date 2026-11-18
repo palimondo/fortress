@@ -1,0 +1,22 @@
+(* A method of a generic trait whose parameter has the trait's type parameter, called at an assumption of that trait, runs the body that the assumed trait gives it (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfGenericTraitParamCompiled
+export Executable
+
+trait Tagged[\T extends Object\]
+    stamp(self, x: T): String = "Tagged stamp"
+    seal(x: T): String = "Tagged seal"
+end
+
+object Q extends Tagged[\String\]
+    stamp(self, x: String): String = "Q stamp"
+    seal(x: String): String = "Q seal"
+end
+
+run(): () = do
+    s: String = "s"
+    assert(stamp(Q asif Tagged[\String\], s asif String), "Tagged stamp", "stamp(Q asif Tagged of String, s asif String)")
+    assert((Q asif Tagged[\String\]).seal(s asif String), "Tagged seal", "(Q asif Tagged of String).seal(s asif String)")
+    println("PASS")
+end
+
+end
