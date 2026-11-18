@@ -1,0 +1,15 @@
+Record after climb batch 33b's landing: 16 FACTS entries, P-33 and P-178, row 1089 and three rows
+
+- F-34: on ba3c7c876d's code the code generator refuses 1 declaration, __bigOperator2 (row 1076), and emits 753; the earlier counts and the caveats kept.
+- F-352: rows 315, 866 and 942 fixed and row 624 under the selection; row 995 now the carried types other than the seven number types, which the one library does not yet compile over payload classes.
+- F-136: row 496's form runs at ZZ32, and still dies at a program's object.
+- F-353: main's seven number types need no second set; the scratch tree's sentence in the past.
+- F-390: by reading, a varargs run under the selection would fail at the array; no run shows it.
+- F-181: the forms that F-320 names, no longer four.
+- F-315: stringifyChars is emitted in F-34's measure on the landed code.
+- F-86, F-128, F-301, F-302, F-320, F-338 and F-389: the batch's drafts brought to the record's form, each shorter.
+- P-33: "by a second set of the run time's value classes (F-353)" becomes "(F-381)", under the curator's rule of 2026-10-31; the decision is unchanged.
+- P-178: one reason in the past tense, since row 866 is fixed; the decision is unchanged.
+- Row 1089, new: at an assumption of the prelude's String, a string comparison answers false.
+- Rows 546, 604 and 1017: their pointers to rows 566 and 624 brought in line.
+- Held, unchanged: F-388 and F-391, whose form passes grew them past 600 (diff.md).
