@@ -50,7 +50,7 @@ His last words of 22:5x on 11-13, "how did you can of?", could not be read; the 
 ## His reading, and the live pages
 
 - The skill drafts page, https://claude.ai/artifact/9tX3rwtAgYHgbu8XZQtNhr , version 28 (source `<scratchpad>/skill-drafts-page/page-2.html`): read whole up to item 40 at 06:25 UTC on 11-17; items 41 and 42 landed and unread; nothing under "Proposed changes"; the next item is 43.
-- The page of `fortress-repo` changes, https://claude.ai/artifact/4MiaAx2EmfK59E8d4DP9J3 , version 28 (source `<scratchpad>/fortress-repo-page/page.html`; 135 items, changes 39 to 173; 173 is the expected-failure rule, `d4e7398301` and `2a442fbf84`, published 06:0x UTC on 11-19; his newest "read" word is of 11-07, on an item already gone).
+- The page of `fortress-repo` changes, https://claude.ai/artifact/4MiaAx2EmfK59E8d4DP9J3 , version 29 (source `<scratchpad>/fortress-repo-page/page.html`; 135 items, changes 39 to 173; 173 is the expected-failure rule, `d4e7398301`, `2a442fbf84` and the cut of its lists at his word of 06:2x, `02c1dcd278`, folded in by the coordinator at version 29; published 06:0x UTC on 11-19; his newest "read" word is of 11-07, on an item already gone).
 - The revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5 (source `explorations/coordinator/process-engineering/revival-story.html`), at climb batch 33.
 - The arrays page, https://claude.ai/artifact/7TVTSHjAtY6AvZjDztnq8q , version 3 (Part 2 brought up to date after 33b, `61e9df0a37`; source `<scratchpad>/arrays-primer/page.html`).
 - The house style's reference page: https://claude.ai/artifact/FoTnH7KzXt5MtGk3tTcZ8W . After a compaction, publish a page by its URL.
