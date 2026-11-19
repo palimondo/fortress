@@ -620,7 +620,7 @@ The coordinator, for run 1, after the curator's go:
 
 1. **The check of this record by a fresh reader on Fable,** its changes in place (`references/batch.md`, "The go").
 2. **The generator** for `--run 1`, its checks and the splice, as the manual's "Before the launch", step 4, gives them; the keys into this record and into the rehearsal checked with `facts-extract.sh --check`. The base is `main`'s head after that commit.
-3. **The base build.** `/home/user/fortress-base39` at `ba3c7c876d` has `main`'s code and serves while `main` moves only under `explorations/`, `docs/` and `.claude/` (`git diff --stat ba3c7c876d <base> -- . ':!explorations' ':!docs' ':!.claude'` prints nothing); its trial seed and the old code's run.
+3. **The base build.** `/home/user/fortress-base40` at `2676c8009c`, whose code is `95611a87c5` (`ba3c7c876d` with the declared return type passed to `generateActualMethodCode` as a parameter, so this record's line citations in `CodeGen.java` after `:2611` are up to four lines too high: find each member by name), has `main`'s code and serves while `main` moves only under `explorations/`, `docs/` and `.claude/` (`git diff --stat 2676c8009c <base> -- . ':!explorations' ':!docs' ':!.claude'` prints nothing); its trial seed and the old code's run passed on 2026-11-19.
 4. **The disk:** 11.5 G or more free; `git status --porcelain` empty in the main tree.
 5. **The launch from a turn that no message of the curator's started,** a check-in's turn.
 6. **Check-ins** for about 5 hours and a half, 45 minutes apart; the check-in file `<scratchpad>/batch34/checkins.txt`.
