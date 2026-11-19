@@ -91,13 +91,7 @@ If your brief does not let you edit the original tree, say in your report which 
 ## The order: the test, its failure, the fix, the pass
 
 1. Write the test, with a plain name. Write the essence of the defect as a clean, minimal program, not the shape in which a probe met it.
-2. Before the call that first runs the test, state in a message what the harness should report: the assertion or `.test` key that fails, the exception, or the exit. Start the statement with `Expected failure:`. Then see the test fail through the harness (`harness-one.sh` or `junit.sh`, `tests-running.md`) on the base's code. Do this in a run that ends before you first build or compile your edit. Under walk, do it before you edit a library source that the test reads. If your tree already holds the fix, run the test through the harness on the old code, as `worktrees.md`, "Running the old code", says. The test fails as stated if the harness reports the assertion, the key, the exception or the exit that you stated. If it passes, or fails another way, find out why before you make the fix. The cause is one of these:
-   - The expected failure is wrong, and the test is right.
-   - The test is wrong.
-   - The call's setup, the build or the caches are wrong (`build-and-caches.md`).
-   - The run met a second defect. Record it as "How a defect is recorded" says. The test must still fail as stated for its own defect.
-
-   Correct what was wrong, state the expected failure again in a message, and run the test again.
+2. Before the call that first runs the test, state in a message how the harness should report the failure, in a line that starts `Expected failure:`. Then see the test fail that way through the harness (`harness-one.sh` or `junit.sh`, `tests-running.md`) on the base's code. Do this in a run that ends before you first build or compile your edit. Under walk, do it before you edit a library source that the test reads. If your tree already holds the fix, run the test through the harness on the old code, as `worktrees.md`, "Running the old code", says. If the test passes, or fails another way, find out why and correct it before you make the fix. Then state the expected failure again and run the test again. If the run meets a second defect, record it as "How a defect is recorded" says.
 3. Make the fix. See the test pass in your last run after your last change of code.
 
 The test needs no commit of its own. A test that comes with no fix has no failing run: see it pass through the harness.
