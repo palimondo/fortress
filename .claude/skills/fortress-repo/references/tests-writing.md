@@ -91,12 +91,15 @@ If your brief does not let you edit the original tree, say in your report which 
 ## The order: the test, its failure, the fix, the pass
 
 1. Write the test, with a plain name. Write the essence of the defect as a clean, minimal program, not the shape in which a probe met it.
-2. See the test fail through the harness (`harness-one.sh` or `junit.sh`, `tests-running.md`) on the base's code. Do this in a run that ends before you first build or compile your edit. Under walk, do it before you edit a library source that the test reads. If your tree already holds the fix, run the test through the harness on the old code, as `worktrees.md`, "Running the old code", says.
+2. Before the first run, write in your own text the failure that the defect should give: its message, exception or exit. Then see the test fail through the harness (`harness-one.sh` or `junit.sh`, `tests-running.md`) on the base's code. Do this in a run that ends before you first build or compile your edit. Under walk, do it before you edit a library source that the test reads. If your tree already holds the fix, run the test through the harness on the old code, as `worktrees.md`, "Running the old code", says. The test must fail in the way that you wrote. If it fails another way, find out why before you edit the code:
+   - The test is wrong.
+   - The setup is wrong.
+   - The run met a second defect. Record it as "How a defect is recorded" says.
 3. Make the fix. See the test pass in your last run after your last change of code.
 
 The test needs no commit of its own. A test that comes with no fix has no failing run: see it pass through the harness.
 
-In your report, quote two to five lines of the failing run, if there is one, and the passing line, each with its command. In an edit of the original tree, put every check into a gated test, never into a one-off script. A task that only measures may use its own script. Assert a value with `assert` in an interpreter test. In a compiled test, assert it with `assert` (above), or print it and check it with a `run_out_equals` key.
+In your report, quote the failure that you wrote beside two to five lines of the failing run, if there is one, and the passing line, each run with its command. In an edit of the original tree, put every check into a gated test, never into a one-off script. A task that only measures may use its own script. Assert a value with `assert` in an interpreter test. In a compiled test, assert it with `assert` (above), or print it and check it with a `run_out_equals` key.
 
 An edit of prose in `Specification/` or `Documentation/` has no test. Check it as `specification.md`, "Changing the text: the revision form", says.
 
