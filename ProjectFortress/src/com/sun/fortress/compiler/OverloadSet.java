@@ -2342,25 +2342,12 @@ nameTemp + "\n" +
                                       String methodName, CodeGenClassWriter cv) {
         OverloadSet among = makeSubset(new HashSet<TaggedFunctionName>(members), principal, this);
         among.overloadSubsets = overloadSubsets;
-        among.splitInternal(inSpecificOrder(members));
+        /* The whole set's order, as split gives its subsets. */
+        List<TopSortItemImpl<TaggedFunctionName>> order = new ArrayList<TopSortItemImpl<TaggedFunctionName>>();
+        for (TaggedFunctionName f : specificDispatchOrder)
+            order.add(new POTFN(f));
+        among.splitInternal(order);
         among.generateAnOverloadDefinitionInner(methodName, cv);
-    }
-
-    /** The members fs, the most specific first, ordered as split orders the whole set. */
-    private List<TopSortItemImpl<TaggedFunctionName>> inSpecificOrder(Set<TaggedFunctionName> fs) {
-        TopSortItemImpl<TaggedFunctionName>[] pofuns = new OverloadSet.POTFN[fs.size()];
-        int i = 0;
-        for (TaggedFunctionName f : fs)
-            pofuns[i++] = new POTFN(f);
-        for (int fi = 0; fi < pofuns.length; fi++)
-            for (int gi = 0; gi < pofuns.length; gi++)
-                if (fi != gi && fLessSpecThanG(pofuns[fi].x, pofuns[gi].x))
-                    pofuns[gi].edgeTo(pofuns[fi]);
-        try {
-            return TopSort.depthFirstArray(pofuns);
-        } catch (CycleInRelation ex) {
-            throw new CompilerBug("Members of an overload set that split ordered do not order: " + fs, ex);
-        }
     }
 
     protected int firstArg() {
