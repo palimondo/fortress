@@ -102,7 +102,7 @@ Fields common to the six rungs:
 - **blurb:** the one library's NN32 declares getter zero(): Number and getter one(): Number, wider than the zero(): I and one(): I that it inherits at I = NN32. The checker accepts them, and the code generator then stops the whole of FortressBuiltin: 'Likely bug in static analysis, apparently malformed overload set not rejected' (row 993). A program's own object that widens an inherited getter so stops the same way against the prelude. The rung gives the library's two getters their type, NN32, and has the checker refuse such a getter by the rule of return types.
 - **points to report:**
   - Where the checker now refuses the form, by file and member, its message, and the rule it follows.
-  - The test against the prelude, failing on the base and passing after; the one library's NN32 getters typed NN32, and a compile test under the selector that reads one as an NN32.
+  - The test against the prelude, failing on the base and passing after; the one library's NN32 getters typed NN32, their refusal by the new checker seen before their edit (the distance stage or a compile of FortressBuiltin under the selector) and gone after.
   - Every line of the libraries or the tests that the checker now refuses, and what you did with each.
   - The two stages' tables on your final tree against the comparand, and the checker's timing before and after.
   - Each sentence of the specification that your change makes false, or none.
@@ -493,10 +493,10 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **What you build, in order.**
 1. **The tests first.** From `programs/WidenGetter.fss`, a compiled test that the checker refuses the object's getter, its message pinned: `returnTypeCheck`'s (fork G1), as `compile_err_contains=should be a subtype of the`; on the base the code generator's message. Seen failing on the base, as a `compile` test through `junit.sh`: 'Must satisfy compile_err_contains; expected should be a subtype of the', the compile printing 'Likely bug in static analysis, apparently malformed overload set not rejected for WidenGetter..Oz.zero():Number' and 'File WidenGetter.fss has 1 error.' (`climb-batch-34-review.md`, B8, run 4).
-   The second test, under the selector in `one_library_tests/`, a compile test that binds `n.zero` to an `NN32` for `n: NN32`, **does not fail on the base.** The program `n: NN32 = 5`, `z: NN32 = n.zero`, `println(z)`, as a `compile` test through `junit.sh` with `FORTRESS_LIBRARY=one`, compiles: 'compile ... OK', 'OK (1 test)' (B8, run 4). The checker accepts the binding though `NN32`'s own getter declares `Number`, so no binding of `n.zero` shows the two lines' type. A test of the two lines needs a check that reads the getter's own declaration. The checker of step 3 is one: once it refuses a widening getter (fork G1), it would refuse `FortressBuiltin.fss:264-265` themselves under the selector, as fork G2 expects, and the count stage would count them. Their failing run would then follow step 3 and precede step 2. The coordinator sets the test's form and the order before the launch.
-2. **The library's two lines,** at `NN32`.
-3. **The checker** (fork G1).
-4. **What the checker now refuses** (fork G2): the whole tracks, walk's suite, and the two stages.
+   A test under the selector that binds `n.zero` to an `NN32` for `n: NN32` does not fail on the base: it compiles, 'OK (1 test)' (B8, run 4), since the checker accepts the binding though `NN32`'s own getter declares `Number`. So the two library lines take the distance stage as their test, as a library site does: the coordinator's order, set before the launch.
+2. **The checker** (fork G1). The first test passes.
+3. **The two library lines' failing run:** with the checker of step 2 and the lines unchanged, the distance stage on your tree, or a compile of `FortressBuiltin` under the selector, refuses `FortressBuiltin.fss:264-265` with `returnTypeCheck`'s message (fork G2 expects it). State that before the run, as for any test.
+4. **The library's two lines,** at `NN32`; the refusal gone. Then **what the checker now refuses** elsewhere (fork G2): the whole tracks, walk's suite, and the two stages.
 5. **The whole suites once,** `ant testFast` and `ant testSystem`.
 6. **The stages** once on your final tree, and the checker's timing before and after (P-148).
 
