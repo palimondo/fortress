@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Base build for run 2 and F-34's measure","toolUseId":"toolu_01D5Z4A47h3MYiCEDbNX8Z4F","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Base build for run 2 and F-34's measure","toolUseId":"toolu_01D5Z4A47h3MYiCEDbNX8Z4F","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
