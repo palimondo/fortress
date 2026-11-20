@@ -1,0 +1,34 @@
+(* Under the one library's selection, a compiled program catches the exceptions that helpers raise: IntegerOverflow from ZZ32's sum, FileNotFoundException from opening a missing file. *)
+component OneLibraryCatchHelperRaises
+import FlatString.FlatString
+export Executable
+
+overflows(m: ZZ32): Boolean =
+  try
+    ignore(m + 1)
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+missing(name: String): Boolean =
+  try
+    typecase name.asFlatString of
+      f: FlatString => ignore(makeJavaBufferedReader(f))
+      f: String => ()
+    end
+    false
+  catch e
+    FileNotFoundException => true
+  end
+
+run(): () = do
+  println("REACHED")
+  largest: ZZ32 = 2147483647
+  assert(overflows(largest), "the largest ZZ32 plus 1 raises IntegerOverflow")
+  deny(overflows(largest - 1), "the largest ZZ32 is the sum of its predecessor and 1")
+  assert(missing("no such directory/no such file"), "opening a missing file raises FileNotFoundException")
+  println("PASS")
+end
+
+end

@@ -1,0 +1,5 @@
+# The program that catches the exceptions of a ZZ32 sum's overflow and of a missing file's opening, compiled under the one library's selection, runs and catches both.
+tests=OneLibraryCatchHelperRaises
+compile
+run
+run_out_contains=PASS

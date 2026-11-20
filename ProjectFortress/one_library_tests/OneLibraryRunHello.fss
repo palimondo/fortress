@@ -1,0 +1,7 @@
+(* Under the one library's selection, a program of one println compiles and runs. *)
+component OneLibraryRunHello
+export Executable
+
+run(): () = println("Hello, one library")
+
+end
