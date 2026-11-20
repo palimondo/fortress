@@ -3125,7 +3125,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
         
         
-        CodeGen cg = new CodeGen(this);
+        CodeGen cg = whereClauseBodyCodeGen(x);
 /*
  * Don't forward in the default methods after all -- do all duplication
  * in the inherited trait default class spine and in the object.
@@ -3204,7 +3204,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             mname = nonCollidingSingleName(name, sig,schema); 
         }
 
-        CodeGen cg = new CodeGen(this);
+        CodeGen cg = whereClauseBodyCodeGen(x);
         
         if (savedInAnObject) {
             // TODO if no overload, also emit forwarding method, mutilate "mname"
@@ -3234,6 +3234,15 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
     }
 
+
+    /* The nested codegen of a body without static parameters of its own: where its
+       where clause bounds a static parameter in scope, as a method's bounds its trait's,
+       its types are read with those bounds, as a generic body's are (generateGenericMethodBody). */
+    private CodeGen whereClauseBodyCodeGen(FnDecl x) {
+        FnHeader header = x.getHeader();
+        if (header.getWhereClause().isNone()) return new CodeGen(this);
+        return new CodeGen(this, typeAnalyzer.extendJ(header.getStaticParams(), header.getWhereClause()));
+    }
 
     /** Generate an actual Java method and body code from an Expr.
      *  Should be done within a nested codegen as follows:

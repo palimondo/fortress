@@ -1,4 +1,4 @@
-(* A generic method called on a receiver typed by a type variable runs the receiver's own method, at a bound that declares it, a bound that inherits it, two bounds, a bound that names another static parameter, a where clause's bound, an inferred static argument, and an object's static parameter. *)
+(* A generic method called on a receiver typed by a type variable runs the receiver's own method, at a bound that declares it, a bound that inherits it, two bounds, a bound that names another static parameter, a where clause's bound, an inferred static argument, an object's static parameter, and a method's where clause on its object's or trait's static parameter. *)
 component TypeVariableReceiverGenericMethod
 export Executable
 
@@ -24,6 +24,16 @@ end
 object Holder[\F extends Gen\](x: F)
   held(): ZZ32 = x.m[\ZZ32\](3)
 end
+object WhereHolder[\F\](x: F)
+  held(): ZZ32 where { F extends Gen } = x.m[\ZZ32\](3)
+end
+trait WhereShelf[\F\]
+  item(): F
+  held(): ZZ32 where { F extends Gen } = item().m[\ZZ32\](3)
+end
+object ShelfOfS extends WhereShelf[\S\]
+  item(): S = S
+end
 
 declared[\F extends Gen\](x: F): ZZ32 = x.m[\ZZ32\](3)
 inherited[\F extends Sub\](x: F): ZZ32 = x.m[\String\]("s")
@@ -42,6 +52,8 @@ run(): () = do
   assert(whereBound[\G\](G), 7, "a where clause bounds the variable")
   assert(inferred[\S\](S), 8, "the method's static argument is inferred")
   assert(Holder[\S\](S).held(), 8, "an object's static parameter types the receiver")
+  assert(WhereHolder[\S\](S).held(), 8, "a method's where clause bounds its object's static parameter")
+  assert(ShelfOfS.held(), 8, "a trait method's where clause bounds its trait's static parameter")
   println("PASS")
 end
 
