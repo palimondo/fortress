@@ -1,0 +1,4 @@
+# The program that compares the exceptions that a ZZ32 sum's overflow and a missing file's opening raise with their objects, compiled under the one library's selection, runs: it fails after REACHED while the run time makes a second instance of each object.
+tests=OneLibraryHelperRaiseSingleton
+run
+run_out_contains=REACHED

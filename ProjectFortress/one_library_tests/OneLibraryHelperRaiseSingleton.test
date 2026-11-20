@@ -1,0 +1,3 @@
+# The program that compares the exceptions that a ZZ32 sum's overflow and a missing file's opening raise with their objects compiles under the one library's selection.
+tests=OneLibraryHelperRaiseSingleton
+compile
