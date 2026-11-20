@@ -1,4 +1,4 @@
-(* A generic method called on a receiver typed by a type variable runs the receiver's own method, at a bound that declares it, a bound that inherits it, two bounds, a bound that names another static parameter, and a where clause's bound. *)
+(* A generic method called on a receiver typed by a type variable runs the receiver's own method, at a bound that declares it, a bound that inherits it, two bounds, a bound that names another static parameter, a where clause's bound, an inferred static argument, and an object's static parameter. *)
 component TypeVariableReceiverGenericMethod
 export Executable
 
@@ -21,6 +21,9 @@ object N extends { Named, Gen } end
 object Cell(e: ZZ32) extends Src[\ZZ32\]
   get[\R\](f: ZZ32 -> R): R = f(e)
 end
+object Holder[\F extends Gen\](x: F)
+  held(): ZZ32 = x.m[\ZZ32\](3)
+end
 
 declared[\F extends Gen\](x: F): ZZ32 = x.m[\ZZ32\](3)
 inherited[\F extends Sub\](x: F): ZZ32 = x.m[\String\]("s")
@@ -28,6 +31,7 @@ oneOfTwo[\F extends { Named, Gen }\](x: F): ZZ32 = x.m[\ZZ32\](3)
 bothBounds[\F extends { Gen, Sub }\](x: F): ZZ32 = x.m[\ZZ32\](3)
 genericBound[\E, F extends Src[\E\]\](x: F, f: E -> ZZ32): ZZ32 = x.get[\ZZ32\](f)
 whereBound[\F\](x: F): ZZ32 where { F extends Gen } = x.m[\ZZ32\](3)
+inferred[\F extends Gen\](x: F): ZZ32 = x.m(3)
 
 run(): () = do
   assert(declared[\G\](G), 7, "the bound declares the method")
@@ -36,6 +40,8 @@ run(): () = do
   assert(bothBounds[\S\](S), 8, "both bounds have the method, one below the other")
   assert(genericBound[\ZZ32, Cell\](Cell(5), fn (k: ZZ32): ZZ32 => k + 1), 6, "the bound names another static parameter")
   assert(whereBound[\G\](G), 7, "a where clause bounds the variable")
+  assert(inferred[\S\](S), 8, "the method's static argument is inferred")
+  assert(Holder[\S\](S).held(), 8, "an object's static parameter types the receiver")
   println("PASS")
 end
 
