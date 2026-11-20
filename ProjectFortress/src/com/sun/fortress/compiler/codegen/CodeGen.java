@@ -7310,7 +7310,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
      * chooses among them by the others' run-time types, as walk does
      * (OverloadSet.membersUnderAssumptions).  One reached, the call runs it;
      * every declaration that the resolved one's dispatch method holds, it runs
-     * that method; else a dispatch method among them alone, in a class of its own.
+     * that method; else a dispatch method among them alone, in a class of its own,
+     * refused where one of them is a functional method, whose arm calls it through
+     * its receiver, which dispatches again on every argument's run-time type.
      */
     private void partiallyAssumedCall(FunctionalRef x, String pkgClass, String mname, String sig,
                                       List<Expr> args) {
@@ -7337,6 +7339,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         } else if (reached.equals(os.membersAtOrBelow(resolved))) {
             mv.visitMethodInsn(INVOKESTATIC, pkgClass, mname, sig);
         } else {
+            for (OverloadSet.TaggedFunctionName f : reached)
+                if (f.getF() instanceof FunctionalMethod) throw sayWhat(x, ASSUMPTION_PARTIAL_CALL);
             /* Named as a function expression's class is, by the call's span (NamingCzar.gensymArrowClassName). */
             String base = pkgClass + "$asif@" + NodeUtil.getSpan(x).toStringWithoutFiles();
             String owner = base;
