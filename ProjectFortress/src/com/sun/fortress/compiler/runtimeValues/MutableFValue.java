@@ -31,7 +31,7 @@ public class MutableFValue {
         value = v;
     }
     
-    public FValue asString() {
+    public fortress.CompilerBuiltin.String asString() {
         return FJavaString.make("Bogus value from MutableFValue.asString()"); /* replaced in generated code; necessary for primitive hierarchy */
     }
     
