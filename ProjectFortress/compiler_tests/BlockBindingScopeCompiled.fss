@@ -1,4 +1,4 @@
-(* A local variable declared in an if arm leaves scope with the arm, so a later local function, function expression or task that binds or names a variable of the same name for its own reads no slot of the arm on the path that skipped it. Specification/basic/declarations.tex, section "Reach and Scope of Declarations". *)
+(* A local variable declared in a nested block (an if arm, a do block, a declaration's initializer) leaves scope with the block, so a later local function, function expression or task that binds or names a variable of the same name for its own reads no slot of the block, unset on a path that skipped it or taken by a later local. Specification/basic/declarations.tex, section "Reach and Scope of Declarations". *)
 component BlockBindingScopeCompiled
 export Executable
 
@@ -50,6 +50,27 @@ taskAfterArm(k: ZZ32): ZZ32 = do
   seen + add(up(k), up(k + 1))
 end
 
+doBlockSlotReused(a: ZZ32): ZZ32 = do
+  var seen: ZZ32 := 0
+  do
+    r: ZZ32 = a + 5
+    seen := r
+  end
+  s: String = "later"
+  g = fn (x: ZZ32): ZZ32 => x + 1
+  seen + g(a)
+end
+
+initializerBlockSlotReused(a: ZZ32): ZZ32 = do
+  y: ZZ32 = do
+    r: ZZ32 = a + 1
+    r + r
+  end
+  s: String = "mid"
+  h(z: ZZ32): ZZ32 = z + 2
+  y + h(a)
+end
+
 run(): () = do
   assert(localFunctionAfterArm(3), 12, "local function after the arm, arm taken")
   assert(localFunctionAfterArm(-2), -4, "local function after the arm, arm skipped")
@@ -59,6 +80,10 @@ run(): () = do
   assert(labelArmExitsThenLocalFunction(9), 4, "label block, local function after the arm")
   assert(taskAfterArm(3), 12, "forked call after the arm, arm taken")
   assert(taskAfterArm(-2), -1, "forked call after the arm, arm skipped")
+  assert(doBlockSlotReused(3), 12, "do block, its slot taken by a later local")
+  assert(doBlockSlotReused(-2), 2, "do block, its slot taken by a later local, negative argument")
+  assert(initializerBlockSlotReused(3), 13, "initializer block, its slot taken by a later local")
+  assert(initializerBlockSlotReused(-2), -2, "initializer block, its slot taken by a later local, negative argument")
   println("PASS")
 end
 
