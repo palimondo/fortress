@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Answer the handover's questions at source","toolUseId":"toolu_01A2KLbZTL7BWYwKxz2m6wkk","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
