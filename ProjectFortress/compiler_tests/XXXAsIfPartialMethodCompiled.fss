@@ -1,0 +1,21 @@
+(* A call of a functional method with a type assumption at self and not at its other argument runs the body that the assumed trait gives, chosen by the other argument's run-time type (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfPartialMethodCompiled
+export Executable
+
+trait Named
+    tag(self, y: Named): String = "Named tags Named"
+    tag(self, y: Leaf): String = "Named tags Leaf"
+end
+
+object Leaf extends Named
+    tag(self, y: Named): String = "Leaf tags Named"
+    tag(self, y: Leaf): String = "Leaf tags Leaf"
+end
+
+run(): () = do
+    n: Named = Leaf
+    assert(tag(Leaf asif Named, n), "Named tags Leaf", "the body that Named gives, at the other argument's run-time type")
+    println("PASS")
+  end
+
+end

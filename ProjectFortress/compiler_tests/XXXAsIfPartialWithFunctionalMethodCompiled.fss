@@ -1,0 +1,24 @@
+(* A call of an overloaded function with a type assumption at some of its arguments chooses among the declarations that take the assumed types, an object's functional method among them, by the run-time types of its other arguments (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfPartialWithFunctionalMethodCompiled
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+end
+
+object Leaf(k: ZZ32) extends Named
+    getter name(): String = "Leaf"
+    pick(self, y: Named): String = "Leaf picks Named"
+    pick(self, y: Leaf): String = "Leaf picks Leaf"
+end
+
+pick(x: Named, y: Named): String = "Named, Named"
+
+run(): () = do
+    b = Leaf(1)
+    n: Named = Leaf(2)
+    assert(pick(n, b asif Named), "Leaf picks Named", "the functional method that takes the assumed type, at the other argument's run-time type")
+    println("PASS")
+  end
+
+end

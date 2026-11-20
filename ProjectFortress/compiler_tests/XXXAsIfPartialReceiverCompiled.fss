@@ -1,0 +1,21 @@
+(* A dotted call of an overloaded method on an assumed receiver, with an argument that is not an assumption, runs the body that the assumed trait gives, chosen by the argument's run-time type (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfPartialReceiverCompiled
+export Executable
+
+trait Named
+    pick(x: Named): String = "Named picks Named"
+    pick(x: Leaf): String = "Named picks Leaf"
+end
+
+object Leaf extends Named
+    pick(x: Named): String = "Leaf picks Named"
+    pick(x: Leaf): String = "Leaf picks Leaf"
+end
+
+run(): () = do
+    n: Named = Leaf
+    assert((Leaf asif Named).pick(n), "Named picks Leaf", "the body that Named gives, at the argument's run-time type")
+    println("PASS")
+  end
+
+end

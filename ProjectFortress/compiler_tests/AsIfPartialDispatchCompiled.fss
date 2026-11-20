@@ -1,0 +1,53 @@
+(* A call with a type assumption at some of its arguments chooses among the declarations that take the assumed types, by the run-time types of its other arguments (type-annotation.tex, section "Type Assumption"). *)
+component AsIfPartialDispatchCompiled
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+end
+
+object Leaf(k: ZZ32) extends Named
+    getter name(): String = "Leaf"
+end
+
+object Twig extends Named
+    getter name(): String = "Twig"
+end
+
+pair(x: Named, y: Named): String = "Named, Named"
+pair(x: Named, y: Leaf): String = "Named, Leaf"
+
+trio(x: Named, y: Named): String = "Named, Named"
+trio(x: Named, y: Leaf): String = "Named, Leaf"
+trio(x: Leaf, y: Named): String = "Leaf, Named"
+trio(x: Leaf, y: Leaf): String = "Leaf, Leaf"
+
+opr ODOT(a: Named, b: Named): String = "Named ODOT Named"
+opr ODOT(a: Leaf, b: Leaf): String = "Leaf ODOT Leaf"
+
+object Caller
+    go(n: Named): String = trio(Leaf(4) asif Named, n)
+end
+
+run(): () = do
+    a = Leaf(1)
+    n: Named = Leaf(2)
+    t: Named = Twig
+    l: Leaf = Leaf(3)
+    assert(pair(a asif Named, n), "Named, Leaf", "the other argument's run-time type chooses")
+    assert(pair(a asif Named, t), "Named, Named", "the other argument's run-time type falls back")
+    assert(trio(a asif Named, n), "Named, Leaf", "only the declarations at the assumed type take the call")
+    assert(trio(a asif Named, t), "Named, Named", "the declaration that the checker resolved ends the choice")
+    assert(trio(n, a asif Named), "Leaf, Named", "an assumption at the second argument")
+    assert(trio(t, a asif Named), "Named, Named", "an assumption at the second argument, falling back")
+    assert(trio(a asif Named, l), "Named, Leaf", "one declaration takes the assumed type and the other's static type")
+    assert(trio(a asif Named, Twig), "Named, Named", "a declaration whose parameter excludes the other argument's type")
+    assert((a asif Named) ODOT a, "Named ODOT Named", "an operator with an assumption at one operand")
+    assert(Caller.go(n), "Named, Leaf", "the call in an object's method")
+    pick = fn (m: Named): String => trio(a asif Named, m)
+    assert(pick(n), "Named, Leaf", "the call in a function expression")
+    assert(pick(t), "Named, Named", "the call in a function expression, falling back")
+    println("PASS")
+  end
+
+end

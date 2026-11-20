@@ -1,5 +1,5 @@
 (* An overloaded call with one argument under a type assumption and one not dispatches on the assumed type and on the other argument's own type (type-annotation.tex, section "Type Assumption"). *)
-component XXXAsIfPartialCallCompiled
+component AsIfPartialCallCompiled
 export Executable
 
 trait Named

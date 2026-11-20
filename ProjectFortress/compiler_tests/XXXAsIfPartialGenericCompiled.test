@@ -1,0 +1,3 @@
+tests=XXXAsIfPartialGenericCompiled
+compile
+compile_exception_contains=Can't compile a type assumption at some arguments but not all of a call that a generic declaration can take yet
