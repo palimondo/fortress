@@ -1,0 +1,29 @@
+refused declarations 0 | emitted (OK lines) 754 | component failures 0
+  TypeProxy            refused   0  emitted   1
+  FortressLibrary      refused   0  emitted 537
+  AnyType              refused   0  emitted   1
+  String               refused   0  emitted  16
+  NatReflect           refused   0  emitted   4
+  RangeInternals       refused   0  emitted 102
+  CovariantCollection  refused   0  emitted  25
+  FlatString           refused   0  emitted   6
+  FortressBuiltin      refused   0  emitted  21
+  NativeArray          refused   0  emitted   3
+  Stream               refused   0  emitted   4
+  List                 refused   0  emitted  26
+  OneShotFlag          refused   0  emitted   3
+  Writer               refused   0  emitted   5
+kinds 0
+rc=0 seconds=215
+MEASURE_SECONDS=260
+EXIT=0
+
+The code: 285efad8021dce9f3fa685ddc19a04660e0b69d5, climb batch 34, run 1, landed: rungs T 8e4cc0c16d, P bd933455e3, L 42c9f707d2, G 51d6c49eb8, F 3e19933c65. The command: explorations/compile-ladder/plan-31/probes/planner/codegen-measure.sh /home/user/fortress-measure41 <out-dir>, on a scratch worktree seeded from the base build /home/user/fortress-base41, then cgkinds.py <out-dir>/run.txt --list, which lists nothing past the table, no declaration being refused. The patch measure-hacks.patch applied whole, no hunk dropped: NamingCzar.java's three hunks at offsets of 2, 71 and 71 lines, as on ba3c7c876d; FortressMethodAdapter.java, Naming.java and TraitTable.scala as written. Run 1 edited none of the patch's four files: rungs T, P and L edited CodeGen.java, rung P OverloadSet.java, rung G OverloadingChecker.scala, rung F BuildNativeEnvironment.java. Rung N's payloadObjects table still has no rows for the one library's seven (NamingCzar.java:606-614 at 285efad802), so the patch's carried types of the one library are still needed. The script's other hack, the sed of NN32's two getters, is now a no-op: rung G declared them `getter zero(): NN32 = unsigned(0)` and `getter one(): NN32 = unsigned(1)` (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:264-265), the text the sed wrote; the script's check of the two lines passes on the landed text, and after the script the scratch tree differed from the base only in the patch's four files (git status --porcelain). Machine: 4 CPUs, Intel Xeon Processor @ 2.10GHz, JDK 25, FORTRESS_THREADS=1, load 1.47 at start, under nice -n 19 beside one reviewer.
+
+No declaration is refused, so none has a ledger row to name.
+
+String, from the measure's own logs: '@@CG COMPONENT-OK String', 16 OK lines and no FAIL line, among them '@@CG OK FnDecl concatAndBalanceIfNecessary .../Library/String.fss:61:5-71:8', the declaration that holds the two calls with a type assumption at one argument (String.fss:67, :69). These lines cannot show that String compiles whole: the driver runs with -Dprobe.skipOverloads=true, under which the shadow CodeGen.generateTopLevelOverloads returns no overloaded name (explorations/coordinator/tools/distance/shadow-patch.py:205-207), so the two calls are not compiled as dispatched calls and row 818's wall is not met; on ba3c7c876d the logs gave String the same 16 emitted and 0 refused while String's real compile stopped there (F-34). So String's real compile was taken once, on the same scratch worktree with the patch reversed (git apply -R; git status --porcelain then empty) and ant compileAll run again: cd ProjectFortress && FORTRESS_LIBRARY=one ../bin/fortress compile ../Library/String.fss gives 'compile exit=0 seconds=36' and default_repository/caches-one/bytecode_cache/String.jar, 84,438 bytes. In it (javap -c -cp String.jar String), the body of concatAndBalanceIfNecessary(String$CatString, FlatString$FlatString) calls at both sites, instructions 103 and 131, 'invokestatic ... Method "concatAndBalanceIfNecessary?":(Lfortress/FortressLibrary$String;Lfortress/FortressLibrary$String;)Lfortress/FortressLibrary$String;', the body of the (String, String) declaration, as rung P's report found on a95eb01926 (rung-partial-assumption/REPORT.md, "`String` under the selector"). String compiles whole on the landed code. The jar is not run.
+
+Against measure-ba3c7c876d.txt (explorations/compile-ladder/plan-33/probes/): 1 refused in 1 kind, 753 emitted, before; 0 refused, 754 emitted, now; no component failure in either. Declaration by declaration:
+  FortressLibrary  __bigOperator2  FnDecl  1656:1-1677:4  VarType to TraitType (row 1076)  -> emitted, rung T (8e4cc0c16d)
+Its OK line now: '@@CG OK FnDecl __bigOperator2 /home/user/fortress-measure41/Library/FortressLibrary.fss:1656:1-1677:4'. Emitted rose by 1, FortressLibrary 536 to 537, that line; every other component's count is the earlier file's. No declaration is newly refused. The one library's sources changed between the two codes (git diff --numstat ba3c7c876d 285efad802 -- Library ProjectFortress/LibraryBuiltin): rung G's getters answer the inherited types (FortressLibrary.fss, List.fss, RangeInternals.fsi and .fss, FortressBuiltin.fss), return types only, each line in place; rung F removed FlatString.fss's two lines `ignore(FlatString); (* ... *)` (lines 29-30 at ba3c7c876d), so FlatString's later spans are two lines higher; no count moved with them. The result is F-34's on rung T's code: 0 refused, 754 emitted. Row 1076 is FIXED (8e4cc0c16d). Row 818 stays NEGATIVE-VERIFIED for its other forms (its notes); String's form, a call of an overloaded function of the component, is the one rung P took. No refusal lacks a row, so no row was added.
