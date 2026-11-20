@@ -1,0 +1,17 @@
+(* A method called on a value of a type variable bounded by another type variable, itself bounded by the method's trait, compiles and runs. *)
+component XXXMethodThroughTypeVariableBound
+export Executable
+
+trait Gen
+  n(): ZZ32 = 7
+end
+object G extends Gen end
+
+chained[\H extends Gen, F extends H\](x: F): ZZ32 = x.n()
+
+run(): () = do
+  assert(chained[\G, G\](G), 7, "the method of the bound's bound")
+  println("PASS")
+end
+
+end

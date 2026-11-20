@@ -1,0 +1,60 @@
+(* A generic method called on a receiver typed by a type variable runs the receiver's own method, at a bound that declares it, a bound that inherits it, two bounds, a bound that names another static parameter, a where clause's bound, an inferred static argument, an object's static parameter, and a method's where clause on its object's or trait's static parameter. *)
+component TypeVariableReceiverGenericMethod
+export Executable
+
+trait Gen
+  m[\T\](y: T): ZZ32 = 7
+end
+trait Sub extends Gen end
+trait Named
+  name(): String = "named"
+end
+trait Src[\E\]
+  get[\R\](f: E -> R): R
+end
+
+object G extends Gen end
+object S extends Sub
+  m[\T\](y: T): ZZ32 = 8
+end
+object N extends { Named, Gen } end
+object Cell(e: ZZ32) extends Src[\ZZ32\]
+  get[\R\](f: ZZ32 -> R): R = f(e)
+end
+object Holder[\F extends Gen\](x: F)
+  held(): ZZ32 = x.m[\ZZ32\](3)
+end
+object WhereHolder[\F\](x: F)
+  held(): ZZ32 where { F extends Gen } = x.m[\ZZ32\](3)
+end
+trait WhereShelf[\F\]
+  item(): F
+  held(): ZZ32 where { F extends Gen } = item().m[\ZZ32\](3)
+end
+object ShelfOfS extends WhereShelf[\S\]
+  item(): S = S
+end
+
+declared[\F extends Gen\](x: F): ZZ32 = x.m[\ZZ32\](3)
+inherited[\F extends Sub\](x: F): ZZ32 = x.m[\String\]("s")
+oneOfTwo[\F extends { Named, Gen }\](x: F): ZZ32 = x.m[\ZZ32\](3)
+bothBounds[\F extends { Gen, Sub }\](x: F): ZZ32 = x.m[\ZZ32\](3)
+genericBound[\E, F extends Src[\E\]\](x: F, f: E -> ZZ32): ZZ32 = x.get[\ZZ32\](f)
+whereBound[\F\](x: F): ZZ32 where { F extends Gen } = x.m[\ZZ32\](3)
+inferred[\F extends Gen\](x: F): ZZ32 = x.m(3)
+
+run(): () = do
+  assert(declared[\G\](G), 7, "the bound declares the method")
+  assert(inherited[\S\](S), 8, "the bound inherits the method, and the object's own body runs")
+  assert(oneOfTwo[\N\](N), 7, "one of two bounds declares the method")
+  assert(bothBounds[\S\](S), 8, "both bounds have the method, one below the other")
+  assert(genericBound[\ZZ32, Cell\](Cell(5), fn (k: ZZ32): ZZ32 => k + 1), 6, "the bound names another static parameter")
+  assert(whereBound[\G\](G), 7, "a where clause bounds the variable")
+  assert(inferred[\S\](S), 8, "the method's static argument is inferred")
+  assert(Holder[\S\](S).held(), 8, "an object's static parameter types the receiver")
+  assert(WhereHolder[\S\](S).held(), 8, "a method's where clause bounds its object's static parameter")
+  assert(ShelfOfS.held(), 8, "a trait method's where clause bounds its trait's static parameter")
+  println("PASS")
+end
+
+end
