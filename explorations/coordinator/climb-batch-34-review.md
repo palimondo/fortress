@@ -1,5 +1,6 @@
 <!-- The check of climb batch 34's record, `CLIMB-BATCH-34.md`, with its probe notes `compile-ladder/plan-34/probes/rehearsal.md`, before any launch and before the curator's go, by a fresh reader on Fable on 2026-11-20, by reading only: run 1's citations at their sources on `main`'s code (`95611a87c5`), each repair against the team's sources, each rung against the decisions on record, the forks, the merge, the measures and the estimate, and the section for the curator; no reproducer was run, since the session's permission mode refused every executable; one fork is named consequential (fork L1's fallback, against P-102), and the record is corrected in place. -->
 <!-- Sources: the reviewer's brief; `coordinator/CLIMB-BATCH-34.md` as of `db56455c82`; `compile-ladder/plan-34/probes/rehearsal.md` and its programs; POSITIONS P-9, P-33, P-37, P-87, P-102, P-148, P-164, P-169, P-178 and POSITIONS-history's blocks of P-33 and P-178 (2026-11-17 and 2026-11-18); FACTS F-34, F-58, F-352, F-353, F-381, F-388; review-queue items 513, 514, 521, 597, 599, 601; ledger rows 818, 993, 1076, 1078, 1082, 1090; `reviews/carriers-ways-2026-11-13.md`, ways C and D; `compile-ladder/rung-number-payload-objects/REPORT.md`, fork N4; `coordinator/CLIMB-BATCH-33.md`, fork N4; `reviews/batch-33-review.md` and `batch-33b-review.md`, section 5; `coordinator/climb-batch-workflow.md` and `.js`; the `coordinator` skill, "The curator's role and decisions"; the `fortress-repo` skill; the code and the specification at the sites named below. -->
+<!-- Section B8 added on 2026-11-20 by a worker on Opus that could run programs: check 2, the failing programs of rungs P, T, G and F run once on a worktree seeded from the base build `/home/user/fortress-base40` (`2676c8009c`), and the record brought in line with what the runs show. -->
 
 # The check of climb batch 34's record before its launch
 
@@ -132,3 +133,76 @@ What the record says is settled, checked at each source: P-33 and its history of
 - Run any program, build or stage (see "The method, and its limit").
 - Check run 2's citations or its repairs: the brief gave run 2 checks 4 to 7 only.
 - Check the briefing keys of section 1 with `facts-extract.sh --check`.
+
+## B8. The reproducers, run
+
+Check 2, which the reading above could not do: the failing program of each of rungs P, T, G and F, run once, on the base's code. Rung L has none yet (B1, C1), so nothing of it was run. A worker on Opus that could run programs ran them on 2026-11-20 in a worktree of its own, `/home/user/fortress-rv34run`, seeded from the base build by `explorations/coordinator/tools/seed-worktree.sh /home/user/fortress-base40 /home/user/fortress-rv34run - HEAD` (detached at `2676c8009c`), and removed after. `main`'s code is the same: `git diff --stat 2676c8009c HEAD -- . ':!explorations' ':!docs' ':!.claude'` printed nothing at `e70926dc23`. Machine: 4 CPUs, Intel Xeon @ 2.10 GHz, load 0.19 at start, OpenJDK 25.0.4.1, `FORTRESS_THREADS=4` in the harness. The scratch tests were in the worktree's `tmp/`; each is given below. The compiled tests of runs 1 to 4 ran in one JVM: `ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh b34 tmp/b34c AsIfPartialCallCompiled.test AsIfPartialDispatch.test VarRecv.test WidenGetter.test`, which ended 'Tests run: 7, Failures: 7, Errors: 0'.
+
+**Run 1. Rung P, `XXXAsIfPartialCallCompiled` promoted to a run test.** The program is `compiler_tests/XXXAsIfPartialCallCompiled.fss` with its component renamed `AsIfPartialCallCompiled`, and its `.test` is `tests=AsIfPartialCallCompiled`, `link`, `run`, `run_out_contains=PASS`. It fails on the base at its link with the pinned message, and its run fails after it:
+
+    . link tmp/b34c/AsIfPartialCallCompiled
+     UNEXPECTED exception
+    com.sun.fortress.exceptions.CompilerError:
+    tmp/b34c/AsIfPartialCallCompiled.fss:18:12-14:
+        Can't compile a dispatched call whose arguments are not all type assumptions node = pair
+    F. run tmp/b34c/AsIfPartialCallCompiled (177ms) Could not load AsIfPartialCallCompiled
+
+**Run 2. Rung P, the case of B2.** The program `AsIfPartialDispatch` declares `trait Named` with `getter name()`, `object Leaf(k: ZZ32) extends Named`, `pair(x: Named, y: Named): String = "Named, Named"` and `pair(x: Named, y: Leaf): String = "Named, Leaf"`. Its `run()` binds `a = Leaf(1)` and `n: Named = Leaf(2)`, then `r = pair(a asif Named, n)`, then `println(r)`, `assert(r, "Named, Leaf", ...)` and `println("PASS")`. Its `.test` has the keys of run 1. Under walk, with `cd tmp/b34w && ../../bin/fortress walk AsIfPartialDispatch.fss`, exit 0:
+
+    Named, Leaf
+    PASS
+
+So walk runs `pair(x: Named, y: Leaf)`: the other argument dispatches on its run-time type, as B2 read it. Compiled, in the call above, the link fails as in run 1:
+
+    . link tmp/b34c/AsIfPartialDispatch
+    tmp/b34c/AsIfPartialDispatch.fss:19:9-11:
+        Can't compile a dispatched call whose arguments are not all type assumptions node = pair
+    F. run tmp/b34c/AsIfPartialDispatch (197ms) Could not load AsIfPartialDispatch
+
+The run bears out the review's reading. Fork P1's earlier rule would call `pair(x: Named, y: Named)` directly, and it is restated.
+
+**Run 3. Rung T, `programs/VarRecv.fss`.** `VarRecv.test` is `tests=VarRecv`, `link`, `run`, `run_out_contains=7`, since the program prints `7`. The harness reports the code generator's crash as an exception of the link step, and the run then finds no class:
+
+    . link tmp/b34c/VarRecv
+     UNEXPECTED exception
+    java.lang.ClassCastException: class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.TraitType (...)
+    F. run tmp/b34c/VarRecv (163ms) Could not load VarRecv
+    3) tmp/b34c/VarRecv(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: link
+
+**Run 4. Rung G.** First, `programs/WidenGetter.fss` as the section's test would be: `WidenGetter.test` is `tests=WidenGetter`, `compile`, `compile_err_contains=should be a subtype of the`, which is `returnTypeCheck`'s message (`OverloadingChecker.scala:742-743`). It fails on the base, the compile reporting the code generator's static error:
+
+    F. compile tmp/b34c/WidenGetter # WidenGetter..Oz.zero():Number
+    # WidenGetter..(Tz[\Oz\] & {Oz}).zero():Oz
+    Likely bug in static analysis, apparently malformed overload set not rejected for
+    WidenGetter..Oz.zero():Number
+    File WidenGetter.fss has 1 error.
+    4) tmp/b34c/WidenGetter(...$CommandTest)junit.framework.AssertionFailedError: Must satisfy compile_err_contains; expected should be a subtype of the compile
+
+Second, under the selector, the program `OneLibraryNN32ZeroGetter`, whose `run()` is `n: NN32 = 5`, `z: NN32 = n.zero`, `println(z)`. Its `.test` is `tests=OneLibraryNN32ZeroGetter`, `compile`, as a test of `one_library_tests/` has it. It ran through the same script with `FORTRESS_LIBRARY=one` exported, as the onelibrary track's JVM has it (`build.xml`, the macro `fastTrack`, `FORTRESS_LIBRARY` set to `@{library}`): `ONE_JVM=1 .../junit.sh b34g tmp/b34g OneLibraryNN32ZeroGetter.test`. It compiled:
+
+    . compile tmp/b34g/OneLibraryNN32ZeroGetter  OK (time = 23982ms)
+    OK (1 test)
+
+The compile read the one library: `default_repository/caches-one/analyzed_cache/` then held `FortressBuiltin-7ec55c39.tfi` and `FortressLibrary-2a2f0082.tfi` beside the program's entry, and its `bytecode_cache/` held `OneLibraryNN32ZeroGetter.jar`. So the binding is not refused on the base, and this test cannot fail first, as B1 feared. The section now says so, and says what a test of the two lines needs. That is for the coordinator to settle before the launch.
+
+**Run 5. Rung F.** In the worktree only, `Library/FlatString.fss:29-30` taken out: `ignore(FlatString);` and the end of its comment, since line 30 closes the comment that line 29 opens. The walk test `FlatStringWithoutName` imports `FlatString.{...}`. Its `run()` binds `s: String = "a string"`, then `println(s)` and `assert(|lineSeparator|, 1, "the line separator's length")`. It ran with `explorations/compile-ladder/rung-inference-walk/harness-one.sh <tree>/tmp/h1 tmp/b34f/FlatStringWithoutName.fss` (cache empty), and the line was put back after:
+
+    . interpret tmp/h1/tests/FlatStringWithoutName
+     UNEXPECTED exception
+    java.lang.NullPointerException
+    Caused by: java.lang.NullPointerException: Cannot read field "selfType" because the return value of "com.sun.fortress.interpreter.evaluator.values.FNativeObject.getConstructor()" is null
+    Tests run: 1,  Failures: 1,  Errors: 0
+
+Nothing printed before the exception, so walk dies before the program's first `println`. The failure needs the one edit of the library. The section now names that edit as the test's set-up.
+
+**What I changed in the record** (`CLIMB-BATCH-34.md`):
+
+- Rung P, step 1: the line "Seen failing on the base:" from run 1, and B2's case as the second test, with walk's answer from run 2, in place of "a second case where two declarations stay applicable". Step 2 states fork P1's rule anew.
+- Fork P1 (section 3): restated. The set holds every declaration that takes the assumed types at the assumed places and that the other arguments' static types do not exclude, and the call dispatches among them on the other arguments' run-time types. The grounds are `type-annotation.tex:44-47` and `Evaluator.java:109-116`, and run 2 is the example. The manifest's P entry already said "by run-time type at the others", so it is unchanged.
+- Rung T, step 1: the line "Seen failing on the base:" from run 3, with how the harness reports the crash, and that the program prints `7`, not `PASS`.
+- Rung G, step 1: the line "Seen failing on the base:" from run 4 for the first test, its pinned message named (`returnTypeCheck`'s). For the second test, that it compiles on the base, and what a test of the two lines needs: a check that reads the getter's own declaration. Fork G1's checker refusing `FortressBuiltin.fss:264-265` under the selector would be one, which puts that run after step 3 and before step 2. The form and the order are the coordinator's. The section's "Specification." line now names the Return Type Rule's section too.
+- Fork G1 (section 3): narrowed to the getter, with `returnTypeCheck`'s message (`OverloadingChecker.scala:742-743`) in place of the `override`'s (`:726`). It notes that a method redeclared at the same parameter types is already checked (`:712-714`). Its reason is now the Return Type Rule (`Specification/advanced/overloading.tex:555-559`, section "Declarations with Static Parameters"; the rule's text ends at `:559`, one line past B3's `:558`), and the checker's check for methods. The manifest's G entry swaps its briefing key `advanced/overloading.tex#Subtype Rule` for `#Declarations with Static Parameters`, still one of 11 keys and 7 checks. `facts-extract.sh --check` matches it at `Specification/advanced/overloading.tex:531-674`, 8,203 bytes. LaTeX's `\item` is not a list item to its `@` filter, so the key prints the whole section.
+- Rung F, step 1: taking the line out is the test's set-up, so the failing run follows that one edit of the library and precedes the fix. Also the line "Seen failing on the base:" from run 5.
+- The record's header notes this check.
+
+**Rows.** None added. Each failure seen is a row's: 818 (runs 1 and 2), 1076 (run 3), 993 (run 4: the checker accepts the widening getter, and under the selector it also accepts `z: NN32 = n.zero`), and 1090 (run 5).
