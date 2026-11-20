@@ -7346,6 +7346,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             receiverCast = intersectionMethodOwner(x, (IntersectionType) receiverType, method, mt, domain_type);
             receiverType = receiverCast;
         }
+        /* A type variable, at a call of a generic method: the call goes to the method's
+           owner among the variable's bounds, and the receiver is cast to it. */
+        if (receiverType instanceof VarType && method_sargs.size() > 0) {
+            receiverCast = typeVariableMethodOwner(x, (VarType) receiverType, method, mt, domain_type);
+            receiverType = receiverCast;
+        }
 //        if (!(receiverType instanceof TraitType)) {
 //            throw sayWhat(x, "receiver type "+receiverType+" is not TraitType in " + x);
 //        }
@@ -7628,6 +7634,27 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             if (below) return c;
         }
         return owners.get(0);
+    }
+
+    /*
+     * The trait to which a dotted call of a generic method casts a receiver whose static
+     * type is a type variable: the variable's bound that declares or inherits the called
+     * method, the most specific where several do, chosen as intersectionMethodOwner
+     * chooses among the conjuncts of an intersection.  The bounds are those of the kind
+     * environment, a where clause's among them; a bound that is not a trait type is not
+     * a candidate.
+     */
+    private TraitType typeVariableMethodOwner(ASTNode x, VarType v, IdOrOp method,
+                                              Option<Type> overloadingType, Type domain) {
+        scala.Option<StaticParam> sp = typeAnalyzer.env().staticParam(v.getName());
+        List<TraitType> bounds = new ArrayList<TraitType>();
+        if (sp.isDefined())
+            for (BaseType b : sp.get().getExtendsClause()) traitConjuncts(b, bounds);
+        if (bounds.isEmpty())
+            throw sayWhat(x, "Can't find a trait among the bounds of " + v + " that has " + method.getText());
+        return intersectionMethodOwner(x, NodeFactory.makeIntersectionType(NodeUtil.getSpan(v),
+                                                                           new ArrayList<Type>(bounds)),
+                                       method, overloadingType, domain);
     }
 
     /* The trait types among the conjuncts of t, nested intersections opened, in their order. */
