@@ -1,0 +1,21 @@
+(* A dotted call of an overloaded method with a type assumption at its argument runs the receiver's declaration that takes the assumed type (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfPartialDottedArgCompiled
+export Executable
+
+trait Named
+    pick(x: Named): String = "Named picks Named"
+    pick(x: Leaf): String = "Named picks Leaf"
+end
+
+object Leaf extends Named
+    pick(x: Named): String = "Leaf picks Named"
+    pick(x: Leaf): String = "Leaf picks Leaf"
+end
+
+run(): () = do
+    n: Named = Leaf
+    assert(n.pick(Leaf asif Named), "Leaf picks Named", "the receiver's declaration at the assumed type")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,3 @@
+tests=XXXAsIfPartialMethodCompiled
+compile
+compile_exception_contains=Can't compile a dispatched call whose arguments are not all type assumptions

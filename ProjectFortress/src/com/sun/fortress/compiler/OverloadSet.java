@@ -2280,7 +2280,89 @@ nameTemp + "\n" +
     public Set<String> getOtherKeys() {
         return otherOverloadKeys;
     }
-    
+
+    /** The member of this set whose JVM signature is sig, or null where none is. */
+    public TaggedFunctionName memberWithSignature(String sig) {
+        for (TaggedFunctionName f : lessSpecificThanSoFar)
+            if (jvmSignatureFor(f).equals(sig)) return f;
+        return null;
+    }
+
+    /** The members of this set at least as specific as f, f among them. */
+    public Set<TaggedFunctionName> membersAtOrBelow(TaggedFunctionName f) {
+        Set<TaggedFunctionName> result = new HashSet<TaggedFunctionName>();
+        result.add(f);
+        for (TaggedFunctionName g : lessSpecificThanSoFar)
+            if (g != f && fLessSpecThanG(f, g)) result.add(g);
+        return result;
+    }
+
+    /**
+     * The members that a call reaches whose argument at each position j where
+     * assumed.get(j) is not null is a type assumption at that type, and whose
+     * argument at each other position has the static type others.get(j), null
+     * where it is not known.  The assumption gives the call around it both the
+     * static and the dynamic type that it names (type-annotation.tex, section
+     * "Type Assumption"); the other arguments dispatch on their own run-time
+     * types.  principal is the member that the checker resolved at those
+     * static types, so every member that a run of the call can choose is at or
+     * below it: these are the members at or below principal whose parameter at
+     * each assumed position takes the assumed type, and whose parameter at each
+     * other position the static type does not exclude, principal among them.
+     * Answers null where a member below principal has static parameters, whose
+     * instances this does not read.
+     */
+    public Set<TaggedFunctionName> membersUnderAssumptions(TaggedFunctionName principal,
+                                                            List<Type> assumed, List<Type> others) {
+        Set<TaggedFunctionName> result = new HashSet<TaggedFunctionName>();
+        for (TaggedFunctionName g : membersAtOrBelow(principal)) {
+            if (g != principal && staticParametersOf(g.tagF) != null) return null;
+            boolean takes = true;
+            for (int j = 0; takes && j < paramCount; j++) {
+                Type p = oa.getParamType(g.tagF, j);
+                if (assumed.get(j) != null)
+                    takes = ta.lteq(assumed.get(j), p);
+                else if (others.get(j) != null)
+                    takes = !ta.definitelyExcludes(others.get(j), p);
+            }
+            if (takes || g == principal) result.add(g);
+        }
+        return result;
+    }
+
+    /**
+     * Emits into cv a public static method named methodName, at principal's
+     * signature, that dispatches among members alone as this set's own dispatch
+     * methods do: by the run-time types of the arguments, the most specific
+     * member first, principal last, each arm calling its member's own body.
+     * members are members of this set, which split has split, at or below
+     * principal, and principal among them.
+     */
+    public void generateDispatchAmong(Set<TaggedFunctionName> members, TaggedFunctionName principal,
+                                      String methodName, CodeGenClassWriter cv) {
+        OverloadSet among = makeSubset(new HashSet<TaggedFunctionName>(members), principal, this);
+        among.overloadSubsets = overloadSubsets;
+        among.splitInternal(inSpecificOrder(members));
+        among.generateAnOverloadDefinitionInner(methodName, cv);
+    }
+
+    /** The members fs, the most specific first, ordered as split orders the whole set. */
+    private List<TopSortItemImpl<TaggedFunctionName>> inSpecificOrder(Set<TaggedFunctionName> fs) {
+        TopSortItemImpl<TaggedFunctionName>[] pofuns = new OverloadSet.POTFN[fs.size()];
+        int i = 0;
+        for (TaggedFunctionName f : fs)
+            pofuns[i++] = new POTFN(f);
+        for (int fi = 0; fi < pofuns.length; fi++)
+            for (int gi = 0; gi < pofuns.length; gi++)
+                if (fi != gi && fLessSpecThanG(pofuns[fi].x, pofuns[gi].x))
+                    pofuns[gi].edgeTo(pofuns[fi]);
+        try {
+            return TopSort.depthFirstArray(pofuns);
+        } catch (CycleInRelation ex) {
+            throw new CompilerBug("Members of an overload set that split ordered do not order: " + fs, ex);
+        }
+    }
+
     protected int firstArg() {
         return 0;
     }

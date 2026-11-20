@@ -1,0 +1,23 @@
+(* A call with a type assumption at some of its arguments chooses among the declarations that take the assumed types, a generic one among them, by the run-time types of its other arguments (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfPartialGenericCompiled
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+end
+
+object Leaf(k: ZZ32) extends Named
+    getter name(): String = "Leaf"
+end
+
+gpair(x: Named, y: Named): String = "Named, Named"
+gpair[\T extends Leaf\](x: Named, y: T): String = "Named, T"
+
+run(): () = do
+    a = Leaf(1)
+    n: Named = Leaf(2)
+    assert(gpair(a asif Named, n), "Named, T", "the generic declaration takes the assumed type and the other argument")
+    println("PASS")
+  end
+
+end

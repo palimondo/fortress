@@ -4250,8 +4250,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     private Set<String> localFunctionNames;
 
     /** The class names given so far to the function expressions and local
-     *  functions of the component (NamingCzar.gensymArrowClassName), shared
-     *  by every CodeGen of one component. */
+     *  functions of the component (NamingCzar.gensymArrowClassName), and to
+     *  the dispatch methods of its calls with a type assumption at some
+     *  arguments (partiallyAssumedCall), shared by every CodeGen of one component. */
     private Set<String> closureClassNames;
 
     /** The binding of a reference to a local function, which names only
@@ -7287,11 +7288,81 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         String sig = method_and_signature.second();
         if (!topLevelOverloadedNamesAndSigs.contains(mname + sig))
             return false; // a call of one declaration, which no argument's type changes
-        if (!all) throw sayWhat(x, ASSUMPTION_PARTIAL_CALL);
+        if (!all) {
+            partiallyAssumedCall(x, pkgClass, mname, sig, args);
+            return true;
+        }
         /* Every argument's type is known: call the declaration that the checker resolved, not its dispatch. */
         addLineNumberInfo(x);
         mv.visitMethodInsn(INVOKESTATIC, pkgClass, NamingCzar.mangleAwayFromOverload(mname), sig);
         return true;
+    }
+
+    private static final String ASSUMPTION_PARTIAL_GENERIC =
+        "Can't compile a type assumption at some arguments but not all of a call that a generic declaration can take yet";
+
+    /*
+     * A call of an overloaded function of this component with an assumption at
+     * some of its arguments and not at the others, whose arguments are on the
+     * stack; mname and sig name the declaration that the checker resolved.  The
+     * call reaches the declarations that take each assumed argument at its
+     * assumed type and that the others' static types do not exclude, and it
+     * chooses among them by the others' run-time types, as walk does
+     * (OverloadSet.membersUnderAssumptions).  One reached, the call runs it;
+     * every declaration that the resolved one's dispatch method holds, it runs
+     * that method; else a dispatch method among them alone, in a class of its own.
+     */
+    private void partiallyAssumedCall(FunctionalRef x, String pkgClass, String mname, String sig,
+                                      List<Expr> args) {
+        OverloadSet os = topLevelOverloadSet(mname, args.size());
+        OverloadSet.TaggedFunctionName resolved = os == null ? null : os.memberWithSignature(sig);
+        if (resolved == null) throw sayWhat(x, ASSUMPTION_PARTIAL_CALL);
+        List<Type> assumed = new ArrayList<Type>();
+        List<Type> others = new ArrayList<Type>();
+        for (Expr a : args) {
+            if (a instanceof AsIfExpr) {
+                assumed.add(((AsIfExpr) a).getAnnType());
+                others.add(null);
+            } else {
+                Option<Type> t = a.getInfo().getExprType();
+                assumed.add(null);
+                others.add(t.isSome() ? t.unwrap() : null);
+            }
+        }
+        Set<OverloadSet.TaggedFunctionName> reached = os.membersUnderAssumptions(resolved, assumed, others);
+        if (reached == null) throw sayWhat(x, ASSUMPTION_PARTIAL_GENERIC);
+        addLineNumberInfo(x);
+        if (reached.size() == 1) {
+            mv.visitMethodInsn(INVOKESTATIC, pkgClass, NamingCzar.mangleAwayFromOverload(mname), sig);
+        } else if (reached.equals(os.membersAtOrBelow(resolved))) {
+            mv.visitMethodInsn(INVOKESTATIC, pkgClass, mname, sig);
+        } else {
+            /* Named as a function expression's class is, by the call's span (NamingCzar.gensymArrowClassName). */
+            String base = pkgClass + "$asif@" + NodeUtil.getSpan(x).toStringWithoutFiles();
+            String owner = base;
+            for (int k = 2; !closureClassNames.add(owner); k++)
+                owner = base + "#" + k;
+            CodeGenClassWriter dcw = new CodeGenClassWriter(ClassWriter.COMPUTE_FRAMES, cw);
+            dcw.visitSource(NodeUtil.getSpan(x).begin.getFileName(), null);
+            dcw.visit(InstantiatingClassloader.JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER + ACC_FINAL,
+                      owner, null, NamingCzar.internalObject, null);
+            os.generateDispatchAmong(reached, resolved, mname, dcw);
+            dcw.dumpClass(owner);
+            mv.visitMethodInsn(INVOKESTATIC, owner, mname, sig);
+        }
+    }
+
+    /* This component's overload set of the name mname at n parameters, split, or null where it has none. */
+    private OverloadSet topLevelOverloadSet(String mname, int n) {
+        for (Map.Entry<IdOrOpOrAnonymousName, MultiMap<Integer, Functional>> e : topLevelOverloads.entrySet()) {
+            if (!e.getKey().stringName().equals(mname)) continue;
+            Set<Functional> fs = e.getValue().get(n);
+            if (fs == null) return null;
+            OverloadSet os = OverloadSet.localFactory.make(thisApi(), e.getKey(), typeAnalyzer, fs, n);
+            os.split(true);
+            return os;
+        }
+        return null;
     }
 
     /*
