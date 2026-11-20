@@ -1397,8 +1397,8 @@ object CompactFullRange2D(l_i:ZZ32, l_j:ZZ32, r_i:ZZ32, r_j:ZZ32)
         CompactFullRange2D(0,0,r_i-l_i,r_j-l_j)
     getter indices(): Generator[\(ZZ32,ZZ32)\] =
         self.generator.map[\(ZZ32,ZZ32)\](fn (i,j) => (i-l_i, j-l_j))
-    getter indexValuePairs(): Generator[\((ZZ32,ZZ32),(ZZ32,ZZ32))\] =
-        self.generator.map[\((ZZ32,ZZ32),(ZZ32,ZZ32))\](fn (i,j) => ((i-l_i, j-l_j),(i,j)))
+    getter indexValuePairs(): Indexed[\((ZZ32,ZZ32),(ZZ32,ZZ32)),(ZZ32,ZZ32)\] =
+        self.map[\((ZZ32,ZZ32),(ZZ32,ZZ32))\](fn (i,j) => ((i-l_i, j-l_j),(i,j)))
     getter stride(): (ZZ32,ZZ32) = (1,1)
     getter left(): Just[\(ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32)\]( l_i, l_j )
     getter right(): Just[\(ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32)\]( r_i, r_j )
@@ -1433,8 +1433,8 @@ object CompactFullRange3D(l_i:ZZ32, l_j:ZZ32, l_k:ZZ32, r_i:ZZ32, r_j:ZZ32, r_k:
         CompactFullRange3D(0,0,0,r_i-l_i,r_j-l_j,r_k-l_k)
     getter indices(): Generator[\(ZZ32,ZZ32,ZZ32)\] =
         self.generator.map[\(ZZ32,ZZ32,ZZ32)\](fn (i,j,k) => (i-l_i, j-l_j, k-l_k))
-    getter indexValuePairs(): Generator[\((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))\] =
-        self.generator.map[\((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))\](fn (i,j,k) => ((i-l_i, j-l_j, k-l_k),(i,j,k)))
+    getter indexValuePairs(): Indexed[\((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32)),(ZZ32,ZZ32,ZZ32)\] =
+        self.map[\((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))\](fn (i,j,k) => ((i-l_i, j-l_j, k-l_k),(i,j,k)))
     getter stride(): (ZZ32,ZZ32,ZZ32) = (1,1,1)
     getter left(): Just[\(ZZ32,ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32,ZZ32)\]( l_i, l_j , l_k )
     getter right(): Just[\(ZZ32,ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32,ZZ32)\]( r_i, r_j , r_k )
@@ -1655,8 +1655,8 @@ object StridedFullRange2D(l_i:ZZ32, l_j:ZZ32, r_i:ZZ32, r_j:ZZ32, str_i:ZZ32, st
         CompactFullRange2D(0,0,(r_i-l_i) DIV str_i,(r_j-l_j) DIV str_j)
     getter indices(): Generator[\(ZZ32,ZZ32)\] =
         self.generator.map[\(ZZ32,ZZ32)\](fn (i,j) => ((i-l_i) DIV str_i, (j-l_j) DIV str_j))
-    getter indexValuePairs(): Generator[\((ZZ32,ZZ32),(ZZ32,ZZ32))\] =
-        self.generator.map[\((ZZ32,ZZ32),(ZZ32,ZZ32))\](fn (i,j) => (((i-l_i) DIV str_i, (j-l_j) DIV str_j),(i,j)))
+    getter indexValuePairs(): Indexed[\((ZZ32,ZZ32),(ZZ32,ZZ32)),(ZZ32,ZZ32)\] =
+        self.map[\((ZZ32,ZZ32),(ZZ32,ZZ32))\](fn (i,j) => (((i-l_i) DIV str_i, (j-l_j) DIV str_j),(i,j)))
     getter stride(): (ZZ32,ZZ32) = (str_i,str_j)
     getter left(): Just[\(ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32)\]( l_i, l_j )
     getter right(): Just[\(ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32)\]( r_i, r_j )
@@ -1690,8 +1690,8 @@ object StridedFullRange3D(l_i:ZZ32, l_j:ZZ32, l_k:ZZ32, r_i:ZZ32, r_j:ZZ32, r_k:
     getter indices(): Generator[\(ZZ32,ZZ32,ZZ32)\] =
         self.generator.map[\(ZZ32,ZZ32,ZZ32)\](
             fn (i,j,k) => ((i-l_i) DIV str_i, (j-l_j) DIV str_j, (k-l_k) DIV str_k))
-    getter indexValuePairs(): Generator[\((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))\] =
-        self.generator.map[\((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))\](
+    getter indexValuePairs(): Indexed[\((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32)),(ZZ32,ZZ32,ZZ32)\] =
+        self.map[\((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))\](
             fn (i,j,k) => (((i-l_i) DIV str_i, (j-l_j) DIV str_j, (k-l_k) DIV str_k),(i,j,k)))
     getter stride(): (ZZ32,ZZ32,ZZ32) = (str_i,str_j,str_k)
     getter left(): Just[\(ZZ32,ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32,ZZ32)\]( l_i, l_j , l_k )
