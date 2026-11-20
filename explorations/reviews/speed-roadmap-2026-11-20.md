@@ -85,7 +85,7 @@ Paths are under `explorations/` unless they start with `Library/`, `ProjectFortr
 - Code generator: unboxed arithmetic by static type, decision B: `double` local slots, `dadd`, the helpers' `(DD)D` signatures called directly (HC §6; AD §4(b)). An accumulator in a JVM local, not in a cell (TW, Way 2b).
 - Code generator: no transaction check on a local that no closure captures (TW, Way 2). It clears the 64 % of the probe's array loop (row 641).
 - Library: a grain for `mul` (Q523) and for strided ranges (PR §6.2).
-- Run time: a cache for the class-file read of each call site (F-385). Measure F-264's casts and the instance rule (PLAN phase 6).
+- Run time: measure the class-file read of each call site (F-385), and add a cache only if the measure shows a cost, by his word of 2026-11-18: "If it's not measured as a performance critical thing, it doesn't matter." Measure F-264's casts and the instance rule (PLAN phase 6).
 - Specification, checker and model: no change.
 
 **Measures.** The step against 101 µs; each operation against JB §5's plain column (`java-baseline/run.sh kernels`). Target 0.2 ms.
@@ -96,7 +96,7 @@ Paths are under `explorations/` unless they start with `Library/`, `ProjectFortr
 - **B, where unboxed arithmetic happens. Consequential: P-85 returns it to him.** P-17 requires it; the way is open. The ways on record: the code generator by static type (AD §4(b)); the team's unboxing pass, commented out (HC §6); Valhalla's scalarization (stage 6). Proposal: the code generator now.
 - **The grains (Q523, Q500). Consequential: P-175 asks for the right forking constants.** For `mul`'s grain the plan review recommends the first compiled kernel, and nothing is landed (Q523); the range's grain stays 16 by Q500's default until a compiled measurement. This stage is that point.
 
-**Size.** 6 to 8 rungs in 2 batches: decision B 3 to 5, Way 2 1, grains 1, the cache 1.
+**Size.** 6 to 8 rungs in 2 batches: decision B 3 to 5, Way 2 1, grains 1, the cache 1 if its measure shows a cost.
 
 **Risks.** Generic library code still boxes: `map`, `ivmap` and `tabulate` read the store through a generic `get` and call a closure (FA:15-17, :25-32), and a read through a generic trait returns a box unless decision B reaches it (AW §3, A4). Only escape analysis, C2's removal of objects that never leave inlined code, takes such boxes away, within its inline depth (F-301, F-302, each seen once, while the number types were traits). Early sign: Java Flight Recorder (JFR), the JVM's profiler, counts bytes per element in `rows(sm)` above zero; then A4 or stage 3's kernels carry the elementwise operations.
 
