@@ -1,0 +1,4 @@
+# The program that compares strings and booleans by = and orders strings by <, compiled under the one library's selection, runs: it fails after REACHED while the dispatch method of the library's generic = names the library's class without its package.
+tests=OneLibraryStringEquality
+run
+run_out_contains=REACHED

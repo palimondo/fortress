@@ -1,0 +1,17 @@
+(* Under the one library's selection, a compiled program compares two strings and two booleans by =, and orders two strings by <. *)
+component OneLibraryStringEquality
+export Executable
+
+run(): () = do
+  println("REACHED")
+  s: String = "ab"
+  t: String = s || "cd"
+  assert(t = "abcd", "two equal strings are =")
+  assert(t < "abd", "abcd is below abd")
+  n: ZZ32 = 3
+  flag: Boolean = n > 2
+  assert(flag = true, "two true booleans are =")
+  println("PASS")
+end
+
+end

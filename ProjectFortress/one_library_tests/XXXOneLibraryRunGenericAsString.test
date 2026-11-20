@@ -1,0 +1,4 @@
+# The program whose generic function calls asString on an argument of a type parameter bounded by ZZ32, compiled under the one library's selection, runs: it fails after REACHED while the call names the payload class's asString at the library's String.
+tests=OneLibraryGenericAsString
+run
+run_out_contains=REACHED

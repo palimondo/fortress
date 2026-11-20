@@ -1,0 +1,7 @@
+# The program whose IntegerOverflow no catch takes, compiled under the one library's selection, exits non-zero after REACHED, its report naming the exception's class and the placeholder string of the run time's FValue.asString.
+tests=OneLibraryUncaughtRaise
+compile
+run
+run_exits_nonzero=true
+run_out_contains=REACHED
+run_err_contains=FortressException: class fortress.FortressLibrary$IntegerOverflow with string Bogus value from FValue.asString()
