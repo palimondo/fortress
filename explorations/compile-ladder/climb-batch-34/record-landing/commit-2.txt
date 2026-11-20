@@ -1,0 +1,11 @@
+Plan and review queue after climb batch 34's landing: items 606 to 615, run 1's lines brought in line
+
+- PLAN, "Where we stand": the runs, the live thread, the landed batches and "Next" brought to run 1's landing and the measure of none refused.
+- PLAN, phase 4: a line for climb batch 34 with the review's changes to the list for the batch after; F-34's line, the rehearsal's walls, row 304, the answers before the switch-over and the closing paragraph brought in line.
+- PLAN, "Pavol's answers": item 71 restated to the forms that stay refused; item 72 points to it.
+- PLAN, parked: row 1092 with the speed roadmap's float step; climb batch 31b's and 33b's lines point to climb batch 34's list.
+- PLAN, climb batch 34's review group: each line given its item, G.worker.1 told, and lines for run 1's forks and finding A1.
+- PLAN-history: the old text of the 21 rewritten lines.
+- Review queue: items 606 to 615 filed, 607 answered in (a); 375 restated and moved to climb batch 34's group; 376, 400, 584, 597, 602 and 603 brought in line; the counts, 268 open.
+- The map: the asif row's members cited without stale line numbers.
+- The run's folder: the sort, the evidence, the writers' files and reports, the check, the cold read, the mechanical checks, the judge's files and diff.md.

@@ -1,0 +1,10 @@
+Record after climb batch 34's landing: F-34, F-225, F-325 and F-392 to F-394, notes on F-240 and P-102
+
+- F-34: on 285efad802's code the code generator refuses none of the fourteen components' declarations, by the script and by String's real compile; on ba3c7c876d 2, of which the script counted 1; the caveats kept, the older counts to the history.
+- F-225: the Return Type check of a dotted method redeclared below a self-typed trait reads self as the intersection (row 1094), a departure from P-146 and P-157.
+- F-394: the getter check holds for getters declared in a trait or an object, not in an object expression (row 1097); the library's half of rung G in one clause.
+- F-393: the verifier's result bounded to its one run on a scratch copy and given whole.
+- F-325 and F-392: the batch's drafts brought to the record's form.
+- F-240's history: this gate's machine after the VM restart, so no stage time compares with climb batch 33b's.
+- P-102's history: his words of 15:49 UTC on 2026-11-18 on stating the expected failure; P-102's text unchanged.
+- Held, unchanged: F-395, whose form pass grew it past 600 (diff.md).
