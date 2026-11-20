@@ -1,6 +1,6 @@
 # Rung F (climb batch 34, run 1): walk's native strings without the library's line that names the object FlatString
 
-problem: under walk the native strings work only after the object `FlatString` has been made from its name, so the string component names it, `ignore(FlatString)`, and the compiled path refuses that line once `FlatString` is over a payload class (row 1090; explorations/compile-ladder/plan-34/probes/rehearsal.md:41)
+problem: under walk the native strings work only after the object `FlatString` has been made from its name, so the string component names it, `ignore(FlatString)`, and the compiled path refuses that line once `FlatString` is over a payload class (row 1090; explorations/compile-ladder/plan-34/probes/rehearsal.md:40)
 spec: none: `grep -rn '~1090' Specification --include=*.tex` prints nothing, and row 1090's spec cell is `silent`; no passage of Specification/basic or basic-lib governs when walk registers a native object's constructor (none)
 precedent: the native number objects of FortressLibrary, whose constructor walk applies as it binds the singleton (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:531-533, since f6e24650e7)
 deviation: none from the precedent's form; the comment's wording names a native singleton and a string, not a number (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildNativeEnvironment.java:161-162)
