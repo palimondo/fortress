@@ -1,0 +1,10 @@
+# Sources mapping: climb batch 34's update
+
+One paragraph changed: "Traits and objects", the paragraph after the rule on `self` in a self-typed trait (`revival-changes.md:43`).
+
+| Text | Replaces | Sources |
+|---|---|---|
+| "…`self` has the type `T[\X\]`, except in two checks. In its test of whether two domains exclude each other, `self` has the intersection type of `T[\X\]` and `X` (P-157)." | The paragraph's first two sentences, which named one exception. | P-146, P-157; F-225 as changed at `5a70c03deb`. |
+| "In a departure, the checker also reads that type where an object redeclares an abstract dotted method of `T` at the same parameter types (row 1094). That type is the object's own, so each return type must be a subtype of the other. The checker thus refuses a narrower return type in the object, which walk runs." | New: the second exception. Fix round: "abstract" added, the measured scope (preserve check, failure 2); the middle sentence added, so that the refusal follows (cold read, item 20). | F-225; ledger row 1094; `OverloadingChecker.scala:214` (`toMethodArrows` takes the receiver from the method's self type) and `:733-734` (the check both ways at equal parameter types); `compiler_tests/XXXSelfTypedMethodNarrowedReturn` (the trait's method abstract); `rung-widening-getter/REPORT.md:46`; `Specification/appendices/changes.tex:4452-4455`. |
+| "Declare the object's method at `T`'s return type. For a method without parameters, you can declare both methods as getters instead: the pair then compiles with the narrower type." | New: the workaround and the getter contrast. Fix round: both sides named as getters, and the form limited to a method without parameters (preserve check, failure 1). | Row 1094's notes; F-394; `OverloadingChecker.scala:725-728` (`getterArrow` only where both declarations are getters) and `:220-228` (the plain receiver); `compiler_tests/SelfTypedGetterNarrowedReturn` (both sides getters). |
+| "With the reading of the exclusion test and the bounds…" | "With this reading and the bounds…" | Wording only: "this reading" became ambiguous after the new sentences. |
