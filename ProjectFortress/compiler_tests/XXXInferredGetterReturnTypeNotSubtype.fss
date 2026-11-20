@@ -1,0 +1,18 @@
+(* An object's getter without a declared return type, whose body's type String is not a subtype of the return type ZZ32 of the getter of that name that it keeps from being inherited, is refused (overloading.tex, section "Declarations with Static Parameters", the Return Type Rule). *)
+component XXXInferredGetterReturnTypeNotSubtype
+export Executable
+
+trait Ti
+    getter g(): ZZ32
+end
+
+object Oi extends Ti
+    getter g() = "s"
+end
+
+run(): () = do
+    t: Ti = Oi
+    println(t.g)
+end
+
+end

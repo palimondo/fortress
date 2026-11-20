@@ -261,21 +261,21 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
     getter right():Maybe[\E\] =
         if self.isEmpty then Nothing[\E\]
         else Just[\E\](underlying.get(firstUnused-1)) end
-    getter extractLeft(): Maybe[\(E,ArrayList[\E\])\] =
-        if self.isEmpty then Nothing[\(E,ArrayList[\E\])\]
-        else Just[\(E,ArrayList[\E\])\](underlying.get(firstUsed),
+    getter extractLeft(): Maybe[\(E,List[\E\])\] =
+        if self.isEmpty then Nothing[\(E,List[\E\])\]
+        else Just[\(E,List[\E\])\](underlying.get(firstUsed),
                        ArrayList(underlying, firstUsed+1, noShot,
                                  firstUnused, canExtendRight))
         end
-    getter extractRight(): Maybe[\(ArrayList[\E\],E)\] =
-        if self.isEmpty then Nothing[\(ArrayList[\E\],E)\]
-        else Just[\(ArrayList[\E\],E)\](
+    getter extractRight(): Maybe[\(List[\E\],E)\] =
+        if self.isEmpty then Nothing[\(List[\E\],E)\]
+        else Just[\(List[\E\],E)\](
                        ArrayList(underlying, firstUsed, canExtendLeft,
                                       firstUnused-1, noShot),
                        underlying.get(firstUnused-1))
         end
     getter indices(): CompactFullRange[\ZZ32\] = 0 # |self|
-    getter indexValuePairs(): Generator[\(ZZ32,E)\] =
+    getter indexValuePairs(): Indexed[\(ZZ32,E),ZZ32\] =
         self.indices.map[\(ZZ32,E)\](fn (i:ZZ32):(ZZ32,E) =>
                                         (i,underlying.get(firstUsed+i)))
     getter generator(): Generator[\E\] =

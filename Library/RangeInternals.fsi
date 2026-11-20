@@ -523,7 +523,7 @@ object CompactFullRange2D(l_i: ZZ32, l_j: ZZ32, r_i: ZZ32, r_j: ZZ32)
     getter upper(): (ZZ32, ZZ32)
     getter bounds(): CompactFullRange2D
     getter indices(): Generator[\(ZZ32, ZZ32)\]
-    getter indexValuePairs(): Generator[\((ZZ32, ZZ32), (ZZ32, ZZ32))\]
+    getter indexValuePairs(): Indexed[\((ZZ32, ZZ32), (ZZ32, ZZ32)), (ZZ32, ZZ32)\]
     getter stride(): (ZZ32, ZZ32)
     getter left(): Just[\(ZZ32, ZZ32)\]
     getter right(): Just[\(ZZ32, ZZ32)\]
@@ -543,7 +543,7 @@ object CompactFullRange3D(l_i: ZZ32, l_j: ZZ32, l_k: ZZ32, r_i: ZZ32, r_j: ZZ32,
     getter upper(): (ZZ32, ZZ32, ZZ32)
     getter bounds(): CompactFullRange3D
     getter indices(): Generator[\(ZZ32, ZZ32, ZZ32)\]
-    getter indexValuePairs(): Generator[\((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))\]
+    getter indexValuePairs(): Indexed[\((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32)), (ZZ32, ZZ32, ZZ32)\]
     getter stride(): (ZZ32, ZZ32, ZZ32)
     getter left(): Just[\(ZZ32, ZZ32, ZZ32)\]
     getter right(): Just[\(ZZ32, ZZ32, ZZ32)\]
@@ -598,7 +598,7 @@ object StridedFullRange2D(l_i: ZZ32, l_j: ZZ32, r_i: ZZ32, r_j: ZZ32, str_i: ZZ3
     extends { StridedFullRange[\(ZZ32, ZZ32)\], FullRange2D }
     getter bounds(): CompactFullRange2D
     getter indices(): Generator[\(ZZ32, ZZ32)\]
-    getter indexValuePairs(): Generator[\((ZZ32, ZZ32), (ZZ32, ZZ32))\]
+    getter indexValuePairs(): Indexed[\((ZZ32, ZZ32), (ZZ32, ZZ32)), (ZZ32, ZZ32)\]
     getter stride(): (ZZ32, ZZ32)
     getter left(): Just[\(ZZ32, ZZ32)\]
     getter right(): Just[\(ZZ32, ZZ32)\]
@@ -617,7 +617,7 @@ object StridedFullRange3D(l_i: ZZ32, l_j: ZZ32, l_k: ZZ32, r_i: ZZ32, r_j: ZZ32,
     extends { StridedFullRange[\(ZZ32, ZZ32, ZZ32)\], FullRange3D }
     getter bounds(): CompactFullRange3D
     getter indices(): Generator[\(ZZ32, ZZ32, ZZ32)\]
-    getter indexValuePairs(): Generator[\((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))\]
+    getter indexValuePairs(): Indexed[\((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32)), (ZZ32, ZZ32, ZZ32)\]
     getter stride(): (ZZ32, ZZ32, ZZ32)
     getter left(): Just[\(ZZ32, ZZ32, ZZ32)\]
     getter right(): Just[\(ZZ32, ZZ32, ZZ32)\]

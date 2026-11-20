@@ -3635,7 +3635,7 @@ end
     our program) but not void distributing over other things. **)
 object VoidReduction extends { CommutativeMonoidReduction[\()\] }
     getter asString(): String = "VoidReduction"
-    getter reverse(): Reduction[\()\] = VoidReduction
+    getter reverse(): CommutativeMonoidReduction[\()\] = VoidReduction
     empty(): () = ()
     join(a: (), b: ()): () = ()
 end
@@ -4028,7 +4028,7 @@ object SimpleMappedIndexed[\E,F,I extends Index\](g0: Indexed[\E,I\], f0: E->F)
     getter size(): ZZ32 = |self.g|
     getter g() = g0
     getter f() = f0
-    getter bounds(): Range[\I\] = self.g.bounds
+    getter bounds(): CompactFullRange[\I\] = self.g.bounds
     getter indexValuePairs(): Indexed[\(I,F),I\] =
         self.g.indexValuePairs.map[\(I,F)\](fn (i:I, e:E):(I,F) => (i,(self.f)(e)))
     getter indices(): Generator[\I\] = self.g.indices

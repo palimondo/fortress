@@ -9176,3 +9176,7 @@ pointers to F-360 rewritten to F-379 in: F-361
 ### F-393
 
 2026-11-20 17:56Z · added · from `explorations/compile-ladder/rung-label-local-verify/REPORT.md`, "The cause, by the bytecode" · by climb batch 34 gather
+
+### F-394
+
+2026-11-20 17:58Z · added · from `explorations/compile-ladder/rung-widening-getter/REPORT.md`, "What changed and why" · by climb batch 34 gather
