@@ -34,7 +34,7 @@ public class fileOps {
 	try {
 	    return new FortressBufferedReader(name, new BufferedReader(new InputStreamReader(new FileInputStream(name), Charset.forName("UTF-8"))));
 	} catch (FileNotFoundException e) {
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$FileNotFoundException", e);
+	    throw Utility.makeFortressException("FileNotFoundException", e);
 	}
     }
 
@@ -79,7 +79,7 @@ public class fileOps {
 	try {
 	    return new FortressBufferedWriter(name, new BufferedWriter(new OutputStreamWriter(new FileOutputStream(name), Charset.forName("UTF-8"))));
 	} catch (FileNotFoundException e) {
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$FileNotFoundException", e);
+	    throw Utility.makeFortressException("FileNotFoundException", e);
 	}
     }
 

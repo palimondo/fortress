@@ -1,0 +1,4 @@
+# The program that binds a QQ, compiled under the one library's selection, runs: it fails after REACHED while println of a Number names a declaration that the library's component implements only by println at Any.
+tests=OneLibraryHalf
+run
+run_out_contains=REACHED

@@ -18,7 +18,7 @@ public abstract class FValue implements fortress.AnyType.Any {
         return null;
     }
     
-    public fortress.CompilerBuiltin.String asString() {
+    public FValue asString() {
         return FJavaString.make("Bogus value from FValue.asString()"); /* replaced in generated code; necessary for primitive hierarchy */
     }
     

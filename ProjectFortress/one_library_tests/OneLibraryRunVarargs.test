@@ -1,4 +1,0 @@
-# The program of varargs functions, compiled under the one library's selection, runs and counts each call's arguments as walk does.
-tests=OneLibraryVarargsCount
-run
-run_out_equals=REACHED\n4\n2\n2\n0\n

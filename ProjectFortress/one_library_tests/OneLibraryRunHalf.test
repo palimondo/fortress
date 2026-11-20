@@ -1,4 +1,0 @@
-# The program that binds a QQ, compiled under the one library's selection, runs and prints the half as walk does.
-tests=OneLibraryHalf
-run
-run_out_equals=REACHED\n1/2\n

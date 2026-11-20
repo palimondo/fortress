@@ -25,9 +25,30 @@ public final class Utility {
 	return makeFortressException(name, e.getMessage());
     }
 
+    /**
+     * The class of the exception object that a helper raises, named by its simple name, as
+     * "IntegerOverflow", in the library that the run time's classes serve (LibraryNames), or
+     * by its whole class name.  A class that is not found raises FortressImplementationError
+     * with the class name as its message, which walk reads (StaticNativeApp.raised).
+     */
+    private static Class<?> exceptionClass(String name) throws ClassNotFoundException {
+        return Class.forName(name.indexOf('.') >= 0 ? name : LibraryNames.exceptionClass(name));
+    }
+
+    /**
+     * The exception object name with the message msg: by its constructor over the library's
+     * String, or, for an object without one, as the one library's IOFailure, by its
+     * constructor without parameters.
+     */
     public static FException makeFortressException(String name, String msg) {
 	try {
-	    Constructor fortressIOException = Class.forName(name).getConstructor(new Class[]{ fortress.CompilerBuiltin.String.class });
+	    Class<?> c = exceptionClass(name);
+	    Constructor fortressIOException;
+	    try {
+		fortressIOException = c.getConstructor(new Class[]{ Class.forName(LibraryNames.stringClass(), false, c.getClassLoader()) });
+	    } catch (NoSuchMethodException x) {
+		return new FException((FValue) c.getConstructor().newInstance());
+	    }
 	    return new FException((FValue)fortressIOException.newInstance(FJavaString.make(msg == null ? "" : msg)));
 	} catch (ClassNotFoundException x) {
 	    throw new FortressImplementationError(x);
@@ -44,7 +65,7 @@ public final class Utility {
 
     public static FException makeFortressException(String name) {
 	try {
-	    Constructor fortressIOException = Class.forName(name).getConstructor();
+	    Constructor fortressIOException = exceptionClass(name).getConstructor();
 	    return new FException((FValue)fortressIOException.newInstance());
 	} catch (ClassNotFoundException x) {
 	    throw new FortressImplementationError(x);

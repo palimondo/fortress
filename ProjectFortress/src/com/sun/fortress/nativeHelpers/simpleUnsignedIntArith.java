@@ -24,7 +24,7 @@ public class simpleUnsignedIntArith {
 
     public static int toUnsignedIntOverflow(long l) {
 	long t = l & 0xFFFFFFFF00000000L;
-	if (t != 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (t != 0) throw Utility.makeFortressException("IntegerOverflow");
 	return (int) l; 
     }
 
@@ -34,10 +34,10 @@ public class simpleUnsignedIntArith {
 
     public static int parseUnsignedInt(String s) {  
         try { 
-	    if (s.charAt(0) == '-') throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    if (s.charAt(0) == '-') throw Utility.makeFortressException("IntegerOverflow");
 	}
 	catch (IndexOutOfBoundsException e) { 
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    throw Utility.makeFortressException("IntegerOverflow");
 	}
 	long c = Long.parseLong(s);
         return toUnsignedIntOverflow(c);
@@ -59,25 +59,25 @@ public class simpleUnsignedIntArith {
     }
 
     public static int unsignedIntOverflowingDiv(int a, int b) {
-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+	if (b==0) throw Utility.makeFortressException("DivisionByZero");
 	long c = toLong(a) / toLong(b);
         return (int) c; 
     }
 
     /* REM and MOD, the same for natural numbers; each raises DivisionByZero at a zero divisor. */
     public static int unsignedIntRem(int a, int b) {
-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        if (b == 0) throw Utility.makeFortressException("DivisionByZero");
         return Integer.remainderUnsigned(a, b);
     }
 
     public static int unsignedIntMod(int a, int b) {
-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        if (b == 0) throw Utility.makeFortressException("DivisionByZero");
         return Integer.remainderUnsigned(a, b);
     }
 
     public static int unsignedIntOverflowingNeg(int a) {  
 	if (a == 0) return 0;
-	throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	throw Utility.makeFortressException("IntegerOverflow");
     }
 
     public static int unsignedIntOverflowingAbs(int a) {
@@ -105,7 +105,7 @@ public class simpleUnsignedIntArith {
     }
 
     public static int unsignedIntWrappingDiv(int a, int b) { 
-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+	if (b==0) throw Utility.makeFortressException("DivisionByZero");
         return (int) (toLong(a) / toLong(b));
     }
 
@@ -140,7 +140,7 @@ public class simpleUnsignedIntArith {
     }
 
     public static int unsignedIntSaturatingDiv(int a, int b) {
-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+	if (b==0) throw Utility.makeFortressException("DivisionByZero");
         return (int) (toLong(a) / toLong(b)); 
     }
 
@@ -217,19 +217,19 @@ public class simpleUnsignedIntArith {
 	    else return a >>> (-b);
         } else if (b > 31) {
 	    if (a == 0) return 0;
-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    else throw Utility.makeFortressException("IntegerOverflow");
         }
 	else {
 	    int result = a << b;
 	    if ((result >>> b) == a) return result;
-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    else throw Utility.makeFortressException("IntegerOverflow");
 	}
     }
 
     public static int unsignedIntExp(int a, int b) {  
         double result = java.lang.Math.pow(unsignedIntToDouble(a),unsignedIntToDouble(b));
         if (result > 0x00000000FFFFFFFFL)
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    throw Utility.makeFortressException("IntegerOverflow");
         else
             return (int) result;
     }
@@ -253,7 +253,7 @@ public class simpleUnsignedIntArith {
         long b = toLong(v);
         // The multiple is below 2^64, and one of 2^63 or more reads negative.
         long m = (a / simpleUnsignedLongArith.unsignedLongGcd(a, b)) * b;
-        if ((m >> 32) != 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        if ((m >> 32) != 0) throw Utility.makeFortressException("IntegerOverflow");
         return (int) m;
     }
 
@@ -277,7 +277,7 @@ public class simpleUnsignedIntArith {
     // DivisionByZero and any other base IntegerOverflow; a power of 2^32 or more throws IntegerOverflow.
     public static int unsignedIntPower(int a, int b) {
         long r = simpleUnsignedLongArith.unsignedLongPower(toLong(a), b);
-        if ((r >> 32) != 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        if ((r >> 32) != 0) throw Utility.makeFortressException("IntegerOverflow");
         return (int) r;
     }
 
