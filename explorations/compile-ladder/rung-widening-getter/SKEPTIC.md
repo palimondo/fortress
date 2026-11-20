@@ -56,7 +56,7 @@ Commands, from `tmp/rung-widening-getter/skeptic/progs/`: the old code by `/home
 | `SkArrayListWalk` (walk; `<\|1,2,3\|>`'s extract getters and pairs) | — | — | old 'extractLeft is another Maybe', new 'extractLeft is a Just at List'; then equal: 'head 1 tail <\|2, 3\|>', 'init <\|1, 2\|> last 3', 'pairs 3' |
 | `tests/ArrayListQuick` (the team's, walk) | — | — | equal: '10:<\|0, 1, 2, 3, 4, 5, 6, 7, 8, 9\|>....', 'Succeeded in ...' |
 
-The diff writes no mutable state; `SkRangePairsWalk` ran at both thread counts all the same. The reserved points: a model line, none changed (no path of `explorations/run-c4/src/` or `explorations/apl/mg/` in the diff); a team test's checked value, none changed (`ArrayListQuick`, above, and the suites); a line of the libraries beyond the two, nineteen, whose walk answers are equal on both codes but for the `typecase` of `SkArrayListWalk`.
+The diff writes no mutable state; `SkRangePairsWalk` ran at both thread counts all the same. The reserved points: a model line, none changed (no path of `explorations/run-c4/src/` or `explorations/apl/mg/` in the diff); a team test's checked value, none changed (`ArrayListQuick`, above, and the suites); a line of the libraries beyond the two, twenty-one, whose walk answers are equal on both codes but for the `typecase` of `SkArrayListWalk`.
 
 ## Corrections
 

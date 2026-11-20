@@ -134,7 +134,7 @@ None. `grep -rn '~993' Specification --include=*.tex` prints nothing, as on the 
 3. Every line of the libraries that the checker now refuses, and what was done: the thirteen of the fourteen components, repaired (listed above); `Library/Sparse.fss:26`, `:124`, `:168` and `Library/Random.fss:159-162`, `:175-178`, outside the fourteen, left, row 1095; `Library/PureList.fss:175-177` has the forms, unmeasured. No line of the tests is refused.
 4. The two stages' tables on the final tree against the comparand: equal, count 0 and distance 0; the checker's time 80.4 s before and 91.4 s after, the results the same.
 5. Sentences of the specification made false: none.
-6. Files edited beyond those named: `Library/FortressLibrary.fss`, `Library/List.fss`, `Library/RangeInternals.fsi`, `Library/RangeInternals.fss` (fork G2's repairs) and `ProjectFortress/tests/RangeBodiesWalk.fss` (four assertions added, none changed). This is also the reserved point "a line of the libraries changed beyond the two": nineteen lines, five of them bodies. No team test's checked value changed. No model line changed.
+6. Files edited beyond those named: `Library/FortressLibrary.fss`, `Library/List.fss`, `Library/RangeInternals.fsi`, `Library/RangeInternals.fss` (fork G2's repairs) and `ProjectFortress/tests/RangeBodiesWalk.fss` (four assertions added, none changed). This is also the reserved point "a line of the libraries changed beyond the two": twenty-one lines, eight of them in the bodies of six getters. No team test's checked value changed. No model line changed.
 
 ## Decisions
 
