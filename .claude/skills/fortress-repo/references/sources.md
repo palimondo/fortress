@@ -1481,6 +1481,7 @@ From the cold read of `4c5a5f121e` and `f4d63205c7` (`explorations/compile-ladde
 - `tests-writing.md`, "The order", step 2 and the report's paragraph: where the expected failure is stated (a message, `Expected failure:`), what it names, how a run matches it, and the causes of another failure. The cold read of `d4e7398301`, 2026-11-19; settled by the coordinator.
 - `tests-writing.md`, "The order", step 2: the lists of cases cut, and the rule stated as a principle. The curator in chat at 06:2x UTC on 2026-11-19: "It sounds like a recipe for ever growing rules section in a skill, whenever a new specific edge case that wasn't in the list is discovered."
 - `tests-writing.md`, "The order", step 2 and the report's paragraph: the `Expected failure:` line echoed in the shell command that first runs the test, before the harness command, and again in the command of a new run; the report quotes the line as echoed. The curator in chat at 15:4x UTC on 2026-11-18 asked whether the skeptic can check the statement in the worker's transcript; the place of the line settled by the coordinator, 2026-11-20, as in the batch script, `8bb71dca94`.
+- `tests-writing.md`, "The order", step 2 and the report's paragraph: the test's program run first through the harness; "Bash call" for "shell command"; each `Expected failure:` line quoted. The cold read of `82bb989f2f`, 2026-11-20, flags 1, 2 and 5; settled by the coordinator.
 
 ## Climb batch 34's landing, 2026-11-20
 
