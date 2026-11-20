@@ -25,7 +25,7 @@ The library (`9580dd7bbb`, `721bd2b25b`): every getter of the fourteen component
 
 ## The runs
 
-**The test, failing on the base.** Expected failure, stated before the run: junit.sh reports the compile red, ' Saw failure, but did not satisfy compile_err_contains; expected should be a subtype of the', with the code generator's 'Likely bug in static analysis ...' and 'File XXXGetterReturnTypeNotSubtype.fss has 1 error.'. The run, 15:34:23Z, before any edit (`ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh g1base ProjectFortress/compiler_tests XXXGetterReturnTypeNotSubtype.test`):
+**The test, failing on the base.** No `Expected failure:` line precedes the run in the transcript's messages; the failure is the one the section names: the code generator's 'Likely bug in static analysis ...' and 'File XXXGetterReturnTypeNotSubtype.fss has 1 error.', with `compile_err_contains` unmet, which the harness prints for an `XXX`-named test as ' Saw failure, but did not satisfy compile_err_contains; expected should be a subtype of the', where the section's plain-named probe printed 'Must satisfy compile_err_contains'. The run, 15:34:23Z, before any edit (`ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh g1base ProjectFortress/compiler_tests XXXGetterReturnTypeNotSubtype.test`):
 
     Likely bug in static analysis, apparently malformed overload set not rejected for
     XXXGetterReturnTypeNotSubtype..Oz.zero():Number
@@ -45,12 +45,12 @@ Its last run after the last change of code is `ant testFast` on `721bd2b25b` (be
 
 **The two other compiled tests on the old code** (`explorations/coordinator/tools/old-fortress.sh /home/user/fortress-base40 <tree>/tmp/old-caches junit ...`): `SelfTypedGetterNarrowedReturn` compiles, links and prints PASS there ('. run ... SelfTypedGetterNarrowedReturn (498ms) PASS'), a test with no failing run, which guards the narrowing form; `XXXSelfTypedMethodNarrowedReturn` reports ' Saw expected failure' there and on the new code, the compile refused 'For g,\nthe return type of (Tn[\On\] & {On})->Number ... should be a subtype of the\n    return type of On->ZZ32'.
 
-**`NN32`'s two lines, failing with the new checker.** Expected failure, stated before the run: the compile of `FortressBuiltin` under `FORTRESS_LIBRARY=one` refuses `FortressBuiltin.fss:264-265` with `returnTypeCheck`'s message. It failed another way, before the checker, at row 874's wall:
+**`NN32`'s two lines, failing with the new checker.** No `Expected failure:` line precedes either run below in the transcript's messages; the failure expected is the one the section's step 3 and fork G2 name: the compile of `FortressBuiltin` under `FORTRESS_LIBRARY=one` refuses `FortressBuiltin.fss:264-265` with `returnTypeCheck`'s message. It failed another way, before the checker, at row 874's wall:
 
     java.lang.RuntimeException: Can't generate header for method floatToString with jvm desc =Ljava/lang/String; stripped = FortressLibrary$String
     File FortressBuiltin.fss has 1 error.
 
-So the distance stage's driver ran on `FortressBuiltin` alone, from a copy of `explorations/coordinator/tools/distance/run.sh` whose `COMPONENTS` names that one component, on `0579b62a7f` (the lines unchanged), with the expected failure stated again: the return-type kind at 2, where the comparand reads 0. It was:
+So the distance stage's driver ran on `FortressBuiltin` alone, from a copy of `explorations/coordinator/tools/distance/run.sh` whose `COMPONENTS` names that one component, on `0579b62a7f` (the lines unchanged), the same failure expected, read in the stage's table: the return-type kind at 2, where the comparand reads 0. It was:
 
     #total	2
     #kind	return-type	2
@@ -69,7 +69,7 @@ After the edit the distance stage reads 0 (below).
 
 The thirteen are the lines listed under "What changed". The count stage on the same commit read 4 errors at 5 places, the RangeInternals api's four. No team test's line was refused: `ant testFast` and `ant testSystem` passed on the final tree with every checked value as before.
 
-**The walk test of the ranges' pairs.** Expected failure, stated before the run: on the old code the harness reports `RangeBodiesWalk` red at its first new case, indexing a mapped generator. The run (`FORTRESS_HOME=/home/user/fortress-base40 /home/user/fortress-base40/explorations/compile-ladder/rung-inference-walk/harness-one.sh <tree>/tmp/rung-widening-getter/old-harness <tree>/ProjectFortress/tests/RangeBodiesWalk.fss`, 15:52:04Z, before the edit of `RangeInternals`):
+**The walk test of the ranges' pairs.** No `Expected failure:` line precedes the run in the transcript's messages; on the old code the harness reported `RangeBodiesWalk` red at its first new case, indexing a mapped generator, the defect the new cases assert. The run (`FORTRESS_HOME=/home/user/fortress-base40 /home/user/fortress-base40/explorations/compile-ladder/rung-inference-walk/harness-one.sh <tree>/tmp/rung-widening-getter/old-harness <tree>/ProjectFortress/tests/RangeBodiesWalk.fss`, 15:52:04Z, before the edit of `RangeInternals`):
 
     Cannot find definition for method _[_] given receiver SimpleMappedGenerator[\(ZZ32,ZZ32),((ZZ32,ZZ32),(ZZ32,ZZ32))\]
     .../RangeBodiesWalk.fss:17:16-49:
@@ -160,6 +160,8 @@ None. `grep -rn '~993' Specification --include=*.tex` prints nothing, as on the 
 - Three crashes of the overloading stage in `Format`, `Generator2` and `PureList` (NEW-G-3): a row only; no gated test checks those components, and the base run was refused.
 - Row 1073's cause, the per-provider check dropping getters: a note on row 1073.
 - Under `FORTRESS_LIBRARY=one`, `FortressBuiltin`'s compile stops at the helper wrappers: row 874's, known; nothing new.
+- Added by the skeptic: a widening getter without a declared return type, which on the base compiled and then failed the JVM's verification ('VerifyError: Bad return type'): home 1, `compiler_tests/XXXInferredGetterReturnTypeNotSubtype` (red on the base's code, green on the head; `SKEPTIC.md`).
+- Added by the skeptic: an object expression's getter or dotted method that widens the declaration it keeps from being inherited passes the checker, on the base and after this rung (the per-provider loop, row 570's cause): row NEW-G-4 only, since the compile stops at row 375's wall before any gated test could read the checker's answer.
 
 ## Commands worked out
 
