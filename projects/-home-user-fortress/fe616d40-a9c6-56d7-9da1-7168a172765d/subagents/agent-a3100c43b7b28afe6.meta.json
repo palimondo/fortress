@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Digest the record's performance ground","toolUseId":"toolu_01S5icVTu3BN3HjDvyU4N3kS","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Digest the record's performance ground","toolUseId":"toolu_01S5icVTu3BN3HjDvyU4N3kS","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
