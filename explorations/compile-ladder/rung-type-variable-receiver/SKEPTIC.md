@@ -50,7 +50,7 @@ Approved, with one fix of the change (settled) and four corrections. The rung is
 
 Settled by fork T1 (`explorations/coordinator/CLIMB-BATCH-34.md:399`): "A receiver typed by a type variable is read at the variable's bound that declares or inherits the method, the most specific where several do, and cast to it". In `held()`, `Gen` is that bound, as the checker and walk read it. The fix edits two members of `CodeGen.java` that the section does not name; that is a point to report.
 
-Its test, two cases added to the rung's own test (`WhereHolder`, an object's method; `WhereShelf`/`ShelfOfS`, a trait's default method). Expected failure, stated before the run: link red with "UNEXPECTED exception" and a `CompilerError` holding "Can't find a trait among the bounds of F that has m", run red with "Could not load". On the worker's head, before the edit (2026-11-20T17:23:23Z):
+Its test, two cases added to the rung's own test (`WhereHolder`, an object's method; `WhereShelf`/`ShelfOfS`, a trait's default method). Expected failure, written here after the run (no message before the run stated it; `reviews/batch-34-review.md`, A1): link red with "UNEXPECTED exception" and a `CompilerError` holding "Can't find a trait among the bounds of F that has m", run red with "Could not load". On the worker's head, before the edit (2026-11-20T17:23:23Z):
 
     ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh skwherehead ProjectFortress/compiler_tests TypeVariableReceiverGenericMethod.test
     . link ProjectFortress/compiler_tests/TypeVariableReceiverGenericMethod
