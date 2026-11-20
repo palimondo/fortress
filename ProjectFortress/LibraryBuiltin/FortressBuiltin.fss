@@ -261,8 +261,8 @@ private exponentNN32(b:AnyIntegral):ZZ32 =
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asNN32
-    getter zero(): Number = unsigned(0)
-    getter one(): Number = unsigned(1)
+    getter zero(): NN32 = unsigned(0)
+    getter one(): NN32 = unsigned(1)
     getter asString(): String =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
     getter asExprString(): String =
