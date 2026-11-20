@@ -1,0 +1,18 @@
+(* An object below a self-typed trait that redeclares the trait's getter with a narrower return type compiles and runs, the Return Type Rule reading the trait's plain signature (traits.tex, section "Method Declarations"; overloading.tex, section "Declarations with Static Parameters"). *)
+component SelfTypedGetterNarrowedReturn
+export Executable
+
+trait Tn[\I extends Tn[\I\]\]
+    getter g(): Number
+end
+
+object On extends Tn[\On\]
+    getter g(): ZZ32 = 3
+end
+
+run(): () = do
+    assert(On.g, 3, "the object's narrower getter")
+    println("PASS")
+  end
+
+end

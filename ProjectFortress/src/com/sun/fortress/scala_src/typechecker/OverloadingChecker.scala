@@ -217,6 +217,22 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
                None,
 	       Some(f))})
 
+    // a getter, as toMethodArrows reads a dotted method, its receiver its one parameter; the
+    // receiver is the plain type that declares it, at the instance that the checked type
+    // reaches, as the Return Type Rule reads a self-typed trait's signature (traits.tex,
+    // "Method Declarations"), not the self type that its bodies read
+    private def getterArrow(d: (JavaFunctional, StaticTypeReplacer, TraitType))
+                           : Option[(ArrowType,Option[Int],Option[JavaFunctional])] = d match {
+      case (f: JavaMethod, replacer, owner) if f.getReturnType.isSome =>
+        Some((NF.makeArrowType(f.getSpan,
+                               paramsToType(owner, f.parameters, f.getSpan),
+                               replacer.replaceIn(f.getReturnType.unwrap),
+                               getStaticParameters(f, false)),
+              None,
+              Some(f)))
+      case _ => None
+    }
+
     /* An inherited method's own static parameters, each whose name is a static parameter
      * of the trait or object being checked renamed apart, so that the arguments the
      * replacer puts in place of the declaring trait's parameters are not captured. */
@@ -696,16 +712,20 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
     /* The return types of a declaration o and of a declaration p that it keeps the type
      * declaring it from inheriting (STypesUtil.providedAndOverridden). Where their parameter
      * types are the same, the two are checked as the pair of an overloading was, o being the
-     * more specific; where o has the modifier override and widens p's, o's return type must be
-     * a subtype of p's (traits.tex, "Method Declarations"): with static parameters, at every
-     * instance of p, and where both declare as many of their own, also position by position. */
+     * more specific, two getters among them (overloading.tex, "Declarations with Static
+     * Parameters", the Return Type Rule); where o has the modifier override and widens p's,
+     * o's return type must be a subtype of p's (traits.tex, "Method Declarations"): with static
+     * parameters, at every instance of p, and where both declare as many of their own, also
+     * position by position. */
     private def checkOverridingReturnType(name: IdOrOpOrAnonymousName,
                                           o: (JavaFunctional, StaticTypeReplacer, TraitType),
                                           p: (JavaFunctional, StaticTypeReplacer, TraitType),
                                           equal: Boolean,
                                           oracle: OverloadingOracle): Unit = {
+      val getters = isGetter(o._1) && isGetter(p._1)
       def arrow(d: (JavaFunctional, StaticTypeReplacer, TraitType)) =
         if (isFunctionalMethod(d._1)) toFunctionalMethodArrows(Set(d), oracle).headOption
+        else if (getters) getterArrow(d)
         else toMethodArrows(Set(d)).headOption
       (arrow(o), arrow(p)) match {
         case (Some(oa), Some(pa)) =>
@@ -774,6 +794,11 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 
     def isDeclaredMethod(f: JavaFunctional) = f match {
         case SDeclaredMethod(_,_) => true
+        case _ => false
+    }
+
+    def isGetter(f: JavaFunctional) = f match {
+        case SFieldGetterMethod(_,_) => true
         case _ => false
     }
 

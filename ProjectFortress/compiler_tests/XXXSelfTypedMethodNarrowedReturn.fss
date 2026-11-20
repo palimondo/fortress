@@ -1,0 +1,15 @@
+(* An object below a self-typed trait that redeclares the trait's dotted method with a narrower return type compiles, the Return Type Rule reading the trait's plain signature (traits.tex, section "Method Declarations"; overloading.tex, section "Declarations with Static Parameters"). *)
+component XXXSelfTypedMethodNarrowedReturn
+export Executable
+
+trait Tn[\I extends Tn[\I\]\]
+    g(): Number
+end
+
+object On extends Tn[\On\]
+    g(): ZZ32 = 3
+end
+
+run(): () = println("PASS")
+
+end

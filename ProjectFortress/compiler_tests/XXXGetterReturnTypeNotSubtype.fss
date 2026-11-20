@@ -1,0 +1,15 @@
+(* An object's getter whose return type is not a subtype of the return type of the getter of that name that it keeps from being inherited is refused (overloading.tex, section "Declarations with Static Parameters", the Return Type Rule), so Oz's zero(): Number beside the inherited zero(): I at I = Oz does not compile. *)
+component XXXGetterReturnTypeNotSubtype
+export Executable
+
+trait Tz[\I extends Tz[\I\]\]
+    getter zero(): I
+end
+
+object Oz extends Tz[\Oz\]
+    getter zero(): Number = 0
+end
+
+run(): () = println("compiled")
+
+end
