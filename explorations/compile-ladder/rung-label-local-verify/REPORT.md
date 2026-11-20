@@ -29,6 +29,7 @@ In the scratch copy (below), `javap -c -p fortress/FortressLibrary.class`, from 
       1293: new           #1451               // class "FortressLibrary$\\=fn@607\\!5-620\\!8"
       1296: dup
       1297: aload         8
+      1299: checkcast     #176                // class com/sun/fortress/compiler/runtimeValues/FZZ
       1302: invokespecial #1454               // Method "FortressLibrary$\\=fn@607\\!5-620\\!8"."<init>":(Lcom/sun/fortress/compiler/runtimeValues/FZZ;)V
       1305: astore        8
 ```
