@@ -4,7 +4,7 @@
 
 - problem: the rehearsal's wall 2, 'VerifyError: Bad local variable type ... fortress/FortressLibrary.simplestRationalBetween(...) @1297: aload ... Type top (current frame, locals[8])' (`explorations/compile-ladder/plan-34/probes/rehearsal.md:38`)
 - spec: the reach of a local variable declaration is the smallest block in which it occurs (`Specification/basic/declarations.tex:462-465`, section "Reach and Scope of Declarations"); "Each expression block introduces a new scope" (`Specification/basic/expressions/blocks.tex:57-58`)
-- precedent: `forLabel` puts the label's name into a nested code generator for its body only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1959-1961`), as `forLetFn` does for a block's local functions (`:4025`, `:4035`) and a `typecase` clause for its binder (`:2589-2591`)
+- precedent: `forLabel` puts the label's name into a nested code generator for its body only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1959-1961`), as `forLetFn` does for a block's local functions (`:4025`, `:4035`) and a `typecase` clause for its binder (`:2590-2592`)
 - deviation: none
 - historical: `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java` (the team's `forLocalVarDecl` added each binding to its own code generator, `a874948ac:ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:3930`)
 
@@ -56,9 +56,9 @@ and the control `ArmLocalFnOther`, whose local function binds `w` in place of `r
 
 ## The test (fork L1: a test against the prelude)
 
-`ProjectFortress/compiler_tests/BlockBindingScopeCompiled.fss` and `.test` (`link`, `run`, `run_out_contains=PASS`): four functions, each with a binding first in an `if` arm and, after the arm, a local function that binds the same name, a function expression that does, a label block whose arm exits before a local function that does (the library's form), and a forked call `add(up(k), up(k + 1))` whose numeral names `r`; each asserted on the path through the arm and on the path that skips it.
+`ProjectFortress/compiler_tests/BlockBindingScopeCompiled.fss` and `.test` (`link`, `run`, `run_out_contains=PASS`): four functions, each with a binding first in an `if` arm and, after the arm, a local function that binds the same name, a function expression that does, a label block whose arm exits before a local function that does (the library's form), and a forked call `add(up(k), up(k + 1))` whose numeral names `r`; each asserted on the path through the arm and on the path that skips it. In review, two cases were added (`ca10e0129e`, SKEPTIC.md): a binding of a nested `do` block and one in a declaration's initializer block, whose slot a later `String` local takes, before a function expression or a local function whose numeral names `r`; on the base each dies at run time, 'ClassCastException: ... FJavaString cannot be cast to ... FZZ32', not in the verifier.
 
-Expected failure, stated before the first run: the link case passes and the run case fails, the class failing the JVM's verification as it loads, 'java.lang.VerifyError: Bad local variable type ... Type top (current frame, locals[2]) is not assignable to reference type', one failure of two tests.
+Expected failure, the one the section names, a test that dies with the verifier's message on the base (the transcript holds no `Expected failure:` line written before the first run): the link case passes and the run case fails, the class failing the JVM's verification as it loads, 'java.lang.VerifyError: Bad local variable type ... Type top (current frame, locals[2]) is not assignable to reference type', one failure of two tests.
 
 The failing run, on the base's code, before the edit was first built (2026-11-20T14:58:44Z, four threads): `ONE_JVM=1 nice -n 19 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh base ProjectFortress/compiler_tests BlockBindingScopeCompiled.test`
 
@@ -120,7 +120,7 @@ Before the repair the rehearsal's count refused three, `simplestRationalBetween`
 ## Where the fix belongs, and the precedent search
 
 - Place: `compiler/codegen/CodeGen.java`, the member that binds a local (`forLocalVarDecl`), a member of this rung's list ("the binding of a local"). The defect is the code generator's environment, which only the code generator keeps; the checker and walk scope the variable rightly (walk runs the test). Neither `forLabel` nor `forExit` holds the cause, and no member that rung P or rung T names does.
-- Precedent: every other block form of the file that binds a name binds it in a nested code generator for the scope alone: `forLabel` (`:1959-1961`), `forLetFn` (`:4025`, `:4035`), a `typecase` clause's binder (`:2589-2591`) and its second form (`:2623`). Of the file's 8 calls of `addLocalVar`, these 4 bind into a nested code generator, 3 bind a method's parameters and `self` at the method's own level (`:733`, `:742`, `:3344`), whose scope is the whole method, and the eighth was `forLocalVarDecl`'s. So no other site leaks.
+- Precedent: every other block form of the file that binds a name binds it in a nested code generator for the scope alone: `forLabel` (`:1959-1961`), `forLetFn` (`:4025`, `:4035`), a `typecase` clause's binder (`:2590-2592`) and its second form (`:2623`). Of the file's 8 calls of `addLocalVar`, these 4 bind into a nested code generator, 3 bind a method's parameters and `self` at the method's own level (`:733`, `:742`, `:3344`), whose scope is the whole method, and the eighth was `forLocalVarDecl`'s. So no other site leaks.
 - The row 983 repair (`76b21f4981`) moved the same line after the initializer, and kept it on the visiting code generator; the edit keeps its order.
 
 ## What the specification settles

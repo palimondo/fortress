@@ -17,7 +17,7 @@
 ## The gap ledger
 
 - **Row 1078 closes:** fixed by `08c8d57777` (its hash after the gather), test `BlockBindingScopeCompiled` (`ProjectFortress/compiler_tests/BlockBindingScopeCompiled.test`). The gather's command: `ledger.py close 1078 --commit <hash> --test BlockBindingScopeCompiled`.
-- **Row 815, a note** (138 characters; the row with it is 1,197 characters, `ledger.py check --rows` on that line: '1 rows, 0 fail the template'):
+- **Row 815, a note** (138 characters; the row with it is 1,196 characters, `ledger.py check --rows` on that line: '1 rows, 0 fail the template'):
 
   So did the one library's QQ and Ratio `denominator`: `(Ratio)` once FortressLibrary was compiled again alone, a VerifyError in `isFinite`.
 
