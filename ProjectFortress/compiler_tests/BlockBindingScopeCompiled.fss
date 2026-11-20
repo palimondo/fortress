@@ -1,0 +1,90 @@
+(* A local variable declared in a nested block (an if arm, a do block, a declaration's initializer) leaves scope with the block, so a later local function, function expression or task that binds or names a variable of the same name for its own reads no slot of the block, unset on a path that skipped it or taken by a later local. Specification/basic/declarations.tex, section "Reach and Scope of Declarations". *)
+component BlockBindingScopeCompiled
+export Executable
+
+up(k: ZZ32): ZZ32 = k + 1
+
+add(a: ZZ32, b: ZZ32): ZZ32 = a + b
+
+localFunctionAfterArm(a: ZZ32): ZZ32 = do
+  var seen: ZZ32 := 0
+  if a > 0 then
+    r: ZZ32 = a + a
+    seen := r
+  end
+  twice(x: ZZ32): ZZ32 = do
+    r: ZZ32 = x + x
+    r
+  end
+  seen + twice(a)
+end
+
+functionExpressionAfterArm(a: ZZ32): ZZ32 = do
+  var seen: ZZ32 := 0
+  if a > 0 then
+    s: ZZ32 = a
+    seen := s
+  end
+  f = fn (x: ZZ32): ZZ32 => do s: ZZ32 = x + 1; s end
+  seen + f(a)
+end
+
+labelArmExitsThenLocalFunction(a: ZZ32): ZZ32 = label done
+  if a < 0 then
+    q: ZZ32 = a - a
+    exit done with q
+  end
+  half(x: ZZ32): ZZ32 = do
+    q: ZZ32 = x DIV 2
+    q
+  end
+  half(a)
+end done
+
+taskAfterArm(k: ZZ32): ZZ32 = do
+  var seen: ZZ32 := 0
+  if k > 0 then
+    r: ZZ32 = k
+    seen := r
+  end
+  seen + add(up(k), up(k + 1))
+end
+
+doBlockSlotReused(a: ZZ32): ZZ32 = do
+  var seen: ZZ32 := 0
+  do
+    r: ZZ32 = a + 5
+    seen := r
+  end
+  s: String = "later"
+  g = fn (x: ZZ32): ZZ32 => x + 1
+  seen + g(a)
+end
+
+initializerBlockSlotReused(a: ZZ32): ZZ32 = do
+  y: ZZ32 = do
+    r: ZZ32 = a + 1
+    r + r
+  end
+  s: String = "mid"
+  h(z: ZZ32): ZZ32 = z + 2
+  y + h(a)
+end
+
+run(): () = do
+  assert(localFunctionAfterArm(3), 12, "local function after the arm, arm taken")
+  assert(localFunctionAfterArm(-2), -4, "local function after the arm, arm skipped")
+  assert(functionExpressionAfterArm(3), 7, "function expression after the arm, arm taken")
+  assert(functionExpressionAfterArm(-2), -1, "function expression after the arm, arm skipped")
+  assert(labelArmExitsThenLocalFunction(-2), 0, "label block, the arm exits")
+  assert(labelArmExitsThenLocalFunction(9), 4, "label block, local function after the arm")
+  assert(taskAfterArm(3), 12, "forked call after the arm, arm taken")
+  assert(taskAfterArm(-2), -1, "forked call after the arm, arm skipped")
+  assert(doBlockSlotReused(3), 12, "do block, its slot taken by a later local")
+  assert(doBlockSlotReused(-2), 2, "do block, its slot taken by a later local, negative argument")
+  assert(initializerBlockSlotReused(3), 13, "initializer block, its slot taken by a later local")
+  assert(initializerBlockSlotReused(-2), -2, "initializer block, its slot taken by a later local, negative argument")
+  println("PASS")
+end
+
+end

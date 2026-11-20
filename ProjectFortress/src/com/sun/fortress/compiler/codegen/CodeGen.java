@@ -4819,13 +4819,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             forExprsSerial(rhss, lhs_type, vcgs);
         }
 
-        // A variable is not in scope in its own initializer: it joins the
-        // environment here, so that a task of the right-hand side, whose free
-        // names are looked up there, does not read its slot before it is set.
-        for (VarCodeGen vcg : vcgs) addLocalVar(vcg);
-
-        // Evaluate rest of block with binding in scope
+        // A variable's scope is the rest of its block, the declaration's body:
+        // it joins the environment of the body only, not its own initializer,
+        // so that a task of the right-hand side does not read its slot before
+        // it is set, nor a closure or task after the enclosing block, such as
+        // an if arm, read its slot once the block has left it.
         CodeGen cg = new CodeGen(this);
+        for (VarCodeGen vcg : vcgs) cg.addLocalVar(vcg);
 
         cg.doStatements(d.getBody().getExprs());
         // Dispose of bindings now that we're done
