@@ -1,0 +1,15 @@
+(* Under walk a native string has its type from the library's load on, with no line of the library that names the object FlatString: a string binds, prints and has its length, and so does the line separator. *)
+component NativeStringsReadyAtLoadWalk
+import FlatString.{lineSeparator}
+export Executable
+
+run(): () = do
+    s: String = "ready"
+    println(s)
+    assert(|s|, 5, "a bound string's length")
+    n: ZZ32 = |lineSeparator|
+    println("line separator length " n)
+    assert(n >= 1, "the line separator has at least one character")
+end
+
+end

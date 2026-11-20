@@ -26,8 +26,6 @@ private natLineSeparator(): String = builtinPrimitive(
             "com.sun.fortress.nativeHelpers.stringOps.lineSeparator")
 
 private LineSeparator(): String =do
-    ignore(FlatString); (* This initializes the constructor for FlatString
-                   before its type is used (in the next line). *)
     natLineSeparator()
   end
 

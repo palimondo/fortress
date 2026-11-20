@@ -9180,3 +9180,7 @@ pointers to F-360 rewritten to F-379 in: F-361
 ### F-394
 
 2026-11-20 17:58Z · added · from `explorations/compile-ladder/rung-widening-getter/REPORT.md`, "What changed and why" · by climb batch 34 gather
+
+### F-395
+
+2026-11-20 18:00Z · added · from `explorations/compile-ladder/rung-flatstring-name/REPORT.md`, "1. What changed and why" · by climb batch 34 gather
