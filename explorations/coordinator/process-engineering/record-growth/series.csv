@@ -4494,3 +4494,71 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 4492,2026-11-18 08:54:24Z,f4d63205c,1088,877683,392764,117349,375550,880012,392895,117417,375673,,fortress-repo: bring the parts in line with climb batch 33b's landing
 4493,2026-11-18 09:01:34Z,52b7f33e6,1088,877683,392764,117349,375550,880012,392895,117417,375673,,fortress-repo: the cold read of climb batch 33b's landing
 4494,2026-11-18 09:17:40Z,c0b9347d3,1088,877683,392764,117349,375550,880012,392895,117417,375673,,"Climb batch 33b's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upd"
+4495,2026-11-18 09:18:39Z,ebe417e61,1088,877683,392764,117349,375550,880012,392895,117417,375673,,"Revival page: where it stands at the landing of climb batch 33b, the record chart regenerated"
+4496,2026-11-18 09:19:28Z,ac7d8221a,1088,877683,392764,117349,375550,880012,392895,117417,375673,,Orientation regression quiz: the cases revised from climb batch 33b's orientation update
+4497,2026-11-18 09:20:44Z,24cf1621d,1088,877683,392764,117349,375550,880012,392895,117417,375673,,"Climb batch 34's planner: the first program rehearsed against the one library on ba3c7c876d, its walls in order, patch a"
+4498,2026-11-18 09:21:27Z,348eb56d2,1088,877683,392764,117349,375550,880012,392895,117417,375673,,"Review queue: item 605, the orientation's held section of climb batch 33b's update"
+4499,2026-11-18 09:21:31Z,d3b729610,1088,877683,392764,117349,375550,880012,392895,117417,375673,,Boot note: 33b's record-landing ended
+4500,2026-11-18 09:22:12Z,182569bc7,1090,879774,392764,117349,375550,882105,392895,117417,375673,,"Ledger: rows 1090 and 1091 from climb batch 34's planner's rehearsal, and notes on rows 1054 and 1076"
+4501,2026-11-18 09:35:01Z,1e6d3a7d5,1090,879774,392764,117349,377060,882105,392895,117417,377183,,"Climb batch 34's record: the first program compiled and run against the one library, in two runs, with the planner's reh"
+4502,2026-11-18 09:36:37Z,7dc81f4e5,1090,879774,393197,117349,377060,882105,393328,117417,377183,,F-34: the code generator refuses 2 declarations on ba3c7c876d; the measure misses row 818's in String
+4503,2026-11-18 09:37:37Z,2bb50f451,1090,879774,393197,117349,377060,882105,393328,117417,377183,,"Boot note: climb batch 34 planned, the Friday check-in, the comparison's metrics running"
+4504,2026-11-18 09:53:21Z,dc3fdd969,1090,879774,393197,117349,377620,882105,393328,117417,377743,,"The comparison of tiers, part one: per-rung measures of climb batches 29 to 33b, and the pairs for a blind grading"
+4505,2026-11-18 09:53:58Z,c65a5efe8,1090,879774,393197,117349,377620,882105,393328,117417,377743,,Boot note: the comparison's cheap metrics in
+4506,2026-11-18 12:33:49Z,cf99e28af,1090,879774,393197,117349,377620,882105,393328,117417,377743,,"Boot note: his go for the blind pilot's first two judges, the steps after the compaction"
+4507,2026-11-18 12:39:48Z,448d6bcd5,1090,879774,393197,117349,377620,882105,393328,117417,377743,,"Boot note: the blind pilot's Opus judges running, the restart of 12:19"
+4508,2026-11-18 12:54:03Z,f42172209,1090,879774,393197,117349,378068,882105,393328,117417,378191,,"The comparison of tiers, part two: the blind pilot, four read-only judges on climb batch 31's rung K and climb batch 33'"
+4509,2026-11-18 15:18:50Z,1b93d38dd,1090,879774,393197,117349,378068,882105,393328,117417,378191,,"Boot note: the probe of the pilot's two correctness points, launched at his word"
+4510,2026-11-18 15:25:40Z,d0f94cc60,1090,879774,393197,117349,378513,882105,393328,117417,378636,,Probe of the blind pilot's two correctness points on the cast of self: neither reproduces
+4511,2026-11-18 15:26:43Z,069df3a2a,1090,879774,393576,117349,378513,882105,393707,117417,378636,,"F-377: a conditional whose arms are pairs holding self needs no cast, and an all-self typecase is cast, by the probe of "
+4512,2026-11-18 15:50:19Z,06574b35b,1090,879774,393576,117349,378513,882105,393707,117417,378636,,Held list and boot note: his rules on the expected failure and the skeptic's trim; the refactor running
+4513,2026-11-18 16:04:07Z,95611a87c,1090,879774,393576,117349,378513,882105,393707,117417,378636,,Code generator: the declared return type reaches generateActualMethodCode as a parameter
+4514,2026-11-18 16:04:45Z,2676c8009,1090,879774,393576,117349,378513,882105,393707,117417,378636,,Boot note: the refactor of the declared return type landed; batch 34 needs a new base build
+4515,2026-11-19 05:51:03Z,d4e739830,1090,879774,393576,117349,378513,882105,393707,117417,378636,,fortress-repo: state the expected failure before a test's first run
+4516,2026-11-19 05:51:11Z,53e7e33ee,1090,879774,393576,117349,378513,882105,393707,117417,378636,,Batch script and manual: the worker states the expected failure before the test's first run; the skeptic checks it and t
+4517,2026-11-19 05:52:54Z,d3fb44330,1090,879774,393576,117349,378513,882105,393707,117417,378636,,Climb batch 34's record and the boot note: the new base build at 2676c8009c
+4518,2026-11-19 05:55:57Z,2a442fbf8,1090,879774,393576,117349,378513,882105,393707,117417,378636,,"fortress-repo: the expected failure, where it is stated and how it matches"
+4519,2026-11-19 05:56:28Z,8490b3a99,1090,879774,393576,117349,378513,882105,393707,117417,378636,,"fortress-repo sources, and the batch script: the expected failure stated as a line that starts Expected failure:"
+4520,2026-11-19 06:05:20Z,17c1cb3f5,1090,879774,393576,117349,378513,882105,393707,117417,378636,,Boot note: the expected-failure rule landed in fortress-repo and the batch script; the page at version 28
+4521,2026-11-19 06:05:31Z,304c9cdc7,1090,879774,393576,117349,378513,882105,393707,117417,378636,,Boot note: the page's time corrected
+4522,2026-11-19 06:24:57Z,02c1dcd27,1090,879774,393576,117349,378513,882105,393707,117417,378636,,"fortress-repo: step 2 of ""The order"" as a principle, with no lists of cases"
+4523,2026-11-19 06:25:26Z,7978a6e81,1090,879774,393576,117349,378513,882105,393707,117417,378636,,"The expected failure stated with no list of cases, in the batch script and the skill's sources; the held list: his words"
+4524,2026-11-19 06:26:12Z,d6acde8e8,1090,879774,393576,117349,378513,882105,393707,117417,378636,,"Boot note: the page of fortress-repo changes at version 29, the cut of the lists folded into change 173"
+4525,2026-11-19 06:47:52Z,4608b2a0b,1090,879774,393576,117349,378513,882105,393707,117417,378636,,"Boot note: his newest read word on the page of fortress-repo changes, corrected"
+4526,2026-11-20 10:09:39Z,db56455c8,1090,879774,393576,117349,378513,882105,393707,117417,378636,,Boot note: the Fable review of climb batch 34 running after the reset
+4527,2026-11-20 10:23:42Z,178fd02f9,1090,879774,393576,117349,379229,882105,393707,117417,379352,,"Climb batch 34's record checked before its launch by a fresh reader on Fable, by reading only; its corrections of the re"
+4528,2026-11-20 10:24:51Z,e70926dc2,1090,879774,393576,117349,379229,882105,393707,117417,379352,,Boot note: the Fable review of climb batch 34 done by reading; its reproducers running
+4529,2026-11-20 10:36:13Z,e1d3ac2d3,1090,879774,393576,117349,379229,882105,393707,117417,379352,,"Climb batch 34's reproducers of rungs P, T, G and F run once on the base; the record brought in line"
+4530,2026-11-20 10:37:23Z,4ace0cffd,1090,879774,393576,117349,379229,882105,393707,117417,379352,,"Climb batch 34's rung G: the checker first, and the library's two getters tested by the checker's refusal of them, since"
+4531,2026-11-20 10:37:53Z,217d3a3ec,1090,879774,393576,117349,379229,882105,393707,117417,379352,,"Boot note: climb batch 34's reproducers run, rung G ordered, fork L1 put to him"
+4532,2026-11-20 14:38:58Z,94712ae69,1090,879774,393576,117349,379229,882105,393707,117417,379352,,P-102's history: his words on test first as a practice; the boot note: his go for climb batch 34
+4533,2026-11-20 14:45:19Z,639eef180,1090,879774,393576,117349,379229,882105,393707,117417,379352,,"Climb batch 34, run 1: the manifest generator, and its block spliced into the batch script"
+4534,2026-11-20 14:49:27Z,a62e1e30e,1090,879774,393576,117349,379229,882105,393707,117417,379352,,Boot note: climb batch 34's run 1 running
+4535,2026-11-20 15:57:32Z,8f6b20ca6,1091,880621,393576,117349,379229,882952,393707,117417,379352,,"Gap ledger: row 1092, RR32 has no exp, log or trigonometric function in the one library"
+4536,2026-11-20 16:02:50Z,7884530e1,1091,880621,393576,117349,379229,882952,393707,117417,379352,,Boot note: the speed roadmap's planning in flight
+4537,2026-11-20 16:54:45Z,04921293b,1091,880621,393576,117349,379497,882952,393707,117417,379620,,The speed roadmap: from today's compiled path to microGPT trained in batches on several cores with SIMD kernels and floa
+4538,2026-11-20 16:56:35Z,4be32054b,1091,880621,393576,117349,379497,882952,393707,117417,379620,,"The speed roadmap: the class-file read's cache only if a measure shows its cost, by his word of 2026-11-18"
+4539,2026-11-20 16:57:15Z,709ee90f5,1091,880621,393576,117349,379497,882952,393707,117417,379620,,Boot note: the speed roadmap and its page
+4540,2026-11-20 17:08:37Z,1c166939f,1091,880621,393576,117349,379497,882952,393707,117417,379620,,Boot note: the VM restart of 17:06 and climb batch 34's run 1 resumed
+4541,2026-11-20 17:53:14Z,8e4cc0c16,1092,881963,394560,117349,379497,884294,394691,117417,379620,,"The code generator compiles a generic method called on a receiver typed by a type variable, reading the receiver at the "
+4542,2026-11-20 17:56:06Z,bd933455e,1092,881924,395925,117349,379497,884255,396056,117417,379620,,"The code generator compiles a call of an overloaded function with a type assumption at some of its dispatched arguments,"
+4543,2026-11-20 17:56:57Z,42c9f707d,1092,882063,397061,117349,379497,884394,397192,117417,379620,,"The code generator keeps a local variable's binding in its declaration's body only, so a closure after an if arm capture"
+4544,2026-11-20 18:00:11Z,51d6c49eb,1096,886503,398182,117349,379497,888834,398313,117417,379620,,"The compiled checker refuses a getter that widens the return type of the getter it keeps from being inherited, and the l"
+4545,2026-11-20 18:00:59Z,3e19933c6,1096,886503,399432,117349,379497,888834,399563,117417,379620,,"Walk sets a native singleton's constructor as it binds the singleton, so the library's FlatString no longer names the ob"
+4546,2026-11-20 18:04:40Z,2e5e54c67,1096,884365,399445,117349,379497,886700,399576,117417,379620,,Close the rows climb batch 34 fixed
+4547,2026-11-20 18:40:59Z,3ccd236f0,1096,884365,399445,117349,379497,886700,399576,117417,379620,,"Climb batch 34's gather record: rungs T, P, L, G and F landed in that order, five rows opened and four closed"
+4548,2026-11-20 19:01:42Z,66cd4c956,1096,884365,399701,117349,379497,886700,399832,117417,379620,,Fold the review's corrections
+4549,2026-11-20 19:13:06Z,285efad80,1096,884365,399701,117349,379497,886700,399832,117417,379620,batch 34,Record the gate's tables and the microGPT walk check
+4550,2026-11-20 19:28:47Z,8f7604e42,1096,884365,399701,117349,379497,886700,399832,117417,379620,,"F-34's measure on climb batch 34 run 1's landed code, 285efad802: 0 refused, 754 emitted, String compiles whole"
+4551,2026-11-20 19:30:36Z,f2e55a291,1096,884365,399701,117349,379497,886700,399832,117417,379620,,Boot note: climb batch 34's run 1 landed; its landing and run 2's preparation in flight
+4552,2026-11-20 19:45:21Z,835e50a9a,1096,884365,399701,117349,379497,886700,399832,117417,379620,,"Climb batch 34's run 2 section read again on run 1's landed code, 285efad802"
+4553,2026-11-20 19:46:18Z,02557ccdd,1096,884365,399701,117349,379497,886700,399832,117417,379620,,"Review queue: item 601's sites of FZZ32.make cited by member on 285efad802, from the re-read of climb batch 34's rung C"
+4554,2026-11-20 19:49:36Z,2ea1ad164,1096,884365,399701,117349,381153,886700,399832,117417,381276,,"Climb batch 34, run 1: the post-batch review"
+4555,2026-11-20 19:51:24Z,f7c6c2cae,1096,884365,399701,117349,381153,886700,399832,117417,381276,,"Climb batch 34's rung reports: four claims of an expected failure stated before a first run corrected, since no message "
+4556,2026-11-20 19:52:02Z,dbf904bc0,1096,884365,399701,117349,381153,886700,399832,117417,381276,,"Boot note: climb batch 34's post-batch review done, its record-landing running"
+4557,2026-11-20 20:48:37Z,5a70c03de,1096,884365,399698,117349,381153,886700,399829,117417,381276,,"Record after climb batch 34's landing: F-34, F-225, F-325 and F-392 to F-394, notes on F-240 and P-102"
+4558,2026-11-20 20:48:37Z,b802d2e6f,1096,884365,399698,117349,381153,886700,399829,117417,381276,,"Plan and review queue after climb batch 34's landing: items 606 to 615, run 1's lines brought in line"
+4559,2026-11-20 21:32:30Z,dc425262b,1096,884365,399698,117349,381153,886700,399829,117417,381276,,"fortress-repo: climb batch 34's landing, the orientation's paragraph on an object's dotted method below a self-typed tra"
+4560,2026-11-20 21:33:27Z,843976091,1096,884365,399698,117349,381153,886700,399829,117417,381276,,"fortress-repo: climb batch 34's landing, the partial type assumptions, the checker's gaps and two moved lines brought in"
+4561,2026-11-20 21:40:52Z,86acf0407,1096,884365,399698,117349,381153,886700,399829,117417,381276,,"fortress-repo: the cold read of climb batch 34's landing, the type assumptions' places, the checker's gaps and the self-"
+4562,2026-11-20 21:53:27Z,8f1b63c4e,1096,884365,399698,117349,381153,886700,399829,117417,381276,,"Climb batch 34's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
