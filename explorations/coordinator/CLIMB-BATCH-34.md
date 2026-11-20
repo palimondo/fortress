@@ -2,6 +2,7 @@
 <!-- History. Drafted 2026-11-18 by the planning worker of climb batch 34, on Opus, against `main` with the code of `ba3c7c876d`, the base build `/home/user/fortress-base39` (`git diff --stat ba3c7c876d HEAD -- . ':!explorations' ':!docs' ':!.claude'` prints nothing). -->
 <!-- **No go.** The curator took the aim on 2026-11-18 at about 07:5x UTC ("Okay, let's go with that."), and gave no go. This record launches nothing. A Fable review reads it after the weekly reset of Friday 2026-11-20, 10:00 UTC; section 2 is written for his go or his refusal. -->
 <!-- Sources: the planner's brief (`<scratchpad>/batch33b/planner-34-brief.md`); POSITIONS P-33 with its history, P-37, P-164, P-169, P-178, P-148; FACTS F-34, F-53, F-352, F-353, F-381, F-388, F-390, F-391; `coordinator/CLIMB-BATCH-33.md`, section 2, "For the batch after, in this order" and its last paragraph; `reviews/batch-33b-review.md`, sections 3 and 5, Part 5 and "The steps due before the batch after"; `reviews/batch-33-review.md`, section 5; `compile-ladder/plan-33/probes/measure-ba3c7c876d.txt`; `compile-ladder/rung-number-payload-objects/REPORT.md`; `compile-ladder/plan-31/probes/switch-rehearsal.md`, `probe-y.md` and its patch; `reviews/carriers-ways-2026-11-13.md`, whole; `reviews/arrays-primer-2026-11-17.md`, section 11; review-queue items 513, 521, 592, 597 and 601; the ledger rows named in section 1; the `coordinator` skill's `references/batch.md`, "The go" and "The workflow"; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; the code at the sites. -->
+<!-- Checked 2026-11-20 by a fresh reader on Fable, by reading only: `coordinator/climb-batch-34-review.md`. Its corrections are in place here (its section A); its finding C1 names fork L1's fallback as the curator's to decide before the launch. -->
 <!-- The planner's probe: `compile-ladder/plan-34/probes/rehearsal.md`, with its patch `rehearsal-34.patch`, its scripts and programs beside it, run in a worktree of the planner's own, `/home/user/fortress-p34`, seeded from the base build and removed after. No gate stage ran. -->
 
 # Climb batch 34
@@ -194,11 +195,14 @@ Fields common to the six rungs:
 - A **wall** is a place where the compiler or the compiled library stops. A **rung** is one change, built by one worker and checked by a second, the skeptic. A **run** is one launch of the batch workflow. The **gate** is the full check before a run lands.
 - A **type assumption**, `e asif T`, makes the call around it choose its declaration as if `e` were a `T`.
 - A **row** is one known defect in the ledger. An **expected-failure test** is one that is known to fail and is marked so.
+- A **probe** is a trial in a scratch tree. Nothing of it lands. A **fork** is a choice that the batch makes. Its **default** is the way that the batch builds unless you say otherwise.
+- A **getter** is a method without parameters that reads like a field, such as `n.zero`. A **label block** is a block with a name, which an `exit` leaves early with a value.
+- **Rung N** is the rung of climb batch 33b that wrote the prelude's number types over payload classes. **Fork N4** is that batch's choice to leave the same work for the one library's seven number types to the first run against it, which is this batch.
 - **microGPT** is the model program. No rung changes a line of it.
 
 ### The go
 
-None yet. You took this aim on 18 November: the first program that runs against the one library, under the gate. You gave no go. The coordinator launches nothing until you say so. No fork below needs your answer before the start: none bends a decision of yours, and none touches microGPT.
+None yet. You took this aim on 18 November: the first program that runs against the one library, under the gate. You gave no go. The coordinator launches nothing until you say so. The planner found no fork that needs your answer before the start: by its reading none bends a decision of yours, and none touches microGPT. The check of 20 November names one, the fallback of fork L1 under rung L below, which lands a repair with no test that fails first (P-102).
 
 ### The two runs
 
@@ -220,7 +224,7 @@ The walls met, in order:
 5. Then `Hello` ran.
 6. The two array programs, `Arr` and `Dot`, met two more walls: the first `for` loop (row 994), and, with the verifier on, a method written twice into `Vector`'s class (new row 1091). Those go to the batch after.
 
-The fixes before the run, which nothing met because they were in already: the carriers' tables of the measure on record, the `Boolean`, `Char` and string carriers, the reader and writer carriers, and the run time's prelude names. Two parts of earlier hacks proved unneeded and were taken out: the old trait table search, and a special package for `FlatString`.
+The fixes before the run, which nothing met because they were in already: the carriers' tables of the measure on record, the `Boolean`, `Char` and string carriers, the reader and writer carriers, and the run time's prelude names. Two parts of earlier temporary fixes proved unneeded and were taken out: the old trait table search, and a special package for `FlatString`.
 
 ### Run 1, rung by rung
 
@@ -232,6 +236,8 @@ Each program is shortened to the lines that matter.
 - The one library's `simplestRationalBetween` has mutable variables, several exits from one labelled block, and a local function. Its compiled form reads a variable on a path that never set it.
 - Today: in the probe's tree, with the carriers built, `run(): () = println("Hello, one library")` dies with the verifier on: 'VerifyError: Bad local variable type', as the library loads. Every program would. Two copies of the function with `ZZ32` in place of `QQ` compile and run against the prelude, so the cause is not yet known, and no small program shows it yet.
 - After: the worker finds the cause first, writes a small test against the prelude that shows it, and repairs it. The library's function then passes the verifier.
+- The choice (fork L1): the test comes first. If the worker shows that no small test can exist, the default lands the repair on the scratch tree's evidence. `Hello`'s run then goes in as an expected-failure test, which run 2 turns on. The other way: the repair waits for run 2, inside rung C, where `Hello`'s run can fail first.
+- The check of 20 November reads that fallback as a bend of your rule P-102, test first. So this choice is yours before the launch (`climb-batch-34-review.md`).
 
 **P. An assumption at some arguments of a call.**
 
@@ -244,17 +250,21 @@ Each program is shortened to the lines that matter.
 
 - Today: the compile stops: 'Can't compile a dispatched call whose arguments are not all type assumptions'. The one library's `String` has this form twice, so `String` does not compile, and every program needs `String`.
 - After: it compiles and prints `Named, Named`, as walk does.
+- The choice (fork P1): the compiler builds the form. The other way: rewrite the library's two lines. Then a program that writes the form is still refused.
+- What stays refused (fork P2): four rarer forms of row 818, such as an assumption at the receiver of a generic method. A program that writes one gets the refusal that it gets today.
 
-**T. A method called on a value of a generic type.**
+**T. A generic method called on a value whose type is a type parameter.**
 
 - What it changes: the code generator.
-- The program that fails today, where `Gen` has a generic method `m`:
+- A type parameter is a name that stands for a type, such as `F` below. A generic method is a method with a type parameter of its own, such as `m`.
+- The program that fails today, where the trait `Gen` has a generic method `m`:
 
       f[\F extends Gen\](x: F): ZZ32 = x.m[\ZZ32\](3)
       println(f[\G\](G))
 
 - Today: the compile crashes: 'ClassCastException: VarType cannot be cast to TraitType' (row 1076). The one library's `__bigOperator2` stops so.
 - After: it compiles and runs as under walk.
+- The choice (fork T1): the compiler reads the value at the bound of its type parameter that has the method, here `Gen`. The other way: it reads the value at `Any` and looks the method up at the run. The code generator does that nowhere else.
 
 **G. `NN32`'s two getters.**
 
@@ -267,12 +277,16 @@ Each program is shortened to the lines that matter.
 
 - Today: the checker accepts it, and the code generator stops: 'Likely bug in static analysis'. The one library's `NN32` has this form, so its part `FortressBuiltin` does not compile.
 - After: the checker refuses the program, with the message for a return type that is too wide. `NN32`'s two getters say `NN32`.
+- The choice (fork G1): the checker refuses the form, by the rule of return types that it already has for a method. The program above doesn't compile today either: the code generator stops it.
+- The choice (fork G2): if the checker then refuses a line of a library or of a team test, the worker repairs the line where its intent is plain. A test's checked value that would change comes to you.
 
 **F. One line of the string library.**
 
 - What it changes: walk, and one line of the one library.
-- Today: the library's `FlatString` part holds `ignore(FlatString)`, only to make walk ready for strings. Once strings have their carrier, as run 2 gives them, the compiled path cannot compile that line, since it names the type as a value. What such a name means is an open question of yours (row 1082), and this rung does not answer it.
+- Today: the library's `FlatString` part holds `ignore(FlatString)`, only to make walk ready for strings. Once strings have their carrier, as run 2 gives them, the compiled path cannot compile that line, since it names the type as a value. What such a name means is an open question of yours (review-queue item 599, row 1082), and this rung does not answer it.
 - After: walk gets ready for strings by itself, and the line goes. Nothing that a program prints changes.
+- The choice (fork F1): walk changes, and the line goes. The other way: the compiled path compiles the name `FlatString` as a value. That would answer your open question for you.
+- With the default, a program that itself writes `ignore(FlatString)` is refused under the selector after run 2, as `x: Object = ZZ32` is today.
 
 ### Run 2, rung by rung
 
@@ -285,14 +299,21 @@ Each program is shortened to the lines that matter.
 
 - Today: it compiles. When it runs: 'NoClassDefFoundError: fortress/FortressLibrary$String' (row 1062). No compile writes the one library's jars, since nothing carries its built-in types (row 874).
 - After: it prints `Hello, one library`, in the gate, with the verifier on.
-- The parts, all by decisions on record:
+- The parts, each by a decision on record or by a default on your review list:
   - the one library's seven number types written over their payload classes, as rung N wrote the prelude's (fork N4, P-178);
-  - `Boolean`, `Char` and the flat string in the same form, with payload classes of their own for the one library;
+  - `Boolean`, `Char` and the flat string in the same form, with payload classes of their own for the one library (fork C1; review-queue item 513 leaves this form to the builder, so it is no decision of yours);
   - the reader, the writer and the two array stores as hand-written classes of the one library's types (P-164, P-169);
-  - these classes as a second set, in a second folder that comes first when the one library is selected, so that one build serves both libraries (P-33, F-353);
+  - these classes as a second set, in a second folder that comes first when the one library is selected, so that one build serves both libraries (P-33 for the one build; fork C2 for the folder, the default of review-queue item 521; F-353);
   - the run time's names of the prelude, such as its 105 names of exceptions, made to follow the library in use;
   - the fourteen parts compiled once in each gate, about 200 seconds, in the onelibrary group.
 - The run tests of varargs and of the `AND:` reduction, which wait for this run, are promoted where they pass.
+- The choices, each at its default:
+  - Fork C1: the code generator writes the classes of `Boolean`, `Char` and the flat string over payload classes. The other way: classes written by hand over generated ones, which Java can't express for `FlatString`.
+  - Fork C2: the second set is a second folder under the same class names. The other way: new class names for the one library's carriers, which every place that names a carrier would then follow.
+  - Fork C3: the run time names no prelude class where the second set is in use.
+  - Fork C4: the fourteen parts compile as test files of the onelibrary group. The other way: a build step before the tests.
+  - Fork C5: the old search of the trait table by the prelude's names stays as it is.
+  - Fork C6: a waiting run test is promoted if it passes with the verifier on. One that meets another wall stays an expected failure, with a row.
 
 ### The merge
 
@@ -302,16 +323,17 @@ Each program is shortened to the lines that matter.
 ### The measures
 
 - **Declarations of the one library that the code generator refuses** (F-34):
-  - Before: 1, `__bigOperator2` (row 1076), by the measure on `ba3c7c876d`. The probe found a second that the measure does not count: `String`'s two calls with a partial assumption (row 818), which stop `String`'s whole compile.
+  - Before: 2, on `ba3c7c876d`. The measure's script counts 1, `__bigOperator2` (row 1076). The probe found the second, which the script does not count: `String`'s two calls with a partial assumption (row 818), which stop `String`'s whole compile.
   - After run 1: 0, and the real compile of the fourteen, with the carriers' fixes, refuses nothing.
   - After run 2: 0 with no patch at all: the fourteen compile to jars in every gate.
 - **Programs that run compiled against the one library:** none on `main` today (row 1062). After run 2: `Hello`, with the verifier on, in the gate; and the varargs, `AND:` and `QQ` programs where they pass. `Arr` and `Dot` wait for rows 994 and 1091.
 - **The checker's two measures** stay 0 and 0. Rung G's change of the checker must keep them so.
 - **microGPT:** no line changes. Its quick checks under walk stay 7 of 7 for both programs.
+- **How far this brings microGPT compiled against the one library.** After run 2, the first program runs there: one line that prints. microGPT doesn't compile there yet. Its arrays stop first at rows 994 and 1091, which the batch after takes. Then the checker stops its flat program at 42 places of its own (F-58).
 
 ### What the batch leaves out
 
-- **Rows 994 and 1091,** which only `Arr` and `Dot` meet: the first `for` over `seq`, and `Vector`'s `-` written twice. Row 994 is four lines in a file that no rung of this batch edits.
+- **Rows 994 and 1091,** which only `Arr` and `Dot` meet: the first `for` over `seq`, and `Vector`'s `-` written twice. Row 994 is four lines in `OverloadSet.java`, a file that only rung P may edit, for another purpose.
 - **The other forms of row 818,** such as an assumption at the receiver of a generic method. No library line has them.
 - **Your three questions on `typecase` arms:** review-queue item 592 (row 1064), row 1081 and row 1068. They are of one kind, and one rung on the static rules of a `typecase` clause could answer all three. They wait for you.
 
@@ -337,14 +359,14 @@ The agents run on the regular tiers (`tier-mode.sh status` prints `regular`).
   - The reserve: run 2 of 33 spent 0.53 million of its 1.04 million, one ruling on a rung (214 thousand) and one on the review with its repair (317 thousand).
   - The minutes: run 2 of 33's workers took 41 to 61 minutes and its skeptics 26 to 32, two agents at a time; its rung stage 3 hours 14 for four rungs, the gather 41 minutes, the review 22 beside the gate's 22, the commit stage 5.
   - A restart of the machine is left outside the estimate; run 2 of 33's cost about 0.38 million.
-- **The disk.** The script stops a run under 1.5 G a rung plus 4 G. Run 1 needs 11.5 G, run 2 5.5 G. Free on 18 November, after the probe's tree went: about 14.2 G (`df -P /home/user`, 14,181,964 blocks available).
+- **The disk.** The script stops a run under 1.5 GiB a rung plus 4 GiB. Run 1 needs 11.5 GiB, run 2 5.5 GiB. Free on 18 November, after the probe's tree went: about 13.5 GiB (`df -P /home/user`, 14,181,964 blocks of 1,024 bytes available). Free on 20 November: about 13.4 GiB (14,024,248 blocks).
 - **The gate's time.** From run 2, the onelibrary group compiles the fourteen parts, about 200 seconds more in that group, which starts when another group ends.
 
 ### Your review list from this record
 
-- The forks of section 3. Each takes its default. None is consequential by the rule.
+- The forks of section 3. Each takes its default. By the planner's reading none is consequential by the rule; the check of 20 November names fork L1's fallback as one.
 - Rows 1090 and 1091, filed by the planner.
-- The count on record of refused declarations (F-34) missed one wall, row 818's. The record's words are brought in line after the landing.
+- The count on record of refused declarations (F-34) missed one wall, row 818's. F-34 now says so: the code generator refuses 2, and the measure's script counts 1.
 - The second set of run-time classes comes back for `Boolean`, `Char`, the strings, the reader, the writer and the stores. Your P-33 lost its words on the second set today, since the numbers need none. Its decision, one build for both libraries, stays true.
 - Item 597's default stands: no skipping mode.
 
@@ -354,7 +376,7 @@ The agents run on the regular tiers (`tier-mode.sh status` prints `regular`).
 
 ### The consequential fork
 
-None. What the record settles, and so is no fork:
+None, by the planner's reading. The check of 2026-11-20 (`coordinator/climb-batch-34-review.md`, finding C1) reads the fallback of fork L1 as consequential: it lands a repair of the code generator with no test that fails first for its gap, which bends P-102, and fork N4 of climb batch 33 deferred work for that same reason. What the record settles, and so is no fork:
 
 - The order of the work and one build for both libraries: P-33, with its history of 2026-11-18 08:14Z ("the decision, microGPT's slice first with one build serving both libraries, is unchanged").
 - The form of the one library's seven number types: P-178's detail, the carriers' review's way D with way C's machinery, and rung N's form 2 (fork N4's default, F-388).
@@ -369,7 +391,7 @@ None. What the record settles, and so is no fork:
 Each fork below builds within a decision on record or chooses where the record leaves an implementation open, and each can be undone. For a fork that leaves a form unbuilt, it says what a program that writes the form gets.
 
 1. **B1. One record, two runs.** Run 1 is L, P, T, G and F; run 2 is C on run 1's landed tree. **Default: so.** Way not taken: one run, in which C's test, `Hello`'s run, cannot pass on C's own branch. The reason: `references/batch.md`, "The go"; a rung cannot build on another of its own run.
-2. **B2. What the batch takes.** The brief's pieces (row 874 with fork N4, the run time's prelude names, row 993, row 1076, the fourteen jars in the gate with `Hello` and the run tests of varargs and of row 315) and the probe's walls between them and `Hello`'s run under the gate (rows 818, 1078 and 1090). **Default: so.** Rows 994 and 1091 wait: only `Arr` and `Dot` meet them, and row 994's file is no rung's (the brief's rule). Their programs get a failure at the run, as today: 'NoClassDefFoundError: FortressLibrary' at the first `for` over `seq` with the verifier off; 'ClassFormatError: Duplicate method name' at an `array1` of a number type with it on.
+2. **B2. What the batch takes.** The brief's pieces (row 874 with fork N4, the run time's prelude names, row 993, row 1076, the fourteen jars in the gate with `Hello` and the run tests of varargs and of row 315) and the probe's walls between them and `Hello`'s run under the gate (rows 818, 1078 and 1090). **Default: so.** Rows 994 and 1091 wait: only `Arr` and `Dot` meet them, and row 994's file, `OverloadSet.java`, is in no rung's list but P's, which names it only for the dispatch of fork P1 (the brief's rule). Their programs get a failure at the run, as today: 'NoClassDefFoundError: FortressLibrary' at the first `for` over `seq` with the verifier off; 'ClassFormatError: Duplicate method name' at an `array1` of a number type with it on.
 3. **B3. Row 1078's rung is in run 1, its cause traced in scratch.** **Default: so;** its worker builds the probe's scratch tree from the committed patch, traces the cause, and writes a test against the prelude that shows it (fork L1). Way not taken: the repair inside C, which would put the run's whole risk on one rung.
 4. **L1. If no test against the prelude can show row 1078's cause,** the rung lands its repair with the scratch tree's evidence, its test `one_library_tests/XXXOneLibraryRunHello` written as an expected failure, which C promotes. **Default: a test against the prelude first;** the fallback only if the worker shows why none can be written, and the skeptic checks the repair in the same scratch tree.
 5. **P1. A call with an assumption at some arguments** chooses among the declarations that are applicable when each assumed argument has its assumed type and each other argument its static type: where one is left, the call names it; where several are, a dispatch over them tests the other arguments' run-time types, as walk's dispatch does. **Default: so.** The reason: the specification's "Type Assumption"; walk's precedent. Way not taken: a rewrite of the library's two lines, which leaves the form refused for programs.
@@ -387,7 +409,7 @@ Each fork below builds within a decision on record or chooses where the record l
 
 ## 4. The rungs
 
-Each rung's section is its worker's brief. The briefing keys of section 1 give the decisions, rows and code that the rung rests on. A line citation is of `ba3c7c876d`, whose code is `main`'s now; run 2's section is read again on run 1's landed tree before its launch. The record's forks are section 3's. The planner's probe programs are in `explorations/compile-ladder/plan-34/probes/programs/`; a test is written new in the test folders, and no file is moved from there.
+Each rung's section is its worker's brief. The briefing keys of section 1 give the decisions, rows and code that the rung rests on. A line citation in run 1's sections is of `main`'s code, `95611a87c5`: the check of 2026-11-20 lowered by one each of the six citations of `CodeGen.java` after `:2611`, which were of `ba3c7c876d`. Section C's citations are still of `ba3c7c876d`; run 2's section is read again on run 1's landed tree before its launch. The record's forks are section 3's. The planner's probe programs are in `explorations/compile-ladder/plan-34/probes/programs/`; a test is written new in the test folders, and no file is moved from there.
 
 ### L. The JVM's verifier and a label body's local in the one library's simplestRationalBetween: the cause traced, a test against the prelude, and the repair (row 1078)
 
@@ -416,7 +438,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 ### P. An overloaded call with a type assumption at some of its dispatched arguments but not all, on the compiled path (row 818)
 
-**The mission.** A type assumption `e asif T` makes the call around it choose its declaration as if `e` were a `T` (`Specification/basic/expressions/type-annotation.tex`, "Type Assumption"). The code generator compiles one at a dotted call's receiver, and at a call whose every dispatched argument is an assumption, by the declaration that the checker resolves (`CodeGen.assumedArgumentsCall`, `:7257`, from `forFunctionalRef`, `:4469`). At some arguments but not all it refuses: 'Can't compile a dispatched call whose arguments are not all type assumptions' (row 818; `compiler_tests/XXXAsIfPartialCallCompiled`). The one library's `String` has the form twice, `concatAndBalanceIfNecessary(s1 asif String, s2)` (`Library/String.fss:67`, `:69`), so under the selector `String` does not compile, and every program against the one library needs it (PROBES, wall 1). F-34's measure does not count it. You compile the form.
+**The mission.** A type assumption `e asif T` makes the call around it choose its declaration as if `e` were a `T` (`Specification/basic/expressions/type-annotation.tex`, "Type Assumption"). The code generator compiles one at a dotted call's receiver, and at a call whose every dispatched argument is an assumption, by the declaration that the checker resolves (`CodeGen.assumedArgumentsCall`, `:7256`, from `forFunctionalRef`, `:4468`). At some arguments but not all it refuses: 'Can't compile a dispatched call whose arguments are not all type assumptions' (row 818; `compiler_tests/XXXAsIfPartialCallCompiled`). The one library's `String` has the form twice, `concatAndBalanceIfNecessary(s1 asif String, s2)` (`Library/String.fss:67`, `:69`), so under the selector `String` does not compile, and every program against the one library needs it (PROBES, wall 1). F-34's measure does not count it. You compile the form.
 
 **The decisions this rung builds.** None names the mechanism. Section 3's forks P1 and P2.
 
@@ -433,7 +455,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Specification.** `grep -rn '~818' Specification --include=*.tex` prints nothing on the base. List any sentence that your change makes false, or none.
 
-**Files.** `compiler/codegen/CodeGen.java`: `assumedArgumentsCall` (`:7257`) and its call in `forFunctionalRef` (`:4469`), and `OverloadSet.java` if the dispatch over several is written there; your tests. Not: the library's text; `forMethodInvocation` (T's); the members that L names; microGPT.
+**Files.** `compiler/codegen/CodeGen.java`: `assumedArgumentsCall` (`:7256`) and its call in `forFunctionalRef` (`:4468`), and `OverloadSet.java` if the dispatch over several is written there; your tests. Not: the library's text; `forMethodInvocation` (T's); the members that L names; microGPT.
 
 **Reserved points.** A model line: none. A change of which declaration a call reaches.
 
@@ -441,7 +463,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 ### T. A generic method called on a receiver typed by a type variable, on the compiled path (row 1076)
 
-**The mission.** The branch of `CodeGen.forMethodInvocation` (`:7314`) for a call with static arguments casts the receiver's type to `TraitType` (`TraitType rt_tt = ((TraitType)receiverType)`, `:7405`); a receiver typed by a type variable crashes it: 'ClassCastException: class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.TraitType' (row 1076). The one library's `__bigOperator2` (`Library/FortressLibrary.fss:1656-1677`) has it at `xs.generate[\L1\](...)` with `xs: F` and `F extends Generator[\E\]` (`:1675`), the one refused declaration of F-34's measure. Against the prelude the planner's seven lines show it (`plan-34/probes/programs/VarRecv.fss`). Rung I of climb batch 33 found a method's owner among an intersection's conjuncts (`intersectionMethodOwner`, `:7602`); you do the like for a type variable's bounds.
+**The mission.** The branch of `CodeGen.forMethodInvocation` (`:7313`) for a call with static arguments casts the receiver's type to `TraitType` (`TraitType rt_tt = ((TraitType)receiverType)`, `:7404`); a receiver typed by a type variable crashes it: 'ClassCastException: class com.sun.fortress.nodes.VarType cannot be cast to class com.sun.fortress.nodes.TraitType' (row 1076). The one library's `__bigOperator2` (`Library/FortressLibrary.fss:1656-1677`) has it at `xs.generate[\L1\](...)` with `xs: F` and `F extends Generator[\E\]` (`:1675`), the one refused declaration of F-34's measure. Against the prelude the planner's seven lines show it (`plan-34/probes/programs/VarRecv.fss`). Rung I of climb batch 33 found a method's owner among an intersection's conjuncts (`intersectionMethodOwner`, `:7601`); you do the like for a type variable's bounds.
 
 **The decisions this rung builds.** None names the mechanism. Section 3's fork T1.
 
@@ -457,7 +479,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Specification.** `grep -rn '~1076' Specification --include=*.tex` prints nothing on the base. List any sentence that your change makes false, or none.
 
-**Files.** `compiler/codegen/CodeGen.java`: `forMethodInvocation` (`:7314`), and a new member beside `intersectionMethodOwner` (`:7602`); your tests. Not: the members that L and P name; the library's text; microGPT.
+**Files.** `compiler/codegen/CodeGen.java`: `forMethodInvocation` (`:7313`), and a new member beside `intersectionMethodOwner` (`:7601`); your tests. Not: the members that L and P name; the library's text; microGPT.
 
 **Reserved points.** A model line: none. A change of which declaration a dotted call reaches.
 
@@ -465,7 +487,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 ### G. NN32's two getters at NN32, and the checker's refusal of a getter that widens the return type of a getter it inherits (row 993)
 
-**The mission.** The one library's `NN32` declares `getter zero(): Number = unsigned(0)` and `getter one(): Number = unsigned(1)` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:264-265`), wider than `zero(): I` and `one(): I` that it inherits at `I = NN32` (`Library/FortressLibrary.fss:753-754`). The checker accepts them, and the code generator stops the whole of `FortressBuiltin`: 'Likely bug in static analysis, apparently malformed overload set not rejected for FortressBuiltin..NN32.one():Number' (row 993; the rehearsal's W4). A program's object below a trait of its own stops the same way against the prelude (`plan-34/probes/programs/WidenGetter.fss`). The checker gives an `override` the rule of return types (`OverloadingChecker.scala:726`); a declaration below one that it inherits at the same parameter types gets none. You repair the two lines and the checker.
+**The mission.** The one library's `NN32` declares `getter zero(): Number = unsigned(0)` and `getter one(): Number = unsigned(1)` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:264-265`), wider than `zero(): I` and `one(): I` that it inherits at `I = NN32` (`Library/FortressLibrary.fss:753-754`). The checker accepts them, and the code generator stops the whole of `FortressBuiltin`: 'Likely bug in static analysis, apparently malformed overload set not rejected for FortressBuiltin..NN32.one():Number' (row 993; the rehearsal's W4). A program's object below a trait of its own stops the same way against the prelude (`plan-34/probes/programs/WidenGetter.fss`). The checker has the rule of return types for a declaration that keeps another from being inherited (`OverloadingChecker.checkOverridingReturnType`, `:702`, by its comment at `:696-701`): at the same parameter types it checks the pair as an overloading (`:712-714`; the message of `returnTypeCheck`, `:742-743`), and an `override` that widens at `:726`. The object's getter passes all the same (PROBES, section 6), so the gap is the getter's; why the check does not reach it is yours to find. You repair the two lines and the checker.
 
 **The decisions this rung builds.** P-148 for the checker's timing. Section 3's forks G1 and G2.
 
@@ -491,13 +513,13 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 ### F. Walk's native strings work without the library's line that names the object FlatString as a value (row 1090)
 
-**The mission.** Walk's native `FlatString` sets the strings' constructor only when the object is made from its name (`interpreter/glue/prim/FlatString.java:32-35`, `makeNativeObject`), so the `FlatString` component names it, `ignore(FlatString)`, before its first native string (`Library/FlatString.fss:29`, under its comment "This initializes the constructor for FlatString before its type is used"; the team's line, `5a68404fdf`, respelled by the revival). Without the line walk's first string dies: 'NullPointerException: Cannot read field "selfType" because the return value of "...FNativeObject.getConstructor()" is null' (PROBES, wall 4). Once the next run writes `FlatString` over a payload class, the compiled path refuses that line: 'Can't compile the number type FlatString as a value yet' (`CodeGen.java:7020`). What such a name denotes is an open question on record (row 1082), which this rung leaves open (fork F1). You make walk ready for strings without the line, and take the line out.
+**The mission.** Walk's native `FlatString` sets the strings' constructor only when the object is made from its name (`interpreter/glue/prim/FlatString.java:32-35`, `makeNativeObject`), so the `FlatString` component names it, `ignore(FlatString)`, before its first native string (`Library/FlatString.fss:29`, under its comment "This initializes the constructor for FlatString before its type is used"; the team's line, `5a68404fdf`, respelled by the revival). Without the line walk's first string dies: 'NullPointerException: Cannot read field "selfType" because the return value of "...FNativeObject.getConstructor()" is null' (PROBES, wall 4). Once the next run writes `FlatString` over a payload class, the compiled path refuses that line: 'Can't compile the number type FlatString as a value yet' (`CodeGen.java:7019`). What such a name denotes is an open question on record (row 1082), which this rung leaves open (fork F1). You make walk ready for strings without the line, and take the line out.
 
 **The decisions this rung builds.** None names the mechanism. Section 3's fork F1.
 
 **What you build, in order.**
 1. **The test first:** the line taken out; a walk test that prints a string and the length of `lineSeparator` fails through the harness with the message above.
-2. **Walk** (fork F1): the constructor set when the native component's environment is made (`BuildNativeEnvironment.nativeConstructor`, `:42`), or where the component's objects are made, for `FlatString`; the same for each sibling that sets its constructor only in `makeNativeObject` (`Boolean`, `Char`, `NN32`, `NN64`, `RR32`, `RR64`, `FloatLiteral`, `ReflectCollection`, `ReflectMethod`), if any of them is needed before its name is read.
+2. **Walk** (fork F1): the constructor set when the native component's environment is made (`BuildNativeEnvironment.nativeConstructor`, `:42`), or where the component's objects are made, for `FlatString`; the same for each sibling that sets its constructor only in `makeNativeObject` (`Boolean`, `Char`, `ZZ32`, `ZZ64`, `NN32`, `NN64`, `RR32`, `RR64`, `FloatLiteral`, `ReflectCollection`, `ReflectMethod`; `grep -rn 'setConstructor(this)' interpreter/glue/prim` lists them, and `ZZ.java` and `IntLiteral.java` set theirs in another form), if any of them is needed before its name is read.
 3. **The whole suites once,** `ant testFast` and `ant testSystem`.
 4. **The stages** once on your final tree.
 
@@ -546,8 +568,8 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 - **Run 1.** G and F share no file with any rung. L, P and T share `compiler/codegen/CodeGen.java`, by declaration:
   - L: the members that write a `label` block, an `exit` and their locals (`forLabel`, `:1942`; `forExit`, `:1987`), or `VarCodeGen.java`.
-  - P: `assumedArgumentsCall` (`:7257`) and its call in `forFunctionalRef` (`:4469`).
-  - T: `forMethodInvocation` (`:7314`) and a new member beside `intersectionMethodOwner` (`:7602`).
+  - P: `assumedArgumentsCall` (`:7256`) and its call in `forFunctionalRef` (`:4468`).
+  - T: `forMethodInvocation` (`:7313`) and a new member beside `intersectionMethodOwner` (`:7601`).
   - The gather's order is the script's: of two rungs that share a file, the one whose lowest edited line is lower goes first (`climb-batch-workflow.md`, "Gather", "The order"). The manifest's order L, P, T is that order as this record expects it.
   - If a rung's cause lies in a member that another names, it reports it and builds its repair outside it.
 - **Run 2.** One rung. Its section is read again on run 1's landed tree before the launch, with L's, P's and T's members of `CodeGen.java` as landed.
@@ -620,7 +642,7 @@ The coordinator, for run 1, after the curator's go:
 
 1. **The check of this record by a fresh reader on Fable,** its changes in place (`references/batch.md`, "The go").
 2. **The generator** for `--run 1`, its checks and the splice, as the manual's "Before the launch", step 4, gives them; the keys into this record and into the rehearsal checked with `facts-extract.sh --check`. The base is `main`'s head after that commit.
-3. **The base build.** `/home/user/fortress-base40` at `2676c8009c`, whose code is `95611a87c5` (`ba3c7c876d` with the declared return type passed to `generateActualMethodCode` as a parameter, so this record's line citations in `CodeGen.java` after `:2611` are up to four lines too high: find each member by name), has `main`'s code and serves while `main` moves only under `explorations/`, `docs/` and `.claude/` (`git diff --stat 2676c8009c <base> -- . ':!explorations' ':!docs' ':!.claude'` prints nothing); its trial seed and the old code's run passed on 2026-11-19.
+3. **The base build.** `/home/user/fortress-base40` at `2676c8009c`, whose code is `95611a87c5` (`ba3c7c876d` with the declared return type passed to `generateActualMethodCode` as a parameter, so section C's line citations in `CodeGen.java` after `:2611` are up to four lines too high: find each member by name; run 1's sections cite `main`'s lines since the check of 2026-11-20), has `main`'s code and serves while `main` moves only under `explorations/`, `docs/` and `.claude/` (`git diff --stat 2676c8009c <base> -- . ':!explorations' ':!docs' ':!.claude'` prints nothing); its trial seed and the old code's run passed on 2026-11-19.
 4. **The disk:** 11.5 G or more free; `git status --porcelain` empty in the main tree.
 5. **The launch from a turn that no message of the curator's started,** a check-in's turn.
 6. **Check-ins** for about 5 hours and a half, 45 minutes apart; the check-in file `<scratchpad>/batch34/checkins.txt`.
@@ -661,7 +683,7 @@ New rows go into the ledger only through `ledger.py add`, by the gather.
 
 The batch edits no FACTS or POSITIONS entry. After run 1, these are false or name a closed row as open:
 
-- **F-34:** "refuses 1 declaration ... `__bigOperator2`, ... (row 1076)", and, by the probe, its count leaves out row 818's two calls in `String`, which stop the real compile.
+- **F-34:** "the code generator refuses 2 declarations ... the measure's script counts 1 of them", with its sentences on `__bigOperator2` (row 1076) and on `String`'s call (row 818): both walls are gone.
 - **F-352:** "`NN32`'s two getters (row 993)" named as a wall that stands.
 
 After run 2:
