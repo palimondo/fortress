@@ -1496,3 +1496,9 @@ The other parts, from the landing's list of the skill's sentences that it made f
 - `compiler.md`, "The checker's gaps", the Return Type Rule: the pair of getters, F-394; the object expression, ledger row 1097; the pointer for the dotted method, ledger row 1094.
 - `compiler.md`, "The checker's gaps": the method call through a type variable bounded by another, ledger row 1093.
 - `sources.md`: the lines of `Library/FlatString.fss` moved by two, `3e19933c65`.
+
+From the cold read of `dc425262b4` and `8439760919` (`explorations/compile-ladder/climb-batch-34/skills/cold-read.md`), 2026-11-20; each fix settled by the writer against the code.
+
+- `compiler.md`, the type assumption's places and refusals: the chosen declaration and the receiver outside the arguments; the receiver's case, `CodeGen.java`, `assumedReceiverCall` (`:7245-7251`) and `forMethodInvocation` (`:7532-7537`); the functional method's case and the other component, `assumedArgumentsCall` (`:7266-7289`); the partial call's dispatch and its functional-method refusal, `partiallyAssumedCall` (`:7326-7360`), `compiler_tests/XXXAsIfPartialWithFunctionalMethodCompiled.fss`; the generic declaration below the chosen one, `OverloadSet.membersUnderAssumptions` (`:2315-2331`); the chosen generic declaration, `refuseGenericAssumption` (`:7385-7395`).
+- `compiler.md`, "The checker's gaps": the getter redeclared, F-394; the object expression and its check by hand, ledger row 1097; the dotted method's refusal, ledger row 1094; `Gen` and the bound written in place, ledger row 1093 and `compiler_tests/XXXMethodThroughTypeVariableBound.fss`.
+- `revival-changes.md`, "Traits and objects", the paragraph on `self`: one exception and the departure, F-394 ("a departure from P-146 and P-157") and ledger row 1094; the one domain and the same return type, `OverloadingChecker.scala:733-734`; `X` and the getter's call form, settled by the writer.
