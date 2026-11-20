@@ -23,12 +23,14 @@ import com.sun.fortress.interpreter.evaluator.values.Constructor;
 import com.sun.fortress.interpreter.evaluator.values.FValue;
 import com.sun.fortress.interpreter.evaluator.values.GenericConstructor;
 import com.sun.fortress.interpreter.evaluator.values.GenericNativeConstructor;
+import com.sun.fortress.interpreter.evaluator.values.NativeConstructor;
 import com.sun.fortress.nodes.*;
 import com.sun.fortress.nodes_util.ExprFactory;
 import com.sun.fortress.nodes_util.NodeUtil;
 import edu.rice.cs.plt.tuple.Option;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -156,6 +158,9 @@ public class BuildNativeEnvironment extends BuildTopLevelEnvironments {
 
                 Constructor cl = nativeConstructor(containing, (FTypeObject) ft, x, fname);
                 guardedPutValue(containing, WellKnownNames.obfuscatedSingletonConstructorName(fname, x), cl, x);
+                // A native singleton's values, such as a string a native function answers, can be made
+                // before its name is first read: the constructor registers itself with its values' class.
+                if (cl instanceof NativeConstructor) cl.applyConstructor(Collections.<FValue>emptyList());
 
                 // Create a little expression to run the constructor.
                 Expr init = ExprFactory.makeTightJuxt(NodeUtil.getSpan(x),
