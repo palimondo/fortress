@@ -1480,3 +1480,12 @@ From the cold read of `4c5a5f121e` and `f4d63205c7` (`explorations/compile-ladde
 - `tests-writing.md`, "The order: the test, its failure, the fix, the pass", step 2 and the report's paragraph: the failure that the defect should give, written before the first run, matched by the run, and quoted in the report; a run that fails another way is explained before the code is edited. The curator in chat at 15:4x UTC on 2026-11-18: "When you are writing tests, you should be writing the test case, state what the expected failure is, then run it. If it matches your expected failure, then you can start working on the implementation. If it fails for a different reason than you expected, you need to deal with those cases."
 - `tests-writing.md`, "The order", step 2 and the report's paragraph: where the expected failure is stated (a message, `Expected failure:`), what it names, how a run matches it, and the causes of another failure. The cold read of `d4e7398301`, 2026-11-19; settled by the coordinator.
 - `tests-writing.md`, "The order", step 2: the lists of cases cut, and the rule stated as a principle. The curator in chat at 06:2x UTC on 2026-11-19: "It sounds like a recipe for ever growing rules section in a skill, whenever a new specific edge case that wasn't in the list is discovered."
+
+## Climb batch 34's landing, 2026-11-20
+
+The orientation update of climb batch 34, judged "install" in `explorations/compile-ladder/climb-batch-34/orientation/judgement.md`, installed word for word.
+
+- `revival-changes.md`, "Traits and objects", the paragraph after the rule on `self` in a self-typed trait: the two checks, the exclusion test, P-146, P-157 and F-225.
+- The same paragraph: the departure at an object's abstract dotted method, F-225, ledger row 1094, `OverloadingChecker.scala:214` and `:733-734`, `compiler_tests/XXXSelfTypedMethodNarrowedReturn`, `explorations/compile-ladder/rung-widening-getter/REPORT.md:46`, `Specification/appendices/changes.tex:4452-4455`.
+- The same paragraph: the workaround and the pair of getters, row 1094's notes, F-394, `OverloadingChecker.scala:220-228` and `:725-728`, `compiler_tests/SelfTypedGetterNarrowedReturn`.
+- The same paragraph: "With the reading of the exclusion test", wording only.
