@@ -127,3 +127,7 @@ If you would look something up before you act, say what you would look up, where
     - (a) What does walk do with the test as written? What does the compiled path do with the same program?
     - (b) Write the helper that you keep. What does `shape(("b", "a"))` give under walk?
     - (c) Suppose that you had changed only the last arm. What would walk do with the test, and what would `shape(("b", "a"))` give? What would the compiled path do with that program?
+
+38. Your brief asks for compiled tests, in `compiler_tests/`, of a program's own measured type. The program declares `trait Measured[\M extends Measured[\M\]\]` with an abstract `size(): Number`, and `object Box(n: ZZ32) extends Measured[\Box\]`, which declares `size(): ZZ32 = n`, so that a box's size is a `ZZ32`.
+    - (a) The first test shows that these declarations compile and run: its `run()` prints `PASS`. What do walk and the compiled path do with the program today? Give the test's `.test` file or files, any change to the program, and the result through the harness that you expect.
+    - (b) The second test asserts, compiled, that the size of `Box(4)` is 4, then prints `PASS`. Write the declarations and the lines of `run()` that you keep, and say what walk and the compiled path do with them today.
