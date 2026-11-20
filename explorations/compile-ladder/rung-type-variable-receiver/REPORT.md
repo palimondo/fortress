@@ -78,7 +78,7 @@ A dotted call binds the receiver to the method's `self` and has the value and ty
     kinds 0
     @@CG OK	FnDecl __bigOperator2	…/Library/FortressLibrary.fss:1656:1-1677:4
 
-The before is F-34's, on the code of `ba3c7c876d`: 1 refused (`__bigOperator2`), 753 emitted, no component failure. Nothing stands behind the wall: the declaration is emitted. The measure's driver still does not compile `String` whole under the selector, so row 818's stop in `String` (rung P's) is not in this count, as F-34 says.
+The skeptic's run of the same command on a scratch copy of the head `1683793cf8`, with its fix, 229 s: 'refused declarations 0 | emitted (OK lines) 754 | component failures 0', 'kinds 0', `__bigOperator2` emitted. The before is F-34's, on the code of `ba3c7c876d`: 1 refused (`__bigOperator2`), 753 emitted, no component failure. Nothing stands behind the wall: the declaration is emitted. The measure's driver still does not compile `String` whole under the selector, so row 818's stop in `String` (rung P's) is not in this count, as F-34 says.
 
 ## Suites, stages and the ladder
 
