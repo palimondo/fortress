@@ -1521,3 +1521,17 @@ The orientation update admitted no entry, so nothing was installed. The other pa
 - `tests-running.md`, "The two suites": about 2,650 tests in about 11 minutes. `explorations/compile-ladder/climb-batch-34b/gate/summary.txt`: 2,645 tests, 11 minutes 5 seconds.
 - `tests-running.md`, "Compiled tests": the three ways to run `one_library_tests/` with the fourteen jars. `build.xml:1175-1185`; `explorations/compile-ladder/rung-first-run-one-library/REPORT.md`, "Commands worked out"; the review, process finding 5; `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh:27-31`.
 - `library.md`, "Designing a change": `ant testOneLibrary` as a step for any of the fourteen components. F-34; `one_library_tests/OneLibraryComponents.test`.
+
+From the cold read of `2d194074ed` (`explorations/compile-ladder/climb-batch-34b/skills/cold-read.md`), 2026-11-21; each fix settled by the writer against the code.
+
+- `SKILL.md`, "How a program runs": the run once the caches folder holds the jars, and the section named.
+- `build-and-caches.md`, "The caches": `caches-one` filled by `junit.sh` with the variable. `repository/ProjectProperties.java:290-302`; `junit.sh:25`, whose clean-up removes entries from `caches` only.
+- `compiler.md`, "What the two paths share": the payload class defined. `NamingCzar.java:630-655`.
+- `compiler.md`, "The compiler's prelude, until the switch-over": the two sets' sources and folders, `LibraryNames` among them, both built by `ant compileAll`. `build.xml:852-870`; `ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/`.
+- `compiler.md`, "What the compiled path cannot compile yet": the varargs clause cut, since the list states it; the one-library walls written as `XXX` tests, as `one_library_tests/XXXOneLibraryRun*.test`; the shared JVM named. Ledger row 1100.
+- `compiler.md`, "Traps of the compiled path": the exception tested by its `catch` clause. `one_library_tests/OneLibraryCatchHelperRaises.test`.
+- `interpreter.md`, "Natives": the path of `LibraryNames`, and no class of a compiled library under walk. `interpreter/glue/StaticNativeApp.java:273-281`.
+- `library.md`, "Designing a change": the fourteen named by the test's `tests` key.
+- `tests-running.md`, "When to run a whole suite": `ant testOneLibrary` after an edit of the fourteen, in line with `library.md`.
+- `tests-running.md`, "Compiled tests": each suite deletes `test-caches` (`build.xml:1525`), and `testOneLibrary` only its own folder (`build.xml:1179`); `junit.sh`'s jars stay in `caches-one`; `FortressLibrary`'s compile of about 135 to 160 s, `explorations/reviews/batch-34b-review.md`, Part 3, item 6; the build does not touch a private caches folder (`build-and-caches.md`, "Building"); `<tree>` for `$PWD`.
+- `tests-writing.md`, "Where a test goes": the pointers to the list of what fails and to how to run the test.

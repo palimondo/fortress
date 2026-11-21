@@ -73,7 +73,7 @@ Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harne
 - Quote the verdict lines and the command in your report, with the commit if your code is committed.
 - If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.
 - After an edit of the code generator (`codegen/`, `OverloadSet`) or the runtime (`runtimeSystem/`), run your own tests, and the four-thread atomic runs (`gate.md`) if `compiler.md` asks for them. Leave the whole tracks to the gate.
-- After every other change, run only your own tests, through the scripts below, and the demos where "Outside the gate" asks for them. Leave the rest to the gate. This includes an edit of either library, though it reaches many tests.
+- After every other change, run only your own tests, through the scripts below, and the demos where "Outside the gate" asks for them. Leave the rest to the gate. This includes an edit of either library, though it reaches many tests. After an edit of one of the fourteen components that `OneLibraryComponents.test` compiles, also run `ant testOneLibrary` (`library.md`, "Designing a change").
 
 The suites do not check these:
 
@@ -115,9 +115,9 @@ The direct run and the harness use different heaps (`interpreter.md`, "Running a
 
 Compiled tests are the `.test` files in `compiler_tests/`, `library_tests/` and `other_compiler_tests/`. They link with the library's jars in the tree's `default_repository/caches`. If a build started the caches again, or the tree's caches are empty, run the library order first (`build-and-caches.md`). The tests of `one_library_tests/` compile against the one library, and a run test there needs the jars of its fourteen components. Run the tests in one of these ways:
 
-- `ant testOneLibrary` compiles the fourteen first, with `OneLibraryComponents.test`, in its own caches folder, `ProjectFortress/test-caches/fast-onelibrary`. `ant testSystem` deletes that folder.
-- With `junit.sh`, set `FORTRESS_LIBRARY=one ONE_JVM=1`, and name `OneLibraryComponents.test` first.
-- For a run by hand against the track's jars, set `FORTRESS_CACHES=$PWD/ProjectFortress/test-caches/fast-onelibrary` and `FORTRESS_LIBRARY=one`.
+- `ant testOneLibrary` compiles the fourteen first, with `OneLibraryComponents.test`, in its own caches folder, `ProjectFortress/test-caches/fast-onelibrary`. Each suite deletes that folder when it starts, and only `testFast` and `testOneLibrary` fill it again.
+- With `junit.sh`, set `FORTRESS_LIBRARY=one ONE_JVM=1`, and name `OneLibraryComponents.test` first. The compiles write to `default_repository/caches-one`, and the jars stay there after the call. Its `FortressLibrary` alone takes about 135 to 160 s, so run the call in the background (`session.md`).
+- For a run by hand against the onelibrary track's jars, set `FORTRESS_CACHES=<tree>/ProjectFortress/test-caches/fast-onelibrary` and `FORTRESS_LIBRARY=one`. The build does not touch that folder, so run `ant testOneLibrary` again after an edit of Java or Scala.
 
 The script is `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh`. `climb-batch-N` is the folder's real name, not a placeholder. Run your own tree's copy: it runs the tree that it is in.
 

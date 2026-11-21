@@ -18,7 +18,7 @@ The phases' names in the code are parse, PREDISAMBIGUATEDESUGAR, DISAMBIGUATE, G
 
 After the phases, each path has its own code for these:
 
-- Values: walk's `interpreter/evaluator/values/` (`FInt`, `FFloat`), and the compiled `compiler/runtimeValues/` (`FZZ32`, `FRR64`), payload classes that the classes of either library's number objects extend, and under the one library also those of `Boolean`, `Char` and `FlatString`.
+- Values: walk's `interpreter/evaluator/values/` (`FInt`, `FFloat`), and the compiled `compiler/runtimeValues/` (`FZZ32`, `FRR64`), payload classes, which hold the JVM value, as `FRR64` holds a `double`. The classes of the number objects of both compiled libraries, the prelude and the one library, extend them, and under the one library so do those of `Boolean`, `Char` and `FlatString`.
 - Number natives: walk's glue classes, in `interpreter/glue/prim/` (`ZZ32.java`, `ZZ64.java`).
 - Dispatch: walk searches at run time, in `OverloadedFunction`. The compiled path calls a dispatch method that `OverloadSet` generates.
 - The run: `fortress run` starts a second JVM (`bin/run`), which never enters `Shell.java`.
@@ -29,7 +29,7 @@ The phases differ too: walk turns off some desugarings that the compiled path ru
 
 ## The compiler's prelude, until the switch-over
 
-The compiled path uses the compiler's own prelude: `LibraryBuiltin/CompilerBuiltin.fss`, `Library/CompilerLibrary.fss` and `Library/CompilerAlgebra.fss`. With `FORTRESS_LIBRARY=one`, it uses the one library in their place. The run time's classes that name a library's types, as `FValue` and `FException`, come in two sets under the same names: `ProjectFortress/build` for the prelude, and `ProjectFortress/build-one`, built from `ProjectFortress/src-one`, for the one library. With the variable, the class path puts the second set first. Make a change to a class that both sets hold in both. `Library/CompilerSystem.fss` is the compiled path's `System`.
+The compiled path uses the compiler's own prelude: `LibraryBuiltin/CompilerBuiltin.fss`, `Library/CompilerLibrary.fss` and `Library/CompilerAlgebra.fss`. With `FORTRESS_LIBRARY=one`, it uses the one library in their place. The runtime's classes that name a library's types, as `FValue`, `FException` and `LibraryNames`, come in two sets under the same names: one built from `ProjectFortress/src` into `ProjectFortress/build`, for the prelude, and one built from `ProjectFortress/src-one` into `ProjectFortress/build-one`, for the one library. `ant compileAll` builds both. With the variable, the class path puts the second set first. If you change a class that `src-one` also holds, make the same change to its copy there. `LibraryNames` gives the JVM names of its library's classes, as the class of an exception that a helper raises by its simple name. `Library/CompilerSystem.fss` is the compiled path's `System`.
 
 Do not add a declaration to the three prelude files: the switch-over deletes them, and their tests stay. Two exceptions (P-37): its numeral types and coercions follow `revival-changes.md`, "Numbers", and its seven number types are each one `value object`, as in the interpreter's library. If a helper of `nativeHelpers/` that the one library binds is wrong, fix the helper's Java, even if the prelude binds it, and leave the prelude's text: its binding gives the fix. Change with it a compiled test that pinned the old result.
 
@@ -42,7 +42,7 @@ For a construct that it cannot compile yet, the code generator calls `sayWhat` o
 - an array literal, such as `[1 2 3]`;
 - a built-in number type named as a value, as `x: Object = ZZ32`: 'Can't compile the number type ZZ32 as a value yet' (ledger row 1082).
 
-Against the compiler's prelude, it refuses a varargs parameter: 'Can't compile VarArgs yet: the library in use, CompilerLibrary, declares no ImmutableArray, ...'. With `FORTRESS_LIBRARY=one`, it compiles a varargs parameter, though a program that calls a varargs declaration does not run yet (ledger row 1091). There it stops with `OptionUnwrapException` on a varargs method, or a generic varargs function, where another declaration of its name has the same number of parameters, the varargs parameter counted as one (ledger row 1086). Give the varargs declaration its own name.
+Against the compiler's prelude, it refuses a varargs parameter: 'Can't compile VarArgs yet: the library in use, CompilerLibrary, declares no ImmutableArray, ...'. With `FORTRESS_LIBRARY=one`, it compiles a varargs parameter. There it stops with `OptionUnwrapException` on a varargs method, or a generic varargs function, where another declaration of its name has the same number of parameters, the varargs parameter counted as one (ledger row 1086). Give the varargs declaration its own name.
 
 Against the one library, a compiled program fails where walk runs these constructs:
 
@@ -53,7 +53,9 @@ Against the one library, a compiled program fails where walk runs these construc
 - `u.asString` in a generic body, for `u` of a type parameter bounded by `ZZ32`: 'NoSuchMethodError' (ledger row 1101);
 - an uncaught exception: the run reports it with a placeholder, 'Bogus value from FValue.asString()', not with its `asString` (ledger row 1102).
 
-In one JVM, compile `FortressLibrary` before any other program. Compiled after other programs, its `QQ`'s default methods fail verification: 'VerifyError: Bad type on operand stack' (ledger row 1100).
+Write none of these in a one-library run test. A test of one is an `XXX` test that names its row (`tests-writing.md`).
+
+Where several compiles share one JVM, as in `fortress junit` or `junit.sh` with `ONE_JVM=1`, compile the `FortressLibrary` component first. Compiled after other components, its `QQ`'s default methods fail verification: 'VerifyError: Bad type on operand stack' (ledger row 1100).
 
 It compiles a local function as a closure, also one that calls itself or another local function of its block. It refuses these forms (ledger row 304):
 
@@ -154,7 +156,7 @@ The wrapper generator wraps every method of a class that it is given, the privat
 - An `exit` that runs after its `label` block has completed, from a function made in the block, ends a compiled program with the Java exception `LabelExit`, which no `catch` clause takes. Under walk, a `catch` clause of the library's `LabelException` takes it. The rules do not settle which is right (ledger row 1041).
 - Where an object overloads an inherited functional method by declarations of its own, and `self` is not the first parameter, the compiled dispatch method tests the receiver's type where it should test the other argument's. A call then dies with `ClassCastException` (ledger row 573). Where the receiver has the parameter type of one of the object's own declarations, the call runs that declaration whatever the argument (ledger row 1038). Put `self` first in such overloads.
 - On the compiled path, two `value` objects with a `var` field, built alike, are not strictly equivalent: `V(1) === V(1)` is `false` (ledger row 112).
-- On the compiled path, against either library, an exception object without value parameters that a helper raises is a second instance of the object. So in `catch e IntegerOverflow => e SEQV IntegerOverflow`, the comparison is `false`. Walk gives `true` (ledger row 1103).
+- On the compiled path, against either library, an exception object without value parameters that a helper raises is a second instance of the object. So in `catch e IntegerOverflow => e SEQV IntegerOverflow`, the comparison is `false`. Walk gives `true` (ledger row 1103). Test which exception was raised by the type of the `catch` clause that takes it.
 - A reference to a generic function with one declaration, as `count[\F extends Object\](b: Box[\F\]): ZZ32`, takes its instance from the arrow type that receives it. Where the receiving type is not an arrow type, as in `p(count)` for `p(x: Any)`, the compile passes and the run dies with `NoClassDefFoundError` (ledger row 1012). Write the static argument there, as `p(count[\ZZ32\])`. The checker refuses a reference to a name with several declarations of which one is generic, unless one without static parameters fits the receiving arrow type (ledger row 1009). Pass a function of one declaration that calls the name.
 - Where the initialiser of a top-level variable `b` assigns to a top-level `var a`, a compiled read of `a` before the first read of `b` gives the old value (ledger row 1011). Read `b` before you read `a`.
 - A `typecase` tuple pattern with an untyped binder, as `(x, y: ZZ32)`, stops the code generator: 'typcase match failure!' (ledger row 964). Walk stops on the same clause when it evaluates the `typecase`, with the same message. Give each binder a type.
