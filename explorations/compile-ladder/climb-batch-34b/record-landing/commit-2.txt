@@ -1,0 +1,10 @@
+Plan and review queue after climb batch 34b's landing: items 616 to 620, 513, 597 and 601 to (a)
+
+- PLAN, "Where we stand": the runs, the live thread, the landed batches, the probes' line and "Next" brought to climb batch 34b's landing.
+- PLAN, phase 4: a line for climb batch 34b with the review's changes to the list for the batch after; the N4 and N5 lines, F-34's line, varargs, the rehearsal's walls and the merge of the number types brought to what rung C built; the closing paragraph.
+- PLAN, the parked lists: W.skeptic.3, climb batch 33's opening, N.skeptic.1 and the forks' pointer brought in line; item 597's and item 601's lines moved to the history; finding A1 at way 3 as landed.
+- PLAN, climb batch 34b's group: each line given its item, and a line for run 2's forks.
+- PLAN-history: the earlier text of the rewritten and moved lines.
+- Review queue: items 616 to 620 filed; 513, 597 and 601 to (a); 521, 608, 384 and 411 brought in line; the counts, 270 open.
+- The map's compile-path walkthrough: the library selector and the second set of run-time classes.
+- The run's folder: the sort, the evidence, the writers' files and reports, the check, the cold read, the mechanical checks, the judge's files and diff.md.

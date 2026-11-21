@@ -58,6 +58,12 @@ it), whether the type checker runs, and which list of phases to build. For
 `Shell.java:371-377`), type checking on (`setTypeChecking(true)`,
 `Shell.java:405`), and `compilerPhaseOrder` (`phases/PhaseOrder.java:137-147`).
 
+**Since this walkthrough was written: the library selector.** If the
+environment variable `FORTRESS_LIBRARY` or the property `fortress.library` is
+`one`, the compile command reads the one library, the interpreter's, in place
+of the compiler's prelude (`repository/ProjectProperties.java:282-290`,
+`compiledPathUsesOneLibrary`; F-381). Section 6 gives the run's half.
+
 **Parsing happens before the phase list, inside the repository.**
 `GraphRepository` is the compilation manager: it builds a graph of the api and
 component files reachable on the source path, decides what is stale, parses in
@@ -506,6 +512,15 @@ call on an intersection-typed receiver (`desugar-codegen.md` §5.1, "The five").
 `nativewrapper_cache` **ahead** of the tool class path
 (`bin/run_classpath:26`).
 
+**Since this walkthrough was written: the second set of run-time classes.**
+The run-time classes that name a library's types come in two sets under one
+set of names. The first set is built into `ProjectFortress/build`, which both
+libraries run. The second set, eleven classes, is built from
+`ProjectFortress/src-one` into `ProjectFortress/build-one` for the one library
+(`build.xml:852-872`). If `FORTRESS_LIBRARY` is `one`, the
+class path puts `ProjectFortress/build-one` first, so its classes take the
+first set's names (`bin/fortress_classpath:25-39`; F-396).
+
 **The trap in that ordering.** If the library jars are not in
 `bytecode_cache`, the loader silently falls back to frozen stubs compiled from
 checked-in Java sources into `ProjectFortress/build/fortress/` — an older
@@ -866,7 +881,8 @@ are two arrays in one file (`phases/PhaseOrder.java:125-147`).
 **prelude** — the library a world links without an import: `FortressLibrary` +
 `FortressBuiltin` + `AnyType` for the interpreter, `CompilerLibrary` +
 `CompilerBuiltin` + `AnyType` for the compiler
-(`compiler/WellKnownNames.java:113-137`).
+(`compiler/WellKnownNames.java:113-137`). Under the library selector, the
+compiler too links the interpreter's (section 1).
 
 **sayWhat** — the code generator's refusal: `Can't compile <node>`, thrown from
 `defaultCase` for any node with no visitor (`CodeGen.java:1551-1553`,
@@ -891,4 +907,5 @@ unrelated.
 
 **world** — which prelude a run links against; set per subcommand by
 `useCompilerLibraries` / `useInterpreterLibraries`
-(`Shell.java:371-386`).
+(`Shell.java:371-386`), and for the compiled path also by the library
+selector (section 1).

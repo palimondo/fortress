@@ -1,0 +1,11 @@
+Record after climb batch 34b's landing: F-34, F-24, F-312, F-332, F-301 and the batch's drafts; notes on F-240 and P-33
+
+- F-34: the gate's OneLibraryComponents.test named as the check of the count of refused declarations, where the text said no test checks it; the earlier count and the patch's story to the history.
+- F-24, F-312 and F-332: a helper raises an exception by its simple name, which the class path's LibraryNames maps, so a compiled raise builds the exception of the library in use; walk's answers unchanged.
+- F-301: FZZ32.make reaches the number's value object of either library.
+- F-336 and F-396: titles cut to what their bodies show; F-396 lists each departure from walk at its row, as the review does.
+- F-353: the raise strings' sentence scoped to the scratch tree.
+- F-381 and F-388: their Details name rung C's report; F-390: the indices' agreement with init kept, the verifier-off read-back to the report.
+- F-240's history: this gate's stage order and testFast time; the text unchanged.
+- P-33's history: the ground of its block of 2026-11-18 no longer holds, since a second set of run-time classes is built; the text unchanged.
+- Held, unchanged: P-164, whose rewrite changes what it requires; its question goes to the curator (diff.md).
