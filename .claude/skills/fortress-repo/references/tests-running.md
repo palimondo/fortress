@@ -11,7 +11,7 @@
 
 ## The two suites
 
-`ant testFast` runs about 2,560 tests in five tracks, four at once, in about 5 to 7 minutes:
+`ant testFast` runs about 2,650 tests in five tracks, four at once, in about 11 minutes:
 
 - compiler: `CompilerJUTest` over `ProjectFortress/compiler_tests/` and `parser_tests/`. It is the longest track, so it sets the total time.
 - library: `LibraryJUTest` over `library_tests/`.
@@ -113,7 +113,11 @@ The direct run and the harness use different heaps (`interpreter.md`, "Running a
 
 ### Compiled tests
 
-Compiled tests are the `.test` files in `compiler_tests/`, `library_tests/` and `other_compiler_tests/`. They link with the library's jars in the tree's `default_repository/caches`. If a build started the caches again, or the tree's caches are empty, run the library order first (`build-and-caches.md`). The tests of `one_library_tests/` compile against the one library: run them with `ant testOneLibrary`.
+Compiled tests are the `.test` files in `compiler_tests/`, `library_tests/` and `other_compiler_tests/`. They link with the library's jars in the tree's `default_repository/caches`. If a build started the caches again, or the tree's caches are empty, run the library order first (`build-and-caches.md`). The tests of `one_library_tests/` compile against the one library, and a run test there needs the jars of its fourteen components. Run the tests in one of these ways:
+
+- `ant testOneLibrary` compiles the fourteen first, with `OneLibraryComponents.test`, in its own caches folder, `ProjectFortress/test-caches/fast-onelibrary`. `ant testSystem` deletes that folder.
+- With `junit.sh`, set `FORTRESS_LIBRARY=one ONE_JVM=1`, and name `OneLibraryComponents.test` first.
+- For a run by hand against the track's jars, set `FORTRESS_CACHES=$PWD/ProjectFortress/test-caches/fast-onelibrary` and `FORTRESS_LIBRARY=one`.
 
 The script is `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh`. `climb-batch-N` is the folder's real name, not a placeholder. Run your own tree's copy: it runs the tree that it is in.
 

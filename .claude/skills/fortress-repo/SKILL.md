@@ -77,7 +77,7 @@ Walk then interprets the tree. The tree has no static types, so walk finds a typ
 
 `fortress compile` runs the same phases with the static type checker, in Scala, switched on. After the phases, the code generator writes JVM bytecode into a jar. A type error stops the compile.
 
-Each path has its own library today. With the environment variable `FORTRESS_LIBRARY=one`, `fortress compile` reads the one library instead, and a program compiled so does not run yet (`references/build-and-caches.md`, "The caches"). At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's prelude, three files of its library, is deleted (`references/compiler.md`). The compiled checker already finds no error in the interpreter's library. For the `FortressLibrary` component, the count stage shows this as a total of 0 (`references/compiler.md`). The switch-over waits for walk's natives: each function that the interpreter's library binds with `builtinPrimitive` (`references/interpreter.md`, "Natives") must first have a binding that the compiled path runs.
+Each path has its own library today. With the environment variable `FORTRESS_LIBRARY=one`, `fortress compile` reads the one library instead, and a program compiled so runs against the one library's jars (`references/build-and-caches.md`, "The caches"), but fails at some constructs that walk runs (`references/compiler.md`). At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's prelude, three files of its library, is deleted (`references/compiler.md`). The compiled checker already finds no error in the interpreter's library. For the `FortressLibrary` component, the count stage shows this as a total of 0 (`references/compiler.md`). The switch-over waits for walk's natives: each function that the interpreter's library binds with `builtinPrimitive` (`references/interpreter.md`, "Natives") must first have a binding that the compiled path runs.
 
 ### The compiled runtime
 
@@ -91,7 +91,7 @@ A generic declaration is compiled once, as a template class. The first time that
 
 The class loader is code of this tree that the revival changes, so a failure while a class loads can be its defect (`references/compiler.md`).
 
-HotSpot, the JVM's compiler, then compiles the hot bytecode to machine code. A number is a boxed object, also inside a specialised class: under the compiler's prelude, an `RR64`'s class extends `FRR64`, which holds the `double`. An array is a library object, read and written through its `get` and `put` methods.
+HotSpot, the JVM's compiler, then compiles the hot bytecode to machine code. A number is a boxed object, also inside a specialised class: under either library, an `RR64`'s class extends `FRR64`, which holds the `double`. An array is a library object, read and written through its `get` and `put` methods.
 
 ### The caches
 

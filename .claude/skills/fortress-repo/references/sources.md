@@ -1504,3 +1504,20 @@ From the cold read of `dc425262b4` and `8439760919` (`explorations/compile-ladde
 - `compiler.md`, the type assumption's places and refusals: the chosen declaration and the receiver outside the arguments; the receiver's case, `CodeGen.java`, `assumedReceiverCall` (`:7245-7251`) and `forMethodInvocation` (`:7532-7537`); the functional method's case and the other component, `assumedArgumentsCall` (`:7266-7289`); the partial call's dispatch and its functional-method refusal, `partiallyAssumedCall` (`:7326-7360`), `compiler_tests/XXXAsIfPartialWithFunctionalMethodCompiled.fss`; the generic declaration below the chosen one, `OverloadSet.membersUnderAssumptions` (`:2315-2331`); the chosen generic declaration, `refuseGenericAssumption` (`:7385-7395`).
 - `compiler.md`, "The checker's gaps": the getter redeclared, F-394; the object expression and its check by hand, ledger row 1097; the dotted method's refusal, ledger row 1094; `Gen` and the bound written in place, ledger row 1093 and `compiler_tests/XXXMethodThroughTypeVariableBound.fss`.
 - `revival-changes.md`, "Traits and objects", the paragraph on `self`: one exception and the departure, F-394 ("a departure from P-146 and P-157") and ledger row 1094; the one domain and the same return type, `OverloadingChecker.scala:733-734`; `X` and the getter's call form, settled by the writer.
+
+## Climb batch 34b's landing, 2026-11-21
+
+The orientation update admitted no entry, so nothing was installed. The other parts, from the landing's list of the skill's sentences that it made false or short (`explorations/reviews/batch-34b-review.md`, Part 3).
+
+- `SKILL.md`, "How a program runs": a program compiled with `FORTRESS_LIBRARY=one` runs against the one library's jars, and fails at some constructs that walk runs. F-396; ledger row 1062, fixed.
+- `SKILL.md`, "The compiled runtime": an `RR64`'s class extends `FRR64` under either library. F-388; `compiler/NamingCzar.java:637-655`.
+- `build-and-caches.md`, "The caches": a program compiled with the variable runs if its caches folder holds the fourteen components' jars. F-396; `one_library_tests/OneLibraryComponents.test`.
+- `tests-writing.md`, "Where a test goes": a plain run test runs in `one_library_tests/`. F-396; `one_library_tests/OneLibraryRunHello.test`.
+- `compiler.md`, "What the two paths share": the payload classes serve either library's number objects, and the one library's `Boolean`, `Char` and `FlatString`. F-388; `NamingCzar.java:637-655`.
+- `compiler.md`, "The compiler's prelude, until the switch-over": the two sets of run-time classes, the second put first under the selection, and a class of both edited in both. F-396; F-353; `ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/`.
+- `compiler.md`, "What the compiled path cannot compile yet": a varargs program does not run because of ledger row 1091, F-390; the list of what fails against the one library, ledger rows 1091, 1099, 1098, 994, 1101 and 1102, F-396; the order of the compiles in one JVM, ledger row 1100.
+- `compiler.md`, "Traps of the compiled path": a helper's raise of an exception object without value parameters is a second instance. Ledger row 1103; F-336; `compiler/runtimeValues/Utility.java:66-69`.
+- `interpreter.md`, "Natives": a helper raises by the exception's simple name, which `LibraryNames` maps. F-24, F-312, F-336; `nativeHelpers/simpleIntArith.java:43`; `compiler/runtimeValues/Utility.java:28-36`; both `LibraryNames.java`.
+- `tests-running.md`, "The two suites": about 2,650 tests in about 11 minutes. `explorations/compile-ladder/climb-batch-34b/gate/summary.txt`: 2,645 tests, 11 minutes 5 seconds.
+- `tests-running.md`, "Compiled tests": the three ways to run `one_library_tests/` with the fourteen jars. `build.xml:1175-1185`; `explorations/compile-ladder/rung-first-run-one-library/REPORT.md`, "Commands worked out"; the review, process finding 5; `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh:27-31`.
+- `library.md`, "Designing a change": `ant testOneLibrary` as a step for any of the fourteen components. F-34; `one_library_tests/OneLibraryComponents.test`.
