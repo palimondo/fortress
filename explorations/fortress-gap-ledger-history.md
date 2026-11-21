@@ -11165,3 +11165,27 @@ rewritten
 rewritten
 
 | 1091 | against the one library the template class of `Vector`'s default methods holds the prefix `-` twice with one descriptor, its own and the one inherited from `AdditiveGroup`, so each instance fails to load with the verifier on: 'ClassFormatError: Duplicate method name "-☞0"' | NEGATIVE-BOUNDED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | explorations/compile-ladder/plan-34/probes/rehearsal.md | climb batch 34's planner | siblings: 990, 571. `Library/FortressLibrary.fss:2799` in `trait Vector` (`:2784`). Seen in the planner's scratch tree on ba3c7c876d's code with `plan-34/probes/rehearsal-34.patch` (wall 7); with the verifier off both programs run. Two small programs of a self-typed trait's `-` with a body beside a generic trait's own `-` ran against the prelude. The compiled path only. |
+
+### Row 874
+
+closed by f6469d96e
+
+| 874 | in the one library's world the code generator refuses the whole of FortressLibrary and FortressBuiltin at the wrappers of the helper classes their bindings name: 'Can't generate header for method parse with jvm desc =Ljava/lang/String; stripped = FortressLibrary$String' | NEGATIVE-VERIFIED | implementation gap (codegen) | silent | explorations/compile-ladder/plan-25/probes/codegen.sh | climb batch 25's planner | siblings: 368. CodeGenerationPhase makes a wrapper for each method of each class that the rewrite's synthetic import names (repository/ForeignJava.java:807); FortressMethodAdapter.toImplFFFF finds no converter for a one-library type such as FortressLibrary$String or FortressLibrary$ZZ32 (compiler/nativeInterface/FortressMethodAdapter.java:250-268 at 25238e60c), as perf-probes/helper-calls/REPORT.md, section 5, read. With the 173 helper strings on glue classes, FortressLibrary emits 482 declarations. The foreign-type table and the run-time classes are the switch-over's names work, N5. No compiled value carries `JavaArrayStore` or `JavaRR64ArrayStore`: the stores are plain Java classes. |
+
+### Row 1062
+
+closed by f6469d96e
+
+| 1062 | a program compiled against the one library under `FORTRESS_LIBRARY=one` does not run: the one library has no jars, and the run dies at its first library class, 'NoClassDefFoundError: fortress/FortressLibrary$String', before `run()` prints | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/programs.tex`, "Programs" | ProjectFortress/one_library_tests/XXXOneLibraryRunHalf.test | climb batch 33 rung S | siblings: 874, 624, 315, 1061. The compile writes only the program's jar, `default_repository/caches-one/bytecode_cache/OneLibraryHalf.jar`; no compile writes the one library's (F-34): row 874 stops `FortressLibrary` and `FortressBuiltin` at the wrappers. F-352's second kind of walls (rows 995, 994, 993) follow. The code generator makes the one library's `ZZ32` from a JVM int as `FZZ32.make`, where its descriptors name `FortressLibrary$ZZ32` (fork N4). `bin/run_classpath` takes the caches folder of the selection, so a run without it finds no jar: 'Could not load OneLibraryHalf'. `one_library_tests/XXXOneLibraryRunConditionalReduction.test` and `XXXOneLibraryRunVarargs.test` fail so. |
+
+### Row 1079
+
+rewritten
+
+| 1079 | compiled, `array1[\RR64,n\]` makes the `Array1` classes of all eight number types at each new size `n`, since its `typecase` tests one arm after another, `RR64` last, and each test loads its arm's classes: 269 classes made for the arrays page's `Dot`, 153 for `Arr` | NEGATIVE-BOUNDED | design limit (library) | silent | explorations/reviews/arrays-primer-2026-11-17.md | the arrays teaching page's workers | Seen once, in the page's scratch tree (the reproducer, sections 6 and 11), by the loader's flag `fortress.bytecodes.expanded.directory`, which saves the classes it makes. `array1` (`Library/FortressLibrary.fss:2845-2856`; F-229) tests `__thrower[\Array1[\T,0,s0\]\]` against `() -> Array1[\X,0,s0\]` for the eight number types in turn, `ZZ32` first. `Dot`, over `Array1[\RR64,0,1000\]`, made `Array1⟦X,0,1000⟧` for all eight; `Arr`, at `ZZ32`, only `Array1⟦FZZ32,0,8⟧`. A size is part of an instance class's name, so each new size pays again. Its time is not measured. Not reproducible on main, where no program runs against the one library (row 1062). The compiled path only. |
+
+### Row 1017
+
+rewritten
+
+| 1017 | on both paths a numeral beside a declaration whose parameter is a type parameter without a bound does not go to a more specific one that its own coercion reaches: `g(5)` for `g[\T\](x: T)` beside `g(x: NN32)` runs the generic declaration at `ZZ32`, where beside `k(x: Any)` it runs `k(x: NN32)` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/conversions-coercions.tex`, "Principles of Coercion" | `ProjectFortress/tests/XXXNumeralBesideTypeParameterWalk.fss` | climb batch 32 rung N's skeptic | siblings: 973. Both paths seek a declaration below the fitting one only where that one has the numeral at a parameter not of its default type, and read the instance's type, `ZZ32`, not the declared `T` (`open`, `scala_src/typechecker/impls/Functionals.scala:827-831`; `OverloadedFunction.belowByNumerals`, `:2378-2385`, at 5e436b5b19). Walk and the compiled run on the prelude print `generic` (compiled: a probe, not kept). Under walk `va(5)` for `va(xs: Any...)` beside `va(x: NN32)` prints `anys` (compiled: F-390; under the selection it does not run, row 1062). The repair reaches every numeral at a generic declaration (P-148). Workaround: `n: NN32 = 5`, then `g(n)`. |
