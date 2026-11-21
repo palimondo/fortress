@@ -62,42 +62,42 @@ public class simpleUnsignedLongArith {
     
     public static long unsignedLongOverflowingAdd(long a, long b) {
     	long r = a + b;
-    	if (ltu(r,a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+    	if (ltu(r,a)) throw Utility.makeFortressException("IntegerOverflow");
     	return r;
     }
 
     public static long unsignedLongOverflowingSub(long a, long b) {
     	long r = a - b;
-    	if (gtu(r,a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+    	if (gtu(r,a)) throw Utility.makeFortressException("IntegerOverflow");
     	return r;
     }
 
     public static long unsignedLongOverflowingMul(long a, long b) {
     	long r = a * b;
     	if (b == 0) return r; 
-    	if (divu(r,b) != a) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+    	if (divu(r,b) != a) throw Utility.makeFortressException("IntegerOverflow");
     	return r;
     }
 
     public static long unsignedLongOverflowingDiv(long n, long d) {
-    	if (d==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+    	if (d==0) throw Utility.makeFortressException("DivisionByZero");
     	return divu(n,d);
     }
 
     /* REM and MOD, the same for natural numbers; each raises DivisionByZero at a zero divisor. */
     public static long unsignedLongRem(long a, long b) {
-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        if (b == 0) throw Utility.makeFortressException("DivisionByZero");
         return Long.remainderUnsigned(a, b);
     }
 
     public static long unsignedLongMod(long a, long b) {
-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        if (b == 0) throw Utility.makeFortressException("DivisionByZero");
         return Long.remainderUnsigned(a, b);
     }
 
     public static long unsignedLongOverflowingNeg(long a) {  
     	if (a == 0) return 0;
-    	throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+    	throw Utility.makeFortressException("IntegerOverflow");
     }
 
     public static long unsignedLongOverflowingAbs(long a) {
@@ -117,7 +117,7 @@ public class simpleUnsignedLongArith {
     }
 
     public static long unsignedLongWrappingDiv(long n, long d) { 
-    	if (d==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+    	if (d==0) throw Utility.makeFortressException("DivisionByZero");
     	return divu(n,d);
     }
 
@@ -153,7 +153,7 @@ public class simpleUnsignedLongArith {
     }
 
     public static long unsignedLongSaturatingDiv(long n, long d) {
-    	if (d==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+    	if (d==0) throw Utility.makeFortressException("DivisionByZero");
     	return divu(n,d);
     }
 
@@ -228,12 +228,12 @@ public class simpleUnsignedLongArith {
 	    else return a >>> (-b);
         } else if (b > 63) {
 	    if (a == 0) return 0;
-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    else throw Utility.makeFortressException("IntegerOverflow");
         }
 	else {
 	    long result = a << b;
 	    if ((result >>> b) == a) return result;
-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    else throw Utility.makeFortressException("IntegerOverflow");
 	}
     }
 
@@ -300,8 +300,8 @@ public class simpleUnsignedLongArith {
     public static long unsignedLongPower(long a, int b) {
         if (b < 0) {
             if (a == 1) return 1;
-            if (a == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            if (a == 0) throw Utility.makeFortressException("DivisionByZero");
+            throw Utility.makeFortressException("IntegerOverflow");
         }
         long r = 1;
         long x = a;

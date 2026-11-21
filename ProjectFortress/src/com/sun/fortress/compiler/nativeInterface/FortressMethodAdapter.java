@@ -74,6 +74,40 @@ class fortressConverter {
 
 }
 
+/**
+ * A helper's Java String at the one library's trait String, which no one class carries (a
+ * CatString is a String too): the value is the one library's FlatString, whose class extends
+ * FJavaString, so the argument is cast to it and the result made by its make.
+ */
+class stringTraitConverter extends fortressConverter {
+    stringTraitConverter() {
+        super("FJavaString", "getValue", "()Ljava/lang/String;",
+              "make", "(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;");
+    }
+    void convertArg(MethodVisitor mv, String classDesc) {
+        mv.visitTypeInsn(Opcodes.CHECKCAST, "com/sun/fortress/compiler/runtimeValues/FJavaString");
+        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/FJavaString",
+                           toJavaTypeMethod, toJavaTypeMethodDesc);
+    }
+    void convertResult(MethodVisitor mv, String classDesc) {
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/sun/fortress/compiler/runtimeValues/FJavaString",
+                           constructor, constructorType);
+    }
+}
+
+/** A helper's Java Object at Any: the value itself, cast to Any on the way out. */
+class anyConverter extends fortressConverter {
+    anyConverter() {
+        super(null, null, null, null, null);
+    }
+    void convertArg(MethodVisitor mv, String classDesc) {
+        // do nothing
+    }
+    void convertResult(MethodVisitor mv, String classDesc) {
+        mv.visitTypeInsn(Opcodes.CHECKCAST, "fortress/AnyType$Any");
+    }
+}
+
 class emptyConverter extends fortressConverter {
     static final emptyConverter ONLY = new emptyConverter();
     private emptyConverter() {
@@ -154,6 +188,14 @@ public class FortressMethodAdapter extends ClassVisitor {
         initializeEntry("FZZ", "getValue", "()Ljava/math/BigInteger;",
                 "make", "(Ljava/math/BigInteger;)L" + prefix + "FZZ;");
         initializeEntry("FVector", "getValue", "()[I" , "make","([I)L"+ prefix + "FVector;");
+        // The one library's: its String and Any at a helper's String and Object, and the
+        // classes of the second set that carry its two array stores.
+        conversionTable.put("FortressLibrary$String", new stringTraitConverter());
+        conversionTable.put("AnyType$Any", new anyConverter());
+        initializeEntry("FJavaArrayStore", "getValue", "()L" + prefix + "FortressArrayStore;",
+                        "make", "(L" + prefix + "FortressArrayStore;)L" + prefix + "FJavaArrayStore;");
+        initializeEntry("FJavaRR64ArrayStore", "getValue", "()L" + prefix + "FortressRR64ArrayStore;",
+                        "make", "(L" + prefix + "FortressRR64ArrayStore;)L" + prefix + "FJavaRR64ArrayStore;");
     }
 
     // Strip off the leading L + prefix, and trailing ;"

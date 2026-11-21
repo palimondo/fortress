@@ -45,7 +45,7 @@ public class simpleLongArith {
     }
 
     public static long longDiv(long a, long b) {
-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+	if (b==0) throw Utility.makeFortressException("DivisionByZero");
         return a / b;
     }
 
@@ -62,13 +62,13 @@ public class simpleLongArith {
 
     public static long longOverflowingAdd(long a, long b) {
         long c = a + b;
-	if (((c ^ a) & (c ^ b)) < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (((c ^ a) & (c ^ b)) < 0) throw Utility.makeFortressException("IntegerOverflow");
         return c;
     }
 
     public static long longOverflowingSub(long a, long b) {
         long c = a - b;
-	if (((a ^ b) & (a ^ c)) < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (((a ^ b) & (a ^ c)) < 0) throw Utility.makeFortressException("IntegerOverflow");
         return c;
     }
 
@@ -76,35 +76,35 @@ public class simpleLongArith {
 	try {
 	    return Math.multiplyExact(a, b);
 	} catch (ArithmeticException e) {
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    throw Utility.makeFortressException("IntegerOverflow");
 	}
     }
 
     public static long longOverflowingDiv(long a, long b) {
-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
-	if (b==(-1) && a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (b==0) throw Utility.makeFortressException("DivisionByZero");
+	if (b==(-1) && a==Long.MIN_VALUE) throw Utility.makeFortressException("IntegerOverflow");
         return a / b;
     }
 
     /* REM, the remainder of the truncating division, and MOD, the remainder of the floor division, which has the
        sign of the divisor; each raises DivisionByZero at a zero divisor. */
     public static long longRem(long a, long b) {
-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        if (b == 0) throw Utility.makeFortressException("DivisionByZero");
         return a % b;
     }
 
     public static long longMod(long a, long b) {
-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        if (b == 0) throw Utility.makeFortressException("DivisionByZero");
         return Math.floorMod(a, b);
     }
 
     public static long longOverflowingNeg(long a) {
-	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("IntegerOverflow");
         return -a;
     }
 
     public static long longOverflowingAbs(long a) {
-	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("IntegerOverflow");
         return Math.abs(a);
     }
 
@@ -200,11 +200,11 @@ public class simpleLongArith {
 	// Here n > maxLongChooseN, so `n CHOOSE k` for a k past the end of maxLongChooseSafeN
 	// is at least `68 CHOOSE 34`, which no long holds.
 	if (kk - 2 >= maxLongChooseSafeN.length)
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    throw Utility.makeFortressException("IntegerOverflow");
 	int k = (int)kk;
 	if (n > maxLongChooseSafeN[k-2]) {
 	    long q = longSlowCautiousChoose(n, k);
-	    if (q == -1) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    if (q == -1) throw Utility.makeFortressException("IntegerOverflow");
 	    return q;
 	}
 	// Fast algorithm (no overflow checking required)
@@ -229,7 +229,7 @@ public class simpleLongArith {
     }
 
     public static long longWrappingDiv(long a, long b) {
-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+	if (b==0) throw Utility.makeFortressException("DivisionByZero");
         return a / b;
     }
 
@@ -265,7 +265,7 @@ public class simpleLongArith {
     }
 
     public static long longSaturatingDiv(long a, long b) {
-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+	if (b==0) throw Utility.makeFortressException("DivisionByZero");
 	if (b==(-1) && a==Long.MIN_VALUE) return Long.MAX_VALUE;
         return a / b;
     }
@@ -357,12 +357,12 @@ public class simpleLongArith {
 	    else return a >> (-b);
         } else if (b > 63) {
 	    if (a == 0) return 0;
-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    else throw Utility.makeFortressException("IntegerOverflow");
         }
 	else {
 	    long result = a << b;
 	    if ((result >> b) == a) return result;
-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	    else throw Utility.makeFortressException("IntegerOverflow");
 	}
     }
 
@@ -372,21 +372,21 @@ public class simpleLongArith {
     public static long longGcd(long u, long v) {
         // The magnitude of Long.MIN_VALUE, read unsigned, is 2^63, a divisor that does not fit.
         long g = simpleUnsignedLongArith.unsignedLongGcd(u < 0 ? -u : u, v < 0 ? -v : v);
-        if (g < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        if (g < 0) throw Utility.makeFortressException("IntegerOverflow");
         return g;
     }
 
     public static long longLcm(long u, long v) {
         if (u == 0 || v == 0) return 0;
         // Every other multiple of Long.MIN_VALUE is at least 2^63, which does not fit.
-        if (u == Long.MIN_VALUE || v == Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        if (u == Long.MIN_VALUE || v == Long.MIN_VALUE) throw Utility.makeFortressException("IntegerOverflow");
         long a = Math.abs(u);
         long b = Math.abs(v);
         try {
             return Math.multiplyExact(a / simpleUnsignedLongArith.unsignedLongGcd(a, b), b);
         }
         catch (ArithmeticException e) {
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            throw Utility.makeFortressException("IntegerOverflow");
         }
     }
 
@@ -404,8 +404,8 @@ public class simpleLongArith {
         if (b < 0) {
             if (a == 1) return 1;
             if (a == -1) return ((b & 1) == 0) ? 1 : -1;
-            if (a == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            if (a == 0) throw Utility.makeFortressException("DivisionByZero");
+            throw Utility.makeFortressException("IntegerOverflow");
         }
         try {
             long r = 1;
@@ -419,7 +419,7 @@ public class simpleLongArith {
             return r;
         }
         catch (ArithmeticException e) {
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            throw Utility.makeFortressException("IntegerOverflow");
         }
     }
 

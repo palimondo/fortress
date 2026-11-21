@@ -45,19 +45,19 @@ public class simpleArbitraryPrecisionArith {
     }
 
     public static BigInteger div(BigInteger a, BigInteger b) { 
-    	if (b.equals(BigInteger.ZERO)) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero"); 
+    	if (b.equals(BigInteger.ZERO)) throw Utility.makeFortressException("DivisionByZero"); 
     	return a.divide(b);
     }
 
     /* REM, the remainder of the truncating division, and MOD, the remainder of the floor division, which has the
        sign of the divisor; each raises DivisionByZero at a zero divisor. */
     public static BigInteger rem(BigInteger a, BigInteger b) {
-        if (b.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        if (b.signum() == 0) throw Utility.makeFortressException("DivisionByZero");
         return a.remainder(b);
     }
 
     public static BigInteger mod(BigInteger a, BigInteger b) {
-        if (b.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        if (b.signum() == 0) throw Utility.makeFortressException("DivisionByZero");
         if (b.signum() < 0) return a.negate().mod(b.negate()).negate();
         return a.mod(b);
     }
@@ -110,12 +110,12 @@ public class simpleArbitraryPrecisionArith {
 
     public static BigInteger shiftLeft(BigInteger a, int k) {
         if (k > 0 && a.signum() != 0 && (long) a.abs().bitLength() + k > Integer.MAX_VALUE)
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            throw Utility.makeFortressException("IntegerOverflow");
         try {
             return a.shiftLeft(k);
         }
         catch (ArithmeticException e) {
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            throw Utility.makeFortressException("IntegerOverflow");
         }
     }
 	
@@ -146,13 +146,13 @@ public class simpleArbitraryPrecisionArith {
 
     // asZZ64 of a ZZ: the value where ZZ64 holds it, else IntegerOverflow.
     public static long bigOverflowingToLong(BigInteger a) {
-	if (a.bitLength() > 63) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (a.bitLength() > 63) throw Utility.makeFortressException("IntegerOverflow");
 	return a.longValue();
     }
 
     // asNN64 of a ZZ: the bits of the value where NN64 holds it, else IntegerOverflow.
     public static long bigOverflowingToUnsignedLong(BigInteger a) {
-	if (a.signum() < 0 || a.bitLength() > 64) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	if (a.signum() < 0 || a.bitLength() > 64) throw Utility.makeFortressException("IntegerOverflow");
 	return a.longValue();
     }
 
@@ -197,7 +197,7 @@ public class simpleArbitraryPrecisionArith {
     public static BigInteger bigBitRightShift(BigInteger a, int k) {
         if (k == Integer.MIN_VALUE) {
             if (a.signum() == 0) return a;
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            throw Utility.makeFortressException("IntegerOverflow");
         }
         return shiftLeft(a, -k);
     }
@@ -209,17 +209,17 @@ public class simpleArbitraryPrecisionArith {
         if (b < 0) {
             if (a.equals(BigInteger.ONE)) return a;
             if (a.equals(BigInteger.ONE.negate())) return ((b & 1) == 0) ? BigInteger.ONE : a;
-            if (a.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            if (a.signum() == 0) throw Utility.makeFortressException("DivisionByZero");
+            throw Utility.makeFortressException("IntegerOverflow");
         }
         BigInteger m = a.abs();
         if (m.compareTo(BigInteger.ONE) > 0 && (long) (m.bitLength() - 1) * b >= Integer.MAX_VALUE)
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            throw Utility.makeFortressException("IntegerOverflow");
         try {
             return a.pow(b);
         }
         catch (ArithmeticException e) {
-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+            throw Utility.makeFortressException("IntegerOverflow");
         }
     }
 

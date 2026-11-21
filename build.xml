@@ -51,6 +51,11 @@ maintain proper indentation.
   <property name="cache1" location="local_repository/caches"/>
   <property name="astgen.src" location="${PF}/astgen"/>
   <property name="build" location="${PF}/build"/>
+  <!-- The second set of the run time's classes, for the one library: its sources
+       and the folder that bin/fortress_classpath and the onelibrary track put
+       before ${build} where FORTRESS_LIBRARY=one selects the one library. -->
+  <property name="buildOne" location="${PF}/build-one"/>
+  <property name="srcOne" location="${PF}/src-one"/>
   <property name="scalabuild" location="${build}/com/sun/fortress/scala_src"/>
   <property name="docs" location="${PF}/docs"/>
   <property name="src" location="${PF}/src"/>
@@ -329,6 +334,7 @@ testOtherCompiler, testCruiseControl
   <target name="clean" depends="cleanAst"
           description="Delete the ${build} directory tree and generated files.">
     <delete dir="${build}"/>
+    <delete dir="${buildOne}"/>
     <delete dir="${nodes}"/>
     <delete dir="${junit.dir}"/>
 
@@ -393,7 +399,7 @@ testOtherCompiler, testCruiseControl
        whether the caches still belong to the implementation:
 
        - ${build}/implementation.stamp is a SHA-1 over the implementation as it
-         runs: every file of ${build}, ${PF}/third_party and bin, and
+         runs: every file of ${build}, ${buildOne}, ${PF}/third_party and bin, and
          default_repository/configuration, each with its relative path, and
          the JDK's version.  compileAll writes it last, after a successful
          build, and deletes it first.
@@ -403,7 +409,7 @@ testOtherCompiler, testCruiseControl
          filled it.  Otherwise it deletes the folder and starts it again, empty,
          with the new stamp.
        - ${build}/implementation.sources is a SHA-1 over what the build is made
-         from: ${PF}/src (class files aside), ${PF}/astgen, ${PF}/third_party,
+         from: ${PF}/src (class files aside), ${PF}/src-one, ${PF}/astgen, ${PF}/third_party,
          bin, build.xml and default_repository/configuration, and the JDK's
          version.  When it differs at the start of compileAll, the build may
          change the implementation, so the caches are deleted before anything
@@ -442,6 +448,7 @@ testOtherCompiler, testCruiseControl
       <fingerprint property="@{property}">
         <fileset dir="${basedir}">
           <include name="${PF}/src/**"/>
+          <include name="${PF}/src-one/**"/>
           <include name="${PF}/astgen/**"/>
           <include name="${PF}/third_party/**"/>
           <include name="bin/**"/>
@@ -460,6 +467,7 @@ testOtherCompiler, testCruiseControl
       <fingerprint property="@{property}">
         <fileset dir="${basedir}">
           <include name="${PF}/build/**"/>
+          <include name="${PF}/build-one/**"/>
           <include name="${PF}/third_party/**"/>
           <include name="bin/**"/>
           <include name="default_repository/configuration"/>
@@ -841,6 +849,27 @@ testOtherCompiler, testCruiseControl
       <exclude name="${usefulPackage}/*.java"/>
       <exclude name="${unicodePackage}/*.java"/>
     </javac>
+    <!-- The second set of the run time's classes, for the one library: the
+         payload classes of its Boolean, Char and FlatString, the classes that
+         carry its reader, writer and two array stores, a stub of the traits that
+         these extend, and its LibraryNames.  They take the first set's names, so
+         the class path chooses the set; they compile against the first set, and
+         again whole when the first set changed. -->
+    <delete dir="${buildOne}" if:set="java.compiled"/>
+    <mkdir dir="${buildOne}"/>
+    <javac encoding="UTF-8"
+        srcdir="${srcOne}"
+        destdir="${buildOne}"
+        source="${javaSourceVersion}"
+        target="${javaSourceVersion}"
+        debug="true"
+        includeantruntime="false"
+        fork="true"
+        memorymaximumsize="${junitMem}"
+        updatedProperty="java.compiled">
+      <classpath refid="compile.classpath"/>
+      <include name="**/*.java"/>
+    </javac>
     <!-- The stamp of what was built, and the caches that belong to it.
          When scalac was up to date and javac compiled nothing, the build
          directory is as checkScalaUptodate found it. -->
@@ -1148,7 +1177,7 @@ testOtherCompiler, testCruiseControl
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
     <delete quiet="true" dir="${test.caches}/fast-onelibrary"/>
-    <fastTrack id="onelibrary" library="one">
+    <fastTrack id="onelibrary" library="one" classesFirst="${buildOne}">
       <include name="**/OneLibraryJUTest.class"/>
     </fastTrack>
     <delete dir="${PF}/test-tmp" />
@@ -1205,6 +1234,9 @@ testOtherCompiler, testCruiseControl
   <macrodef name="fastTrack">
     <attribute name="id"/>
     <attribute name="library" default=""/>
+    <!-- Classes put before the build's, as bin/fortress_classpath puts the
+         second set for the one library. -->
+    <attribute name="classesFirst" default=""/>
     <element name="tests" implicit="yes"/>
     <sequential>
       <mkdir dir="${test.results}/fast-@{id}"/>
@@ -1216,6 +1248,7 @@ testOtherCompiler, testCruiseControl
              maxmemory="${junitMem}"
              errorProperty="tests.failed"
              failureProperty="tests.failed">
+        <classpath path="@{classesFirst}"/>
         <classpath refid="compile.classpath"/>
         <sysproperty key="fortress.junit.reset" value="false"/>
         <sysproperty key="fortress.caches" value="${test.caches}/fast-@{id}"/>
@@ -1274,7 +1307,7 @@ testOtherCompiler, testCruiseControl
       </fastTrack>
       <!-- The compiled path against the one library, under its selection;
            it starts when one of the four above ends. -->
-      <fastTrack id="onelibrary" library="one">
+      <fastTrack id="onelibrary" library="one" classesFirst="${buildOne}">
         <include name="**/OneLibraryJUTest.class"/>
       </fastTrack>
     </parallel>

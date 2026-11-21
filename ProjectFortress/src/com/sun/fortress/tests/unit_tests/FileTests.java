@@ -1008,6 +1008,34 @@ public class FileTests {
     }
 
     /**
+     * As compilerSuite, with the file first, of the directory, before all its other files, so
+     * that its compile tests are the suite's first: the one library's fourteen components,
+     * whose compile reads nothing that another test's compile left in the JVM.
+     */
+    public static TestSuite compilerSuite(String dir_name_from_user,
+                                          boolean shuffle,
+                                          boolean failsOnly,
+                                          boolean expect_failure,
+                                          String first) throws IOException {
+
+        String dir_name_slashes_normalized = ProjectProperties.backslashToSlash(dir_name_from_user);
+        File dir = directoryAsFile(dir_name_slashes_normalized);
+        System.err.println(dir);
+        String dir_name_canonical = dir.getCanonicalPath();
+
+        List<String> files = new ArrayList<String>();
+        for (String s : shuffledFileList(dir, shuffle)) files.add(s);
+        if (files.remove(first)) files.add(0, first);
+
+        return suiteFromListOfFiles(files,
+                                    dir_name_from_user,
+                                    dir_name_slashes_normalized,
+                                    dir_name_canonical,
+                                    failsOnly,
+                                    expect_failure);
+    }
+
+    /**
      * @param shuffled
      * @param dir_name_from_user
      * @param dir_name_slashes_normalized

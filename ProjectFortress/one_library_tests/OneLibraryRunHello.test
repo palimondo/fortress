@@ -1,0 +1,5 @@
+# The program of one println, compiled under the one library's selection, runs and prints its line.
+tests=OneLibraryRunHello
+compile
+run
+run_out_contains=Hello, one library

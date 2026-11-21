@@ -26,7 +26,7 @@ public class runtime {
     public static int loopChunk()  { return FortressExecutable.loopChunk;}
     public static int numThreads() { return FortressExecutable.numThreads;}
 
-    private static final String FAIL_CALLED = "fortress.CompilerLibrary$FailCalled";
+    private static final String FAIL_CALLED = "FailCalled";
     private static final String SPAWN_NOT_COMPILED = "spawn is not compiled yet";
 
     /** Abandons the innermost atomic block, which the compiled atomic then runs

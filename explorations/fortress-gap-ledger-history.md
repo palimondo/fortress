@@ -11147,3 +11147,21 @@ closed by 3e19933c6
 rewritten
 
 | 1088 | the code generator stops at a call at an assumption of a generic trait of a method whose parameter has the trait's type parameter, as `stamp(Q asif Tagged[\String\], s asif String)` for `stamp(self, x: T)` in `Tagged[\T\]`: 'Can't find the body that Tagged[\String\] gives stamp at ...' | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/type-annotation.tex`, "Type Assumption" | `ProjectFortress/compiler_tests/XXXAsIfGenericTraitParamCompiled.test` | climb batch 33b rung R (skeptic) | siblings: 818, 940. So too a dotted call, `(Q asif Tagged[\String\]).seal(s asif String)`; a method whose parameters do not name `T` compiles. `emitBodyGivenBy` (`CodeGen.java:7200-7225`) finds the body, whose signature differs from the call's; not traced further. The base stops so at a local trait; at an imported api's generic trait it ran the object's override, and since rung R's `hasBodyInItsTrait` it stops so, also at the prelude's `Equality[\T\]`: '... CompilerAlgebra.Equality[\Pt\] gives = at (LSkAsIfPrelude$Pt;)'. Walk prints `Tagged stamp`. |
+
+### Row 995
+
+rewritten
+
+| 995 | on the compiled path a type that a hand-written class carries, other than the seven number types, has two names at run time: its `RTTIc` holds the trait's interface, descriptors the carrier, so a static argument inferred from a value's run-time type makes another instance than compiled code names | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | none | switch-over rehearsal | siblings: 874, 866, 566, 496. Each of the seven number types is a value object whose class extends its payload class, its RTTI named by the payload class (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:6301`); tests `ComprisesMeetGenericTrait`, `GenericBesidePlainZZ32`, whose casts on the base's code named `⟦fortress\|CompilerBuiltin%ZZ32⟧`. The other carried types, `Boolean`, `Character`, `JavaString` and the rest (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:589-602`), keep the two names; no program shows it for them. First seen switched onto the one library (`explorations/compile-ladder/plan-31/probes/switch-rehearsal.md`, W12). |
+
+### Row 994
+
+rewritten
+
+| 994 | the dispatch method of a generic overloaded function of a default library's component names the component's class without the package `fortress`, so its first call dies, 'NoClassDefFoundError: FortressLibrary'; seen for the one library's `seq` in a tree switched onto it | NEGATIVE-VERIFIED | implementation gap (codegen) | silent | none | switch-over rehearsal | siblings: 320. `OverloadSet` builds the owner of a generic function's instance table and its template class's name from the api's bare name at four places (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:904`, `:1361`, `:1724`, `:1728`, at 832f7d0d91); every other place asks `NamingCzar.javaPackageClassForApi`. Seen only in the rehearsal's scratch tree (`explorations/compile-ladder/plan-31/probes/switch-rehearsal.md`, W11), at a `for` over `seq(0#8)`. The prelude declares no generic overloaded function that a program reaches so; by reading, it would fail alike. Repair shown there: the four places call `javaPackageClassForApi`. Its test needs the one library. |
+
+### Row 1091
+
+rewritten
+
+| 1091 | against the one library the template class of `Vector`'s default methods holds the prefix `-` twice with one descriptor, its own and the one inherited from `AdditiveGroup`, so each instance fails to load with the verifier on: 'ClassFormatError: Duplicate method name "-☞0"' | NEGATIVE-BOUNDED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | explorations/compile-ladder/plan-34/probes/rehearsal.md | climb batch 34's planner | siblings: 990, 571. `Library/FortressLibrary.fss:2799` in `trait Vector` (`:2784`). Seen in the planner's scratch tree on ba3c7c876d's code with `plan-34/probes/rehearsal-34.patch` (wall 7); with the verifier off both programs run. Two small programs of a self-typed trait's `-` with a body beside a generic trait's own `-` ran against the prelude. The compiled path only. |

@@ -1,0 +1,3 @@
+# The program that compares strings and booleans by = and orders strings by < compiles under the one library's selection.
+tests=OneLibraryStringEquality
+compile

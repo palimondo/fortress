@@ -47,7 +47,7 @@ public final class FortressBufferedReader {
 		}
 	    } catch (IOException e) {
 		eof = true;
-		throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+		throw Utility.makeFortressException("IOFailure", e);
 	    }
 	}
     }
@@ -64,7 +64,7 @@ public final class FortressBufferedReader {
 		}
 	    } catch (IOException e) {
 		eof = true;
-		throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+		throw Utility.makeFortressException("IOFailure", e);
 	    }
 	}
     }
@@ -84,7 +84,7 @@ public final class FortressBufferedReader {
 	    }
 	    catch (IOException e) {
 		eof = true;
-		throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+		throw Utility.makeFortressException("IOFailure", e);
 	    }
 	}
     }
@@ -99,7 +99,7 @@ public final class FortressBufferedReader {
 	}
 	catch (IOException e) {
 	    eof = true;
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+	    throw Utility.makeFortressException("IOFailure", e);
 	}
     }
 
@@ -111,13 +111,13 @@ public final class FortressBufferedReader {
 	}
 	catch (IOException e) {
 	    eof = true;
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+	    throw Utility.makeFortressException("IOFailure", e);
 	}
     }
 
     public void whenUnconsumed() throws FException {
 	if (consumed) {
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure",
+	    throw Utility.makeFortressException("IOFailure",
 						"Performed operation on consumed reader for " + name);
 	}
     }

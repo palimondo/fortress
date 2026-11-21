@@ -1,0 +1,11 @@
+(* Under the one library's selection, a compiled program whose IntegerOverflow no catch takes exits non-zero, naming the exception's class with the run time's placeholder for its string. *)
+component OneLibraryUncaughtRaise
+export Executable
+
+run(): () = do
+  largest: ZZ32 = 2147483647
+  println("REACHED")
+  println((largest + 1).asString)
+end
+
+end

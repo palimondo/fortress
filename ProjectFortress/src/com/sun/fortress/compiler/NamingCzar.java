@@ -466,6 +466,9 @@ public class NamingCzar {
      */
     private static final APIName oneLib = NodeFactory.makeAPIName(span, "FortressLibrary");
     private static final APIName oneBuiltin = NodeFactory.makeAPIName(span, "FortressBuiltin");
+    /** The one library's api of the object FlatString, a payload object (payloadObjects). */
+    private static final String oneFlatStringApi = "FlatString";
+    private static final APIName oneFlatString = NodeFactory.makeAPIName(span, oneFlatStringApi);
     private static final Map<String, com.sun.fortress.nodes.Type> oneLibraryForeignJavaTranslations =
         new HashMap<String, com.sun.fortress.nodes.Type>();
     private static void o(Type cl, APIName api, String str) {
@@ -601,6 +604,24 @@ public class NamingCzar {
         bl(fortLib, "ZZ32Vector", "FZZ32Vector");
         bl(fortLib, "StringVector", "FStringVector");
         bl(NodeFactory.makeVoidType(span), "FVoid");
+        /*
+         * The one library's types that a run-time class of the second set carries, entered only
+         * where the one library is selected, since each row also enters the type's bare name.
+         * FortressBuiltin's Boolean, NN32 and RR32 are fortLib's rows above.
+         */
+        if (WellKnownNames.compiledPathUsesOneLibrary) {
+            bl(oneLib, "ZZ32", "FZZ32");
+            bl(oneLib, "ZZ64", "FZZ64");
+            bl(oneLib, "ZZ", "FZZ");
+            bl(oneLib, "NN64", "FNN64");
+            bl(oneLib, "RR64", "FRR64");
+            bl(oneLib, "JavaBufferedReader", "FJavaBufferedReader");
+            bl(oneLib, "JavaBufferedWriter", "FJavaBufferedWriter");
+            bl(oneLib, "JavaArrayStore", "FJavaArrayStore");
+            bl(oneLib, "JavaRR64ArrayStore", "FJavaRR64ArrayStore");
+            bl(oneBuiltin, "Char", "FCharacter");
+            bl(oneFlatString, "FlatString", "FJavaString");
+        }
     }
 
     /**
@@ -608,9 +629,10 @@ public class NamingCzar {
      * over a payload class of runtimeValues, which holds the JVM value.  Each row: the api that
      * declares the object, its name, its payload class, and the JVM type of the payload, which
      * the object's constructor and its factory make take.  Descriptors still name each type by
-     * its payload class, as the table of carried types above does.  The one library's seven,
-     * FortressLibrary's ZZ32, ZZ64, ZZ, NN64 and RR64 and FortressBuiltin's NN32 and RR32, have
-     * no rows yet.
+     * its payload class, as the table of carried types above does.  The compiler's prelude has
+     * its seven number types; the one library has its seven, FortressLibrary's ZZ32, ZZ64, ZZ,
+     * NN64 and RR64 and FortressBuiltin's NN32 and RR32, with FortressBuiltin's Boolean and Char
+     * and FlatString's FlatString, whose payload classes are the second set's (src-one).
      */
     private static final String[][] payloadObjects = {
         { WellKnownNames.compilerBuiltin(), "ZZ32", runtimeValues + "FZZ32", "I" },
@@ -620,20 +642,35 @@ public class NamingCzar {
         { WellKnownNames.compilerBuiltin(), "NN64", runtimeValues + "FNN64", "J" },
         { WellKnownNames.compilerBuiltin(), "RR32", runtimeValues + "FRR32", "F" },
         { WellKnownNames.compilerBuiltin(), "RR64", runtimeValues + "FRR64", "D" },
+        { "FortressLibrary", "ZZ32",    runtimeValues + "FZZ32",       "I" },
+        { "FortressLibrary", "ZZ64",    runtimeValues + "FZZ64",       "J" },
+        { "FortressLibrary", "ZZ",      runtimeValues + "FZZ",         "Ljava/lang/String;" },
+        { "FortressLibrary", "NN64",    runtimeValues + "FNN64",       "J" },
+        { "FortressLibrary", "RR64",    runtimeValues + "FRR64",       "D" },
+        { "FortressBuiltin", "NN32",    runtimeValues + "FNN32",       "I" },
+        { "FortressBuiltin", "RR32",    runtimeValues + "FRR32",       "F" },
+        { "FortressBuiltin", "Boolean", runtimeValues + "FBoolean",    "Z" },
+        { "FortressBuiltin", "Char",    runtimeValues + "FCharacter",  "I" },
+        { oneFlatStringApi,  "FlatString", runtimeValues + "FJavaString", "Ljava/lang/String;" },
     };
 
-    /** Whether api is one of the apis of the library that this compile reads. */
+    /**
+     * Whether api is one of the apis of the library that this compile reads, for its payload
+     * objects: the default library's, and under the one library's selection FlatString's too.
+     */
     private static boolean inSelectedLibrary(String api) {
-        return Arrays.asList(WellKnownNames.defaultLibrary()).contains(api);
+        return Arrays.asList(WellKnownNames.defaultLibrary()).contains(api) ||
+               (WellKnownNames.compiledPathUsesOneLibrary && api.equals(oneFlatStringApi));
     }
 
     /**
      * The row of the payload object name declared by api, or null; with api null, a bare name,
-     * the row of the library that this compile reads.
+     * the row of the library that this compile reads.  A row of the other library is never
+     * the answer.
      */
     private static String[] payloadObjectRow(String api, String name) {
         for (String[] e : payloadObjects)
-            if (e[1].equals(name) && (api == null ? inSelectedLibrary(e[0]) : e[0].equals(api)))
+            if (e[1].equals(name) && inSelectedLibrary(e[0]) && (api == null || e[0].equals(api)))
                 return e;
         return null;
     }
@@ -869,7 +906,9 @@ public class NamingCzar {
             if (! s1.equals(s2)) {
                 // System.err.println(s1 + " MISMATCH " + s2);
             }
-            result[i] = s2;
+            /* A carried parent is named by its own interface, not by the class that carries it:
+               the one library's private objects below JavaArrayStore and JavaBufferedReader. */
+            result[i] = specialFortressTypes.containsKey(parentType) ? s1 : s2;
         }
         return result;
     }

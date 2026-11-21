@@ -1,0 +1,3 @@
+# The program whose generic function calls asString on an argument of a type parameter bounded by ZZ32 compiles under the one library's selection.
+tests=OneLibraryGenericAsString
+compile

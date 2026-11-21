@@ -1,0 +1,13 @@
+(* Under the one library's selection, a compiled generic function calls asString on an argument of a type parameter bounded by ZZ32. *)
+component OneLibraryGenericAsString
+export Executable
+
+bracketed[\U extends ZZ32\](u: U): String = "<" || u.asString || ">"
+
+run(): () = do
+  println("REACHED")
+  println(bracketed[\ZZ32\](5))
+  println("PASS")
+end
+
+end

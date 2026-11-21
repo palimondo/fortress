@@ -24,14 +24,18 @@ fi
 TP="$FORTRESS_HOME/ProjectFortress/third_party"
 # The caches folder: the one that FORTRESS_CACHES names; else, with FORTRESS_LIBRARY=one, where the
 # compiled path reads the one library, default_repository/caches-one, as ProjectProperties.CACHES does.
+# With FORTRESS_LIBRARY=one, the second set of the run time's classes, ProjectFortress/build-one, comes
+# before ProjectFortress/build: its classes take the first set's names and serve the one library.
 if [ "$FORTRESS_LIBRARY" = "one" ] ; then
   CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches-one}"
+  FIRST="$FORTRESS_HOME/ProjectFortress/build-one${SEP}"
 else
   CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"
+  FIRST=""
 fi
 SV=2.13.18
 # SV=2.8.0
 
-CLASSPATH="$FORTRESS_HOME/ProjectFortress/build${SEP}${TP}/junit/junit.jar${SEP}${TP}/asm/asm-9.10.1.jar${SEP}${TP}/asm/asm-util-9.10.1.jar${SEP}${TP}/asm/asm-tree-9.10.1.jar${SEP}${TP}/asm/asm-analysis-9.10.1.jar${SEP}${TP}/xtc/xtc.jar${SEP}${TP}/plt/plt.jar${SEP}$JAVA_HOME/lib/tools.jar${SEP}${TP}/unsigned/unsigned.jar${SEP}${TP}/astgen/astgen.jar${SEP}${TP}/scala/scala-compiler-${SV}.jar${SEP}${TP}/scala/scala-library-${SV}.jar${SEP}${TP}/scala/scala-reflect-${SV}.jar${SEP}${TP}/scala/scala-parser-combinators_2.13-1.1.2.jar${SEP}$CACHES/bytecode_cache${SEP}$CLASSPATH"
+CLASSPATH="${FIRST}$FORTRESS_HOME/ProjectFortress/build${SEP}${TP}/junit/junit.jar${SEP}${TP}/asm/asm-9.10.1.jar${SEP}${TP}/asm/asm-util-9.10.1.jar${SEP}${TP}/asm/asm-tree-9.10.1.jar${SEP}${TP}/asm/asm-analysis-9.10.1.jar${SEP}${TP}/xtc/xtc.jar${SEP}${TP}/plt/plt.jar${SEP}$JAVA_HOME/lib/tools.jar${SEP}${TP}/unsigned/unsigned.jar${SEP}${TP}/astgen/astgen.jar${SEP}${TP}/scala/scala-compiler-${SV}.jar${SEP}${TP}/scala/scala-library-${SV}.jar${SEP}${TP}/scala/scala-reflect-${SV}.jar${SEP}${TP}/scala/scala-parser-combinators_2.13-1.1.2.jar${SEP}$CACHES/bytecode_cache${SEP}$CLASSPATH"
 
 echo "$CLASSPATH"

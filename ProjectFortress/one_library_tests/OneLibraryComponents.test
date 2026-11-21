@@ -1,0 +1,3 @@
+# The one library's fourteen components compile under the one library's selection, in the order of their dependences.
+tests=../LibraryBuiltin/AnyType ../LibraryBuiltin/FortressBuiltin ../../Library/FortressLibrary ../../Library/RangeInternals ../LibraryBuiltin/NativeArray ../../Library/FlatString ../../Library/String ../../Library/List ../../Library/Stream ../LibraryBuiltin/NatReflect ../../Library/TypeProxy ../../Library/Writer ../../Library/CovariantCollection ../../Library/OneShotFlag
+compile

@@ -304,6 +304,22 @@ public class Naming {
         bl("", SNOWMAN, "FVoid");
         bl("", INTERNAL_SNOWMAN, "FVoid");
         bl(COMPILER_BUILTIN, "$Vector", "FVector");
+        /* The one library's types that a run-time class of the second set carries, as
+           NamingCzar's rows; each key names its library, so both libraries' rows stand. */
+        bl("FortressLibrary", "$ZZ32", "FZZ32");
+        bl("FortressLibrary", "$ZZ64", "FZZ64");
+        bl("FortressLibrary", "$ZZ", "FZZ");
+        bl("FortressLibrary", "$NN64", "FNN64");
+        bl("FortressLibrary", "$RR64", "FRR64");
+        bl("FortressLibrary", "$JavaBufferedReader", "FJavaBufferedReader");
+        bl("FortressLibrary", "$JavaBufferedWriter", "FJavaBufferedWriter");
+        bl("FortressLibrary", "$JavaArrayStore", "FJavaArrayStore");
+        bl("FortressLibrary", "$JavaRR64ArrayStore", "FJavaRR64ArrayStore");
+        bl("FortressBuiltin", "$Boolean", "FBoolean");
+        bl("FortressBuiltin", "$NN32", "FNN32");
+        bl("FortressBuiltin", "$RR32", "FRR32");
+        bl("FortressBuiltin", "$Char", "FCharacter");
+        bl("FlatString", "$FlatString", "FJavaString");
     }
 
     public static String opForString(String op, String s) {

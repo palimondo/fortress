@@ -1,0 +1,33 @@
+(* Under the one library's selection, an exception object without value parameters that a helper raises is that object: IntegerOverflow from ZZ32's sum, FileNotFoundException from opening a missing file. *)
+component OneLibraryHelperRaiseSingleton
+import FlatString.FlatString
+export Executable
+
+overflowIsTheObject(m: ZZ32): Boolean =
+  try
+    ignore(m + 1)
+    false
+  catch e
+    IntegerOverflow => e SEQV IntegerOverflow
+  end
+
+missingIsTheObject(name: String): Boolean =
+  try
+    typecase name.asFlatString of
+      f: FlatString => ignore(makeJavaBufferedReader(f))
+      f: String => ()
+    end
+    false
+  catch e
+    FileNotFoundException => e SEQV FileNotFoundException
+  end
+
+run(): () = do
+  println("REACHED")
+  largest: ZZ32 = 2147483647
+  assert(overflowIsTheObject(largest), "the caught IntegerOverflow is the object IntegerOverflow")
+  assert(missingIsTheObject("no such directory/no such file"), "the caught FileNotFoundException is the object FileNotFoundException")
+  println("PASS")
+end
+
+end

@@ -40,7 +40,8 @@ public class OneLibraryJUTest {
         boolean failsOnly = !ProjectProperties.getBoolean("fortress.junit.verbose", false);
         TestSuite suite = new TestSuite(
                 "Test all .test files in 'ProjectFortress/one_library_tests' against the one library");
-        suite.addTest(FileTests.compilerSuite(testDir, true, failsOnly, false));
+        // The one library's components compile first, before any other test's compile in this JVM.
+        suite.addTest(FileTests.compilerSuite(testDir, true, failsOnly, false, "OneLibraryComponents.test"));
         return suite;
     }
 }

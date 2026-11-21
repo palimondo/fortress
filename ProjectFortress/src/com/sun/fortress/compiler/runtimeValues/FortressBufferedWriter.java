@@ -40,7 +40,7 @@ public final class FortressBufferedWriter {
 	    writer.write(c);
 	} catch (IOException e) {
 	    eof = true;
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+	    throw Utility.makeFortressException("IOFailure", e);
 	}
     }
 
@@ -49,7 +49,7 @@ public final class FortressBufferedWriter {
 	    writer.write(s, 0, s.length());
 	} catch (IOException e) {
 	    eof = true;
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+	    throw Utility.makeFortressException("IOFailure", e);
 	}
     }
 
@@ -59,7 +59,7 @@ public final class FortressBufferedWriter {
 	}
 	catch (IOException e) {
 	    eof = true;
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+	    throw Utility.makeFortressException("IOFailure", e);
 	}
     }
 
@@ -69,7 +69,7 @@ public final class FortressBufferedWriter {
 	}
 	catch (IOException e) {
 	    eof = true;
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+	    throw Utility.makeFortressException("IOFailure", e);
 	}
     }
 
@@ -79,7 +79,7 @@ public final class FortressBufferedWriter {
 	}
 	catch (IOException e) {
 	    eof = true;
-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
+	    throw Utility.makeFortressException("IOFailure", e);
 	}
     }
 }
