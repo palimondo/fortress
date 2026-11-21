@@ -117,6 +117,8 @@ FACTS,2026-11-18,coordinator edit,461,-431,30,4
 FACTS,2026-11-18,worker (probe/judgement/review),379,0,379,1
 FACTS,2026-11-20,batch,6125,0,6125,8
 FACTS,2026-11-20,coordinator edit,0,-3,-3,1
+FACTS,2026-11-21,batch,3279,0,3279,3
+FACTS,2026-11-21,coordinator edit,0,-7,-7,1
 INDEX,2026-09-15,worker (probe/judgement/review),12328,0,12328,1
 INDEX,2026-09-16,worker (probe/judgement/review),1774,0,1774,2
 INDEX,2026-09-17,coordinator edit,2547,0,2547,4
@@ -229,6 +231,7 @@ INDEX,2026-11-18,coordinator edit,2710,0,2710,4
 INDEX,2026-11-18,worker (probe/judgement/review),1898,0,1898,2
 INDEX,2026-11-20,coordinator edit,716,0,716,1
 INDEX,2026-11-20,worker (probe/judgement/review),1924,0,1924,2
+INDEX,2026-11-21,worker (probe/judgement/review),1524,0,1524,1
 POSITIONS,2026-09-15,coordinator edit,3846,0,3846,1
 POSITIONS,2026-09-15,worker (probe/judgement/review),836,0,836,3
 POSITIONS,2026-09-16,worker (probe/judgement/review),1357,0,1357,1
@@ -411,3 +414,4 @@ ledger,2026-11-18,batch,9092,-4990,4102,7
 ledger,2026-11-18,coordinator edit,7836,0,7836,4
 ledger,2026-11-20,batch,5921,-2177,3744,7
 ledger,2026-11-20,worker (probe/judgement/review),847,0,847,1
+ledger,2026-11-21,batch,6743,-1508,5235,3
