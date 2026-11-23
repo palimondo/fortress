@@ -1,0 +1,17 @@
+(* Two generic dotted methods of one name that a trait declares, called on a receiver assumed at the trait, each run where the call's arguments fit it (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfGenericMethodOverloadsWalk
+export Executable
+
+trait Tk
+    tk[\U\](y: U, z: U): U = z
+    tk[\U\](y: U, z: U, w: U): U = w
+end
+
+object Inherits extends Tk end
+
+run(): () = do
+    assert((Inherits asif Tk).tk(1, 2), 2, "the trait's overload of two parameters")
+    assert((Inherits asif Tk).tk(1, 2, 3), 3, "the trait's overload of three parameters")
+end
+
+end

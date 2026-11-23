@@ -2419,7 +2419,8 @@ trait whose method has a parameter type with a \KWD{bool} static argument
 (row~761); it stops on an object that extends a generic trait whose dotted
 method has a static parameter of its own bounded by the trait's, at load or at a
 generic object's first instance (row~762); and a dotted call that writes
-static arguments to a method its receiver overloads still stops (row~744).
+static arguments to a method name that its receiver overloads by a plain and a
+generic method still stops (row~744).
 Until 18~October 2026 it instantiated a generic dotted method that a trait
 declares without reading the bounds where they are declared: a type parameter
 that is the whole type of parameters took the narrowest named common supertype
