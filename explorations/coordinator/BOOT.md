@@ -7,7 +7,7 @@
 ## Running, and what to do when each ends
 
 - **The base build for run 2 DONE:** `/home/user/fortress-base43` at `0a83a70498` (BUILD SUCCESSFUL, trial seed and old code passed, clean); `fortress-base42` removed. **Run 2's re-read RUNNING** (Opus Agent-tool worker at `xhigh`, from 17:4x; brief `<scratchpad>/batch35/reread-35b-brief.md`; edits `CLIMB-BATCH-35.md` only). When it ends: the manifest splice (`plan-35/manifest/`, `gen35.py --run 2`, `check35.js --run 2 --write`, the scenarios), `df`, check-ins, and the launch of run 2 from a notice turn with `{base: <main's head after the splice>, baseBuild: '/home/user/fortress-base43'}`.
-- **The triage's 11 drafts** (Opus Agent-tool worker, from 17:3x): FACTS by `record.py`, rows by `ledger.py`, the queue's part (a) lines named; it commits and pushes.
+- **The triage's 11 drafts DONE** (`c00e592a59`): FACTS F-402 new, clauses in F-319, F-330, F-332, F-333, F-335, F-343; rows 1113 (`CONTESTED`), 1114, 1115, 1116; the queue's part (a) lines name them. To him in the held message: all 67 items that left now stand in FACTS or a row.
 
 ## Held for him, one message when he is back
 
