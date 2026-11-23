@@ -1,0 +1,16 @@
+(* A method declaration with the modifier override that overrides no inherited declaration is a static error, so the checker refuses the program (traits.tex, section "Method Declarations"). *)
+component OverrideNothingCompiled
+export Executable
+
+trait A
+  f(x: ZZ32): String = "A"
+end
+object B extends A
+  override f(x: String): String = "B"
+end
+
+run(): () = do
+    println(B.f("s"))
+  end
+
+end
