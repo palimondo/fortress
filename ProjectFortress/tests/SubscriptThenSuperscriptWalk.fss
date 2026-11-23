@@ -1,4 +1,4 @@
-(* A subscript followed by a superscript or another subscript applies the subscript with all its indices: x[i]^2 is (x[i])^2, and g[i][j] is (g[i])[j]. *)
+(* A subscript followed by a superscript, another subscript or a juxtaposed item applies the subscript with all its indices: x[i]^2 is (x[i])^2, g[i][j] is (g[i])[j], and x[i]k is (x[i]) k. *)
 component SubscriptThenSuperscriptWalk
 export Executable
 
@@ -30,6 +30,9 @@ run(): () = do
   g = Grid()
   assert(g[3][7], 307, "one index, then another subscript")
   assert(g[3,7][2], 3702, "two indices, then another subscript")
+  assert(g[1][2]^2, 10404, "two subscripts, then a superscript")
+  k: ZZ32 = 3
+  assert(x[5]k, 18, "one index, then a juxtaposed item")
   println("PASS")
 end
 
