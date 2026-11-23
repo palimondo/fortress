@@ -6,7 +6,7 @@
 
 ## Running, and what to do when each ends
 
-- **The base build for run 2** (Opus Agent-tool worker, from 17:3x; brief `<scratchpad>/batch35/base43-brief.md`): `/home/user/fortress-base43` at `0a83a70498`. When it ends: remove `/home/user/fortress-base42`; then run 2's re-read (form of `<scratchpad>/batch34/reread-C-brief.md`: sections E, L, M on the landed tree, the review's stale points, E's `AplCore` program), the manifest splice (`plan-35/manifest/`, `gen35.py --run 2`, `check35.js --run 2 --write`, the scenarios), `df`, check-ins, and the launch of run 2 from a notice turn with `{base: <main's head after the splice>, baseBuild: '/home/user/fortress-base43'}`.
+- **The base build for run 2 DONE:** `/home/user/fortress-base43` at `0a83a70498` (BUILD SUCCESSFUL, trial seed and old code passed, clean); `fortress-base42` removed. **Run 2's re-read RUNNING** (Opus Agent-tool worker at `xhigh`, from 17:4x; brief `<scratchpad>/batch35/reread-35b-brief.md`; edits `CLIMB-BATCH-35.md` only). When it ends: the manifest splice (`plan-35/manifest/`, `gen35.py --run 2`, `check35.js --run 2 --write`, the scenarios), `df`, check-ins, and the launch of run 2 from a notice turn with `{base: <main's head after the splice>, baseBuild: '/home/user/fortress-base43'}`.
 - **The triage's 11 drafts** (Opus Agent-tool worker, from 17:3x): FACTS by `record.py`, rows by `ledger.py`, the queue's part (a) lines named; it commits and pushes.
 
 ## Held for him, one message when he is back
