@@ -1,5 +1,5 @@
 (* The right side of a top-level tuple binding is evaluated once (variables.tex, section "Top-Level Variable Declarations"). *)
-component XXXTopLevelTupleBindingOnceWalk
+component TopLevelTupleBindingOnceWalk
 export Executable
 
 var calls: ZZ32 = 0

@@ -1,0 +1,35 @@
+(* The right side of a field's tuple binding is evaluated once for each object, as for a top-level variable (objects.tex, section "Field Declarations"). *)
+component FieldTupleBindingOnceWalk
+export Executable
+
+var calls: ZZ32 = 0
+
+pairOnce(): (ZZ32, ZZ32) = do
+    calls += 1
+    (calls, 10 calls)
+end
+
+trait Summed
+    total(): ZZ32
+end
+
+object Pair()
+    (first, second) = pairOnce()
+end
+
+made(): Summed = object extends Summed
+    (third, fourth) = pairOnce()
+    total(): ZZ32 = third + fourth
+end
+
+run(): () = do
+    p = Pair()
+    assert(calls, 1, "an object's field: the right side ran once")
+    assert(p.first, 1, "first")
+    assert(p.second, 10, "second")
+    q = made()
+    assert(calls, 2, "an object expression's field: the right side ran once")
+    assert(q.total(), 22, "third and fourth")
+end
+
+end

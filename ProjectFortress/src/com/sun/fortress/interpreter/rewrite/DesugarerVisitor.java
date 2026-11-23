@@ -851,6 +851,7 @@ public class DesugarerVisitor extends NodeUpdateVisitor implements HasRewrites {
 
     @Override
     public Node forVarDecl(VarDecl vd) {
+        boolean isMember = atTopLevelInsideTraitOrObject;
         atTopLevelInsideTraitOrObject = false;
         List<LValue> lhs = vd.getLhs();
 
@@ -866,11 +867,14 @@ public class DesugarerVisitor extends NodeUpdateVisitor implements HasRewrites {
             Span at = NodeUtil.getSpan(vd);
             VarDecl new_vd = NodeFactory.makeVarDecl(at, temp, init);
             newdecls.add(new_vd);
+            // Each name reads its element from the temporary, which is
+            // declared where the names are: a member or a top-level variable.
+            Expr tempRef = (isMember ? new Member() : new Local()).replacement(ExprFactory.makeVarRef(at, temp));
             int element_index = 0;
             for (LValue lv : lhs) {
                 Id newName = NodeFactory.makeId(at, "$" + element_index);
                 newdecls.add(NodeFactory.makeVarDecl(at, Useful.list(lv), Option.<Expr>some(ExprFactory.makeFieldRef(at,
-                                                                                                                     init,
+                                                                                                                     tempRef,
                                                                                                                      newName))));
                 element_index++;
             }

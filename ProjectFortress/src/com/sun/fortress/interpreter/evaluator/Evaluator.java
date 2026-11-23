@@ -1067,7 +1067,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
 
     // Version that evaluates arguments first.
     public FValue evalAndInvokeMethod(FValue receiver, String mname, List<Expr> args, HasAt site) {
-        return invokeMethod(receiver, mname, evalInvocationArgs(args), site);
+        return invokeMethod(receiver, mname, evalExprListParallel(args), site);
     }
 
     public FValue invokeGenericMethod(FValue receiver,
