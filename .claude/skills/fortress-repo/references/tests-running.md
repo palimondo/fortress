@@ -11,7 +11,7 @@
 
 ## The two suites
 
-`ant testFast` runs about 2,650 tests in five tracks, four at once, in about 11 minutes:
+`ant testFast` runs its tests in five tracks, four at once, in about 11 minutes:
 
 - compiler: `CompilerJUTest` over `ProjectFortress/compiler_tests/` and `parser_tests/`. It is the longest track, so it sets the total time.
 - library: `LibraryJUTest` over `library_tests/`.
@@ -19,7 +19,7 @@
 - misc: the unit `*JUTest` classes, except `OneLibraryJUTest`.
 - onelibrary: `OneLibraryJUTest` over `one_library_tests/`, with `FORTRESS_LIBRARY=one`. It starts when another track ends.
 
-`ant testSystem` runs `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's test folder. It runs several hundred tests in four shards, in a few minutes.
+`ant testSystem` runs `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's test folder. It runs its tests in four shards, in a few minutes.
 
 `ant testSpecData` runs the specification's 130 extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk, in about a minute. The gate runs it after the two suites.
 

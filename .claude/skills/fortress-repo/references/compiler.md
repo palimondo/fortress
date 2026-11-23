@@ -120,7 +120,7 @@ A body `builtinPrimitive("com.sun.fortress.nativeHelpers.Class.method")` binds o
 
 The rewrite runs only in a JVM that has made a Fortress repository of the compiled path, the compiler's store of components, not this git repository. Walk's repository switches it off again. `fortress compile` makes one, and so do `disambiguate`, `grammar`, `desugar` and `typecheck` (`Shell.compilerPhases`). `fortress parse` and `fortress api` make none, so they rewrite a body only after a compile in the same JVM (ledger row 882). Alone, they pass a misspelt helper. Test a binding with `compile`. In a suite, the result of `parse` or `api` depends on whether a compile ran earlier in the same JVM.
 
-To test a helper on the compiled path, write a compiled test whose own declarations bind it, as `compiler_tests/NativeHelperBindingCompiled.fss` does. To test a binding of the one library, put the test in `one_library_tests/`, which compiles and runs against the one library's jars (`tests-running.md`, "Compiled tests").
+To test a helper on the compiled path, write a compiled test whose own declarations bind it, as `compiler_tests/NativeHelperBindingCompiled.fss` does. To test a binding of the one library, put the test in `one_library_tests/`, whose tests compile against the one library and run against its jars (`tests-running.md`, "Compiled tests"). Such a test can use none of the constructs that "What the compiled path cannot compile yet" lists.
 
 The count stage and the distance stage check the interpreter's library with the same rewrite. There, the checker differs from a compile in these ways:
 

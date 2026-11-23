@@ -1546,3 +1546,14 @@ From his page comments, as the check of 2026-11-23 sorted them, with POSITIONS "
 - `compiler.md`, "Traps of the compiled path": the prelude has no `asFloat` and no `isInfinite`. The curator's comments of 2026-11-22, 08:13 and 06:35; `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi`, `Library/CompilerLibrary.fsi` and `Library/CompilerAlgebra.fsi`, which declare neither.
 - `compiler.md`, "Natives": a binding of the one library tested in `one_library_tests/`. Settled by the coordinator, from climb batch 34b's landing; F-381, F-396; `one_library_tests/OneLibraryRunHello.test`.
 - `tests-running.md`, "The two suites": `testSystem`'s size as an order of size. Settled by the coordinator, from climb batch 34b's landing; `explorations/reviews/batch-34b-review.md`, "The one gate is green" (879 tests); `explorations/compile-ladder/climb-batch-34b/gate/summary.txt:71` (4 minutes 39 seconds).
+
+## The cold read of `f4b33d0fad`, 2026-11-23
+
+Each fix settled by the coordinator from the cold read's flags.
+
+- `revival-changes.md`, "Numbers": the infinity sentence read again as the way to get one. Flag 1; no run has checked `Constants` on the compiled path, so nothing is said of it.
+- `revival-changes.md`, "Numbers": `asZZ32` defined where it is used, as the getter that raises `IntegerOverflow`. Flag 3.
+- `revival-changes.md`, "`Number` declares nothing": the `QQ` example scoped to walk again, since only walk is checked. Flag 4; `tests/NumeralEqualsNumberWalk.fss`.
+- `revival-changes.md`, "Numbers", `/` on two integers: the repeat of the prelude's lack of `QQ` cut; `asFloat` named as the one library's. `CompilerBuiltin.fsi`, which declares no `asFloat` and `asRR64` only on `ZZ32` and `NN32`.
+- `compiler.md`, "Natives", and `tests-writing.md`, "Where a test goes": `one_library_tests/` holds any test whose program compiles against the one library, a binding's test among them, with a pointer to what the compiled path cannot compile yet. Flags 5 and 6.
+- `tests-running.md`, "The two suites": both suites given by their time, with no count. Flag 8.
