@@ -19,7 +19,7 @@
 - misc: the unit `*JUTest` classes, except `OneLibraryJUTest`.
 - onelibrary: `OneLibraryJUTest` over `one_library_tests/`, with `FORTRESS_LIBRARY=one`. It starts when another track ends.
 
-`ant testSystem` runs `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's test folder. It runs about 680 tests in four shards, in about 2 to 4 minutes.
+`ant testSystem` runs `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's test folder. It runs several hundred tests in four shards, in a few minutes.
 
 `ant testSpecData` runs the specification's 130 extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk, in about a minute. The gate runs it after the two suites.
 

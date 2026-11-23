@@ -1535,3 +1535,14 @@ From the cold read of `2d194074ed` (`explorations/compile-ladder/climb-batch-34b
 - `tests-running.md`, "When to run a whole suite": `ant testOneLibrary` after an edit of the fourteen, in line with `library.md`.
 - `tests-running.md`, "Compiled tests": each suite deletes `test-caches` (`build.xml:1525`), and `testOneLibrary` only its own folder (`build.xml:1179`); `junit.sh`'s jars stay in `caches-one`; `FortressLibrary`'s compile of about 135 to 160 s, `explorations/reviews/batch-34b-review.md`, Part 3, item 6; the build does not touch a private caches folder (`build-and-caches.md`, "Building"); `<tree>` for `$PWD`.
 - `tests-writing.md`, "Where a test goes": the pointers to the list of what fails and to how to run the test.
+
+## The curator's comments on the page of changes up to change 41, 2026-11-22 and 2026-11-23
+
+From his page comments, as the check of 2026-11-23 sorted them, with POSITIONS "The work cleans up defects as it goes, to make the implementation more coherent on both paths: a defect is fixed, not only recorded in the gap ledger or taught in a skill as a workaround." for the first.
+
+- `revival-changes.md`, "Numbers": the infinity named by the api `Constants`, in place of a run-time overflow. The curator's comments of 2026-11-22, 06:35 and 07:24; `Library/Constants.fsi:18`, `Library/Constants.fss:17`; `ProjectFortress/tests/realArith.fss:13`, `:78`.
+- `revival-changes.md`, "Numbers": `v.asZZ32` named as `ZZ`'s checked getter. The curator's comment of 2026-11-22, 06:49; P-161, P-174; `scala_src/typechecker/staticenv/KindEnv.scala:72-73`.
+- `revival-changes.md`, "`Number` declares nothing": the `QQ` example without its walk scope, since "Numbers" gives the prelude's lack of `QQ`. The curator's comment of 2026-11-23, 08:27.
+- `compiler.md`, "Traps of the compiled path": the prelude has no `asFloat` and no `isInfinite`. The curator's comments of 2026-11-22, 08:13 and 06:35; `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi`, `Library/CompilerLibrary.fsi` and `Library/CompilerAlgebra.fsi`, which declare neither.
+- `compiler.md`, "Natives": a binding of the one library tested in `one_library_tests/`. Settled by the coordinator, from climb batch 34b's landing; F-381, F-396; `one_library_tests/OneLibraryRunHello.test`.
+- `tests-running.md`, "The two suites": `testSystem`'s size as an order of size. Settled by the coordinator, from climb batch 34b's landing; `explorations/reviews/batch-34b-review.md`, "The one gate is green" (879 tests); `explorations/compile-ladder/climb-batch-34b/gate/summary.txt:71` (4 minutes 39 seconds).
