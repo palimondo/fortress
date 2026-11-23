@@ -1,0 +1,5 @@
+# An assignment from outside an object to its var field, of a value of a strict subtype of the field's type, runs compiled.
+tests=VarFieldAssignedSubtypeRun
+link
+run
+run_out_contains=PASS

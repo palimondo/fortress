@@ -1,2 +1,3 @@
-tests=XXXFunctionalMethodComprisedObject
+# The program of FunctionalMethodComprisedObject links clean.
+tests=FunctionalMethodComprisedObject
 link

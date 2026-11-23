@@ -1,0 +1,38 @@
+(* An assignment from outside an object to its var field, of a value whose static type is a strict subtype of the field's type, and of self at a type that its trait's comprises clause lists, runs compiled (bindings.tex, section "Assignments"). *)
+component VarFieldAssignedSubtypeRun
+export Executable
+
+trait T
+    getter d(): ZZ32
+end
+
+object Low extends T
+    getter d(): ZZ32 = 0
+end
+
+object High extends T
+    getter d(): ZZ32 = 2
+end
+
+object Cell(var t: T) end
+
+trait Q comprises { R }
+    putInto(s: Slot): () = do s.r := self end
+end
+
+object R(n: ZZ32) extends Q end
+
+object Slot(var r: R) end
+
+run(): () = do
+    c = Cell(Low)
+    println("REACHED")
+    c.t := High
+    assert(c.t.d, 2, "the field holds the assigned value")
+    s = Slot(R(1))
+    R(2).putInto(s)
+    assert(s.r.n, 2, "the field holds self, assigned at the listed type")
+    println("PASS")
+  end
+
+end

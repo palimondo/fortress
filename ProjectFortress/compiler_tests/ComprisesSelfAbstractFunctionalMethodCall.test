@@ -1,4 +1,4 @@
-# A trait that comprises one object, with a getter that calls the trait's abstract functional methods on self, compiles to default methods that load.
+# A trait that comprises one object, with a getter that calls the trait's abstract functional methods on self, compiles to default methods that load, and the getter's calls on self run.
 tests=ComprisesSelfAbstractFunctionalMethodCall
 compile
 link
