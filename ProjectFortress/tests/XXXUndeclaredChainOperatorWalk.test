@@ -1,0 +1,2 @@
+# Walk refuses at load a program that applies, as a link of a chain, an operator that no declaration defines.
+load_exception_contains=APPROX is not defined.
