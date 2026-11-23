@@ -1,4 +1,4 @@
-(* A call at an overridden declaration's parameter types runs the override, through the type that declares the overridden one, from a trait first or not first in an extends clause, and over an abstract declaration (traits.tex, section "Method Declarations"). *)
+(* A call at an overridden declaration's parameter types runs the override, through the type that declares the overridden one, from a trait first or not first in an extends clause, over an abstract declaration, and in a generic object (traits.tex, section "Method Declarations"). *)
 component OverrideBridgesCompiled
 export Executable
 
@@ -36,6 +36,13 @@ object Cb extends Bb
   override k(other: Number): String = "Cb"
 end
 
+trait Ag[\T\]
+  m(self, other: ZZ32): String = "Ag"
+end
+object Bg[\T\] extends Ag[\T\]
+  override m(self, other: Number): String = "Bg"
+end
+
 run(): () = do
     n: ZZ32 = 17
     a: A = B
@@ -51,6 +58,8 @@ run(): () = do
     ab: Ab = Cb
     assert(h(ab, n), "Bb", "h through Ab runs Bb's override of an abstract declaration")
     assert(ab.k(n), "Cb", "k through Ab runs Cb's override of an abstract declaration")
+    ag: Ag[\String\] = Bg[\String\]
+    assert(m(ag, n), "Bg", "m through Ag runs the generic object's override")
     println("PASS")
   end
 
