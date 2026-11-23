@@ -1,2 +1,3 @@
-tests=XXXCoercionAnyOverloadRungC
+# The program of CoercionAnyOverloadRungC links clean.
+tests=CoercionAnyOverloadRungC
 link

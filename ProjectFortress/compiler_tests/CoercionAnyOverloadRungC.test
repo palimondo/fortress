@@ -1,0 +1,5 @@
+# An overloaded call that one declaration takes without coercion and another only by a coercion runs the first, compiled.
+tests=CoercionAnyOverloadRungC
+link
+run
+run_out_contains=PASS
