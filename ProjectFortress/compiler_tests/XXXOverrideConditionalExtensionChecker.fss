@@ -1,0 +1,17 @@
+(* A generic trait that extends a trait under a where clause bounding its static parameter by ZZ32 overrides, with an override over ZZ32, the declaration it inherits there over that parameter, so the program type checks (traits.tex, sections "Traits" and "Method Declarations"). *)
+component XXXOverrideConditionalExtensionChecker
+export Executable
+
+trait A[\T\]
+  f(x: T): String = "A"
+end
+trait G[\T\] extends A[\T\] where { T extends ZZ32 }
+  override f(x: ZZ32): String = "G"
+end
+object O extends G[\ZZ32\] end
+
+run(): () = do
+    println(O.f(3))
+  end
+
+end

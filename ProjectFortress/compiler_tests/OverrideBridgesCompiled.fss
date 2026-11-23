@@ -1,0 +1,57 @@
+(* A call at an overridden declaration's parameter types runs the override, through the type that declares the overridden one, from a trait first or not first in an extends clause, and over an abstract declaration (traits.tex, section "Method Declarations"). *)
+component OverrideBridgesCompiled
+export Executable
+
+trait A
+  f(self, other: ZZ32): String = "A"
+  g(other: ZZ32): String = "A"
+end
+object B extends A
+  override f(self, other: Number): String = "B"
+  override g(other: Number): String = "B"
+end
+
+trait S
+  tag(self, x: ZZ32): ZZ32 = 1
+  dot(x: ZZ32): ZZ32 = 1
+end
+trait W extends S
+  override tag(self, x: Number): ZZ32 = 2
+  override dot(x: Number): ZZ32 = 2
+end
+object Wo extends W end
+trait X
+  other(): ZZ32 = 7
+end
+object Wx extends { X, W } end
+
+trait Ab
+  h(self, other: ZZ32): String
+  k(other: ZZ32): String
+end
+trait Bb extends Ab
+  override h(self, other: Number): String = "Bb"
+end
+object Cb extends Bb
+  override k(other: Number): String = "Cb"
+end
+
+run(): () = do
+    n: ZZ32 = 17
+    a: A = B
+    assert(f(a, n), "B", "f through A runs B's override")
+    assert(a.g(n), "B", "g through A runs B's override")
+    s: S = Wo
+    assert(tag(s, n), 2, "tag through S runs W's override, W first")
+    assert(s.dot(n), 2, "dot through S runs W's override, W first")
+    sx: S = Wx
+    assert(tag(Wx, n), 2, "tag of Wx runs W's override, W not first")
+    assert(tag(sx, n), 2, "tag through S runs W's override, W not first")
+    assert(sx.dot(n), 2, "dot through S runs W's override, W not first")
+    ab: Ab = Cb
+    assert(h(ab, n), "Bb", "h through Ab runs Bb's override of an abstract declaration")
+    assert(ab.k(n), "Cb", "k through Ab runs Cb's override of an abstract declaration")
+    println("PASS")
+  end
+
+end

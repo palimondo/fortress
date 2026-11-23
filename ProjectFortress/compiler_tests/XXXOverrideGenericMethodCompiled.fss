@@ -1,0 +1,18 @@
+(* An object's generic method with the modifier override overrides the inherited declaration at a narrower parameter type, so the program compiles and both calls run the override (traits.tex, section "Method Declarations"). *)
+component XXXOverrideGenericMethodCompiled
+export Executable
+
+trait A
+  f(x: ZZ32): String = "f FAIL"
+end
+
+object B extends A
+  override f[\U\](x: U): String = "f PASS"
+end
+
+run(): () = do
+    a: A = B
+    println(B.f(3) || " " || a.f(3))
+  end
+
+end

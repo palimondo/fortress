@@ -1,0 +1,17 @@
+(* A generic object's method with the modifier override over a declaration whose parameter type is the object's static parameter overrides it, so the program compiles and the call runs the override (traits.tex, section "Method Declarations"). *)
+component XXXOverrideOverStaticParameterCompiled
+export Executable
+
+trait A[\T\]
+  g(self, other: T): String = "g FAIL"
+end
+
+object B[\T\] extends A[\T\]
+  override g(self, other: Any): String = "g PASS"
+end
+
+run(): () = do
+    println(g(B[\ZZ32\], 17))
+  end
+
+end

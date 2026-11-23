@@ -1,5 +1,5 @@
 (* A method declaration with the modifier override that overrides no inherited declaration is a static error, so the checker refuses the program (traits.tex, section "Method Declarations"). *)
-component OverrideNothingCompiled
+component XXXOverrideNothingCompiled
 export Executable
 
 trait A
