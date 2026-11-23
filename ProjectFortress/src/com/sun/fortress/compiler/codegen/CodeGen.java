@@ -1474,15 +1474,19 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                  * declaration's signature forwards to the override, as for a narrowing below;
                  * else the class of the type above that declares the override holds it. */
                 Functional overriding = overriddenHere.get(super_func);
-                if (overriding != null && !funcs.contains(overriding))
+                if (overriding != null) {
+                    if (funcs.contains(overriding)) {
+                        checkOverrideCompilable(super_func, super_inst, overriding, oa);
+                        generateForwardingFor(super_func, overriding, false, super_inst,
+                                              currentTraitObjectType, currentTraitObjectType, true);
+                    }
                     continue;
-                if (overriding != null)
-                    checkOverrideCompilable(super_func, super_inst, overriding, oa);
-                
+                }
+
                 boolean shadowed = false;  // EQ -> EQ seen
                 Functional shadowing_func = null;
-                boolean narrowed = overriding != null;  // EQ -> LT seen, or overridden
-                Functional narrowed_func = overriding;
+                boolean narrowed = false;  // EQ -> LT seen
+                Functional narrowed_func = null;
                 
                 Type raw_super_ret = oa.getRangeType(super_func);
                 
@@ -1531,7 +1535,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 //						  currentTraitObjectDecl.getHeader().getStaticParams()) :
 //		    super_noself_domain_possibly_no_params;
 
-                for (Functional func : overriding != null ? Collections.<Functional>emptySet() : funcs) {
+                for (Functional func : funcs) {
                     Type ret = local_inst.replaceInEverything(oa.getRangeType(func));
                     int self_index = NodeUtil.selfParameterIndex(func.parameters());
                     if (self_index != super_self_index) {
