@@ -1,5 +1,5 @@
 (* An object that inherits two functional methods of one name with the self parameter second, and covers their meet by two declarations of its own through comprises clauses, runs for each call the most specific declaration (overloading.tex, sections "Meet Rule" and "Overloading Resolution"). *)
-component XXXFunctionalMethodCoverSelfSecond
+component FunctionalMethodCoverSelfSecond
 export Executable
 
 trait Ka comprises { X1, X2, Ya } end

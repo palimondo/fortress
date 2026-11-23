@@ -1,5 +1,5 @@
 (* An object overloads a functional method it inherits, with the self parameter last, by two declarations of its own, one on the meet: each call runs its one applicable or most specific declaration. *)
-component XXXFunctionalMethodOverloadSelfLast
+component FunctionalMethodOverloadSelfLast
 export Executable
 
 trait N0 end

@@ -1,5 +1,5 @@
 (* An object's own functional method with the self parameter second, beside an inherited one over Any, runs only for an argument of its parameter type, and any other argument runs the inherited declaration (overloading.tex, section "Overloading Resolution"). *)
-component XXXFunctionalMethodSelfSecondReceiverTested
+component FunctionalMethodSelfSecondReceiverTested
 export Executable
 
 trait K end
