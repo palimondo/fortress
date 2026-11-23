@@ -11429,3 +11429,45 @@ rewritten
 rewritten
 
 | 1112 | compiled, a call on `self` in a trait whose `comprises` clause lists types, where the trait's declaration and a listed type's tie, takes the trait's and its return type; the specification takes the listed type's, more specific, whose return type may be narrower | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/overloading.tex`, "Overloading Resolution" | none | climb batch 35 gate repair | siblings: 1100, 815, 935. In such a trait self is the trait met with the listed types (`var-ref.tex:63-69`), so a listed type's declaration applies at self and is more specific (`overloading.tex:355-358`). The checker reads the trait's own self parameter as the same meet and ties the two; since `b7b5b0c02b` the tie keeps the trait's (row 1100), so the call takes the trait's return type, wider where the listed type's is narrower. In both libraries the tied declarations return one type. A call at the listed type's arrow names the overload method that row 815 finds missing. Source: `climb-batch-35/REPAIR-gate.md`, "The site" and "Deviations from the ruling", 3. |
+
+### Row 184
+
+closed by e5cf04d47
+
+| 184 | walk stops on `≡` (`EQV`) with an **InterpreterBug**, '** bug! Expect all oprefs to be top level EQV', not a type error, and refuses `≢` (`NEQV`) before the run: the one library declares neither operator, for two booleans or for a program's objects | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification-1.0-frozen/basic-lib/booleans.tex:252-263`, trait `Fortress.Core.Boolean`, `opr EQV`; `Specification/basic-lib/Fortress.NegatedOperators.tex`, "Negated Equivalence Operators" | ProjectFortress/tests/BooleanEquivalenceWalk.fss | apl rung 1 | siblings: 1118. `≡` is a chaining operator, whose link the disambiguator does not check under walk, so `getOp` raises the bug (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java:893-909` at 5a59551554); `≢` is not, and is refused 'Operator NEQV is not defined.' The compiled prelude declares both in `Boolean` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:465-466`); against the one library the checker refused both, 'Operator EQV is not defined.' Workaround: `a <-> b`. |
+
+### Row 1057
+
+closed by 5c31f2b68
+
+| 1057 | under walk, two generic dotted methods of one name and one static parameter that differ in their number of parameters fail at a call, 'Cannot find definition for method tk given receiver Two': `tk[\U\](y: U, z: U)` beside `tk[\U\](y: U, z: U, w: U)` in `object Two` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/overloading.tex`, "Applicability to Dotted Method Calls" | ProjectFortress/tests/XXXGenericMethodOverloadArity.fss | climb batch 31b rung T's skeptic | siblings: 744, 760. The message is written at `interpreter/evaluator/values/DottedMethodApplication.java:106` at 647163a9c4. Alike with the static argument written and inferred, and where one overload's one parameter is a pair, `tk[\U\](y: (U, U))`. The compiled path runs the pair without a tuple on the base and after rung T, 2 and 3, and the form with the pair after rung T's skeptic's fix (`compiler_tests/GenericMethodTupleParameterCompiled.test`). Workaround: two names. In a trait whose object redeclares one of the two, the other's call stops with an InterpreterBug, 'The number of parameters (2) does not match with the number of arguments (1)'; compiled, both run. |
+
+### Row 1058
+
+closed by 5c31f2b68
+
+| 1058 | walk refuses at load a plain declaration at an object type inside a generic one whose result is a tuple holding its type parameter, 'fails the Return Type Rule', a valid pair: `pt[\T extends Number\](a: T): (T, ZZ32)` beside `pt(a: Dot): (Dot, ZZ32)`, `object Dot extends Number` | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericBesidePlainTupleReturnWalk.fss` | climb batch 31b rung O's skeptic | siblings: 550, 1048. The reading at object arguments takes a returned type parameter only (`returnRuleAtObjectArguments`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:895`, at 2d11d508d3); tuple types are covariant (`basic/types-vals-vars.tex`, "Tuple Types"), so `(Dot, ZZ32)` lies below `(T, ZZ32)` at every instance whose `T` holds a `Dot`. The compiled path compiles and runs the pair, printing `PASS`. So too at the one library's `RR64`, an object after climb batch 31b's rung O: `pt(a: RR64): (RR64, ZZ32)` is refused, as it was at the trait. A list result, `List[\T\]`, is invariant, and its refusal is right. |
+
+### Row 981
+
+closed by 5c31f2b68
+
+| 981 | under walk a numeral type written in a `comprises` clause loads and runs: `trait T comprises { NaturalNumeral[\1, 10, 3\] } end` runs, where the text makes it a static error (P-174) and walk refuses the same type in an `extends` clause or as a static argument at load | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/tests/XXXNumeralTypeComprisedWalk.fss` | climb batch 30 rung N's skeptic | siblings: 974, 551. Walk's load check reads the types that a trait or an object extends and the static arguments (`interpreter/evaluator/BuildEnvironments.java`, `checkNumeralTypesWritten`), fork N3's two forms. The compiled checker refuses it, 'NaturalNumeral cannot be written in a program except as a parameter's type.' A numeral type as a variable's, a field's or a return type is refused under walk only when a numeral meets it (`tests/NumeralTypeNoValueWalk.fss`). |
+
+### Row 1053
+
+closed by 08860c527
+
+| 1053 | on the compiled path an assignment from outside an object to its `var` field, of a value whose static type is a strict subtype of the field's type, dies at run time, `NoSuchMethodError`: `c.t := High` for `object Cell(var t: T)` and `object High extends T`; the checker accepts it and walk runs it | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/bindings.tex`, "Assignments" | `ProjectFortress/compiler_tests/XXXVarFieldAssignedSubtypeRun.test` | climb batch 31 rung K | siblings: 397, 991. 'NoSuchMethodError: FVoid …$Cell.t(…$High)': the setter's call names the value's static type, not the field's. On the base and after rung K. The same for `c.r := self` in `trait Q comprises { R }` and `object Cell(var r: R)`: '…$Cell.r(…$Q)'; once the call names the field's type, that value needs the cast of `CodeGen.castToTypeBelow`. A value of the field's own type runs. The link is clean (`VarFieldAssignedSubtypeRunLink`). Workaround: bind the value at the field's type first, `h: T = High`, or assign in a method of the object. |
+
+### Row 815
+
+closed by 08860c527
+
+| 815 | compiled, a functional method of a trait that comprises an object, called on a value whose static type is the object, dies at run time with `NoSuchMethodError`: `num(R)` for `abstract num(self): ZZ32` in `trait Q comprises { R }` and `num(self): ZZ32 = 1` in `object R extends Q`, where walk runs it | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXFunctionalMethodComprisedObject.test` | climb batch 21b rung E | siblings: 770, 739, 1100. The missing method is the pair's overload method, `\=num{<Q's span>,<R's span>}(Q)`, which the component's class does not hold; it links clean. The same with `num(self)` not written `abstract`; it runs with no `comprises` clause, with a dotted `num()`, and through a `Q`-typed value (`AbstractFunctionalMethodImplementedByComprised`). Program and outputs: `compile-ladder/rung-export-align/REPORT.md`, section 8. Workaround: call through a value typed as the trait. Since `b7b5b0c02b` a call on `self` in the trait dies too: '\=width{...}(SelfGetterValueProbe$Solid)' (`climb-batch-35/REPAIR-gate.md`, "Deviations from the ruling", 4). full text: history, row 815 |
+
+### Row 390
+
+closed by 08860c527
+
+| 390 | on the compiled path, an overloaded call that one declaration takes without coercion and another only by a value's coercion dies with `NoSuchMethodError`: with `p(x: Wide)`, `p(x: Any)` and a `coerce` in `Wide`, `p(NarrowOf(1))` names a dispatcher, `=p{...}(Any)`, that is never emitted | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/conversions-coercions.tex`, "Coercion Resolution" | `ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.test` | climb batch 4 rung C | The test prints REACHED, then 'NoSuchMethodError: ... \=p{...}(fortress.AnyType$Any)'. By reading: a declaration without static parameters is checked once with its coercions, so the attempt by subtyping keeps `p(x: Wide)` among the candidates behind `p(x: Any)` (`scala_src/typechecker/impls/Functionals.scala:744-747`, `:941` at 5466455249), and the call names a dispatcher over both at `Any`. Without the `coerce` it prints `p(Any)`, as walk does. A numeral does not reach it: `k(5)` for `k(x: Any)` beside `k(x: NN32)` prints `nn32` (`compiler_tests/NumeralMostSpecificCompiled`). full text: history, row 390 |
