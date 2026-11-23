@@ -11225,3 +11225,51 @@ rewritten
 rewritten
 
 | 1041 | an `exit` that runs after its `label` block has completed, from a function made in the block and kept, ends a compiled program with an uncaught `LabelExit`; under walk a `try` around the call catches it as `LabelException` | CONTESTED | implementation gap (codegen) | silent | `ProjectFortress/compiler_tests/ExitAfterLabelCompletedCompiled.test` | climb batch 31 rung L | siblings: 81. The specification scopes an exit's target statically and says nothing of a label block that is no longer being evaluated. Compiled: 'com.sun.fortress.runtimeSystem.LabelExit: exit from a label block that has completed', exit status 1; no `catch` clause takes it. Walk: without a `try`, 'exit from nonexistent label block gone'; with `catch e LabelException`, the clause runs (`interpreter/evaluator/Evaluator.java:1453-1456`). Both libraries declare `LabelException` (`Library/CompilerLibrary.fss:191`), and the code generator never throws it. Unsettled: whether such an exit is a `LabelException` that a program may catch. |
+
+### Row 960
+
+closed by 6f0e48f18
+
+| 960 | a numeral with a radix point loses all but one of its leading zeros before its four numbers are read: `00.5`'s digit count `n` is 2, where the Working Draft counts 3; an integer numeral keeps them, `007` has 3 | NEGATIVE-VERIFIED | implementation gap (parser) | `Specification-1.0-frozen/basic/expressions/literals.tex:110-116`, "Literals" | `ProjectFortress/tests/XXXRadixPointLeadingZerosWalk.fss` | climb batch 29 rung N's skeptic | `ExprFactory.makeFloatLiteralExpr` trims leading zeroes from the text it keeps (`nodes_util/ExprFactory.java:1640-1643`), and both paths count that text's digits (`nodes_util/NumeralNumbers.java`, `of`), so the checker's `n` and walk's both see 2; `makeIntLiteralExpr` trims none. Only a program's coercion that reads `n` sees it. The reproducer declares `Digits(count: ZZ32)` with a coercion over `RadixPointNumeral[\n, m, r, v\]` that answers `Digits(n.asZZ32)`, and asserts 3 for `00.5`: under walk it fails with 'a ZZ32: 2 =/= a ZZ32: 3'. It runs under walk only; the compiled path reads the same node. Compiled too: a coercion reads n = 2 for 00.5 (compile-ladder/plan-35/probes/fixes-35.md). |
+
+### Row 1
+
+closed by f8b05668e
+
+| 1 | `x[i][j]` and `x[i]^2` are grammatical, but walk invokes a subscript followed by a subscript or a superscript without its first index: one index fails with `args = ()`, more silently give the wrong element | NEGATIVE-VERIFIED | implementation gap (walk) | `appendices/grammars/concrete-syntax.tex`, "Expressions"; `basic/operators/precedence.tex`, "Operator Precedence and Associativity"; `basic/operators/juxtameaning.tex`, "Juxtaposition" | none | astra, blinded, review | siblings: 84. Such a primary parses as a `MathPrimary` (not `SubscriptExpr`); its subscript goes to `evalAndInvokeMethod` (`interpreter/evaluator/Evaluator.java:1181`), whose `evalInvocationArgs` (`:1064`, `:1380-1381`) takes `exprs.subList(1,…)`, right for a juxtaposition list, wrong for a subscript list. `m[3,7]^2` prints `11449`, `(m[7])^2`, not `1075369` (probe `explorations/gap-ledger-probes/g02.fss`, in the parent of `e879b6a44`). The spec forbids only `x^2[i]`. Workarounds: `(x[i])[j]`, `(x[i])^2`, or bind first, as `explorations/apl/base/AplCore.fss:1859` does (`rk = rs[k]`). probe and After a dotted call the same form, `B.f()[5]^2`, parses and fails so too. full text: history, row 1 |
+
+### Row 1026
+
+closed by f8b05668e
+
+| 1026 | under walk the right side of a top-level tuple binding is evaluated once for each name and once more: `(first, second) = pairOnce()` runs `pairOnce` three times, and the names hold elements of different runs | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/variables.tex`, "Top-Level Variable Declarations" | ProjectFortress/tests/XXXTopLevelTupleBindingOnceWalk.fss | climb batch 32 rung D | siblings: 152. `DesugarerVisitor.forVarDecl` binds a temporary to the right side, then initializes each name from a field reference on the right side itself, not on the temporary (`ProjectFortress/src/com/sun/fortress/interpreter/rewrite/DesugarerVisitor.java:865-875`, at db352c1776). With a counter in `pairOnce`, `calls` is 3, `first` 2 and `second` 30; three names give four runs. A tuple of literals shows only its cost. The compiled path evaluates once (`compiler_tests/TopLevelTupleBindingCompiled`). Workaround: bind the call to one name, `pair = pairOnce()`, then `(first, second) = pair`. |
+
+### Row 573
+
+closed by 1db0e878c
+
+| 573 | a compiled call of a functional method with self not first, overloaded in an object by its own declarations beside inherited ones, tests and casts the receiver in place of an argument in the object's dispatch method and dies with `ClassCastException` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/XXXFunctionalMethodOverloadSelfLast.test` | climb batch 8 rung O's second skeptic | Self last: `C extends A` declares `pick(n: N1, s: S0, self)` and `pick(n: N1, s: S1, self)` beside `A`'s `pick(n: N0, s: S1, self)`; `pick(N1o, S0o, C)` dies '...$C cannot be cast to class ...$N1'. Self second: `compiler_tests/XXXFunctionalMethodCoverSelfSecond` (`Pq extends { P, Q }` covers `mark(x: Ka, self)` and `mark(x: Kb, self)` by two of its own) dies '...$Pq cannot be cast to class ...$Ka'. Walk runs both; self first passes. Site: the dispatch method `mark?1(Any)` of the object's class loads `aload_0`, the receiver, for its type test and cast, where the argument is `aload_1` (`OverloadSet.TraitOrObjectFactory`). full text: history, row 573 |
+
+### Row 1038
+
+closed by 1db0e878c
+
+| 1038 | a compiled call of an object's own functional method with self not first, beside an inherited one over a wider parameter type, runs the object's declaration for every argument where the receiver itself has the own declaration's parameter type, with no error | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/XXXFunctionalMethodSelfSecondReceiverTested.test` | climb batch 31 rung M's skeptic | siblings: 573, 571. `object Pq extends { K, P }` declares `mark(x: K, self)` beside `P`'s `mark(x: Any, self)`: `mark(1, Pq)` and `mark("s", Pq)` answer 3 where walk answers 1; with self first both paths answer 1. It is row 573's site, the dispatch method's type test on `aload_0`, the receiver, which here passes. On c1ce2a35e1 the class did not load ('Duplicate method name "mark?1"', row 571); since rung M it loads and answers wrongly. |
+
+### Row 650
+
+closed by d56eb8a88
+
+| 650 | the code generator refuses a method declaration with the modifier `override`, "Don't know how to compile this kind of FnDecl", so the team's `tests/disp0.fss`, which the compiled checker accepts, does not compile | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXOverrideModifierCodeGeneration.test` | climb batch 11 rung C | siblings: 653, 694, 701. `CodeGen.fnDeclCompilableModifiers` holds the getter, setter, `io`, `private`, `abstract` and `test` modifiers only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2950-2952` at c124c6b65), and `forFnDecl` throws `sayWhat` on a declaration with any other (`:3019-3028`). The chapter's draft note (`traits.tex:15-16`) lists the modifier as not yet supported, though the section states its rule (`:673-683`). Whether the compiled dispatch, once the modifier compiles, leaves out the inherited declaration that the `override` overrides is not measured. Walk prints `f PASS` and `g PASS`. Let through: 'Duplicate method name f?0' at load (plan-35/probes). |
+
+### Row 653
+
+closed by d56eb8a88
+
+| 653 | the compiled checker type checks a method declaration with the modifier `override` that overrides no inherited declaration, where the traits chapter makes it a static error: `override f(x: String): String` in `object B extends A`, beside `A`'s `f(x: ZZ32): String`, passes `fortress typecheck` | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/traits.tex`, "Method Declarations" | none | climb batch 11 rung C's skeptic | siblings: 650, 693, 694. Rule: `traits.tex:680-683`. The checker reads `override` only to let a wider declaration hide an inherited one, its one reader of it (`scala_src/useful/STypesUtil.scala:1701` at c124c6b65). Walk refuses it at load (`values/Constructor.java:699`; `OverrideNothingWalk`), except in row 693. `fortress typecheck` exits 0; `compile` stops at row 650 first (`explorations/compile-ladder/rung-checker-overloading/SKEPTIC.md` 2.4). Under the bound `Any`, `override f(x: Any)` beside an inherited `f[\T\](x: T)` overrides nothing, so `XXXOverrideGenericReturnTypeNotSubtype` bounds it by `Object`. full text: history, row 653 |
+
+### Row 1039
+
+closed by e8b20935d
+
+| 1039 | an `exit` out of an `atomic` block to an enclosing `label` loses the block's writes on both paths: after `label done`, `atomic do`, `g := 7`, `exit done`, `end`, `end done`, the top-level `g` is still 0 | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/expressions/atomic.tex`, "Atomic Expressions" | `ProjectFortress/compiler_tests/XXXExitOutOfAtomicCompiled.test` | climb batch 31 rung L | siblings: 81. The specification retains the writes of a block that an exit leaves. Compiled, the block's handler takes every abrupt completion and `BaseTask.leaveTransaction` ends the transaction without a commit for whatever is not an abort (`runtimeSystem/BaseTask.java:285-314`); the exit is a `LabelExit` thrown through it. Walk prints 0 too (`tests/XXXExitOutOfAtomicWalk.fss`). Link test: `compiler_tests/ExitOutOfAtomicCompiledLink.test`. A label and its exit inside one block are right (`compiler_tests/LabelExitCompiled`). Workaround: set a flag in the block and exit after it. |
