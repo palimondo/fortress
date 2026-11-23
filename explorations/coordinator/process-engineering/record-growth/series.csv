@@ -4586,3 +4586,57 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 4584,2026-11-21 02:48:35Z,2d194074e,1102,889600,402970,117349,382677,891955,403101,117417,382800,,fortress-repo: the parts in line with climb batch 34b's landing
 4585,2026-11-21 02:55:58Z,e8091fa2a,1102,889600,402970,117349,382677,891955,403101,117417,382800,,fortress-repo: the cold read of climb batch 34b's landing
 4586,2026-11-21 03:09:44Z,07e70adda,1102,889600,402970,117349,382677,891955,403101,117417,382800,,"Climb batch 34b's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upd"
+4587,2026-11-21 03:11:09Z,1327606f0,1102,889600,402970,117349,382677,891955,403101,117417,382800,,"Revival page: where it stands at the landing of climb batch 34b, the record chart regenerated"
+4588,2026-11-21 03:11:53Z,22f939f89,1102,889600,402970,117349,382677,891955,403101,117417,382800,,Boot note: climb batch 34b's landing done; what is held for him and owed
+4589,2026-11-21 07:57:03Z,072bee4e1,1102,889600,402970,117349,382677,891955,403101,117417,382800,,"Boot note: booted after the compaction; the VM restart of 07:49 UTC, the next stop, what waits for him"
+4590,2026-11-23 08:38:07Z,c3dbe514d,1102,889600,402970,117349,382677,891955,403101,117417,382800,,Held list: his comments on changes 39 to 42 of the page of fortress-repo changes; boot note after the VM restart of 08:3
+4591,2026-11-23 08:44:52Z,e3fdd18c6,1102,889600,402970,117349,382677,891955,403101,117417,382800,,Boot note: the plan for his page notes running; the housekeeping batch to plan
+4592,2026-11-23 08:45:14Z,b2071b61c,1102,889600,402970,117349,382677,891955,403101,117417,382800,,"Boot note: his go for the housekeeping batch's low-hanging fruit, the Fable review pre-approved"
+4593,2026-11-23 08:48:39Z,e42459528,1102,889600,402970,118045,382677,891955,403101,118113,382800,,"POSITIONS: P-180, defects cleaned up as the work goes, for coherence on both paths, not left in the ledger or taught as "
+4594,2026-11-23 09:00:07Z,443042d5d,1102,889622,402970,118045,382677,891977,403101,118113,382800,,"Ledger: row 94 names pi's type as it stands, an RR64, since FloatLiteral left the library"
+4595,2026-11-23 09:01:12Z,90ab05ca2,1102,889622,402970,118045,382677,891977,403101,118113,382800,,Boot note: the fact check on his page notes done; the skill writer's task waits for the inventory
+4596,2026-11-23 09:04:03Z,161b673e6,1102,889622,402970,118045,382677,891977,403101,118113,382800,,"Housekeeping batch input: the fortress-repo skill's workaround passages, sorted"
+4597,2026-11-23 09:06:38Z,999ad1f99,1102,889622,402970,118045,382677,891977,403101,118113,382800,,"Boot note: the inventory done; the skill writer and climb batch 35's planner running, three check-ins"
+4598,2026-11-23 09:08:13Z,f4b33d0fa,1102,889622,402970,118045,382677,891977,403101,118113,382800,,"fortress-repo: five passages in line with the tree (infinity, asZZ32, QQ example, one-library bindings, testSystem size)"
+4599,2026-11-23 09:25:03Z,414a1aef4,1102,889780,402970,118045,382677,892135,403101,118113,382800,,"Climb batch 35's probes: the housekeeping fixes reproduced on the base, two sizing hacks, and the checks that moved rows"
+4600,2026-11-23 09:36:21Z,2fcf2a0ac,1102,889780,402970,118045,384187,892135,403101,118113,384310,,"Climb batch 35's record: the housekeeping batch of P-180 in two runs, eight rungs closing fourteen rows where walk and t"
+4601,2026-11-23 09:38:20Z,66a5c55ac,1102,889780,402970,118045,384187,892135,403101,118113,384310,,Boot note: climb batch 35 planned; its Fable review and the skill fixes' cold read running
+4602,2026-11-23 09:43:19Z,91dde58f8,1102,889780,402970,118045,384187,892135,403101,118113,384310,,"fortress-repo: the cold read's fixes for f4b33d0fad (infinity, asZZ32, QQ under walk, one_library_tests, suite times)"
+4603,2026-11-23 09:47:29Z,5952f89e2,1102,889780,402970,118045,384978,892135,403101,118113,385101,,"Climb batch 35's check before the launch: no consequential fork, run 1's reproducers confirmed on the base, rung W's tes"
+4604,2026-11-23 09:48:36Z,38131c167,1102,889780,402970,118045,384978,892135,403101,118113,385101,,"Climb batch 35's record: fork O2 follows the traits chapter's rule, not walk's cases, as the check before the launch ask"
+4605,2026-11-23 09:50:47Z,1e3a81195,1102,889780,402970,118045,384978,892135,403101,118113,385101,,"Speed roadmap: his question of 11-22 on a program's own value type over a JVM primitive, decision 17"
+4606,2026-11-23 09:51:09Z,31d51a601,1102,889780,402970,118045,384978,892135,403101,118113,385101,,Boot note: climb batch 35 checked; its manifest and the page update running; the skill fixes landed
+4607,2026-11-23 09:57:50Z,8b754b7f7,1102,889780,402970,118045,384978,892135,403101,118113,385101,,"Climb batch 35: the manifest generator, the block not yet spliced"
+4608,2026-11-23 09:59:24Z,13f4fdea7,1102,889780,402970,118045,384978,892135,403101,118113,385101,,"Climb batch 35, run 1: its block spliced into the batch script; the record's rung O cites the specification only, as the"
+4609,2026-11-23 10:00:04Z,03b6a1515,1102,889780,402970,118045,384978,892135,403101,118113,385101,,"Boot note: climb batch 35, run 1, launched"
+4610,2026-11-23 10:02:16Z,8e77b7404,1102,889780,402970,118045,384978,892135,403101,118113,385101,,Boot note: the page of fortress-repo changes at version 35
+4611,2026-11-23 11:29:28Z,6a36bd3e6,1102,889780,402970,118045,384978,892135,403101,118113,385101,,"Held list and boot note: his answer on the review queue, the triage and the Fable review of the process running"
+4612,2026-11-23 11:35:52Z,021521d80,1102,889780,402970,118045,385302,892135,403101,118113,385425,,"The Fable review of the process's dead ends in its flows of information and decisions, at his order of 11:2x UTC"
+4613,2026-11-23 11:51:30Z,249f54ada,1102,889780,402970,118045,385831,892135,403101,118113,385954,,"Merge the review queue's triage of 2026-11-23 (wip/queue-triage): 92 consequential items stay, 178 leave for part (a)"
+4614,2026-11-23 11:52:49Z,403a0e60c,1102,889780,402970,118045,385831,892135,403101,118113,385954,,"Record-landing skill task: a new trap is named for the coordinator, not added to the skill as a sentence (P-180; the rev"
+4615,2026-11-23 11:53:02Z,bbb4b5403,1102,889780,402970,118045,385831,892135,403101,118113,385954,,"Boot note: the queue's triage merged, the process review done, the drafts of B1 to B4 running"
+4616,2026-11-23 12:13:41Z,6f0e48f18,1102,889780,404016,118006,385831,892135,404147,118074,385954,,"A numeral with a radix point keeps its leading zeros in its digit count, on both paths"
+4617,2026-11-23 12:17:43Z,f8b05668e,1104,891900,405637,118006,385831,894255,405768,118074,385954,,"Walk applies a subscript before a superscript with all its indices, and runs a tuple binding's right side once"
+4618,2026-11-23 12:18:23Z,1db0e878c,1104,891900,406682,118006,385831,894255,406813,118074,385954,,"The dispatch method of a functional method reads each argument at its own local, wherever self stands"
+4619,2026-11-23 12:21:03Z,d56eb8a88,1108,896173,408536,118006,385831,898528,408667,118074,385954,,"The code generator compiles the modifier override, and the checker refuses one that overrides nothing"
+4620,2026-11-23 12:22:15Z,e8b20935d,1110,898496,409855,118006,385831,900851,409986,118074,385954,,"An exit out of an atomic block keeps the block's writes, on both paths"
+4621,2026-11-23 12:27:00Z,8dc97a08d,1110,893650,409855,118006,385831,896019,409986,118074,385954,,Close the rows climb batch 35 fixed
+4622,2026-11-23 12:47:43Z,e922c2ea1,1110,893650,409855,118006,385831,896019,409986,118074,385954,,"Climb batch 35's gather record: rungs R, W, S, O and A landed, rows opened and closed, items for the curator"
+4623,2026-11-23 13:01:27Z,b0a5943e7,1110,893660,409981,118006,385831,896029,410112,118074,385954,,Fold the review's corrections
+4624,2026-11-23 13:07:16Z,f9b407369,1110,893660,409981,118006,385831,896029,410112,118074,385954,,"Climb batch 35: the judge's ruling on the merged-diff review, a repair of one Appendix I clause (row 1107) and the recor"
+4625,2026-11-23 13:18:40Z,693fa9ec8,1110,893650,410049,118006,385831,896019,410180,118074,385954,,Climb batch 35's repair after the merged-diff review: Appendix I's clause on row 1107 narrowed to what the checker refus
+4626,2026-11-23 13:25:03Z,d5a419b1b,1110,893650,410049,118006,385831,896019,410180,118074,385954,,"Climb batch 35: the judge's ruling on the red gate, a repair on the merged tree"
+4627,2026-11-23 13:25:13Z,023297005,1110,893650,410049,118006,385831,896019,410180,118074,385954,,Judge's ruling on the red gate: an unmeasured duration and a line range removed
+4628,2026-11-23 14:03:41Z,b7b5b0c02,1110,893789,410049,118006,385831,896150,410180,118074,385954,,"A tie that self's type makes in a trait that comprises an object keeps the trait's own declaration, free of the identity"
+4629,2026-11-23 14:31:42Z,0a83a7049,1110,893789,410045,118006,385831,896150,410176,118074,385954,batch 35,Record the gate's tables and the microGPT walk check
+4630,2026-11-23 14:33:50Z,be43ddc64,1110,893789,410045,118983,385831,896150,410176,119051,385954,,"POSITIONS: P-174, a numeral coercion's body is a compile-time computation with no method invocation, Byte(v); P-165, the"
+4631,2026-11-23 14:36:44Z,2c8b0f234,1110,893789,410045,118983,385831,896150,410176,119051,385954,,"Boot note: climb batch 35, run 1, landed; its post-batch review running; his decisions of today written; what waits for "
+4632,2026-11-23 15:02:03Z,efb603dce,1110,893789,410045,118983,387399,896150,410176,119051,387522,,"Climb batch 35, run 1: the post-batch review"
+4633,2026-11-23 15:03:03Z,7c227911b,1110,893789,410045,118983,387399,896150,410176,119051,387522,,"Boot note: climb batch 35's post-batch review done, its record-landing running"
+4634,2026-11-23 16:09:26Z,49a9f1fcb,1110,893789,410045,118983,387399,896150,410176,119051,387522,,Record-landing tools: queue-check reads the queue's head in the triaged form of 2026-11-23 (all consequential); the land
+4635,2026-11-23 16:09:46Z,2af3ec103,1111,894999,410994,119378,387399,897360,411125,119446,387522,,"Record after climb batch 35's landing: P-174, P-40 and P-173 in line with P-174's rewrite; F-396, the batch's drafts and"
+4636,2026-11-23 16:09:46Z,9322330fa,1111,894999,410994,119378,387399,897360,411125,119446,387522,,"Plan and review queue after climb batch 35's landing: the plan brought to run 1 and to the queue's triage, item 562 gain"
+4637,2026-11-23 16:56:24Z,ac72aee37,1111,894999,410994,119378,387399,897360,411125,119446,387522,,"fortress-repo: climb batch 35's landing, the orientation update installed"
+4638,2026-11-23 16:57:43Z,0cb867d17,1111,894999,410994,119378,387399,897360,411125,119446,387522,,"fortress-repo: climb batch 35's landing, the parts in line with it"
+4639,2026-11-23 17:03:24Z,2dd2936b4,1111,894999,410994,119378,387399,897360,411125,119446,387522,,fortress-repo: the cold read of climb batch 35's landing
+4640,2026-11-23 17:23:36Z,2b7803456,1111,894999,410994,119378,387399,897360,411125,119446,387522,,"Climb batch 35's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"

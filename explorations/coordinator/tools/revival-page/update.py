@@ -151,9 +151,14 @@ def read_values(landing):
     if v['distance'] != 0:
         stop('the distance is %d; the block\'s form has words only for a distance of 0 under its reading' % v['distance'])
     p3 = section(plan, r'Phase 3\.', 3)
-    m = one(r'The zero over the fourteen rests on (\w+) readings? he has not confirmed', p3, 'PLAN.md, phase 3\'s open reading')
-    if NUMBER_WORDS.get(m.group(1)) != 1:
-        stop('PLAN.md\'s phase 3 says the zero rests on "%s" readings; the block\'s form has words only for one' % m.group(1))
+    # Two forms: the reading open for his word, or, since the queue's triage of 2026-11-23, landed and not consequential.
+    if re.search(r'The zero over the fourteen rests on one reading, .*?landed, and not consequential', p3):
+        v['reading_open'] = False
+    else:
+        m = one(r'The zero over the fourteen rests on (\w+) readings? he has not confirmed', p3, 'PLAN.md, phase 3\'s open reading')
+        if NUMBER_WORDS.get(m.group(1)) != 1:
+            stop('PLAN.md\'s phase 3 says the zero rests on "%s" readings; the block\'s form has words only for one' % m.group(1))
+        v['reading_open'] = True
 
     # the compiled path: PLAN's "Runs" line
     runs = one(r'^- \*\*Runs\.\*\* (.*)$', stand, 'PLAN.md, "Where we stand", the runs', re.M).group(1)
@@ -203,7 +208,8 @@ def block(v):
     texts = [
         '%d of %d, which ends with %s, since %s.' % (v['phase'], v['phases'], v['phase_name'], day_month(v['phase_since'], year=False)),
         '%d.' % v['count'],
-        '%d, under one reading that the curator has still to decide (section 5, phase 3).' % v['distance'],
+        ('%d, under one reading that the curator has still to decide (section 5, phase 3).' if v.get('reading_open', True)
+         else '%d, under one reading that landed at its default (section 5, phase 3).') % v['distance'],
         '%d of %d.' % (v['bindings'], v['bindings_of']),
         'the flat and the APL program pass the quick check.',
         'both programs stop at names that only the library declares, until the switch-over.',
@@ -385,7 +391,7 @@ def main():
     print('  phase            %d of %d, %s, since %s (PLAN.md: the live thread, the "### Phase N." headings, phase %d\'s first batch line)'
           % (v['phase'], v['phases'], v['phase_name'], v['phase_since'], v['phase']))
     print('  checker count    %d (%s, COUNT; PLAN.md)' % (v['count'], v['summary_rel']))
-    print('  distance         %d, one open reading (%s, DISTANCE; PLAN.md; phase 3\'s reading)' % (v['distance'], v['summary_rel']))
+    print('  distance         %d, %s (%s, DISTANCE; PLAN.md; phase 3\'s reading)' % (v['distance'], 'one open reading' if v.get('reading_open', True) else 'its one reading landed', v['summary_rel']))
     print('  native bindings  %d of %d (FACTS F-299, its headline sentence)' % (v['bindings'], v['bindings_of']))
     print('  microGPT walk    both quick checks pass (%s, # microgpt-walk)' % v['summary_rel'])
     print('  next             %s' % ('batch %s (PLAN.md, "The phases", its one batch line not in the landed form)' % v['next'] if v['next']
