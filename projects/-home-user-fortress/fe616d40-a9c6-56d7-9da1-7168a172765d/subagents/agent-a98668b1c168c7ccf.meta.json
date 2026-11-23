@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Update the fortress-repo changes page","toolUseId":"toolu_01Ss32o2geM3ZCL2uyjHAzck","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Update the fortress-repo changes page","toolUseId":"toolu_01Ss32o2geM3ZCL2uyjHAzck","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
