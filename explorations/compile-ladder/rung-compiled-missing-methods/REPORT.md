@@ -2,9 +2,11 @@
 
 - problem: the planner's probes, compiled on the base, die with `NoSuchMethodError` at a setter's call and at an overload method (`explorations/compile-ladder/plan-35/probes/fixes-35.md:46-47`)
 - spec: assigning a field calls its setter, with a right-hand side of a subtype of the field's type (`Specification/basic/expressions/bindings.tex:60-61`, `:86-87`); a functional method is a top-level function overloaded with the others, and a call runs the most specific declaration applicable at run time (`Specification/basic/traits.tex:616-626`; `Specification/basic/overloading.tex:302-311`)
-- precedent: the two other sites that build an overload set before they use it split it with its subsets, `os.split(true)` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7457`, `:8801`); a method's parameter type at the receiver's instance as `callTakesTupleBoxed` reads it (`CodeGen.java:7700-7726`); the cast below self's trait at a call's one argument (`CodeGen.java:8223`, `castToTypeBelow` at `:8239`)
-- deviation: a call at an arrow other than the principal member's gets a second method that passes its arguments on (`forwardToPrincipal`, `CodeGen.java:8723-8755`), which no other site writes; none from the specification's spelling
-- historical: `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java` (`CodeGen.java:7521-7527`, `:7728-7759`, `:8691-8755`)
+- precedent: the two other sites that build an overload set before they use it split it with its subsets, `os.split(true)` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7457`, `:8817`); a method's parameter type at the receiver's instance as `callTakesTupleBoxed` reads it (`CodeGen.java:7700-7726`); the cast below self's trait at a call's one argument (`CodeGen.java:8239`, `castToTypeBelow` at `:8255`)
+- deviation: a call at an arrow other than the principal member's gets a second method that passes its arguments on (`forwardToPrincipal`, `CodeGen.java:8739-8771`), which no other site writes; none from the specification's spelling
+- historical: `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java` (`CodeGen.java:7521-7526`, `:7728-7775`, `:8707-8771`)
+
+Provenance lines cite the final tree, after the skeptic's fix `35116d1ffb`; the sections below cite `CodeGen.java` as at the worker's commit `7cf79900c2`, where a line after `setterParamType` stands sixteen lines earlier than in the final tree.
 
 One launch worked this rung. The worktree was seeded from the base build, `seed-worktree.sh` exit 0.
 
