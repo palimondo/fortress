@@ -1,10 +1,12 @@
-(* A call at an overridden declaration's parameter types runs the override, through the type that declares the overridden one, from a trait first or not first in an extends clause, over an abstract declaration, and in a generic object (traits.tex, section "Method Declarations"). *)
+(* A call at an overridden declaration's parameter types runs the override, through the type that declares the overridden one, from a trait first or not first in an extends clause, over an abstract declaration, and in a generic object, and a call at a declaration of the name that the override does not override runs that declaration (traits.tex, section "Method Declarations"). *)
 component OverrideBridgesCompiled
 export Executable
 
 trait A
   f(self, other: ZZ32): String = "A"
+  f(self, other: String): String = "A over String"
   g(other: ZZ32): String = "A"
+  g(other: String): String = "A over String"
 end
 object B extends A
   override f(self, other: Number): String = "B"
@@ -48,6 +50,10 @@ run(): () = do
     a: A = B
     assert(f(a, n), "B", "f through A runs B's override")
     assert(a.g(n), "B", "g through A runs B's override")
+    assert(f(B, "s"), "A over String", "f(B, s) runs A's f over String, which the override does not override")
+    assert(B.g("s"), "A over String", "B.g(s) runs A's g over String, which the override does not override")
+    assert(f(a, "s"), "A over String", "f over String through A runs A's")
+    assert(a.g("s"), "A over String", "g over String through A runs A's")
     s: S = Wo
     assert(tag(s, n), 2, "tag through S runs W's override, W first")
     assert(s.dot(n), 2, "dot through S runs W's override, W first")
