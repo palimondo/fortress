@@ -217,7 +217,7 @@ No step taken that cannot be undone or that acts against a decision on record.
 ## Defects and their homes
 
 - Row 1039, an exit out of an atomic block loses the block's writes, on both paths: home 1, repaired; `tests/ExitOutOfAtomicWalk.fss` and `compiler_tests/ExitOutOfAtomicCompiled` assert it. The row closes.
-- NEW-A-1, under walk an exit out of a `tryatomic` block never reaches its label: home 2, deferred, the specification settles it (`atomic.tex:46-48`); `tests/XXXExitOutOfTryAtomicWalk.fss`, shown green as an expected failure and red with `atomic` in place of `tryatomic` for one run:
+- NEW-A-1, under walk an exit out of a `tryatomic` block that no `atomic` block encloses never reaches its label: home 2, deferred, the specification settles it (`atomic.tex:46-48`); `tests/XXXExitOutOfTryAtomicWalk.fss`, shown green as an expected failure and red with `atomic` in place of `tryatomic` for one run:
 
         echo "Expected failure: the harness reports XXXExitOutOfTryAtomicWalk green, 'Saw expected failure', ..."
         . interpret tmp/rung-exit-out-of-atomic/h-xxx/tests/XXXExitOutOfTryAtomicWalk
