@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 07:56 UTC on 2026-11-21** (08:56 his time). The session was compacted after climb batch 34b's landing, and booted light at his "Boot light" (the skill's section "The boot"). The VM restarted at 07:49:28 UTC (`uptime -s`): trust flag `True`, the backup re-run by hand at 07:53, `push=ok`, no rollback (`main` at `22f939f89c`, as pushed), `/home/user/fortress-base42` intact. The session runs on Opus 5.5 (`model-now.sh` prints `claude-opus-5-5`). **The next process stop is about 20:49 UTC on 11-21.** Nothing runs; no check-in is armed.
+**State at 08:4x UTC on 2026-11-23** (09:4x his time). The session was compacted after climb batch 34b's landing, and booted light at his "Boot light" on 11-21 (the skill's section "The boot"). The VM restarted at 08:32:22 UTC on 11-23 (`uptime -s`): trust flag `True`, the backup re-run by hand at 08:36, `push=ok`, no rollback (`main` at `072bee4e15`, as pushed). The session runs on Opus 5.5 (`model-now.sh` prints `claude-opus-5-5`). **The next process stop is about 21:32 UTC on 11-23.** Nothing runs; no check-in is armed. **His reading of the page of `fortress-repo` changes:** read up to change 41 (his word of 08:3x UTC on 11-23); his ten comments on changes 39 to 42, not sent to Claude, are on the held list's first section, answered in chat.
 
 ## Landed since the last compaction
 
