@@ -49,5 +49,5 @@ Work in `/home/user/fortress`, on main, as the `fortress-repo` skill says (priva
 ## For the curator
 
 - The ruling takes a diagnosis into the repair round, since the judge's role runs nothing and the gate did not bisect. The other ways: drop O, which reopens rows 650 and 653 and, if the hypothesis holds, leaves a defect that F-354 says returns with any later change of the compiler; or bisect in a separate round first, one more round for the same result.
-- No rung of this batch ran the one-library track before the gate, and the gather's merged-tree tests did not either (no mention in `explorations/compile-ladder/climb-batch-35/RECORD.md`). A rung that changes the checker or the code generator could run `ant testOneLibrary` (about 4 minutes, most of it `FortressLibrary`'s compile) at its end; a change to the briefs, his to decide.
+- No rung of this batch ran the one-library track before the gate, and the gather's merged-tree tests did not either (no mention in `explorations/compile-ladder/climb-batch-35/RECORD.md`). A rung that changes the checker or the code generator could run `ant testOneLibrary` at its end; a change to the briefs, his to decide.
 - If step 3 shows the order dependence, row 996's class of defect has now turned a gate red once: the remaining identity-hashed orders of the compiled path (row 996, "No site traced") are a candidate rung.
