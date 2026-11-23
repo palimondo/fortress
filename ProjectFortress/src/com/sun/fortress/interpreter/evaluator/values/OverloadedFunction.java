@@ -3062,6 +3062,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             StaticParam p = val.get(i);
             if (NodeUtil.isTypeParam(p)) {
                 if (a instanceof FTypeNat) return false;
+            } else if (NodeUtil.isIntParam(p)) {
+                if (!(a instanceof FTypeNat)) return false;
             }
         }
         return true;
