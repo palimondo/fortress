@@ -13,7 +13,7 @@ No coordinator reads this task before you, and none rules between your steps. Th
    - Read the entry or the row that grounds the new truth before you touch the sentence: `explorations/coordinator/tools/facts-extract.sh 'F-312'` prints one entry; `git grep -n '^| 890 ' -- explorations/fortress-gap-ledger.md` finds a row.
    - Find the sentence by its words. A line number in the data can be off by a few lines.
    - Change it by the fewest words that make it true, as the entry or the row states it. Check a claim about the code against the code before you write it.
-   - If the data names a trap or a wall of a row that the part has no sentence for, and a worker who follows the part would fall into it, add one sentence where the part keeps its traps.
+   - If the data names a trap or a wall of a row that the part has no sentence for, add no sentence: name the row in your report, for the coordinator, who plans its fix (P-180: a defect is fixed, not taught as a workaround).
    - If a line names a term that the skill does not define, define it where the skill first uses it, in a few words, only if a worker needs it to act. If the skill does not use the term, change nothing.
    - If the sentence is already true, change nothing, and say so in your report.
 3. **The changed decisions.** For each change of the curator's decisions in the data, search the skill for a sentence that rests on the old words (`git grep`). If one does, bring it in line by the fewest words. If none does, change nothing.
