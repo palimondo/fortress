@@ -128,6 +128,7 @@ phase('Land')
 const l = await agent([
   'You land the record-landing run of climb batch ' + N + ' on main. You run commands and report; you judge nothing and write no file. You work in the main tree, ' + MAIN + ', on the branch main, and read the worktree ' + WT + ' (branch ' + BRANCH + '). AT is in ' + RUN + 'run.env. Another agent may commit in the main tree meanwhile: on an index.lock error, wait five seconds and retry, up to four times; leave other uncommitted edits in the main tree alone.',
   '',
+  'The judge\'s commits on the branch may have been made by the coordinator, who ran final.sh again after a stop at step 1 with the cause fixed: take them as the judge\'s. ' +
   'If an earlier attempt of this step was stopped, take over from what it did: while the branch exists, git -C ' + MAIN + ' cherry main ' + BRANCH + ' prints a + line for each of its commits that main does not hold yet (none: skip step 2); git fetch origin, then git rev-parse main origin/main origin/claude/worker-brief-fable-vnnuv8 origin/blinded-fable shows what is pushed; git worktree list and git branch --list ' + BRANCH + ' show what step 5 removed.',
   '',
   '1. The judge\'s checks (skip on a take-over past step 2). git -C ' + WT + ' log --format="%h %s" AT..' + BRANCH + ' must list the judge\'s commits, and ' + RUN + 'mech-final.md must say "Every check passes."; git -C ' + WT + ' status --porcelain must print nothing. If any fails, stop: land nothing, keep the worktree and branch, and return landed false with what failed in stopped.',

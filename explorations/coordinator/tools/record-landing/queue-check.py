@@ -114,16 +114,24 @@ head = [i for i, l in enumerate(lines) if l.startswith('**Counts**') and 'open i
 if len(head) != 1:
     fails['head'].append('%d "**Counts**, N open items" lines' % len(head))
 else:
+    # Two forms of the head: "N open items, C consequential and R routine", with lines "- X: K (C consequential,
+    # R routine)."; or, since the triage of 2026-11-23, "N open items, all consequential", with lines "- X: K.".
     m = re.search(r'(\d+) open items, (\d+) consequential and (\d+) routine', lines[head[0]])
-    if not m or tuple(map(int, m.groups())) != (n_b + n_c, n_b, n_c):
+    a = re.search(r'(\d+) open items, all consequential', lines[head[0]])
+    said = tuple(map(int, m.groups())) if m else ((int(a.group(1)), int(a.group(1)), 0) if a else None)
+    if said != (n_b + n_c, n_b, n_c):
         fails['head'].append('the head says "%s"; the parts hold %d open, %d consequential and %d routine' % (
-            m.group(0) if m else lines[head[0]][:80], n_b + n_c, n_b, n_c))
+            (m or a).group(0) if (m or a) else lines[head[0]][:80], n_b + n_c, n_b, n_c))
     sums = [0, 0, 0]
     for l in lines[head[0] + 1:]:
         k = re.match(r'- .*: (\d+) \((\d+) consequential, (\d+) routine\)', l)
-        if not k:
+        j = re.match(r'- .*: (\d+)\.$', l) if a else None
+        if k:
+            sums = [x + int(y) for x, y in zip(sums, k.groups())]
+        elif j:
+            sums = [x + int(y) for x, y in zip(sums, (j.group(1), j.group(1), 0))]
+        else:
             break
-        sums = [x + int(y) for x, y in zip(sums, k.groups())]
     if sums != [n_b + n_c, n_b, n_c]:
         fails['head'].append('the lines under it add up to %d (%d consequential, %d routine)' % tuple(sums))
 for k, text in answered(text_now).items():
