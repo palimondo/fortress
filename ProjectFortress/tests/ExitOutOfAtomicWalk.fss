@@ -1,0 +1,47 @@
+(* An exit out of an atomic block to an enclosing label keeps the block's writes, also out of a nested block and its outer one, and once for each of many parallel exits. atomic.tex, section "Atomic Expressions". *)
+component ExitOutOfAtomicWalk
+export Executable
+
+var g: ZZ32 = 0
+var h: ZZ32 = 0
+var k: ZZ32 = 0
+var count: ZZ32 = 0
+
+leave(): () = label done
+    atomic do
+      g := 7
+      exit done
+    end
+  end done
+
+leaveNested(): () = label out
+    atomic do
+      h := 1
+      atomic do
+        k := 2
+        exit out
+      end
+    end
+  end out
+
+countExits(n: ZZ32): () =
+  for i <- 0#n do
+    label one
+      atomic do
+        count := count + 1
+        exit one
+      end
+    end one
+  end
+
+run(): () = do
+  leave()
+  leaveNested()
+  countExits(1000)
+  assert(g, 7, "writes within a block that an exit leaves are retained")
+  assert(h, 1, "the outer block's writes are retained where the exit leaves a nested block and the outer one")
+  assert(k, 2, "the nested block's writes are retained where the exit leaves it and the outer one")
+  assert(count, 1000, "each of many parallel exits out of a contended block keeps its one write")
+end
+
+end
