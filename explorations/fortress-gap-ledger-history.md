@@ -11291,3 +11291,21 @@ rewritten
 rewritten
 
 | 1107 | the compiled checker refuses an `override` in a generic trait that extends a trait under a `where` clause, over the inherited declaration whose parameter type is the clause's static parameter: with `trait G[\T\] extends A[\T\] where { T extends ZZ32 }`, `override f(x: ZZ32)` over `A`'s `f(x: T)` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXOverrideConditionalExtensionChecker.test` | climb batch 35 rung O | siblings: 773, 774. The overloading check reads `A`'s `f` with `T` unbounded, the condition not held (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:410-411` at c5c2bd6d7a): on the base 'Invalid overloading of f in trait G', and since the override check reads the same table, also 'Invalid override of f in trait G: ... has the modifier override and does not override any inherited declaration.' Walk runs the program and prints `G` (`tests/OverrideConditionalExtensionWalk.fss`). |
+
+### Row 1100
+
+rewritten
+
+| 1100 | the dispatch method of the one library's `denominator(self)`, abstract in `QQ`, a body in `Ratio`, takes `Ratio` as its parameter type when `FortressLibrary` compiles after other programs in one JVM, and `QQ`'s default methods fail verification: 'VerifyError: Bad type on operand stack' in `isFinite` | NEGATIVE-BOUNDED | implementation gap (codegen) | `basic/overloading.tex`, "Overloading Resolution" | none | climb batch 34b rung C | siblings: 1047, 499. `Library/FortressLibrary.fss:643`, `:729`. `ant testFast`'s onelibrary track on 1f8a67251d, the components compiled after the track's program tests: every run test died, 'Type 'fortress/FortressLibrary$QQ' (current frame, stack[0]) is not assignable to 'fortress/FortressLibrary$Ratio'', isFinite's `invokestatic` of `denominator{…643…,…729…}` at `(Lfortress/FortressLibrary$Ratio;)`; compiled first in a fresh JVM (junit.sh, and the track from f3439cf7ce, which compiles the components first) it takes `QQ`. Not traced further. |
+
+### Row 996
+
+note added
+
+| 996 | the order in which the code generator writes a class's methods and a dispatch method's tests follows the JVM's identity hashes, so two compiles of one source can differ in bytes: 18 of `CompilerBuiltin`'s 312 classes differ under another hash mode | NEGATIVE-VERIFIED | implementation gap (codegen) | silent | none | probe Y | siblings: 430, 990. On 832f7d0d91, compile `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss` cold twice, the second time with `-XX:+UnlockExperimentalVMOptions -XX:hashCode=0`: 18 of 312 classes differ, among them `fortress/CompilerBuiltin$EqualTo` (its `CMP` dispatch tests `Unordered` before `TotalComparison` in one, after in the other); they hold the same methods in another order. Without the flag two compiles of the base's code are equal, 590 of 590 classes; a scratch tree with other code differed from compile to compile (`explorations/compile-ladder/plan-31/probes/probe-y.md`, section 6). No site traced. |
+
+### Row 1100
+
+rewritten
+
+| 1100 | compiled, a call on `self` in a trait that comprises one object, of a functional method that both declare, takes the object's arrow where the overloadings come in that order, and the trait's default methods fail verification, 'VerifyError: Bad type on operand stack', as the one library's `QQ` did | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/ComprisesSelfAbstractFunctionalMethodCall.test` | climb batch 34b rung C | siblings: 935, 815, 996. Self is the trait met with the listed type (`basic/expressions/var-ref.tex`, "Identifier References"), so the checker ties the two declarations; the tie kept the first in the overloadings' identity-hash order (`TopLevelEnv.java:465-466`), and the call's descriptor followed it with no cast. Climb batch 35's gate: `denominator` at `(Ratio)` in ant's onelibrary JVM, `(QQ)` in one-JVM runs of the same build. Since its gate repair a tie that self's type makes keeps the trait's own (`Functionals.scala:1103-1135`). |

@@ -1100,12 +1100,38 @@ trait Functionals { self: STypeChecker with Common =>
       }
     }
 
+    // An argument's type with self's type read as its trait's alone.
+    def traitOfSelf(t: Type): Type = {
+      object named extends Walker {
+        override def walk(node: Any): Any = node match {
+          case s: TraitSelfType => s.getNamed
+          case _ => super.walk(node)
+        }
+      }
+      named(t).asInstanceOf[Type]
+    }
+    // Whether the candidate takes each argument with self read as its trait.
+    def takesSelfAtTrait(c: Ranked) = {
+      val ps = paramTypes(c)
+      ps.size == c._1.args.size &&
+      c._1.args.zip(ps).forall { case (a, p) => getType(a).exists(t => isSubtype(traitOfSelf(t), p)) }
+    }
+
     val head: Option[Ranked] =
       if (top.size == 1) top.headOption
       // A tie among candidates that fit the call as it is, or among candidates
-      // with one parameter type, keeps the sort's head.
+      // with one parameter type, keeps the sort's head; a tie that self's type
+      // makes keeps the head of those that take self at its trait's type. In a
+      // trait whose comprises clause lists types, self has the trait's type met
+      // with theirs, so a listed type's declaration fits it as the trait's own
+      // does; the trait's own takes the value that the compiled call passes,
+      // and dispatch reaches the listed type's.
       else if (top.isEmpty || !top.exists(counted) ||
-               top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head)))) sorted.headOption
+               top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head)))) {
+        val atTrait = top.filter(takesSelfAtTrait)
+        if (atTrait.nonEmpty && atTrait.size < top.size) sorted.find(c => atTrait.exists(_ eq c))
+        else sorted.headOption
+      }
       else numeralTie().orElse {
         if (!quiet) signalAmbiguity(top.map(c => c._2.getOrElse(c._1.arrow)), args)
         return None

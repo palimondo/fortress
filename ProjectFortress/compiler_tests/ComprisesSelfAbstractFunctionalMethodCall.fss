@@ -1,0 +1,27 @@
+(* A trait that comprises one object, with a getter that calls the trait's abstract functional methods on self, compiles to default methods that load, the calls taking the trait's own declarations. *)
+component ComprisesSelfAbstractFunctionalMethodCall
+export Executable
+
+trait Solid comprises { Brick }
+    getter total(): ZZ32 = width(self) + height(self) + depth(self) + mass(self)
+    getter kind(): String = "solid"
+    width(self): ZZ32
+    height(self): ZZ32
+    depth(self): ZZ32
+    mass(self): ZZ32
+end
+
+object Brick(w: ZZ32, h: ZZ32, d: ZZ32, m: ZZ32) extends Solid
+    width(self): ZZ32 = w
+    height(self): ZZ32 = h
+    depth(self): ZZ32 = d
+    mass(self): ZZ32 = m
+end
+
+run(): () = do
+    s: Solid = Brick(1, 20, 300, 4000)
+    assert(s.kind, "solid", "Solid's default methods load")
+    println("PASS")
+  end
+
+end
