@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Triage the review queue once","toolUseId":"toolu_01T1NyFfdgoNm3ENfHdabaKG","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","pickedEffortModel":"claude-opus-5-5"}
