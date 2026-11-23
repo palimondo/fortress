@@ -1,0 +1,3 @@
+tests=XXXOverrideGenericMethodCompiled
+compile
+compile_exception_contains=Can't compile an override of or by a method with static parameters of its own

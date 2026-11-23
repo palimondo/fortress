@@ -407,7 +407,8 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 
             val tt = STypesUtil.declToTraitType(traitOrObject.ast)
 	        // the methods the trait or object provides, by the traits chapter's inheritance
-	        val (methodsR, overridden) = providedAndOverridden(tt, allMethods(tt, typeAnalyzer), typeAnalyzer, paramsWithoutSelf)
+	        val methods = allMethods(tt, typeAnalyzer)
+	        val (methodsR, overridden) = providedAndOverridden(tt, methods, typeAnalyzer, paramsWithoutSelf)
 
 	        for (f <- toSet(methodsR.firstSet) ; if isCheckedName(f) ) {
                   val mset = toSet(methodsR.matchFirst(f))
@@ -420,6 +421,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 	        // a declaration and one it keeps from being inherited: their return types
 	        for ((f, o, p, equal) <- overridden ; if isCheckedName(f))
 	          checkOverridingReturnType(f, o, p, equal, oracle)
+	        checkOverridesSomething(traitKindAndName, tt, methods, overridden, oracle)
             typeAnalyzer = oldTypeAnalyzer
             staticParamsInScope = Nil
         }
@@ -747,6 +749,42 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
                     " should be a subtype of the\n    return type of the declaration it overrides " + typeAndSpanToString(pa._1))
           }
         case _ =>
+      }
+    }
+
+    /* Each declaration with the modifier override that the trait or object tt declares must
+     * override some inherited declaration: one of its name and kind, with self at the same
+     * position, whose parameter types without self are strictly below its own, the pairs that
+     * keep tt's walk from inheriting (STypesUtil.providedAndOverridden). It is a static error
+     * if it overrides none, so also where the parameter types are equal (traits.tex, "Method
+     * Declarations"). A declaration whose own parameter types, or those of an inherited
+     * declaration of its name, kind and self position, have a missing type is not judged:
+     * that type has its own error. */
+    private def checkOverridesSomething(kindAndName: String, tt: TraitType,
+                                        methods: Relation[IdOrOpOrAnonymousName, (JavaFunctional, StaticTypeReplacer, TraitType)],
+                                        overridden: List[(IdOrOpOrAnonymousName, (JavaFunctional, StaticTypeReplacer, TraitType),
+                                                          (JavaFunctional, StaticTypeReplacer, TraitType), Boolean)],
+                                        oracle: OverloadingOracle): Unit = {
+      val owner = NU.nameString(tt.getName)
+      def selfAt(f: JavaFunctional): Int = f match { case h: JavaHasSelfType => h.selfPosition; case _ => -1 }
+      def sameKind(o: JavaFunctional, p: JavaFunctional) =
+        o.isInstanceOf[JavaFunctionalMethod] == p.isInstanceOf[JavaFunctionalMethod] && selfAt(o) == selfAt(p)
+      // a declaration is gathered under its own name (STypesUtil.declaredMethods)
+      for (d@(o, _, ot) <- toSet(methods.secondSet) ;
+           if o.mods.isOverride && NU.nameString(ot.getName) == owner &&
+              !overridden.exists(x => (x._2._1 eq o) && !x._4) &&
+              paramsWithoutSelf(d).isDefined &&
+              !toSet(methods.matchFirst(o.name)).exists(p => !(p._1 eq o) && NU.nameString(p._3.getName) != owner &&
+                                                             sameKind(o, p._1) && paramsWithoutSelf(p).isEmpty)) {
+        val shown =
+          (if (isFunctionalMethod(o)) toFunctionalMethodArrows(Set(d), oracle).headOption
+           else if (isGetter(o)) getterArrow(d)
+           else toMethodArrows(Set(d)).headOption) match {
+            case Some((a, _, _)) => typeAndSpanToString(a)
+            case None => o.toString }
+        error(o.getSpan,
+              "Invalid override of " + o.name + " in " + kindAndName + ":\n    " + shown +
+              " has the modifier override and does not override any inherited declaration.")
       }
     }
 

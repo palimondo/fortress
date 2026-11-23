@@ -1,0 +1,4 @@
+tests=OverrideModifierCodeGeneration
+link
+run
+run_out_equals=f PASS\ng PASS\n

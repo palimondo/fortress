@@ -1,0 +1,3 @@
+tests=XXXOverrideOverStaticParameterCompiled
+compile
+compile_exception_contains=Can't compile an override in a trait or object with static parameters

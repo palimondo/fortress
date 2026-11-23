@@ -1094,6 +1094,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          */
         Relation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
             toConsider = STypesUtil.allMethodsNotReplaced(currentTraitObjectType, typeAnalyzer);
+        List<scala.Tuple5<Functional, StaticTypeReplacer, TraitType, Functional, TraitType>> hidden =
+            STypesUtil.overriddenNotProvided(currentTraitObjectType, typeAnalyzer);
+        Map<Functional, Functional> overriddenHere = overriddenNotProvided(hidden);
         debug("Considering chains for ", currentTraitObjectType, ": ", toConsider);
         for (edu.rice.cs.plt.tuple.Pair<IdOrOpOrAnonymousName,scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
                  assoc : toConsider) {
@@ -1107,6 +1110,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 // need to worry about tighter definitions in implementing types.
                 continue;
             }
+            /* Skip a declaration that an override keeps this type from inheriting: a call at
+             * its signature runs the override (dumpOverloadedMethodChaining). */
+            if (overriddenHere.containsKey(fnl)) continue;
 
             List<StaticParam> static_parameters = fnl.staticParameters();
             
@@ -1156,6 +1162,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 		}
 	    }
         }
+        overrideBridges(currentTraitObjectType, alreadyIncluded, hidden);
     }
 
     /*
@@ -1169,6 +1176,64 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         if (fnl instanceof FieldGetterOrSetterMethod && ((FieldGetterOrSetterMethod) fnl).fnDecl().isNone())
             return false;
         return declaring.getName().getApiName().isSome() && !fnl.mods().isAbstract();
+    }
+
+    /*
+     * Each declaration that a declaration with the modifier override keeps a trait or object, or
+     * a type above it, from inheriting, and that the type does not provide, mapped to that
+     * override, from the list that STypesUtil.overriddenNotProvided gives for the type (the
+     * checker's table of what an override keeps from being inherited;
+     * Specification/basic/traits.tex, section "Method Declarations").
+     */
+    private static Map<Functional, Functional> overriddenNotProvided(
+            List<scala.Tuple5<Functional, StaticTypeReplacer, TraitType, Functional, TraitType>> hidden) {
+        Map<Functional, Functional> result = new java.util.IdentityHashMap<Functional, Functional>();
+        for (scala.Tuple5<Functional, StaticTypeReplacer, TraitType, Functional, TraitType> t : hidden)
+            result.put(t._1(), t._4());
+        return result;
+    }
+
+    /*
+     * Stops where the bridge from the declaration p, at its instance inst, to the declaration
+     * o that overrides it cannot be compiled yet: where either has static parameters of its
+     * own, as a generic method is compiled to a closure finder; or where the current trait or
+     * object has static parameters and the parameter types of p or o name a static parameter,
+     * since at an instance that makes the two parameter types equal the class would hold the
+     * bridge and the override under one signature.
+     */
+    private void checkOverrideCompilable(Functional p, StaticTypeReplacer inst, Functional o,
+                                         OverloadingOracle oa) {
+        if (!p.staticParameters().isEmpty() || !o.staticParameters().isEmpty())
+            throw sayWhat(o.name(), "Can't compile an override of or by a method with static parameters of its own yet.");
+        if (!currentTraitObjectDecl.getHeader().getStaticParams().isEmpty() &&
+            (mentionsTypeVariable(inst.replaceInEverything(oa.getNoSelfDomainType(p))) ||
+             mentionsTypeVariable(oa.getNoSelfDomainType(o))))
+            throw sayWhat(o.name(), "Can't compile an override in a trait or object with static parameters, " +
+                          "where its parameter types or the overridden declaration's name a static parameter, yet.");
+    }
+
+    /*
+     * For each declaration that an override of a type above the trait or object tt keeps tt
+     * from inheriting, where tt's class does not inherit the bridge of the class of the type
+     * that declares the override, as it does through its first supertrait: a method at the
+     * declaration's signature that forwards to the override, as that class has one
+     * (dumpOverloadedMethodChaining).  first holds the methods that tt's first supertrait
+     * gives its class, and hidden the list of STypesUtil.overriddenNotProvided for tt.  One
+     * bridge for each overridden declaration.
+     */
+    private void overrideBridges(TraitType tt,
+            Relation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>> first,
+            List<scala.Tuple5<Functional, StaticTypeReplacer, TraitType, Functional, TraitType>> hidden) {
+        Set<Functional> viaFirst = Collections.newSetFromMap(new java.util.IdentityHashMap<Functional, Boolean>());
+        for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> f : first.secondSet())
+            viaFirst.add(f._1());
+        Set<Functional> bridged = Collections.newSetFromMap(new java.util.IdentityHashMap<Functional, Boolean>());
+        for (scala.Tuple5<Functional, StaticTypeReplacer, TraitType, Functional, TraitType> t : hidden) {
+            if (typeAnalyzer.equiv(t._5(), tt) || viaFirst.contains(t._4()) || !bridged.add(t._1()))
+                continue;
+            checkOverrideCompilable(t._1(), t._2(), t._4(), new OverloadingOracle(typeAnalyzer));
+            generateForwardingFor(t._1(), t._4(), false, t._2(), tt, tt, true);
+        }
     }
 
     /*
@@ -1285,6 +1350,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             
         Relation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
             toConsider = STypesUtil.properlyInheritedMethodsNotIdenticallyCovered(currentTraitObjectType.getName(), typeAnalyzer);
+        Map<Functional, Functional> overriddenHere = overriddenNotProvided(
+            STypesUtil.overriddenNotProvided(STypesUtil.declToTraitType(currentTraitObjectDecl), typeAnalyzer));
         
         MultiMap<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>> toConsiderFixed =
             new MultiMap<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>();
@@ -1402,6 +1469,20 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 if (typeAnalyzer.equiv(traitDeclaringMethod,currentTraitObjectType))
                     continue;
                 
+                /* A declaration that an override keeps this type from inheriting is no overload
+                 * of its name here.  Where the override is this type's own, a method at the
+                 * declaration's signature forwards to the override, as for a narrowing below;
+                 * else the class of the type above that declares the override holds it. */
+                Functional overriding = overriddenHere.get(super_func);
+                if (overriding != null) {
+                    if (funcs.contains(overriding)) {
+                        checkOverrideCompilable(super_func, super_inst, overriding, oa);
+                        generateForwardingFor(super_func, overriding, false, super_inst,
+                                              currentTraitObjectType, currentTraitObjectType, true);
+                    }
+                    continue;
+                }
+
                 boolean shadowed = false;  // EQ -> EQ seen
                 Functional shadowing_func = null;
                 boolean narrowed = false;  // EQ -> LT seen
@@ -3380,7 +3461,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
     private static final Modifiers fnDeclCompilableModifiers =
         Modifiers.GetterSetter.combine(Modifiers.IO).combine(
-            Modifiers.Private).combine(Modifiers.Abstract).combine(Modifiers.Test);
+            Modifiers.Private).combine(Modifiers.Abstract).combine(Modifiers.Test).combine(
+            Modifiers.Override);
 
     public void forFnDecl(FnDecl x) {
         /*

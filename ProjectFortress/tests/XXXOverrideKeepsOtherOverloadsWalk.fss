@@ -1,0 +1,24 @@
+(* An object's override overrides only the inherited declarations whose parameter types lie strictly below its own, so the object still provides its trait's declarations of the name over String, and the calls with a String run them (traits.tex, section "Method Declarations"). *)
+component XXXOverrideKeepsOtherOverloadsWalk
+export Executable
+
+trait A
+  f(self, other: ZZ32): String = "A"
+  f(self, other: String): String = "A over String"
+  g(other: ZZ32): String = "A"
+  g(other: String): String = "A over String"
+end
+object B extends A
+  override f(self, other: Number): String = "B"
+  override g(other: Number): String = "B"
+end
+
+run(): () = do
+    n: ZZ32 = 3
+    assert(f(B, n), "B", "f(B, n) runs the override")
+    assert(B.g(n), "B", "B.g(n) runs the override")
+    assert(f(B, "s"), "A over String", "f(B, s) runs A's f over String")
+    assert(B.g("s"), "A over String", "B.g(s) runs A's g over String")
+  end
+
+end

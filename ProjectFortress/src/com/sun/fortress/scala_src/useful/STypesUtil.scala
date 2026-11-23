@@ -1785,6 +1785,32 @@ object STypesUtil {
   }
 
   /**
+   * Each declaration p of the methods of the trait or object tt and of the types that it
+   * extends (allMethods) that a declaration o with the modifier override keeps a type of
+   * tt's walk from inheriting, p's parameter types without self strictly below o's, and
+   * that tt does not provide, as (p's declaration, replacer and declaring type, and o's
+   * declaration and declaring type): the checker's own table (providedAndOverridden), the
+   * parameter types compared at the instance that the extends clauses give
+   * (paramsWithoutSelfApart), as allMethodsNotReplaced compares them
+   * (Specification/basic/traits.tex, section "Method Declarations"). The code generator
+   * writes no method of tt's class for such a p, and makes a call at p's signature run o.
+   */
+  def overriddenNotProvided(tt: TraitType, analyzer: TypeAnalyzer):
+        JList[(Functional, StaticTypeReplacer, TraitType, Functional, TraitType)] = {
+    val taken: Set[String] = toOption(analyzer.traits.typeCons(tt.getName)) match {
+      case Some(ti: TraitIndex) => toListFromImmutable(ti.staticParameters).map(p => NU.nameString(p.getName)).toSet
+      case _ => Set() }
+    val methods = allMethods(tt, analyzer)
+    // without an override among the gathered declarations, nothing is overridden
+    if (!toSet(methods.secondSet).exists(_._1.mods.isOverride)) return new ArrayList()
+    val (provided, overridden) =
+      providedAndOverridden(tt, methods, analyzer, d => paramsWithoutSelfApart(d._1, d._2, taken))
+    val kept = toSet(provided.secondSet).toList.map(_._1)
+    toJavaList(for ((_, o, p, equal) <- overridden ; if !equal && !kept.exists(_ eq p._1))
+                 yield (p._1, p._2, p._3, o._1, o._3))
+  }
+
+  /**
    * The parameter types of the method declaration f without self, as the type that the
    * replacer instantiates f's declaring trait for has them: a type schema over f's own
    * static parameters, or None where a parameter has no type. An own static parameter
