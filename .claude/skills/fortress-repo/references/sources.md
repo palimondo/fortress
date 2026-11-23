@@ -1590,3 +1590,12 @@ Each fix settled by the writer from the cold read's flags.
 - `revival-changes.md`, "Numbers", the coercion paragraph: the static arguments of either form; "invokes no method" cut, since `Byte(v)` carries it; what is refused statically; `asZZ32` raises `IntegerOverflow` (`revival-changes.md`, the conversion rule, P-161); the compiled path computes the value when the class loads (`compiler.md`, "What the code generator does").
 - `revival-changes.md`, "`Number` declares nothing": the compiler's prelude has no `asFloat`. `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi`.
 - `tests-writing.md`, the form of a program: a superscript can follow a subscript. Ledger row 1, fixed; `tests/SubscriptThenSuperscriptWalk.fss`.
+
+## Climb batch 35b's landing, 2026-11-23
+
+The orientation update of climb batch 35b, judged in `explorations/compile-ladder/climb-batch-35b/orientation/judgement.md`. Three lines of "Traits and objects" and "Reductions and comprehensions" were installed word for word. The cut of the `self` return list and the cut in the paragraph on `self` in the overloading rules were held.
+
+- `revival-changes.md`, "Traits and objects", the `SEQV` rule: the interpreter's library declares `≡` and its negation `≢` (`NEQV`) for booleans only, so on other values each is a type error. This replaces the `≡` clause of the cold read of `e9f828f3` (2026-11-08): row 184 and `<->` in its place. F-403; ledger row 184, fixed by `e5cf04d474`; `Library/FortressLibrary.fsi:2793-2794`; `tests/BooleanEquivalenceWalk.fss`. The type error: F-403's messages under walk and from the checker; the orientation's `preserve.md`, note 1.
+- `revival-changes.md`, the same rule, its last sentence: the prelude's `≣`, declared as `===` over `Any`, follows `SEQV`. `Library/CompilerLibrary.fsi:30` and `.fss:63-68`; `compiler.md`, the `ValueObjectMark` sentence; the orientation's `quiz-grade-1.md`, case 39.
+- `revival-changes.md`, "Traits and objects", `Index`: the scope "that runs under walk or is checked against the interpreter's library" moved into the instruction, and the closing clause that repeated it cut. P-156; the orientation's `cold-read.md`, 2.9.
+- `revival-changes.md`, "Reductions and comprehensions": a generic reduction "fails" at its first join, in place of "stops". `compile-ladder/rung-reduction-types/REPORT.md`; the orientation's `cold-read.md`, 2.14.
