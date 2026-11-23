@@ -851,6 +851,7 @@ public class DesugarerVisitor extends NodeUpdateVisitor implements HasRewrites {
 
     @Override
     public Node forVarDecl(VarDecl vd) {
+        boolean isMember = atTopLevelInsideTraitOrObject;
         atTopLevelInsideTraitOrObject = false;
         List<LValue> lhs = vd.getLhs();
 
@@ -864,13 +865,41 @@ public class DesugarerVisitor extends NodeUpdateVisitor implements HasRewrites {
             ArrayList<VarDecl> newdecls = new ArrayList<VarDecl>(1 + lhs.size());
             String temp = WellKnownNames.tempTupleName(vd);
             Span at = NodeUtil.getSpan(vd);
-            VarDecl new_vd = NodeFactory.makeVarDecl(at, temp, init);
+            if (init instanceof TupleExpr && ((TupleExpr) init).getExprs().size() == lhs.size()
+                && ((TupleExpr) init).getVarargs().isNone() && ((TupleExpr) init).getKeywords().isEmpty()) {
+                // A tuple expression binds each name to its own element, as
+                // a declaration of that name alone would.
+                List<Expr> elements = ((TupleExpr) init).getExprs();
+                for (int i = 0; i < lhs.size(); i++) {
+                    newdecls.add(NodeFactory.makeVarDecl(at, Useful.list(lhs.get(i)), Option.<Expr>some(elements.get(i))));
+                }
+                return new RewriteHackList(newdecls);
+            }
+            // A numeral on the right side converts to the type declared for
+            // its name, so the temporary is declared at the names' types,
+            // Any for a name declared without one.
+            List<Type> elementTypes = new ArrayList<Type>(lhs.size());
+            boolean typed = false;
+            for (LValue lv : lhs) {
+                TypeOrPattern t = lv.getIdType().unwrap(null);
+                typed |= t instanceof Type;
+                elementTypes.add(t instanceof Type ? (Type) t : NodeFactory.makeAnyType(at));
+            }
+            Option<TypeOrPattern> tempType = typed ?
+                Option.<TypeOrPattern>some(NodeFactory.makeTupleType(at, elementTypes)) :
+                Option.<TypeOrPattern>none();
+            VarDecl new_vd = NodeFactory.makeVarDecl(at,
+                                                     Useful.list(NodeFactory.makeLValue(at, NodeFactory.makeId(at, temp), tempType)),
+                                                     Option.<Expr>some(init));
             newdecls.add(new_vd);
+            // Each name reads its element from the temporary, which is
+            // declared where the names are: a member or a top-level variable.
+            Expr tempRef = (isMember ? new Member() : new Local()).replacement(ExprFactory.makeVarRef(at, temp));
             int element_index = 0;
             for (LValue lv : lhs) {
                 Id newName = NodeFactory.makeId(at, "$" + element_index);
                 newdecls.add(NodeFactory.makeVarDecl(at, Useful.list(lv), Option.<Expr>some(ExprFactory.makeFieldRef(at,
-                                                                                                                     init,
+                                                                                                                     tempRef,
                                                                                                                      newName))));
                 element_index++;
             }
