@@ -1,4 +1,4 @@
-(* Generic dotted methods of one name, declared together in an object or in a trait that an object extends, of one or two numbers of parameters or of static parameters, and two generic functional methods of one name and two numbers of parameters, each run where the call's arguments fit it. *)
+(* Generic dotted methods of one name, declared together in an object or in a trait that an object extends, of one or two numbers of parameters or of static parameters, of static parameters of two kinds, and two generic functional methods of one name and two numbers of parameters, each run where the call's arguments fit it. *)
 component GenericMethodOverloadSetWalk
 export Executable
 
@@ -23,6 +23,11 @@ object Statics
     g[\T, V\](t1: T, t2: V): V = t2
 end
 
+object Kinds
+    h[\nat n\](x: ZZ32): ZZ32 = n
+    h[\T\](x: T, y: T): ZZ32 = 7
+end
+
 object Functional
     fm[\T\](self, x: T): ZZ32 = 1
     fm[\T\](self, x: T, y: T): ZZ32 = 2
@@ -42,6 +47,9 @@ run(): () = do
     assert(Statics.g(1, "two"), "two", "two static parameters")
     assert(Statics.g[\ZZ32\](5), 5, "one static parameter written")
     assert(Statics.g[\ZZ32, String\](1, "three"), "three", "two static parameters written")
+    assert(Kinds.h(1, 2), 7, "a type parameter beside a nat parameter, the static argument inferred")
+    assert(Kinds.h[\3\](1), 3, "a nat written takes the overload of the nat parameter")
+    assert(Kinds.h[\ZZ32\](1, 2), 7, "a type written takes the overload of the type parameter")
     assert(fm(Functional, 4), 1, "the functional method of two parameters")
     assert(fm(Functional, 4, 5), 2, "the functional method of three parameters")
 end

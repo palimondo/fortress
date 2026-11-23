@@ -200,7 +200,7 @@ public class Constructor extends NonPrimitive {
         // This also enumerates the methods.
         accumulateGenericMethods(generics, selfType, bte);
 
-        // For each set of generic methods (with same name and number of
+        // For each set of generic methods (with same name and kinds of
         // static parameters, genericKey) create a list of symbolic values
         // to substitute for the type parameters so that the methods may be
         // pseudo-instantiated and plugged into the trait/object and
@@ -895,12 +895,14 @@ public class Constructor extends NonPrimitive {
 
     /**
      * The key of the generic method g named s among the generic methods of a
-     * trait or object: its name and its number of static parameters.  The
+     * trait or object: its name and the kinds of its static parameters.  The
      * methods of one key share one symbolic instantiation, so that one that
      * overrides another has the other's symbolic instance's signature.
      */
     private static String genericKey(String s, GenericMethod g) {
-        return s + "[" + NodeUtil.getStaticParams(g.getDef()).size() + "]";
+        StringBuilder k = new StringBuilder(s).append('[');
+        for (StaticParam p : NodeUtil.getStaticParams(g.getDef())) k.append(p.getKind().getClass().getSimpleName()).append(',');
+        return k.append(']').toString();
     }
 
     public String getString() {
