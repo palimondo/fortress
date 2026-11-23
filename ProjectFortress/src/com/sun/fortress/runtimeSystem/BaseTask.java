@@ -283,12 +283,14 @@ public abstract class BaseTask extends FortressExecutable {
 
     /**
      * The handler of a compiled atomic block, with whatever its body or its commit threw.  It ends
-     * the block's transaction, whose writes go with it.  It returns for an abort of that transaction,
-     * and the block starts again: an abort that names it, the abort() of a program, which names none
-     * and is taken by the innermost block, or any abort that reaches the outermost block.  It throws
-     * on an abort that names an ancestor, whose block starts again, and any other exception, which
-     * leaves the block; a nested transaction first hands the reads on which that exception was thrown
-     * to its parent (Transaction.TXLeave).
+     * the block's transaction.  It returns for an abort of that transaction, and the block starts
+     * again: an abort that names it, the abort() of a program, which names none and is taken by the
+     * innermost block, or any abort that reaches the outermost block.  It throws on an abort that
+     * names an ancestor, whose block starts again, and on what leaves the block.  An exit, a
+     * LabelExit, keeps the block's writes (Specification/basic/expressions/atomic.tex, section
+     * "Atomic Expressions"): the transaction commits, as at a normal end, and a commit that fails
+     * is such an abort.  Any other exception discards them; a nested transaction first hands the
+     * reads on which that exception was thrown to its parent (Transaction.TXLeave).
      */
     public static void leaveTransaction(Throwable t) {
         FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
@@ -298,7 +300,14 @@ public abstract class BaseTask extends FortressExecutable {
         if (transaction == null)
             BaseTask.<RuntimeException>throwOn(t);
         currentTask.setTransaction(transaction.getParent());
-        if (!(t instanceof TransactionAbortException)) {
+        if (t instanceof LabelExit) {
+            try {
+                transaction.TXCommit();
+                ftr.recordEndTransaction();
+            } catch (TransactionAbortException stale) {
+                t = stale;
+            }
+        } else if (!(t instanceof TransactionAbortException)) {
             try {
                 transaction.TXLeave();
             } catch (TransactionAbortException stale) {

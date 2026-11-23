@@ -12,6 +12,7 @@
 package com.sun.fortress.interpreter.evaluator.tasks;
 
 import com.sun.fortress.exceptions.FortressError;
+import com.sun.fortress.exceptions.LabelException;
 import com.sun.fortress.exceptions.transactions.AbortedException;
 import com.sun.fortress.exceptions.transactions.OrphanedException;
 import com.sun.fortress.interpreter.evaluator.transactions.ContentionManager;
@@ -124,6 +125,15 @@ public class FortressTaskRunner extends ForkJoinWorkerThread {
             T result = xaction.call();
             if (getTask().commitTransaction()) {
                 return result;
+            } else {
+                getTask().abortTransaction();
+                throw new AbortedException(transaction(), " commit failed");
+            }
+        }
+        catch (LabelException exit) {
+            // An exit keeps the block's writes (atomic.tex, section "Atomic Expressions"): it commits as a normal end does.
+            if (getTask().commitTransaction()) {
+                throw exit;
             } else {
                 getTask().abortTransaction();
                 throw new AbortedException(transaction(), " commit failed");
