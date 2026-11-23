@@ -7518,6 +7518,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             receiverCast = typeVariableMethodOwner(x, (VarType) receiverType, method, mt, domain_type);
             receiverType = receiverCast;
         }
+        /* A setter's call, which the desugarer made from an assignment to a field and which
+           carries no arrow: the value is passed at the field's type. */
+        if (mt.isNone() && method_sargs.isEmpty() && receiverType instanceof TraitType &&
+            !(arg instanceof VoidLiteralExpr)) {
+            Type setter = setterParamType((TraitType) receiverType, method);
+            if (setter != null) domain_type = setter;
+        }
 //        if (!(receiverType instanceof TraitType)) {
 //            throw sayWhat(x, "receiver type "+receiverType+" is not TraitType in " + x);
 //        }
@@ -7716,6 +7723,39 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 return false;
         }
         return boxed;
+    }
+
+    /*
+     * The parameter type, at the receiver's instance, of the setter that a dotted call
+     * without the checker's arrow names: the receiver type's one method of the name, without
+     * static parameters of its own, that takes one value and returns ().  An assignment to a
+     * field, c.t := v, calls the field's setter (Specification/basic/expressions/bindings.tex,
+     * section "Assignments"); the desugarer makes it the call c.t(v), which carries no arrow,
+     * and the class declares the setter at the field's type, not at the value's.  Null where
+     * the type holds no such method or more than one.
+     */
+    private Type setterParamType(TraitType t, IdOrOp method) {
+        /* The replacer of a declaration that t's own trait makes holds no static argument
+         * of t; this one gives them. */
+        StaticTypeReplacer own = null;
+        Option<TypeConsIndex> oti = typeAnalyzer.traits().typeCons(t.getName());
+        if (!t.getArgs().isEmpty() && oti.isSome() && oti.unwrap() instanceof TraitIndex &&
+            ((TraitIndex) oti.unwrap()).staticParameters().size() == t.getArgs().size())
+            own = new StaticTypeReplacer(((TraitIndex) oti.unwrap()).staticParameters(), t.getArgs());
+        Type found = null;
+        for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m :
+                 methodsNamed(t, method, Naming.NO_SELF)) {
+            Functional fnl = m._1();
+            if (!fnl.staticParameters().isEmpty() || fnl.parameters().size() != 1) continue;
+            Option<Type> rt = fnl.getReturnType();
+            if (rt.isNone() || !NodeUtil.isVoidType(rt.unwrap())) continue;
+            Type declared = NodeUtil.getParamType(fnl.parameters(), NodeUtil.getSpan(method));
+            Type instance = m._2() == null ? declared : m._2().replaceIn(declared);
+            if (own != null) instance = own.replaceIn(instance);
+            if (found != null && 0 != NodeComparator.compare(found, instance)) return null;
+            found = instance;
+        }
+        return found;
     }
 
     /* The argument of a call, of the tuple type domain_type, as one value. */
@@ -8648,6 +8688,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             }
         }
 
+        /* The name lists the declarations, so two such nodes of one name, made for calls at
+           two arrows, write the same set: the first writes it. */
+        String nm = name.stringName();
+        boolean setWritten = !rewrittenOverloadsWritten.add(nm);
+
         for (Map.Entry<Integer, Set<OverloadSet.TaggedFunctionName>> entry :
                  byCount.entrySet()) {
             int i = entry.getKey();
@@ -8656,12 +8701,57 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 OverloadSet os = new OverloadSet.AmongApis(thisApi(), name,
                                                            typeAnalyzer, fs, i);
 
-                os.split(false);
-                os.generateAnOverloadDefinition(name.stringName(), cw);
-
+                /* The split finds the set's principal member, the declaration than which
+                   each other is more specific, at whose signature the set's method is
+                   written; without it the set writes no method. */
+                os.split(true);
+                if (!setWritten) {
+                    os.generateAnOverloadDefinition(nm, cw);
+                    rewrittenOverloadsWritten.addAll(os.getOverloadSubsets().keySet());
+                }
+                if (ty instanceof ArrowType)
+                    forwardToPrincipal(nm, (ArrowType) ty, os);
             }
         }
 
+    }
+
+    /* The names of the overload methods that for_RewriteFnOverloadDecl has written, each
+       also with its signature. */
+    private final Set<String> rewrittenOverloadsWritten = new HashSet<String>();
+
+    /*
+     * The overload method nm at the signature of the call's arrow ty, where that is not the
+     * principal member's: it passes its arguments to the method at the principal member's
+     * signature.  The call names the method at the arrow of the declaration that the checker
+     * chose, and where a trait's functional method and that of an object that the trait's
+     * comprises clause lists tie, the checker chooses either, so the call can name it at the
+     * object's narrower parameter types.  No method is written where the set has no principal
+     * member, or a generic one, or where the two signatures differ in their number of
+     * parameters.
+     */
+    private void forwardToPrincipal(String nm, ArrowType ty, OverloadSet os) {
+        String principalSig = os.getSignature();
+        if (!os.getOverloadSubsets().containsKey(nm + principalSig)) return;
+        String callSig = NamingCzar.jvmMethodDesc(ty, component.getName());
+        if (callSig.equals(principalSig) || rewrittenOverloadsWritten.contains(nm + callSig)) return;
+        /* Each argument is a reference, as every Fortress value is. */
+        List<String> callArgs = NamingCzar.parseArgs(Naming.mangleMethodSignature(callSig));
+        if (callArgs.size() != NamingCzar.parseArgs(Naming.mangleMethodSignature(principalSig)).size())
+            return;
+        for (String a : callArgs)
+            if (a.charAt(0) != 'L') return;
+        rewrittenOverloadsWritten.add(nm + callSig);
+        MethodVisitor fmv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, nm, callSig, null, null);
+        fmv.visitCode();
+        for (int k = 0; k < callArgs.size(); k++)
+            fmv.visitVarInsn(ALOAD, k);
+        fmv.visitMethodInsn(INVOKESTATIC, packageAndClassName, nm, principalSig);
+        if (!callSig.substring(callSig.indexOf(')')).equals(principalSig.substring(principalSig.indexOf(')'))))
+            InstantiatingClassloader.generalizedCastTo(fmv, NamingCzar.jvmTypeDesc(ty.getRange(), thisApi(), false, true));
+        fmv.visitInsn(ARETURN);
+        fmv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
+        fmv.visitEnd();
     }
 
     static String implMethodName(Functional f) {
