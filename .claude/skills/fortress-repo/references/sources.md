@@ -1567,3 +1567,14 @@ The orientation update of climb batch 35, judged in `explorations/compile-ladder
 - `revival-changes.md`, "The number types are flat siblings": "route A" cut, to keep the size. P-43's heading keeps the name. `cold-read.md` part 3, item 6.
 - `revival-changes.md`, "Numbers", the coercion paragraph: `Byte`'s body is `Byte(v)`; the four numbers are naturals of any size; the body invokes no method; each number converts where it stands, a `ZZ` only where nothing fixes a type; the departure of walk, the checker and the code generator, and `Byte(v.asZZ32)` under walk today; when each path computes the value. P-174, P-173 and P-40 as rewritten on 2026-11-23 (`be43ddc647`, `2af3ec103d`); P-176; F-341, F-342, F-347; `Library/FortressLibrary.fss:847`.
 - `revival-changes.md`, "`Number` declares nothing": the conversion into `RR64` is the getter `x.asRR64`; the one library's departure, `asFloat(self): RR64`; "for an `RR64` `y`". P-165 as rewritten on 2026-11-23 (`be43ddc647`); F-324; `Library/FortressLibrary.fsi:321` to `:727`.
+
+The other parts, from the landing's list of the skill's sentences that it made false.
+
+- `SKILL.md`, "Parallelism and mutable state": the sentence that an `exit` out of an `atomic` block loses its writes, deleted. F-401; ledger row 1039, fixed by `e8b20935d`.
+- `SKILL.md`, "Fortress as a language", static parameters: one of a numeral type's numbers converts where it stands, in place of "a `ZZ`". P-173 and P-174 as rewritten on 2026-11-23 (`be43ddc647`, `2af3ec103d`).
+- `interpreter.md`, walk's departures on numbers: the leading zeros of a radix-point numeral, deleted. Ledger row 960, fixed by `6f0e48f18`.
+- `interpreter.md`, walk's departures at bindings: the top-level tuple binding run once for each name, deleted. Ledger row 1026, fixed by `f8b05668e`.
+- `tests-writing.md`, the form of a program: `x[5]^2` no longer needs parentheses under walk. Ledger row 1, fixed by `f8b05668e`; `tests/SubscriptThenSuperscriptWalk.fss`.
+- `compiler.md`, "What the compiled path cannot compile yet": the order of the compiles in one JVM, deleted. Ledger row 1100; the tie fixed by `b7b5b0c02b`.
+- `compiler.md`, the same section: `override` compiles, except where a static parameter is involved. F-400; ledger rows 650 and 1106; `CodeGen.java:3462-3465`.
+- `compiler.md`, "Traps of the compiled path": the dispatch of an object's overloads with `self` not first, deleted. Ledger rows 573 and 1038, fixed by `1db0e878c`.

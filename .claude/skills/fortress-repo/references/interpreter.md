@@ -23,7 +23,6 @@ Walk chooses a coercion by the value at run time. The specification and the comp
 
 Walk departs from the rules of `revival-changes.md`, "Numbers", in these ways, until each fix lands. A test of one of these cases asserts the rules' answer, as an `XXX` test (`tests-writing.md`), unless the case says otherwise.
 
-- A numeral with a radix point keeps only one of its leading zeros, so a coercion over `RadixPointNumeral[\n, m, r, v\]` gets `n` = 2 for `00.5`, not 3 (ledger row 960).
 - A `nat` or `int` parameter of 2^31 or more, used as a value, is a `ZZ64` (ledger row 962). Assert no value for it in a test.
 - A numeral in a call whose other argument is a variable declared `Any` converts by that value's run-time type, not to its default. So `a = 0` is `true` for `a: Any` that holds a zero `NN32`, where the rules' answer is `false` (ledger row 1016). To compare as the rules do, bind the numeral first, as `z = 0`, then write `a = z`.
 - A numeral with a radix point at a place that fixes no type, which rounds to an infinity at `RR64`, its default, gives `Infinity`, with no error, on both paths (ledger row 980). The rules do not say whether it is an error, so assert no value for it in a test.
@@ -32,7 +31,6 @@ Walk departs from the rules of `revival-changes.md`, "Numbers", in these ways, u
 
 Walk also departs from the rules at these bindings:
 
-- The right side of a top-level tuple binding runs once for each name and once more: `(first, second) = pairOnce()` runs `pairOnce` three times (ledger row 1026). Bind the call to one name, as `pair = pairOnce()`, then write `(first, second) = pair`.
 - A `var` declared in a block with an array type and bound to an array literal, as `var t: ZZ32[2] = [5 6]`, is immutable: 'Cannot assign to immutable t' (ledger row 1024). Bind the literal to an immutable name, and initialize the `var` from it.
 - An array literal assigned to a variable, as `t := [7 8]`, is not built into an array: 'Type mismatch assigning' (ledger row 1025). Bind the literal to an immutable name of the array type, and assign the name.
 
