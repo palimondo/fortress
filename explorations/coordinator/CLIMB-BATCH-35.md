@@ -1,5 +1,6 @@
 <!-- The record of climb batch 35, in two runs (climb batch 35 and climb batch 35b), for the coordinating session, the curator and the batch's workers: the housekeeping batch of P-180, the low-hanging fruit of the inventory of the fortress-repo skill's workaround passages, each fix closing its ledger row, test first, chosen where walk and the compiled path behave differently or depart from the specification. Run 1, five rungs: a numeral with a radix point keeps its leading zeros in its digit count (R, row 960); walk's subscript before a superscript and its top-level tuple binding run once (W, rows 1 and 1026); the compiled dispatch method of a functional method whose self is not first (S, rows 573 and 1038); the modifier override compiled and checked (O, rows 650 and 653); an exit out of an atomic block keeps its writes on both paths (A, row 1039). Run 2, three rungs on run 1's landed tree: the logical equivalence of two booleans in the one library (E, row 184); three departures of walk's load check and dispatch (L, rows 1057, 1058 and 981); two run-time failures of compiled calls that the checker accepts (M, rows 1053 and 815). -->
 <!-- History. Drafted 2026-11-23 by the planning worker of climb batch 35, on Opus, against `main` with the code of `295c215c2c`, the base build `/home/user/fortress-base42` (`git diff --stat 295c215c2c HEAD -- . ':!explorations' ':!docs' ':!.claude'` prints nothing on `414a1aef42`). -->
+<!-- Checked 2026-11-23 before the launch by a fresh reader on Fable, its changes in place (`coordinator/climb-batch-35-review.md`, section A): rung W's test gains the second half of row 1, a subscript after a subscript; section 2 gains three definitions, rung S's program whole, rung O's message and forks O1 and A1 with their other ways; run 2's fixed roles are 1.1 million. -->
 <!-- **The go.** The curator's go, dictated at 08:4x UTC on 2026-11-23: "Clean up row and workarounds the skill teaches. Fix low hanging fruit!", with the Fable review of this record given in advance. The batch launches after that review. A fix that needs a decision of his stays out of the batch. -->
 <!-- Sources: the planner's brief (`<scratchpad>/batch35/planner-35-brief.md`); POSITIONS P-180 with its history, P-174, P-37, P-148, P-12; FACTS F-53, F-88, F-257, F-292, F-315, F-341, F-363, F-369, F-372, F-373, F-374, F-375, F-377, F-387; the inventory `compile-ladder/plan-35/probes/skill-workarounds.md` (`161b673e65`), whole; `reviews/batch-34-review.md` and `reviews/batch-34b-review.md`, section 6 and Part 5; review-queue items 44, 73, 401, 461, 462, 473, 502, 503, 540, 557, 558, 559, 561, 562, 564, 576, 585, 592, 598; the ledger rows named in section 1; the `coordinator` skill's `references/batch.md`, "The go" and "The workflow"; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; `CLIMB-BATCH-34.md` for the form; the code at the sites. -->
 <!-- The planner's probes: `compile-ladder/plan-35/probes/fixes-35.md`, with its programs in `programs/` beside it, run in a worktree of the planner's own, `/home/user/fortress-p35`, seeded from the base build and removed after. Every defect that a rung takes was reproduced there on the base, walk and compiled, through the harness; two marked hacks sized rungs O and E. No gate stage, no whole suite and no timing ran. -->
@@ -58,7 +59,7 @@ Fields common to the eight rungs:
 - **blurb:** two forms that the compiled path runs as the specification says and walk does not. Walk applies a subscript followed by a superscript without its first index, so m[3,7]^2 is (m[7])^2 and x[5]^2 stops (row 1). Walk runs the right side of a top-level tuple binding once for each name and once more, from a field of the right side in place of the temporary that it binds (row 1026). The rung repairs both in walk.
 - **points to report:**
   - Each fix as made, by file and member.
-  - Row 1's new test and row 1026's promoted one, each failing on the base and passing after; the form after a dotted call, B.f()[5]^2.
+  - Row 1's new test and row 1026's promoted one, each failing on the base and passing after; the form after a dotted call, B.f()[5]^2, and two subscripts, m[3][7].
   - Row 152's notes as rewritten.
   - Walk's suite: every test that failed after your change, with its cause.
   - A file edited beyond those named.
@@ -226,6 +227,9 @@ Fields common to the eight rungs:
 - An **atomic block** runs as one transaction: other tasks see all of its writes or none. A **label** block can be left early by an **exit**.
 - A **numeral** is a number as written, such as `00.5`. A program's own number type takes a numeral through a **coercion** that reads the numeral's four numbers, among them its count of digits.
 - Walk's **load check** refuses some invalid programs before they run, as the checker does on the compiled path.
+- A **node** is the parser's record of one piece of a program, such as one numeral. Walk and the compiled path both read it.
+- The **checker count** and the **distance** are two counts of the errors that the checker still finds in the one library. Both are 0 today, and the switch-over needs them at 0.
+- The **fixed roles** are the agents that every run has besides its rungs: the gather, which merges the rungs' changes into one tree; the review of the merged change; the gate; the commit; and the disk check.
 - **microGPT** is the model program. No rung changes a line of it.
 
 ### The go
@@ -254,7 +258,7 @@ Each program is shortened to the lines that matter.
 
 **R. The digits of `00.5`.**
 
-- What it changes: the parser's node for a numeral with a radix point, which both paths read.
+- What it changes: the node that the parser makes for a numeral with a radix point, which both paths read.
 - A program's own number type can read how many digits a numeral has:
 
       object Digits(count: ZZ32)
@@ -274,7 +278,7 @@ Each program is shortened to the lines that matter.
       x: ZZ32[7] = [1 2 3 4 5 6 7]
       println(x[5]^2)
 
-- Today: walk stops, 'Failed to find any matching overload'. With two indices, `m[3,7]^2`, it silently squares `m[7]` instead. The compiled path prints 36. The skill tells workers to write `(x[5])^2`.
+- Today: walk stops, 'Failed to find any matching overload'. With two indices, `m[3,7]^2`, it silently squares `m[7]` instead. Two subscripts in a row, `m[3][7]`, stop in the same way. The compiled path prints 36. The skill tells workers to write `(x[5])^2`.
 - After: 36 on both.
 - Second, a tuple bound at the top level:
 
@@ -288,11 +292,13 @@ Each program is shortened to the lines that matter.
 - What it changes: the code generator.
 - The program:
 
+      trait K end
       trait P  mark(x: Any, self): ZZ32 = 1  end
       object Pq extends { K, P }  mark(x: K, self): ZZ32 = 3  end
       mark(1, Pq)
 
-- Today: compiled, this answers 3, silently wrong; other shapes crash with a cast error. Walk answers 1. The compiled choice looks at the object where it should look at the argument.
+- The argument `1` is not a `K`, so only `P`'s declaration fits the call, and the answer is 1.
+- Today: compiled, this answers 3, silently wrong; other shapes crash with a cast error, 'ClassCastException'. Walk answers 1. The compiled choice tests the object `Pq`, which is a `K`, where it should test the argument.
 - After: 1 on both. The skill's advice "Put `self` first" goes.
 
 **O. The word `override`.**
@@ -304,8 +310,9 @@ Each program is shortened to the lines that matter.
       object B extends A  override f(self, other: Number): String = "B"  end
       f(B, 17)
 
-- Today: walk prints `B`. The compiled path refuses to compile any method marked `override`. And a method marked `override` that overrides nothing is refused by walk, as the specification says, but accepted by the checker.
+- Today: walk prints `B`. The compiled path refuses to compile any method marked `override`: 'Don't know how to compile this kind of FnDecl'. And walk refuses a method marked `override` that overrides nothing, as the specification says, but the checker accepts it.
 - After: compiled, it prints `B`; and the checker refuses an `override` that overrides nothing, as walk does.
+- The choice (fork O1): the compiled object keeps only the overriding method, as walk does. The other way keeps the hidden method too, and then `f(B, 17)` prints `A` compiled and `B` under walk.
 
 **A. Leaving an atomic block with `exit`.**
 
@@ -320,6 +327,7 @@ Each program is shortened to the lines that matter.
 
 - Today: 0 on both paths. The specification says an exit keeps the block's writes, so 7. The skill tells workers to set a flag and exit after the block.
 - After: 7 on both. An exception, as opposed to an exit, still throws the writes away, as the specification says.
+- The choice (fork A1): the exit commits the block's transaction first. If the commit fails, because another task wrote the same variable, the block runs again, as it does at a normal end.
 
 ### Run 2, rung by rung
 
@@ -395,7 +403,7 @@ These fixes need your answer first. In the order they bear on coherence, one at 
 The agents run on the regular tiers (`tier-mode.sh status` prints `regular`).
 
 - **Run 1: about 4.5 million tokens written, 5.3 million with the reserve. The range is 3.9 to 6.2 million. About 4 hours, 4 hours and 45 minutes with the reserve.** Five rungs with their skeptics write about 3.3 million, the fixed roles about 1.2 million. The reserve is 0.8 million and 45 minutes: one ruling on a rung with its repair, one on the review with its repair, and a second gate.
-- **Run 2: about 3.0 million, 3.6 million with the reserve. The range is 2.6 to 4.2 million. About 3 hours and 15 minutes, 4 hours with the reserve.** Three rungs with their skeptics about 1.95 million, the fixed roles about 1.05 million; the reserve 0.6 million and 45 minutes.
+- **Run 2: about 3.0 million, 3.6 million with the reserve. The range is 2.6 to 4.2 million. About 3 hours and 15 minutes, 4 hours with the reserve.** Three rungs with their skeptics about 1.95 million, the fixed roles about 1.1 million; the reserve 0.6 million and 45 minutes.
 - The evidence, climb batch 34's two runs on the regular tiers (`reviews/batch-34-review.md` and `reviews/batch-34b-review.md`, section 6), each role priced from the last run on the same tier:
   - Run 1 of 34, each rung with its skeptic: F, a small walk rung with both suites and the stages, 0.49 million; T 0.64; L 0.66; P 0.76; G, the checker with the stages and its timing, 0.77. Its fixed roles wrote 1.19 million: the gather 420 thousand, the review 426 thousand, the gate 146 thousand, the commit stage 130 thousand, the disk check 64 thousand. Run 2 of 34, one rung: the gather 377 thousand, the review 308 thousand, the gate 149 thousand, the commit stage 126 thousand.
   - So R is priced at 0.5 million and W at 0.55, as F; S at 0.6, as T; A at 0.8, two paths' transactions at one and four threads and the atomic runs, a little above P; O at 0.85, G's checker work and a second wall in the code generator. In run 2, E at 0.5, as F; L at 0.7, three walk fixes; M at 0.75, two code-generator fixes, one at a site not yet found. Run 2's fixed roles: a gather of three rungs about 0.4 million, the review 0.35, the gate 0.15, the commit 0.13, the disk 0.065.
@@ -480,13 +488,13 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 ### W. Walk's subscript before a superscript, and its top-level tuple binding run once (rows 1 and 1026)
 
 **The mission.** Two forms that the compiled path runs as the specification says, and walk does not.
-- Row 1. In a primary whose math items are a subscript and then a superscript, as `m[3,7]^2` or `x[5]^2`, walk applies the subscript through `evalAndInvokeMethod`, whose `evalInvocationArgs` drops the first element of its list (`interpreter/evaluator/Evaluator.java:1167-1189`, `mathItemApplication`; `:1386-1397`): right for a juxtaposition's list, wrong for a subscript's indices. So `m[3,7]^2` is `(m[7])^2`, 11449 for 1075369, and `x[5]^2` stops, 'Failed to find any matching overload, args = ()' (PRB section 1). The compiled path is right (F-387; PRB section 2, `P35SubscriptThenSuperscriptCompiled` passes on the base). `forSubscriptExpr` evaluates all its indices (`:1034-1045`), the precedent.
+- Row 1. In a primary whose math items are a subscript and then a superscript or a second subscript, as `m[3,7]^2`, `x[5]^2` or `m[3][7]`, walk applies the subscript through `evalAndInvokeMethod`, whose `evalInvocationArgs` drops the first element of its list (`interpreter/evaluator/Evaluator.java:1167-1189`, `mathItemApplication`; `:1386-1397`): right for a juxtaposition's list, wrong for a subscript's indices. So `m[3,7]^2` is `(m[7])^2`, 11449 for 1075369, and `x[5]^2` stops, 'Failed to find any matching overload, args = ()' (PRB section 1). The compiled path is right (F-387; PRB section 2, `P35SubscriptThenSuperscriptCompiled` passes on the base). `forSubscriptExpr` evaluates all its indices (`:1034-1045`), the precedent.
 - Row 1026. `DesugarerVisitor.forVarDecl` binds a temporary to a top-level tuple binding's right side, then initializes each name from a field reference on the right side itself, not on the temporary (`interpreter/rewrite/DesugarerVisitor.java:865-875`). So the right side runs once for each name and once more. The compiled path runs it once (F-369).
 
 **The decisions this rung builds.** None names the mechanism. Section 3's forks W1 and W2.
 
 **What you build, in order.**
-1. **The tests first.** Row 1 has no test: write `tests/SubscriptThenSuperscriptWalk.fss` from `plan-35/probes/programs/tests/SubscriptThenSuperscriptWalk.fss`, which asserts two indices, one index and an array element, `x[5]^2` for `x: ZZ32[7]`; add the form after a dotted call, `B.f()[5]^2` (row 1's notes). Promote `tests/XXXTopLevelTupleBindingOnceWalk.fss`. Seen failing on the base through `harness-one.sh`: 'FAIL: a ZZ32: 11449 =/= a ZZ32: 1075369; two indices, then a superscript', and 'FAIL: a ZZ32: 3 =/= a ZZ32: 1; the right side ran once' (PRB section 1).
+1. **The tests first.** Row 1 has no test: write `tests/SubscriptThenSuperscriptWalk.fss` from `plan-35/probes/programs/tests/SubscriptThenSuperscriptWalk.fss`, which asserts two indices, one index and an array element, `x[5]^2` for `x: ZZ32[7]`; add the form after a dotted call, `B.f()[5]^2` (row 1's notes), and a subscript after a subscript, `m[3][7]` and `m[3,7][2]` for an `M` whose subscript answers an object with a subscript of its own, the other half of row 1's claim (on the base `m[3][7]` stops, 'Failed to find any matching overload, args = ()'; F-387 gives the compiled answer, `(m[3])[7]`). Promote `tests/XXXTopLevelTupleBindingOnceWalk.fss`. Seen failing on the base through `harness-one.sh`: 'FAIL: a ZZ32: 11449 =/= a ZZ32: 1075369; two indices, then a superscript', and 'FAIL: a ZZ32: 3 =/= a ZZ32: 1; the right side ran once' (PRB section 1).
 2. **The subscript** (fork W1). The first test passes.
 3. **The tuple binding** (fork W2). The second test passes. Then rewrite row 152's notes, which say of an earlier model program's `loadCorpus` binding that its corpus "loads once", in line with the fix, with `ledger.py rewrite`.
 4. **The whole suite once,** `ant testSystem`.
