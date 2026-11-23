@@ -1535,7 +1535,7 @@ nameTemp + "\n" +
                 for (int j = 0; j < f_type_structures.length; j++) {
                     // Load actual parameter
                     if (j != selfIndex()) {
-                        mv.visitVarInsn(Opcodes.ALOAD, j + offset); 
+                        mv.visitVarInsn(Opcodes.ALOAD, argumentLocal(j, offset));
                         f_type_structures[j].emitInstanceOf(mv, lookahead, true);
                     }
                 }
@@ -1873,7 +1873,7 @@ nameTemp + "\n" +
                 for (int j = 0; j < loaded; j++) {
                     // Load actual parameter
                     if (j != selfIndex()) {
-                        mv.visitVarInsn(Opcodes.ALOAD, j + firstArgIndex);
+                        mv.visitVarInsn(Opcodes.ALOAD, argumentLocal(j, firstArgIndex));
                         InstantiatingClassloader.generalizedCastTo(mv, f_type_structures[j].fullname);
                     }
                 }
@@ -2354,6 +2354,14 @@ nameTemp + "\n" +
         return 0;
     }
 
+    /**
+     * The local of a dispatch method that holds the argument at place j of a
+     * member's parameters, where the argument at place 0 is in the local first.
+     */
+    protected int argumentLocal(int j, int first) {
+        return j + first;
+    }
+
     static public class Local extends AmongApis {
         public Local(final APIName apiname, IdOrOpOrAnonymousName name, TypeAnalyzer ta, Set<Functional> defs, int n) {
             super(apiname, name, ta, Useful.applyToAll(defs, new F<Functional, TaggedFunctionName>() {
@@ -2482,6 +2490,21 @@ nameTemp + "\n" +
 
         protected int firstArg() {
             return selfIndex() == Naming.NO_SELF ? 1 : 0;
+        }
+        
+        /**
+         * The dispatch method of a functional method is a method of the
+         * receiver's class: self is the receiver, in local 0, and the other
+         * arguments follow in their order, without self, as a functional
+         * method's own body takes them.  So an argument before self's place is
+         * in the local after its place, and one after self's place in the
+         * local at its place.
+         */
+        @Override
+        protected int argumentLocal(int j, int first) {
+            if (selfIndex != Naming.NO_SELF && j < selfIndex)
+                return j + 1;
+            return j + first;
         }
         
         @Override

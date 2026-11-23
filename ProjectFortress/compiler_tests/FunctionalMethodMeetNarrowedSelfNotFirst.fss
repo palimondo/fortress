@@ -5,6 +5,7 @@ export Executable
 trait N0 end
 trait N1 extends N0 end
 object N1o extends N1 end
+object N0o extends N0 end
 trait S0 end
 trait S1 extends S0 end
 object S1o extends S1 end
@@ -23,6 +24,7 @@ object Ao extends A end
 run(): () = do
     assert(pick(N1o, C, S1o), "C", "the object that provides both declarations runs its own declaration on their meet (overloading.tex, sections Meet Rule and Overloading Resolution)")
     assert(pick(N1o, Ao, S1o), "A", "an object that provides one declaration runs that declaration (overloading.tex, section Overloading Resolution)")
+    assert(pick(N0o, C, S1o), "A", "the object that provides both declarations runs the inherited one where only it applies (overloading.tex, section Overloading Resolution)")
     println("PASS")
 end
 
