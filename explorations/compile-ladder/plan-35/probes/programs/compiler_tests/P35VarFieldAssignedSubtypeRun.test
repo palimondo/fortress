@@ -1,0 +1,4 @@
+tests=P35VarFieldAssignedSubtypeRun
+link
+run
+run_out_contains=PASS

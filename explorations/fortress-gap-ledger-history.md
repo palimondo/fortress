@@ -11201,3 +11201,15 @@ rewritten
 rewritten
 
 | 94 | the spec's constant `pi` is not in the default library: it is a `FloatLiteral` in the optional `Constants` API, not the spec's `RationalValueTimesPi` object, and the Unicode name is undefined | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic/expressions/literals.tex`, "Pi" | none | run-b | siblings: 95. Bare: `Variable pi is not defined.`; the Unicode spelling: `Variable ? is not defined.` (the interpreter cannot echo the character). Workaround: `import Constants.{pi}` (`Library/Constants.fss:15`): `pi = 3.141592653589793`, `pi r^2 = 12.566370614359172`. Probes `explorations/run-b/probes/worker/w06_pi_bare.fss`, `w06_pi_unicode.fss` (fail), `w06_pi.fss` and `explorations/run-b/probes/c21_constants_pi.fss` (work), in the parent of ed6dafb52. full text: history, row 94 |
+
+### Row 960
+
+note added
+
+| 960 | a numeral with a radix point loses all but one of its leading zeros before its four numbers are read: `00.5`'s digit count `n` is 2, where the Working Draft counts 3; an integer numeral keeps them, `007` has 3 | NEGATIVE-VERIFIED | implementation gap (parser) | `Specification-1.0-frozen/basic/expressions/literals.tex:110-116`, "Literals" | `ProjectFortress/tests/XXXRadixPointLeadingZerosWalk.fss` | climb batch 29 rung N's skeptic | `ExprFactory.makeFloatLiteralExpr` trims leading zeroes from the text it keeps (`nodes_util/ExprFactory.java:1640-1643`), and both paths count that text's digits (`nodes_util/NumeralNumbers.java`, `of`), so the checker's `n` and walk's both see 2; `makeIntLiteralExpr` trims none. Only a program's coercion that reads `n` sees it. The reproducer declares `Digits(count: ZZ32)` with a coercion over `RadixPointNumeral[\n, m, r, v\]` that answers `Digits(n.asZZ32)`, and asserts 3 for `00.5`: under walk it fails with 'a ZZ32: 2 =/= a ZZ32: 3'. It runs under walk only; the compiled path reads the same node. |
+
+### Row 650
+
+note added
+
+| 650 | the code generator refuses a method declaration with the modifier `override`, "Don't know how to compile this kind of FnDecl", so the team's `tests/disp0.fss`, which the compiled checker accepts, does not compile | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXOverrideModifierCodeGeneration.test` | climb batch 11 rung C | siblings: 653, 694, 701. `CodeGen.fnDeclCompilableModifiers` holds the getter, setter, `io`, `private`, `abstract` and `test` modifiers only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2950-2952` at c124c6b65), and `forFnDecl` throws `sayWhat` on a declaration with any other (`:3019-3028`). The chapter's draft note (`traits.tex:15-16`) lists the modifier as not yet supported, though the section states its rule (`:673-683`). Whether the compiled dispatch, once the modifier compiles, leaves out the inherited declaration that the `override` overrides is not measured. Walk prints `f PASS` and `g PASS`. |

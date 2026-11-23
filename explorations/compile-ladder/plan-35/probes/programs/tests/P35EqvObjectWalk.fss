@@ -1,0 +1,9 @@
+component P35EqvObjectWalk
+export Executable
+object Pt(x: ZZ32) end
+run(): () = do
+  a = Pt(1)
+  b = Pt(1)
+  println(a ≡ b)
+end
+end

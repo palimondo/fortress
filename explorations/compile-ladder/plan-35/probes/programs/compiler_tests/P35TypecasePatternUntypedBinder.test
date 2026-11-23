@@ -1,0 +1,4 @@
+tests=P35TypecasePatternUntypedBinder
+link
+run
+run_out_contains=PASS

@@ -1,0 +1,19 @@
+(* An exit out of an atomic block to an enclosing label keeps the block's writes. atomic.tex, section "Atomic Expressions". *)
+component ExitOutOfAtomicWalk
+export Executable
+
+var g: ZZ32 = 0
+
+leave(): () = label done
+    atomic do
+      g := 7
+      exit done
+    end
+  end done
+
+run(): () = do
+  leave()
+  assert(g, 7, "writes within a block that an exit leaves are retained")
+end
+
+end

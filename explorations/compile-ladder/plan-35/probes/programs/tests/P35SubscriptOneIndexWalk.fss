@@ -1,0 +1,13 @@
+component P35SubscriptOneIndexWalk
+export Executable
+object M()
+  opr [i: ZZ32]: ZZ32 = 100 + i
+end
+run(): () = do
+  m = M()
+  x: ZZ32[7] = [1 2 3 4 5 6 7]
+  println("x[5]^2 = " (x[5])^2)
+  println("x[5]^2 written bare = " x[5]^2)
+  println("m[7]^2 = " m[7]^2)
+end
+end

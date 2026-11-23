@@ -1,0 +1,13 @@
+(* The logical equivalence of two booleans, written a EQV b or with the operator IDENTICAL TO, is true where they are equal. *)
+component BooleanEquivalenceWalk
+export Executable
+
+run(): () = do
+  t: Boolean = true
+  f: Boolean = false
+  assert(t ≡ t, true, "booleans.tex, opr EQV: true EQV true")
+  assert(t EQV f, false, "booleans.tex, opr EQV: true EQV false")
+  println("PASS")
+end
+
+end

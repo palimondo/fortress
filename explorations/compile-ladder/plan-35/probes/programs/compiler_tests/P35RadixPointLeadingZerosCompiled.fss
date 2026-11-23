@@ -1,0 +1,18 @@
+(* A numeral with a radix point counts its leading zeros among its digits: a coercion over its four numbers reads three digits for 00.5. *)
+component P35RadixPointLeadingZerosCompiled
+export Executable
+
+value object Digits(count: ZZ32)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Digits(bigToZZ64(n).asZZ32)
+end
+
+counted(d: Digits): ZZ32 = d.count
+
+run(): () = do
+  assert(counted(00.5), 3, "literals.tex, section \"Literals\": 00.5 has three digits")
+  assert(counted(0.5), 2, "0.5 has two digits")
+  println("PASS")
+end
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
+end

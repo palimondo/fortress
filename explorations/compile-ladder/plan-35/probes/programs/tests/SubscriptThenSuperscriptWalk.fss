@@ -1,0 +1,19 @@
+(* A subscript followed by a superscript applies the subscript with all its indices: x[i]^2 is (x[i])^2. *)
+component SubscriptThenSuperscriptWalk
+export Executable
+
+object M()
+  opr [i: ZZ32]: ZZ32 = 100 + i
+  opr [i: ZZ32, j: ZZ32]: ZZ32 = 1000 + 10 i + j
+end
+
+run(): () = do
+  m = M()
+  assert(m[3,7]^2, (m[3,7])^2, "two indices, then a superscript")
+  assert(m[7]^2, (m[7])^2, "one index, then a superscript")
+  x: ZZ32[7] = [1 2 3 4 5 6 7]
+  assert(x[5]^2, 36, "an array's element, then a superscript")
+  println("PASS")
+end
+
+end

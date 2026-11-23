@@ -1,0 +1,19 @@
+(* A plain declaration at an object type inside a generic one whose result is a tuple holding its type parameter, the plain result below that of every instance that applies, is a valid overloading that loads, and each call runs the declaration that fits it. *)
+component GenericBesidePlainTupleReturnWalk
+export Executable
+
+object Dot extends Number end
+
+pt[\T extends Number\](a: T): (T, ZZ32) = (a, 1)
+pt(a: Dot): (Dot, ZZ32) = (a, 2)
+
+run(): () = do
+    n: ZZ32 = 4
+    (d, k) = pt(Dot)
+    (m, j) = pt(n)
+    assert(k, 2, "a Dot takes the plain declaration")
+    assert(m, 4, "a ZZ32 takes the generic declaration at ZZ32")
+    assert(j, 1, "the generic declaration's second element")
+end
+
+end

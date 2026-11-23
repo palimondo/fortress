@@ -1,0 +1,4 @@
+tests=P35OverrideModifierCodeGeneration
+link
+run
+run_out_contains=f PASS

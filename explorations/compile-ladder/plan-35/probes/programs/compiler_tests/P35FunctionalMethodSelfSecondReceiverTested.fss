@@ -1,0 +1,22 @@
+(* An object's own functional method with the self parameter second, beside an inherited one over Any, runs only for an argument of its parameter type, and any other argument runs the inherited declaration (overloading.tex, section "Overloading Resolution"). *)
+component P35FunctionalMethodSelfSecondReceiverTested
+export Executable
+
+trait K end
+object Ko extends K end
+trait P
+    mark(x: Any, self): ZZ32 = 1
+end
+object Pq extends { K, P }
+    mark(x: K, self): ZZ32 = 3
+end
+
+run(): () = do
+    println("REACHED")
+    assert(mark(Ko, Pq), 3, "mark(Ko, Pq): the argument has the own declaration's parameter type")
+    assert(mark(1, Pq), 1, "mark(1, Pq): only the inherited declaration applies, though the receiver is a K")
+    assert(mark("s", Pq), 1, "mark of a string: only the inherited declaration applies")
+    println("PASS")
+  end
+
+end

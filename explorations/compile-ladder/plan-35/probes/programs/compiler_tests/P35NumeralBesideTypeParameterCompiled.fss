@@ -1,0 +1,13 @@
+(* A numeral at a call goes to the most specific declaration that takes it, also beside a declaration whose parameter is a type parameter without a bound. *)
+component P35NumeralBesideTypeParameterCompiled
+export Executable
+
+g[\T\](x: T): String = "generic"
+g(x: NN32): String = "nn32"
+
+run(): () = do
+  assert(g(5), "nn32", "conversions-coercions.tex, section \"Principles of Coercion\"")
+  println("PASS")
+end
+
+end

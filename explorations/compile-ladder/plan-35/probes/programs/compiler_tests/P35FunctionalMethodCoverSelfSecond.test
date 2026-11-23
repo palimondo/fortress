@@ -1,0 +1,4 @@
+tests=P35FunctionalMethodCoverSelfSecond
+link
+run
+run_out_contains=PASS

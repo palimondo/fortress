@@ -1,0 +1,27 @@
+(* An assignment from outside an object to its var field, of a value whose static type is a strict subtype of the field's type, runs compiled (bindings.tex, section "Assignments"). *)
+component P35VarFieldAssignedSubtypeRun
+export Executable
+
+trait T
+    getter d(): ZZ32
+end
+
+object Low extends T
+    getter d(): ZZ32 = 0
+end
+
+object High extends T
+    getter d(): ZZ32 = 2
+end
+
+object Cell(var t: T) end
+
+run(): () = do
+    c = Cell(Low)
+    println("REACHED")
+    c.t := High
+    assert(c.t.d, 2, "the field holds the assigned value")
+    println("PASS")
+  end
+
+end

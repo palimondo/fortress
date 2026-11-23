@@ -1,0 +1,4 @@
+tests=P35SubscriptThenSuperscriptCompiled
+link
+run
+run_out_contains=PASS

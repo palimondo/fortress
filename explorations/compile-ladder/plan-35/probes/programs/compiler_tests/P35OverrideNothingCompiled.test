@@ -1,0 +1,3 @@
+tests=P35OverrideNothingCompiled
+typecheck
+typecheck_err_contains=override
