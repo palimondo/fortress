@@ -14,7 +14,7 @@ One launch worked this rung. Commits on `wip/rung-radix-point-leading-zeros`: `7
 
 ```java
         // Delete every apostrophe and U+202F NARROW NO-BREAK SPACE
-        s = s.replace("'", "").replace(" ", "");
+        s = s.replace("'", "").replace("\u202F", "");
 
         int dotLoc = s.indexOf('.');
 ```
