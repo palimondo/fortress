@@ -39,4 +39,4 @@ Climb batch 35, rung S (self not first): the dispatch method of a trait's or an 
 
 ## Revival change
 
-Revival change: none. The change brings the compiled path to what the specification says and walk does: a functional method's parameter type holds self at its place (`Specification/basic/overloading.tex:175-181`), and a call runs the most specific declaration applicable to it at run time (`Specification/basic/overloading.tex:298-312`); walk runs each of the four test programs to 'PASS' on the base. The team's code generator read the receiver for the argument before self, a defect, not a rule of the language.
+Revival change: none. The change brings the compiled path to what the specification says and walk does: a functional method's parameter type holds self at its place (`Specification/basic/overloading.tex:177-180`), and a call runs the most specific declaration applicable to it at run time (`Specification/basic/overloading.tex:298-311`); walk runs each of the four test programs to 'PASS' on the base. The team's code generator read the receiver for the argument before self, a defect, not a rule of the language.

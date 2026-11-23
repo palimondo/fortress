@@ -1,7 +1,7 @@
 # Rung S: the dispatch method of a functional method whose self is not first
 
 - problem: on the compiled path, where an object overloads an inherited functional method by declarations of its own whose self is not first, a call dies with `ClassCastException` (row 573) or answers the object's declaration for every argument (row 1038), measured by the planner on the base: explorations/compile-ladder/plan-35/probes/fixes-35.md:40
-- spec: a functional method's parameter type holds self at its place, and a call runs the most specific declaration applicable to it at run time: Specification/basic/overloading.tex:175-181 and Specification/basic/overloading.tex:298-312
+- spec: a functional method's parameter type holds self at its place, and a call runs the most specific declaration applicable to it at run time: Specification/basic/overloading.tex:177-180 and Specification/basic/overloading.tex:298-311
 - precedent: the layout of a functional method's own locals, the receiver in local 0 and every parameter but self after it in order (`CodeGen.addParams`), which the dispatch method's descriptor already follows (`getSignature(selfIndex)`, OverloadSet.java:2565): ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:3369
 - deviation: none; the dispatch method of a dotted method, of a top-level function and of a functional method with self first keeps its bytecode (javap, section "Each program run old against new"): none
 - historical: ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java: ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:2504
@@ -81,7 +81,7 @@ The map gives the compiled path's dispatch to `OverloadSet`, which emits one dis
 
 ## What the specification settles
 
-A functional method declaration with self at place `i` has the parameter type `Ps` with self at its `i`th element (Specification/basic/overloading.tex:175-181), and a call dispatches to the declaration applicable to it at run time that no other applicable one is more specific than (Specification/basic/overloading.tex:298-312), more specific by the subtype relation on the whole parameter types (:353-358). So each argument is tested at its own place, whatever self's place. Walk runs each call so; the compiled path now does too.
+A functional method declaration with self at place `i` has the parameter type `Ps` with self at its `i`th element (Specification/basic/overloading.tex:177-180), and a call dispatches to the declaration applicable to it at run time that no other applicable one is more specific than (Specification/basic/overloading.tex:298-311), more specific by the subtype relation on the whole parameter types (:353-358). So each argument is tested at its own place, whatever self's place. Walk runs each call so; the compiled path now does too.
 
 ## Each program run old against new
 
