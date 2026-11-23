@@ -33,7 +33,7 @@ If you check a fix against its old code, use a base build at the commit that the
 
 A build, and a run of `bin/fortress` without a private caches folder, walk's too, write into the caches of the tree that they run in. So build and run only in a tree whose caches no other agent uses. Your brief says where you work. If your work builds or runs code and your brief gives you no tree of your own, seed a worktree of your own instead of building one. Then work only there.
 
-Seeding takes about 3 s and 206 MB of disk. The new worktree runs walk and the compiled path on the compiler's prelude right away, with the library already compiled.
+Seeding takes about 3 s and 206 MB of disk. The new worktree runs walk, and the compiled path on the compiler's prelude, right away, with their libraries already compiled. The script copies neither `ProjectFortress/build-one` nor `default_repository/caches-one`. So before a compiled run with `FORTRESS_LIBRARY=one`, run `ant compileAll`, then the library order, then fill `caches-one` (`build-and-caches.md`, "The caches").
 
     explorations/coordinator/tools/seed-worktree.sh <base-build> <new-worktree> <branch> [<start-point>]
 

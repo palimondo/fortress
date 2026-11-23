@@ -1607,3 +1607,12 @@ The other parts, from the landing's list of the skill's sentences that it made f
 - `interpreter.md`, walk's load check: the tuple result beside a plain declaration (ledger row 1058) and the generic dotted methods that differ in their number of parameters (ledger row 1057), deleted. Both fixed by `5c31f2b68`.
 - `compiler.md`, the calls that die with `NoSuchMethodError`: the functional method of a comprised object (ledger row 815) and the assignment to a `var` field of a value below its type (ledger row 1053), deleted. Both fixed by `08860c527`. The list's one remaining case, row 839, made a sentence.
 - `worktrees.md`, "Seeding a worktree": the seeded worktree runs the compiled path on the compiler's prelude; the sentence that `ant compileAll` keeps the seeded caches without the warning, deleted. F-404; `seed-worktree.sh` copies `ProjectFortress/build` and neither `build-one` nor `caches-one`; `build.xml:470`.
+
+## The cold read of climb batch 35b's skill changes, 2026-11-23
+
+Each fix settled by the writer from the cold read's flags.
+
+- `revival-changes.md`, "Dispatch and overloading", walk's choice: walk drops one of the two methods at load; a call then runs the other or stops outside its bound; the `tk` example. Ledger row 1125; `tests/XXXGenericMethodBoundsDifferWalk.fss`.
+- `interpreter.md`, the numeral type as a return type: walk refuses it where a numeral is bound at it, with its message; `never` loads, and its body returns no value. Ledger row 1124; `tests/NumeralTypeNoValueWalk.test`; `tests/XXXNumeralTypeReturnTypeWalk.fss`.
+- `compiler.md`, the read of an exported object's value parameter: the term defined first, then the condition, then the effect. Ledger row 839.
+- `worktrees.md`, "Seeding a worktree": walk and the prelude's compiled path run at once; the steps before a compiled run with `FORTRESS_LIBRARY=one`. F-404; `seed-worktree.sh`; `compiler.md`, "`ant compileAll` builds both"; `build-and-caches.md`, "The caches".
