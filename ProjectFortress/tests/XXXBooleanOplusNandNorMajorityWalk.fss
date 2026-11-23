@@ -1,0 +1,19 @@
+(* Two booleans take the specification's operators OPLUS, NAND and NOR and its function majority. *)
+component XXXBooleanOplusNandNorMajorityWalk
+export Executable
+
+run(): () = do
+  t: Boolean = true
+  f: Boolean = false
+  assert(t OPLUS f, true, "booleans.tex, trait Boolean, opr OPLUS: true OPLUS false")
+  assert(t OPLUS t, false, "booleans.tex, trait Boolean, opr OPLUS: true OPLUS true")
+  assert(t NAND t, false, "booleans.tex, trait Boolean, opr NAND: true NAND true")
+  assert(f NAND t, true, "booleans.tex, trait Boolean, opr NAND: false NAND true")
+  assert(f NOR f, true, "booleans.tex, trait Boolean, opr NOR: false NOR false")
+  assert(t NOR f, false, "booleans.tex, trait Boolean, opr NOR: true NOR false")
+  assert(majority(t, f, t), true, "booleans.tex, trait Boolean, majority: two of three true")
+  assert(majority(f, f, t), false, "booleans.tex, trait Boolean, majority: two of three false")
+  println("PASS")
+end
+
+end
