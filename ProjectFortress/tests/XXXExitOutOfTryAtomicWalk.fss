@@ -1,0 +1,19 @@
+(* An exit out of a tryatomic block to an enclosing label reaches the label and keeps the block's writes, as out of an atomic block. atomic.tex, section "Atomic Expressions". *)
+component XXXExitOutOfTryAtomicWalk
+export Executable
+
+var t: ZZ32 = 0
+
+leave(): () = label done
+    tryatomic do
+      t := 3
+      exit done
+    end
+  end done
+
+run(): () = do
+  leave()
+  assert(t, 3, "an exit out of a tryatomic block reaches its label and keeps the block's writes")
+end
+
+end
