@@ -1,4 +1,4 @@
-(* An object overloads a functional method it inherits, with the self parameter last, by two declarations of its own, one on the meet: each call runs its one applicable or most specific declaration. *)
+(* An object, or a trait, overloads a functional method it inherits, with the self parameter last, by two declarations of its own, one on the meet: each call runs its one applicable or most specific declaration. *)
 component FunctionalMethodOverloadSelfLast
 export Executable
 
@@ -16,9 +16,16 @@ object C extends A
     pick(n: N1, s: S0, self): String = "C0"
     pick(n: N1, s: S1, self): String = "C1"
 end
+trait D extends A
+    pick(n: N1, s: S0, self): String = "D0"
+    pick(n: N1, s: S1, self): String = "D1"
+end
+object Do extends D end
 
 run(): () = do
     println("REACHED")
+    assert(pick(N1o, S1o, Do), "D1", "the trait's declaration on the meet is the most specific applicable one (overloading.tex, section Overloading Resolution)")
+    assert(pick(N1o, S0o, Do), "D0", "the trait's one applicable declaration runs (overloading.tex, section Overloading Resolution)")
     assert(pick(N1o, S1o, C), "C1", "the declaration on the meet is the most specific applicable one (overloading.tex, section Overloading Resolution)")
     assert(pick(N1o, S0o, C), "C0", "the one applicable declaration runs (overloading.tex, section Overloading Resolution)")
     println("PASS")
