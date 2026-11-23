@@ -1557,3 +1557,13 @@ Each fix settled by the coordinator from the cold read's flags.
 - `revival-changes.md`, "Numbers", `/` on two integers: the repeat of the prelude's lack of `QQ` cut; `asFloat` named as the one library's. `CompilerBuiltin.fsi`, which declares no `asFloat` and `asRR64` only on `ZZ32` and `NN32`.
 - `compiler.md`, "Natives", and `tests-writing.md`, "Where a test goes": `one_library_tests/` holds any test whose program compiles against the one library, a binding's test among them, with a pointer to what the compiled path cannot compile yet. Flags 5 and 6.
 - `tests-running.md`, "The two suites": both suites given by their time, with no count. Flag 8.
+
+## Climb batch 35's landing, 2026-11-23
+
+The orientation update of climb batch 35, judged in `explorations/compile-ladder/climb-batch-35/orientation/judgement.md`. The opening, the `override` sentence of "Traits and objects" and "Numbers" were installed word for word. The cut of the `self` return list, the cut of the array `+` and `-` sentence and the cut of P-12's plan were held.
+
+- `revival-changes.md`, the opening: a departure that cites a FACTS entry in place of a row is treated as one that cites a row. `cold-read.md` item 3.
+- `revival-changes.md`, "`override` widens": walk and the checker both refuse an `override` that overrides nothing; the "Two departures" sentence is deleted; "under walk" added. F-400; ledger rows 650 and 653, fixed by `d56eb8a882` and `8dc97a08df`; `compiler_tests/XXXOverrideNothingCompiled`, `OverrideModifierCodeGeneration`, `OverrideBridgesCompiled`.
+- `revival-changes.md`, "The number types are flat siblings": "route A" cut, to keep the size. P-43's heading keeps the name. `cold-read.md` part 3, item 6.
+- `revival-changes.md`, "Numbers", the coercion paragraph: `Byte`'s body is `Byte(v)`; the four numbers are naturals of any size; the body invokes no method; each number converts where it stands, a `ZZ` only where nothing fixes a type; the departure of walk, the checker and the code generator, and `Byte(v.asZZ32)` under walk today; when each path computes the value. P-174, P-173 and P-40 as rewritten on 2026-11-23 (`be43ddc647`, `2af3ec103d`); P-176; F-341, F-342, F-347; `Library/FortressLibrary.fss:847`.
+- `revival-changes.md`, "`Number` declares nothing": the conversion into `RR64` is the getter `x.asRR64`; the one library's departure, `asFloat(self): RR64`; "for an `RR64` `y`". P-165 as rewritten on 2026-11-23 (`be43ddc647`); F-324; `Library/FortressLibrary.fsi:321` to `:727`.
