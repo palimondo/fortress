@@ -178,19 +178,17 @@ def read_values(landing):
 
     # PLAN's batch lines under "The phases", in its order: a line in the landed form is a landing; any other plans a batch
     lines = re.findall(r'^- \*\*Climb batch (\S+)\*\*, (.*)$', section(plan, r'The phases', 2), re.M)
-    landed = [(b, t, re.match(r'phase \d+\'s \w+ batch, landed \d{4}-\d{2}-\d{2} at `([0-9a-f]{7,40})`', t)) for b, t in lines]
+    landed = [(b, t, LANDED.match(t)) for b, t in lines]
     done = [(b, m.group(1)) for b, _, m in landed if m]
     if v['batch'] not in [b for b, _ in done]:
         stop('PLAN.md, "The phases": no line of climb batch %s in the landed form' % v['batch'])
     v['earlier'] = done[:[b for b, _ in done].index(v['batch'])]   # the landings before this one, for landings.csv
 
-    # the next batch: PLAN's one batch line not in the landed form; with none, the open queue item on the order of the work
-    planned = [(b, t) for b, t, m in landed if not m]
+    # the next batch: PLAN's one planned batch, whatever its subject; with none, P-33's order of the rest of the switch-over
+    planned = planned_batches(lines)
     if len(planned) > 1:
-        stop('PLAN.md, "The phases", plans %d batches (%s); the "Next" bullet has words for one' % (len(planned), ', '.join(b for b, _ in planned)))
-    v['next'] = planned[0][0] if planned else None
-    if planned and not ('natives' in planned[0][1] and 'code-generator' in planned[0][1]):
-        stop('PLAN.md\'s line for climb batch %s does not name the natives and the code generator; the "Next" bullet\'s words need a new form' % v['next'])
+        stop('PLAN.md, "The phases", plans %d batches (%s); the "Next" bullet has words for one' % (len(planned), ', '.join(p['batch'] for p in planned)))
+    v['next'] = planned[0] if planned else None
     if not planned:   # the order of the rest of the switch-over, from P-33's headline
         r = subprocess.run([FACTS_TOOL, 'P-33'], cwd=ROOT, capture_output=True, text=True)
         if r.returncode:
@@ -199,6 +197,44 @@ def read_values(landing):
         v['order'] = one(r'\band (the rest of the switch-over takes [^.]+ first)\.$', head, 'POSITIONS P-33, its headline\'s order of the switch-over').group(1)
     v['summary_rel'] = summary_rel
     return v
+
+
+# ---------------------------------------------------------------- the next batch
+
+LANDED = re.compile(r'phase \d+\'s \w+ batch, landed \d{4}-\d{2}-\d{2} at `([0-9a-f]{7,40})`')
+RUN_2 = re.compile(r'\bIts run 2 is climb batch (\S+?)[,.;]')
+
+
+def planned_batches(lines):
+    """The batches that PLAN's batch lines under "The phases" plan, in PLAN's order, whatever their subject: each line not in
+    the landed form, and each run 2 that a landed line names ("Its run 2 is climb batch 35b, ...") while no line of that
+    batch is in the landed form.  A batch planned both ways is one.  Each is a dict: its name, the batch whose second run it
+    is (or None), whether its own line records the curator's go, and where the script read it."""
+    done = {b for b, t in lines if LANDED.match(t)}
+    out = {}
+    for b, t in lines:
+        if not LANDED.match(t):
+            p = out.setdefault(b, {'batch': b, 'run_of': None, 'go': False})
+            p['go'] = bool(re.search(r'\bon his go\b', t))
+            p['source'] = 'its line not in the landed form'
+        for r2 in RUN_2.findall(t) if LANDED.match(t) else []:
+            if r2 not in done:
+                p = out.setdefault(r2, {'batch': r2, 'run_of': None, 'go': False, 'source': ''})
+                p['run_of'] = b
+                p['source'] = 'climb batch %s\'s line: "Its run 2 is climb batch %s"' % (b, r2)
+    return list(out.values())
+
+
+def next_text(v):
+    """The words of the bullet "Next": the planned batch, or, with none, P-33's order of the rest of the switch-over."""
+    p = v['next']
+    if not p:
+        return 'no batch is planned yet; by the curator\'s decision, %s.' % v['order']
+    if p['run_of']:
+        return 'batch %s, the second run of batch %s.' % (p['batch'], p['run_of'])
+    if p['go']:
+        return 'batch %s, which the curator has approved.' % p['batch']
+    return 'batch %s, once the curator approves it.' % p['batch']
 
 
 # ---------------------------------------------------------------- the block
@@ -213,8 +249,7 @@ def block(v):
         '%d of %d.' % (v['bindings'], v['bindings_of']),
         'the flat and the APL program pass the quick check.',
         'both programs stop at names that only the library declares, until the switch-over.',
-        'batch %s, more native bindings and the code generator\'s gaps, once the curator approves it.' % v['next'] if v['next']
-        else 'no batch is planned yet; by the curator\'s decision, %s.' % v['order'],
+        next_text(v),
     ]
     md = '\n'.join(['**%s**' % heading, ''] + ['- **%s:** %s' % (l, t) for l, t in zip(LABELS, texts)])
     e = lambda s: html.escape(s, quote=False)
@@ -398,7 +433,7 @@ def main():
     print('  distance         %d, %s (%s, DISTANCE; PLAN.md; phase 3\'s reading)' % (v['distance'], 'one open reading' if v.get('reading_open', True) else 'its one reading landed', v['summary_rel']))
     print('  native bindings  %d of %d (FACTS F-299, its headline sentence)' % (v['bindings'], v['bindings_of']))
     print('  microGPT walk    both quick checks pass (%s, # microgpt-walk)' % v['summary_rel'])
-    print('  next             %s' % ('batch %s (PLAN.md, "The phases", its one batch line not in the landed form)' % v['next'] if v['next']
+    print('  next             %s' % ('batch %s (PLAN.md, "The phases", %s)' % (v['next']['batch'], v['next']['source']) if v['next']
                                      else 'none planned (PLAN.md, "The phases"); %s (POSITIONS P-33, its headline)' % v['order']))
     print()
     print(BEGIN); print(md); print(END)

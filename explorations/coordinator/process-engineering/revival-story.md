@@ -14,6 +14,7 @@ The words below have one meaning on this page. Skim them if a term is new to you
 - **component**: File of Fortress code that implements apis.
 - **core**: Components of the library that every program loads.
 - **curator**: Person in charge of the revival.
+- **default**: Answer that agents propose to an open question, which lands unless the curator picks another.
 - **dispatch**: Run-time choice among overloads.
 - **distance**: Checker's errors on the core, with every stage run.
 - **exclude**: Relation of two types that no value has together.
@@ -25,6 +26,7 @@ The words below have one meaning on this page. Skim them if a term is new to you
 - **interpreter**: Team's implementation that runs programs without static types.
 - **library**: Interpreter's library.
 - **microGPT**: Karpathy's small GPT, in two Fortress programs.
+- **microGPT's slice**: Part of the switch-over that microGPT needs.
 - **native binding**: Library function whose body is Java code.
 - **phase**: One of the six parts of the curator's plan.
 - **quick check**: Short run of microGPT under the interpreter.
@@ -96,7 +98,7 @@ A native binding, the subject of much of phase 4, is a library function whose bo
 
 The agents work in batches. A batch is a set of tasks that agents carry out at the same time and land together. To land is to commit to `main` and push it.
 
-Batches are numbered in sequence. A letter or a decimal, as in 6b or 6.5, marks a batch added between two numbers. So a batch's number is not a count. Each batch has seven steps:
+Batches are numbered in sequence. A letter or a decimal, as in 6b or 6.5, marks a batch added between two numbers. Since batch 31 a batch can go in two runs, each landed on its own: the second takes the letter b, as in 35b, and starts from the tree that the first landed. So a batch's number is not a count. Each batch has seven steps:
 
 1. One agent drafts the batch: its tasks, their reasons, and the curator's questions with proposed defaults.
 2. The curator reads the draft and approves it.
@@ -117,11 +119,11 @@ Two numbers measure how far the checker is from the switch-over. Both count its 
 
 The measures matter because the compiler can start to use the library only once its checker finds no error in the core. The plan repairs the library's other components, outside both measures, before the first program that needs each one.
 
-A reading is one interpretation of a rule where the specification's text allows more than one. A measure's zero can depend on one reading. Then the curator decides whether that reading stands.
+A reading is one interpretation of a rule where the specification's text allows more than one. A measure's zero can depend on one reading. The agents then propose a default reading. Where the revival's principles settle the choice, it touches neither a decision of the curator nor microGPT, and it can be undone, the default lands and is recorded; any other choice goes to the curator.
 
 ## 4. Where it stands
 
-A script rewrites the block below at each landing, from the plan and the gate. The rest of the page changes only when a phase ends.
+A script rewrites the block below at each landing, from the plan and the gate. The rest of the page changes when a phase ends; it was last brought up to date on 23 November, at batch 35b.
 
 <!-- stand:begin -->
 **Where it stands, at the landing of batch 35b on 23 November 2026**
@@ -200,19 +202,25 @@ An array's index type is bounded by a trait `Index`, which ranges exclude, as th
 - The compile command bounds a type parameter without a written bound by `Any`, the type of every value. The Working Draft says `Object`, but the library uses its generic containers with tuples, which `Object` doesn't hold.
 - The distance covers the whole core, because `List`, a core component, compiles only with the components that it imports.
 
-The distance's zero holds under one reading, which the curator has still to decide. An object's value parameter is a field set by its constructor, and `var` makes it changeable. Under this reading, a component's object may add `var` to a value parameter that its api declares without it. Under the other reading, the distance finds one error.
+The distance's zero holds under one reading, which landed at its default (section 3). An object's value parameter is a field set by its constructor, and `var` makes it changeable. Under this reading, a component's object may add `var` to a value parameter that its api declares without it. Under the other reading, the distance finds one error.
 
-### Phase 4, from 30 October: before the switch-over, open
+### Phase 4, from 30 October: before the switch-over, 18 batches so far
 
 The curator set the phase's order: the native bindings first, then the switch-over. Work on the code generator goes on beside that order, since the compiler must then write bytecode for the library, not only check it.
 
-Each native binding named a Java class of the interpreter, which takes the interpreter's boxed values, and compiled code can't pass those. So each binding now names a static Java method over plain Java values, which both implementations call. Fortress has no foreign-function interface, so the binding keeps the library's own form: a call of `builtinPrimitive` with the method's name.
+Each native binding named a Java class of the interpreter, which takes the interpreter's boxed values, and compiled code can't pass those. So batches 23 to 28 moved the bindings to name a static Java method over plain Java values, which both implementations call. Fortress has no foreign-function interface, so the binding keeps the library's own form: a call of `builtinPrimitive` with the method's name. Of the library's 401 bindings, 373 now do. The other 28 belong to `Reflect`, the library's reflection, which has no compiled analogue and is off microGPT's path, so by the curator's decision they stay with the interpreter.
 
-The first batch of the phase built that form; later batches move the bindings group by group.
+Two decisions of the curator changed how both implementations treat numbers. The numerals were rebuilt as the Working Draft's numeral types (section 6). And each built-in number type, such as `ZZ32`, is now one value object, an object with fixed fields and no identity of its own; the interpreter's own number objects behind those types, such as `Int`, are gone. So compiled code can hold such a number as a bare JVM `int`, `long` or `double`.
+
+On 17 November the curator chose the order of the rest: microGPT's slice first. The compile command can now read the library instead of the compiler's own, chosen by a setting, so each obstacle that only the library shows is removed as one task with its own test, under the gate. Moving the compiler's tests and deleting its library come last. The code generator now compiles the whole core; since batch 34b every gate compiles it to bytecode, and a program compiled against it runs, so far one that prints a line.
+
+Since 23 November each batch also fixes, beside its main work, the defects that make the two implementations behave differently or depart from the specification. Batches 35 and 35b did only that.
+
+The plain Java version of microGPT, the yardstick of phase 6, is written. It passes the flat program's checks and takes about 0.1 ms a training step, on a model twice as wide as the first port's. microGPT itself doesn't compile yet: against the library the checker still finds errors in the flat program, most of them in the types of its arrays, which is phase 5's work.
 
 ## 6. The changes by area
 
-Section 5 tells the main changes with their reasons. This section adds the others, by area, at phase 3's close.
+Section 5 tells the main changes with their reasons. This section adds the others, by area, to batch 35b.
 
 ### Numbers
 
@@ -236,6 +244,8 @@ Three terms first. A functional method is a method with `self` among its paramet
 - The checker checks sizes, also sums and products in a size, because the team's arrays carry their sizes in their types.
 - A `comprises` clause speaks of values: every value of the closed trait is a value of a listed type. Some passages of the Working Draft read it as a statement about types, and are then false. The team's partial restart of the specification, begun in 2012, reads it by values, and the revival follows it.
 - A top-level `var` compiles, as some of the team's test programs need, and an `atomic` block, Fortress's transaction, covers it.
+- An exit out of an `atomic` block keeps the block's writes, in both implementations.
+- The modifier `override` compiles, and the checker refuses an `override` that overrides nothing.
 
 ### Left as the team had it
 

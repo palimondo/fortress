@@ -4,156 +4,192 @@
     python3 explorations/coordinator/process-engineering/record-growth/chart.py
 
 Three panels share one time axis (UTC, 2026): the gap ledger in characters, the gap
-ledger in rows, and FACTS, POSITIONS and INDEX in characters.  A thin vertical line at
-each batch's landing runs through all three, labelled at the top.  One axis per panel:
-no dual axes.  Colours are slots 1 to 3 of the dataviz skill's reference palette
-(validated all-pairs, light mode); the ledger takes neutral ink.
+ledger in rows, and the facts, the decisions and the index in characters (FACTS.md,
+POSITIONS.md and INDEX.md, named as the revival page names them).  A thin vertical line
+at each batch's landing runs through all three.  Everything that depends on the data is
+computed from it: each panel's y-axis runs from 0 to a little above its largest value,
+so no line leaves its panel; its ticks, its end labels and their spacing; and the one
+annotation of the first and the third panel, which names that panel's largest fall
+within two days, a rewrite, with its day and the values before and after.  One axis per
+panel: no dual axes.  The colours are slots 1 to 3 of the dataviz skill's reference
+palette (validated all-pairs in light mode on the page's white surface, the aqua below
+3:1 and so direct-labelled); the ledger takes neutral ink.  The type is sized for the
+page's phone column: the figure is 6 inches wide and its smallest text 14 pt, about
+1.8 times the earlier chart's 9 pt at 7.2 inches.
 """
 import csv, datetime as dt, os
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
+import matplotlib.ticker as mt
 from matplotlib.lines import Line2D
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SURFACE, INK, INK2, GRID = '#fcfcfb', '#0b0b0b', '#52514e', '#e3e2dc'
+SURFACE, INK, INK2, GRID, LANDING = '#ffffff', '#0b0b0b', '#52514e', '#e3e2dc', '#bdbcb4'
 BLUE, ORANGE, AQUA, NEUTRAL = '#2a78d6', '#eb6834', '#1baf7a', '#3d3c39'
+FS = 14                      # the smallest text, in points
+HEAD = 1.26                  # each y-axis runs to this times its largest value: room for the annotation above the data
+FALL = dt.timedelta(days=2)  # a fall is measured within this window
 
 S = list(csv.DictReader(open(os.path.join(HERE, 'series.csv'))))
 L = list(csv.DictReader(open(os.path.join(HERE, 'landings.csv'))))
 T = lambda s: dt.datetime.strptime(s[:19].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
 t = [T(r['utc']) for r in S]
-col = lambda k, f=1.0: [float(r[k]) * f for r in S]
-by_commit = {r['commit']: r for r in S}
+col = lambda k: [float(r[k]) for r in S]
 land = []
 for r in L:
     s = next(x for x in S if x['commit'] == r['landing_commit'][:9] or r['landing_commit'].startswith(x['commit']))
-    land.append((r['batch'], T(s['utc'])))
-SHORT = {'ladder climb': 'ladder', 'repair batch': 'repair'}
-label = lambda b: SHORT.get(b, b.replace('batch ', ''))
+    land.append(T(s['utc']))
 
-X0, X1 = dt.datetime(2026, 9, 8, 12), t[-1] + dt.timedelta(hours=6)
-plt.rcParams.update({'font.size': 10, 'axes.edgecolor': GRID, 'axes.labelcolor': INK2, 'xtick.color': INK2, 'ytick.color': INK2,
-                     'text.color': INK, 'figure.facecolor': SURFACE, 'axes.facecolor': SURFACE, 'savefig.facecolor': SURFACE})
-fig, allax = plt.subplots(4, 1, sharex=True, figsize=(7.2, 10.8), gridspec_kw={'height_ratios': [0.30, 1, 0.8, 1.15], 'hspace': 0.12})
-axL, ax1, ax2, ax3 = allax
-axes = allax[1:]
+# the time axis: from noon before the first day on which any of the four files exists, to six hours past the last commit
+first = next(i for i, r in enumerate(S) if any(float(r[k]) > 0 for k in ('ledger_chars', 'facts_chars', 'positions_chars', 'index_chars')))
+X0 = dt.datetime.combine(t[first].date(), dt.time()) - dt.timedelta(hours=12)
+X1 = t[-1] + dt.timedelta(hours=6)
 
 
-def step(ax, y, color, lw=2.0, wash=False, z=3):
+def chars(v):
+    """A count of characters as the page writes it: 541K, 1.25M."""
+    return '%.2fM' % (v / 1e6) if v >= 1e6 else '%dK' % round(v / 1e3)
+
+
+def tick_chars(v, _pos=None):
+    return '0' if v == 0 else ('%gM' % (v / 1e6) if v >= 1e6 else '%gK' % (v / 1e3))
+
+
+plt.rcParams.update({'font.family': ['Inter', 'DejaVu Sans', 'sans-serif'], 'font.size': FS,
+                     'axes.edgecolor': GRID, 'axes.labelcolor': INK2, 'xtick.color': INK2, 'ytick.color': INK2,
+                     'xtick.labelsize': FS, 'ytick.labelsize': FS, 'text.color': INK,
+                     'figure.facecolor': SURFACE, 'axes.facecolor': SURFACE, 'savefig.facecolor': SURFACE})
+fig, axes = plt.subplots(3, 1, sharex=True, figsize=(6.0, 8.8), gridspec_kw={'height_ratios': [1, 0.85, 1.15], 'hspace': 0.42})
+ax1, ax2, ax3 = axes
+fig.subplots_adjust(left=0.135, right=0.735, top=0.825, bottom=0.14)
+
+
+def step(ax, y, color, wash=False):
     x = t + [X1]; yy = y + [y[-1]]
-    ax.step(x, yy, where='post', color=color, lw=lw, solid_joinstyle='round', zorder=z)
+    ax.step(x, yy, where='post', color=color, lw=2.0, solid_joinstyle='round', zorder=3)
     if wash:
-        ax.fill_between(x, yy, step='post', color=color, alpha=0.10, lw=0, zorder=1)
+        ax.fill_between(x, yy, step='post', color=color, alpha=0.08, lw=0, zorder=1)
+    # the end dot under its line, so that a rise in the last hours still shows as the line's end
+    ax.plot([t[-1]], [y[-1]], 'o', ms=7, color=color, mec=SURFACE, mew=1.5, zorder=2.9, clip_on=False)
 
 
-def panel_title(ax, text):
-    ax.text(0.012, 0.97, text, transform=ax.transAxes, ha='left', va='top', fontsize=10.5, fontweight='bold', color=INK, zorder=8,
-            bbox=dict(fc=SURFACE, ec='none', pad=2.0))
+def frame(ax, title, top, fmt):
+    """The panel's title above it, its y-axis from 0 to HEAD times its largest value, and its ticks up to that value only,
+    so that the band above the data, where the annotation goes, has no gridline."""
+    ax.set_title(title, loc='left', fontsize=FS + 1, fontweight='bold', color=INK, pad=8)
+    ax.set_ylim(0, top * HEAD)
+    ticks = [v for v in mt.MaxNLocator(nbins=4, steps=[1, 2, 2.5, 5, 10]).tick_values(0, top) if 0 <= v <= top]
+    ax.yaxis.set_major_locator(mt.FixedLocator(ticks))
+    ax.yaxis.set_major_formatter(mt.FuncFormatter(fmt))
 
 
-def end_dot(ax, y, color):
-    ax.plot([t[-1]], [y], 'o', ms=6, color=color, mec=SURFACE, mew=2, zorder=6, clip_on=False)
+def end_labels(ax, items):
+    """Direct labels in the right margin at each line's end, (text, value), moved apart where two would touch."""
+    fig.canvas.draw()
+    to_px = ax.transData.transform
+    gap = (FS + 3) * fig.dpi / 72
+    ys = sorted(((to_px((md.date2num(t[-1]), v))[1], text) for text, v in items))
+    placed = []
+    for y, text in ys:   # from the lowest up: each at least one line above the one below it
+        placed.append([y if not placed else max(y, placed[-1][0] + gap), text, y])
+    over = placed[-1][0] - to_px((0, ax.get_ylim()[1]))[1]
+    if over > 0:         # the top label is above the panel: move the stack down, keeping the gaps
+        for p in placed:
+            p[0] -= over
+        for i in range(len(placed) - 2, -1, -1):
+            placed[i][0] = min(placed[i][0], placed[i + 1][0] - gap)
+    for y, text, y0 in placed:
+        ax.annotate(text, (md.date2num(t[-1]), ax.transData.inverted().transform((0, y0))[1]), textcoords='offset points',
+                    xytext=(14, (y - y0) * 72 / fig.dpi), ha='left', va='center', fontsize=FS, fontweight='bold', color=INK,
+                    annotation_clip=False)
 
 
-# panel 1: ledger characters
-y = col('ledger_chars', 1e-6)
+def largest_fall(y):
+    """The largest fall within FALL: (day of its largest step, the value before, the value after, the time and value at its top)."""
+    best = None
+    a = 0
+    for j in range(len(y)):
+        while t[a] < t[j] - FALL:
+            a += 1
+        i = max(range(a, j + 1), key=lambda i: y[i])
+        if best is None or y[i] - y[j] > best[0]:
+            best = (y[i] - y[j], i, j)
+    d, i, j = best
+    if d <= 0:
+        return None
+    k = max(range(i + 1, j + 1), key=lambda k: y[k - 1] - y[k])
+    return t[k], y[i], y[j], t[k], y[k - 1]
+
+
+def fall_note(ax, y, fmt):
+    """The panel's largest fall, in words, in the band above the data, with a leader to the top of the fall."""
+    f = largest_fall(y)
+    if not f:
+        return
+    day, before, after, x, top = f
+    ytext = max(y) * (1 + (HEAD - 1) * 0.55)
+    a = ax.annotate('rewrite of %s: %s to %s' % (day.strftime('%m-%d'), fmt(before), fmt(after)), (x, top), xytext=(x, ytext),
+                    textcoords='data', ha='center', va='center', fontsize=FS, color=INK2, zorder=8,
+                    bbox=dict(fc=SURFACE, ec='none', pad=1.0),
+                    arrowprops=dict(arrowstyle='-', color=INK2, lw=0.9, shrinkA=0, shrinkB=3))
+    # keep the text inside the panel's width
+    fig.canvas.draw()
+    bb, axb = a.get_window_extent(), ax.get_window_extent()
+    shift = max(0, axb.x0 - bb.x0) - max(0, bb.x1 - axb.x1)
+    if shift:
+        nx = ax.transData.inverted().transform((ax.transData.transform((md.date2num(x), ytext))[0] + shift, 0))[0]
+        a.set_position((md.num2date(nx).replace(tzinfo=None), ytext))
+
+
+# panel 1: the ledger's characters
+y = col('ledger_chars')
 step(ax1, y, NEUTRAL, wash=True)
-end_dot(ax1, y[-1], NEUTRAL)
-ax1.set_ylim(0, 1.6); ax1.set_yticks([0, 0.5, 1.0]); ax1.set_yticklabels(['0', '0.5M', '1.0M'])
-panel_title(ax1, 'Gap ledger, characters')
-ax1.annotate('%dK' % round(y[-1] * 1e3), (t[-1], y[-1]), textcoords='offset points', xytext=(-8, 8), ha='right', fontsize=10, color=INK, fontweight='bold')
-# the ledger's peak, and its rewrite of 10-08 (ae4f8e38a: rows cut to 1,200 characters, the earlier text moved to the history file)
-pkL = max(S, key=lambda r: float(r['ledger_chars']))
-ax1.annotate('peak %.2fM at batch 10 (10-03)' % (float(pkL['ledger_chars']) / 1e6), (T(pkL['utc']), float(pkL['ledger_chars']) / 1e6),
-             xytext=(dt.datetime(2026, 10, 12, 12), 1.40), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
-             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
-rw = by_commit['ae4f8e38a']
-ax1.annotate('10-08 rewrite: %.2fM to %dK,\nrows cut to 1,200 characters' % (float(by_commit['d4d3ac558']['ledger_chars']) / 1e6, round(float(rw['ledger_chars']) / 1e3)),
-             (T(rw['utc']), 0.9), xytext=(dt.datetime(2026, 10, 1, 12), 0.27), textcoords="data", ha="center", fontsize=9, color=INK2, zorder=8,
-             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
+frame(ax1, 'Gap ledger, characters', max(y), tick_chars)
+end_labels(ax1, [(chars(y[-1]), y[-1])])
+fall_note(ax1, y, chars)
 
-# panel 2: ledger rows
+# panel 2: the ledger's rows
 y = col('ledger_rows')
 step(ax2, y, NEUTRAL)
-end_dot(ax2, y[-1], NEUTRAL)
-ax2.set_ylim(0, 1000); ax2.set_yticks([0, 200, 400, 600, 800])
-panel_title(ax2, 'Gap ledger, rows')
-ax2.annotate('%d' % round(y[-1]), (t[-1], y[-1]), textcoords='offset points', xytext=(-8, 8), ha='right', fontsize=10, color=INK, fontweight='bold')
+frame(ax2, 'Gap ledger, rows', max(y), lambda v, _p=None: '{:,.0f}'.format(v))
+end_labels(ax2, [('{:,.0f}'.format(y[-1]), y[-1])])
 
-# panel 3: FACTS, POSITIONS, INDEX in K characters
-series = [('FACTS', 'facts_chars', BLUE), ('INDEX', 'index_chars', AQUA), ('POSITIONS', 'positions_chars', ORANGE)]
+# panel 3: the facts, the decisions and the index, in characters
+series = [('facts', 'facts_chars', BLUE), ('decisions', 'positions_chars', ORANGE), ('index', 'index_chars', AQUA)]
+ys = {k: col(k) for _, k, _ in series}
 for name, k, c in series:
-    y = col(k, 1e-3)
-    step(ax3, y, c)
-    end_dot(ax3, y[-1], c)
-ax3.set_ylim(0, 400); ax3.set_yticks([0, 100, 200, 300])
-ax3.set_yticklabels(['0', '100K', '200K', '300K'])
-panel_title(ax3, 'FACTS, INDEX and POSITIONS, characters')
-# direct labels just right of the end dots (leader-free; INDEX and FACTS end 19K apart, so each is moved off its value)
-ends = {'FACTS': float(S[-1]['facts_chars']) / 1e3, 'INDEX': float(S[-1]['index_chars']) / 1e3, 'POSITIONS': float(S[-1]['positions_chars']) / 1e3}
-lift = {'INDEX': 4, 'FACTS': -10, 'POSITIONS': -3}
-for name, k, c in series:
-    v = ends[name]
-    ax3.annotate('%s %dK' % (name, round(v)), (t[-1], v), textcoords='offset points', xytext=(8, lift.get(name, 0)), ha='left', va='center', fontsize=9.5, color=INK, fontweight='bold')
-# the three biggest events of FACTS, in words
-def point(commit, k):
-    r = by_commit[commit]; return T(r['utc']), float(r[k]) / 1e3
-pk = max(S, key=lambda r: float(r['facts_chars']))
-ax3.annotate('FACTS peak %dK\nat batch 7b (09-30)' % round(float(pk['facts_chars']) / 1e3), (T(pk['utc']), float(pk['facts_chars']) / 1e3),
-             xytext=(dt.datetime(2026, 9, 20, 12), 292), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
-             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
-d = by_commit['d4ddb06c4']
-ax3.annotate('-92K: rung entries\ncut to the fact (10-02)', (T(d['utc']), float(d['facts_chars']) / 1e3),
-             xytext=(dt.datetime(2026, 10, 24, 12), 352), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
-             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
-# the consolidation of 10-13: FACTS and POSITIONS together, from just before 55f1a1352 to the last commit
-# (the chunks 55f1a1352 to ab933086b, then the entries that moved to the skills, 1632b5dfa to b67abe3d2: one drop at this scale)
-i0 = next(i for i, r in enumerate(S) if r['commit'] == '55f1a1352')
-fp = lambda r: (float(r['facts_chars']) + float(r['positions_chars'])) / 1e3
-a, b = fp(S[i0 - 1]), fp(by_commit['b67abe3d2'])
-ax3.annotate('FACTS and POSITIONS\n%dK to %dK (10-13)' % (round(a), round(b)), (T(by_commit['9ef0b13a8']['utc']), 145),
-             xytext=(dt.datetime(2026, 10, 5, 6), 32), textcoords='data', ha='center', va='center', fontsize=9, color=INK2, zorder=8,
-             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2, relpos=(1, 0.5)))
-d = by_commit['93eda3889']
-ax3.annotate('-55K rewrite\n(09-20)', (T(d['utc']), float(d['facts_chars']) / 1e3), textcoords='offset points',
-             xytext=(-8, 52), ha='right', fontsize=9, color=INK2, zorder=8, bbox=dict(fc=SURFACE, ec='none', pad=1.5),
-             arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
+    step(ax3, ys[k], c)
+frame(ax3, 'Facts, decisions and index, characters', max(max(v) for v in ys.values()), tick_chars)
+end_labels(ax3, [('%s %s' % (name, chars(ys[k][-1])), ys[k][-1]) for name, k, _ in series])
+falls = {k: largest_fall(ys[k]) for _, k, _ in series}
+big = max((k for k in falls if falls[k]), key=lambda k: falls[k][1] - falls[k][2], default=None)
+if big:
+    fall_note(ax3, ys[big], chars)
 
-# batch landings: a hairline through all panels, a label above the first
+# the landings, the grid and the time axis
 for ax in axes:
     ax.set_xlim(X0, X1)
     ax.grid(True, axis='y', color=GRID, lw=1.0)
     ax.set_axisbelow(True)
     for s in ('top', 'right'):
         ax.spines[s].set_visible(False)
-    ax.tick_params(length=0)
-    for b, tm in land:
-        ax.axvline(tm, color='#9b9a92', lw=0.8, zorder=2)
-# labels: evenly spaced slots in the band above the first panel, a slanted leader to each true landing time
-axL.set_ylim(0, 1)
-axL.axis('off')
-slot0, slot1 = dt.datetime(2026, 9, 14, 12), X1 - dt.timedelta(hours=18)
-n = len(land)
-for i, (b, tm) in enumerate(land):
-    slot = slot0 + (slot1 - slot0) * i / (n - 1)
-    axL.text(slot, 0.50, label(b), rotation=90, ha='center', va='bottom', fontsize=8.5, color=INK, clip_on=False)
-    axL.plot([slot, tm], [0.46, 0.0], color='#9b9a92', lw=0.8, clip_on=False, zorder=2)
-
-ax3.xaxis.set_major_locator(md.DayLocator(interval=7))
+    ax.tick_params(length=0, pad=5)
+    for tm in land:
+        ax.axvline(tm, color=LANDING, lw=0.8, zorder=2)
+ax3.xaxis.set_major_locator(md.WeekdayLocator(byweekday=md.MO, interval=2))
 ax3.xaxis.set_major_formatter(md.DateFormatter('%m-%d'))
-plt.setp(ax3.get_xticklabels(), fontsize=9)
-ax3.set_xlabel('UTC date, 2026 (first-parent commits of main; nothing of the four existed before 09-08)', fontsize=9, color=INK2, labelpad=6)
+ax3.set_xlabel('Date in 2026, UTC', fontsize=FS, color=INK2, labelpad=8)
 
-fig.suptitle('Growth of the record, commit by commit, 09-08 to %s' % t[-1].strftime('%m-%d'), fontsize=13, fontweight='bold', x=0.02, ha='left', y=0.985)
-fig.text(0.02, 0.953, 'A vertical line is a climb batch\'s landing, named at the top ("ladder" is the eight-rung\nclimb, "repair" the repair batch). Each step is one commit on main.',
-         fontsize=9, color=INK2, ha='left', va='top', linespacing=1.4)
-fig.subplots_adjust(left=0.12, right=0.81, top=0.90, bottom=0.085)
-handles = [Line2D([], [], color=NEUTRAL, lw=2, label='gap ledger'), Line2D([], [], color=BLUE, lw=2, label='FACTS'),
-           Line2D([], [], color=ORANGE, lw=2, label='POSITIONS'), Line2D([], [], color=AQUA, lw=2, label='INDEX'),
-           Line2D([], [], color='#9b9a92', lw=1, label='a batch landing')]
-fig.legend(handles=handles, loc='lower center', ncol=5, frameon=False, fontsize=9, bbox_to_anchor=(0.5, 0.0), handlelength=1.6, columnspacing=1.2)
+fig.text(0.035, 0.985, 'Growth of the record, %s to %s' % (X0.strftime('%m-%d'), t[-1].strftime('%m-%d')),
+         fontsize=FS + 4, fontweight='bold', ha='left', va='top')
+fig.text(0.035, 0.946, 'Each step is one commit, and each vertical line\na batch\'s landing.',
+         fontsize=FS, color=INK2, ha='left', va='top', linespacing=1.35)
+handles = [Line2D([], [], color=c, lw=2.5, label=name) for name, _, c in series] + \
+          [Line2D([], [], color=LANDING, lw=1.2, label='a landing')]
+fig.legend(handles=handles, loc='lower left', ncol=4, frameon=False, fontsize=FS, bbox_to_anchor=(0.02, 0.003),
+           handlelength=1.2, handletextpad=0.5, columnspacing=1.0)
 out = os.path.join(HERE, 'record-growth.png')
 fig.savefig(out, dpi=300)
 print('wrote', out)

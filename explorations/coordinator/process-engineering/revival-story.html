@@ -82,7 +82,7 @@ details.words dl.gloss dd { margin-left: 1em; }
 
 <div class="page">
 <header class="masthead">
-<p class="eyebrow"><time datetime="2026-11-05">5 November 2026</time></p>
+<p class="eyebrow"><time datetime="2026-11-23">23 November 2026</time></p>
 <h1>Fortress: the revival so far</h1>
 </header>
 
@@ -99,6 +99,7 @@ details.words dl.gloss dd { margin-left: 1em; }
 <div><dt>component</dt><dd>File of Fortress code that implements apis.</dd></div>
 <div><dt>core</dt><dd>Components of the library that every program loads.</dd></div>
 <div><dt>curator</dt><dd>Person in charge of the revival.</dd></div>
+<div><dt>default</dt><dd>Answer that agents propose to an open question, which lands unless the curator picks another.</dd></div>
 <div><dt>dispatch</dt><dd>Run-time choice among overloads.</dd></div>
 <div><dt>distance</dt><dd>Checker's errors on the core, with every stage run.</dd></div>
 <div><dt>exclude</dt><dd>Relation of two types that no value has together.</dd></div>
@@ -110,6 +111,7 @@ details.words dl.gloss dd { margin-left: 1em; }
 <div><dt>interpreter</dt><dd>Team's implementation that runs programs without static types.</dd></div>
 <div><dt>library</dt><dd>Interpreter's library.</dd></div>
 <div><dt>microGPT</dt><dd>Karpathy's small GPT, in two Fortress programs.</dd></div>
+<div><dt>microGPT's slice</dt><dd>Part of the switch-over that microGPT needs.</dd></div>
 <div><dt>native binding</dt><dd>Library function whose body is Java code.</dd></div>
 <div><dt>phase</dt><dd>One of the six parts of the curator's plan.</dd></div>
 <div><dt>quick check</dt><dd>Short run of microGPT under the interpreter.</dd></div>
@@ -169,7 +171,7 @@ details.words dl.gloss dd { margin-left: 1em; }
 <p>A native binding, the subject of much of phase 4, is a library function whose body is Java code.</p>
 <h3>A batch</h3>
 <p>The agents work in batches. A batch is a set of tasks that agents carry out at the same time and land together. To land is to commit to <code>main</code> and push it.</p>
-<p>Batches are numbered in sequence. A letter or a decimal, as in 6b or 6.5, marks a batch added between two numbers. So a batch's number is not a count. Each batch has seven steps:</p>
+<p>Batches are numbered in sequence. A letter or a decimal, as in 6b or 6.5, marks a batch added between two numbers. Since batch 31 a batch can go in two runs, each landed on its own: the second takes the letter b, as in 35b, and starts from the tree that the first landed. So a batch's number is not a count. Each batch has seven steps:</p>
 <ol>
 <li>One agent drafts the batch: its tasks, their reasons, and the curator's questions with proposed defaults.</li>
 <li>The curator reads the draft and approves it.</li>
@@ -187,11 +189,11 @@ details.words dl.gloss dd { margin-left: 1em; }
 <li><strong>The distance</strong>, short for the distance to the switch-over, counts every error in the core, which it has covered whole since 30 October. It runs every stage, whatever the earlier stages found, so a repair can't raise it by uncovering errors. It began at 1.7K errors on 27 September.</li>
 </ul>
 <p>The measures matter because the compiler can start to use the library only once its checker finds no error in the core. The plan repairs the library's other components, outside both measures, before the first program that needs each one.</p>
-<p>A reading is one interpretation of a rule where the specification's text allows more than one. A measure's zero can depend on one reading. Then the curator decides whether that reading stands.</p>
+<p>A reading is one interpretation of a rule where the specification's text allows more than one. A measure's zero can depend on one reading. The agents then propose a default reading. Where the revival's principles settle the choice, it touches neither a decision of the curator nor microGPT, and it can be undone, the default lands and is recorded; any other choice goes to the curator.</p>
 </section>
 <section id="where-it-stands" class="part">
 <h2>4. Where it stands</h2>
-<p>A script rewrites the block below at each landing, from the plan and the gate. The rest of the page changes only when a phase ends.</p>
+<p>A script rewrites the block below at each landing, from the plan and the gate. The rest of the page changes when a phase ends; it was last brought up to date on 23 November, at batch 35b.</p>
 <div class="intro">
 <!-- stand:begin -->
 <p><strong>Where it stands, at the landing of batch 35b on 23 November 2026</strong></p>
@@ -252,15 +254,18 @@ details.words dl.gloss dd { margin-left: 1em; }
 <li>The compile command bounds a type parameter without a written bound by <code>Any</code>, the type of every value. The Working Draft says <code>Object</code>, but the library uses its generic containers with tuples, which <code>Object</code> doesn't hold.</li>
 <li>The distance covers the whole core, because <code>List</code>, a core component, compiles only with the components that it imports.</li>
 </ul>
-<p>The distance's zero holds under one reading, which the curator has still to decide. An object's value parameter is a field set by its constructor, and <code>var</code> makes it changeable. Under this reading, a component's object may add <code>var</code> to a value parameter that its api declares without it. Under the other reading, the distance finds one error.</p>
-<h3>Phase 4, from 30 October: before the switch-over, open</h3>
+<p>The distance's zero holds under one reading, which landed at its default (section 3). An object's value parameter is a field set by its constructor, and <code>var</code> makes it changeable. Under this reading, a component's object may add <code>var</code> to a value parameter that its api declares without it. Under the other reading, the distance finds one error.</p>
+<h3>Phase 4, from 30 October: before the switch-over, 18 batches so far</h3>
 <p>The curator set the phase's order: the native bindings first, then the switch-over. Work on the code generator goes on beside that order, since the compiler must then write bytecode for the library, not only check it.</p>
-<p>Each native binding named a Java class of the interpreter, which takes the interpreter's boxed values, and compiled code can't pass those. So each binding now names a static Java method over plain Java values, which both implementations call. Fortress has no foreign-function interface, so the binding keeps the library's own form: a call of <code>builtinPrimitive</code> with the method's name.</p>
-<p>The first batch of the phase built that form; later batches move the bindings group by group.</p>
+<p>Each native binding named a Java class of the interpreter, which takes the interpreter's boxed values, and compiled code can't pass those. So batches 23 to 28 moved the bindings to name a static Java method over plain Java values, which both implementations call. Fortress has no foreign-function interface, so the binding keeps the library's own form: a call of <code>builtinPrimitive</code> with the method's name. Of the library's 401 bindings, 373 now do. The other 28 belong to <code>Reflect</code>, the library's reflection, which has no compiled analogue and is off microGPT's path, so by the curator's decision they stay with the interpreter.</p>
+<p>Two decisions of the curator changed how both implementations treat numbers. The numerals were rebuilt as the Working Draft's numeral types (section 6). And each built-in number type, such as <code>ZZ32</code>, is now one value object, an object with fixed fields and no identity of its own; the interpreter's own number objects behind those types, such as <code>Int</code>, are gone. So compiled code can hold such a number as a bare JVM <code>int</code>, <code>long</code> or <code>double</code>.</p>
+<p>On 17 November the curator chose the order of the rest: microGPT's slice first. The compile command can now read the library instead of the compiler's own, chosen by a setting, so each obstacle that only the library shows is removed as one task with its own test, under the gate. Moving the compiler's tests and deleting its library come last. The code generator now compiles the whole core; since batch 34b every gate compiles it to bytecode, and a program compiled against it runs, so far one that prints a line.</p>
+<p>Since 23 November each batch also fixes, beside its main work, the defects that make the two implementations behave differently or depart from the specification. Batches 35 and 35b did only that.</p>
+<p>The plain Java version of microGPT, the yardstick of phase 6, is written. It passes the flat program's checks and takes about 0.1 ms a training step, on a model twice as wide as the first port's. microGPT itself doesn't compile yet: against the library the checker still finds errors in the flat program, most of them in the types of its arrays, which is phase 5's work.</p>
 </section>
 <section id="the-changes-by-area" class="part">
 <h2>6. The changes by area</h2>
-<p>Section 5 tells the main changes with their reasons. This section adds the others, by area, at phase 3's close.</p>
+<p>Section 5 tells the main changes with their reasons. This section adds the others, by area, to batch 35b.</p>
 <h3>Numbers</h3>
 <ul>
 <li><code>SUM</code> and <code>PROD</code> are each one generic declaration over the operators of the element type. The team's <code>SUM</code> relied on operators that <code>Number</code> declared for any two numbers, and the sibling number types have none.</li>
@@ -282,6 +287,8 @@ details.words dl.gloss dd { margin-left: 1em; }
 <li>The checker checks sizes, also sums and products in a size, because the team's arrays carry their sizes in their types.</li>
 <li>A <code>comprises</code> clause speaks of values: every value of the closed trait is a value of a listed type. Some passages of the Working Draft read it as a statement about types, and are then false. The team's partial restart of the specification, begun in 2012, reads it by values, and the revival follows it.</li>
 <li>A top-level <code>var</code> compiles, as some of the team's test programs need, and an <code>atomic</code> block, Fortress's transaction, covers it.</li>
+<li>An exit out of an <code>atomic</code> block keeps the block's writes, in both implementations.</li>
+<li>The modifier <code>override</code> compiles, and the checker refuses an <code>override</code> that overrides nothing.</li>
 </ul>
 <h3>Left as the team had it</h3>
 <ul>
@@ -295,7 +302,7 @@ details.words dl.gloss dd { margin-left: 1em; }
 <section id="the-record" class="part">
 <h2>7. The record</h2>
 <p>The record is the project's notes, kept in the repository beside the team's code. Its main parts are the gap ledger (section 5), the list of facts, the list of the curator's decisions, and an index of all notes. An agent reads the parts its task needs before it starts, so no agent works out again what the record holds.</p>
-<figure><img src="record-growth.png" alt="The gap ledger&#x27;s characters and rows, and FACTS, POSITIONS and INDEX, commit by commit from 09-08 to 11-23, with each batch&#x27;s landing marked" width="1080" height="1620"></figure>
+<figure><img src="record-growth.png" alt="The gap ledger&#x27;s characters and rows, and the sizes of the facts, the decisions and the index, commit by commit from 09-08 to 11-23, with each batch&#x27;s landing marked" width="900" height="1320"></figure>
 <p>The chart has three panels on one time axis, with a vertical line at each batch's landing. They show the ledger's characters, its rows, and the sizes of the facts, the decisions and the index. The ledger grows mostly while batches run, and the index by one line for each new note. Each sharp fall is a rewrite that shortened the entries, with the earlier text kept in history.</p>
 </section>
 <footer>
