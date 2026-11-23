@@ -2790,6 +2790,8 @@ opr NOT(a:Boolean):Boolean
 opr ->(a: Boolean, b:Boolean):Boolean
 opr ->(a: Boolean, b:()->Boolean):Boolean
 opr <->(a: Boolean, b:Boolean):Boolean
+opr EQV(a: Boolean, b:Boolean):Boolean
+opr NEQV(a: Boolean, b:Boolean):Boolean
 
 (*)true : Boolean
 (*)false : Boolean

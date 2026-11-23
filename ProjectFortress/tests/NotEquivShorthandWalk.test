@@ -1,0 +1,2 @@
+# Walk refuses at load the shorthand NOTEQUIV between two booleans, an operator that no declaration defines.
+load_exception_contains=Operator NOTEQUIV is not defined.

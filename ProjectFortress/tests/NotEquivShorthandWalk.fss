@@ -1,0 +1,11 @@
+(* The overview's ASCII shorthand NOTEQUIV for NOT IDENTICAL TO, which the operators appendix does not list, is an operator that no declaration defines, so walk refuses it at load. *)
+component NotEquivShorthandWalk
+export Executable
+
+differ(a: Boolean, b: Boolean): Boolean = a NOTEQUIV b
+
+run(): () = do
+  println("loaded")
+end
+
+end

@@ -9660,3 +9660,11 @@ pointers to F-360 rewritten to F-379 in: F-361
 ### F-402
 
 2026-11-23 17:36Z · added · from `explorations/coordinator/process-engineering/queue-triage-2026-11-23.md`, "FACTS" · from `explorations/coordinator/CLIMB-BATCH-29.md`, "The three points with no default on record" · by a record worker of the coordinator (Opus): queue item 447 left the review queue at the triage of 2026-11-23 as not consequential; no entry stated the default that climb batch 29 landed (fork F4)
+
+### F-403
+
+2026-11-23 20:03Z · added · from `explorations/compile-ladder/rung-boolean-equivalence/REPORT.md`, "What changed and why" · by climb batch 35b gather
+
+### F-404
+
+2026-11-23 20:03Z · added · from `explorations/compile-ladder/rung-boolean-equivalence/REPORT.md`, "Defects, and their homes" · by climb batch 35b gather

@@ -1,0 +1,11 @@
+(* An operator that the parser reads as a link of a chain, APPROX here, and that no declaration defines, is a name not in scope, a static error, so walk refuses the program at load (declarations.tex, section "Reach and Scope of Declarations"). *)
+component XXXUndeclaredChainOperatorWalk
+export Executable
+
+closeTo(x: ZZ32, y: ZZ32): Boolean = x APPROX y
+
+run(): () = do
+  println("loaded")
+end
+
+end

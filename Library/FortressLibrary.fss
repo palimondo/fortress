@@ -4920,6 +4920,8 @@ opr NOT(a:Boolean):Boolean = if a then false else true end
 opr ->(a: Boolean, b:Boolean):Boolean = if a then b else true end
 opr ->(a: Boolean, b:()->Boolean):Boolean = if a then b() else true end
 opr <->(a: Boolean, b:Boolean):Boolean = a=b
+opr EQV(a: Boolean, b:Boolean):Boolean = if a then b else NOT b end
+opr NEQV(a: Boolean, b:Boolean):Boolean = NOT (a EQV b)
 
 (*)true : Boolean = () SEQV ()
 (*)false : Boolean = true SEQV ()
