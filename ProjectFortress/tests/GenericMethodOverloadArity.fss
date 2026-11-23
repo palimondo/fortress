@@ -1,5 +1,5 @@
 (* Two generic dotted methods of one name and one static parameter, of two and three parameters, each run where the call's arguments fit it (overloading.tex, section "Applicability to Dotted Method Calls"). *)
-component XXXGenericMethodOverloadArity
+component GenericMethodOverloadArity
 export Executable
 
 object Two

@@ -1,5 +1,5 @@
 (* A plain declaration at an object type inside a generic one whose result is a tuple holding its type parameter, the plain result below that of every instance that applies, is a valid overloading that loads, and each call runs the declaration that fits it. *)
-component XXXGenericBesidePlainTupleReturnWalk
+component GenericBesidePlainTupleReturnWalk
 export Executable
 
 object Dot extends Number end
