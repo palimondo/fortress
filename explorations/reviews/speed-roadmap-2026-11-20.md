@@ -36,6 +36,7 @@ Speeds are against the Java baseline: 0.1 ms a step, batch 1, one thread, `doubl
 14. The width, Q37 fork 4: at least 15 model lines and the vocabulary to `RR32`, with new goldens, the checks' reference results. With it, P-9: the APL program moves too, or P-9 bends.
 15. New: JDK 25 through stage 5; Valhalla after JDK 28's release.
 16. Memory reuse, only if measured.
+17. New, his question of 2026-11-22: how a program's own value type maps onto a JVM primitive, such as a `Byte` stored in Java's `byte`, or a `Float16` like the Vector API's. P-84 stores the built-in number types' arrays unboxed; nothing maps a program's own type, and the specification does not speak to the run time. No stage needs it before stage 6.
 
 **Left out, and why.**
 
@@ -50,7 +51,7 @@ Speeds are against the Java baseline: 0.1 ms a step, batch 1, one thread, `doubl
 
 1. Opening, before stage 1: F-355; P-33, PLAN.md:110; F-356; F-11.
 2. Stages 1 to 6 and M: F-356; JB §5, P-58; JB §5; C §6 S2, JB §6; AW §6, C §3; C §4 S1, C §1 S5; M2.
-3. Decisions: 1, P-85, Q320; 2, P-169; 3, P-7; 4, P-85; 5, PLAN phase 6, item 2; 6, P-175; 9, P-58; 12, C4P §4; 13, P-87; 14, AW §6, P-9; 15, C §4.
+3. Decisions: 1, P-85, Q320; 2, P-169; 3, P-7; 4, P-85; 5, PLAN phase 6, item 2; 6, P-175; 9, P-58; 12, C4P §4; 13, P-87; 14, AW §6, P-9; 15, C §4; 17, P-84, his comment on the page of `fortress-repo` changes, 07:19 UTC on 2026-11-22.
 4. Left out: C §10 S1, C §5 S2; C §3; C §9 S1, S4 to S6, S9; PF §6; M8.
 
 ## 2. Short names
