@@ -1,6 +1,7 @@
 <!-- The record of climb batch 35, in two runs (climb batch 35 and climb batch 35b), for the coordinating session, the curator and the batch's workers: the housekeeping batch of P-180, the low-hanging fruit of the inventory of the fortress-repo skill's workaround passages, each fix closing its ledger row, test first, chosen where walk and the compiled path behave differently or depart from the specification. Run 1, five rungs: a numeral with a radix point keeps its leading zeros in its digit count (R, row 960); walk's subscript before a superscript and its top-level tuple binding run once (W, rows 1 and 1026); the compiled dispatch method of a functional method whose self is not first (S, rows 573 and 1038); the modifier override compiled and checked (O, rows 650 and 653); an exit out of an atomic block keeps its writes on both paths (A, row 1039). Run 2, three rungs on run 1's landed tree: the logical equivalence of two booleans in the one library (E, row 184); three departures of walk's load check and dispatch (L, rows 1057, 1058 and 981); two run-time failures of compiled calls that the checker accepts (M, rows 1053 and 815). -->
 <!-- History. Drafted 2026-11-23 by the planning worker of climb batch 35, on Opus, against `main` with the code of `295c215c2c`, the base build `/home/user/fortress-base42` (`git diff --stat 295c215c2c HEAD -- . ':!explorations' ':!docs' ':!.claude'` prints nothing on `414a1aef42`). -->
 <!-- Checked 2026-11-23 before the launch by a fresh reader on Fable, its changes in place (`coordinator/climb-batch-35-review.md`, section A): rung W's test gains the second half of row 1, a subscript after a subscript; section 2 gains three definitions, rung S's program whole, rung O's message and forks O1 and A1 with their other ways; run 2's fixed roles are 1.1 million. -->
+<!-- Read again 2026-11-23 before run 2's launch, against run 1's landed tree `0a83a70498` (the base build `/home/user/fortress-base43`), by a fresh reader on Opus, its changes in place, as the post-batch review of run 1 asked (`reviews/batch-35-review.md`, Part 5 and "The steps due before run 2"): rung L's Appendix I lines and the P-174 sentence that its landing makes false; rung M's `castToTypeBelow` line, its expected failures as the promoted tests print them, the call on `self` of row 815 and its `ant testOneLibrary`; rung E's expected failure in the one library and its program over `AplCore`; the record-landing's list and run 2's skill passages at their lines on `main` (`3bd9664540`); run 1's cost and today's disk. Each rung's failing programs ran once on the base, in a worktree seeded from the base build and removed after, and failed as their sections say. -->
 <!-- **The go.** The curator's go, dictated at 08:4x UTC on 2026-11-23: "Clean up row and workarounds the skill teaches. Fix low hanging fruit!", with the Fable review of this record given in advance. The batch launches after that review. A fix that needs a decision of his stays out of the batch. -->
 <!-- Sources: the planner's brief (`<scratchpad>/batch35/planner-35-brief.md`); POSITIONS P-180 with its history, P-174, P-37, P-148, P-12; FACTS F-53, F-88, F-257, F-292, F-315, F-341, F-363, F-369, F-372, F-373, F-374, F-375, F-377, F-387; the inventory `compile-ladder/plan-35/probes/skill-workarounds.md` (`161b673e65`), whole; `reviews/batch-34-review.md` and `reviews/batch-34b-review.md`, section 6 and Part 5; review-queue items 44, 73, 401, 461, 462, 473, 502, 503, 540, 557, 558, 559, 561, 562, 564, 576, 585, 592, 598; the ledger rows named in section 1; the `coordinator` skill's `references/batch.md`, "The go" and "The workflow"; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; `CLIMB-BATCH-34.md` for the form; the code at the sites. -->
 <!-- The planner's probes: `compile-ladder/plan-35/probes/fixes-35.md`, with its programs in `programs/` beside it, run in a worktree of the planner's own, `/home/user/fortress-p35`, seeded from the base build and removed after. Every defect that a rung takes was reproduced there on the base, walk and compiled, through the harness; two marked hacks sized rungs O and E. No gate stage, no whole suite and no timing ran. -->
@@ -154,6 +155,7 @@ Fields common to the eight rungs:
 - **points to report:**
   - The declarations as written, and their place.
   - The tests, each failing on the base and passing after; row 184's own program, two objects compared, after your change.
+  - The program over AplCore on your final tree, against its output on the base.
   - Row 184 as rewritten.
   - The onelibrary track, and the two stages' tables on your final tree against the comparand.
   - A file edited beyond those named.
@@ -178,6 +180,7 @@ Fields common to the eight rungs:
   - The three expected failures promoted, each failing on the base and passing after.
   - Walk's suite: every test that failed after your change, with its cause; a line of the library that walk now refuses at load.
   - Each sentence of the specification that your change makes false, before and after.
+  - P-174's sentence on row 981 that your change makes false, quoted, for the record-landing.
   - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
 - **briefing** (11 keys, 7 checks):
   - ledger:1057 (check): the dotted methods of two arities, which closes.
@@ -196,10 +199,11 @@ Fields common to the eight rungs:
 - **slug:** `rung-compiled-missing-methods`
 - **worktree:** `/home/user/fortress-compiled-missing-methods`
 - **section:** `M. Two compiled calls that the checker accepts and that die at run time: a var field assigned a narrower value, and a functional method of a comprised object (rows 1053 and 815)`
-- **blurb:** two compiled calls link clean and die with NoSuchMethodError where walk runs them: an assignment from outside an object to its var field of a value of a strict subtype, whose setter call names the value's type in place of the field's (row 1053); a functional method of an object that a trait's comprises clause lists, called on a value typed as the object, whose overload method the component's class does not hold (row 815). The rung makes each call name a method that the class holds.
+- **blurb:** two compiled calls link clean and die with NoSuchMethodError where walk runs them: an assignment from outside an object to its var field of a value of a strict subtype, whose setter call names the value's type in place of the field's (row 1053); a functional method of an object that a trait's comprises clause lists, called on a value typed as the object, whose overload method the component's class does not hold (row 815), and since run 1's gate repair also called on self inside the trait. The rung makes each call name a method that the class holds.
 - **points to report:**
   - Each fix as made, by file and member, and where row 815's overload method is now written.
-  - The two expected failures promoted, and row 1053's second form, each failing on the base and passing after.
+  - The two expected failures promoted, row 1053's second form and row 815's call on self, each failing on the base and passing after.
+  - The onelibrary track, ant testOneLibrary, on your final code.
   - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
 - **briefing** (10 keys, 6 checks):
   - ledger:1053 (check): the setter call, which closes.
@@ -350,7 +354,7 @@ Each program is shortened to the lines that matter.
 
 - What it changes: the code generator.
 - `c.t := High`, assigning a value of a narrower type to an object's `var` field from outside: compiled, it links and dies with 'NoSuchMethodError'. After: it runs.
-- `num(R)`, a method declared in a trait and defined in an object that the trait lists: the same crash today. After: it runs. The one library met this once, at `denominator` of a fraction.
+- `num(R)`, a method declared in a trait and defined in an object that the trait lists: the same crash today. After: it runs. The one library met this once, at `denominator` of a fraction. Since run 1's repair at the gate, a call of such a method on `self` inside the trait crashes the same way, as `width(self)` in a trait `Solid` that lists `Brick`; after, it runs too.
 
 ### The merge
 
@@ -363,7 +367,7 @@ Each program is shortened to the lines that matter.
 - **microGPT:** no line changes. Its quick checks under walk stay 7 of 7 for both programs. Rung W makes its top-level constants run once; rung E's operator was tried with the quick checks beside it, 7 of 7.
 - **Rows closed:** run 1 closes 8 (960, 1, 1026, 573, 1038, 650, 653, 1039), run 2 closes 6 (184, 1057, 1058, 981, 1053, 815).
 - **The skill:** 13 workaround passages go or are rewritten (section 6, the list for the skill writer).
-- **Which suites each rung's fix touches:** R both walk's and the compiled ones; W, A and L walk's; S, O and M the compiled ones, O with the checker's; E the one library's. The gate runs them all.
+- **Which suites each rung's fix touches:** R both walk's and the compiled ones; W, A and L walk's; S, O and M the compiled ones, O with the checker's, M with the one library's; E the one library's. The gate runs them all.
 
 ### What the batch leaves out
 
@@ -410,7 +414,8 @@ The agents run on the regular tiers (`tier-mode.sh status` prints `regular`).
   - The reserve: run 1 of 34 spent 0.16 million of its 0.8; run 2 none of its 0.6.
   - The minutes: run 1 of 34's workers took 34 to 58 minutes and its skeptics 13 to 32; its rung stage 2 hours 57 for five rungs, a machine restart among them; the gather 55 minutes; the review 21 beside the gate's 29; the commit stage 3½. Run 2 of 34: the gather 41, the review 12 beside the gate's 30.
   - A restart of the machine is left outside the estimate; run 1 of 34's cost about 0.43 million.
-- **The disk.** The script stops a run under 1.5 GiB a rung plus 4 GiB. Run 1 needs 11.5 GiB, run 2 8.5 GiB. Free on 23 November before the planner's probe: 11.99 GiB (`df -P /home/user`, 12,573,244 blocks of 1,024 bytes available), so run 1's margin is about half a gigabyte. If the free space is under 11.5 GiB at the launch, free disk by the `cloud-container` skill, or move rung A to run 2, which then holds four rungs, 10 GiB.
+- **Run 2 after run 1** (`reviews/batch-35-review.md`, section 7). Run 1 wrote 5.69 million: its five rungs with their skeptics 3.20 against 3.3, its fixed roles 1.19 against 1.2, its reserve 1.31 against 0.8, of which the red gate's ruling, repair and second gate 0.79. So run 2's rungs and fixed roles stand as priced. Its reserve, 0.6 million, holds no red gate of that size, and E and M are the rungs that can move the identity-hash order again (the review's Part 5 and process finding 4). M's section now also asks for row 815's call on `self` and for `ant testOneLibrary` at its end, about 200 seconds of the machine; its price is left at 0.75 million, inside the range.
+- **The disk.** The script stops a run under 1.5 GiB a rung plus 4 GiB. Run 1 needs 11.5 GiB, run 2 8.5 GiB. Free on 23 November before the planner's probe: 11.99 GiB (`df -P /home/user`, 12,573,244 blocks of 1,024 bytes available), so run 1's margin is about half a gigabyte. If the free space is under 11.5 GiB at the launch, free disk by the `cloud-container` skill, or move rung A to run 2, which then holds four rungs, 10 GiB. Before run 2, with its base build in place: 12.94 GiB free at 17:46 UTC on 23 November (13,564,228 blocks), against its 8.5 GiB.
 
 ### Your review list from this record
 
@@ -459,7 +464,7 @@ Each fork below builds within a decision on record or chooses where the record l
 
 ## 4. The rungs
 
-Each rung's section is its worker's brief. The briefing keys of section 1 give the decisions, rows and code that the rung rests on. A line citation is of `main`'s code, `295c215c2c`. The record's forks are section 3's. The planner's probe programs are in `explorations/compile-ladder/plan-35/probes/programs/`, its notes in `fixes-35.md` beside them (PRB); a test is written new in the test folders, and no file is moved from there. Run 2's sections are read again on run 1's landed tree before its launch.
+Each rung's section is its worker's brief. The briefing keys of section 1 give the decisions, rows and code that the rung rests on. A line citation is of `main`'s code: in run 1's sections `295c215c2c`, in run 2's `0a83a70498`, run 1's landing. The record's forks are section 3's. The planner's probe programs are in `explorations/compile-ladder/plan-35/probes/programs/`, its notes in `fixes-35.md` beside them (PRB); a test is written new in the test folders, and no file is moved from there. Run 2's sections are read again on run 1's landed tree before its launch.
 
 ### R. A numeral with a radix point keeps its leading zeros in its digit count, on both paths (row 960)
 
@@ -595,8 +600,8 @@ You compile the modifier, the class holding what the checker reads as provided, 
 **The decisions this rung builds.** P-37: the prelude gains no declaration. Section 3's fork E1.
 
 **What you build, in order.**
-1. **The tests first.** `tests/BooleanEquivalenceWalk.fss`, from `plan-35/probes/programs/tests/BooleanEquivalenceWalk.fss`, with cases for `NEQV`. Seen failing on the base through `harness-one.sh`: 'InterpreterBug: ... ** bug! Expect all oprefs to be top level EQV' (PRB section 1). A compile test in `one_library_tests/` that the checker accepts `t EQV f` and `t NEQV f` for two booleans; see it fail on the base before the library's edit. A run test there would meet rows 994 and 1098 (`=` and `println` of booleans), so write none.
-2. **The library** (fork E1), beside `<->` in `FortressLibrary.fsi` and `.fss`. The tests pass. Run row 184's own program once, `a EQV b` for two objects of a program's `object Pt(x: ZZ32)`: with the planner's trial it stopped with 'Unification error: Closure/Constructor for EQV param 1 (a:Boolean) got arg Pt of type Pt' (PRB section 4). Report what it gives.
+1. **The tests first.** `tests/BooleanEquivalenceWalk.fss`, from `plan-35/probes/programs/tests/BooleanEquivalenceWalk.fss`, with cases for `NEQV`. Seen failing on the base through `harness-one.sh`: 'InterpreterBug: ... ** bug! Expect all oprefs to be top level EQV' (PRB section 1). A compile test in `one_library_tests/` that the checker accepts `t EQV f` and `t NEQV f` for two booleans; see it fail on the base before the library's edit. On the base, through `junit.sh` with `FORTRESS_LIBRARY=one` and `OneLibraryComponents.test` named first, a program that binds the two failed its compile with 'Operator EQV is not defined.' and 'Operator NEQV is not defined.' (run on `0a83a70498` before the launch). A run test there would meet rows 994 and 1098 (`=` and `println` of booleans), so write none.
+2. **The library** (fork E1), beside `<->` in `FortressLibrary.fsi` and `.fss`. The tests pass. Run row 184's own program once, `a EQV b` for two objects of a program's `object Pt(x: ZZ32)`: with the planner's trial it stopped with 'Unification error: Closure/Constructor for EQV param 1 (a:Boolean) got arg Pt of type Pt' (PRB section 4). Report what it gives. Then run once, on your final tree, a program of your own in your tree's `tmp/` that imports `AplCore.{...}`, whose `explorations/apl/base/AplCore.fss:226` declares a prefix `NEQV` (the glyph U+2262) beside the infix one that you add, with `FORTRESS_SOURCE_PATH` as `explorations/apl/rung-1/Rung1.fss:9-11` gives it. It prints AplCore's prefix `NEQV` of the `RR64` 3.0, its `EQV` of 3.0 with 3.0 and of 3.0 with 4.0, written with the glyphs, and `t EQV f` and `t NEQV f` of two booleans. On the base such a program, without the booleans' two, printed '1.0', '1.0' and '0.0' (run before the launch). Report its output. No APL rung program serves: `explorations/apl/rung-1/Rung1.fss`, which applies both glyphs, stops on the base at its first APL expression, 'Unification error: Closure/Constructor for fill param 1 (v:RR64) got arg FnExpr ...', since `AplCore.fss:52` passes a function to `fill`, which takes a value since `f3b62bc83a`.
 3. **`ant testOneLibrary`** (`library.md`, "Designing a change"), and **the stages** once on your final tree.
 
 **The stages.** Both, once.
@@ -607,7 +612,7 @@ You compile the modifier, the class holding what the checker reads as provided, 
 
 **Files.** `Library/FortressLibrary.fsi` and `Library/FortressLibrary.fss`, beside `opr <->`; your tests; row 184. Not: the prelude (P-37); walk's Java; microGPT.
 
-**Reserved points.** A model line: none. microGPT's components declare no `EQV`, and the quick pair passed 7 of 7 with the planner's trial (PRB section 4). The APL experiments' `explorations/apl/base/AplCore.fss:207-224` declares seven of its own, which join the library's in one overload set; no gated program imports it.
+**Reserved points.** A model line: none. microGPT's components declare no `EQV`, and the quick pair passed 7 of 7 with the planner's trial (PRB section 4). The APL experiments' `explorations/apl/base/AplCore.fss:207-224` declares seven of its own, which join the library's in one overload set, and `:226-228` and `:1265` four prefix `NEQV`, beside the infix one that you add; no gated program imports it (step 2's program over it).
 
 **Overlaps by file.** None.
 
@@ -627,11 +632,11 @@ You compile the modifier, the class holding what the checker reads as provided, 
 
 **The stages.** None. List your files (`STAGE_BLIND`).
 
-**Rows.** Close 1057, 1058 and 981.
+**Rows.** Close 1057, 1058 and 981. Closing row 981 makes P-174's sentence "Row 981 holds where the tree departs: walk running a numeral type written in a `comprises` clause." false, and the "too" of the sentence after it, "The tree departs too, with no row, where ...". Edit no POSITIONS entry: quote both sentences in your report, with the words that would make them true after your change, for the record-landing, which brings P-174 in line; the coordinator names the change to the curator.
 
-**Specification.** `grep -rn '~1057\|~1058\|~981' Specification --include=*.tex` prints one line on the base, in Appendix I's entry "The numeral types, their conversion and their default": `Specification/appendices/changes.tex:5488-5489`, "the interpreter loads and runs a program that writes a numeral type in a \KWD{comprises} clause (row~981);". Take that clause out, keeping the sentence's other clauses whole, and list it before and after.
+**Specification.** `grep -rn '~1057\|~1058\|~981' Specification --include=*.tex` prints one line on the base, in Appendix I's entry "The numeral types, their conversion and their default": `Specification/appendices/changes.tex:5486-5487`, "the interpreter loads and runs a program that writes a numeral type in a \KWD{comprises} clause (row~981);". Run 1 took out the clause on row 960 before it, so this clause now opens the sentence's list. Take it out, keeping the sentence's other clauses whole, so that the list opens at "the compiled path keeps a numeral's own type", and list it before and after.
 
-**Files.** `interpreter/evaluator/values/DottedMethodApplication.java`, or where walk builds a generic dotted method's overloads; `interpreter/evaluator/values/OverloadedFunction.java` (`returnRuleAtObjectArguments`); `interpreter/evaluator/BuildEnvironments.java` (`checkNumeralTypesWritten`); `Specification/appendices/changes.tex:5488-5489`; your tests. Not: the compiled path; the library; microGPT.
+**Files.** `interpreter/evaluator/values/DottedMethodApplication.java`, or where walk builds a generic dotted method's overloads; `interpreter/evaluator/values/OverloadedFunction.java` (`returnRuleAtObjectArguments`); `interpreter/evaluator/BuildEnvironments.java` (`checkNumeralTypesWritten`); `Specification/appendices/changes.tex:5486-5487`; your tests. Not: the compiled path; the library; microGPT.
 
 **Reserved points.** A model line: none. A line of the library or a team test that walk now refuses at load.
 
@@ -640,25 +645,25 @@ You compile the modifier, the class holding what the checker reads as provided, 
 ### M. Two compiled calls that the checker accepts and that die at run time: a var field assigned a narrower value, and a functional method of a comprised object (rows 1053 and 815)
 
 **The mission.** Two compiled calls link clean and die with `NoSuchMethodError`, where walk runs them.
-- Row 1053. `c.t := High`, for `object Cell(var t: T)` and `object High extends T`, dies with 'NoSuchMethodError: ... FVoid ...$Cell.t(...$High)': the setter's call names the value's static type, not the field's. The same for `c.r := self` at a listed type, in `trait Q comprises { R }` beside `object Cell(var r: R)`: '...$Cell.r(...$Q)'; once the call names the field's type, that value needs the cast of `CodeGen.castToTypeBelow` (`compiler/codegen/CodeGen.java:8117`; F-377).
-- Row 815. `num(R)`, for `abstract num(self): ZZ32` in `trait Q comprises { R }` and `num(self): ZZ32 = 1` in `object R extends Q`, dies with 'NoSuchMethodError: ... FZZ32 ....\=num{...}': the call names the pair's overload method, which the component's class does not hold. Through a value typed as the trait, the call runs. The one library's `QQ` and `Ratio` met the same at `denominator` (the row's notes; `compile-ladder/rung-export-align/REPORT.md`, section 8).
+- Row 1053. `c.t := High`, for `object Cell(var t: T)` and `object High extends T`, dies with 'NoSuchMethodError: ... FVoid ...$Cell.t(...$High)': the setter's call names the value's static type, not the field's. The same for `c.r := self` at a listed type, in `trait Q comprises { R }` beside `object Cell(var r: R)`: '...$Cell.r(...$Q)'; once the call names the field's type, that value needs the cast of `CodeGen.castToTypeBelow` (`compiler/codegen/CodeGen.java:8199`; F-377).
+- Row 815. `num(R)`, for `abstract num(self): ZZ32` in `trait Q comprises { R }` and `num(self): ZZ32 = 1` in `object R extends Q`, dies with 'NoSuchMethodError: ... FZZ32 ....\=num{...}': the call names the pair's overload method, which the component's class does not hold. Through a value typed as the trait, the call runs. The one library's `QQ` and `Ratio` met the same at `denominator` (the row's notes; `compile-ladder/rung-export-align/REPORT.md`, section 8). Since run 1's gate repair (`b7b5b0c02b`), a call on `self` inside such a trait dies the same way: it takes the trait's arrow and names the pair's overload method, as `width(self)` in `trait Solid comprises { Brick }` (row 815's notes; `compile-ladder/climb-batch-35/REPAIR-gate.md`, "Deviations from the ruling", 4). By that report's reading, the one library's `QQ` methods that call `numerator` or `denominator` on `self` load, and would meet the same once called.
 
 You make each call name a method that the class holds.
 
 **The decisions this rung builds.** None names the mechanism. Section 3's forks M1 and M2.
 
 **What you build, in order.**
-1. **The tests first.** Promote `compiler_tests/XXXVarFieldAssignedSubtypeRun` and `XXXFunctionalMethodComprisedObject`, each a run test whose link test is plain. Add to the first row 1053's second form, `c.r := self`. Seen failing on the base through `junit.sh`: 'NoSuchMethodError: ... FVoid P35VarFieldAssignedSubtypeRun$Cell.t(P35VarFieldAssignedSubtypeRun$High)' and 'NoSuchMethodError: ... FZZ32 P35FunctionalMethodComprisedObject.\=num{...}' (PRB section 2).
-2. **Row 1053** (fork M1), then **row 815** (fork M2): find where the call is emitted, and where the component's class gets its overload methods. Each test passes, with the verifier on.
-3. **Your own tests, and the compiler track's tests of fields and of functional methods,** in one JVM. Leave the whole tracks to the gate.
+1. **The tests first.** Promote `compiler_tests/XXXVarFieldAssignedSubtypeRun` and `XXXFunctionalMethodComprisedObject`, each a run test whose link test is plain. Add to the first row 1053's second form, `c.r := self`. Add to `compiler_tests/ComprisesSelfAbstractFunctionalMethodCall`, row 1100's plain test, the value of its getter `total`, which calls the four functional methods on `self`: `s.total` is 4321. Seen failing on the base through `junit.sh`, as the promoted tests print it, each run after its `REACHED`: 'NoSuchMethodError: ... FVoid VarFieldAssignedSubtypeRun$Cell.t(VarFieldAssignedSubtypeRun$High)' and 'NoSuchMethodError: ... FZZ32 FunctionalMethodComprisedObject.\=num{...}' (PRB section 2 has the same under the planner's names). The first run stops at `c.t := High`, before the second form; that form, run alone in a program of its own, dies 'NoSuchMethodError: ... FVoid <its component>$Cell.r(<its component>$Q)'. The getter's value dies 'NoSuchMethodError: ... FZZ32 ComprisesSelfAbstractFunctionalMethodCall.\=width{...}'. The last two were run on `0a83a70498` before the launch, as copies under other names.
+2. **Row 1053** (fork M1), then **row 815** (fork M2), in both its forms: find where the call is emitted, and where the component's class gets its overload methods. Each test passes, with the verifier on.
+3. **Your own tests, and the compiler track's tests of fields and of functional methods,** in one JVM. Then **`ant testOneLibrary`** once, at the end, on your final code: run 1's first gate turned red in that track and no rung had run it, and the one library's `QQ` and `Ratio` are row 815's library instance. Leave the other tracks to the gate.
 
 **The stages.** None. List your files (`STAGE_BLIND`).
 
-**Rows.** Close 1053 and 815.
+**Rows.** Close 1053 and 815. Row 1112, the checker's choice at the tie that `self`'s type makes in such a trait, stays open: its fix is in the checker (`scala_src/typechecker/impls/Functionals.scala:1103-1134`), which this rung does not edit.
 
 **Specification.** `grep -rn '~1053\|~815' Specification --include=*.tex` prints nothing on the base. List any sentence that your change makes false, or none.
 
-**Files.** `compiler/codegen/CodeGen.java` (`forAssignment` and the setter call it emits; the call of a functional method, and the component's overload methods), or `compiler/OverloadSet.java` where an overload method is written; your tests. Not: the checker; walk; microGPT.
+**Files.** `compiler/codegen/CodeGen.java` (`forAssignment` and the setter call it emits; the call of a functional method, and the component's overload methods), or `compiler/OverloadSet.java` where an overload method is written; your tests, `ComprisesSelfAbstractFunctionalMethodCall` among them. Not: the checker; walk; microGPT.
 
 **Reserved points.** A model line: none.
 
@@ -779,13 +784,13 @@ New rows go into the ledger only through `ledger.py add`, by the gather.
 
 ### After the landing
 
-- **PLAN:** the lines that name these rows as waiting: item 96 of "Pavol's answers" (rows 573 and 1038, `PLAN.md:149`); the batch 31 lists' lines on rows 1039 (`:844`), 1053 (`:865`); batch 31b's on rows 1057 and 1058 (`:878`); batch 32's on row 1026 (`:828`); batch 30's on row 981 (`:808`); the climb batch 11 list's question on `override` (`:428`); and phase 5's line on the code generator's gaps, for rows 573 and 815 (`:118`). "Next" and the lines of climb batches 35 and 35b.
+- **PLAN:** the lines that name these rows as waiting: item 96 of "Pavol's answers" (rows 573 and 1038, `PLAN.md:149`); the batch 31 lists' lines on rows 1039 (`:844`), 1053 (`:865`); batch 31b's on rows 1057 and 1058 (`:878`); batch 32's on row 1026 (`:828`); batch 30's on row 981 (`:808`); the climb batch 11 list's question on `override` (`:428`); and phase 5's line on the code generator's gaps, for rows 573 and 815 (`:118`). "Next" and the lines of climb batches 35 and 35b. After run 1's landing the plan's update (`9322330fa8`) moved the lines on rows 1053, 1057, 1058 and 981 to `PLAN-history.md` ("Climb batch 35's landing, 2026-11-23"), so after run 2 only phase 5's line on row 815 names one of its rows as waiting, now `PLAN.md:119`, beside "Next" and the lines of climb batch 35b.
 - **The review queue:** this record's forks as new items; items 558, 561, 540 (point 1), 576, 585 and 503 (its `comprises` form) built; items 592 and 462 gain rows 964 and 963 as fixes that follow their answers; item 564 gains that the batch left row 1044 for its answer.
 - **The post-batch review** of each run.
 
 ### For the record-landing workflow
 
-The batch edits no FACTS or POSITIONS entry. After run 1, these are false or name a closed row as open:
+No rung edits a FACTS or POSITIONS entry; in run 1 the gather rewrote P-174's last sentence with `record.py` when row 960 closed (`POSITIONS-history.md`, P-174, 2026-11-23 12:12Z). After run 1, these are false or name a closed row as open:
 
 - **F-363:** "`x[5]^2` or `B.f()[5]^2`, compiles (F-387) and fails under walk (row 1)" (W).
 - **F-387:** "Walk still fails on these forms (row 1), so a program for both paths writes `(x[5])^2`" (W).
@@ -801,8 +806,9 @@ After run 2:
 - **F-257:** "rows 539, 779 and 1058 hold valid pairs that walk refuses" (L).
 - **F-341:** "one in a `comprises` clause loads (row 981)" (L).
 - **F-377:** the run-time failure of an assignment to a `var` field of a value of a strict subtype (row 1053) (M).
+- **P-174:** "Row 981 holds where the tree departs: walk running a numeral type written in a `comprises` clause.", and the "too" of the sentence after it, "The tree departs too, with no row, where ..." (L). Rung L quotes both in its report; the record-landing brings P-174 in line, as run 1's did on 2026-11-23 at 16:08Z, and the coordinator names the change to the curator.
 
-P-174, P-37 and P-180 stay true.
+P-37 and P-180 stay true.
 
 ### For the skill writer: the passages of `fortress-repo` this batch makes false or needless
 
@@ -818,14 +824,14 @@ After run 1:
 - `references/compiler.md:89` (a63): "It refuses a function or method with a modifier other than `getter`, `setter`, `io`, `private`, `abstract` and `test`, such as `override` (ledger row 650)." Rewritten: `override` compiles (O).
 - `SKILL.md:126` (a41): "An `exit` out of an `atomic` block loses the block's writes, on both paths (ledger row 1039). Set a flag in the block, and exit after the block." Goes, or becomes the rule that an exit keeps the writes (A).
 
-After run 2:
+After run 2, each now as on `main` at `3bd9664540`, where run 1's skill update moved all but the first (the line at `f4b33d0fad` in brackets):
 
 - `references/revival-changes.md:57` (a40): "The interpreter's library declares it for no type, and walk stops on it (row 184): write `a <-> b`." Rewritten: the one library declares `≡` and `≢` over two booleans (E).
-- `references/interpreter.md:84` (a17): the bullet on two generic dotted methods that differ in their number of parameters, "Give the two methods two names." Goes (L).
-- `references/interpreter.md:82` (a14): the bullet on a valid pair whose generic result is a tuple that holds its type parameter (row 1058). Goes (L).
-- `references/interpreter.md:30` (a26): the bullet "A numeral type written in a `comprises` clause loads and runs ... (ledger row 981)". Goes (L).
-- `references/compiler.md:177` (a82): the bullet on an assignment from outside an object to its `var` field, "Bind the value at the field's type first". Goes (M).
-- `references/compiler.md:175` (a81): the bullet on a call of a functional method of an object that a `comprises` clause lists, "Call it through a value typed as the trait". Goes; the lead-in at `:174` stays for row 839 at `:176` (M).
+- `references/interpreter.md:82` (`:84`; a17): the bullet on two generic dotted methods that differ in their number of parameters, "Give the two methods two names." Goes (L).
+- `references/interpreter.md:80` (`:82`; a14): the bullet on a valid pair whose generic result is a tuple that holds its type parameter (row 1058). Goes (L).
+- `references/interpreter.md:29` (`:30`; a26): the bullet "A numeral type written in a `comprises` clause loads and runs ... (ledger row 981)". Goes (L).
+- `references/compiler.md:174` (`:177`; a82): the bullet on an assignment from outside an object to its `var` field, "Bind the value at the field's type first". Goes (M).
+- `references/compiler.md:172` (`:175`; a81): the bullet on a call of a functional method of an object that a `comprises` clause lists, "Call it through a value typed as the trait". Goes; the lead-in at `:171` stays for row 839 at `:173` (M).
 
 ## 7. Files cited, with their links
 
