@@ -6420,9 +6420,11 @@ An object takes no varargs parameter (row~11).
 The code generator refuses an \KWD{override} of or by a method with static
 parameters of its own, and one in a generic trait or object whose parameter
 types or the overridden declaration's name a static parameter (row~1106);
-the compiled type checker refuses an \KWD{override} in a generic trait over
-a declaration that the trait inherits under a \KWD{where} clause
-(row~1107).
+the compiled type checker reads a declaration that a generic trait inherits
+under a \KWD{where} clause without that clause's bound, so it refuses an
+\KWD{override} that overrides the declaration only by that bound, as one
+whose parameter type is the bound over one whose parameter type is the
+clause's static parameter (row~1107).
 Nothing checks \KWD{io}, and nothing reads \KWD{atomic} on a function.
 An underscore before a digit is read as a radix (row~15).
 Of the static parameters that are not types, \KWD{nat} and \KWD{int} are
