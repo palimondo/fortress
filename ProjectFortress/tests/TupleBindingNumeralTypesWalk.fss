@@ -1,0 +1,46 @@
+(* A numeral or an array literal on a tuple binding's right side converts to the type declared for its name, at the top level and in a field (literals.tex, section "Literals"). *)
+component TupleBindingNumeralTypesWalk
+export Executable
+
+kind(x: NN32): String = "NN32"
+kind(x: ZZ32): String = "ZZ32"
+kind(x: ZZ64): String = "ZZ64"
+kind(x: RR32): String = "RR32"
+kind(x: QQ): String = "QQ"
+kind(x: Any): String = "other"
+
+flag: Boolean = true
+(un, uq): (NN32, QQ) = (5, 0.1)
+(sn: NN32, sr: RR32) = (6, 0.5)
+(en, em): NN32... = (7, 8)
+(pn: NN32, pk) = (9, 3)
+var (vn: NN32, vr: RR32) = (10, 1.5)
+(cn: NN32, cq: QQ) = if flag then (12, 0.25) else (13, 0.75) end
+(arr, cnt): (ZZ32[2], ZZ32) = ([1 2], 3)
+
+object Holder()
+    (hn: NN32, hq: QQ) = (11, 0.2)
+end
+
+run(): () = do
+    assert(kind(un), "NN32", "a tuple type: NN32 from 5")
+    assert(kind(uq), "QQ", "a tuple type: QQ from 0.1")
+    assert(uq = 1/10, "a tuple type: 0.1 is exactly one tenth")
+    assert(kind(sn), "NN32", "a type for each name: NN32")
+    assert(kind(sr), "RR32", "a type for each name: RR32")
+    assert(kind(en), "NN32", "one type for all names: the first")
+    assert(kind(em), "NN32", "one type for all names: the second")
+    assert(kind(pn), "NN32", "a typed name beside an untyped one")
+    assert(kind(pk), "ZZ32", "an untyped name takes the default")
+    assert(kind(vn), "NN32", "a var binding: NN32")
+    assert(kind(vr), "RR32", "a var binding: RR32")
+    assert(kind(cn), "NN32", "an if with tuple branches: NN32")
+    assert(cq = 1/4, "an if with tuple branches: QQ")
+    h = Holder()
+    assert(kind(h.hn), "NN32", "a field: NN32")
+    assert(h.hq = 1/5, "a field: QQ")
+    assert(un + sn + en + em + pn + vn + cn + h.hn = 68, "the values")
+    assert(arr[0] + arr[1] + cnt, 6, "an array literal: its array")
+end
+
+end
