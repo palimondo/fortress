@@ -1,0 +1,11 @@
+(* A numeral type is written only as a parameter's type: one written as a function's return type is refused at load, whether or not a numeral meets it. *)
+component XXXNumeralTypeReturnTypeWalk
+export Executable
+
+never(x: ZZ32): NaturalNumeral[\1, 10, 3\] = never(x)
+
+run(): () = do
+    println("REACHED: a numeral type is a return type")
+  end
+
+end

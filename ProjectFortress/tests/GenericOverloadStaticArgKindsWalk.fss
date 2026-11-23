@@ -1,0 +1,14 @@
+(* Overloaded generic functions whose static parameters differ in kind, a nat parameter beside a type parameter, each run where the static argument that a call writes fits its parameter's kind (overloading.tex, section "Applicability to Named Functional Calls"). *)
+component GenericOverloadStaticArgKindsWalk
+export Executable
+
+kd[\nat n\](x: ZZ32): ZZ32 = n
+kd[\T\](x: T, y: T): ZZ32 = 7
+
+run(): () = do
+    assert(kd(1, 2), 7, "the type parameter's declaration, its static argument inferred")
+    assert(kd[\3\](1), 3, "a nat written takes the declaration of the nat parameter")
+    assert(kd[\ZZ32\](1, 2), 7, "a type written takes the declaration of the type parameter")
+end
+
+end

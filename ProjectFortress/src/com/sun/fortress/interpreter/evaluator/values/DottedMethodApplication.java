@@ -15,13 +15,16 @@ import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.evaluator.Environment;
+import com.sun.fortress.interpreter.evaluator.EvalType;
 import com.sun.fortress.interpreter.evaluator.EvaluatorBase;
 import com.sun.fortress.interpreter.evaluator.types.FType;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTrait;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
 import com.sun.fortress.nodes.StaticArg;
+import com.sun.fortress.nodes_util.NodeUtil;
 import com.sun.fortress.useful.HasAt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -150,7 +153,9 @@ public final class DottedMethodApplication extends Fcn {
         Environment selfEnv = getWithin();
 
         if (_cl instanceof OverloadedMethod) {
-            return bug(site, selfEnv, "Don't actually resolve overloading of generic methods yet.");
+            Method m = genericOverloadsAt((OverloadedMethod) _cl, sargs, envForInference, site);
+            if (m == null) return bug(site, selfEnv, "Don't actually resolve overloading of generic methods yet.");
+            return new DottedMethodApplication(self, m, selfEnv);
         } else if (_cl instanceof MethodInstance) {
             // What gets retrieved is the symbolic instantiation of
             // the generic method.
@@ -163,6 +168,36 @@ public final class DottedMethodApplication extends Fcn {
         } else {
             return error(site, selfEnv, errorMsg("Unexpected Selection result in Juxt of FnRef of Selection, ", _cl));
         }
+    }
+
+    /**
+     * The overloaded generic method om at the static arguments sargs that a
+     * call writes: the instance at sargs of each overload whose static
+     * parameters take them, as an overloaded method that chooses among them
+     * by the call's arguments, among them by their number; the one instance
+     * where only one overload takes them.  Null where an overload of om is
+     * not a generic method's instance.
+     */
+    private static Method genericOverloadsAt(OverloadedMethod om, List<StaticArg> sargs,
+                                             Environment envForInference, HasAt site) {
+        List<FType> argValues = null;
+        List<MethodClosure> instances = new ArrayList<MethodClosure>();
+        for (Overload o : om.getOverloads()) {
+            if (!(o.getFn() instanceof MethodInstance)) return null;
+            GenericMethod gm = ((MethodInstance) o.getFn()).getGenerator();
+            if (argValues == null) argValues = new EvalType(envForInference).forStaticArgList(sargs);
+            if (!OverloadedFunction.compatible(argValues, NodeUtil.getStaticParams(gm.getDef()))) continue;
+            instances.add((MethodClosure) gm.typeApply(argValues, site));
+        }
+        if (instances.isEmpty()) {
+            return error(site, envForInference, errorMsg("No matches for instantiation of overloaded method ",
+                                                         om.getFnName(), " with ", sargs));
+        }
+        if (instances.size() == 1) return instances.get(0);
+        OverloadedMethod at = new OverloadedMethod(om.asMethodName(), om.getWithin());
+        for (MethodClosure m : instances) at.addOverload(m);
+        at.bless();
+        return at;
     }
 
     public Method getMethod() {

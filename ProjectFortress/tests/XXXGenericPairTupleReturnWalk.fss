@@ -1,0 +1,20 @@
+(* Two generic declarations, one inside the other, whose results are tuples holding each its own type parameter, are a valid overloading that loads, and each call runs the declaration that fits it. *)
+component XXXGenericPairTupleReturnWalk
+export Executable
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+object Square extends Shape end
+
+ident[\T extends Shape\](x: T): (T, ZZ32) = (x, 1)
+ident[\T extends Round\](x: T): (T, ZZ32) = (x, 2)
+
+run(): () = do
+    (a, i) = ident(Circle)
+    (b, j) = ident(Square)
+    assert(i, 2, "a Circle takes the declaration over Round")
+    assert(j, 1, "a Square takes the declaration over Shape")
+end
+
+end

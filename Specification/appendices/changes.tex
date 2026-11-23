@@ -2419,7 +2419,14 @@ trait whose method has a parameter type with a \KWD{bool} static argument
 (row~761); it stops on an object that extends a generic trait whose dotted
 method has a static parameter of its own bounded by the trait's, at load or at a
 generic object's first instance (row~762); and a dotted call that writes
-static arguments to a method its receiver overloads still stops (row~744).
+static arguments to a method name that its receiver overloads by a plain and a
+generic method still stops (row~744).
+Of two generic dotted methods of one name, one number of parameters and static
+parameters of the same kinds that differ only in their bounds, it keeps the
+first that it meets and drops the other (row~1125); and a call on a receiver
+assumed at a trait, of a name that the trait overloads by two generic dotted
+methods, stops, since it reads their parameter types without their static
+parameters (row~1126).
 Until 18~October 2026 it instantiated a generic dotted method that a trait
 declares without reading the bounds where they are declared: a type parameter
 that is the whole type of parameters took the narrowest named common supertype
@@ -3118,7 +3125,10 @@ by parameter, on the two declared domains, each over its own instances, by these
 rules, but finds a third declaration that holds the overlap of two neither of
 which lies inside the other only where their parameter types are, position by
 position, instances of one generic type or static parameters, so that it
-refuses that example (row~539).
+refuses that example (row~539); and it refuses at load, as failing the Return
+Type Rule, two declarations with static parameters one of whose declared domains
+lies inside the other's where their results are tuples that each hold the
+declaration's own type parameter, a pair that these rules allow (row~1122).
 Of two generic functional methods one of whose declared domains lies inside
 the other's, it refuses at load the pair that a trait or object without
 static parameters declares, as failing the Meet Rule, where it loads the same
@@ -5483,8 +5493,7 @@ text gives the second (row~1017 of the revival's gap ledger; the expected
 failure \nolinkurl{ProjectFortress/tests/XXXNumeralBesideTypeParameterWalk.fss}
 asserts the second).
 The implementations depart from the text in these further ways, each with its
-row of the revival's gap ledger: the interpreter loads and runs a program that
-writes a numeral type in a \KWD{comprises} clause (row~981); the compiled path keeps a numeral's own type,
+row of the revival's gap ledger: the compiled path keeps a numeral's own type,
 \EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket}, at the selector of a
 \KWD{typecase} (row~963); at a place whose type names a type parameter of its
 generic declaration, as \EXP{m()\COLON\TYP{Gen}\llbracket{}T\rrbracket = 3} in

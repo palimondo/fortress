@@ -1,0 +1,15 @@
+(* Two generic functional methods of one name and one number of parameters in an object, their parameter types excluding at a parameter without a static parameter, are a valid overloading, and each call runs the declaration that fits it. *)
+component XXXGenericFunctionalMethodsExcludingWalk
+export Executable
+
+object O
+    fm[\T\](self, x: T, z: ZZ32): ZZ32 = 1
+    fm[\T\](self, x: T, z: String): ZZ32 = 2
+end
+
+run(): () = do
+    assert(fm(O, 4, 5), 1, "the declaration over a ZZ32")
+    assert(fm(O, 4, "a"), 2, "the declaration over a String")
+end
+
+end

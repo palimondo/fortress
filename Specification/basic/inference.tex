@@ -342,6 +342,12 @@ beside a plain one of the same name (row~760 of the revival's gap ledger), and
 it stops on an object that extends a generic trait whose dotted method has a
 static parameter of its own bounded by the trait's, at load or at a generic
 object's first instance (row~762).
+Of two generic dotted methods of one name, one number of parameters and static
+parameters of the same kinds that differ only in their bounds, it keeps the
+first that it meets and drops the other (row~1125); and a call on a receiver
+assumed at a trait, of a name that the trait overloads by two generic dotted
+methods, stops, since it reads their parameter types without their static
+parameters (row~1126).
 It reads the bounds of a generic method that a trait declares, and the types
 into which the arguments convert, where the trait declares the method, as it
 reads those of a method that an object declares.

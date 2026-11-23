@@ -1,5 +1,5 @@
 (* A numeral type is written only as a parameter's type: one written in a comprises clause is refused. *)
-component XXXNumeralTypeComprisedWalk
+component NumeralTypeComprisedWalk
 export Executable
 
 trait T comprises { NaturalNumeral[\1, 10, 3\] } end
