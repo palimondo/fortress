@@ -1,5 +1,5 @@
 (* A numeral with a radix point counts its leading zeros among its digits: a coercion over its four numbers reads three digits for 00.5. *)
-component XXXRadixPointLeadingZerosWalk
+component RadixPointLeadingZerosWalk
 export Executable
 
 object Digits(count: ZZ32)

@@ -1637,11 +1637,6 @@ public class ExprFactory {
         // Delete every apostrophe and U+202F NARROW NO-BREAK SPACE
         s = s.replace("'", "").replace("\u202F", "");
 
-        // Trim leading zeroes
-        while (s.length() > 2 && s.charAt(0) == '0' && s.charAt(1) == '0') {
-            s = s.substring(1);
-        }
-
         int dotLoc = s.indexOf('.');
         int underLoc = s.indexOf('_');
 
