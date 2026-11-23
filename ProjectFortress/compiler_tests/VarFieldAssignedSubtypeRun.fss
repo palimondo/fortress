@@ -1,4 +1,4 @@
-(* An assignment from outside an object to its var field, of a value whose static type is a strict subtype of the field's type, and of self at a type that its trait's comprises clause lists, runs compiled (bindings.tex, section "Assignments"). *)
+(* An assignment to a var field or through a setter, of a value whose static type is a strict subtype of the field's type, runs compiled: from outside the object, at a static parameter's instance, at a tuple type, at Any, through a trait's setter, on self in the object, and of self at a type that its trait's comprises clause lists (bindings.tex, section "Assignments"). *)
 component VarFieldAssignedSubtypeRun
 export Executable
 
@@ -24,6 +24,21 @@ object R(n: ZZ32) extends Q end
 
 object Slot(var r: R) end
 
+object Box[\X\](var x: X) end
+
+object Pair(var pr: (T, T), k: ZZ32) end
+
+object AnyCell(var a: Any, k: ZZ32) end
+
+trait Holder
+    getter h(): T
+    setter h(v: T): ()
+end
+
+object HCell(var h: T) extends Holder
+    raise(): () = do self.h := High end
+end
+
 run(): () = do
     c = Cell(Low)
     println("REACHED")
@@ -32,6 +47,27 @@ run(): () = do
     s = Slot(R(1))
     R(2).putInto(s)
     assert(s.r.n, 2, "the field holds self, assigned at the listed type")
+    b = Box[\T\](Low)
+    b.x := High
+    assert(b.x.d, 2, "a field at a static parameter holds the value at its instance")
+    p = Pair((Low, Low), 0)
+    p.pr := (High, Low)
+    (p1, p2) = p.pr
+    assert(p1.d, 2, "a field of a tuple type holds the tuple's first element")
+    assert(p2.d, 0, "a field of a tuple type holds the tuple's second element")
+    ac = AnyCell("s", 0)
+    k: ZZ32 = 5
+    ac.a := k
+    typecase ac.a of
+      z: ZZ32 => assert(z, 5, "a field at Any holds the ZZ32")
+      else => assert(false, "a field at Any holds a ZZ32")
+    end
+    hc: Holder = HCell(Low)
+    hc.h := High
+    assert(hc.h.d, 2, "a trait's setter, called through a value of the trait")
+    hd = HCell(Low)
+    hd.raise()
+    assert(hd.h.d, 2, "an assignment to self's field in the object's method")
     println("PASS")
   end
 
