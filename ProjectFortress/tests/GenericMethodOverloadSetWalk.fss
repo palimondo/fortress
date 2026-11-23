@@ -1,0 +1,49 @@
+(* Generic dotted methods of one name, declared together in an object or in a trait that an object extends, of one or two numbers of parameters or of static parameters, and two generic functional methods of one name and two numbers of parameters, each run where the call's arguments fit it. *)
+component GenericMethodOverloadSetWalk
+export Executable
+
+object Same
+    tk[\U\](y: U, z: ZZ32): ZZ32 = 1
+    tk[\U\](y: U, z: String): ZZ32 = 2
+end
+
+trait Tk
+    tk[\U\](y: U, z: U): U = z
+    tk[\U\](y: U, z: U, w: U): U = w
+end
+
+object Inherits extends Tk end
+
+object Redeclares extends Tk
+    tk[\U\](y: U, z: U): U = y
+end
+
+object Statics
+    g[\T\](t: T): T = t
+    g[\T, V\](t1: T, t2: V): V = t2
+end
+
+object Functional
+    fm[\T\](self, x: T): ZZ32 = 1
+    fm[\T\](self, x: T, y: T): ZZ32 = 2
+end
+
+run(): () = do
+    assert(Same.tk(4, 5), 1, "one number of parameters, the second a ZZ32")
+    assert(Same.tk(4, "a"), 2, "one number of parameters, the second a String")
+    assert(Same.tk[\String\]("b", "a"), 2, "one number of parameters, the static argument written")
+    assert(Inherits.tk(4, 5), 5, "the trait's overload of two parameters")
+    assert(Inherits.tk(1, 2, 3), 3, "the trait's overload of three parameters")
+    assert(Inherits.tk[\ZZ32\](1, 2, 3), 3, "the trait's overload of three parameters, the static argument written")
+    assert(Redeclares.tk(4, 5), 4, "the object's own overload of two parameters")
+    assert(Redeclares.tk(1, 2, 3), 3, "the trait's overload of three parameters beside the object's own")
+    assert(Redeclares.tk[\ZZ32\](6, 7), 6, "the object's own overload, the static argument written")
+    assert(Statics.g(4), 4, "one static parameter")
+    assert(Statics.g(1, "two"), "two", "two static parameters")
+    assert(Statics.g[\ZZ32\](5), 5, "one static parameter written")
+    assert(Statics.g[\ZZ32, String\](1, "three"), "three", "two static parameters written")
+    assert(fm(Functional, 4), 1, "the functional method of two parameters")
+    assert(fm(Functional, 4, 5), 2, "the functional method of three parameters")
+end
+
+end

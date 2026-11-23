@@ -200,11 +200,11 @@ public class Constructor extends NonPrimitive {
         // This also enumerates the methods.
         accumulateGenericMethods(generics, selfType, bte);
 
-        // For each set of generic methods (with same name and signature)
-        // create a list of symbolic values to substitute for the type
-        // parameters so that the methods may be pseudo-instantiated
-        // and plugged into the trait/object and overloading definition
-        // machinery.
+        // For each set of generic methods (with same name and number of
+        // static parameters, genericKey) create a list of symbolic values
+        // to substitute for the type parameters so that the methods may be
+        // pseudo-instantiated and plugged into the trait/object and
+        // overloading definition machinery.
         Map<String, List<FType>> genericArgs = new HashMap<String, List<FType>>();
         for (Map.Entry<String, Set<GenericMethod>> s : generics.entrySet()) {
             // All the methods are similarly parameterized, so the
@@ -836,12 +836,16 @@ public class Constructor extends NonPrimitive {
                 if (fv instanceof OverloadedFunction) {
                     // Treat the overloaded function as a bag of separate
                     // definitions.
-                    List<Overload> overloads = ((OverloadedFunction) fv).getOverloads();
+                    List<Overload> overloads = ((OverloadedFunction) fv).getOverloadsAndPending();
                     for (Overload ov : overloads) {
                         SingleFcn sfcn = ov.getFn();
                         if (notInherited != null && sfcn instanceof FunctionClosure &&
                             notInherited.contains(((FunctionClosure) sfcn).getDef())) continue;
                         if (newOverrides != null && sfcn.isOverride()) newOverrides.add(s);
+                        if (sfcn instanceof GenericMethod) {
+                            GenericMethod g = (GenericMethod) sfcn;
+                            sfcn = g.make(genericArgs.get(genericKey(s, g)), g.getAt());
+                        }
                         // extract below as method, call it here.
                         signaturesToTraitsContainingMethods.putIfAbsent(sfcn, ft);
                     }
@@ -849,7 +853,7 @@ public class Constructor extends NonPrimitive {
                     GenericMethod gfv = (GenericMethod) fv;
                     if (newOverrides != null && gfv.isOverride()) newOverrides.add(s);
 
-                    MethodClosure sfcn = gfv.make(genericArgs.get(s), gfv.getAt());
+                    MethodClosure sfcn = gfv.make(genericArgs.get(genericKey(s, gfv)), gfv.getAt());
 
                     signaturesToTraitsContainingMethods.putIfAbsent(sfcn, ft);
 
@@ -874,11 +878,29 @@ public class Constructor extends NonPrimitive {
             FValue fv = e.getLeafValue(s);
             if (fv instanceof GenericMethod) {
                 // TODO This is VERY approximate
-                generics.putItem(s, (GenericMethod) fv);
-            } else {
-                // do nothing
+                generics.putItem(genericKey(s, (GenericMethod) fv), (GenericMethod) fv);
+            } else if (fv instanceof OverloadedFunction) {
+                // Several generic methods of one name that one trait or
+                // object declares, held in an overloaded function that is
+                // not finished, since their parameter types name their own
+                // static parameters (BuildTraitEnvironment.forFnDecl3).
+                for (Overload ov : ((OverloadedFunction) fv).getOverloadsAndPending()) {
+                    if (ov.getFn() instanceof GenericMethod) {
+                        generics.putItem(genericKey(s, (GenericMethod) ov.getFn()), (GenericMethod) ov.getFn());
+                    }
+                }
             }
         }
+    }
+
+    /**
+     * The key of the generic method g named s among the generic methods of a
+     * trait or object: its name and its number of static parameters.  The
+     * methods of one key share one symbolic instantiation, so that one that
+     * overrides another has the other's symbolic instance's signature.
+     */
+    private static String genericKey(String s, GenericMethod g) {
+        return s + "[" + NodeUtil.getStaticParams(g.getDef()).size() + "]";
     }
 
     public String getString() {

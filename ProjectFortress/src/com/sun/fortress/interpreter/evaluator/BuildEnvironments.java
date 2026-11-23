@@ -1203,9 +1203,10 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
     /**
      * Refuses a program that writes a numeral type, NaturalNumeral or
      * RadixPointNumeral, as a type that a trait, an object or an object
-     * expression extends, or as a static argument: a numeral type is written
-     * only as a parameter's type (literals.tex, "Literals").  The libraries'
-     * own components declare the numeral types and are not read.
+     * expression extends, as a type that a trait's comprises clause lists, or
+     * as a static argument: a numeral type is written only as a parameter's
+     * type (literals.tex, "Literals").  The libraries' own components declare
+     * the numeral types and are not read.
      */
     public static void checkNumeralTypesWritten(List<? extends CUWrapper> units) {
         for (CUWrapper u : units) {
@@ -1222,6 +1223,14 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
                 public void forTypeArg(TypeArg that) {
                     refuseNumeralType(that.getTypeArg());
                     super.forTypeArg(that);
+                }
+
+                @Override
+                public void forTraitDecl(TraitDecl that) {
+                    if (that.getComprisesClause().isSome()) {
+                        for (NamedType t : that.getComprisesClause().unwrap()) refuseNumeralType(t);
+                    }
+                    super.forTraitDecl(that);
                 }
             });
         }

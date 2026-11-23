@@ -875,6 +875,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * whose type in outer is that type parameter, an object type below which
      * its return type lies: an argument there has the object type itself, so
      * every instance of outer that applies returns a type at or above it.
+     * A tuple result is read element by element, as tuple types are
+     * covariant (belowAtObjectArguments).
      * Below a trait type an argument of a lower type selects a lower instance
      * of outer, as a Circle selects ident[\T extends Shape\](x: T): T at
      * Circle beside ident(x: Round): Round; a comprises clause is not read.
@@ -892,15 +894,39 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             boolean fixed = false;
             for (FType t : dOut) fixed |= fixedByArgument(deRest(t), p);
             if (fixed) continue;
-            if (rOut != p) return false;
-            boolean holds = false;
-            for (int k = 0; !holds && k < dIn.size(); k++) {
-                FType t = deRest(dIn.get(k));
-                holds = deRest(dOut.get(k)) == p && t instanceof FTypeObject && rIn.subtypeOf(t);
-            }
-            if (!holds) return false;
+            if (!belowAtObjectArguments(rIn, rOut, p, dIn, dOut)) return false;
         }
         return rIn.subtypeOf(holding.getRange());
+    }
+
+    /**
+     * Where the return type rOut of outer mentions its static parameter p,
+     * which no argument fixes: rOut is p itself and inner has, at a parameter
+     * whose type dOut in outer is p, an object type dIn below which inner's
+     * return type rIn lies; or rOut and rIn are tuple types of as many
+     * elements, none of them varargs, each element of rIn so below the element
+     * of rOut that mentions p.  An element that does not mention p is left
+     * to the comparison with the instance that holds dIn.
+     */
+    static private boolean belowAtObjectArguments(FType rIn, FType rOut, FType p,
+                                                  List<FType> dIn, List<FType> dOut) {
+        if (!mentions(rOut, p)) return true;
+        if (rOut == p) {
+            for (int k = 0; k < dIn.size(); k++) {
+                FType t = deRest(dIn.get(k));
+                if (deRest(dOut.get(k)) == p && t instanceof FTypeObject && rIn.subtypeOf(t)) return true;
+            }
+            return false;
+        }
+        if (!(rOut instanceof FTypeTuple) || !(rIn instanceof FTypeTuple)) return false;
+        List<FType> outs = ((FTypeTuple) rOut).getTypes();
+        List<FType> ins = ((FTypeTuple) rIn).getTypes();
+        if (outs.size() != ins.size()) return false;
+        for (int j = 0; j < outs.size(); j++) {
+            if (outs.get(j) instanceof FTypeRest || ins.get(j) instanceof FTypeRest) return false;
+            if (!belowAtObjectArguments(ins.get(j), outs.get(j), p, dIn, dOut)) return false;
+        }
+        return true;
     }
 
     /**
@@ -2945,6 +2971,19 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      */
     public List<Overload> getOverloads() {
         return overloads;
+    }
+
+    /**
+     * The overloads, with those added and not yet checked: a trait's or an
+     * object's generic methods of one name stay unchecked in its members, as
+     * their parameter types name their own static parameters, and an object
+     * takes each as its instance at symbolic static arguments (Constructor).
+     */
+    List<Overload> getOverloadsAndPending() {
+        if (pendingOverloads.isEmpty()) return overloads;
+        List<Overload> l = new ArrayList<Overload>(overloads);
+        l.addAll(pendingOverloads);
+        return l;
     }
 
     /**
