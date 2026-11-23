@@ -7,13 +7,13 @@ object M()
   opr [i: ZZ32, j: ZZ32]: ZZ32 = 1000 + 10 i + j
 end
 
-object Row(base: ZZ32)
+object Lane(base: ZZ32)
   opr [j: ZZ32]: ZZ32 = base + j
 end
 
 object Grid()
-  opr [i: ZZ32]: Row = Row(100 i)
-  opr [i: ZZ32, j: ZZ32]: Row = Row(1000 i + 100 j)
+  opr [i: ZZ32]: Lane = Lane(100 i)
+  opr [i: ZZ32, j: ZZ32]: Lane = Lane(1000 i + 100 j)
 end
 
 object B
