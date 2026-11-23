@@ -1,0 +1,15 @@
+(* An array literal in a tuple bound at a tuple type that names an array type is that array, for a variable and for a tuple binding over an if (aggregate.tex, subsection "Array Expressions"). *)
+component XXXTypedTupleArrayLiteralWalk
+export Executable
+
+flag: Boolean = true
+t: (ZZ32[2], ZZ32) = ([1 2], 3)
+(arr, n): (ZZ32[2], ZZ32) = if flag then ([4 5], 6) else ([7 8], 9) end
+
+run(): () = do
+    (ta, tn) = t
+    assert(ta[0] + ta[1] + tn, 6, "a variable of tuple type")
+    assert(arr[0] + arr[1] + n, 15, "a tuple binding over an if")
+end
+
+end

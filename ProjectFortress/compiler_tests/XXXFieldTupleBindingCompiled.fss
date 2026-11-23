@@ -1,0 +1,25 @@
+(* A field declared by a tuple binding whose right side is a call binds each name to its element of one run of the call (objects.tex, section "Field Declarations"). *)
+component XXXFieldTupleBindingCompiled
+export Executable
+
+var calls: ZZ32 = 0
+
+pairOnce(): (ZZ32, ZZ32) = do
+    calls += 1
+    (calls, 10 calls)
+end
+
+object Pair()
+    (first, second): (ZZ32, ZZ32) = pairOnce()
+end
+
+run(): () = do
+    println("REACHED")
+    p = Pair()
+    assert(calls, 1, "the right side ran once")
+    assert(p.first, 1, "first")
+    assert(p.second, 10, "second")
+    println("PASS")
+end
+
+end
