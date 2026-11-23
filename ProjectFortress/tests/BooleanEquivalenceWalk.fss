@@ -1,0 +1,19 @@
+(* The logical equivalence of two booleans, EQV or the operator IDENTICAL TO, is true where they are equal, and its negation NEQV, or NOT IDENTICAL TO, where they differ. *)
+component BooleanEquivalenceWalk
+export Executable
+
+run(): () = do
+  t: Boolean = true
+  f: Boolean = false
+  assert(t ≡ t, true, "booleans.tex, opr EQV: true EQV true")
+  assert(t EQV f, false, "booleans.tex, opr EQV: true EQV false")
+  assert(f ≡ t, false, "booleans.tex, opr EQV: false EQV true")
+  assert(f EQV f, true, "booleans.tex, opr EQV: false EQV false")
+  assert(t ≢ t, false, "Fortress.NegatedOperators.tex, opr NEQV: true NEQV true")
+  assert(t NEQV f, true, "Fortress.NegatedOperators.tex, opr NEQV: true NEQV false")
+  assert(f ≢ t, true, "Fortress.NegatedOperators.tex, opr NEQV: false NEQV true")
+  assert(f NEQV f, false, "Fortress.NegatedOperators.tex, opr NEQV: false NEQV false")
+  println("PASS")
+end
+
+end

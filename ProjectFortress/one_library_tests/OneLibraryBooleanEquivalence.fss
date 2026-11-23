@@ -1,0 +1,15 @@
+(* Under the one library's selection, a program that applies EQV and NEQV, the operators IDENTICAL TO and NOT IDENTICAL TO, to two booleans compiles. *)
+component OneLibraryBooleanEquivalence
+export Executable
+
+run(): () = do
+  t: Boolean = true
+  f: Boolean = false
+  assert(t ≡ t, "true EQV true")
+  assert(NOT (t EQV f), "true EQV false is false")
+  assert(t ≢ f, "true NEQV false")
+  assert(NOT (f NEQV f), "false NEQV false is false")
+  println("PASS")
+end
+
+end

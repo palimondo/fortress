@@ -1,0 +1,3 @@
+# The program that applies EQV and NEQV to two booleans compiles under the one library's selection.
+tests=OneLibraryBooleanEquivalence
+compile
