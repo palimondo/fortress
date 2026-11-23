@@ -1,0 +1,17 @@
+<!-- Climb batch 35b's orientation judgement (update mode, run 2 of CLIMB-BATCH-35.md): the review-queue item for the section it held in part, one per section, in the form of explorations/coordinator/review-queue.md. It is unnumbered, for the coordinator to file or to route. -->
+
+**For the coordinator, before filing.** Since the triage of 2026-11-23, the queue takes only consequential items (`review-queue.md`, header). The item below reverses no decision of the curator, touches no line of microGPT, and chooses nothing that the record leaves open. The triage settled the same question for climb batch 33b's held cuts as the coordinator's (item 605, as item 526). So its home is likely the input list of the orientation's next consolidation, or a brief for one quiz round, not the queue. The coordinator decides.
+
+- **(new).** The orientation's "Traits and objects" keeps the skill's `:41` and `:43` after climb batch 35b's update. Its `:48`, `:57` (F-403) and `:64` are installed. The fix round made the same two cuts that climb batches 33b and 35 held, for the third update in a row:
+  - **At `:41`:** "A compiled body of `T` that returns `self` at `X` runs, also from an arm of a conditional or a `case` expression, a function expression or a local function." The new text opens "One shape of a compiled body of `T` that returns `self` at `X` fails". Key case 35's **Skill** names the cut sentence as the reader's only source for rows 1050 to 1052 and 1070 (`key.md:479`).
+  - **At `:43`:**
+    - "and the bounds that the test reads ("Dispatch and overloading")" goes. The library's pair is valid only because the block's `T` is bounded by a number type (key case 21, **Scope**).
+    - "so it loads such a pair" goes. Key case 21's **Skill** names that sentence (F-318; `key.md:262`).
+    - The second cold read flags the new "in the same way" and "the valid pair (row 999)", which lost its antecedent (`cold-read-2.md` item 9, medium).
+
+  Neither case was run on the cut (`quiz-cases.txt`: 28, 39). Should the two cuts go in? Default: the skill's text, as held.
+   - **Landed:** the skill's `:41` and `:43`, as on `main` at `ddfa65d880`, beside the installed `:48`, `:57` and `:64`.
+   - **The other way:** run case 35 on the `:41` cut, and case 21 on a `:43` that keeps the bounds pointer and the sentence that walk loads the pair. Make a cut only where its case passes. For `:43`, give the pair a stated antecedent, for example "so walk loads the library's pair, and a program's own generic beside its own directly self-typed trait's functional method (F-318)". This also answers `cold-read.md` 2.5, which climb batches 33 to 35 carried. To stop the cut coming back at each update, the fix round's brief can say: do not cut a sentence that a key **Skill** line names unless its case is run.
+   - **Its cost:** two quiz rounds of one case each, and one edit of `:43`. The cuts would save 104 bytes at `:41` and 89 at `:43`, against a text of about 34,800 characters and a budget of 8K to 12K.
+   - **Home:** `compile-ladder/climb-batch-35b/orientation/judgement.md`, "What the reports cover" and "Per section"; `cold-read.md` 2.5 and part 3, lines 41 and 43; `cold-read-2.md` item 9; `sources-mapping.md`, "Fix round"; regression `key.md:252-262` (case 21) and `:457-479` (case 35); `climb-batch-35/orientation/queue.md` and `climb-batch-33b/orientation/queue.md`, the same cuts; review-queue item 605.
+   - **Needed by:** the orientation's next consolidation. No planned work waits on it, and the skill's `:41` and `:43` are right as held.
