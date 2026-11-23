@@ -1,4 +1,4 @@
-(* An assignment to a var field or through a setter, of a value whose static type is a strict subtype of the field's type, runs compiled: from outside the object, at a static parameter's instance, at a tuple type, at Any, through a trait's setter, on self in the object, and of self at a type that its trait's comprises clause lists (bindings.tex, section "Assignments"). *)
+(* An assignment to a var field or through a setter, of a value whose static type is a strict subtype of the field's type, runs compiled: from outside the object, at a static parameter's instance, at a tuple type, at Any, through a trait's setter, on self in the object, through a receiver typed by a type variable, and of self at a type that its trait's comprises clause lists (bindings.tex, section "Assignments"). *)
 component VarFieldAssignedSubtypeRun
 export Executable
 
@@ -39,6 +39,8 @@ object HCell(var h: T) extends Holder
     raise(): () = do self.h := High end
 end
 
+lift[\X extends Holder\](x: X): () = do x.h := High end
+
 run(): () = do
     c = Cell(Low)
     println("REACHED")
@@ -68,6 +70,9 @@ run(): () = do
     hd = HCell(Low)
     hd.raise()
     assert(hd.h.d, 2, "an assignment to self's field in the object's method")
+    he = HCell(Low)
+    lift[\HCell\](he)
+    assert(he.h.d, 2, "an assignment through a receiver typed by a type variable")
     println("PASS")
   end
 

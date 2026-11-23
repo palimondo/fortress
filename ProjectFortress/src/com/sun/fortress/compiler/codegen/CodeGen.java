@@ -7520,9 +7520,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         }
         /* A setter's call, which the desugarer made from an assignment to a field and which
            carries no arrow: the value is passed at the field's type. */
-        if (mt.isNone() && method_sargs.isEmpty() && receiverType instanceof TraitType &&
-            !(arg instanceof VoidLiteralExpr)) {
-            Type setter = setterParamType((TraitType) receiverType, method);
+        if (mt.isNone() && method_sargs.isEmpty() && !(arg instanceof VoidLiteralExpr)) {
+            Type setter = setterParamType(receiverType, method);
             if (setter != null) domain_type = setter;
         }
 //        if (!(receiverType instanceof TraitType)) {
@@ -7731,10 +7730,27 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
      * static parameters of its own, that takes one value and returns ().  An assignment to a
      * field, c.t := v, calls the field's setter (Specification/basic/expressions/bindings.tex,
      * section "Assignments"); the desugarer makes it the call c.t(v), which carries no arrow,
-     * and the class declares the setter at the field's type, not at the value's.  Null where
-     * the type holds no such method or more than one.
+     * and the class declares the setter at the field's type, not at the value's.  A type
+     * variable's receiver takes the setter of its bounds, read as typeVariableMethodOwner
+     * reads them.  Null where the type holds no such method or more than one.
      */
-    private Type setterParamType(TraitType t, IdOrOp method) {
+    private Type setterParamType(Type receiver, IdOrOp method) {
+        if (receiver instanceof VarType) {
+            scala.Option<StaticParam> sp = typeAnalyzer.env().staticParam(((VarType) receiver).getName());
+            List<TraitType> bounds = new ArrayList<TraitType>();
+            if (sp.isDefined())
+                for (BaseType b : sp.get().getExtendsClause()) traitConjuncts(b, bounds);
+            Type found = null;
+            for (TraitType b : bounds) {
+                Type instance = setterParamType(b, method);
+                if (instance == null) continue;
+                if (found != null && 0 != NodeComparator.compare(found, instance)) return null;
+                found = instance;
+            }
+            return found;
+        }
+        if (!(receiver instanceof TraitType)) return null;
+        TraitType t = (TraitType) receiver;
         /* The replacer of a declaration that t's own trait makes holds no static argument
          * of t; this one gives them. */
         StaticTypeReplacer own = null;
