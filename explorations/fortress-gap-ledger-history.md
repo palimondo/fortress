@@ -11309,3 +11309,99 @@ note added
 rewritten
 
 | 1100 | compiled, a call on `self` in a trait that comprises one object, of a functional method that both declare, takes the object's arrow where the overloadings come in that order, and the trait's default methods fail verification, 'VerifyError: Bad type on operand stack', as the one library's `QQ` did | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/ComprisesSelfAbstractFunctionalMethodCall.test` | climb batch 34b rung C | siblings: 935, 815, 996. Self is the trait met with the listed type (`basic/expressions/var-ref.tex`, "Identifier References"), so the checker ties the two declarations; the tie kept the first in the overloadings' identity-hash order (`TopLevelEnv.java:465-466`), and the call's descriptor followed it with no cast. Climb batch 35's gate: `denominator` at `(Ratio)` in ant's onelibrary JVM, `(QQ)` in one-JVM runs of the same build. Since its gate repair a tie that self's type makes keeps the trait's own (`Functionals.scala:1103-1135`). |
+
+### Row 1100
+
+rewritten
+
+| 1100 | compiled, a call on `self` in a trait that comprises one object, of a functional method that both declare, takes the object's arrow where the overloadings come in that order, and the trait's default methods fail verification, 'VerifyError: Bad type on operand stack', as the one library's `QQ` did | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/ComprisesSelfAbstractFunctionalMethodCall.test` | climb batch 34b rung C | siblings: 935, 815, 996. Self is the trait met with the listed type (`basic/expressions/var-ref.tex`, "Identifier References"), so the checker ties the two declarations; the tie kept the first in the overloadings' identity-hash order (`TopLevelEnv.java:465-466`), and the call's descriptor followed it with no cast. Climb batch 35's gate: `denominator` at `(Ratio)` in ant's onelibrary JVM, `(QQ)` in one-JVM runs of the same build. Since its gate repair a tie that self's type makes keeps the trait's own (`Functionals.scala:1103-1134`). |
+
+### Row 815
+
+rewritten
+
+| 815 | compiled, a functional method of a trait that comprises an object, called on a value whose static type is the object, dies at run time with `NoSuchMethodError`: `num(R)` for `abstract num(self): ZZ32` in `trait Q comprises { R }` and `num(self): ZZ32 = 1` in `object R extends Q`, where walk runs it | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXFunctionalMethodComprisedObject.test` | climb batch 21b rung E | siblings: 770, 739. The missing method is the pair's overload method, `\=num{<Q's span>,<R's span>}(Q)` (once `(R)` on a first compile), which the component's class does not hold; it links clean. The same with `num(self)` not written `abstract`; it runs with no `comprises` clause, with a dotted `num()`, and through a `Q`-typed value (`AbstractFunctionalMethodImplementedByComprised`). Old code (`aa5c67d48`) the same. Program and outputs: `compile-ladder/rung-export-align/REPORT.md`, section 8. Workaround: call through a value typed as the trait. So did the one library's QQ and Ratio `denominator`: `(Ratio)` once FortressLibrary was compiled again alone, a VerifyError in `isFinite`. |
+
+### Row 935
+
+rewritten
+
+| 935 | the compiled checker's order of a call's candidate declarations, which a tie among the most specific follows, is not a property of the program: one file at one path gets two orders from two builds of one commit at two tree paths, and from one build by a direct compile and through the harness | NEGATIVE-VERIFIED | implementation gap (checker) | silent | none | climb batch 28 rung K | siblings: 543, 547, 929. At `157323e51`, at the rung's worktree path: of the generator's shuffles of `compiler_tests/PartialOrderCandidatesCompiled.fss`, 100, 110 and 114 of 100 to 115 stop the base build `/home/user/fortress-base28` (`old-fortress.sh compile`), 105, 106, 107, 122, 123 and 125 of 100 to 125 the worktree's build, none both. Under the base build, of shuffles 1 to 12 of `compiler_tests/TieAmongMostSpecificCompiled.fss`, 9 and 11 die by a direct compile and run, 7 through `old-fortress.sh junit`. The order is the hash order of the overloadings (`ExprDisambiguator.scala:870-874`); since row 929's fix a tie keeps the first minimal candidate in it (`Functionals.scala:831-836`). |
+
+### Row 594
+
+rewritten
+
+| 594 | compiled, a generic functional method whose `self` parameter is not the first dies at run time with `NoSuchMethodError`, where the same method with `self` first runs | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXGenericFunctionalMethodSelfSecond.test` | climb batch 9 rung W's skeptic | siblings: 565, 724. In a plain `trait Shape`, `tag[\R extends Any\](x: R, self): R = x`, with `object Ci extends Shape end`, `tag("t", Ci)` compiles, links and dies: "java.lang.NoSuchMethodError: 'java.lang.Object SkFnMethPlain$Shape.\=tag?1??Arrow?fortress\|CompilerBuiltin\%Object,fortress\|AnyType\%Any?(long, java.lang.String)'" (probe `SkFnMethPlain`, `explorations/compile-ladder/rung-walk-instance/SKEPTIC.md` section 4). Walk runs it. Not located; the first place to look is `CodeGen.functionalMethodWrapper`, which names the method by its self index (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:3212` at c124c6b65, row 565). full text: history, row 594 |
+
+### Row 119
+
+rewritten
+
+| 119 | a bare `ensures { e }`, the `provided` subclause omitted as the specification's grammar allows, crashes the desugarer | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/functions.tex`, "Function Contracts" | none | run-b2 | `** bug! Non-top-level reference to imported FortressLibrary.true`. `DesugarerVisitor.translateEnsures` (`ProjectFortress/src/com/sun/fortress/interpreter/rewrite/DesugarerVisitor.java:1547`) substitutes the missing guard with a qualified `FortressLibrary.true` (`:1565-1569`), which the interpreter then refuses outside top level. Workaround: `ensures { e provided true }`. Probe `explorations/run-b2/probes/g1b_ensures_bare.fss`, in the parent of `22ea0cd90`; full text: history, row 119 |
+
+### Row 406
+
+rewritten
+
+| 406 | **the compiled checker's instantiation exclusion does not compare boolean arguments**: `object F extends { Flag[\true\], Flag[\false\] }` with `trait Flag[\bool b\]` passes the checker and the compile dies in code generation, "Only emitting RTTI for types right now"; walk runs it | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/types-vals-vars.tex`, "Trait Types"; `Specification/basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXBoolExtendsTwice.test` | climb batch 5 rung S's skeptic | siblings: 414, 768, 850. `checkP`'s `cP` counts as no exclusion for a pair of arguments that are neither types nor two literal sizes (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:544-552` at c124c6b65, "Todo: Handle bool args" at `:546`); code generation's `BoolArg` branch then falls to the throw at `compiler/codegen/CodeGen.java:6085-6108`. Fix: a `bool` case in `cP` beside the size case, so the checker refuses the clause as it refuses two literal sizes (F-48); and, for one boolean instantiation in an `extends` clause, a decision on what code generation emits. full text: history, row 406 |
+
+### Row 470
+
+rewritten
+
+| 470 | the compiled checker does not check a static argument written at a top-level function call against its parameter's bound: it accepts `n[\String\]("d")` for `n[\T extends Number\](s: String): T` and `k[\(ZZ32, ZZ32)\]((1, 2))` for `k[\T extends Object\](x: T)`; walk accepts them too | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/appendices/calculi/basic/static.tex:190-201`, "Static Semantics" (rule T-Invk, the premise at `:195`) | none | climb batch 7 rung B | A dotted call checks it (`staticInstantiationForApp`, `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:729-741`, at d4d454f9d; F-70). A top-level call takes `staticInstantiation` (`scala_src/typechecker/impls/Functionals.scala:1191`), which matches kinds only (`STypesUtil.scala:782-801`), so a `where` constraint goes unchecked too (F-250). The bound is checked where the argument is inferred and in a type. So `id[\(ZZ32,ZZ32)\]` and `id[\ZZ32->ZZ32\]` for `id[\T extends Object\](x: T)` compile and run (`explorations/perf-probes/bound-any-compiled/REPORT.md`). No gated test can hold it (F-70). full text: history, row 470 |
+
+### Row 526
+
+rewritten
+
+| 526 | on the compiled path a `try` expression used as an operand or call argument after another value, `"a" \|\| (try f() catch e InvalidRange => "c" end)`, compiles and then fails verification at load, 'Inconsistent stackmap frames' | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification-1.0-frozen/basic/expressions/try.tex:56-64`, "Try Expressions" | `ProjectFortress/compiler_tests/XXXTryOperandRungE.test` | climb batch 6.5b rung E's skeptic | siblings: 322. By reading, consistent with the verifier: `CodeGen.forTry` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2022`) emits the handler inline and the JVM clears the operand stack at a handler, so the value pushed before the `try` is gone on the `catch` path, which reaches the join with one value where the normal path has two. Also for a `try` that throws nothing; as the first operand it runs. Walk prints `ac`. Workaround: bind the `try` to a local first. Link test: `TryOperandRungELink.test`. full text: history, row 526 |
+
+### Row 724
+
+rewritten
+
+| 724 | the code generator stops on an object that overloads a functional method with a static parameter of its own beside a plain one of the same name: `ClassCastException: FunctionalMethod cannot be cast to Method` in `OverloadSet.getFunctionToCall` | NEGATIVE-VERIFIED | implementation gap (codegen) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXGenericFunctionalMethodBesidePlain.test` | climb batch 15 rung O | siblings: 723, 594, 779, 780. The checker accepts the pair; `OverloadSet$ForTraitOrObject.getFunctionToCall` casts a member with static parameters to `Method`, assuming a dotted method's overload set (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:2574-2578` at c124c6b65), reached from `CodeGen.forObjectDeclPrePass` (`CodeGen.java:4375`) through `generateTopLevelOverloads` (`:4666`, declared at `:6897`). The same in a trait that an object extends. Walk stops at load (723). |
+
+### Row 764
+
+rewritten
+
+| 764 | the compiled checker stops on a method's own `bool` static parameter written at the call, 'ClassCastException: TraitType cannot be cast to BoolExpr': `O.unflag[\true\](Flag[\true\](7))` for `unflag[\bool b\](f: Flag[\b\])` in `object O` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Bool Parameters" | `ProjectFortress/compiler_tests/XXXBoolStaticArgMethodWritten.test` | climb batch 17 rung W | siblings: 307, 761, 763. `FnNameInfo.normalizedSchema` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/FnNameInfo.java:185-206` at c124c6b65), called from `Functionals.checkExprFunctionals` (`scala_src/typechecker/impls/Functionals.scala:1152`), replaces each static parameter by `boundsFor`, a type argument for a `bool` parameter (`FnNameInfo.java:168-182`, F-36), so the `BoolRef` `b` in `Flag[\b\]` becomes a `TraitType` (`compiler/typechecker/StaticTypeReplacer.java:121-131`). A generic function's written `[\true\]` passes the checker (763). |
+
+### Row 835
+
+rewritten
+
+| 835 | the compiled export check never lets a component's functional method satisfy an api's top-level function or operator: an api's `opr <->(a: T, b: T): ZZ32` met by `object T opr <->(self, o: T): ZZ32 = 5 end` is refused, 'does not define all declarations', where the text accepts it | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/source-code.tex`, "Export Statements" | `ProjectFortress/compiler_tests/XXXExportOperatorFunctionalMethod.test` | climb batch 22c rung O's skeptic | siblings: 769, 834. `uncoveredDeclarations` keeps `SDeclaredFunction`s only (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:613-620` at c124c6b65), as `coverOverloading` does (`scala_src/typechecker/OverloadingChecker.scala:848-852`, called at `ExportChecker.scala:251`); the text's function "is satisfied by a set of top-level function and functional method declarations" (`source-code.tex:356-361`). Before `bb3925156` the check skipped operators: the program compiled and a client's call through the api printed PASS, and a named function was refused then as now. Walk runs both. Workaround: a top-level declaration. |
+
+### Row 889
+
+rewritten
+
+| 889 | the code generator crashes with a `NullPointerException` on a trait or object whose `extends` clause gives a generic trait a tuple static argument that holds `Any`, as `object PairHolder extends Holder[\(Any, ZZ32)\]`, which the checker accepts | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXExtendsGenericAtTupleOfAny.test` | climb batch 25 rung C | siblings: 820. `generateTypeReference`'s tuple branch passes an element that is neither a trait type nor a type variable back to itself with a null name (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:6024` at c124c6b65), which `NamingCzar.repairedApiName` dereferences (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:1720`): 'Cannot invoke "com.sun.fortress.nodes.IdOrOp.getApiName()" because "id_or_op" is null'. The arrow branch makes the same call (`CodeGen.java:6051`), not measured. Workaround: a named trait in place of `Any` in the tuple. |
+
+### Row 983
+
+rewritten
+
+| 983 | on the compiled path a task captures every variable in scope that is named as a static parameter in the type of a function its expression calls: `n`, `r` and `v` for every numeral, whose coercion is `coerce[\nat n, nat r, nat v\]`; the extra value is passed to the task and never read | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | none | climb batch 30 rung P's skeptic | siblings: 497. `FreeVariables.forId` collects the name of each `StaticParam` and `IntRef` in a `FnRef`'s arrow type (`compiler/codegen/FreeVariables.java:98`), and `CodeGen.getFreeVars` keeps each that names a variable in scope (`compiler/codegen/CodeGen.java:5126`). An instrumented copy printed 'PROBE Id r', 'forStaticParam', 'forTypeInfo', 'forArrowType', 'forFnRef' for the `1` of `up(k + 1)`. Where the name was the variable a binding declares, `r: ZZ32 = add(up(k), up(k + 1))`, the task read its slot before it was set, 'VerifyError: Bad local variable type'; repaired in `forLocalVarDecl` (`compiler_tests/LocalBindingForkedNumeralCompiled`). What remains costs a constructor argument. |
+
+### Row 995
+
+rewritten
+
+| 995 | on the compiled path a type that a hand-written class carries, other than an object over a payload class, has two names at run time: its `RTTIc` holds the trait's interface, descriptors the carrier, so a static argument inferred from a value's run-time type makes another instance | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | none | switch-over rehearsal | siblings: 874, 866, 566, 496. An object over a payload class has one name, its RTTI named by the payload class (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:6306-6312`): the prelude's seven number types, and the one library's seven with its `Boolean`, `Char` and `FlatString` (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:637-655` at f3439cf7ce); tests `ComprisesMeetGenericTrait`, `GenericBesidePlainZZ32`. The prelude's `Boolean`, `Character` and `JavaString`, both libraries' readers and writers, and the one library's stores keep two names; no program shows it. First seen switched onto the one library (`plan-31/probes/switch-rehearsal.md`, W12). |
+
+### Row 1088
+
+rewritten
+
+| 1088 | the code generator stops at a call at an assumption of a generic trait of a method whose parameter has the trait's type parameter, as `stamp(Q asif Tagged[\String\], s asif String)` for `stamp(self, x: T)` in `Tagged[\T\]`: 'Can't find the body that Tagged[\String\] gives stamp at ...' | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/type-annotation.tex`, "Type Assumption" | `ProjectFortress/compiler_tests/XXXAsIfGenericTraitParamCompiled.test` | climb batch 33b rung R (skeptic) | siblings: 818, 940. So too a dotted call, `(Q asif Tagged[\String\]).seal(s asif String)`; a method whose parameters do not name `T` compiles. `emitBodyGivenBy` (`CodeGen.java:7209-7234`) finds the body, whose signature differs from the call's; not traced further. The base stops so at a local trait; at an imported api's generic trait it ran the object's override, and since rung R's `hasBodyInItsTrait` it stops so, also at the prelude's `Equality[\T\]`: '... CompilerAlgebra.Equality[\Pt\] gives = at (LSkAsIfPrelude$Pt;)'. Walk prints `Tagged stamp`. |
+
+### Row 1103
+
+rewritten
+
+| 1103 | on the compiled path an exception object without value parameters that a helper raises is a second instance of the object, so a caught `IntegerOverflow` or the one library's `FileNotFoundException` is not `SEQV` the object; walk gives the object itself | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/objects.tex`, "Object Declarations" | ProjectFortress/one_library_tests/XXXOneLibraryRunHelperRaiseSingleton.test | climb batch 34b rung C | siblings: 1102. `Utility.makeFortressException(name)` makes the exception by its constructor without parameters (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java:66-69`, at 1c62991e66), as on the base for the prelude, and the rung's fallback for an object without a constructor over `String` does the same (`:49-51`); the code generator keeps an object's one instance in its static field `ONLY` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5100-5106`). The prelude too: a compiled `catch e IntegerOverflow => e SEQV IntegerOverflow` answers false on the base and on the head; walk answers true. The compiled path only. |
