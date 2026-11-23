@@ -31,7 +31,7 @@ A test program has this form:
 - A compiled test with a `run` key ends `run()` with `println("PASS")`, unless a `run_out` key checks its output (below).
 - Under walk, `assert(x, y, msg)` checks that `x` equals `y`. It and `=/=` call a type's own `=` only if the type extends a `FortressLibrary` trait that declares `=`, such as `Equality` (ledger row 807). Otherwise they compare by `SEQV` (`revival-changes.md`, "Traits and objects"). If a type `P` has its own `=`, make `P` extend `Equality[\P\]`, or write `assert(x = y, msg)`. The compiler's library declares the two-value `assert` only for `ZZ32`, `String` and `Character`; its `assert(flag, msg)` takes any `Boolean`.
 - Do not name a variable or a parameter after a functional method of the library, such as `big`, `even`, `numerator` or `shift`. The disambiguator, the phase that binds names, refuses it: "Variable even is already declared."
-- A superscript is `^` and what follows it, as the exponent in `x^2` or the transpose `^T`. It can follow a dotted access: `p.wq^T` is `(p.wq)^T`. After a call, parenthesise first, as `(f(x))^T`: `f(x)^T` is a static error.
+- A superscript is `^` and what follows it, as the exponent in `x^2` or the transpose `^T`. It can follow a dotted access or a subscript: `p.wq^T` is `(p.wq)^T`, and `x[5]^2` is `(x[5])^2`. After a call, parenthesise first, as `(f(x))^T`: `f(x)^T` is a static error.
 - A test of run-time arithmetic or concatenation needs a variable operand, not a literal, because an expression of literals alone folds before the run (`revival-changes.md`, "Numbers").
 
 ## Where a test goes, and how it passes

@@ -1578,3 +1578,15 @@ The other parts, from the landing's list of the skill's sentences that it made f
 - `compiler.md`, "What the compiled path cannot compile yet": the order of the compiles in one JVM, deleted. Ledger row 1100; the tie fixed by `b7b5b0c02b`.
 - `compiler.md`, the same section: `override` compiles, except where a static parameter is involved. F-400; ledger rows 650 and 1106; `CodeGen.java:3462-3465`.
 - `compiler.md`, "Traps of the compiled path": the dispatch of an object's overloads with `self` not first, deleted. Ledger rows 573 and 1038, fixed by `1db0e878c`.
+
+## The cold read of climb batch 35's skill changes, 2026-11-23
+
+Each fix settled by the writer from the cold read's flags.
+
+- `SKILL.md`, "Fortress as a language", static parameters: a numeral coercion's static parameters sent to "Numbers", in place of a rule stated without the tree's departure.
+- `compiler.md`, "What the compiled path cannot compile yet": the two forms of `override` that the code generator refuses, with their messages. Ledger row 1106; `compiler/codegen/CodeGen.java:1204-1213`.
+- `revival-changes.md`, the opening: a departure that cites a FACTS entry is tested as one that cites a row, and the entry is cited.
+- `revival-changes.md`, "`override` widens": a pointer to the code generator's refusals. Ledger row 1106.
+- `revival-changes.md`, "Numbers", the coercion paragraph: the static arguments of either form; "invokes no method" cut, since `Byte(v)` carries it; what is refused statically; `asZZ32` raises `IntegerOverflow` (`revival-changes.md`, the conversion rule, P-161); the compiled path computes the value when the class loads (`compiler.md`, "What the code generator does").
+- `revival-changes.md`, "`Number` declares nothing": the compiler's prelude has no `asFloat`. `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi`.
+- `tests-writing.md`, the form of a program: a superscript can follow a subscript. Ledger row 1, fixed; `tests/SubscriptThenSuperscriptWalk.fss`.
