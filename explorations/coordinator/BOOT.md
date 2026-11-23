@@ -21,6 +21,11 @@ His word at 08:4x UTC on 11-23: "go ahead with the plan. Will be offline for 2h.
 - **The expected-failure rule's way 3** (review-queue item 608, taken by the coordinator, for his review as landed): the `Expected failure:` line echoed in the Bash call that first runs the test, before the harness command; the batch script and manual `8bb71dca94`, `tests-writing.md` `82bb989f2f` and `272357f603`.
 - **The speed roadmap**, at his request of 15:3x UTC on 11-20: `explorations/reviews/speed-roadmap-2026-11-20.md` (`04921293b7`, `4be32054bb`), evidence beside it; page https://claude.ai/artifact/1NjFC64pkL6UaTN7CtsoUc , version 1 (source `<scratchpad>/hpc-roadmap/page.html`, built by `build-page.py` there). Its decisions for him are in its section 1, none asked yet. Its measurements (section 11) wait for a quiet machine, the Java probe of the ceiling first. Row 1092 filed from it (`RR32` has no `exp`, `log` or trigonometric function).
 
+## The process, at his word of 11:2x on 11-23
+
+- **The review queue's triage RUNNING** (Opus Agent-tool worker at `xhigh`; brief `<scratchpad>/process-review/queue-triage-brief.md`; in its own worktree `/home/user/fortress-queue-triage` on the branch `wip/queue-triage`, pushed there, not to `main`). When it ends: merge the branch into `main` after climb batch 35 lands, and its record-landing ends (the record-landing edits the queue too); apply its FACTS and ledger drafts by `record.py` and `ledger.py`; remove the worktree.
+- **The Fable review of the process's dead ends RUNNING** (Agent-tool worker on Fable, his go; brief `<scratchpad>/process-review/fable-process-brief.md`; writes `<scratchpad>/process-review/process-dead-ends-2026-11-23.md`, which the coordinator commits under `explorations/reviews/` after the batch lands). When it ends: sort its findings; then the skill writer drafts the queue rule (his "1") with the review's fixes for the same flows, cold read, the page of skill drafts' "Proposed changes", his yes to the words.
+
 ## Told to him at the boot's message of 07:5x on 11-21
 
 The page of `fortress-repo` changes at version 32 for 34b's landing (`2d194074ed`, `e8091fa2a4`); the revival page at version 41; that POSITIONS did not change.

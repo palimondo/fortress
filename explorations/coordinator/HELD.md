@@ -2,6 +2,11 @@
 
 # Held list
 
+## Held in chat (2026-11-23)
+
+- 11:2x **His answer on the review queue: "OMFG. 1."** The ask of 11:1x: the queue holds 270 open items (93 consequential, 177 routine, about 624K characters), regrown since the cleanup of 2026-11-05, since each batch files 10 to 28 landed defaults for his review and the skill's rule puts each to him one per message; option 1, put by the coordinator: change the rule, so that a default that is not consequential lands and is recorded in FACTS or a ledger row and does not go on the queue, and only consequential items enter it, each with the work that needs it; and triage the queue once. The rule touches the `coordinator` skill's "The curator's role and decisions", so its exact words wait for his yes, through the page of skill drafts. The triage runs (an Opus worker on the branch `wip/queue-triage`).
+- 11:2x **His order, in the same message:** "But also: Fable worker to review our overall development process, with focus on identifying and proposing fixes for dead ends in information/decision flows." Running (brief `<scratchpad>/process-review/fable-process-brief.md`). The coordinator's choice, not his words: the rule's draft waits for this review, so that one draft covers the queue's flow with the review's findings.
+
 ## Held from his page comments on the page of `fortress-repo` changes, version 32 (2026-11-22 and 2026-11-23)
 
 His reading, in chat at 08:3x UTC on 11-23: "I read until, but not including change 42." He sent no comment to Claude, "to batch your reading". The threads are on the page, not activated, so the answers go in chat.
