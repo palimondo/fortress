@@ -11195,3 +11195,9 @@ rewritten
 rewritten
 
 | 995 | on the compiled path a type that a hand-written class carries, other than a value object over a payload class, has two names at run time: its `RTTIc` holds the trait's interface, descriptors the carrier, so a static argument inferred from a value's run-time type makes another instance | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | none | switch-over rehearsal | siblings: 874, 866, 566, 496. A value object over a payload class has one name, its RTTI named by the payload class (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:6306-6312`): the prelude's seven number types, and the one library's seven with its `Boolean`, `Char` and `FlatString` (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:637-655` at f3439cf7ce); tests `ComprisesMeetGenericTrait`, `GenericBesidePlainZZ32`. The prelude's `Boolean`, `Character` and `JavaString`, both libraries' readers and writers, and the one library's stores keep two names; no program shows it. First seen switched onto the one library (`plan-31/probes/switch-rehearsal.md`, W12). |
+
+### Row 94
+
+rewritten
+
+| 94 | the spec's constant `pi` is not in the default library: it is a `FloatLiteral` in the optional `Constants` API, not the spec's `RationalValueTimesPi` object, and the Unicode name is undefined | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic/expressions/literals.tex`, "Pi" | none | run-b | siblings: 95. Bare: `Variable pi is not defined.`; the Unicode spelling: `Variable ? is not defined.` (the interpreter cannot echo the character). Workaround: `import Constants.{pi}` (`Library/Constants.fss:15`): `pi = 3.141592653589793`, `pi r^2 = 12.566370614359172`. Probes `explorations/run-b/probes/worker/w06_pi_bare.fss`, `w06_pi_unicode.fss` (fail), `w06_pi.fss` and `explorations/run-b/probes/c21_constants_pi.fss` (work), in the parent of ed6dafb52. full text: history, row 94 |
