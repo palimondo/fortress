@@ -1,0 +1,23 @@
+(* An exception thrown out of a tryatomic block reaches the catch clause around it and discards the block's writes, as out of an atomic block. atomic.tex, section "Atomic Expressions". *)
+component XXXThrowOutOfTryAtomicWalk
+export Executable
+
+object Boom extends UncheckedException end
+
+var t: ZZ32 = 0
+
+run(): () = do
+  var caught: ZZ32 = 0
+  try
+    tryatomic do
+      t := 3
+      throw Boom
+    end
+  catch e
+    Boom => caught := 1
+  end
+  assert(caught, 1, "an exception thrown out of a tryatomic block reaches the catch clause around it")
+  assert(t, 0, "an exception thrown out of a tryatomic block discards the block's writes")
+end
+
+end
