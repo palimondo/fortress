@@ -1,0 +1,10 @@
+Record after climb batch 35's landing: P-174, P-40 and P-173 in line with P-174's rewrite; F-396, the batch's drafts and row 1112
+
+- P-174: its last sentence names the tree's other departures from its rewrite, which have no row: the numeral coercions that call a getter on the four numbers, and the checker and the literals chapter reading each as a ZZ value. The decision is unchanged.
+- P-40 and P-173: their clauses on the four numbers read as values now say what P-174 says since its rewrite: each converts where it stands, a ZZ where nothing fixes a type. Their own decisions are unchanged.
+- F-342, F-345, F-323 and F-324: each says where the tree differs from P-174 or P-165 as rewritten, with no row.
+- F-396: the sentence that the library's compile depends on what its JVM compiled before (row 1100) is replaced, since the gate's repair: the checker's ties follow the hash order (row 935), but a tie that self's type makes keeps the trait's own declaration.
+- F-397 to F-401: the gather's drafts in the record's form; F-397 and F-398 state run 1's worker defaults on a folded constant's digits and on walk's message for a tuple binding.
+- F-88 back under 600 characters; F-351's clause on a failed commit given its verb; F-281 and F-366 re-anchored.
+- F-240's history: the gate's CPU differs from climb batch 34b's, and the count stage now lies below the figure that its rise starts from. F-354's history: its second instance, at the red gate.
+- Ledger: row 1112, new, the checker's choice at a tie that self's type makes against the specification's; rows 1100, 815, 935 and 594 noted; twelve rows' citations re-anchored to the landing.

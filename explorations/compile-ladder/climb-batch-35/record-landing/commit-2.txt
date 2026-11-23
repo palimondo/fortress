@@ -1,0 +1,9 @@
+Plan and review queue after climb batch 35's landing: the plan brought to run 1 and to the queue's triage, item 562 gains the atomic case
+
+- PLAN, "Where we stand": the runs, the live thread, the landed batches, the probes' line and "Next" brought to climb batch 35's run 1 and the steps before run 2.
+- PLAN, phase 4: a line for climb batch 35 with the review's list for the batch after; row 1100 fixed in climb batch 34b's line and in the lines on the one library's refusals; the lines that named items that left at the triage brought in line.
+- PLAN, phases 3 and 5 and the parked lists: phase 3's zero is landed and not consequential; rows 571 and 573 leave phase 5's list; the answer lists match the queue.
+- PLAN, the lists for his review: 147 lines moved to the history, built by run 1, answered, or with their item settled at the triage; climb batch 35's group told where the review says so, A.worker.1 cut to a pointer to item 562.
+- PLAN-history: the section "Climb batch 35's landing, 2026-11-23", with each moved or rewritten line word for word.
+- Review queue: item 562 gains the case of an exit from inside an atomic block; items 473, 592 and 608 brought in line; the head's group for the batch after climb batch 35b, with item 616's need.
+- The run's folder: the sort, the evidence, the writers' files and reports, the check, the cold read, the mechanical checks, the judge's files and diff.md.
