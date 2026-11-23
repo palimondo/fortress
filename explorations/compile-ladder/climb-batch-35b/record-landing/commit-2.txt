@@ -1,0 +1,9 @@
+Plan and review queue after climb batch 35b's landing: the plan brought to run 2, a line for climb batch 35b with the list for the batch after
+
+- PLAN, "Where we stand": the runs, the live thread, the landed batches and "Next" brought to climb batch 35b, run 2, and the steps before the batch after; row 1100 stays open with its gate repair.
+- PLAN, phase 4: a line for climb batch 35b with the review's list for the batch after; climb batch 34b's and 35's lines, F-34's line and the rehearsal's line say row 1100 is open; climb batch 35's line points to the new one.
+- PLAN, phase 5: row 815 closed by rung M, row 770 open.
+- PLAN, climb batch 35b's list for his review: E.worker.1 and E.worker.2 move to the history as the coordinator's; the NOR misprint, row 1125 and the Appendix I clauses gain their routes; the numeral-type line says P-174 now names row 1124.
+- PLAN-history: the section "Climb batch 35b's landing, 2026-11-23", with each moved or rewritten line word for word.
+- Review queue: items 503 and 493 name row 1124 for the numeral-type forms that walk still loads; item 608 held in its third batch; item 616 and the head's group point to climb batch 35b's line.
+- The run's folder: the sort, the evidence, the writers' files and reports, the check, the cold read, the mechanical checks, the judge's files and diff.md.

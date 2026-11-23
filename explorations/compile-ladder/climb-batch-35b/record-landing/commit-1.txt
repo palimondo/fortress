@@ -1,0 +1,8 @@
+Record after climb batch 35b's landing: P-174 names row 1124; F-253 and F-26 name row 1125's exception; the pass on F-375, F-403 and F-406
+
+- P-174: its sentence on where the tree departs names row 1124, walk loading a numeral type written as a return type, a variable's or a field's type, since walk now refuses one in a comprises clause and row 981 is closed. The decision is unchanged.
+- F-253 and F-26: walk chooses the inner of two generic dotted methods, except two that differ only in their bounds, of which the first met is kept (row 1125).
+- F-375: the tuple result is read element by element by the reading at object arguments, in its own sentence; the sentence on row 1122 goes, since F-257 and F-275 hold it.
+- F-403: the one library's top-level form for the boolean operators, and the one overload set with AplCore's operators under walk, are defaults of the batch's plan that the curator has not decided; row 994's subject is stated.
+- F-406: the written overload method is a default of the batch's plan and the forwarder a worker's choice, neither decided by the curator; the sentence on how the fact came about moves to the history.
+- Held: F-404 and F-405 keep their landed text, since the fix round grew each past its owed change.
