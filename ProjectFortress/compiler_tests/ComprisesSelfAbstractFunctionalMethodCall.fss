@@ -1,4 +1,4 @@
-(* A trait that comprises one object, with a getter that calls the trait's abstract functional methods on self, compiles to default methods that load, the calls taking the trait's own declarations. *)
+(* A trait that comprises one object, with a getter that calls the trait's abstract functional methods on self, compiles to default methods that load, and the getter's calls on self run the object's declarations. *)
 component ComprisesSelfAbstractFunctionalMethodCall
 export Executable
 
@@ -21,6 +21,7 @@ end
 run(): () = do
     s: Solid = Brick(1, 20, 300, 4000)
     assert(s.kind, "solid", "Solid's default methods load")
+    assert(s.total, 4321, "the getter's calls on self run Brick's declarations")
     println("PASS")
   end
 

@@ -1,0 +1,15 @@
+(* A functional method of an object that a trait's comprises clause lists, with a return type narrower than that of the trait's abstract declaration, compiles: the object's parameter type is strictly below the trait's (advanced/overloading.tex, section "Subtype Rule"; traits.tex, section "Method Declarations"). *)
+component XXXComprisesFunctionalMethodNarrowedReturn
+export Executable
+
+trait Q comprises { R }
+    abstract twin(self): Q
+end
+
+object R(n: ZZ32) extends Q
+    twin(self): R = R(n + 1)
+end
+
+run(): () = println("PASS")
+
+end

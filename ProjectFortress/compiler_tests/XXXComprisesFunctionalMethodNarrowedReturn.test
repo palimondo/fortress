@@ -1,0 +1,4 @@
+# A comprised object's functional method with a return type narrower than the trait's abstract one compiles.
+tests=XXXComprisesFunctionalMethodNarrowedReturn
+compile
+compile_err_contains=should be a subtype of the

@@ -1,0 +1,5 @@
+# A functional method of a trait that comprises one object, called on a value typed as the object, runs compiled.
+tests=FunctionalMethodComprisedObject
+link
+run
+run_out_contains=PASS

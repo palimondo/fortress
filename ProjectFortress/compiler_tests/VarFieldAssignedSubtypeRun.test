@@ -1,0 +1,5 @@
+# An assignment to a var field or through a setter, of a value of a strict subtype of the field's type, runs compiled.
+tests=VarFieldAssignedSubtypeRun
+link
+run
+run_out_contains=PASS

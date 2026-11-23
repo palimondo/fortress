@@ -1,5 +1,5 @@
 (* A functional method of a trait that comprises one object, called on a value whose static type is that object, runs the object's declaration (traits.tex, section "Method Declarations"; overloading.tex, section "Principles of Overloading"), so num(R) is 1. *)
-component XXXFunctionalMethodComprisedObject
+component FunctionalMethodComprisedObject
 export Executable
 
 trait Q comprises { R }

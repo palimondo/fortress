@@ -1,7 +1,7 @@
-component XXXCoercionAnyOverloadRungC
+component CoercionAnyOverloadRungC
 export Executable
 
-(*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
+(* An overloaded call that one declaration takes without coercion and another only by a coercion of its argument runs, compiled, the declaration that takes it without coercion (conversions-coercions.tex, section "Coercion Resolution"). *)
 
 trait Wide excludes { Narrow }
   coerce(x: Narrow) = WideOf(x.small)
