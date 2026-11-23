@@ -4640,3 +4640,29 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 4638,2026-11-23 16:57:43Z,0cb867d17,1111,894999,410994,119378,387399,897360,411125,119446,387522,,"fortress-repo: climb batch 35's landing, the parts in line with it"
 4639,2026-11-23 17:03:24Z,2dd2936b4,1111,894999,410994,119378,387399,897360,411125,119446,387522,,fortress-repo: the cold read of climb batch 35's landing
 4640,2026-11-23 17:23:36Z,2b7803456,1111,894999,410994,119378,387399,897360,411125,119446,387522,,"Climb batch 35's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
+4641,2026-11-23 17:25:40Z,c98964199,1111,894999,410994,119378,387399,897360,411125,119446,387522,,"Revival page: where it stands at the landing of climb batch 35, the record chart regenerated; update.py reads phase 3's "
+4642,2026-11-23 17:25:41Z,e03ad90fe,1111,894999,410994,119378,387399,897360,411125,119446,387522,,Orientation quiz key after climb batch 35's landing
+4643,2026-11-23 17:27:13Z,848db1462,1111,894999,410994,119378,387399,897360,411125,119446,387522,,Boot note: climb batch 35's record-landing ended; the base build for run 2 and the triage's drafts running; held for him
+4644,2026-11-23 17:30:21Z,3bd966454,1111,894999,410994,119378,387399,897360,411125,119446,387522,,"Boot note: run 2's base build done, its re-read running"
+4645,2026-11-23 17:37:59Z,c00e592a5,1115,898905,413505,119378,387399,901266,413636,119446,387522,,"Record: the queue triage's missing homes filed, F-402 and six FACTS clauses, rows 1113 to 1116"
+4646,2026-11-23 17:38:34Z,60098ad13,1115,898905,413505,119378,387399,901266,413636,119446,387522,,Boot note: the triage's eleven drafts written
+4647,2026-11-23 17:47:42Z,1e74cf3de,1115,898905,413505,119378,387399,901266,413636,119446,387522,,Climb batch 35's record: run 2's sections read again on run 1's landed tree
+4648,2026-11-23 17:49:35Z,9f59b0e45,1116,899728,413505,119378,387399,902089,413636,119446,387522,,"Ledger: row 1117, the APL experiments' AplCore passes a function to fill (P-89), found by climb batch 35b's re-read"
+4649,2026-11-23 17:49:49Z,5a5955155,1116,899728,413505,119378,387399,902089,413636,119446,387522,,"Climb batch 35b, run 2: its block spliced into the batch script"
+4650,2026-11-23 17:50:32Z,7a96acc25,1116,899728,413505,119378,387399,902089,413636,119446,387522,,Boot note: climb batch 35b launched
+4651,2026-11-23 20:05:21Z,e5cf04d47,1120,904337,416245,119378,387399,906725,416390,119446,387522,,"The one library declares EQV and NEQV over two booleans, beside <->"
+4652,2026-11-23 20:07:59Z,5c31f2b68,1125,909676,418535,119378,387399,912064,418680,119446,387522,,"Walk runs overloaded generic dotted methods, reads a tuple result by element, and refuses a numeral type in a comprises "
+4653,2026-11-23 20:08:56Z,08860c527,1126,910702,420124,119378,387399,913090,420269,119446,387522,,"Compiled calls name methods that the class holds: a setter at the field's type, and an overload method of a call's decla"
+4654,2026-11-23 20:11:08Z,798cab4df,1126,906122,420124,119378,387399,908512,420269,119446,387522,,Close the rows climb batch 35b fixed
+4655,2026-11-23 20:34:54Z,f23f91938,1126,906122,420124,119378,387399,908512,420269,119446,387522,,Climb batch 35b's gather record
+4656,2026-11-23 20:50:00Z,b309f9110,1126,906122,420124,119378,387399,908512,420269,119446,387522,,Fold the review's corrections
+4657,2026-11-23 20:59:32Z,1caac80b3,1126,906122,420125,119378,387399,908512,420270,119446,387522,batch 35b,Record the gate's tables and the microGPT walk check
+4658,2026-11-23 21:01:24Z,87180e986,1126,906122,420125,119378,387399,908512,420270,119446,387522,,Boot note: climb batch 35b landed; its post-batch review running
+4659,2026-11-23 21:15:02Z,9d5d21bf5,1126,906122,420125,119378,388040,908512,420270,119446,388163,,"Climb batch 35b, run 2: the post-batch review"
+4660,2026-11-23 21:15:55Z,736581b58,1126,906122,420125,119378,388040,908512,420270,119446,388163,,"Boot note: climb batch 35b's review done, its record-landing running"
+4661,2026-11-23 21:56:13Z,96cd5ade2,1126,906122,420987,119452,388040,908512,421140,119520,388163,,Record after climb batch 35b's landing: P-174 names row 1124; F-253 and F-26 name row 1125's exception; the pass on F-37
+4662,2026-11-23 21:56:13Z,ddfa65d88,1126,906122,420987,119452,388040,908512,421140,119520,388163,,"Plan and review queue after climb batch 35b's landing: the plan brought to run 2, a line for climb batch 35b with the li"
+4663,2026-11-23 22:33:37Z,71d9fba7f,1126,906122,420987,119452,388040,908512,421140,119520,388163,,"fortress-repo: climb batch 35b's landing, the orientation's install"
+4664,2026-11-23 22:34:47Z,abd58e52a,1126,906122,420987,119452,388040,908512,421140,119520,388163,,"fortress-repo: climb batch 35b's landing, the sentences it made false"
+4665,2026-11-23 22:41:25Z,7b7d4c1c5,1126,906122,420987,119452,388040,908512,421140,119520,388163,,fortress-repo: the cold read of climb batch 35b's landing
+4666,2026-11-23 22:57:44Z,5ba0b04cd,1126,906122,420987,119452,388040,908512,421140,119520,388163,,"Climb batch 35b's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upd"

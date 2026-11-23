@@ -119,8 +119,8 @@ FACTS,2026-11-20,batch,6125,0,6125,8
 FACTS,2026-11-20,coordinator edit,0,-3,-3,1
 FACTS,2026-11-21,batch,3279,0,3279,3
 FACTS,2026-11-21,coordinator edit,0,-7,-7,1
-FACTS,2026-11-23,batch,7079,-4,7075,8
-FACTS,2026-11-23,coordinator edit,949,0,949,1
+FACTS,2026-11-23,batch,13699,-4,13695,12
+FACTS,2026-11-23,coordinator edit,4322,0,4322,3
 INDEX,2026-09-15,worker (probe/judgement/review),12328,0,12328,1
 INDEX,2026-09-16,worker (probe/judgement/review),1774,0,1774,2
 INDEX,2026-09-17,coordinator edit,2547,0,2547,4
@@ -235,7 +235,7 @@ INDEX,2026-11-20,coordinator edit,716,0,716,1
 INDEX,2026-11-20,worker (probe/judgement/review),1924,0,1924,2
 INDEX,2026-11-21,worker (probe/judgement/review),1524,0,1524,1
 INDEX,2026-11-23,coordinator edit,2301,0,2301,2
-INDEX,2026-11-23,worker (probe/judgement/review),2421,0,2421,3
+INDEX,2026-11-23,worker (probe/judgement/review),3062,0,3062,4
 POSITIONS,2026-09-15,coordinator edit,3846,0,3846,1
 POSITIONS,2026-09-15,worker (probe/judgement/review),836,0,836,3
 POSITIONS,2026-09-16,worker (probe/judgement/review),1357,0,1357,1
@@ -314,7 +314,7 @@ POSITIONS,2026-11-17,coordinator edit,663,-97,566,2
 POSITIONS,2026-11-17,worker (probe/judgement/review),25,0,25,1
 POSITIONS,2026-11-18,coordinator edit,60,-50,10,2
 POSITIONS,2026-11-23,batch,0,-39,-39,1
-POSITIONS,2026-11-23,coordinator edit,2068,0,2068,3
+POSITIONS,2026-11-23,coordinator edit,2142,0,2142,4
 ledger,2026-09-09,worker (probe/judgement/review),39643,0,39643,1
 ledger,2026-09-14,coordinator edit,5748,0,5748,1
 ledger,2026-09-14,worker (probe/judgement/review),195996,0,195996,7
@@ -421,6 +421,6 @@ ledger,2026-11-18,coordinator edit,7836,0,7836,4
 ledger,2026-11-20,batch,5921,-2177,3744,7
 ledger,2026-11-20,worker (probe/judgement/review),847,0,847,1
 ledger,2026-11-21,batch,6743,-1508,5235,3
-ledger,2026-11-23,batch,8865,-4856,4009,7
-ledger,2026-11-23,coordinator edit,1232,0,1232,2
+ledger,2026-11-23,batch,19839,-9436,10403,11
+ledger,2026-11-23,coordinator edit,5961,0,5961,4
 ledger,2026-11-23,worker (probe/judgement/review),158,0,158,1

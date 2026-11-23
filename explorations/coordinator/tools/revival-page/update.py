@@ -273,7 +273,11 @@ def landing_row(batch, commit, run_start, earlier=False):
              'the record does not hold: give it with --run-start YYYY-MM-DDTHH:MM, or --run-start base for the time of the '
              'gather record\'s base commit' % name)
     if run_start == 'base':
-        base = one(r'from the base `([0-9a-f]{7,40})`', text, rel(rec) + ', its base').group(1)
+        # The gather record names its base in one of two forms: "from the base `X`", or, since climb
+        # batch 35, in its preconditions: "and `X` is an ancestor of `HEAD`".
+        base = one(r'(?:from the base `([0-9a-f]{7,40})`|and `([0-9a-f]{7,40})` is an ancestor of `HEAD`)',
+                   text, rel(rec) + ', its base')
+        base = base.group(1) or base.group(2)
         from datetime import datetime, timezone
         start = datetime.fromisoformat(git('show', '-s', '--format=%cI', base).strip()).astimezone(timezone.utc).strftime('%Y-%m-%dT%H:%M')
         how = 'the time of the gather record\'s base commit %s' % base[:9]
