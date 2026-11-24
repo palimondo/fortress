@@ -2421,9 +2421,7 @@ method has a static parameter of its own bounded by the trait's, at load or at a
 generic object's first instance (row~762); and a dotted call that writes
 static arguments to a method name that its receiver overloads by a plain and a
 generic method still stops (row~744).
-Of two generic dotted methods of one name, one number of parameters and static
-parameters of the same kinds that differ only in their bounds, it keeps the
-first that it meets and drops the other (row~1125); and a call on a receiver
+A call on a receiver
 assumed at a trait, of a name that the trait overloads by two generic dotted
 methods, stops, since it reads their parameter types without their static
 parameters (row~1126).
@@ -3125,10 +3123,7 @@ by parameter, on the two declared domains, each over its own instances, by these
 rules, but finds a third declaration that holds the overlap of two neither of
 which lies inside the other only where their parameter types are, position by
 position, instances of one generic type or static parameters, so that it
-refuses that example (row~539); and it refuses at load, as failing the Return
-Type Rule, two declarations with static parameters one of whose declared domains
-lies inside the other's where their results are tuples that each hold the
-declaration's own type parameter, a pair that these rules allow (row~1122).
+refuses that example (row~539).
 Of two generic functional methods one of whose declared domains lies inside
 the other's, it refuses at load the pair that a trait or object without
 static parameters declares, as failing the Meet Rule, where it loads the same
@@ -5445,7 +5440,9 @@ without a prefix \EXP{-}, a folded constant at a type of a program's own
 without a coercion from the constant's default type, and a numeral bound to a
 variable declared of a numeral type.
 It refuses when it loads a program a numeral type written as a type that an
-object or a trait extends, or as a static argument.
+object or a trait extends, as a type that a trait's \KWD{comprises} clause
+lists, as a static argument, or in a return type or the type of a variable or
+of a field, an object's value parameters among the fields.
 It converts a
 numeral at a parameter of the declaration that a call chooses, at a variable or
 a field of a declared type and at a declared return type, but not one passed
