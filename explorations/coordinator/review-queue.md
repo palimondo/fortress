@@ -4,13 +4,13 @@
 
 The consequential items that stay after the triage of 2026-11-23, grouped by the work on PLAN's road that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) gives the other way, the cost, the home and its "Needed by" line. A landing files only its consequential items here, each with its "Needed by" line, and brings this section and its counts in line; its other defaults go to FACTS or the gap ledger (`coordinator/tools/record-landing/routing.md`).
 
-**Counts**, 100 open items, all consequential:
+**Counts**, 101 open items, all consequential:
 - The batch after climb batch 36: 2.
 - Before the switch-over: 17.
 - Q-walk, after the switch-over: 4.
 - Before microGPT compiles: 13.
 - Before microGPT runs fast: 8.
-- No planned work: 56.
+- No planned work: 57.
 
 **The batch after climb batch 36** (PLAN, "Where we stand", "Next", and phase 4, climb batch 36's line, its list: row 1136 first, whose tie P-181 decides; row 1094's dotted form, by the signature rule that fork K1 gives; row 1098 once it has its default).
 - **616.** Row 1098, which export rule holds where a component declares a function at a wider type than its api: the text's, so that the one library's component declares `print`, `println` and `errorPrintln` at `Number` and `Boolean`, or the team note's, so that the code generator calls or bridges to the covering declaration. No default on record; as landed, neither rule built; the review proposes the note's rule.
@@ -123,6 +123,7 @@ The consequential items that stay after the triage of 2026-11-23, grouped by the
 - **627.** His review of the published pages' inventory of 2026-11-05: kept, moved under `docs/`, or deleted. No default on record.
 - **628.** P-42's example of arrays indexed by pairs, against P-156. No default on record.
 - **629.** His reading of the two claims kept out of his reply to Professor Ryu. No default on record.
+- **630.** His rule of 2026-11-17 to launch a batch at the planner's defaults without asking first: every fork of a batch, or only the forks that are not consequential, as the coordinator narrowed it. No default on record.
 
 ## (b) Consequential, by theme
 
@@ -755,7 +756,7 @@ The consequential items that stay after the triage of 2026-11-23, grouped by the
    - Home: `reviews/speed-roadmap-2026-11-20.md`, decision 17; P-84; `coordinator/postmortem-2026-11-24-held-list/evidence/held-lines-001-074.md`, line 27
    - Needed by: microGPT runs fast: the speed roadmap's stage 6, "No stage needs it before stage 6" (PLAN, phase 6).
 
-### How batches run (4)
+### How batches run (5)
 
 403. **Does a crash in the distance stage that no rung declared make a later gate red, as it does in the checker count?** The post-batch review's finding A. At climb batch 27's gate the distance held two `#crash` rows: the compiled checker crashed while it typed `value object Char`, so the zero did not cover `Char`'s body (row 929; F-54). Climb batch 28's rung K closed row 929 (`a3eba5067`; F-334), and that batch's gate reads `#crash none`, as climb batch 29's does (`reviews/batch-29-review.md`, section 1); the question stays for later gates. The distance stage is report-only until the switch-over (P-39), so it cannot fail a gate. The finding's first half, the push, is answered: his go of 14:0x UTC on 2026-11-07, "You have a go.", given after the probe of the crash (`coordinator/HELD.md`), and the row is filed as row 929.
    - Landed: (i), the distance report-only, as P-39 has it. Default: (i), the record's.
@@ -781,6 +782,10 @@ The consequential items that stay after the triage of 2026-11-23, grouped by the
 622. **Which open rows does P-180 make a batch fix (ask A1 of the process review)?** His page comment of 08:30 UTC on 2026-11-23 on change 42 of the page of `fortress-repo` changes: "Why do you keep pushing [this] forward, inflating skills with workaround instructions, instead of fixing this properly?!?", the same principle as his thread on change 40 of 07:51 UTC on 2026-11-08 (row 364): fix walk's defect, and do not teach it in the skill as a workaround. That case is settled (row 960, `6f0e48f187`). The general rule is ask A1 of `reviews/process-dead-ends-2026-11-23.md`, put to him at 11:5x UTC on 2026-11-23 and not answered (`coordinator/BOOT.md`): (1) each rung fixes the open rows that cite the files it edits; (2) only the skill's 98 workaround passages, in housekeeping batches; (3) a batch opens no more rows than it closes. The review recommends 2 first, then 1. No default on record.
    - Home: `reviews/process-dead-ends-2026-11-23.md`, A1; POSITIONS P-180; `compile-ladder/plan-35/probes/skill-workarounds.md`; `coordinator/postmortem-2026-11-24-held-list/evidence/held-lines-001-074.md`, line 22
    - Needed by: no planned work named in the record.
+
+630. **Does his rule of 2026-11-17, to launch a batch at the planner's defaults without asking him first, cover every fork of a batch, or only the forks that are not consequential, as the coordinator narrowed it?** His words at 06:39:29 UTC on 2026-11-17 (the held list's 06:4x), as the held line has them: "You don't need to ask me about this before the run starts. You had defaults from the planning phase. And when they land, I'll review them and they will yell [tell?] that you are stupid back then. Don't delay the launch of batch. Start it with the original planner defaults." They answered the coordinator's ask of 06:0x UTC on fork O3 of run 2 of climb batch 31, and forks O3 and O4 landed at the planner's defaults for his review after the landing (`coordinator/HELD.md`, "Held in chat (2026-11-17)"). The coordinator read the rule as holding only for a fork that `references/batch.md`, "The go", does not put to him first; he never confirmed that reading. No skill holds the rule: the `coordinator` skill's `references/batch.md`, "The go", bullet 3, still says to put a consequential question to him first and to take its recommended default only overnight. His answer changes that bullet: under the first reading his rule cuts the ask before the launch for a consequential fork that has a planner's default, which then lands and waits for his review; under the second it adds nothing to "Otherwise decide it". The words of "The go" touch "The curator's role and decisions", so they wait for his yes. No default on record.
+   - Home: `coordinator/HELD.md`, "Held in chat (2026-11-17)"; the `coordinator` skill's `references/batch.md`, "The go"; `coordinator/postmortem-2026-11-24-held-list/evidence/held-lines-001-074.md`, line 72; PLAN-history, "His challenge on items 513 and 514 and his rule on a planned batch's forks"
+   - Needed by: no planned work named in the record; the skill writer's next edit of `batch.md`, "The go", writes by the answer.
 
 ### The record, its tools and the repository (7)
 
