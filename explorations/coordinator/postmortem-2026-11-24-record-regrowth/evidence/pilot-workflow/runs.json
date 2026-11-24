@@ -89,7 +89,7 @@
    "runId": "wf_fa0c3ea4-699",
    "taskId": "wnfu6e2xi",
    "script": "/home/user/fortress/tmp/pilot-batch/record-batch-test.js: record-batch.js with one change, the grader on Opus at xhigh effort in place of Fable, since a Fable grader needs the curator's go",
-   "launched": "2026-11-24 23:5x UTC",
+   "launched": "2026-11-24 23:28 UTC",
    "args": {
     "from": "test",
     "to": "test",
