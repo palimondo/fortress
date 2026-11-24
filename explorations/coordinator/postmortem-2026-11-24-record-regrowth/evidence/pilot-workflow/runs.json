@@ -1,0 +1,87 @@
+{
+ "what": "The consolidation's pilot, run through the batch mode's workflow as that script's first run, in the clone /home/user/fortress-pilot (d7fc19bb9a, no remote). Nothing is applied on main. Results: the clone's evidence/pilot-workflow/chunks/pilot-1/ and chunks/inference/.",
+ "script": "/home/user/fortress/tmp/pilot-batch/record-batch.js (a copy of the clone's adjustments/record-batch/record-batch.js; it starts tmp/pilot-batch/record-clarity.js as a child)",
+ "launched": "2026-11-24 23:04 UTC",
+ "runs": [
+  {
+   "round": 1,
+   "runId": "wf_d48c02f8-2aa",
+   "taskId": "w04cowk0o",
+   "args": {
+    "from": "scouts",
+    "out": "/home/user/fortress-pilot/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/pilot-workflow/",
+    "base": "2d1614aaee",
+    "stream": "pilot-wf-1",
+    "map": "/home/user/fortress-pilot/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/sorting-map/",
+    "pilot": [
+     "F-374",
+     "F-351",
+     "F-279",
+     "F-157",
+     "F-63",
+     "F-286",
+     "F-297",
+     "F-64",
+     "F-240",
+     "F-111",
+     "F-43",
+     "F-179",
+     "F-102",
+     "F-103",
+     "F-104",
+     "F-383",
+     "F-108"
+    ]
+   }
+  },
+  {
+   "round": 2,
+   "runId": "wf_cdd27709-1ef",
+   "taskId": "wdesvnjc3",
+   "args": {
+    "from": "pilot-2",
+    "out": "/home/user/fortress-pilot/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/pilot-workflow/",
+    "base": "2d1614aaee",
+    "stream": "pilot-wf-2",
+    "map": "/home/user/fortress-pilot/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/sorting-map/",
+    "chunks": [
+     {
+      "name": "inference",
+      "entries": [
+       "F-28",
+       "F-51",
+       "F-55",
+       "F-56",
+       "F-59",
+       "F-60",
+       "F-73",
+       "F-78",
+       "F-85",
+       "F-87",
+       "F-220",
+       "F-221",
+       "F-242",
+       "F-243",
+       "F-285",
+       "F-344",
+       "F-364",
+       "F-365",
+       "F-114",
+       "F-137",
+       "F-141",
+       "F-143",
+       "F-144",
+       "F-228",
+       "F-248",
+       "F-367",
+       "F-173",
+       "F-271",
+       "F-273",
+       "F-300"
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
