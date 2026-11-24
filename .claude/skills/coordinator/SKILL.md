@@ -261,7 +261,7 @@ At session start and after each compaction, take these steps in order. If the cu
 
 - Read nothing that the boot does not name. List no directory, and bound every command's output.
 - To learn whether a worker runs, read the harness's notice at the top of the turn. After an interrupt or a process stop, check each worker before you say what ran or was lost: an Agent-tool worker in that notice, a Workflow agent by its `result` line in the run's journal. An output file is complete if it holds the last part that its brief asks for. Relaunch a killed worker only as `references/delegating.md`, "Interrupts and process stops", says.
-- Your context survives a process stop. Write the boot note only for a reader without it: a later session, or a worker, for a line that a rule of this skill names. Commit each write. Rewrite the note whole near the context's limit, before another session takes over, and before you answer a compaction ask. If the curator did not ask, tell them.
+- The boot note carries the state across a compaction. Rewrite it whole when the curator asks if you can be compacted, and push it before you answer.
 - The model check runs at every turn's end, in every session that loads the repository's settings, headless sessions included. Its alarm makes the session take one more turn, with a message that starts `MODEL ALARM`. On the alarm:
   - make the alarm the first line of your reply, and send it as a push notification;
   - do no other work until step 0's check shows Opus or Fable again, or the curator says to go on.
