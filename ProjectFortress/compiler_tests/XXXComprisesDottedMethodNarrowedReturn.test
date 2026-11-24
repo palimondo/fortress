@@ -1,0 +1,4 @@
+# A comprised object's dotted method with a return type narrower than the trait's compiles.
+tests=XXXComprisesDottedMethodNarrowedReturn
+compile
+compile_err_contains=should be a subtype of the

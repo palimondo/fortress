@@ -1,0 +1,51 @@
+(* Twelve pairs of a generic declaration that returns its type parameter beside one on a generic object type with two static parameters: each call on that object type takes the second, the more specific by its declared parameter types, whatever the order in which the checker meets the pair, and a call on another type the first (overloading.tex, section "Overloading Resolution"). *)
+component OverloadGenericObjectTwoParams
+export Executable
+
+object Square end
+object Duo[\U extends Object, V extends Object\](u: U, v: V) end
+
+keep1[\T\](x: T): T = x
+keep1[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep2[\T\](x: T): T = x
+keep2[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep3[\T\](x: T): T = x
+keep3[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep4[\T\](x: T): T = x
+keep4[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep5[\T\](x: T): T = x
+keep5[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep6[\T\](x: T): T = x
+keep6[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep7[\T\](x: T): T = x
+keep7[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep8[\T\](x: T): T = x
+keep8[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep9[\T\](x: T): T = x
+keep9[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep10[\T\](x: T): T = x
+keep10[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep11[\T\](x: T): T = x
+keep11[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+keep12[\T\](x: T): T = x
+keep12[\U extends Object, V extends Object\](x: Duo[\U, V\]): Duo[\U, V\] = x
+
+run(): () = do
+  d: Duo[\Square, Square\] = Duo[\Square, Square\](Square, Square)
+  d1: Duo[\Square, Square\] = keep1(d)
+  d2: Duo[\Square, Square\] = keep2(d)
+  d3: Duo[\Square, Square\] = keep3(d)
+  d4: Duo[\Square, Square\] = keep4(d)
+  d5: Duo[\Square, Square\] = keep5(d)
+  d6: Duo[\Square, Square\] = keep6(d)
+  d7: Duo[\Square, Square\] = keep7(d)
+  d8: Duo[\Square, Square\] = keep8(d)
+  d9: Duo[\Square, Square\] = keep9(d)
+  d10: Duo[\Square, Square\] = keep10(d)
+  d11: Duo[\Square, Square\] = keep11(d)
+  d12: Duo[\Square, Square\] = keep12(d)
+  k: Square = keep1(Square)
+  println("PASS")
+end
+
+end

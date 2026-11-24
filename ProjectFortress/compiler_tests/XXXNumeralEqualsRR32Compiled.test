@@ -1,3 +1,4 @@
+# A numeral compared by = with an RR32 value compiles, and runs RR32's own =.
 tests=XXXNumeralEqualsRR32Compiled
-run
-run_out_contains=REACHED
+compile
+compile_err_contains=Ambiguous coercion in call to operator =

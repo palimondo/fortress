@@ -1,0 +1,19 @@
+(* An object that a trait's comprises clause lists, redeclaring the trait's dotted method with a narrower return type, compiles: the trait's declaration keeps the trait's type for self in its signature (var-ref.tex, section "Identifier References"; traits.tex, section "Method Declarations"). *)
+component XXXComprisesDottedMethodNarrowedReturn
+export Executable
+
+trait Q comprises { R }
+    g(): Q
+end
+
+object R(n: ZZ32) extends Q
+    g(): R = R(n + 1)
+end
+
+run(): () = do
+    r: R = R(1)
+    assert(r.g().n, 2, "R's g returns an R")
+    println("PASS")
+end
+
+end

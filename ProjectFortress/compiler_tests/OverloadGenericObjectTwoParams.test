@@ -1,0 +1,6 @@
+# Twelve pairs of a generic declaration beside one on a generic object type with two static parameters compile, and each call runs.
+tests=OverloadGenericObjectTwoParams
+compile
+link
+run
+run_out_contains=PASS
