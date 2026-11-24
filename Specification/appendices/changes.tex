@@ -2300,10 +2300,12 @@ is below $2^{31}$ (row~962 of the revival's gap ledger), where the compiled type
 checker gave it the type of a numeral before 8~November 2026, so an \KWD{int}
 parameter is read as a \KWD{nat} parameter is; on the Java
 Virtual Machine the length and the indices of an array are 32-bit integers.
-The four numbers of a numeral type, read as values in the body of a coercion
-from it, are integers of type \EXP{\mathbb{Z}} instead, since the revival
-decided on 9~November 2026 that they are naturals of any size
-(\secref{revival-numerals}).
+The four numbers of a numeral type, used as values in the body of a coercion
+from it, are instead converted where they stand, as a numeral is, and are
+integers of type \EXP{\mathbb{Z}} where nothing fixes a type, since the
+revival decided on 9~November 2026 that they are naturals of any size
+(\secref{revival-numerals}) and on 23~November 2026 how the body reads them
+(\secref{revival-numeral-numbers}).
 The team's later Types chapter (Luchangco, 2012) gives the coercion relation,
 the coercion of a generic type and the valid instantiations of a quantified
 type (\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines
@@ -5361,9 +5363,10 @@ names either final or temporary.
 A \KWD{nat} parameter used as a value has one type, \EXP{\mathbb{Z}32}, as the
 revival decided on 28~September 2026 for the ranges (\secref{revival-inference}),
 not \EXP{\mathbb{N}32} as \secref{natparams} says; the four numbers of a numeral
-type, naturals of any size, are read in a coercion's body as values of type
-\EXP{\mathbb{Z}}, the bound of a size to 32 bits being this implementation's,
-for the lengths of arrays.
+type, naturals of any size, are converted where they stand in a coercion's
+body, and are values of type \EXP{\mathbb{Z}} where nothing fixes a type
+(\secref{revival-numeral-numbers}), the bound of a size to 32 bits being this
+implementation's, for the lengths of arrays.
 A numeral at a type of a program's own that declares no coercion from the
 numeral's type is refused, since coercion does not chain; the alternative not
 taken converts it into its default first and then by the type's own coercion
@@ -5809,8 +5812,9 @@ numeral's place, a number that does not fit there, where the coercion is
 declared in the numeral's component; the compiled code converts the number from
 the \EXP{\mathbb{Z}} that holds it, and the compiled coercion of another
 component raises \TYP{IntegerOverflow} when the class that holds the numeral's
-place is initialized, where such a number does not fit (row~NEW-N-1 of the
-revival's gap ledger).
+place is initialized, where such a number does not fit an integer type, and
+gives an infinity where it rounds to one at \EXP{\mathbb{R}64} or
+\EXP{\mathbb{R}32} (row~NEW-N-1 of the revival's gap ledger).
 The interpreter binds each number as a value of type \EXP{\mathbb{Z}} that
 converts where its place fixes a type, as a numeral does, and refuses one that
 does not fit when the place is evaluated.
