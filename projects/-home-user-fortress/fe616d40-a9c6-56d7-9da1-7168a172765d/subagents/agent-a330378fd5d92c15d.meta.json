@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Scenarios for the test of decisions","toolUseId":"toolu_01NgKsd6RtJ5EDXCkvm5Zr3k","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Scenarios for the test of decisions","toolUseId":"toolu_01NgKsd6RtJ5EDXCkvm5Zr3k","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2","finished":true}
