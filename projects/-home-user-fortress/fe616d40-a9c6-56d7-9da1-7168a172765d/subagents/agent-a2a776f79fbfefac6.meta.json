@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Fix stale record, file K1 question","toolUseId":"toolu_016TGgcAY6GukB8HBzedgjNo","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Fix stale record, file K1 question","toolUseId":"toolu_016TGgcAY6GukB8HBzedgjNo","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
