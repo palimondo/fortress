@@ -11,7 +11,7 @@
 //
 // Before the runs: node --check, and the harness's parse (FACTS.md, "node --check does not check the batch
 // script as the Workflow harness parses it ..."); no backtick and no non-ASCII character; the gate's shell
-// functions file, tools/gate-functions.sh, parsed by bash and defining its six functions. The scenarios name rungs by their place in the manifest the script carries (R0 is the first
+// functions file, tools/gate-functions.sh, parsed by bash and defining its three functions. The scenarios name rungs by their place in the manifest the script carries (R0 is the first
 // rung of RUNGS, R1 the second; S0 the first in the scatter's order), so they run on any batch's block of
 // the redesigned form.
 //
@@ -76,7 +76,7 @@ const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
   say(!err, 'the harness\'s parse: ' + (err ? 'refused, ' + err.message : 'accepted as an async function body, its export made const'))
   const ticks = orig.match(/\x60/g) || []
   say(!ticks.length && !/[^\x00-\x7f]/.test(orig), 'the script holds ' + ticks.length + ' backtick(s) and ' + ((orig.match(/[^\x00-\x7f]/g) || []).length) + ' non-ASCII character(s)')
-  const GATE_FNS = ['gate_summary', 'gate_compare', 'last_landed_summary', 'ladder_filter', 'ladder_compare', 'mg_phases']
+  const GATE_FNS = ['gate_summary', 'gate_compare', 'last_landed_summary']
   const fnFile = path.join(ROOT, 'explorations/coordinator/tools/gate-functions.sh')
   const g = cp.spawnSync('bash', ['-c', 'source "$1" && declare -F ' + GATE_FNS.join(' ') + ' && declare -f gate_summary', 'x', fnFile], { encoding: 'utf8' })
   say(g.status === 0 && /machine\.sh/.test(g.stdout), 'the gate\'s functions file sources and defines ' + GATE_FNS.join(', ') + ', its gate_summary writing the machine line' + (g.status ? ': exit ' + g.status + ' ' + g.stderr.trim().slice(0, 200) : ''))
@@ -467,7 +467,8 @@ function check(sc, out) {
       if (p.indexOf('"reservedPoints":') < 0 || p.indexOf('<rung>.reserved.<n>') < 0 || p.indexOf('listed for his review"') < 0 || p.indexOf('reservedFiled') < 0) probs.push('the gather does not file the rungs\' reserved points on the review list in PLAN.md, with each rung\'s reserved points and the ids')
     }
     if (/^gate/.test(c.label) && (p.indexOf('source explorations/coordinator/tools/gate-functions.sh') < 0 || !/gate_summary \S+ \S+ "gate batch [^"]+"/.test(p) || p.indexOf('four threads') < 0)) probs.push(c.label + ' lacks the source of the gate\'s functions, gate_summary\'s machine label or the four threads')
-    if (/^gate/.test(c.label) && /\b(gate_summary|gate_compare|last_landed_summary|ladder_filter|ladder_compare|mg_phases) \(\) \{/.test(p)) probs.push(c.label + ' defines a gate function inline, which tools/gate-functions.sh holds')
+    if (/^gate/.test(c.label) && /\b(gate_summary|gate_compare|last_landed_summary) \(\) \{/.test(p)) probs.push(c.label + ' defines a gate function inline, which tools/gate-functions.sh holds')
+    if (c.label === 'gate' && (p.indexOf('tools/suite-compiled/run.sh explorations/compile-ladder/gate/suite-compiled.tsv ') < 0 || /ladder_compare|mg_phases|baseline-2026-09-19/.test(p))) probs.push('the gate does not run step 7 by tools/suite-compiled/run.sh on the list, or still compares the ladder with its baseline')
     if (c.label === 'review' && (p.indexOf('NEW-[A-Z]-[0-9]') < 0 || p.indexOf('skepticFixes') < 0)) probs.push('the review does not check the placeholders or the skeptics\' fixes')
     if (c.label === 'review' && !/revival-change material the gather copied into [^ ]*RECORD\.md, under "Revival changes, for the skill writer", true of the code as landed/.test(p)) probs.push('the review does not check the revival-change material in RECORD.md against the landed code')
   }
