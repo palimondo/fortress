@@ -575,7 +575,7 @@ value object ZZ extends { Number, Equality[\ZZ\] }
 end
 
 value object ZZ64 extends { Number, Equality[\ZZ64\] }
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jBigToZZ64(v)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     coerce(x: ZZ32) = jIntToLong(x)
     getter asZZ32(): ZZ32 = jLongOverflowingToInt(self)
     getter asZZ(): ZZ = jMakeZZfromZZ64(self)
@@ -660,7 +660,7 @@ value object ZZ64 extends { Number, Equality[\ZZ64\] }
 end
 
 value object ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] }
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jBigToZZ64(v).asZZ32
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     getter asZZ32(): ZZ32 = self
     getter asZZ64(): ZZ32 = self
     getter asZZ(): ZZ = jMakeZZfromZZ32(self)
@@ -751,7 +751,7 @@ value object ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\]
 end
 
 value object NN32 extends { Number, Equality[\NN32\] }
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = narrow(jMakeNN64FromZZ64(jBigToZZ64(v)))
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     getter asNN32(): NN32 = self
     getter asZZ(): ZZ = jMakeZZfromNN32(jMakeZZ32FromNN32(self))
     getter bitsAsZZ32(): ZZ32 = jMakeZZ32FromNN32(self)
@@ -816,7 +816,7 @@ value object NN32 extends { Number, Equality[\NN32\] }
 end
 
 value object NN64 extends { Number, Equality[\NN64\] }
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jMakeNN64FromZZ64(jBigToUnsignedZZ64(v))
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     coerce(x: NN32) = jMakeNN64FromZZ64(jUnsignedIntToLong(jMakeZZ32FromNN32(x)))
     getter asNN64(): NN64 = self
     getter asZZ(): ZZ = jMakeZZfromNN64(jMakeZZ64FromNN64(self))
@@ -891,8 +891,8 @@ trait RadixPointNumeral[\nat n, nat m, nat r, nat v\] extends AnyRadixPointNumer
 
 
 value object RR64 extends { Number, Equality[\RR64\] }
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jNumeralToDouble(v, jBigToZZ64(r).asZZ32, 0)
-    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToDouble(v, jBigToZZ64(r).asZZ32, jBigToZZ64(m).asZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jNumeralToDouble(v, r, 0)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToDouble(v, r, m)
     coerce(x: RR32) = jFloatToDouble(x)
     getter asString(): String = jDoubleToString(self)
     getter isNaN(): Boolean = NOT (self = self)
@@ -953,8 +953,8 @@ value object RR64 extends { Number, Equality[\RR64\] }
 end
 
 value object RR32 extends { Number, Equality[\RR32\] }
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jNumeralToFloat(v, jBigToZZ64(r).asZZ32, 0)
-    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToFloat(v, jBigToZZ64(r).asZZ32, jBigToZZ64(m).asZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jNumeralToFloat(v, r, 0)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToFloat(v, r, m)
 end
 
 

@@ -675,14 +675,66 @@ object NumeralConversion {
   /**
    * The refusals of a numeral coercion's numbers that do not fit where its
    * body converts them, read once every declaration of the checked component
-   * is checked: for each numeral that the component converts into a type by
-   * that type's numeral coercion declared in the component, each number that
-   * the coercion's body converts into a bounded number type, at the
-   * numeral's value of that number, refused at the numeral's place.
+   * is checked: for each numeral as written that the component converts into
+   * a type of a program's own by that type's numeral coercion, declared in
+   * the component, each number that the coercion's body converts into a
+   * bounded number type, at the numeral's value of that number, refused at
+   * the numeral's place. A coercion declared in another component is not
+   * read: its compiled method raises IntegerOverflow where such a number
+   * does not fit.
    */
   def numberRefusals(c: Component): List[(Node, String)] = {
-    // Each lifted numeral coercion of the component, by its name and kind: the
-    // names of its numbers, and each number with the type its body converts it into.
+    val own = numberUses(c)
+    if (own.values.forall(_._2.isEmpty)) return Nil
+    // Each numeral that the component converts by such a coercion, at its numbers.
+    val refusals = scala.collection.mutable.ListBuffer[(Node, String)]()
+    (c: Node).accept(new NodeDepthFirstVisitor_void {
+      override def forTraitCoercionInvocationOnly(x: TraitCoercionInvocation): scala.Unit = {
+        val point = x.getArg.isInstanceOf[FloatLiteralExpr]
+        // A numeral as written at a program's type; at a library type a
+        // numeral converts from its exact value, which outOfRange checks.
+        if (!isNumeral(x.getArg) || libraryTarget(x.getToType) ||
+            NumeralNumbers.of(x.getArg).kind != NumeralNumbers.Kind.WRITTEN) return
+        val fn = x.getCoercionFn
+        val names0 = toListFromImmutable(fn.getNames)
+        val api = if (names0.size == 1) toOption(names0.head.getApiName) else toOption(fn.getOriginalName.getApiName)
+        if (api.exists(_.getText != c.getName.getText)) return
+        val (names, at) = own.get((fn.getOriginalName.getText, point)).getOrElse(return)
+        val sargs = toListFromImmutable(fn.getStaticArgs)
+        if (at.isEmpty || sargs.size < names.size) return
+        val values = sargs.drop(sargs.size - names.size).map {
+          case SIntArg(_, _, b: IntBase) => Some(b.getIntVal.getIntVal)
+          case _ => None
+        }
+        if (values.exists(_.isEmpty)) return
+        val numeral = x.getArg match {
+          case i: IntLiteralExpr => i.getIntVal.toString
+          case f: FloatLiteralExpr => f.getText
+          case e => e.toString
+        }
+        for ((name, target) <- at) {
+          val v = values(names.indexOf(name)).get
+          val gives = "The numeral %s gives the coercion to %s the number %s = %s, which ".format(
+            numeral, x.getToType.getName.getText, name, v)
+          integerRanges.get(target) match {
+            case Some((lo, hi)) if v.compareTo(lo) < 0 || v.compareTo(hi) > 0 =>
+              refusals += ((x, gives + "is out of range for %s, whose values are %s to %s.".format(target, lo, hi)))
+            case Some(_) =>
+            case None => roundsToInfinity(new java.math.BigDecimal(v), target).foreach(_ =>
+              refusals += ((x, gives + "rounds to infinity in %s.".format(target))))
+          }
+        }
+      }
+    })
+    refusals.toList
+  }
+
+  /**
+   * Each lifted numeral coercion of the component, by its name and kind: the
+   * names of its four numbers, and each number with the bounded number type
+   * into which its body converts it, where no variable of the body hides it.
+   */
+  private def numberUses(c: Component): Map[(String, Boolean), (List[String], List[(String, String)])] = {
     val uses = scala.collection.mutable.Map[(String, Boolean), (List[String], List[(String, String)])]()
     toListFromImmutable(c.getDecls).foreach {
       case f: FnDecl if f.getBody.isSome && (NU.getName(f) match {
@@ -713,42 +765,6 @@ object NumeralConversion {
         }
       case _ =>
     }
-    if (uses.values.forall(_._2.isEmpty)) return Nil
-    // Each numeral that the component converts by one of them, at its numbers.
-    val refusals = scala.collection.mutable.ListBuffer[(Node, String)]()
-    (c: Node).accept(new NodeDepthFirstVisitor_void {
-      override def forTraitCoercionInvocationOnly(x: TraitCoercionInvocation): scala.Unit = {
-        val point = x.getArg.isInstanceOf[FloatLiteralExpr]
-        if (!isNumeral(x.getArg)) return
-        val fn = x.getCoercionFn
-        val own = toListFromImmutable(fn.getNames).forall(n => toOption(n.getApiName).forall(_.getText == c.getName.getText))
-        val (names, at) = uses.get((fn.getOriginalName.getText, point)).filter(_ => own).getOrElse(return)
-        val sargs = toListFromImmutable(fn.getStaticArgs)
-        if (sargs.size < names.size) return
-        val values = sargs.drop(sargs.size - names.size).map {
-          case SIntArg(_, _, b: IntBase) => Some(b.getIntVal.getIntVal)
-          case _ => None
-        }
-        if (values.exists(_.isEmpty)) return
-        val numeral = x.getArg match {
-          case i: IntLiteralExpr => i.getIntVal.toString
-          case f: FloatLiteralExpr => f.getText
-          case e => e.toString
-        }
-        for ((name, target) <- at) {
-          val v = values(names.indexOf(name)).get
-          val gives = "The numeral %s gives the coercion to %s the number %s = %s, which ".format(
-            numeral, x.getToType.getName.getText, name, v)
-          integerRanges.get(target) match {
-            case Some((lo, hi)) if v.compareTo(lo) < 0 || v.compareTo(hi) > 0 =>
-              refusals += ((x, gives + "is out of range for %s, whose values are %s to %s.".format(target, lo, hi)))
-            case Some(_) =>
-            case None => roundsToInfinity(new java.math.BigDecimal(v), target).foreach(_ =>
-              refusals += ((x, gives + "rounds to infinity in %s.".format(target))))
-          }
-        }
-      }
-    })
-    refusals.toList
+    uses.toMap
   }
 }

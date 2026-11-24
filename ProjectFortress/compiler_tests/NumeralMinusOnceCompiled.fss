@@ -5,7 +5,7 @@ export Executable
 object Tally(k: ZZ32)
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
         println("coerce")
-        Tally(bigToZZ64(v).asZZ32)
+        Tally(v)
     end
     opr -(self): Tally = do
         println("minus")
@@ -14,7 +14,6 @@ object Tally(k: ZZ32)
 end
 
 sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 
 negThree(): Tally = -3
 

@@ -1,0 +1,12 @@
+(* Compiled, a numeral at a type of an imported component whose coercion puts its number v at a ZZ32 parameter, where v does not fit there, is refused statically at the numeral's place, as in the numeral's own component (literals.tex, section "Literals"). *)
+component XXXNumeralCoercionNumberRangeImported
+import NumeralCoercionNumberRangeImportedApi.{...}
+export Executable
+
+run(): () = do
+  println("REACHED")
+  big: Wide = 3000000000
+  println("PASS")
+end
+
+end

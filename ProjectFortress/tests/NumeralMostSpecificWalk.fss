@@ -15,7 +15,7 @@ width(x: RR32): String = "rr32"
 width(x: RR64): String = "rr64"
 
 value object Byte(b: ZZ32) extends Equality[\Byte\]
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v.asZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v)
     opr =(self, other: Byte): Boolean = (b = other.b)
 end
 

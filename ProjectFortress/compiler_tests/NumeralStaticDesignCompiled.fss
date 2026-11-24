@@ -8,8 +8,8 @@ oneRounding(v: ZZ, r: ZZ32, m: ZZ32): RR64 = builtinPrimitive("com.sun.fortress.
 small(z: ZZ): ZZ32 = bigToZZ64(z).asZZ32
 
 value object CC64(re: RR64, im: RR64)
-  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = CC64(oneRounding(v, small(r), 0), 0.0)
-  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = CC64(oneRounding(v, small(r), small(m)), 0.0)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = CC64(oneRounding(v, r, 0), 0.0)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = CC64(oneRounding(v, r, m), 0.0)
   opr -(self): CC64 = CC64(-re, -im)
   opr +(self, other: CC64): CC64 = CC64(re + other.re, im + other.im)
   opr -(self, other: CC64): CC64 = CC64(re - other.re, im - other.im)
@@ -19,14 +19,14 @@ end
 i: CC64 = CC64(0.0, 1.0)
 
 value object Dec(unscaled: ZZ, scale: ZZ32)
-  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Dec(v, small(m))
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Dec(v, m)
 end
 
 powZZ(b: ZZ, e: ZZ32): ZZ = if e = 0 then 1 else b powZZ(b, e - 1) end
 
 value object BF16(bits: ZZ32)
   coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
-    den: ZZ = powZZ(r, small(m))
+    den: ZZ = powZZ(r, m)
     s: ZZ = v 128
     k0: ZZ = s DIV den
     rest: ZZ = s - k0 den
@@ -44,17 +44,17 @@ suffix(r: ZZ32): String = if r = 10 then "" else "_" || r.asString end
 
 value object RoundtripNumeral(text: String)
   coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
-    sn: ZZ32 = small(n)
-    sm: ZZ32 = small(m)
+    sn: ZZ32 = n
+    sm: ZZ32 = m
     t: String = digitsOf(v, r, sn)
     w: ZZ32 = sn - sm
-    sfx: String = suffix(small(r))
+    sfx: String = suffix(r)
     RoundtripNumeral(t.substring(0, w) || "." || t.substring(w, sn) || sfx)
   end
   coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
-    sn: ZZ32 = small(n)
+    sn: ZZ32 = n
     t: String = digitsOf(v, r, sn)
-    sfx: String = suffix(small(r))
+    sfx: String = suffix(r)
     RoundtripNumeral(t || sfx)
   end
   getter asString(): String = text
@@ -64,18 +64,18 @@ writtenBack(w: RoundtripNumeral, s: String): () = assert(w.asString, s, "written
 writtenBack(w: RoundtripNumeral, s: String, why: String): () = assert(w.asString, s, why)
 
 value object Tally(k: ZZ32, seen: ZZ, negated: Boolean)
-  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(small(v), v, false)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(v, v, false)
   opr -(self): Tally = Tally(-k, seen, true)
 end
 
 object Gen[\T\](v: ZZ32)
-  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](small(v))
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](v)
 end
 
 site(): Gen[\RR64\] = 3
 
 value object Byte(b: ZZ32)
-  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(small(v))
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v)
 end
 
 object Cell[\T\](c: T) end

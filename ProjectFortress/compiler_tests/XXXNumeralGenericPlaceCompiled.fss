@@ -3,7 +3,7 @@ component XXXNumeralGenericPlaceCompiled
 export Executable
 
 object Gen[\T\](v: ZZ32)
-  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](bigToZZ64(v).asZZ32)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](v)
 end
 
 object Box[\T\]()
@@ -11,7 +11,6 @@ object Box[\T\]()
 end
 
 sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 
 run(): () = do
   a = Box[\RR64\]()

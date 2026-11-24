@@ -3,7 +3,7 @@ component RadixPointLeadingZerosWalk
 export Executable
 
 object Digits(count: ZZ32)
-  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Digits(n.asZZ32)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Digits(n)
 end
 
 counted(d: Digits): ZZ32 = d.count

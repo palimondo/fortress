@@ -3,7 +3,7 @@ component NegativeNumeralOwnType
 export Executable
 
 value object Tally(n: ZZ32, negated: Boolean)
-  coerce[\nat n, nat r, nat v\](lit: NaturalNumeral[\n, r, v\]) = Tally(bigToZZ64(v).asZZ32, false)
+  coerce[\nat n, nat r, nat v\](lit: NaturalNumeral[\n, r, v\]) = Tally(v, false)
   opr -(self): Tally = Tally(-n, true)
 end
 
@@ -16,5 +16,4 @@ run(): () = do
 end
 
 
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end
