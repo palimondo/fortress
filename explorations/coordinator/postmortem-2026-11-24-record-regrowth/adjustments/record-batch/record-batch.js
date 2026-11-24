@@ -5,7 +5,7 @@ export const meta = {
   phases: [
     { title: 'Claims', detail: 'the sorting, step 1: the claims of each entry by subject and kind, one file for each chunk of the record as it stands', model: 'opus' },
     { title: 'Map', detail: 'the sorting, step 2: one map of subjects, overlaps and dispositions, the chunks for the writers and the pilot', model: 'opus' },
-    { title: 'Scouts', detail: 'one scout for each chunk of the run: scout.md in the chunk folder', model: 'sonnet' },
+    { title: 'Scouts', detail: 'one scout for each chunk of the run, then the map\'s lines for its entries added by map-lines.py: scout.md in the chunk folder', model: 'sonnet' },
     { title: 'Pilot 1', detail: 'the clarity workflow on the mix of cases that the map names; then the curator\'s go', model: 'opus' },
     { title: 'Pilot 2', detail: 'the clarity workflow on one whole chunk; then the curator\'s go', model: 'opus' },
     { title: 'Chunks', detail: 'the clarity workflow on this run\'s share of the chunks; the coordinator applies each', model: 'opus' },
@@ -28,12 +28,16 @@ export const meta = {
 //   chunks     pilot-2: the one chunk of the second round; chunks: this run's share [{ name, entries }]
 //   stream     the clarity child's writer stream; give each run side by side its own
 //   scouts     false: no scouts before the writing stage, because an earlier run wrote each scout.md
+//   map        the folder of map.json and the claims files (default out + sorting/); false: no map lines in scout.md
 //   test       { p, q or applies, x }: the commit of the old entries; the commit of the new ones, or the apply
 //              files that make them in a copy of p; which copy the grader sees as X, 'new' (default) or 'old'
 //   leave      the entries that leave (optional; by default those that the map marks not about the tree)
 // The briefs are in B; each agent reads its brief, and its launch message gives the brief's placeholders.
+// The map reaches the clarity workflow's assessor and writer only through scout.md: after each scout, map-lines.py
+// adds the map's lines for the chunk's entries there (README.md, "How the map reaches the writer").
 // The clarity workflow runs as a child (one level deep); its agents share this run's two at once.
-const B = '/home/user/fortress/explorations/coordinator/postmortem-2026-11-24-record-regrowth/adjustments/record-batch/briefs/'
+const HERE = '/home/user/fortress/explorations/coordinator/postmortem-2026-11-24-record-regrowth/adjustments/record-batch/'
+const B = HERE + 'briefs/'
 const RC = '/home/user/fortress/explorations/coordinator/tools/record-clarity/record-clarity.js'
 const KIT = '/home/user/fortress/explorations/coordinator/process-engineering/record-test/'
 const ORDER = ['claims', 'map', 'scouts', 'pilot-1', 'pilot-2', 'chunks', 'test', 'leave', 'sweep']
@@ -45,7 +49,7 @@ const FROM = at(args.from || 'claims')
 const TO = Math.min(ORDER.findIndex((s, i) => i >= FROM && STOPS.includes(s)), args.to ? at(args.to) : ORDER.length)
 if (TO < FROM) throw new Error('args.to comes before args.from')
 const runs = (s) => at(s) >= FROM && at(s) <= TO
-const OUT = args.out, SORT = OUT + 'sorting/', CH = OUT + 'chunks/'
+const OUT = args.out, SORT = OUT + 'sorting/', CH = OUT + 'chunks/', MAPDIR = args.map || SORT
 const KIND = args.kind || 'facts', FILE = KIND === 'facts' ? 'FACTS' : 'POSITIONS'
 const ok = (xs) => (xs || []).filter(e => /^[FP]-\d+$/.test(e))
 const cut = (s, n) => (s ? String(s).slice(0, n) : null)
@@ -65,6 +69,7 @@ if ((runs('claims') || runs('map')) && KIND !== 'facts') need.push('kind: the so
 if (runs('claims') && !(args.record || []).length) need.push('record: the record as it stands, in chunks [{ name, entries }]')
 if ((runs('map') || runs('test')) && !/^\/.+\/$/.test(args.scenarios || '')) need.push('scenarios: the folder of the test scenarios, absolute, ending in /')
 if (scouting && !args.base) need.push('base: the commit of main whose record the scouts read')
+if (args.map !== undefined && args.map !== false && !/^\/.+\/$/.test(String(args.map))) need.push('map: the folder of map.json, absolute, ending in /, or false')
 if ((scouting || writing) && !mapHere && bad(given)) need.push(W === 'pilot-1' ? 'pilot: the entries of the mix of cases' : 'chunks: each with a name and its entries')
 if (runs('test') && !(args.test && args.test.p && (args.test.q || (args.test.applies || []).length))) need.push('test: { p, q or applies, x }')
 if (need.length) throw new Error('args, for the stages ' + ORDER.slice(FROM, TO + 1).join(', ') + ': ' + need.join('; ') + '. README.md, "How to run it".')
@@ -127,11 +132,14 @@ const target = mapHere ? [{ name: 'pilot-1', entries: [...new Set(map.cases.flat
 if (mapHere && bad(target)) return end('The map named no entry for the pilot\'s first round: read MAP.md, section 7, and give pilot (README, "How to run it").')
 if (scouting) {
   phase('Scouts')
-  const r = await parallel(target.map(c => () => agent(fill(B + 'scout.txt', {
-    CHUNK: FILE + ', the entries ' + c.entries.join(', ') + ' of explorations/coordinator/' + FILE + '.md (the chunk ' + c.name + '). FILE is ' + FILE + '; the history file is ' + FILE + '-history.md.',
-    OUT: CH + c.name + '/scout.md', BASE: args.base,
-  }), { label: 'scout ' + c.name, phase: 'Scouts', model: 'sonnet' })))
-  result.scouts = r.map((x, i) => target[i].name + ': ' + (cut(x, 300) || 'returned nothing'))
+  const r = await pipeline(target,
+    (c) => agent(fill(B + 'scout.txt', {
+      CHUNK: FILE + ', the entries ' + c.entries.join(', ') + ' of explorations/coordinator/' + FILE + '.md (the chunk ' + c.name + '). FILE is ' + FILE + '; the history file is ' + FILE + '-history.md.',
+      OUT: CH + c.name + '/scout.md', BASE: args.base,
+    }), { label: 'scout ' + c.name, phase: 'Scouts', model: 'sonnet' }),
+    async (s, c) => args.map === false ? [s, 'no map lines'] : [s, await agent('You run one command and report its output; you judge nothing and write nothing else.\n1. Run exactly: python3 -I ' + HERE + 'map-lines.py ' + MAPDIR + ' ' + CH + c.name + '/scout.md ' + c.entries.join(' ') + '\n2. Your final message: its output, verbatim.',
+      { label: 'map lines ' + c.name, phase: 'Scouts', model: 'sonnet' })])
+  result.scouts = r.map((x, i) => target[i].name + ': ' + (x ? (cut(x[0], 300) || 'the scout returned nothing') + ' | ' + (cut(x[1], 200) || 'the map lines returned nothing') : 'returned nothing'))
   if (!writing) return end(NEXT.scouts)
 }
 if (writing) {
@@ -171,7 +179,7 @@ if (runs('test')) {
 // The step in which whole entries leave, and the sweep: each writes an apply file for the coordinator.
 if (runs('leave')) {
   phase('Leave')
-  const which = ok(args.leave).length ? ok(args.leave).join(', ') : 'each entry that the map, ' + SORT + 'MAP.md, section 5, marks as not about the tree'
+  const which = ok(args.leave).length ? ok(args.leave).join(', ') : 'each entry that the map, ' + MAPDIR + 'MAP.md, section 5, marks as not about the tree'
   result.leave = cut(await agent(fill(B + 'leave.txt', { LEAVE: which, OUT: OUT + 'leave/' }), { label: 'leave', phase: 'Leave', model: 'opus' }), 1500)
   return end(NEXT.leave)
 }

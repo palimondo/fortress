@@ -26,7 +26,7 @@ It runs when the record drifts: when entries hold claims of several subjects, ke
 |---|---|---|---|
 | `claims`, the sorting, step 1 (optional) | the record as it stands, cut in chunks (`record`); earlier checks (`checks`, optional) | `sorting/claims-<chunk>.md`, one file for each chunk, each committed and pushed by its worker | the map, in the same run |
 | `map`, the sorting, step 2 (optional) | the claims files; the test's scenarios (`scenarios`); entries the curator asked about (`asked`) | `sorting/MAP.md` and `map.json`, committed and pushed; the run's result holds the chunks, the pilot's cases and the second round's chunk | the scouts, in the same run |
-| `scouts` | the chunks of the writing stage that this run reaches; the commit to read (`base`) | `chunks/<chunk>/scout.md`, one for each chunk | that writing stage, in the same run |
+| `scouts` | the chunks of the writing stage that this run reaches; the commit to read (`base`); the map (`map`) | `chunks/<chunk>/scout.md`, one for each chunk: the scout's evidence, then the map's lines for its entries | that writing stage, in the same run |
 | `pilot-1`, the pilot's first round (stop) | the mix of cases that the map names (`pilot`, or the map of this run) | `chunks/pilot-1/`: the clarity workflow's files, with `final.apply` and `queue.md` | the coordinator: the page, the curator's go, the test on the pilot |
 | `pilot-2`, the pilot's second round (stop) | one whole chunk (`chunks`) | `chunks/<chunk>/` | the coordinator: the page, the curator's go |
 | `chunks` (stop) | this run's share of the chunks (`chunks`), its own writer stream (`stream`) | `chunks/<chunk>/` for each chunk | the coordinator applies each chunk |
@@ -38,7 +38,7 @@ What each stage does:
 
 1. **`claims`**: one Opus worker for each chunk of the record as it stands lists each entry's claims, each claim's subject and kind, and the entries that say the same. Brief: `briefs/claims.txt`.
 2. **`map`**: one Opus worker, at `xhigh` effort, joins the claims files into one map: the subjects, the groups of overlap, each entry's disposition (stays, rewritten, merged into F-n, split, defect to a ledger row, not about the tree), the chunks for the writers, 20 to 32 entries each, and the pilot's cases. Brief: `briefs/map.txt`.
-3. **`scouts`**: one Sonnet scout for each chunk gathers, for each entry, whether each report, test and ledger row that it cites exists, the heading that holds its detail, its commits, its earlier texts and the entries that cite it. Brief: `briefs/scout.txt`. The scouts always run right before a writing stage, on its chunks, unless `scouts: false`.
+3. **`scouts`**: one Sonnet scout for each chunk gathers, for each entry, whether each report, test and ledger row that it cites exists, the heading that holds its detail, its commits, its earlier texts and the entries that cite it. Brief: `briefs/scout.txt`. The scouts always run right before a writing stage, on its chunks, unless `scouts: false`. After each scout, a Sonnet step runs `map-lines.py`, which adds the map's lines for the chunk's entries to the same `scout.md` ("How the map reaches the writer", below), unless `map: false`.
 4. **`pilot-1`**: the clarity workflow, as a child run, on one chunk named `pilot-1` that holds every entry of the map's cases: one entry with several subjects to split, entries to merge, an entry with a defect, a stale entry, a sound entry, one whole subject. The run stops.
 5. **`pilot-2`**: the clarity workflow on one whole chunk, the one the map names for the second round. The run stops.
 6. **`chunks`**: the clarity workflow on this run's share of the chunks. Several runs go side by side, each with its own share and writer stream. Each run stops when its share is judged.
@@ -64,6 +64,7 @@ The arguments:
 - `chunks`: for `pilot-2`, the one chunk of the second round; for `chunks`, this run's share. Each `{ name, entries }`, the names different across all runs.
 - `stream`: the clarity run's writer stream. Give each run side by side its own.
 - `scouts`: `false` when an earlier run already wrote each chunk's `scout.md`.
+- `map`: the folder of the sorting map's `map.json` and claims files, absolute, ending in `/`; by default `out` + `sorting/`. `false`: no map lines in `scout.md`.
 - `test`: `{ p, q, x }` or `{ p, applies, x }`. `p` is the commit of the old entries; `q` the commit of the new ones, or `applies` the apply files that make them in a copy of `p`; `x` says which copy the grader sees as X, `new` (the default) or `old`.
 - `leave`: the entries that leave (optional; by default, each entry that `sorting/MAP.md`, section 5, marks as not about the tree).
 
@@ -124,6 +125,23 @@ The run's result ends with `next`, one line on what the coordinator does. In ful
 - **After `leave`**: apply the file in `leave/` on a copy, `record.py check --base`, then on `main`; commit and push. List the entries that it kept because no skill holds their rule.
 - **After `sweep`**: apply `sweep/scrape.apply` the same way; add the entry's number to each PLAN item or queue item that `backlinks.md` lists as missing it.
 
+## How the map reaches the writer
+
+The clarity workflow's assessor and writer read the folder of their chunk. With adjustment 15 of `../../ADJUSTMENTS.md` applied (its two clauses in `record-clarity/assess.md` and `writer.md`, in `../tools.patch`), they read `scout.md` when it is there. They read nothing else of the map: no brief of the clarity workflow names `MAP.md`, `map.json` or a claims file. So the map reaches them only through `scout.md`, and only with adjustment 15.
+
+After each scout, `map-lines.py` adds to the chunk's `scout.md`, for each entry of the chunk: the map's line, which gives its disposition (stays, rewritten in place, merged into F-n, split, with each part and the entry that it goes to, a defect's description to row N, not about the tree); the subjects of its claims, each with the entry that owns it; the claims to move out, by kind; its defects and their rows; today's checks; its groups of overlap; the parts that other entries send to it; and its block of the claims file, word for word, with each claim, its subject and its kind. Each other entry that it names is marked as in this chunk or not. The script writes nothing else, and a second call replaces its section, so a resumed run adds it once.
+
+The map's lines are data. No brief of the clarity workflow tells the assessor or the writer to follow a disposition. The writer reads `references/record.md`, "What an entry is", which asks for one subject in each entry, a split where claims change apart, a claim moved to the entry that holds its subject, and a merge into the entry that owns the subject. The assessor's "reorganize" names a merge and a split.
+
+What the clarity workflow can write, by its apply file (`record.py`'s header): new lines for several entries of the chunk, a new entry (`F-?1`), `merge F-n into F-m`, `move` and `remove`. So a split, a merge or a claim moved between two entries of one chunk can be written; the run of 2026-10-22 merged F-246 into F-259.
+
+What it cannot do as it stands:
+
+- **Move a claim to an entry outside the chunk.** The writer is given its chunk's entries. The checker, the second cold reader and the judge rule on those entries only, and the judge's `final.apply` copies only their blocks. A part that the map sends outside the chunk is kept where it is, or cut with no line that receives it. `map.json` lists 53 such parts across its chunks (`cross_chunk_parts`); a chunk's lines in `scout.md` name each of its own.
+- **Rewrite an entry that the assessor keeps.** The writer, the checker and the judge get only the entries that the assessor marks reword or reorganize (`record-clarity.js`, its first stage). An entry that it keeps is not rewritten, even where the map sends claims to it or merges another entry into it.
+- **Judge a move as a move.** The checker compares each new entry with that entry's old text and its sources. A claim moved from one entry to another reads as "says less" at the first and "adds a claim" at the second, unless the checker sees the move.
+- **List where each claim went.** `proposals.md` gives the source of each sentence of a new text, and the apply file's note line the pointers that left an entry. No file lists, for each claim that left an entry, where it now stands.
+
 ## What it reuses from the clarity workflow, and what it leaves to the coordinator
 
 It reuses the clarity workflow whole, unchanged: its script, its briefs, its seven stages for each chunk, its writer streams, its folder for each chunk, and its README's "After a chunk". The script starts it as a child run, as `record-landing.js` starts the orientation update: `workflow({ scriptPath: '.../record-clarity/record-clarity.js' }, { kind, out, stream, chunks })`, with `out` the batch folder's `chunks/`. The scouts write `scout.md` into the same chunk folder before the child run starts.
@@ -162,7 +180,7 @@ October had no brief for the sorting of FACTS: its sections already stood by are
 **New:**
 
 - `briefs/test-copies.txt`: a wrapper with no rule of its own. It hands one worker the kit's README, "How to run it", steps 1 to 5, with the changes of the scenarios folder's README, and the values of the run. It also has the worker copy `questions.md` and `key.md` into the test folder, where the grader's brief looks for them.
-- In the script: the order of the stages and its stops; the map returning its chunks and cases as data, through a schema, beside the final message that its brief asks for; the scouts' file in the chunk folder, as the diff's adjustment 15 names it; the pilot's mix run as one chunk named `pilot-1`; the readers writing their answers straight to `answers-X.md` and `answers-Y.md`, by `test.x`, where the kit's step 7 copied them after, with the arms given in the run's result instead of a file.
+- In the script: the order of the stages and its stops; the map returning its chunks and cases as data, through a schema, beside the final message that its brief asks for; the scouts' file in the chunk folder, as the diff's adjustment 15 names it; `map-lines.py`, which adds the map's lines for a chunk's entries to that file, and the Sonnet step that runs it; the pilot's mix run as one chunk named `pilot-1`; the readers writing their answers straight to `answers-X.md` and `answers-Y.md`, by `test.x`, where the kit's step 7 copied them after, with the arms given in the run's result instead of a file.
 
 **Not used:** October's writers' briefs (`05`, `05b`, `06` in `../../evidence/october-briefs/`). The clarity workflow's writer takes their place, since the clarity workflow is the batch mode's way in (`../../WORKFLOW-DIFF.md`, 3.2). The October writers' goal and measure are adjustment 16 of `../../ADJUSTMENTS.md`, a change inside the clarity writer's brief, not here. The two trials of 2026-10-13, `01` on the largest entries and `02` on pairs of FACTS and POSITIONS entries on one ground, made the definition of an entry; the diff counts that step as done once (B2).
 
@@ -178,7 +196,8 @@ October had no brief for the sorting of FACTS: its sections already stood by are
 ## How it was checked
 
 - The harness's parse, as `explorations/coordinator/tools/workflow-scenarios.js` does it: the script's text, with `export const meta` made `const meta`, is accepted as the body of an async function. `node --check` passes. The script holds no backtick and no non-ASCII character, its `meta` is a pure literal, and every `phase()` title is in `meta.phases`.
-- A dry run of twelve ways in, the script run with its hooks stubbed: the agents and the child run that each way in starts, in their order; each launch message names a brief that exists and gives every placeholder of that brief, and only those, with nothing undefined; the child run gets the clarity script, `out` + `chunks/`, a stream and named chunks. Ten wrong sets of arguments are refused before any agent starts, each naming what is missing. A claims worker or a map that returns nothing ends the run before the next stage.
+- A dry run of thirteen ways in, the script run with its hooks stubbed: the agents and the child run that each way in starts, in their order; each launch message names a brief that exists and gives every placeholder of that brief, and only those, with nothing undefined; each map-lines step names the helper and the chunk's entries; the child run gets the clarity script, `out` + `chunks/`, a stream and named chunks. Eleven wrong sets of arguments are refused before any agent starts, each naming what is missing. A claims worker or a map that returns nothing ends the run before the next stage.
+- `map-lines.py` run on the pilot's two sets of 2026-11-24 with the map of that night: every entry found in `map.json` and in its claims file, and a second call leaves one section, not two.
 
 ## What a first run must prove
 
@@ -187,18 +206,19 @@ Nothing here has run. A first run must show:
 1. That the clarity workflow runs as a child of this script. `record-landing.js` starts the orientation workflow that way; no script has started the clarity workflow that way.
 2. That the map returns its chunks and its cases through the schema, and that `map.json` and `MAP.md` agree with them.
 3. That the clarity workflow holds the map's chunks of 20 to 32 entries. It ran on 10-22 with chunks of 12, and its README says "about ten entries"; `references/record.md` says 20 to 32. If its writer, cold reader or checker cannot hold such a chunk, the map's chunks must be cut smaller with each subject kept in one chunk.
-4. That the scouts' files reach the writers. The clarity assessor and writer read `scout.md` only once adjustment 15 of `../../ADJUSTMENTS.md` is applied (its two clauses in `record-clarity/assess.md` and `writer.md`, in `../tools.patch`). Until then the scouts' work, and the map's dispositions, reach the writers only through which entries share a chunk.
-5. That October's scout brief, which finds earlier texts and citing entries by the title's words, finds them now that entries cite each other by number.
-6. That the claims step works without the morning's scouts' files: on 2026-11-24 its workers copied the checks of the scouts that had run that morning on the record as it stood. In this order the scouts run after the sorting, so `checks` holds only what earlier work wrote.
-7. That the claims and map workers can commit and push from inside a Workflow run while other agents commit to `main`; their briefs follow the `fortress-repo` skill's `references/committing.md` for that.
-8. The test stage end to end: the copies made by one worker from the kit's steps, a second test after a first (the copies `/home/user/record-test-p` and `-q` may still exist), and the readers' answers written straight under X and Y.
-9. The leave and sweep briefs after their changes; the sweep's list of words to delete is that of 2026-10-22.
-10. `kind: 'positions'` for the scouts and the clarity runs; the sorting is for FACTS only.
+4. That the writer follows the map's lines in `scout.md`: its splits, merges and moved claims inside the chunk, and what it does with a part that the map sends outside the chunk. This is the main thing a first run shows. Without adjustment 15, the assessor and the writer read no `scout.md`, and the map reaches them only through which entries share a chunk.
+5. That the checker and the judge pass a claim moved from one entry to another of the chunk, and that the files of a chunk show where each claim went.
+6. That October's scout brief, which finds earlier texts and citing entries by the title's words, finds them now that entries cite each other by number.
+7. That the claims step works without the morning's scouts' files: on 2026-11-24 its workers copied the checks of the scouts that had run that morning on the record as it stood. In this order the scouts run after the sorting, so `checks` holds only what earlier work wrote.
+8. That the claims and map workers can commit and push from inside a Workflow run while other agents commit to `main`; their briefs follow the `fortress-repo` skill's `references/committing.md` for that.
+9. The test stage end to end: the copies made by one worker from the kit's steps, a second test after a first (the copies `/home/user/record-test-p` and `-q` may still exist), and the readers' answers written straight under X and Y.
+10. The leave and sweep briefs after their changes; the sweep's list of words to delete is that of 2026-10-22.
+11. `kind: 'positions'` for the scouts and the clarity runs; the sorting is for FACTS only.
 
 ## What waits for the curator's word
 
-- His yes to this draft. At the move to `explorations/coordinator/tools/record-batch/`, the script's constant `B` changes to the new briefs folder. The briefs are `.txt` here so that `check-index.sh` does not count them as notes without an INDEX line; under `tools/`, which that check skips, they can take `.md` like the other tools' briefs. `tools/tier-mode.sh` does not switch this script, as it does not switch the clarity workflow's.
-- Adjustment 15 of `../../ADJUSTMENTS.md`, so that the clarity writer reads the scouts' files (above, item 4), and whether the map's lines for a chunk reach its writer the same way.
+- His yes to this draft. At the move to `explorations/coordinator/tools/record-batch/`, the script's constant `HERE` changes to the new folder. The briefs are `.txt` here so that `check-index.sh` does not count them as notes without an INDEX line; under `tools/`, which that check skips, they can take `.md` like the other tools' briefs. `tools/tier-mode.sh` does not switch this script, as it does not switch the clarity workflow's.
+- Adjustment 15 of `../../ADJUSTMENTS.md`, without which the clarity assessor and writer read neither the scouts' evidence nor the map's lines ("How the map reaches the writer"). Beyond it, two choices that the first run informs: whether the writer's brief says to follow the map's disposition, and how a claim reaches an entry outside its chunk.
 - The Fable grader of the test stage. The kit has a Fable grader. `references/delegating.md`, "Which tier runs what", gives a go in advance to four kinds of Fable work, and the record test's grader is not among them.
 - The leave brief's third change, on pointers to a removed entry.
 - Which of today's scout items, if any, he wants beside October's.
