@@ -895,14 +895,67 @@ public class Constructor extends NonPrimitive {
 
     /**
      * The key of the generic method g named s among the generic methods of a
-     * trait or object: its name and the kinds of its static parameters.  The
-     * methods of one key share one symbolic instantiation, so that one that
-     * overrides another has the other's symbolic instance's signature.
+     * trait or object: its name and, for each of its static parameters, its
+     * kind and its bounds, written with the static parameters of g renamed by
+     * their positions; a bound of Any is no bound.  The methods of one key
+     * share one symbolic instantiation, so that one that redeclares another,
+     * as Indexed's map[\R\] does Generator's map[\G\], has the other's
+     * symbolic instance's signature, and hides it; two that differ in their
+     * bounds have instances of their own, which a call chooses among.
      */
     private static String genericKey(String s, GenericMethod g) {
+        List<StaticParam> sps = NodeUtil.getStaticParams(g.getDef());
+        Map<String, Integer> positions = new HashMap<String, Integer>();
+        for (int i = 0; i < sps.size(); i++) positions.put(NodeUtil.getName(sps.get(i)), i);
         StringBuilder k = new StringBuilder(s).append('[');
-        for (StaticParam p : NodeUtil.getStaticParams(g.getDef())) k.append(p.getKind().getClass().getSimpleName()).append(',');
+        for (StaticParam p : sps) {
+            k.append(p.getKind().getClass().getSimpleName());
+            List<String> bounds = new ArrayList<String>();
+            for (BaseType b : p.getExtendsClause()) {
+                if (b instanceof AnyType) continue;
+                StringBuilder w = new StringBuilder();
+                b.accept(new BoundWriter(w, positions));
+                bounds.add(w.toString());
+            }
+            Collections.sort(bounds);
+            for (String b : bounds) k.append(' ').append(b);
+            k.append(',');
+        }
         return k.append(']').toString();
+    }
+
+    /**
+     * Writes a bound into w as the classes and names of its nodes, each
+     * nested in parentheses, and each reference to a static parameter that
+     * positions holds as its position: a key of the bound's form, and not of
+     * the names that a declaration gives its own static parameters.
+     */
+    private static final class BoundWriter extends NodeDepthFirstVisitor_void {
+        private final StringBuilder w;
+        private final Map<String, Integer> positions;
+
+        BoundWriter(StringBuilder w, Map<String, Integer> positions) {
+            this.w = w;
+            this.positions = positions;
+        }
+
+        private boolean atPosition(Id name) {
+            Integer i = name.getApiName().isNone() ? positions.get(name.getText()) : null;
+            if (i != null) w.append("(#").append(i).append(')');
+            return i != null;
+        }
+
+        @Override public void defaultDoFirst(Node that) { w.append('(').append(that.getClass().getSimpleName()); }
+        @Override public void defaultCase(Node that) { w.append(')'); }
+        @Override public void forIdDoFirst(Id that) { super.forIdDoFirst(that); w.append(' ').append(that.getText()); }
+        @Override public void forVarType(VarType that) { if (!atPosition(that.getName())) super.forVarType(that); }
+        @Override public void forIntRef(IntRef that) { if (!atPosition(that.getName())) super.forIntRef(that); }
+        @Override public void forBoolRef(BoolRef that) { if (!atPosition(that.getName())) super.forBoolRef(that); }
+        // A node's information, its span among it, is not its form.
+        @Override public void forSpanInfo(SpanInfo that) {}
+        @Override public void forExprInfo(ExprInfo that) {}
+        @Override public void forTypeInfo(TypeInfo that) {}
+        @Override public void forMethodInfo(MethodInfo that) {}
     }
 
     public String getString() {
