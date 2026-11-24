@@ -4,13 +4,13 @@
 
 The consequential items that stay after the triage of 2026-11-23, grouped by the work on PLAN's road that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) gives the other way, the cost, the home and its "Needed by" line. A landing files only its consequential items here, each with its "Needed by" line, and brings this section and its counts in line; its other defaults go to FACTS or the gap ledger (`coordinator/tools/record-landing/routing.md`).
 
-**Counts**, 100 open items, all consequential:
+**Counts**, 99 open items, all consequential:
 - The batch after climb batch 36: 2.
 - Before the switch-over: 17.
 - Q-walk, after the switch-over: 4.
 - Before microGPT compiles: 13.
 - Before microGPT runs fast: 8.
-- No planned work: 56.
+- No planned work: 55.
 
 **The batch after climb batch 36** (PLAN, "Where we stand", "Next", and phase 4, climb batch 36's line, its list: row 1136 first, whose tie P-181 decides; row 1094's dotted form, by the signature rule that fork K1 gives; row 1098 once it has its default).
 - **616.** Row 1098, which export rule holds where a component declares a function at a wider type than its api: the text's, so that the one library's component declares `print`, `println` and `errorPrintln` at `Number` and `Boolean`, or the team note's, so that the code generator calls or bridges to the covering declaration. No default on record; as landed, neither rule built; the review proposes the note's rule.
@@ -122,7 +122,6 @@ The consequential items that stay after the triage of 2026-11-23, grouped by the
 - **627.** His review of the published pages' inventory of 2026-11-05: kept, moved under `docs/`, or deleted. No default on record.
 - **628.** P-42's example of arrays indexed by pairs, against P-156. No default on record.
 - **629.** His reading of the two claims kept out of his reply to Professor Ryu. No default on record.
-- **630.** His rule of 2026-11-17 to launch a batch at the planner's defaults without asking first: every fork of a batch, or only the forks that are not consequential, as the coordinator narrowed it. No default on record.
 
 ## (b) Consequential, by theme
 
@@ -755,7 +754,7 @@ The consequential items that stay after the triage of 2026-11-23, grouped by the
    - Home: `reviews/speed-roadmap-2026-11-20.md`, decision 17; P-84; `coordinator/postmortem-2026-11-24-held-list/evidence/held-lines-001-074.md`, line 27
    - Needed by: microGPT runs fast: the speed roadmap's stage 6, "No stage needs it before stage 6" (PLAN, phase 6).
 
-### How batches run (5)
+### How batches run (4)
 
 403. **Does a crash in the distance stage that no rung declared make a later gate red, as it does in the checker count?** The post-batch review's finding A. At climb batch 27's gate the distance held two `#crash` rows: the compiled checker crashed while it typed `value object Char`, so the zero did not cover `Char`'s body (row 929; F-54). Climb batch 28's rung K closed row 929 (`a3eba5067`; F-334), and that batch's gate reads `#crash none`, as climb batch 29's does (`reviews/batch-29-review.md`, section 1); the question stays for later gates. The distance stage is report-only until the switch-over (P-39), so it cannot fail a gate. The finding's first half, the push, is answered: his go of 14:0x UTC on 2026-11-07, "You have a go.", given after the probe of the crash (`coordinator/HELD.md`), and the row is filed as row 929.
    - Landed: (i), the distance report-only, as P-39 has it. Default: (i), the record's.
@@ -780,10 +779,6 @@ The consequential items that stay after the triage of 2026-11-23, grouped by the
 
    - Home: `reviews/process-dead-ends-2026-11-23.md`, A1; POSITIONS P-180; `compile-ladder/plan-35/probes/skill-workarounds.md`; `coordinator/postmortem-2026-11-24-held-list/evidence/held-lines-001-074.md`, line 22
    - Needed by: no planned work named in the record.
-
-630. **Does his rule of 2026-11-17, to launch a batch at the planner's defaults without asking him first, cover every fork of a batch, or only the forks that are not consequential, as the coordinator narrowed it?** His words at 06:39:29 UTC on 2026-11-17 (the held list's 06:4x), as the held line has them: "You don't need to ask me about this before the run starts. You had defaults from the planning phase. And when they land, I'll review them and they will yell [tell?] that you are stupid back then. Don't delay the launch of batch. Start it with the original planner defaults." They answered the coordinator's ask of 06:0x UTC on fork O3 of run 2 of climb batch 31, and forks O3 and O4 landed at the planner's defaults for his review after the landing (`coordinator/HELD.md`, "Held in chat (2026-11-17)"). The coordinator read the rule as holding only for a fork that `references/batch.md`, "The go", does not put to him first; he never confirmed that reading. No skill holds the rule: the `coordinator` skill's `references/batch.md`, "The go", bullet 3, still says to put a consequential question to him first and to take its recommended default only overnight. His answer changes that bullet: under the first reading his rule cuts the ask before the launch for a consequential fork that has a planner's default, which then lands and waits for his review; under the second it adds nothing to "Otherwise decide it". The words of "The go" touch "The curator's role and decisions", so they wait for his yes. No default on record.
-   - Home: `coordinator/HELD.md`, "Held in chat (2026-11-17)"; the `coordinator` skill's `references/batch.md`, "The go"; `coordinator/postmortem-2026-11-24-held-list/evidence/held-lines-001-074.md`, line 72; PLAN-history, "His challenge on items 513 and 514 and his rule on a planned batch's forks"
-   - Needed by: no planned work named in the record; the skill writer's next edit of `batch.md`, "The go", writes by the answer.
 
 ### The record, its tools and the repository (7)
 
@@ -1275,7 +1270,7 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **347, Should a binding over `NN32`, `NN64` or `Char` to a helper with several…**
 - **351, An allow rule for walk guards run with the base build's own `harness-one.sh`?**
 
-### Answered by a decision of his (110)
+### Answered by a decision of his (112)
 
 - **23, May a program extend `Number`?** Decided 2026-11-05: P-160, "The one library's `Number` opens: its `comprises` clause goes, ...", his "2" of 18:1x UTC on 2026-11-05 to the ask on `Number`'s closure (option (b) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 23; `reviews/number-closure-2026-11-05.md`, section 8; rows 596, 551 and 804.
 - **24, A float compared with NaN.** Decided 2026-11-05: P-159, "A float compared with a NaN answers: ...", his "1" of 18:1x UTC on 2026-11-05 to the ask on the NaN comparison (option (a) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 24; `reviews/nan-comparison-2026-11-05.md`, section 8; `perf-probes/nan-check-cost/REPORT.md`; row 672.
@@ -1388,6 +1383,7 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **607, If no test against the prelude can show row 1078's cause, does rung L land its repair on the scratch tree's evidence (fork L1 of climb batch 34)?** Answered 2026-11-20: his words in chat at 14:3x UTC on 2026-11-20, on that fork, which the check before the launch named consequential: "Regarding the choice. I don't care. Test first is not a dogmatic religion, but a pragmatic practice. Deal with it! Go to launch". The fallback never ran: rung L's test against the prelude failed on the base and passes after (`reviews/batch-34-review.md`, section 1, L). Home: POSITIONS-history, P-102, its block of 2026-11-20 14:38Z; `coordinator/climb-batch-34-review.md`, C1; `coordinator/CLIMB-BATCH-34.md`, section 3, fork L1; PLAN, "Climb batch 34, listed for his review", the record's forks of run 1.
 - **419, Which rule of the language decides a tie among a call's most specific declarations, or is such a tie a static error?** Decided 2026-11-24: P-181, "The order of declarations never decides a call: ...", his yes to its exact words of 09:01 UTC on 2026-11-24, after his "1a, of course" of 08:49 UTC and "2a: because it is the designers' rule and walk's behaviour." of 08:51 UTC to the review's two forks, and his "Yep. These are all solid choices. Agreed." of 08:53 UTC to its three smaller fixes. Home: `reviews/tie-rule-2026-11-24.md`, sections 2 (9) and 3; F-408; rows 1136, 1141 to 1147.
 - **622, Which open rows does P-180 make a batch fix?** Decided 2026-11-24: P-180 gains the sentence "Each rung fixes the open ledger rows that cite the files that it edits and need no decision, or says in its report why a row stays.", at his words of 13:08 and 14:00 UTC; the worker skill's workaround passages are worked off by hand and are no part of the rule. Still to do: the planner's manual gives each rung its rows.
+- **630, Does his rule of 2026-11-17, to launch a batch at the planner's defaults, cover every fork or only those that are not consequential?** Withdrawn as a question on 2026-11-24, at his word that the record already answers it and that the answer is neither of the two: "Your context has the full answer to everything, and it is neither option 1 or option 2." The answer as the coordinator reads it, from the `coordinator` skill's `SKILL.md`, "The curator's role and decisions", beside his words of 06:39 UTC on 2026-11-17 ("You had defaults from the planning phase. And when they land, I'll review them ... Don't delay the launch of batch."); the reading is the coordinator's, not his words: a known fork is put to him when it is known, before the batch is briefed and while other work runs; a launch never waits for his answer, and a fork that he has not answered lands at the planner's default with its question kept in this queue; only a default that cannot be undone, or that acts against his word, holds. The coordinator's narrowing of 11-17, to forks that are not consequential, was its own and is dropped. Still to do: `references/batch.md`, "The go", bullet 3, says "put it to the curator first"; the skill writer brings it in line, its words on the page of skill drafts for his yes.
 
 ### Reviewed by him as landed (3)
 
