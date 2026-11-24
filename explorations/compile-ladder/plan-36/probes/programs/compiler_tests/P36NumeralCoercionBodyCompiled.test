@@ -1,0 +1,6 @@
+# A numeral coercion body that uses its four numbers with no getter compiles and runs.
+tests=P36NumeralCoercionBodyCompiled
+compile
+link
+run
+run_out_contains=PASS

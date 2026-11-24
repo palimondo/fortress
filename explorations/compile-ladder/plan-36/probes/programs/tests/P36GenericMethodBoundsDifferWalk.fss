@@ -1,0 +1,24 @@
+(* Two generic dotted methods of one name and one number of parameters in an object, whose static parameters differ only in their bounds, are a valid overloading, and each call runs the most specific declaration whose bound holds its argument (overloading.tex, section "Declarations with Static Parameters"). *)
+component P36GenericMethodBoundsDifferWalk
+export Executable
+
+object Apart
+    tk[\U extends Number\](y: U): ZZ32 = 2
+    tk[\U extends String\](y: U): ZZ32 = 3
+end
+
+object Nested
+    tk[\U extends Number\](y: U): ZZ32 = 2
+    tk[\U extends ZZ32\](y: U): ZZ32 = 3
+end
+
+run(): () = do
+    n: ZZ32 = 5
+    m: ZZ64 = 6
+    assert(Nested.tk(n), 3, "a ZZ32 takes the declaration bounded by ZZ32, the more specific")
+    assert(Nested.tk(m), 2, "a ZZ64 takes the declaration bounded by Number")
+    assert(Apart.tk(n), 2, "a ZZ32 takes the declaration bounded by Number")
+    assert(Apart.tk("a"), 3, "a String takes the declaration bounded by String")
+end
+
+end

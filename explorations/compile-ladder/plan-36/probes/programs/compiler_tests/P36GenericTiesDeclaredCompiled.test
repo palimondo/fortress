@@ -1,0 +1,6 @@
+# Twelve pairs of generic declarations, each direct call on a Box running the Box declaration.
+tests=P36GenericTiesDeclaredCompiled
+compile
+link
+run
+run_out_contains=PASS

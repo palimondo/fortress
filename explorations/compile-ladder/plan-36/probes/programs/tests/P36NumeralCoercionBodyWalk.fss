@@ -1,0 +1,30 @@
+(* A numeral coercion's four numbers, used as values in its body, convert where they stand, with no getter: v at a ZZ32 parameter, n at a ZZ32 parameter, and v where nothing fixes a type an exact ZZ (P-174; literals.tex, section "Literals"). *)
+component P36NumeralCoercionBodyWalk
+export Executable
+
+value object Byte(b: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v)
+end
+
+value object Digits(count: ZZ32)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Digits(n)
+end
+
+value object Big(z: ZZ)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
+        w = v
+        Big(w)
+    end
+end
+
+run(): () = do
+    y: Byte = 200
+    assert(y.b, 200, "v converts into ZZ32 at Byte's parameter")
+    d: Digits = 00.5
+    assert(d.count, 3, "n converts into ZZ32 at Digits' parameter")
+    g: Big = 123456789012345678901234567890
+    assert(g.z, 123456789012345678901234567890, "v, bound where nothing fixes a type, is an exact ZZ")
+    println("PASS")
+end
+
+end

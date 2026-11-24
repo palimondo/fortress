@@ -1,0 +1,11 @@
+--- ProjectFortress/src/com/sun/fortress/compiler/index/FunctionalMethod.java	2026-11-23 17:27:27.791097046 +0000
++++ ProjectFortress/src/com/sun/fortress/compiler/index/FunctionalMethod.java	2026-11-24 00:51:42.571057190 +0000
+@@ -152,7 +152,7 @@
+     @Override
+     public List<Param> parameters() {
+         List<Param> ps = NodeUtil.getParams(_ast);
+-        if (!_selfFromBound) return ps;
++        // PROBE 36 HACK (not kept): every self parameter at its plain trait type in the signature.
+         List<Param> out = new java.util.ArrayList<Param>(ps.size());
+         for (Param p : ps) {
+             Option<TypeOrPattern> t = p.getIdType();

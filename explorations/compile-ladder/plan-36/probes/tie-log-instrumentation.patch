@@ -1,0 +1,35 @@
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala	2026-11-23 17:27:27.859202252 +0000
++++ ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala	2026-11-24 00:47:53.157882947 +0000
+@@ -1117,6 +1117,32 @@
+       c._1.args.zip(ps).forall { case (a, p) => getType(a).exists(t => isSubtype(traitOfSelf(t), p)) }
+     }
+ 
++    // PROBE 36 (planner, not kept): log each tie among the minimal candidates.
++    if (top.size > 1 && System.getProperty("fortress.tielog") != null) {
++      def safe(x: => Any): String = try { x.toString } catch { case e: Throwable => "ERR" }
++      val app = errorFactory.app
++      val where = safe(if (app == null) "?" else NU.getSpan(app).toString)
++      val same = safe(top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head))))
++      val cnt = safe(top.exists(counted))
++      val cov = safe(tieType(top).isDefined)
++      val selfTie = safe { val atT = top.filter(takesSelfAtTrait); atT.nonEmpty && atT.size < top.size }
++      def schemaOf(c: Ranked): ArrowType =
++        c._1.overloading.flatMap(o => toOption(o.getSchema)).orElse(c._2).getOrElse(c._1.arrow)
++      val schemas = top.map(schemaOf)
++      val gen = schemas.exists(a => getStaticParams(a).exists(!_.isLifted))
++      val declBreak = safe(schemas.exists(s => schemas.forall(t => (s eq t) || coercions.moreSpecificDeclared(s, t))))
++      def plainDom(a: ArrowType): Type = traitOfSelf(a.getDomain)
++      val plainBreak = if (gen) "n/a" else safe(schemas.exists(s => schemas.forall(t => (s eq t) ||
++          (isSubtype(plainDom(s), plainDom(t)) && !isSubtype(plainDom(t), plainDom(s))))))
++      val branch = safe(if (!top.exists(counted) || top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head)))) (if (selfTie == "true") "selfcase" else "head") else "numeralOrAmbig")
++      val spans = top.map(c => safe(c._1.fnl.map(f => f.getSpan.toString).getOrElse("?")))
++      val line = "TIE\t" + where + "\tn=" + top.size + "\tbranch=" + branch + "\tsame=" + same + "\tcounted=" + cnt +
++        "\tcov=" + cov + "\tground=" + groundFamily + "\tgeneric=" + gen + "\tselfTie=" + selfTie +
++        "\tdeclBreak=" + declBreak + "\tplainBreak=" + plainBreak + "\tquiet=" + quiet +
++        "\tdecls=" + spans.mkString(" | ") + "\tarrows=" + schemas.map(a => safe(a)).mkString(" | ") + "\n"
++      val f = new java.io.FileWriter(System.getProperty("fortress.tielog"), true)
++      try f.write(line) finally f.close()
++    }
+     val head: Option[Ranked] =
+       if (top.size == 1) top.headOption
+       // A tie among candidates that fit the call as it is, or among candidates

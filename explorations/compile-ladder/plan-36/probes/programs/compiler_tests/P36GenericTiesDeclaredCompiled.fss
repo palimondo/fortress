@@ -1,0 +1,40 @@
+(* Twelve pairs of generic declarations, each a declaration over any type beside one over Box, the more specific by its declared parameter types: each direct call on a Box runs the Box declaration, whatever the order in which the checker meets the pair (overloading.tex, section "Overloading Resolution"; rows 499 and 935). *)
+component P36GenericTiesDeclaredCompiled
+export Executable
+
+object Box[\U\](v: ZZ32) end
+object Blue end
+
+f1[\T\](x: T): ZZ32 = 0
+f1[\U\](x: Box[\U\]): ZZ32 = 1
+f2[\T\](x: T): ZZ32 = 0
+f2[\U\](x: Box[\U\]): ZZ32 = 1
+f3[\T\](x: T): ZZ32 = 0
+f3[\U\](x: Box[\U\]): ZZ32 = 1
+f4[\T\](x: T): ZZ32 = 0
+f4[\U\](x: Box[\U\]): ZZ32 = 1
+f5[\T\](x: T): ZZ32 = 0
+f5[\U\](x: Box[\U\]): ZZ32 = 1
+f6[\T\](x: T): ZZ32 = 0
+f6[\U\](x: Box[\U\]): ZZ32 = 1
+f7[\T\](x: T): ZZ32 = 0
+f7[\U\](x: Box[\U\]): ZZ32 = 1
+f8[\T\](x: T): ZZ32 = 0
+f8[\U\](x: Box[\U\]): ZZ32 = 1
+f9[\T\](x: T): ZZ32 = 0
+f9[\U\](x: Box[\U\]): ZZ32 = 1
+f10[\T\](x: T): ZZ32 = 0
+f10[\U\](x: Box[\U\]): ZZ32 = 1
+f11[\T\](x: T): ZZ32 = 0
+f11[\U\](x: Box[\U\]): ZZ32 = 1
+f12[\T\](x: T): ZZ32 = 0
+f12[\U\](x: Box[\U\]): ZZ32 = 1
+
+run(): () = do
+  b: Box[\Blue\] = Box[\Blue\](1)
+  boxes: ZZ32 = f1(b) + f2(b) + f3(b) + f4(b) + f5(b) + f6(b) + f7(b) + f8(b) + f9(b) + f10(b) + f11(b) + f12(b)
+  assert(boxes, 12, "each direct call on a Box runs the declaration on Box, the more specific by its declared parameter types")
+  println("PASS")
+end
+
+end
