@@ -593,7 +593,7 @@ def svg_timeline(data, cmap):
 
 
 def svg_forest(rows, key, ci_key, unit, cmap):
-    W, L, R, rowh = 720, 120, 16, 34
+    W, L, R, rowh = 420, 92, 14, 34
     hi = max(r[ci_key][1] for r in rows) or 1
     step = [s for s in (0.05, 0.1, 0.2, 0.25, 0.5, 1, 2, 5, 10, 20, 50) if hi / s <= 6][0]
     top = math.ceil(hi / step) * step
@@ -716,6 +716,17 @@ svg .dot { stroke: var(--surface); stroke-width: 2; }
 .sw.n { background: var(--nbar); }
 .fine { font-size: .9rem; color: var(--muted); }
 details summary { cursor: pointer; color: var(--accent); }
+.tbl { overflow-x: auto; max-width: 100%; margin: .4rem 0 1rem; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
+.tbl:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tbl table { border-collapse: collapse; font-size: .9rem; font-variant-numeric: tabular-nums; min-width: 100%; }
+.tbl caption { text-align: left; font-size: .8rem; color: var(--muted); padding: 8px 10px 0; }
+.tbl th, .tbl td { padding: 6px 10px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+.tbl thead th { font-size: .8rem; color: var(--muted); font-weight: 700; white-space: nowrap; }
+.tbl tbody th { font-weight: 700; white-space: nowrap; }
+.tbl tbody tr:last-child > * { border-bottom: none; }
+.tbl .n { text-align: right; white-space: nowrap; }
+.tbl .ci { color: var(--muted); }
+.tbl .nw { white-space: nowrap; }
 """
 
 SELECT_JS = """
@@ -743,6 +754,24 @@ document.querySelectorAll('section.part').forEach(function (sec) {
 
 def ivl(a):
     return f"{f2(a[0])} to {f2(a[1])}"
+
+
+def table(caption, heads, rows, num):
+    """One table in its own sideways-scrolling container. heads: column headers;
+    rows: lists of cell HTML; num: indexes of the right-aligned number columns."""
+    th = "".join(f'<th scope="col"{" class=n" if i in num else ""}>{h}</th>' for i, h in enumerate(heads))
+    body = "".join("<tr>" + "".join(
+        (f'<th scope="row">{c}</th>' if i == 0 else f'<td{" class=n" if i in num else ""}>{c}</td>')
+        for i, c in enumerate(r)) + "</tr>" for r in rows)
+    return (f'<div class="tbl" role="region" aria-label="{e(caption)}" tabindex="0"><table>'
+            f'<caption>{e(caption)}</caption><thead><tr>{th}</tr></thead><tbody>{body}</tbody></table></div>')
+
+
+def rate_cell(rate, boot, poisson):
+    """Rate with its 95% interval: the day bootstrap, or the Poisson one, marked *, where the bootstrap is a point."""
+    if boot[1] - boot[0] < 1e-12:
+        return f"{f2(rate)} <span class=ci>({f2(poisson[0])}&ndash;{f2(poisson[1])})*</span>"
+    return f"{f2(rate)} <span class=ci>({f2(boot[0])}&ndash;{f2(boot[1])})</span>"
 
 
 def page(data):
@@ -777,24 +806,27 @@ def page(data):
         "<p>The bottom chart gives the number of the curator's messages each day, the base of each rate.</p>"
         + legend + f'<div class="figure">{tl}</div>'
         + '<ul class="legend"><li><span class="sw fill"></span>rate, 10 or more messages</li><li><span class="sw out"></span>rate, fewer than 10 messages</li><li><span class="sw n"></span>messages per day</li></ul>'
-        "<p class=\"fine\">Dates on the axis are month and day, 2026, UTC. On a computer, a pointer over a day shows its numbers. Section 9 lists every day.</p>"))
+        "<p class=\"fine\">Dates on the axis are month and day, 2026, UTC. On a computer, a pointer over a day shows its numbers. Section 9 has a table of every day.</p>"))
 
-    items = []
+    vrows = [[e(r["version"]), f'<span class=nw>{r["first"][5:]} &ndash; {r["last"][5:]}</span>', r["days"], k_fmt(r["messages"]),
+              k_fmt(r["active_hours"]), r["f"], rate_cell(r["rate100"], r["rate100_boot"], r["rate100_poisson"]),
+              rate_cell(r["rate_hr"], r["rate_hr_boot"], r["rate_hr_poisson"]), r["wide"]] for r in vers]
+    vtable = table("F-words by model version, in the order of the charts",
+                   ["Version", "Served (2026)", "Days", "Msgs", "Active h", "F-words", "Per 100 msgs (95%)", "Per active h (95%)", "Wider list"],
+                   vrows, {2, 3, 4, 5, 6, 7, 8})
+    notes = ["Intervals are the day bootstrap's. A star marks the exact Poisson interval, used where the bootstrap shrinks to a point."]
     for r in vers:
         rr = r.get("ratio_to_ref")
-        ratio = ""
         if rr and rr["ratio"] is not None and rr["ci"]:
-            ratio = (f"<li>Its rate per message is {f2(rr['ratio'])} times the rate under {e(rr['ref'])}, the version with the most messages "
-                     f"(95% interval {ivl(rr['ci'])}, by the same bootstrap).</li>")
-        items.append(
-            f"<li><strong>{e(r['version'])}</strong>: served from {r['first']} to {r['last']}, on {r['days']} days."
-            "<ul>"
-            f"<li>Base: {k_fmt(r['messages'])} messages, {k_fmt(r['active_hours'])} active hours.</li>"
-            f"<li>Count: {r['f']} f-words, in {r['msgs_with_f']} messages. With the wider list, {r['wide']} swear words.</li>"
-            f"<li>Per 100 messages: {f2(r['rate100'])}. The 95% interval is {ivl(r['rate100_boot'])} by the day bootstrap, and {ivl(r['rate100_poisson'])} by the exact Poisson method.</li>"
-            f"<li>Per active hour: {f2(r['rate_hr'])}. The 95% interval is {ivl(r['rate_hr_boot'])} by the day bootstrap, and {ivl(r['rate_hr_poisson'])} by the exact Poisson method.</li>"
-            f"<li>Share of messages with at least one f-word: {100 * r['share_f']:.1f}%, 95% interval {100 * r['share_f_wilson'][0]:.1f}% to {100 * r['share_f_wilson'][1]:.1f}% by the Wilson method.</li>"
-            + (ratio or ("<li>Under 5 days: too few for a ratio to the other versions.</li>" if r["days"] < 5 else "")) + "</ul></li>")
+            notes.append(f"{e(r['version'])}'s rate per message is {f2(rr['ratio'])} times that of {e(rr['ref'])}, the version with the most messages "
+                         f"(95% interval {ivl(rr['ci'])}, by the same bootstrap).")
+    few = [r for r in vers if r["days"] < 5]
+    if few:
+        notes.append("Too few days for a rate to mean much, and for a ratio to the others: "
+                     + ", ".join(f"{e(r['version'])}, {r['days']} day{'s' if r['days'] != 1 else ''}" for r in few) + ".")
+    thin = [r for r in vers if r["days"] >= 5 and r["days"] < 10]
+    for r in thin:
+        notes.append(f"{e(r['version'])} rests on {r['days']} days, so its interval is itself rough.")
     sec(3, "By model version", (
         "<p>Each of the curator's messages goes to the model of the coordinator's last reply before it, in the same session: the reply that the message answers.</p>"
         "<p>Two methods give each interval. The exact Poisson interval treats every f-word as independent. Swearing comes in bursts, so that interval is too narrow. "
@@ -806,30 +838,35 @@ def page(data):
         f'<div class="figure">{svg_forest(vers, "rate100", "rate100_plot", "f-words per 100 messages", cmap)}</div>'
         "<p><strong>F-words per active hour</strong></p>"
         f'<div class="figure">{svg_forest(vers, "rate_hr", "rate_hr_plot", "f-words per active hour", cmap)}</div>'
-        "<ul>" + "".join(items) + "</ul>"
+        + vtable + "".join(f"<p class=\"fine\">{n}</p>" for n in notes)
         + (f"<p>{sum(r['messages'] for r in nry)} messages came before the first reply of their session. They hold {sum(r['f'] for r in nry)} f-words and have no model.</p>" if nry else "")))
 
-    sec(4, "The worst days", "<p>The days with the most f-words, in order.</p><ol>" + "".join(
-        f"<li>{r['day']}: {r['f']} f-words in {r['messages']} messages ({f2(r['rate'])} per 100). Model: "
-        + ", ".join(f"{e(k)} ({v} messages)" for k, v in sorted(r["models"].items(), key=lambda kv: -kv[1])) + ".</li>"
-        for r in data["worst_days"]) + "</ol>")
+    sec(4, "The worst days", "<p>The days with the most f-words, in order.</p>" + table(
+        "The worst days", ["Day", "F-words", "Msgs", "Per 100 msgs", "Model (msgs)"],
+        [[r["day"], r["f"], r["messages"], f2(r["rate"]),
+          ", ".join(f"{e(k)} ({v})" for k, v in sorted(r["models"].items(), key=lambda kv: -kv[1]))]
+         for r in data["worst_days"]], {1, 2, 3}))
 
     hod = data["hours_of_day"]
     busiest = sorted(hod, key=lambda h: -h["messages"])[:3]
     sec(5, "The hours of the day", (
         "<p>F-words per 100 messages, by the hour of the day in UTC, over the whole project. A hollow bar marks an hour with fewer than 20 messages.</p>"
         f'<div class="figure">{svg_hours(hod)}</div>'
-        "<p>The busiest hours were " + ", ".join(f"{h['hour']:02d}:00 ({k_fmt(h['messages'])} messages, {h['f']} f-words)" for h in busiest)
-        + ". If the hours that a version served differ, the hour can account for part of a difference between versions.</p>"))
+        + table("Each hour of the day, UTC", ["Hour (UTC)", "Msgs", "F-words", "Per 100 msgs"],
+                [[f"{h['hour']:02d}:00", k_fmt(h["messages"]), h["f"], f2(100 * h["f"] / h["messages"]) if h["messages"] else "&ndash;"]
+                 for h in hod], {1, 2, 3})
+        + "<p>The busiest hours were " + ", ".join(f"{h['hour']:02d}:00" for h in busiest)
+        + " UTC. If the hours that a version served differ, the hour can account for part of a difference between versions.</p>"))
 
     cb = data["comments_by_version"]
     sec(6, "The curator's comments on pages", (
         f"<p>This is a second series. It counts {t['comments']} comments of the curator's on the coordinator's pages, which reached the coordinator's transcript. "
         f"They run from {t['comments_first']} to {t['comments_last']}, and hold {t['comments_f']} f-words. Each comment counts once, by its minute and its text. "
-        "The comments are few per version and bunched on the days of page reviews, so the Poisson interval here is too narrow.</p><ul>" + "".join(
-            f"<li>{e(r['version'])}: {r['comments']} comments, {r['f']} f-words, {f2(r['rate100'])} per 100 comments (95% interval {ivl(r['rate100_poisson'])}, exact Poisson).</li>"
-            for r in cb) + "</ul>"
-        "<p>A comment that the coordinator never read is not in its transcript, so it is not here. Comments go to the model of the last reply before the comment's minute.</p>"))
+        "The comments are bunched on the days of page reviews, so the exact Poisson interval in the table is too narrow.</p>"
+        + table("Page comments by model version", ["Version", "Comments", "F-words", "Per 100 comments (95%, Poisson)"],
+                [[e(r["version"]), r["comments"], r["f"], f"{f2(r['rate100'])} <span class=ci>({f2(r['rate100_poisson'][0])}&ndash;{f2(r['rate100_poisson'][1])})</span>"]
+                 for r in cb], {1, 2, 3})
+        + "<p>A comment that the coordinator never read is not in its transcript, so it is not here. Comments go to the model of the last reply before the comment's minute.</p>"))
 
     sec(7, "What can confound the comparison", "<ul>" + "".join([
         "<li><strong>Phase of the project.</strong> Each version served in one stretch of the calendar. The work, the curator's patience and the state of the skills all changed with time. The data cannot separate the version from the phase.</li>",
@@ -854,13 +891,13 @@ def page(data):
         "<p>The wider series counts the f-word family and these words.</p>" + wl(data["other_words"]) +
         f"<p>The forms found most often in the curator's own words: {hits}.</p>"))
 
-    srows = "".join(
-        f"<li>Session {s['session']}: {k_fmt(s['messages'])} messages, {s['f']} f-words, from {s['first']} to {s['last']}. Versions: {e(', '.join(s['versions']))}.</li>"
-        for s in data["sessions"])
+    stable = table("Main sessions", ["Session", "From (UTC)", "To (UTC)", "Msgs", "F-words", "Versions"],
+                   [[s["session"], s["first"][:16].replace("T", " "), s["last"][:16].replace("T", " "), k_fmt(s["messages"]), s["f"],
+                     e(", ".join(s["versions"]))] for s in data["sessions"]], {3, 4})
     sec(9, "What was counted and what was not", (
         "<p><strong>Sources.</strong> The live transcript of the coordinator, and the transcript backup of this run, read line by line: "
         f"{t['files_read']} files that hold main sessions. A main session is one in which the curator typed or dictated, marked by entries whose origin is a human.</p>"
-        f"<ul>{srows}</ul>"
+        + stable +
         "<p><strong>Counted.</strong></p><ul>"
         "<li>Entries of type user whose text the curator wrote, with every system-reminder block cut out first.</li>"
         "<li>Each message once, by its identifier, and again by its time and text, since the backup and the live transcript overlap"
@@ -874,10 +911,11 @@ def page(data):
         f"{t['messages_with_quotes']} messages had such a line with a swear word in it. Those lines held {t['quoted_f_dropped']} f-words, left out. "
         "A quotation without either mark, such as a pasted reply of another session, cannot be told apart, and its words count as his.</li>"
         "<li>The earlier coordinating sessions on the other backup branch, which this run keeps apart. The data starts with this run's first session.</li></ul>"
-        "<details><summary>Every day, as a list</summary><ul>" + "".join(
-            f"<li>{r['day']}: {r['messages']} messages, {r['active_hours']} active hours, {r['f']} f-words"
-            + (f", {f2(r['rate'])} per 100. " + ", ".join(f"{e(k)} {v}" for k, v in sorted(r['models'].items())) if r['messages'] else "")
-            + ".</li>" for r in data["days"]) + "</ul></details>"))
+        "<details><summary>Every day</summary>" + table(
+            "Every day", ["Day", "Msgs", "Active h", "F-words", "Per 100 msgs", "Model (msgs)"],
+            [[r["day"], r["messages"], r["active_hours"], r["f"], f2(r["rate"]) if r["messages"] else "&ndash;",
+              ", ".join(f"{e(k)} ({v})" for k, v in sorted(r["models"].items(), key=lambda kv: -kv[1]))] for r in data["days"]],
+            {1, 2, 3, 4}) + "</details>"))
 
     sec(10, "Refreshing the page", (
         f"<p>Last refresh: {e(data['refreshed'])}.</p>"
