@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 """queue-check.py --root WT --base AT: the review queue's numbers, its "Needed by" lines and its counts.
 
-The review queue, explorations/coordinator/review-queue.md, holds numbered items in three parts: (b)
-consequential and (c) routine, the open items, as `N. ...`, and (a) settled or stale, as `- **N, ...`.
+The review queue, explorations/coordinator/review-queue.md, holds numbered items: (b) the open questions, all
+consequential, as `N. ...`, and (a) settled or stale, as `- **N, ...`; (c), routine, holds none since 2026-11-23.
 Each `### Theme (K)` heading counts its items. Checks the working file against the one at AT, the commit
 that the worktree WT was made at:
   numbers   each item number at AT is still in the file; the new numbers follow the last one at AT, one by one
   needed    each open item that is new, or that moved into (b) or (c), has a "Needed by:" line
+  routine   no item is open in (c): a decision that is not consequential closes as landed
   sections  each theme heading's count equals the items under it
   head      the head's "**Counts**, N open items ..." line equals the open, consequential and routine items, and the lines
             under it, one per kind of need, add up to it
   answered  each item new in (a)'s "Answered by a decision of his", filed there or moved there since AT, cites his
             word on that same item: a POSITIONS entry, a time or an answer of his, and before its "Home:" no default
             taken without him ("at its default", "by the coordinator", "the coordinator's call") and no word of his
-            on another item ("on item 310"). A default that the coordinator or a batch took leaves the item open in
-            (b) or (c), landed and then reviewed (the coordinator skill, "The curator's role and decisions", way 2).
+            on another item ("on item 310"). A default that the coordinator or a batch took leaves a consequential
+            item open in (b), and closes one that is not consequential as landed.
 Prints each failure and one line per check; exit 1 on any failure.
 """
 import argparse
@@ -93,7 +94,7 @@ old_answered = answered(r.stdout)
 with open(os.path.join(a.root, REL), encoding='utf-8') as f:
     text_now = f.read()
 new, sections, lines = parse(text_now)
-fails = {'numbers': [], 'needed': [], 'sections': [], 'head': [], 'answered': []}
+fails = {'numbers': [], 'needed': [], 'routine': [], 'sections': [], 'head': [], 'answered': []}
 for n in sorted(set(old) - set(new)):
     fails['numbers'].append('item %d is gone' % n)
 added = sorted(set(new) - set(old))
@@ -105,6 +106,8 @@ for n in sorted(new):
     opened = n in added or (old.get(n, [None])[0] not in ('b', 'c'))
     if part in ('b', 'c') and opened and not re.search(r'^\s*- Needed by:', text, re.M):
         fails['needed'].append('item %d (%s, "%s") has no "Needed by:" line' % (n, part, theme))
+    if part == 'c':
+        fails['routine'].append('item %d is open in (c), "%s": a decision that is not consequential closes as landed' % (n, theme))
 for part, theme, count, got in sections:
     if count != got:
         fails['sections'].append('"%s" (%s) counts %d and holds %d' % (theme, part, count, got))
@@ -145,7 +148,7 @@ for k, text in answered(text_now).items():
     if not HIS.search(body):
         why.append('it cites no word of his: no POSITIONS entry, time or answer of his')
     if why:
-        fails['answered'].append('item %s, new in "Answered by a decision of his": %s; it stays open in (b) or (c), with its default as landed' % (
+        fails['answered'].append('item %s, new in "Answered by a decision of his": %s; it stays open in (b), with its default as landed, if it is consequential, and otherwise closes as landed' % (
             k if isinstance(k, int) else '"%s"' % k[:60], '; '.join(why)))
 for k, v in fails.items():
     for x in v:

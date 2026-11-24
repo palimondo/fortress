@@ -40,13 +40,13 @@ Then run `/home/user/fortress/explorations/coordinator/tools/record-landing/fina
 A header comment of one sentence, then one line per change that changed a file, by home, each with its change number. Keep it within 10,000 characters. A change that owed nothing, or an entry kept as it stood, gets no line: `owed.md` holds it.
 
 - **FACTS:** the entry, what changed, and its ground.
-- **POSITIONS:** the entry, the old words and the new, "decision unchanged", and its ground, ready for the landing report.
+- **POSITIONS:** the entry, the old words and the new, "decision unchanged", and its ground, ready for the coordinator's line to the curator.
 - **The ledger:** the row, what changed, and its ground.
 - **PLAN:** the rewritten, new and moved lines as counts by kind (rewritten, new, built, answered, stale, cut to a pointer), each count with its change numbers; a line in full only where the coordinator must read it. `routing-report.md` holds each line.
 - **The review queue:** each new item's number, its question in a few words, its default and its "Needed by"; each item moved to (a), with what settled it.
 - **INDEX and the other notes:** each line.
 - **Held:** each held change, and why.
-- **For the curator:** each change that needs his word; each default that the record does not hold; each "Needed by" and each kind, consequential or routine, that the workflow set; and each item moved to (a)'s "Answered by a decision of his", with the word of his that it cites.
+- **For the curator:** each change that needs his word; each default that the record does not hold; each "Needed by" and each kind that the workflow set; and each item moved to (a)'s "Answered by a decision of his", with the word of his that it cites.
 - **For the coordinator:** the last section of `owed.md`, and each change that the routing report names for the boot note or the held list.
 - **Checks:** one line for each check of `mech-final.md`.
 - **Next:** the two commits, as the line "The two commits: the workflow result's `land.commits` gives them as landed on `main`.", since the committed `diff.md` cannot name its own commits and the worktree and branch are gone after the landing; and the orientation update's call, whose `facts` list the Land stage reads to run the update: `Workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/orientation/orientation.js', args: { mode: 'update', out: '/home/user/fortress/explorations/compile-ladder/climb-batch-N/orientation/', stream: 'orientation-bN', facts: [...] } })`, with the entries that the landing and this run added or changed.

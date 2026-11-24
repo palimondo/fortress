@@ -28,8 +28,8 @@
 // goes into its RECORD.md for the skill writer: reviews/skills-agenda-audit.md), a path under .claude/ that
 // changed listed as skill-touched, and a gather's stray deltaEntries routed nowhere; the commit stage's checks of
 // footers and .claude/ over the batch's own commits, from the gather's headBefore, and from the base only where the
-// gather gave none, and no item of a path outside .claude/; a reserved point the gather filed listed for the
-// curator; after a repair of tests only that its runs do not answer for, the gate's stages that read those files
+// gather gave none, and no item of a path outside .claude/; a reserved point the gather listed in RECORD.md listed
+// for the curator; after a repair of tests only that its runs do not answer for, the gate's stages that read those files
 // again (testFast, testSystem, the atomic runs) and the whole gate where a red line names no file it changed, a
 // red stage-only run stopping the batch; testSpecData in the gate
 // when the rung that brings it lands, and not when it is dropped; the stops on a usage limit and the resumes.
@@ -193,7 +193,7 @@ const SCEN = [
     promptHas: { commit: [ATOMIC_PUSH, 'run that same command again, whole, never one ref alone', 'git ls-remote origin refs/heads/main refs/heads/claude/worker-brief-fable-vnnuv8 refs/heads/blinded-fable'],
       'commit:attempt2': ['run step 3\'s one command again, whole, never one ref alone', ATOMIC_PUSH] },
     promptLacks: { 'commit:attempt2': ['push only what a branch lacks', 'git fetch origin'] } },
-  { name: 'P1 the gather files a reserved point R0 reached: listed for the curator, and the review checks its entry', over: { gather: () => gatherStub({ reservedFiled: [{ id: R(0) + '.reserved.1', text: 'which + runs for (3.0 asif RR64) + 17, x.fss:1' }] })() },
+  { name: 'P1 the gather lists a reserved point R0 reached: listed for the curator, and the review checks its entry', over: { gather: () => gatherStub({ reservedFiled: [{ id: R(0) + '.reserved.1', text: 'which + runs for (3.0 asif RR64) + 17, x.fss:1' }] })() },
     after: 'gather, gate, review, commit', landed: true, items: ['R0.reserved.1'], promptHas: { review: ['"id": "' + R(0) + '.reserved.1"'] } },
   { name: 'G1 the rung that brings testSpecData lands: the gate runs it', over: {}, after: 'gather, gate, review, commit', landed: true, specData: true },
   { name: 'G2 the rung that brings testSpecData is dropped: the gate runs it only if the landed summary has it', over: JOINS.length ? { ['skeptic:' + JOINS[0]]: refused, ['judge:' + JOINS[0]]: judge('drop') } : {},
@@ -464,7 +464,7 @@ function check(sc, out) {
     if (c.label === 'gather') {
       if (!/\[ -s tmp\/gather\/head-before-batch-\S+ \] \|\| git rev-parse HEAD > tmp\/gather\/head-before-batch-/.test(p) || p.indexOf('as headBefore') < 0) probs.push('the gather does not record, once, the HEAD it starts from as headBefore')
       if (p.indexOf('git diff --cached --no-renames --name-only | while read -r p ; do git cat-file -e a874948ac:"$p"') < 0) probs.push('the gather does not write the historical: line from its staged diff against the team\'s last commit')
-      if (p.indexOf('"reservedPoints":') < 0 || p.indexOf('<rung>.reserved.<n>') < 0 || p.indexOf('listed for his review"') < 0 || p.indexOf('reservedFiled') < 0) probs.push('the gather does not file the rungs\' reserved points on the review list in PLAN.md, with each rung\'s reserved points and the ids')
+      if (p.indexOf('"reservedPoints":') < 0 || p.indexOf('<rung>.reserved.<n>') < 0 || p.indexOf('the landing names it in one line: list it in RECORD.md') < 0 || p.indexOf('reservedFiled') < 0) probs.push('the gather does not list the rungs\' reserved points in RECORD.md for the landing\'s one line, with each rung\'s reserved points and the ids')
     }
     if (/^gate/.test(c.label) && (p.indexOf('source explorations/coordinator/tools/gate-functions.sh') < 0 || !/gate_summary \S+ \S+ "gate batch [^"]+"/.test(p) || p.indexOf('four threads') < 0)) probs.push(c.label + ' lacks the source of the gate\'s functions, gate_summary\'s machine label or the four threads')
     if (/^gate/.test(c.label) && /\b(gate_summary|gate_compare|last_landed_summary) \(\) \{/.test(p)) probs.push(c.label + ' defines a gate function inline, which tools/gate-functions.sh holds')

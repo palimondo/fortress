@@ -17,4 +17,4 @@ The writer is a headless Opus stream (`../record-clarity/writer-stream.sh`), so 
 
 ## Installing its result
 
-The judge writes `judgement.md` and `queue.md`. The coordinator then has the skill writer (`skill-writer.sh`) install the sections judged "install" into `references/revival-changes.md`, add `sources-mapping.md` to the skill's `references/sources.md`, and, after a consolidation, update the core's line for the part and its description together; then a cold read of the installed part, as `coordinator/references/skill-rewrite.md` says. Held sections keep the old text; their items go to `review-queue.md`.
+The judge writes `judgement.md` and `queue.md`. The coordinator then has the skill writer (`skill-writer.sh`) install the sections judged "install" into `references/revival-changes.md`, add `sources-mapping.md` to the skill's `references/sources.md`, and, after a consolidation, update the core's line for the part and its description together; then a cold read of the installed part, as `coordinator/references/skill-rewrite.md` says. Held sections keep the old text; the coordinator decides each, and only a consequential one goes to `review-queue.md`.
