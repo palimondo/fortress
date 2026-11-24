@@ -64,9 +64,24 @@ the intersection of the traits it extends, so we should think about this issue m
 If the innermost enclosing such construct is a trait declaration (for a trait called,
 say, `\EXP{T}'), and that trait declaration has a \KWD{comprises} clause,
 and `\EXP{U_1}', `\EXP{U_2}', ..., `\EXP{U_n}' are the traits mentioned in
-the \KWD{comprises} clause, then the type of \KWD{self} is instead
+the \KWD{comprises} clause, then the type of \KWD{self} in the bodies of its
+methods is instead
 ``\EXP{T \cap (U_{\mathrm{1}} \cup U_{\mathrm{2}}
-\cup \ldots \cup U_{\mathrm{n}})}''.
+\cup \ldots \cup U_{\mathrm{n}})}'';
+the \KWD{self} parameter keeps the type `\EXP{T}'
+in the signature of each method declaration,
+which overloading and the choice of a declaration at a call read,
+save the test of whether two overloaded declarations' parameter types
+exclude each other, which reads it as that intersection.
+\revision{revival-self-comprises}{The Working Draft of February 2011 gave
+\KWD{self} this type without saying whether it held in the signatures of the
+trait's method declarations.
+Read there, it made a trait's own declaration of a functional method and the
+declaration of a type that the \KWD{comprises} clause lists equally specific,
+so that a call on \KWD{self} had no most specific declaration;
+read at the trait's own type, the listed type's declaration is the more
+specific (\secref{resolving-overloading}),
+as for a self-type parameter below.}
 If that trait declaration has no \KWD{comprises} clause, or one that lists no type but ``\EXP{\ldots}'',
 and has a self-type parameter `\EXP{X}' (\secref{trait-decls}),
 a static parameter bounded by the trait itself at its own static parameters,

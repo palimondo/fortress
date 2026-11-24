@@ -3747,13 +3747,10 @@ that extends both unlisted does, is not a static error: it runs the declaration
 that covers its value, and, where those declarations and every declaration more
 specific than them that the call may run have no static parameters, its type is
 the intersection of the return types of its most specific declarations.
-The compiled type checker departs from this in three ways: it types such a call
-by the intersection only in a family none of whose declarations has static
-parameters, and otherwise by one of its most specific declarations (row~543 of
-the revival's gap ledger); it refuses the case for declarations with static
-parameters (row~546); and its verdict on a trait between the two that provides
-both declarations of a functional method can depend on the components it
-compiled before (row~547).
+The compiled type checker departs from this in two ways: it refuses the case
+for declarations with static parameters (row~546 of the revival's gap ledger);
+and its verdict on a trait between the two that provides both declarations of a
+functional method can depend on the components it compiled before (row~547).
 The Meet Rule for dotted methods keeps its form, asking for a declaration on the
 intersection (\secref{revival-notrevised}).
 \item[Original text] The Working Draft's rules are unchanged, the cases being
@@ -4507,6 +4504,76 @@ for the interpreter past its stack overflow on a clause that lists a static
 parameter (row~407 of the revival's gap ledger); and leave in
 \secref{trait-decls} for a static parameter as a listed type, which the type
 group's calculus of 2012 does not admit.
+\end{description}
+
+\subsection{The type of \KWD{self} in the signatures of a trait with a comprises clause}
+\seclabel{revival-self-comprises}
+
+\begin{description}
+\item[Affected section] \secref{idn-ref}.
+\item[Change] The sentence of the self-type idiom, which gives \KWD{self} the
+type \EXP{T \cap (U_1 \cup \ldots \cup U_n)} in a trait \VAR{T} whose
+\KWD{comprises} clause lists \EXP{U_1}, \ldots, \EXP{U_n}, gives it that type in
+the bodies of the trait's methods, and goes on: the \KWD{self} parameter keeps
+the type \VAR{T} in the signature of each method declaration, which overloading
+and the choice of a declaration at a call read, save the test of whether two
+overloaded declarations' parameter types exclude each other, which reads it as
+the intersection.
+The passage has a box.
+\item[Rationale] This change does not follow from route~A; it follows a default
+that the revival took on 24~November 2026, which reads a trait with a
+\KWD{comprises} clause as its rule for a trait with a self-type parameter reads
+one (\secref{revival-self-type}).
+The Working Draft's sentence does not say whether the intersection holds in the
+signatures of the trait's method declarations.
+A declaration is more specific than another when its declared parameter types,
+a dotted method's receiver among them, are strict subtypes of the other's
+(\secref{resolving-overloading}), and the type of \KWD{self} is the type of the
+trait being declared.
+Read in the signatures, the intersection makes a trait's own declaration of a
+functional method and a listed type's declaration at the same parameter
+equally specific: in \library, the declarations of \VAR{denominator} on
+\TYP{QQ}, which comprises \TYP{Ratio}, and on \TYP{Ratio} had one domain.
+The compiled type checker then kept the first of the two in an order that
+followed the Java virtual machine's identity hashes, so that a call on
+\KWD{self} in \TYP{QQ} took \TYP{QQ}'s declaration in one run and \TYP{Ratio}'s
+in another, and the code generator passed \KWD{self} where a \TYP{Ratio} was
+expected, which the virtual machine's verifier refused.
+Read at the trait, the listed type's declaration is strictly more specific, as
+the definition makes it: a call on \KWD{self} takes it, with its return type,
+which may be narrower than the trait's, and an object's narrower return type
+satisfies the Return Type Rule.
+The test of exclusion keeps the intersection, since every value of the trait is
+a value of a listed type (\secref{revival-covering}).
+With the signatures so read, the compiled type checker finds no error in
+\library\ (the revival's count of 24~November 2026).
+A return to the intersection in the signatures would need another rule for the
+tie of the trait's declaration and a listed type's, such as the trait's own
+declaration kept, which takes the trait's return type where the listed type's is
+narrower.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-checker-most-specific/decision-record.md}
+in the revival's repository.
+\item[Effect] The compiled type checker reads a functional method's \KWD{self}
+parameter so, a call on \KWD{self} in such a trait of a functional method that a
+listed type also declares takes the listed type's declaration, and the code
+generator passes \KWD{self} cast to the listed type.
+One check departs from this: where an object's dotted method redeclares a dotted
+method of such a trait at the same parameter types, the check of their return
+types reads the trait's receiver as the intersection, so it refuses the
+object's narrower return type (row~1094 of the revival's gap ledger).
+The interpreter has no static types and chooses a declaration at run time, as
+before.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/var-ref.tex},
+lines 64--69:
+\begin{quote}
+If the innermost enclosing such construct is a trait declaration (for a trait
+called, say, `\EXP{T}'), and that trait declaration has a \KWD{comprises}
+clause, and `\EXP{U_1}', `\EXP{U_2}', ..., `\EXP{U_n}' are the traits mentioned
+in the \KWD{comprises} clause, then the type of \KWD{self} is instead
+``\EXP{T \cap (U_{\mathrm{1}} \cup U_{\mathrm{2}} \cup \ldots \cup U_{\mathrm{n}})}''.
+\end{quote}
+\item[Route C] The same under route~C.
 \end{description}
 
 \subsection{The index type of a subscript}
