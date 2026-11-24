@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"How workers use named tests","toolUseId":"toolu_01An7JaLipy58ut3Aa8F6ACB","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"How workers use named tests","toolUseId":"toolu_01An7JaLipy58ut3Aa8F6ACB","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2","finished":true}
