@@ -216,7 +216,7 @@ Under `explorations/coordinator/`:
 - `INDEX.md`: one line for each note.
 - `PLAN.md`: the phases, each with the review-queue items that it needs, and the parked items. Its first section says where the work stands.
 - `PLAN-history.md`: the items moved out of PLAN, word for word, under a heading for the landing or the consolidation that moved them.
-- The boot note, the state for the next boot: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages.
+- The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages. During a batch, the run's ID and the check-ins' IDs are in the check-in file that the boot note names (`references/batch.md`, "While it runs").
 - The held list. Its last section holds the smaller items that the curator owns.
 - `review-queue.md`: the review queue.
 
