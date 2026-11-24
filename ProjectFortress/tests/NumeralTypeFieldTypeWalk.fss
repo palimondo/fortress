@@ -1,0 +1,13 @@
+(* A numeral type is written only as a parameter's type: one written as the type of a field that an object declares is refused at load, whether or not a numeral meets it. *)
+component NumeralTypeFieldTypeWalk
+export Executable
+
+object Holder(h: ZZ32)
+    f: RadixPointNumeral[\2, 1, 10, 5\] = 0.5
+end
+
+run(): () = do
+    println("REACHED: a numeral type is a field's type")
+  end
+
+end

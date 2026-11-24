@@ -1,5 +1,5 @@
 (* Two generic declarations, one inside the other, whose results are tuples holding each its own type parameter, are a valid overloading that loads, and each call runs the declaration that fits it. *)
-component XXXGenericPairTupleReturnWalk
+component GenericPairTupleReturnWalk
 export Executable
 
 trait Shape end
