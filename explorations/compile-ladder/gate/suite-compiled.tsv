@@ -115,6 +115,7 @@ tests/NumberEqualityOwnTypeWalk.fss	one
 tests/NumberMixedEqualityWalk.fss	one
 tests/NumberOwnTypeNoAsFloatWalk.fss	one
 tests/NumeralBeyondZZ32AtRR64.fss	one
+tests/NumeralCoercionBodyWalk.fss	one
 tests/NumeralDispatchCacheWalk.fss	one
 tests/NumeralEqualsNumberWalk.fss	one
 tests/NumeralFoldWalk.fss	one
@@ -122,6 +123,9 @@ tests/NumeralGenericOwnTypeWalk.fss	one
 tests/NumeralMinusOnceWalk.fss	one
 tests/NumeralMostSpecificWalk.fss	one
 tests/NumeralTest.fss	one
+tests/NumeralTypeFieldTypeWalk.fss	one
+tests/NumeralTypeObjectParameterWalk.fss	one
+tests/NumeralTypeVariableTypeWalk.fss	one
 tests/NumeratorPerType.fss	one
 tests/ObjectFieldShadowing.fss	prelude
 tests/OpenRangeInferredIndexWalk.fss	one
@@ -186,6 +190,8 @@ tests/XXXInferUntypedLambdaResultWalk.fss	prelude
 tests/XXXInitializerCallReadsLaterMutableWalk.fss	prelude
 tests/XXXNatSizeExclusionWalk.fss	prelude
 tests/XXXNumeralBesideAnyWalk.fss	one
+tests/XXXNumeralTypeBoundWalk.fss	one
+tests/XXXNumeralTypeTypecaseWalk.fss	one
 tests/XXXOverrideKeepsOtherOverloadsWalk.fss	prelude
 tests/XXXPostfixAfterExponentiation.fss	prelude
 tests/XXXReductionDeclaredTypeMethodWalk.fss	one
