@@ -11513,3 +11513,87 @@ rewritten
 rewritten
 
 | 1094 | the compiled checker refuses an object's dotted method that redeclares a self-typed trait's method at the same parameter types with a narrower return type: it reads the trait's receiver as `Tn[\On\] & {On}`, equivalent to the object, and checks the pair both ways | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/traits.tex`, "Method Declarations" | XXXSelfTypedMethodNarrowedReturn | climb batch 34 rung G | siblings: 879, 993. `toMethodArrows` takes a dotted method's receiver from the index's self type (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:214`), for a self-typed trait the intersection P-146 gives its bodies; `checkOverridingReturnType` runs `returnTypeCheck` both ways at equal parameter types (`:733-734`), at 0579b62a7f and on the base: 'For g, the return type of (Tn[\On\] & {On})->Number ... should be a subtype of the return type of On->ZZ32'. A getter reads the plain type (`getterArrow`, `:224`) and compiles. Walk runs the program. Workaround: declare the method at the trait's return type. |
+
+### Row 1125
+
+closed by df5948e7b
+
+| 1125 | under walk, of two generic dotted methods of one name, number of parameters and kinds of static parameters that differ only in their bounds, one is dropped: `Nested.tk(n)` for a `ZZ32` answers 2 with `tk[\U extends Number\](y: U)` beside the more specific `tk[\U extends ZZ32\](y: U)` | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericMethodBoundsDifferWalk.fss` | climb batch 35b rung L's skeptic | siblings: 1057, 478, 735. The two share one symbolic instantiation made from one's static parameters (`Constructor.genericKey`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:902` at 529e8955ba), so their instances have one signature and the first met is kept; with `String` for `ZZ32`, a call over a `String` stops, 'Meet(String, Number) not a singleton'. Before rung L the pair stopped, 'Cannot find definition'; in two traits, or a trait's method redeclared in an object at another bound, it stops or drops one on the base. The same top-level pair answers 3 and 2. Compiled, the code generator stops, 'duplicate entry' (row 537). |
+
+### Row 1122
+
+closed by df5948e7b
+
+| 1122 | under walk, two generic declarations one inside the other whose results are tuples holding each its own type parameter are refused at load, 'fails the Return Type Rule', a valid pair: `ident[\T extends Shape\](x: T): (T, ZZ32)` beside `ident[\T extends Round\](x: T): (T, ZZ32)` | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericPairTupleReturnWalk.fss` | climb batch 35b rung L | siblings: 1058, 537. `returnRuleAtEveryInstance` reads a returned type parameter only, `if (rOut != p) return false` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:1305` at 84ca5ae101), where the reading at object arguments compares a tuple result element by element since 84ca5ae101 (`belowAtObjectArguments`). The same pair with results `T` loads and runs. Compiled, the checker accepts the pair and the code generator stops, 'duplicate entry' (row 537). |
+
+### Row 1124
+
+closed by df5948e7b
+
+| 1124 | under walk a numeral type written as a return type, a variable's or a field's type loads, and is refused only where a numeral meets it: `never(x: ZZ32): NaturalNumeral[\1, 10, 3\] = never(x)` loads and runs, where the text makes it a static error (P-174) and the checker refuses it | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/tests/XXXNumeralTypeReturnTypeWalk.fss` | climb batch 35b rung L | siblings: 981, 974. Walk's load check (`interpreter/evaluator/BuildEnvironments.java`, `checkNumeralTypesWritten`) reads the types that a trait or an object extends, a trait's comprises clause and the static arguments; P-12 leaves the other forms to the checker once walk runs it. A variable of a numeral type is refused when its numeral binds, 'Type mismatch binding 3' (`tests/NumeralTypeNoValueWalk.fss`). The checker refuses the return type, 'NaturalNumeral cannot be written in a program except as a parameter's type.' |
+
+### Row 935
+
+closed by da5f70777
+
+| 935 | the compiled checker's order of a call's candidate declarations, which a tie among the most specific follows, is not a property of the program: one file at one path gets two orders from two builds of one commit at two tree paths, and from one build by a direct compile and through the harness | NEGATIVE-VERIFIED | implementation gap (checker) | silent | none | climb batch 28 rung K | siblings: 543, 547, 929, 1100. At `157323e51`, at the rung's worktree path: of shuffles 100 to 115 of `PartialOrderCandidatesCompiled.fss`, three stop the base build, six of 100 to 125 the worktree's build, none both. Under the base build, of shuffles 1 to 12 of `TieAmongMostSpecificCompiled.fss`, 9 and 11 die by a direct compile and run, 7 through `old-fortress.sh junit`. The order is the hash order of the overloadings (`ExprDisambiguator.scala:870-874`); a tie keeps the first minimal candidate in it (`Functionals.scala:831-836`, row 929), but one that self's type makes in a trait that comprises types keeps the trait's own (row 1100, since `b7b5b0c02b`). full text: history, row 935 |
+
+### Row 1100
+
+closed by da5f70777
+
+| 1100 | compiled, a call on `self` in a trait that comprises one object, of a functional method that both declare, takes the object's arrow where the overloadings come in that order, and the trait's default methods fail verification, 'VerifyError: Bad type on operand stack', as the one library's `QQ` did | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/ComprisesSelfAbstractFunctionalMethodCall.test` | climb batch 34b rung C | siblings: 935, 815, 996. Self is the trait met with the listed type (`basic/expressions/var-ref.tex`, "Identifier References"), so the checker ties the two declarations; the tie kept the first in the overloadings' identity-hash order (`TopLevelEnv.java:465-466`), and the call's descriptor followed it with no cast. Climb batch 35's gate: `denominator` at `(Ratio)` in ant's onelibrary JVM, `(QQ)` in one-JVM runs of the same build. Since its gate repair a tie that self's type makes keeps the trait's own (`Functionals.scala:1103-1134`). The test guards that fix only under `-XX:hashCode=0`: in the default hash mode it passed on the unfixed code, 'OK (3 tests)'. |
+
+### Row 1112
+
+closed by da5f70777
+
+| 1112 | compiled, a call on `self` in a trait whose `comprises` clause lists types, where the trait's declaration and a listed type's tie, takes the trait's and its return type; the specification takes the listed type's, more specific, whose return type may be narrower | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/overloading.tex`, "Overloading Resolution" | none | climb batch 35 gate repair | siblings: 1100, 815, 935. In such a trait self is the trait met with the listed types (`var-ref.tex:63-69`), so a listed type's declaration applies at self and is more specific (`overloading.tex:355-358`). The checker reads the trait's own self parameter as the same meet and ties the two; since `b7b5b0c02b` the tie keeps the trait's (row 1100), so the call takes the trait's return type, wider where the listed type's is narrower. In both libraries the tied declarations return one type. Compiled, the call runs (`ComprisesSelfAbstractFunctionalMethodCall`). Source: `climb-batch-35/REPAIR-gate.md`, "The site" and "Deviations from the ruling", 3. |
+
+### Row 1127
+
+closed by da5f70777
+
+| 1127 | the compiled checker refuses a functional method of an object that a trait's `comprises` clause lists, at a return type narrower than the trait's abstract declaration's: `twin(self): R` in `object R extends Q` beside `abstract twin(self): Q` in `trait Q comprises { R }`, where walk runs it | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Subtype Rule" | `ProjectFortress/compiler_tests/XXXComprisesFunctionalMethodNarrowedReturn.test` | climb batch 35b rung M's skeptic | siblings: 1094, 1112, 879. 'the return type of (Q & {R})->Q ... should be a subtype of the return type of R->R': the checker reads the trait's self parameter as `Q & {R}`, equivalent to `R`, so the two declarations have one domain and the return types are checked both ways (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:533-534` at 5a59551554). By the declared types `R` is strictly below `Q`, so the rule asks only that `R` be below `Q`. Workaround: declare the object's method at the trait's return type. |
+
+### Row 543
+
+closed by da5f70777
+
+| 543 | in a family the compiled checker accepts by coverage, a call whose argument's static type sits between two closed traits is typed by its first minimal candidate, not by the intersection of its candidates' return types, when any declaration of the family has static parameters | NEGATIVE-VERIFIED | deliberate (checker) | `advanced/overloading.tex`, "Coercion and Overloading Resolution" | `ProjectFortress/compiler_tests/XXXCoverageReturnGenericFamily.test` | climb batch 7b rung C, its skeptic | siblings: 540, 935. Row 540's family plus `object Box[\X\]` and `choose[\X\](b: Box[\X\]): BothResult`, which cannot apply to a value of `M`: `left: LeftResult = choose(m)` and `right: RightResult = choose(m)` cannot both hold ("... but declared type is RightResult" or the reverse, varying between runs). The intersection typing requires every declaration of the family to have no static parameters (`groundFamily`, `Functionals.scala:718` at c124c6b65); P-60 excludes only a generic declaration whose instance dispatch must choose at run time. The typing kept is sound by the Return Type Rule; the narrower scope is a default, review-queue item 58 (F-76). full text: history, row 543 |
+
+### Row 1046
+
+closed by da5f70777
+
+| 1046 | the compiled checker crashes, 'V is not in the kind env', on a call of a generic declaration beside one on a generic object type with two static parameters: `keep(Duo[\Square, Square\](Square, Square))` for `keep[\T\](x: T): T` beside `keep[\U, V\](x: Duo[\U, V\]): Duo[\U, V\]` | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/advanced/overloading.tex`, "Declarations with Static Parameters" | `explorations/compile-ladder/rung-return-rule-object/probes/XXXOverloadGenericObjectTwoParams.fss` | climb batch 31 rung X | siblings: 789, 1047, 499. The pair is valid. The probe compiled alone prints the crash, exit 255. The call's two candidates tie at `Duo[\Square, Square\]` and the checker keeps the sort's head (`scala_src/typechecker/impls/Functionals.scala:1104-1108` at 280835f438), so whether a compile reaches the test at `scala_src/useful/STypesUtil.scala:1195-1197` with `V` left follows the overloadings' order, which varies with the JVM's earlier compiles (row 499). As a gated `XXX` test the compile printed nothing in batch 31's gate, so no gated test holds the row until the tie is decided. `keep(Square)` alone compiles and runs. Not tried under walk. |
+
+### Row 879
+
+closed by da5f70777
+
+| 879 | the compiled checker reads `self` as `C[\X\] & X` in the signatures of a trait whose `comprises` clause lists its own type parameter, so a subtrait's method that narrows the return type ties with its supertrait's: the Return Type Rule and calls refuse the library's `CMP` under `comprises T` | CONTESTED | implementation gap (checker) | basic/expressions/var-ref.tex, "Identifier References" | explorations/perf-probes/self-type-idiom/self-type-idiom.patch | self-type idiom probe | siblings: 407. Signatures read the plain trait only for a self type from the F-bound (`compiler/index/FunctionalMethod.java`, `selfFromBound`, at 432749a69); `satisfiesReturnTypeRule` reads the intersection (`scala_src/overloading/OverloadingOracle.scala:77-90`), specificity the declaring trait (`lteq`, `:55-66`, `655e65d53`). Library distance 0 to 33; the 17-line `SelfCmpTieClause` of the probe's REPORT.md, section 3.2, gives 2 errors under `fortress typecheck`, 0 without the clause. Open: plain trait (P-146) or intersection. |
+
+### Row 1047
+
+closed by da5f70777
+
+| 1047 | the compiled checker's static type for a call of an invalid overload set depends on what the same JVM compiled before: `c: Circle = g(Circle)` for `g[\T\](x: T): T` beside `g(x: Circle): String` is typed `Circle` alone and `String` after another component | NEGATIVE-BOUNDED | implementation gap (checker) | silent | none | climb batch 31 rung X | siblings: 499. At f145926e3b, `fortress junit` on the one program alone reports only the Return Type Rule's error, 'the return type of Circle->String'; in one JVM after a component that fails its type check, it reports 'Right-hand side has type String, but declared type is Circle.' and stops before the overloading check. Either way the program is refused. The mechanism is not traced; row 499's notes name a choice that depends on the compiling JVM (`scala_src/typechecker/impls/Functionals.scala:824-832` at c124c6b65). The two programs and the two commands: `explorations/compile-ladder/rung-return-rule-object/REPORT.md`, "Defects". |
+
+### Row 994
+
+closed by 3a0bae976
+
+| 994 | the dispatch method of a generic overloaded function of a default library's component names the component's class without the package `fortress`: its first call dies, 'NoClassDefFoundError: FortressLibrary'; seen in the one library at `seq`, `\|xs\|`, and `=` and `<` of strings or `=` of booleans | NEGATIVE-VERIFIED | implementation gap (codegen) | silent | ProjectFortress/one_library_tests/XXXOneLibraryRunStringEquality.test | switch-over rehearsal | siblings: 320, 1091. `OverloadSet` builds the owner of a generic function's instance table and its template class's name from the api's bare name at four places (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:904`, `:1361`, `:1724`, `:1728`, at 832f7d0d91); every other place asks `NamingCzar.javaPackageClassForApi`. At 1c62991e66, with the verifier on, the reproducer dies so at `t = "abcd"`, an instance of the library's generic `=` over `StandardPartialOrder`; with it off, `OneLibraryVarargsCount.fss` dies so at `\|xs\|`. Repair shown in the rehearsal (W11): the four places call `javaPackageClassForApi`. |
+
+### Row 1091
+
+closed by 3a0bae976
+
+| 1091 | against the one library a trait's class of default methods holds a method twice with one descriptor, its own and one inherited from a generic trait at its own type, so it fails to load with the verifier on: 'ClassFormatError: Duplicate method name', as `Vector`'s `-` and `ImmutableArray1`'s `copy` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | ProjectFortress/one_library_tests/XXXOneLibraryRunVarargs.test | climb batch 34's planner | siblings: 990, 571, 994, 1099. `Vector`'s `opr -(self)` (`Library/FortressLibrary.fss:2799`) beside `AdditiveGroup`'s; `ImmutableArray1`'s `copy()` (`:2667`) beside `StandardImmutableArrayType`'s `copy():T` (`:2584`). Each varargs call's array is an `ImmutableArray1`, so no program that calls a varargs declaration runs (f3439cf7ce); with the verifier off the JVM does not check it, and the program dies at row 994. Two small programs of `Vector`'s shape ran against the prelude. The compiled path only. |
+
+### Row 1099
+
+closed by 3a0bae976
+
+| 1099 | against the one library the class of `FullScalarRange`'s default methods holds `narrowToRange` twice at one descriptor, a bridge for each parent declaring it at a wider return type, so it fails to load with the verifier on: 'ClassFormatError: Duplicate method name "narrowToRange"' | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | ProjectFortress/one_library_tests/XXXOneLibraryRunConditionalReduction.test | climb batch 34b rung C | siblings: 1091, 990, 790. `trait FullScalarRange` (`Library/RangeInternals.fss:1008-1010`) extends three `ScalarRangeWith…` traits and `FullRange[\ZZ32\]`; in `RangeInternals.jar` (javap of `RangeInternals$FullScalarRange$DefaultTraitMethods`, 1f8a67251d) the two methods `narrowToRange(Range⟦FZZ32⟧): BoundedRange⟦FZZ32⟧` are alike, each calling the interface's `narrowToRange` answering `FullRange⟦FZZ32⟧`. With the verifier off the program dies at row 994. The compiled path only. |
