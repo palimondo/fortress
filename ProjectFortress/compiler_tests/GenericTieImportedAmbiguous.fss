@@ -1,0 +1,12 @@
+(* A call at a type parameter bounded by two excluding traits, of two imported generic declarations at those bounds of which neither is more specific, is refused as ambiguous. *)
+component GenericTieImportedAmbiguous
+import GenericTieImportedAmbiguousApi.{ A, B, f }
+export Executable
+
+g[\X extends { A, B }\](x: X): ZZ32 = do r = f(x); r end
+
+run(): () = do
+    println("compiled")
+end
+
+end

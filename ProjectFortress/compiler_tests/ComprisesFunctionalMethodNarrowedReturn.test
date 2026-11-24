@@ -1,0 +1,6 @@
+# A comprised object's functional method with a return type narrower than the trait's abstract one compiles and runs.
+tests=ComprisesFunctionalMethodNarrowedReturn
+compile
+link
+run
+run_out_contains=PASS

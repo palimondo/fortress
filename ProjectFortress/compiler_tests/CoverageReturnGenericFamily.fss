@@ -1,5 +1,5 @@
 (* A call whose argument sits between two closed traits, in a family with a generic declaration that cannot apply to it, is typed by the intersection of its candidates' return types. *)
-component XXXCoverageReturnGenericFamily
+component CoverageReturnGenericFamily
 export Executable
 
 trait S comprises { U, V } end

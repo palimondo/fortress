@@ -1,0 +1,30 @@
+(* A functional method of a trait that comprises its own type parameter, redeclared in a subtrait with a narrower return type and given a body in an object, type checks, and a call on two values of the object takes the object's declaration: self keeps its trait's type in each signature (var-ref.tex, section "Identifier References"). *)
+component ComprisesOwnParameterNarrowedReturn
+export Executable
+
+trait Res end
+trait TRes extends Res
+    getter tag(): String
+end
+object Tr extends TRes
+    getter tag(): String = "tr"
+end
+
+trait PartOrd[\T extends PartOrd[\T\]\] comprises T
+    cmp(self, other: T): Res
+end
+trait TotOrd[\T extends TotOrd[\T\]\] extends PartOrd[\T\] comprises T
+    cmp(self, other: T): TRes
+end
+object A extends TotOrd[\A\]
+    cmp(self, other: A): TRes = Tr
+end
+
+use(x: A): TRes = cmp(x, x)
+
+run(): () = do
+    assert(use(A).tag, "tr", "cmp on two A values takes A's declaration, of return type TRes")
+    println("PASS")
+end
+
+end

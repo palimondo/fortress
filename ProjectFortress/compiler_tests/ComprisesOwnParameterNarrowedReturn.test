@@ -1,0 +1,6 @@
+# A subtrait's narrower return type for a functional method of a trait that comprises its own type parameter compiles and runs.
+tests=ComprisesOwnParameterNarrowedReturn
+compile
+link
+run
+run_out_contains=PASS

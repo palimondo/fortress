@@ -1,0 +1,52 @@
+(* Twelve pairs of generic declarations of the unit at two excluding traits, each called at a type parameter bounded by both: each call, of which neither declaration is more specific, takes the first declared, whatever the order in which the checker meets the pair. *)
+component GenericTieInUnitFirstByPlace
+export Executable
+
+trait A excludes B end
+trait B end
+object Ao extends A end
+
+f1[\T extends A\](x: T): ZZ32 = 1
+f1[\T extends B\](x: T): String = "b"
+f2[\T extends A\](x: T): ZZ32 = 2
+f2[\T extends B\](x: T): String = "b"
+f3[\T extends A\](x: T): ZZ32 = 3
+f3[\T extends B\](x: T): String = "b"
+f4[\T extends A\](x: T): ZZ32 = 4
+f4[\T extends B\](x: T): String = "b"
+f5[\T extends A\](x: T): ZZ32 = 5
+f5[\T extends B\](x: T): String = "b"
+f6[\T extends A\](x: T): ZZ32 = 6
+f6[\T extends B\](x: T): String = "b"
+f7[\T extends A\](x: T): ZZ32 = 7
+f7[\T extends B\](x: T): String = "b"
+f8[\T extends A\](x: T): ZZ32 = 8
+f8[\T extends B\](x: T): String = "b"
+f9[\T extends A\](x: T): ZZ32 = 9
+f9[\T extends B\](x: T): String = "b"
+f10[\T extends A\](x: T): ZZ32 = 10
+f10[\T extends B\](x: T): String = "b"
+f11[\T extends A\](x: T): ZZ32 = 11
+f11[\T extends B\](x: T): String = "b"
+f12[\T extends A\](x: T): ZZ32 = 12
+f12[\T extends B\](x: T): String = "b"
+
+g1[\X extends { A, B }\](x: X): ZZ32 = do r = f1(x); r end
+g2[\X extends { A, B }\](x: X): ZZ32 = do r = f2(x); r end
+g3[\X extends { A, B }\](x: X): ZZ32 = do r = f3(x); r end
+g4[\X extends { A, B }\](x: X): ZZ32 = do r = f4(x); r end
+g5[\X extends { A, B }\](x: X): ZZ32 = do r = f5(x); r end
+g6[\X extends { A, B }\](x: X): ZZ32 = do r = f6(x); r end
+g7[\X extends { A, B }\](x: X): ZZ32 = do r = f7(x); r end
+g8[\X extends { A, B }\](x: X): ZZ32 = do r = f8(x); r end
+g9[\X extends { A, B }\](x: X): ZZ32 = do r = f9(x); r end
+g10[\X extends { A, B }\](x: X): ZZ32 = do r = f10(x); r end
+g11[\X extends { A, B }\](x: X): ZZ32 = do r = f11(x); r end
+g12[\X extends { A, B }\](x: X): ZZ32 = do r = f12(x); r end
+
+run(): () = do
+    assert(f1(Ao) + f12(Ao), 13, "the declarations at A run on an A")
+    println("PASS")
+end
+
+end

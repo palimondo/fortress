@@ -1,0 +1,6 @@
+# A call on self in a trait that comprises one object takes the object declaration and its narrower return type.
+tests=ComprisesSelfListedTypeCompiled
+compile
+link
+run
+run_out_contains=PASS

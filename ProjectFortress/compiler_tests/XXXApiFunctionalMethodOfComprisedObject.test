@@ -1,3 +1,4 @@
+# An api whose trait and the object that it comprises both declare a functional method of one name compiles.
 tests=XXXApiFunctionalMethodOfComprisedObject
 compile
-compile_err_contains=There are multiple declarations of num with the same parameter type
+compile_err_contains=due to different method num

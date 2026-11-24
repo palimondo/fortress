@@ -1,0 +1,61 @@
+(* Twelve sets of a generic declaration beside a plain one on an object, each breaking the Return Type Rule: each call on the object takes the plain declaration, the more specific by its declared parameter types, in every JVM, so the type check passes and the overloading check refuses each set (overloading.tex, section "Overloading Resolution"). *)
+component GenericBesidePlainInvalidSetCallType
+export Executable
+
+trait Shape end
+object Circle extends Shape end
+
+g1[\T\](x: T): T = x
+g1(x: Circle): String = "circle"
+g2[\T\](x: T): T = x
+g2(x: Circle): String = "circle"
+g3[\T\](x: T): T = x
+g3(x: Circle): String = "circle"
+g4[\T\](x: T): T = x
+g4(x: Circle): String = "circle"
+g5[\T\](x: T): T = x
+g5(x: Circle): String = "circle"
+g6[\T\](x: T): T = x
+g6(x: Circle): String = "circle"
+g7[\T\](x: T): T = x
+g7(x: Circle): String = "circle"
+g8[\T\](x: T): T = x
+g8(x: Circle): String = "circle"
+g9[\T\](x: T): T = x
+g9(x: Circle): String = "circle"
+g10[\T\](x: T): T = x
+g10(x: Circle): String = "circle"
+g11[\T\](x: T): T = x
+g11(x: Circle): String = "circle"
+g12[\T\](x: T): T = x
+g12(x: Circle): String = "circle"
+
+run(): () = do
+    r1 = g1(Circle)
+    u1: String = r1
+    r2 = g2(Circle)
+    u2: String = r2
+    r3 = g3(Circle)
+    u3: String = r3
+    r4 = g4(Circle)
+    u4: String = r4
+    r5 = g5(Circle)
+    u5: String = r5
+    r6 = g6(Circle)
+    u6: String = r6
+    r7 = g7(Circle)
+    u7: String = r7
+    r8 = g8(Circle)
+    u8: String = r8
+    r9 = g9(Circle)
+    u9: String = r9
+    r10 = g10(Circle)
+    u10: String = r10
+    r11 = g11(Circle)
+    u11: String = r11
+    r12 = g12(Circle)
+    u12: String = r12
+    println("PASS")
+end
+
+end

@@ -8254,6 +8254,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
      * checker's type names a variable of its own, which no class has.
      */
     private void castToTypeBelow(Expr expr, Type declared) {
+        // A declaration's self parameter, at a listed type's own declaration
+        // that the call takes, is that type.
+        if (declared instanceof TraitSelfType && ((TraitSelfType) declared).getComprised().isEmpty())
+            declared = ((TraitSelfType) declared).getNamed();
         if (!(declared instanceof TraitType || declared instanceof VarType)) return;
         Option<Type> ot = expr.getInfo().getExprType();
         if (ot.isNone()) return;

@@ -865,9 +865,9 @@ trait Functionals { self: STypeChecker with Common =>
   /**
    * checkApplication with the call's type beside the candidates: the most
    * specific candidate's return type, or, for a tie among declarations without
-   * static parameters that fit the call without coercion, in a family with no
-   * declaration with static parameters, the intersection of the tied
-   * candidates' return types. Such a tie arises where the argument's static
+   * static parameters that fit the call without coercion, where no declaration
+   * more specific than one of them that the call may run has static
+   * parameters, the intersection of the tied candidates' return types. Such a tie arises where the argument's static
    * type sits between closed traits whose overlap other declarations cover;
    * the declaration that runs is below every tied one, and its return type
    * below each of theirs by the Return Type Rule.
@@ -943,7 +943,22 @@ trait Functionals { self: STypeChecker with Common =>
         case e => (e, None, false)
       }
     }
-    def candidatesOf(es: Attempt): List[Ranked] = es.collect { case (Left(c), d, p) => (c, d, p) }
+    // The span of a candidate's declaration: its index entry's, or that of
+    // its overloading's unambiguous name, which the declaration's span makes.
+    // A candidate with neither, as an arrow of a variable's type, has none.
+    def declarationSpan(c: Ranked): Option[Span] =
+      c._1.fnl.flatMap(f => Option(f.getSpan)).orElse(c._1.overloading.map(o => NU.getSpan(o.getUnambiguousName)))
+    // A candidate's place: its declaration's file, then its position there;
+    // one without a declaration comes first. The candidates of an attempt are
+    // in this order, which the sort keeps among those that neither precedes,
+    // so that a tie's head is the program's, not the order of a hashed set of
+    // declarations.
+    def place(c: Ranked): (String, Int, Int) = declarationSpan(c) match {
+      case Some(s) => (s.getFileName, s.getBegin.getLine, s.getBegin.column)
+      case None => ("", 0, 0)
+    }
+    def candidatesOf(es: Attempt): List[Ranked] =
+      es.collect { case (Left(c), d, p) => (c, d, p) }.sortBy(place)
     // A coercion the call needs, not one the promotion introduced.
     def counted(c: Ranked) = !c._3 && c._1.args.exists(NumeralConversion.counts)
     // An attempt by subtyping holds the candidates that fit the call without a
@@ -955,20 +970,55 @@ trait Functionals { self: STypeChecker with Common =>
       a.size == b.size && a.zip(b).forall(p => Formula.isTrue(analyzer.equivalent(p._1, p._2)))
     // The candidates no other candidate is more specific than.
     def minimal(cs: List[Ranked]) = new PartialOrder[Ranked](cs, moreSpecific).minimal
-    val groundFamily = preCandidates.forall(pc => getStaticParams(pc.arrow).isEmpty)
+    // The declaration that a candidate comes from, as it is declared: its
+    // arrow before any static argument is inferred, a dotted method's with
+    // the static parameters of the trait that declares it, and self at its
+    // trait's type, as a functional method's self parameter has it in the
+    // signature (FunctionalMethod.parameters).
+    object atTrait extends Walker {
+      override def walk(node: Any): Any = node match {
+        case t: TraitSelfType if !t.getComprised.isEmpty =>
+          new TraitSelfType(t.getInfo, t.getNamed, java.util.Collections.emptyList[NamedType]())
+        case _ => super.walk(node)
+      }
+    }
+    def declaredOf(c: Ranked): ArrowType = {
+      val schema = c._1.overloading.flatMap(o => toOption(o.getSchema)).orElse(c._2).getOrElse(c._1.arrow)
+      atTrait(c._1.fnl match {
+        case Some(m: DeclaredMethod) => makeArrowFromFunctional(m.originalMethod, true).getOrElse(schema)
+        case _ => schema
+      }).asInstanceOf[ArrowType]
+    }
+    def schemaOf(pc: PreAppCandidate): ArrowType =
+      pc.overloading.flatMap(o => toOption(o.getSchema)).getOrElse(pc.arrow)
+    // Whether a declaration with static parameters may run at the call: no
+    // argument's type excludes its parameter type there, read with its static
+    // parameters in scope.
+    def mayRun(d: ArrowType): Boolean = {
+      val within = analyzer.extend(getStaticParams(d), None)
+      !zipWithDomain(args.map(_.left.toOption.flatMap(getType).getOrElse(Types.ANY)), d.getDomain).exists {
+        case (t, p) => within.definitelyExcludes(t, p) }
+    }
     // The type of a tie among declarations without static parameters that fit
-    // the call as it is, in a family without static parameters.
+    // the call as it is, where no declaration more specific than one of them
+    // that the call may run has static parameters: the intersection of their
+    // return types (P-60).
     def tieType(top: List[Ranked]): Option[Type] =
-      if (groundFamily && top.size > 1 && !top.exists(counted) &&
-          top.forall(c => c._2.isEmpty && !c._3 && c._1.sargs.isEmpty) &&
-          !top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head))))
+      if (top.size > 1 && !top.exists(counted) &&
+          top.forall(c => c._2.isEmpty && !c._3 && c._1.sargs.isEmpty && getStaticParams(declaredOf(c)).isEmpty) &&
+          !top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head))) &&
+          !preCandidates.exists { pc =>
+            val d = schemaOf(pc)
+            getStaticParams(d).nonEmpty &&
+            top.exists(c => coercions.moreSpecificDeclared(d, declaredOf(c))) && mayRun(d)
+          })
         Some(analyzer.meet(top.map(_._1.arrow.getRange)))
       else None
     // The first candidate no other is more specific than, or the first where
     // each has one more specific.
     def callType(cs: List[Ranked]): Type = {
       val top = minimal(cs)
-      (if (groundFamily) tieType(top) else None).getOrElse(top.headOption.getOrElse(cs.head)._1.arrow.getRange)
+      tieType(top).getOrElse(top.headOption.getOrElse(cs.head)._1.arrow.getRange)
     }
     def kept(es: Attempt, coerce: Boolean) = holds(es, coerce) && context.forall(c =>
       coercions.substitutableFor(callType(candidatesOf(es)), c))
@@ -1115,44 +1165,60 @@ trait Functionals { self: STypeChecker with Common =>
       }
     }
 
-    // An argument's type with self's type read as its trait's alone.
-    def traitOfSelf(t: Type): Type = {
-      object named extends Walker {
-        override def walk(node: Any): Any = node match {
-          case s: TraitSelfType => s.getNamed
-          case _ => super.walk(node)
-        }
-      }
-      named(t).asInstanceOf[Type]
+    // Of the most specific candidates, one declaration met twice, as through
+    // an api and an import, counts once.
+    def sameDeclaration(a: Ranked, b: Ranked) = (declarationSpan(a), declarationSpan(b)) match {
+      case (Some(f), Some(g)) => f == g
+      case _ => false
     }
-    // Whether the candidate takes each argument with self read as its trait.
-    def takesSelfAtTrait(c: Ranked) = {
-      val ps = paramTypes(c)
-      ps.size == c._1.args.size &&
-      c._1.args.zip(ps).forall { case (a, p) => getType(a).exists(t => isSubtype(traitOfSelf(t), p)) }
+    val distinct = top.foldLeft(List[Ranked]())((ds, c) => if (ds.exists(sameDeclaration(_, c))) ds else ds :+ c)
+    // The one that the rules order above every other: by its declaration's
+    // parameter types as declared, self at its trait's type and a dotted
+    // method's receiver among them, a declaration with static parameters on
+    // its declared domain, with no static argument inferred
+    // (overloading.tex, "Overloading Resolution"; P-45).
+    def above(a: Ranked, b: Ranked) = coercions.moreSpecificDeclared(declaredOf(a), declaredOf(b))
+    val decided: Option[Ranked] =
+      if (distinct.size == 1) distinct.headOption
+      else if (distinct.exists(counted)) None
+      else distinct.find(c => distinct.forall(d => (d eq c) || above(c, d)))
+    // A tie that the overloading check judges: among declarations of the
+    // unit being checked, a set that breaks its rules, or among declarations
+    // whose declared domains are equivalent, which the No Duplicates Rule
+    // refuses. Its refusal is the one reported, since StaticChecker reports
+    // the errors of the first stage that finds any.
+    val unitFile = NU.getSpan(current.ast).getFileName
+    def ofThisUnit(c: Ranked) = declarationSpan(c).exists(_.getFileName == unitFile)
+    def duplicates(cs: List[Ranked]) = {
+      val oracle = new com.sun.fortress.scala_src.overloading.OverloadingOracle()(analyzer)
+      cs.forall(c => oracle.equiv(declaredOf(c), declaredOf(cs.head)))
     }
 
     val head: Option[Ranked] =
       if (top.size == 1) top.headOption
-      // A tie among candidates that fit the call as it is, or among candidates
-      // with one parameter type, keeps the sort's head; a tie that self's type
-      // makes keeps the head of those that take self at its trait's type. In a
-      // trait whose comprises clause lists types, self has the trait's type met
-      // with theirs, so a listed type's declaration fits it as the trait's own
-      // does; the trait's own takes the value that the compiled call passes,
-      // and dispatch reaches the listed type's.
-      else if (top.isEmpty || !top.exists(counted) ||
-               top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head)))) {
-        val atTrait = top.filter(takesSelfAtTrait)
-        if (atTrait.nonEmpty && atTrait.size < top.size) sorted.find(c => atTrait.exists(_ eq c))
-        else sorted.headOption
-      }
-      else numeralTie().orElse {
-        if (!quiet) signalAmbiguity(top.map(c => c._2.getOrElse(c._1.arrow)), args)
+      else if (decided.isDefined) decided
+      // A tie with coercions, whose candidates differ in their parameter
+      // types, is the numeral's or an ambiguity.
+      else if (top.nonEmpty && top.exists(counted) &&
+               !top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head))))
+        numeralTie().orElse {
+          if (!quiet) signalAmbiguity(top.map(c => c._2.getOrElse(c._1.arrow)), args)
+          return None
+        }
+      // P-60's tie, typed by the intersection of its candidates' return
+      // types, keeps the first in the order of place; so does a tie among
+      // arrows that no declaration gives, as an intersection type's, and one
+      // that the overloading check judges.
+      else if (top.isEmpty || tieType(top).isDefined || top.exists(declarationSpan(_).isEmpty) ||
+               top.forall(ofThisUnit) || duplicates(distinct))
+        sorted.headOption
+      // Any other tie that the rules leave is a static error.
+      else {
+        if (!quiet) signalAmbiguity(distinct.map(declaredOf), args, top.exists(counted))
         return None
       }
     Some((head.toList.map(_._1) ++ sorted.filterNot(c => head.exists(_ eq c)).map(_._1),
-          tieType(top).getOrElse(head.getOrElse(sorted.head)._1.arrow.getRange)))
+          (if (decided.isDefined) None else tieType(top)).getOrElse(head.getOrElse(sorted.head)._1.arrow.getRange)))
     }
 
     numeralAttempt.flatMap(resolved(_, true)).orElse(resolved(es, false))
@@ -1248,8 +1314,12 @@ trait Functionals { self: STypeChecker with Common =>
     case _ => false
   }
 
-  /** Signal that no candidate of a call with coercion is more specific than every other. */
-  private def signalAmbiguity(tied: List[ArrowType], args: List[Either[Expr, FnExpr]])
+  /**
+   * Signal that no candidate of a call is more specific than every other: of
+   * a call with coercion, or of a tie that the rules leave among declarations
+   * that fit it as it is (byCoercion false).
+   */
+  private def signalAmbiguity(tied: List[ArrowType], args: List[Either[Expr, FnExpr]], byCoercion: Boolean = true)
                              (implicit errorFactory: ApplicationErrorFactory): scala.Unit = {
     val app = errorFactory.app
     if (app == null) {
@@ -1264,8 +1334,12 @@ trait Functionals { self: STypeChecker with Common =>
       case o: SubscriptExpr => "call to subscript operator %s.%s".format(errorFactory.recvrType.getOrElse(""), o.getOp.unwrap)
       case _ => "call"
     }
-    signal(app, "Ambiguous coercion in %s: of the declarations applicable to an argument of type %s only by coercion, none is more specific than every other: %s.".
-                format(kind, normalize(getArgType(args)), tied.map(_.toString).mkString("; ")))
+    if (byCoercion)
+      signal(app, "Ambiguous coercion in %s: of the declarations applicable to an argument of type %s only by coercion, none is more specific than every other: %s.".
+                  format(kind, normalize(getArgType(args)), tied.map(_.toString).mkString("; ")))
+    else
+      signal(app, "Ambiguous %s: of the declarations applicable to an argument of type %s, none is more specific than every other: %s.".
+                  format(kind, normalize(getArgType(args)), tied.map(_.toString).mkString("; ")))
   }
 
   /** Whether the type is a numeral's own type. */

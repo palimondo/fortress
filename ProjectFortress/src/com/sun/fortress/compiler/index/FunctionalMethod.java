@@ -41,8 +41,8 @@ public class FunctionalMethod extends Function implements HasSelfType, HasTraitS
     private final boolean _declarerIsObject;
 
     /* A self type read from the F-bound (a trait with no comprises clause whose self type
-     * lists its self parameter) types self in the body only: the declaration's signature,
-     * read by overloading, the Return Type Rule and call resolution, keeps the trait type. */
+     * lists its self parameter) types self in the body only: selfType() is the trait type,
+     * as the declaration's signature (parameters()) is. */
     private final boolean _selfFromBound;
 
     private static boolean selfFromBound(TraitObjectDecl d) {
@@ -149,19 +149,21 @@ public class FunctionalMethod extends Function implements HasSelfType, HasTraitS
     }
 
 
+    /* The declaration's signature: self at its plain trait type, the self type of a trait whose
+     * comprises clause lists types, or of one that a self-type parameter types, met with them only
+     * in the body (ast()) and the overloading check's exclusion test. */
     @Override
     public List<Param> parameters() {
         List<Param> ps = NodeUtil.getParams(_ast);
-        if (!_selfFromBound) return ps;
-        List<Param> out = new java.util.ArrayList<Param>(ps.size());
-        for (Param p : ps) {
-            Option<TypeOrPattern> t = p.getIdType();
-            if (p.getName().equals(NamingCzar.SELF_NAME) && t.isSome() && t.unwrap() instanceof SelfType)
-                out.add(new Param(p.getInfo(), p.getName(), p.getMods(),
-                                  Option.<TypeOrPattern>some(plain((SelfType) t.unwrap())),
-                                  p.getDefaultExpr(), p.getVarargsType()));
-            else out.add(p);
-        }
+        if (_selfPosition >= ps.size()) return ps;
+        Param p = ps.get(_selfPosition);
+        Option<TypeOrPattern> t = p.getIdType();
+        if (!(t.isSome() && t.unwrap() instanceof TraitSelfType &&
+              !((TraitSelfType) t.unwrap()).getComprised().isEmpty())) return ps;
+        List<Param> out = new java.util.ArrayList<Param>(ps);
+        out.set(_selfPosition, new Param(p.getInfo(), p.getName(), p.getMods(),
+                                         Option.<TypeOrPattern>some(plain((SelfType) t.unwrap())),
+                                         p.getDefaultExpr(), p.getVarargsType()));
         return out;
     }
 

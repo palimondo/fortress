@@ -1,0 +1,6 @@
+# Twelve ties of two generic declarations of the unit at excluding bounds, each call taking the first declared.
+tests=GenericTieInUnitFirstByPlace
+compile
+link
+run
+run_out_contains=PASS

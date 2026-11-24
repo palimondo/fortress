@@ -1,0 +1,20 @@
+(* In a trait that comprises one object, a call on self of a functional method that the trait and the object both declare takes the object's declaration statically, the more specific by its declared parameter types, with its narrower return type (overloading.tex, section "Overloading Resolution"; var-ref.tex, section "Identifier References"). *)
+component ComprisesSelfListedTypeCompiled
+export Executable
+
+trait Q comprises { R }
+    getter next(): R = twin(self)
+    abstract twin(self): Q
+end
+
+object R(n: ZZ32) extends Q
+    twin(self): R = R(n + 1)
+end
+
+run(): () = do
+    q: Q = R(1)
+    assert(q.next.n, 2, "self's call of twin takes R's declaration and its return type R")
+    println("PASS")
+end
+
+end

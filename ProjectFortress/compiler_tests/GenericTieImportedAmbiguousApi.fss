@@ -1,0 +1,11 @@
+(* The component of GenericTieImportedAmbiguousApi. *)
+component GenericTieImportedAmbiguousApi
+export GenericTieImportedAmbiguousApi
+
+trait A excludes B end
+trait B end
+
+f[\T extends A\](x: T): ZZ32 = 1
+f[\T extends B\](x: T): String = "b"
+
+end
