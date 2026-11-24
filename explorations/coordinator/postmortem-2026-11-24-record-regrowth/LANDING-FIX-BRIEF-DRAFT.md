@@ -65,6 +65,15 @@ How to read this draft:
 15. Treat 600 characters as a check, not a cap: an entry may be longer where its subject needs it, and what must stay small is the sum (rules 3.2, 3.5).
 16. Not let FACTS grow unchecked: keep only what is relevant (rule 8.8).
 
+### With the tests that an entry names
+
+- A list of test names leaves a FACTS entry when the report names the tests; he would take one rewrite of the reports, so that each has one standard section of its tests and a tool prints it, "If that is not already the case in the report that names the tests" (rule 3.6).
+- He asked for a measurement first, and it is in (`evidence/test-names-use.md`, `evidence/test-names-in-reports.md`). (not his word, to the end of this list)
+- How the workers use the names: 45 workers that changed the tree saw 193 test names in entries; they put 32 to work, 20 of them names first met in an entry, and never used 132. Of the 450 tests that they ran, an entry supplied 10 (2.2%); the worker wrote 33% itself, its brief named 28%, and its own search found 20%. In 7 cited cases an entry's test name changed what a worker did, such as a guard run before an edit. They read the cited report 11 times out of 100.
+- What the reports hold: 210 of the 339 entries name tests, 672 names in 32K characters, 7.5% of FACTS. Every test is in the cited section for 49 entries, elsewhere in the cited report for 97, and missing from the cited reports for 58. Of the 213 reports that these entries cite, 80 hold all their tests in one section whose heading says "test", and 124 would need a change. Every name still matches a file in the tree.
+- So his condition for the rewrite is met: it is not already the case. The coordinator's reading, for him to correct: the test names leave the entries; before a name leaves, its report holds it, since for 58 entries the entry is the only text that ties the test to the fact; and since workers seldom open a report, the tool that prints an entry's tests must be one cheap call that the worker skill names.
+- List the ways to give the tests that home and that call, with what each costs once and at each landing.
+
 ### How it runs
 
 17. Do the steps of the October method itself: gather each entry's evidence as the scouts did; have an Opus writer, a headless session in the ASD-STE100 register, write each entry with its history; have a cold reader check the takeaway; have a judge inside the workflow decide, so that the coordinator does not act as judge (rules 4.6, 4.7, 4.11, 8.4).
@@ -120,7 +129,7 @@ The first consolidation runs the fixed process over the whole of FACTS (rule 8.1
 2. A fair sample, not only the longest entries: entries that hold several claims from one batch, as F-63 does, and entries that carry a defect beside their property. His words: 2026-11-24T12:54, "Is it like concentrating only on long entries above 600?"; 2026-11-24T13:28, "So I don't think this is a representative sample."
 3. For each pilot entry, the page shows where each claim that leaves it now lives (rule 4.15).
 4. His answers to the open questions that set the form of every entry, and so block the pilot (not his word):
-   - open 3-A, whether an entry names its test, after the measurement of how workers use test names that he asked for at 2026-11-24T13:17; and open 3-B, the one-time rewrite of the reports;
+   - open 3-A and 3-B, the tests that an entry names: the measurement that he asked for at 2026-11-24T13:17 is in, and section 3, "With the tests that an entry names", gives it with the coordinator's reading, which waits for his word;
    - open 2-B, whether a defect's text leaves an entry for its ledger row;
    - open 2-A, whether an entry may name the decision that it builds;
    - open 1-A, whether an entry whose subject the work has passed leaves FACTS.
