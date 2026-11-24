@@ -114,7 +114,7 @@ Made false, outside the passages that the section names, and brought in line by 
 
 The rung closes no ledger row, so no `~<row>` grep applies.
 
-P-174's last sentence, for the record-landing: "The tree departs too, with no row, where the numeral coercions of the one library and of many tests call a getter on the four numbers, as `v.asZZ32`, and where the checker and the literals chapter read each of the four as a `ZZ` value wherever it stands (F-342, F-345)." Words that make it true after the change: "The tree departs too where, on the compiled path, a number at a call in a coercion's body runs the declaration that takes it as a `ZZ` rather than a more specific one that its conversion reaches (row 1132), and where a numeral at a type of another component whose coercion converts a number that does not fit is refused only when the class initializes, not statically (row 1131)."
+P-174's last sentence, for the record-landing: "The tree departs too, with no row, where the numeral coercions of the one library and of many tests call a getter on the four numbers, as `v.asZZ32`, and where the checker and the literals chapter read each of the four as a `ZZ` value wherever it stands (F-342, F-345)." Words that make it true after the change: "The tree departs too where, on the compiled path, a number at a call in a coercion's body runs the declaration that takes it as a `ZZ` rather than a more specific one that its conversion reaches (row 1132), and where a numeral at a type of another component whose coercion converts a number that does not fit is not refused statically: the class's initialization raises `IntegerOverflow` at an integer type, and at `RR64` or `RR32` an infinity binds with no error (row 1131)."
 
 ## Points to report
 
