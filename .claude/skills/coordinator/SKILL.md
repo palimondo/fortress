@@ -132,7 +132,7 @@ Every other decision that changes the tree is closed when it lands. FACTS states
 - A repository path does not open on the phone. A page link does, and so does a pushed file's GitHub URL: `https://github.com/palimondo/fortress/blob/main/<path>`.
 - The curator's client can show stale state. Answer what is in flight from the tree.
 - The curator's time zone is Central European. The container's clock is UTC.
-- The context is compacted when it grows long. The container can be lost, and a VM restart can roll the disk back. Only pushed files survive.
+- The context is compacted when it grows long. A lost container, or a VM restart that rolls the disk back, loses all that is not pushed.
 - The session runs in auto mode. Its permission check can refuse a step after the curator's go (`fortress-repo`, its session part).
 - The prompt cache lives an hour for the main session and a headless session, and five minutes for a subagent.
 - A process stop comes about every 13 hours. Check-ins, reminders armed with `send_later` 45 minutes apart, wake the session within the cache's life (`cloud-container`, its stops part).
@@ -216,7 +216,7 @@ Under `explorations/coordinator/`:
 - `INDEX.md`: one line for each note.
 - `PLAN.md`: the phases, the questions for the curator in order, and the parked items. Its first section says where the work stands.
 - `PLAN-history.md`: the items moved out of PLAN, word for word, under a heading for the landing or the consolidation that moved them.
-- The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages.
+- The boot note, the state for the next boot: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages.
 - The held list. Its last section holds the smaller items that the curator owns.
 - `review-queue.md`: the review queue.
 
@@ -261,7 +261,7 @@ At session start and after each compaction, take these steps in order. If the cu
 
 - Read nothing that the boot does not name. List no directory, and bound every command's output.
 - To learn whether a worker runs, read the harness's notice at the top of the turn. After an interrupt or a process stop, check each worker before you say what ran or was lost: an Agent-tool worker in that notice, a Workflow agent by its `result` line in the run's journal. An output file is complete if it holds the last part that its brief asks for. Relaunch a killed worker only as `references/delegating.md`, "Interrupts and process stops", says.
-- When the curator asks if you can be compacted, and when the session ends or hands on its work, rewrite the boot note whole, commit and push it, then answer. Between those points, write in it only what a part names for a launch or a page. Your context survives a process stop, but not a compaction.
+- Your context survives a process stop. Write the boot note only for a reader without it: a later session, or a worker, for a line that a rule of this skill names. Commit each write. Rewrite the note whole near the context's limit, before another session takes over, and before you answer a compaction ask. If the curator did not ask, tell them.
 - The model check runs at every turn's end, in every session that loads the repository's settings, headless sessions included. Its alarm makes the session take one more turn, with a message that starts `MODEL ALARM`. On the alarm:
   - make the alarm the first line of your reply, and send it as a push notification;
   - do no other work until step 0's check shows Opus or Fable again, or the curator says to go on.
