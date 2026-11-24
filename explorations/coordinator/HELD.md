@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-11-24)
+
+- 09:29 **His rule on the boot note, for the skill writer** (`coordinator` `SKILL.md`, "The boot", "Rewrite the boot note whole at every change"): "Why have you been rewriting the boot node each and every time? I always ask you whether we can compact before I compact you. That's the point where you need to dump whatever is in the context into persistent layer. Why are you wasting tokens? What instruction is compelling you to do this?" The coordinator had committed the boot note 16 times between 07:40 and 09:30 UTC. Its answer, not his word: the rule's "at every change" was read as "after every step"; what a stop that comes unasked would lose (a VM restart, a process stop, an automatic compaction) is only a launched worker's whereabouts and a decision or words of his, so those are written at once, and everything else at his question before a compaction.
+
 ## Held in chat (2026-11-23)
 
 - 11:2x **His answer on the review queue: "OMFG. 1."** The ask of 11:1x: the queue holds 270 open items (93 consequential, 177 routine, about 624K characters), regrown since the cleanup of 2026-11-05, since each batch files 10 to 28 landed defaults for his review and the skill's rule puts each to him one per message; option 1, put by the coordinator: change the rule, so that a default that is not consequential lands and is recorded in FACTS or a ledger row and does not go on the queue, and only consequential items enter it, each with the work that needs it; and triage the queue once. The rule touches the `coordinator` skill's "The curator's role and decisions", so its exact words wait for his yes, through the page of skill drafts. The triage runs (an Opus worker on the branch `wip/queue-triage`).
