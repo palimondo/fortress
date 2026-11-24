@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Manifest for climb batch 36","toolUseId":"toolu_01Rwnf6KXYWLSXs3c8WzB4tE","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Manifest for climb batch 36","toolUseId":"toolu_01Rwnf6KXYWLSXs3c8WzB4tE","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
