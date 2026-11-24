@@ -1,0 +1,11 @@
+(* A numeral type is written only as a parameter's type: one written as a static parameter's bound is refused at load, whether or not a call meets it. *)
+component XXXNumeralTypeBoundWalk
+export Executable
+
+bnd[\T extends NaturalNumeral[\1, 10, 3\]\](x: ZZ32): ZZ32 = x
+
+run(): () = do
+    println("REACHED: a numeral type is a static parameter's bound")
+  end
+
+end

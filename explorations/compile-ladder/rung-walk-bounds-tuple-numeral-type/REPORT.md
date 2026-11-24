@@ -161,7 +161,7 @@ Every path the rung changes is under `ProjectFortress/src/com/sun/fortress/inter
 - Row 762, a trait's generic method bounded by the trait's static parameter: measured again (`TraitParamBoundProbe`, old and new 'Missing type E'), home 2 as it stands (`tests/XXXTraitBoundGenericMethod.fss`); a note in record.md on how the new key reads it.
 - Rows 1123 and 1126: still fail after the fix, homes as they stand (their `XXX` tests).
 
-The skeptic's programs measured three more, recorded in record.md: NEW-G-1, a Meet Rule set of generic dotted methods refused at load (`tests/XXXGenericMethodBoundsMeetWalk.fss`); NEW-G-2, bounds that name types of one simple name in two apis (`tests/XXXGenericMethodBoundSameNameWalk.fss`); and row 780's changed failure, its row rewritten.
+The skeptic's programs measured three more, recorded in record.md: NEW-G-1, a Meet Rule set of generic dotted methods refused at load (`tests/XXXGenericMethodBoundsMeetWalk.fss`); NEW-G-2, bounds that name types of one simple name in two apis (`tests/XXXGenericMethodBoundSameNameWalk.fss`); row 780's changed failure, its row rewritten; and NEW-G-3, a numeral type written as a static parameter's bound or a `typecase` arm's type, which walk loads (`tests/XXXNumeralTypeBoundWalk.fss`, `XXXNumeralTypeTypecaseWalk.fss`).
 
 ## 11. Not done, and questions
 
