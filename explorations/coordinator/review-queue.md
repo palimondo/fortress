@@ -4,8 +4,9 @@
 
 The consequential items that stay after the triage of 2026-11-23, grouped by the work on PLAN's road that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) gives the other way, the cost, the home and its "Needed by" line. A landing files only its consequential items here, each with its "Needed by" line, and brings this section and its counts in line; its other defaults go to FACTS or the gap ledger (`coordinator/tools/record-landing/routing.md`).
 
-**Counts**, 92 open items, all consequential:
+**Counts**, 93 open items, all consequential:
 - The batch after climb batch 35b: 1.
+- Climb batch 36's landing: 1.
 - Before the switch-over: 17.
 - Q-walk, after the switch-over: 4.
 - Before microGPT compiles: 12.
@@ -14,6 +15,9 @@ The consequential items that stay after the triage of 2026-11-23, grouped by the
 
 **The batch after climb batch 35b** (PLAN, "Where we stand", "Next": a default for row 1098 before the batch after; PLAN, phase 4, climb batch 35b's line, its list).
 - **616.** Row 1098, which export rule holds where a component declares a function at a wider type than its api: the text's, so that the one library's component declares `print`, `println` and `errorPrintln` at `Number` and `Boolean`, or the team note's, so that the code generator calls or bridges to the covering declaration. No default on record; as landed, neither rule built; the review proposes the note's rule.
+
+**Climb batch 36's landing** (PLAN, "Where we stand", "Next": climb batch 36, its record `coordinator/CLIMB-BATCH-36.md`, section 2, "The forks that wait for you": a consequential fork taken at its default overnight, its question filed with the batch as the work that needs it, the `coordinator` skill's `references/batch.md`, "The go").
+- **621.** Fork K1: in a trait with a `comprises` clause, `self` read at the plain trait type in each declaration's signature, the bodies and the exclusion test keeping the meet, which narrows the team's sentence of 2012 (`var-ref.tex:63-69`) to the bodies and takes P-146 past its words; or that sentence whole, the meet in the signature too and the declaration in the type below hiding the trait's (`traits.tex:584-590`), not probed. Default: the plain trait type in the signature, as climb batch 36 lands it.
 
 **Before the switch-over** (PLAN, phase 4: the names batch, which moves the compiled path onto the one library, and its line "His answers needed before the switch-over").
 - **2.** The checker's two extra attempts at a call beside the two of P-49: kept or dropped. Default: kept, as built.
@@ -176,7 +180,7 @@ The consequential items that stay after the triage of 2026-11-23, grouped by the
    - Home: `reviews/foundations/prelude-lens.md`, section 6, "A cast's exception kind differs between the two libraries"; `reviews/foundations/judgement.md`, section 3, "Two side findings", and section 8, "Decisions not taken, for later"; `reviews/phase3-exit/zero-audit.md`, A.4; row 352
    - Needed by: no planned work; the rung that builds row 352's `throws` check, which no PLAN item names, writes by the answer.
 
-### Overloading and the Meet Rule (9)
+### Overloading and the Meet Rule (10)
 
 455. **`10^k` for `k: ZZ32` ties in the checker among three `^` declarations, outside the numeral tie rule: should the tie rule cover it?** N.worker.1 of climb batch 29's rung N. Once `RR32` converts from `NaturalNumeral` (P-76), a numeral base beside an exponent that is not a numeral ties among `RR32`'s, `NN32`'s and `ZZ32`'s `^`. The numeral tie rule does not apply, since the exponent's declared types differ.
    - Landed: The library's one such site, `strToFloat`, given a `ZZ32` base (`Library/FortressLibrary.fss:4839-4840`). Default: as landed.
@@ -238,6 +242,13 @@ The consequential items that stay after the triage of 2026-11-23, grouped by the
    - Its cost: Not sized on record.
    - Home: PLAN, "Climb batch 31, listed for his review", M.worker.1; `ProjectFortress/compiler_tests/TraitMethodDiamondRedeclaredCompiled.fss:8-22`; `coordinator/CLIMB-BATCH-31.md`, section 3, fork M1; row 1037; F-372
    - Needed by: no planned work; one of climb batch 35's forks that wait for him (`coordinator/CLIMB-BATCH-35.md`, "The forks that wait for you", 9).
+
+621. **In a trait with a `comprises` clause, does `self` read at the plain trait type in each declaration's signature, the bodies and the overloading check's exclusion test keeping the meet with the listed types (fork K1), or at the meet everywhere, as the team's sentence of 2012 has it?** Fork K1 of climb batch 36's rung K (`coordinator/CLIMB-BATCH-36.md`, section 3), judged consequential by the record's Fable review (`coordinator/climb-batch-36-review.md`, section 2, point 1). The type of `self` is the type of the trait being declared (`Specification/basic/expressions/var-ref.tex:53-54`); for a trait `T` that comprises `U1`, ..., `Un`, the team's sentence of 2012 gives it "instead" `T ∩ (U1 ∪ ... ∪ Un)` and names no place (`:63-69`). The checker reads that meet in each declaration's signature too, so for `QQ` it sees the trait's declaration and `Ratio`'s at one domain, `Ratio`, and ties them (rows 1100, 1112 and 1127). Fork K1 narrows the team's sentence to the bodies and the exclusion test, and takes P-146, which keeps the plain trait type in the signatures of a self-typed trait and speaks of no other, past its words. It reverses no decision of his and can be undone, so it lands with the batch at its default (the `coordinator` skill's `references/batch.md`, "The go").
+   - Landed: With climb batch 36, at its default: `self` at the plain trait type `T` in every declaration's signature, a `comprises` clause's trait and the prelude's `comprises T` spelling included; the bodies and the exclusion test keep `T ∩ (U1 ∪ ... ∪ Un)`; `var-ref.tex:63-69` revised in the revision form, the team's sentence kept as the original text. Default: as climb batch 36 lands it.
+   - The other way: The team's sentence whole: the meet in the signature too. The trait's declaration and a listed type's then have one domain, and the declaration in the type below hides the trait's (`Specification/basic/traits.tex:584-590`: a declaration whose parameter type, "not including the type of the self parameter", equals one that the trait declares is not inherited), with the Return Type Rule read one way, the lower's return type below the upper's. No sentence of the team is revised. Not probed.
+   - Its cost: The default, by the planner's probe of the one change: the distance stayed 0; 5 of 1,770 compiled tests changed: rows 1127's and 770's expected failures compile, `ComprisesSelfAbstractFunctionalMethodCall` failed verification, the code generator passing `self` uncast (row 1100's original failure; fork K6 casts it), and row 528's `c = 0` for `c: RR32` became a static error under the prelude, where it compiled and overflowed the stack when it ran (fork K8); rows 1112, 1127 and 770 close. The other way: row 528's program still compiles; the distance, the tests that change and the prelude's `Equality` ties under it are unknown.
+   - Home: `coordinator/CLIMB-BATCH-36.md`, section 2, "Your review list from this record", and section 3, fork K1; `coordinator/climb-batch-36-review.md`, section 2, point 1; POSITIONS P-146 and P-157; F-225; `Specification/basic/expressions/var-ref.tex:63-69`; `Specification/basic/traits.tex:584-590`; rows 1100, 1112, 1127, 770 and 528
+   - Needed by: climb batch 36's landing, at which it lands at its default.
 
 ### Walk's checks at load (3)
 
