@@ -2,11 +2,23 @@
 
 # Boot note
 
-**State at 14:57 UTC on 2026-11-24** (15:57 his time), written whole at his compaction ask. The session runs on Fable 5.2 (`claude-fable-5-2`), at high reasoning effort. Boot by the skill's section "The boot", every step: **step 1 reads the facts that POSITIONS cites (`positions-facts.sh`, three slices) before POSITIONS**. The boot of 12:35 skipped them, and he caught it. The VM last restarted at 12:25:23 UTC. No check-in is armed.
+**State at 15:10 UTC on 2026-11-24** (16:10 his time). The session runs on Fable 5.2 (`claude-fable-5-2`), at high reasoning effort. It booted after the compaction at 15:02 UTC, every step. Boot by the skill's section "The boot", every step: **step 1 reads the facts that POSITIONS cites (`positions-facts.sh`, three slices) before POSITIONS**. The boot of 12:35 skipped them, and he caught it. `uptime -s` gave 14:31:54 UTC at the boot; the trust flag was true and the backup's last line `push=ok`. No check-in is armed.
 
-**One worker runs:** an Opus Agent-tool worker, "His words into rules and a brief" (launched 14:5x UTC). It writes two files under `explorations/coordinator/postmortem-2026-11-24-record-regrowth/`: `HIS-WORDS.md` (his rules for the record by subject, each with his exact words and its time) and `LANDING-FIX-BRIEF-DRAFT.md` (a draft of the brief for the landing workflow's fix). It commits nothing. When its notice comes: commit both with an INDEX line each, push, and bring him its summary and the two links. Nothing is built from the draft before his go.
+**Two workers run,** both Opus Agent-tool workers launched at 15:09 UTC, both read-only, each writing one file under `explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/` and committing nothing. They are the measurement that he asked for at 13:17 and 13:43 UTC, before he decides whether an entry names its tests (open questions 3-A and 3-B of `HIS-WORDS.md`):
 
-**A second worker runs:** a Sonnet scout, "One list of stale claims" (launched 15:0x UTC). It gathers into one file, `evidence/stale-claims.md` of the same folder, every finding of today that a FACTS entry is stale, false, beyond its support or cites a thing that is gone, by entry number, each with its source file. It commits nothing: commit and push it at its notice. **This list is the part of the aborted consolidation that is reused:** the checks against the tree do not depend on the refused form. What it draws on: `pilot/pilot.md` (11 claims in four entries), `pilot/chunk-harness-gate.md` (24 entries judged), the writers' follow-ups of five chunks (`evidence/consolidation/followups*.md`, "Made true of the tree" and "Investigate"), and the eleven scout files (`evidence/consolidation/scout-*.md`: each named test, file and ledger row checked for all 339 entries). Seven chunks had no writer (`checker-4`, `checker-5`, `landed-1` to `landed-3`, `arrays`, `spec`): for them only the scouts' checks of existence stand, and no claim was judged.
+- "How workers use named tests" writes `test-names-use.md`: from the workers' transcripts, whether a worker uses the test names of the entries that it saw, and where the tests that it ran came from.
+- "Tests in the cited reports" writes `test-names-in-reports.md`: whether the reports that the entries cite hold the tests that the entries name, in one section or scattered, and what a reader pays to get them.
+
+At each notice: commit the file by its path, push, and give him the counts in a few lines.
+
+**Done and pushed since the compaction:**
+
+- `HIS-WORDS.md` and `LANDING-FIX-BRIEF-DRAFT.md` of the post-mortem folder (`6660542a07`), each with its INDEX line. The first holds his rules for the record by subject, numbered 1.1 to 8.8, each with his exact words and its time, then what he accepted and refused, and where the landing workflow's purpose was lost. The second is the draft brief for the worker that designs the workflow's fix; every sentence that is not his is marked. **Nothing is launched from the draft before his go.** He has its link and its summary (the coordinator's message of 15:1x UTC).
+- `evidence/stale-claims.md` (`0b8aa0fef4`): 70 entries with a finding, 93 findings (21 false today, 14 beyond their support, 30 citing a thing gone or moved, 14 against a ledger row's status, 14 unsettled), by entry number with each source. **This list is the part of the aborted consolidation that is reused.** Seven chunks had no writer (`checker-4`, `checker-5`, `landed-1` to `landed-3`, `arrays`, `spec`): for them only the scouts' checks of existence stand.
+
+**Where `HIS-WORDS.md` corrects `RESTATEMENT.md`:** the order to consolidate after each landing is his original order for the workflow, from 10-20 on, not only this morning's; sorting by subject is not new (he asked for it on 09-30 and 10-10); the direction from FACTS to the skill was stated by him on 10-22 and 11-03, and only the ban "Facts can never cite skill" is of 11-24; the record gives his meaning in clean words, never his dictation.
+
+**The open questions that only he answers,** by their labels in `HIS-WORDS.md`: 3-A and 3-B (tests named in an entry; the measurement runs); 2-B (does a defect's text leave an entry for its ledger row); 2-A (may a fact name the decision that it builds); 1-A (does an entry whose subject the work has passed leave FACTS). These four block the pilot of the first consolidation. 8-A (does each landing also consolidate the section that a new entry joins) and 8-B (does each landing run the test of decisions) block the design of each landing's run. 7-A is the boot's form after the consolidation. Put them one at a time, after his go on the draft brief.
 
 ## Where the work on the record stands: read this first
 
@@ -30,7 +42,9 @@ Its home is `explorations/coordinator/postmortem-2026-11-24-record-regrowth/REST
 
 ## What waits for him
 
-No ask is put and unanswered. **The review queue waits on him: never tell him that nothing does.** Its next questions, by item number: 630 (the scope of his rule to launch at the planner's defaults), 212 and 319 (needed by the switch-over), then 551, 552, 623 to 629; item 621 and row 1098 (item 616) with the batch after climb batch 36. He asked for these to be brought while other work runs: "Use my time wisely". Put one ask in a message, in the skill's form, when he is not in the middle of the record's post-mortem.
+- **His read of the draft brief** for the landing workflow's fix, and his go to launch a design worker from it. The design worker builds nothing: it writes a design note for him.
+- **Review-queue item 630,** put as an ask at 15:0x UTC and not yet answered: does his rule of 11-17, to launch at the planner's defaults, cover every fork or only those that are not consequential. Options 1 (every fork, with holds for what cannot be undone or acts against his word) and 2 (today's skill text). The coordinator recommended 1. On his answer, the skill writer drafts the change of `references/batch.md`, "The go", and its words go on the page of skill drafts for his yes.
+- **The review queue waits on him: never tell him that nothing does.** After item 630: 212 and 319 (needed by the switch-over), then 551, 552, 623 to 629; item 621 and row 1098 (item 616) with the batch after climb batch 36. He asked for these to be brought while other work runs: "Use my time wisely". One ask in a message, in the skill's form.
 
 ## The numerals: his two steps
 
