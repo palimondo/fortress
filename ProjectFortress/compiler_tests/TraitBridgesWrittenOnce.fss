@@ -1,0 +1,60 @@
+(* A trait's own operators stand over its generic parent's at its own type, and a method that two parents declare and the trait narrows runs through either parent. *)
+component TraitBridgesWrittenOnce
+export Executable
+
+trait Grp[\T extends Grp[\T\]\]
+  getter k(): ZZ32
+  opr +(self, other: T): T
+  opr -(self, other: T): T = self + other
+  opr -(self): T = self + self
+end
+
+trait Vn[\E, nat s0\] extends Grp[\Vn[\E,s0\]\]
+  opr +(self, other: Vn[\E,s0\]): Vn[\E,s0\] = Vno[\E,s0\](self.k + other.k)
+  opr -(self, other: Vn[\E,s0\]): Vn[\E,s0\] = Vno[\E,s0\](self.k - other.k)
+  opr -(self): Vn[\E,s0\] = Vno[\E,s0\](0 - self.k)
+end
+
+object Vno[\E, nat s0\](k0: ZZ32) extends Vn[\E,s0\]
+  getter k(): ZZ32 = k0
+end
+
+trait Top
+  getter v(): ZZ32
+end
+
+object Bot(v0: ZZ32) extends Top
+  getter v(): ZZ32 = v0
+end
+
+trait Pa[\T\]
+  f(x: T): Top
+end
+
+trait Pb[\T\]
+  f(x: T): Top
+end
+
+trait C extends { Pa[\ZZ32\], Pb[\ZZ32\] }
+  f(x: ZZ32): Bot = Bot(x + 1)
+end
+
+object Cobj extends C end
+
+subG[\T extends Grp[\T\]\](a: T, b: T): T = a - b
+viaPa(p: Pa[\ZZ32\]): ZZ32 = p.f(1).v
+viaPb(p: Pb[\ZZ32\]): ZZ32 = p.f(2).v
+
+run(): () = do
+  a: Vn[\ZZ32,3\] = Vno[\ZZ32,3\](5)
+  b: Vn[\ZZ32,3\] = Vno[\ZZ32,3\](3)
+  assert((a - b).k = 2, "Vn's own - over Grp's")
+  assert((-a).k = -5, "Vn's own prefix - over Grp's")
+  assert((subG[\Vn[\ZZ32,3\]\](a, b)).k = 2, "Vn's own - through Grp")
+  c: C = Cobj
+  assert(viaPa(c) = 2, "C's f through Pa")
+  assert(viaPb(c) = 3, "C's f through Pb")
+  println("PASS")
+end
+
+end
