@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Pilot round 1: the mix","toolUseId":"toolu_01Q14Ao2uixyLvHizvathv1s","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Pilot round 1: the mix","toolUseId":"toolu_01Q14Ao2uixyLvHizvathv1s","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","pickedEffortModel":"claude-fable-5-2","finished":true}
