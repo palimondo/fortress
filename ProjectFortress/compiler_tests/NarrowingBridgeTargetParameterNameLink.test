@@ -1,0 +1,3 @@
+# The program whose generic trait's method, called at its parent's signature, runs a narrowing declaration below where two static parameters share a name, links.
+tests=XXXNarrowingBridgeTargetParameterName
+link

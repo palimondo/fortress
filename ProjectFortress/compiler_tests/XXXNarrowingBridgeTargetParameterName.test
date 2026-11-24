@@ -1,0 +1,4 @@
+# The program whose generic trait's method, called at its parent's signature, runs a narrowing declaration below where two static parameters share a name, runs: it fails after REACHED while the bridge's target names the parent's binding of that name.
+tests=XXXNarrowingBridgeTargetParameterName
+run
+run_out_contains=REACHED
