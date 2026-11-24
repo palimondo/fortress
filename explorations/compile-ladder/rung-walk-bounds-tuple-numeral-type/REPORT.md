@@ -81,7 +81,7 @@ The tree line names the commit before `bc8330a285`, whose one change of code, `C
     BUILD SUCCESSFUL
     Total time: 5 minutes 58 seconds
 
-900 tests, no failure: no test failed after the change, and walk refuses at load no line of the library and no test that it loaded before. An earlier run on `d2ec1ec544`, a code state that the last edit replaced, also had 900 and no failure. Each JVM of the suite starts from empty caches, so walk's load check read the library in each. `bin/fortress explorations/claude_demo.fss` after the first fix, with the caches that the build had emptied, printed `SUM[i <- 1#100] i = 5050` and exited 0.
+900 tests, no failure: no test failed after the change, and walk refuses at load no line of the library and no test that it loaded before. One expected failure fails another way: `tests/XXXGenericTraitFunctionalMethodsNestedWalk.fss` (row 780) answered "shape" on the base and now stops at its object's first instance, 'at least one pair of parameters must have excluding types' (the skeptic's run, SKEPTIC.md). An earlier run on `d2ec1ec544`, a code state that the last edit replaced, also had 900 and no failure. Each JVM of the suite starts from empty caches, so walk's load check read the library in each. `bin/fortress explorations/claude_demo.fss` after the first fix, with the caches that the build had emptied, printed `SUM[i <- 1#100] i = 5050` and exited 0.
 
 ## 4. Where the fix belongs, and the precedent search
 
@@ -118,7 +118,7 @@ The siblings, once after the fix (`d2ec1ec544`), through the harness and directl
 
 Row 1124 is named in no effect. The numeral entry's sentence on walk's refusals at load, `changes.tex:5447-5448` at b5a758846d, before: "It refuses when it loads a program a numeral type written as a type that an object or a trait extends, or as a static argument." After (`changes.tex:5442-5445`): "It refuses when it loads a program a numeral type written as a type that an object or a trait extends, as a type that a trait's \KWD{comprises} clause lists, as a static argument, or in a return type or the type of a variable or of a field, an object's value parameters among the fields."
 
-One more sentence the change makes false, not edited here: `changes.tex:5437-5446` at b5a758846d (`:5432-5441` now), "The interpreter, which has no static types, applies a coercion from a numeral type at the place's first evaluation, with the four numbers bound as values of type \EXP{\mathbb{Z}}, ...; it refuses a numeral only when the place is evaluated: ..., a folded constant at a type of a program's own without a coercion from the constant's default type, and a numeral bound to a variable declared of a numeral type." Its last item is false: such a variable is now refused at load, before any numeral binds. The words that make it true: end the list at "...from the constant's default type." Rung N rewrites the same sentence's four numbers, so the gather makes both corrections.
+One more sentence the change makes false, not edited here: `changes.tex:5437-5446` at b5a758846d (`:5432-5441` now), "The interpreter, which has no static types, applies a coercion from a numeral type at the place's first evaluation, with the four numbers bound as values of type \EXP{\mathbb{Z}}, ...; it refuses a numeral only when the place is evaluated: ..., a folded constant at a type of a program's own without a coercion from the constant's default type, and a numeral bound to a variable declared of a numeral type." Its last item is false: such a variable is now refused at load, before any numeral binds. The words that make it true: end the list at "...from the constant's default type." Rung N rewrites the same sentence's four numbers. The skeptic's correction edits this item on the branch, four unchanged lines below rung N's edit (SKEPTIC.md).
 
 No `\revision` callout, front-matter paragraph or decision record changes: the three edits correct the effects of Appendix I entries and a callout's account of the interpreter, and change no rule of the language.
 
@@ -161,7 +161,7 @@ Every path the rung changes is under `ProjectFortress/src/com/sun/fortress/inter
 - Row 762, a trait's generic method bounded by the trait's static parameter: measured again (`TraitParamBoundProbe`, old and new 'Missing type E'), home 2 as it stands (`tests/XXXTraitBoundGenericMethod.fss`); a note in record.md on how the new key reads it.
 - Rows 1123 and 1126: still fail after the fix, homes as they stand (their `XXX` tests).
 
-No new defect: no new row.
+The skeptic's programs measured three more, recorded in record.md: NEW-G-1, a Meet Rule set of generic dotted methods refused at load (`tests/XXXGenericMethodBoundsMeetWalk.fss`); NEW-G-2, bounds that name types of one simple name in two apis (`tests/XXXGenericMethodBoundSameNameWalk.fss`); and row 780's changed failure, its row rewritten.
 
 ## 11. Not done, and questions
 

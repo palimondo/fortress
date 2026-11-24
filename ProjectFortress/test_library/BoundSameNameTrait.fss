@@ -1,0 +1,12 @@
+component BoundSameNameTrait
+export BoundSameNameTrait
+
+object Foo end
+
+trait Wd
+    m[\U extends Foo\](y: U): ZZ32 = 1
+end
+
+fooHere(): Any = Foo
+
+end
