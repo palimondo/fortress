@@ -1,0 +1,35 @@
+(* A method of a generic trait called at its parent's signature runs the narrowing declaration of a trait below, where the parent's self-type parameter and the trait's own parameter have one name. *)
+component XXXNarrowingBridgeTargetParameterName
+export Executable
+
+trait Par[\T extends Par[\T,E\], E\]
+  tab(f: ZZ32 -> E): T = self.mk(self.tag() + 1)
+  mk(t: ZZ32): T
+  tag(): ZZ32
+end
+
+trait Ar[\T\] extends Par[\Ar[\T\], T\]
+  mk(t: ZZ32): Ar[\T\] = Aro[\T\](t)
+  cp(v: T): Ar[\T\] = self.tab(fn (i: ZZ32): T => v)
+end
+
+trait Vc[\T\] extends Ar[\T\]
+  tab(f: ZZ32 -> T): Vc[\T\] = Vco[\T\](self.tag() + 10)
+end
+
+object Aro[\T\](t: ZZ32) extends Ar[\T\]
+  tag(): ZZ32 = t
+end
+
+object Vco[\T\](t: ZZ32) extends Vc[\T\]
+  tag(): ZZ32 = t
+end
+
+run(): () = do
+  v: Vc[\ZZ32\] = Vco[\ZZ32\](5)
+  println("REACHED")
+  assert(v.cp(3).tag() = 15, "Ar's cp runs Vc's tab")
+  println("PASS")
+end
+
+end

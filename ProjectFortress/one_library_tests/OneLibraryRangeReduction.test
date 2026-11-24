@@ -1,0 +1,5 @@
+# The program of two reductions over a range of ZZ32 compiles under the one library's selection, runs and passes its checks.
+tests=OneLibraryRangeReduction
+compile
+run
+run_out_contains=PASS

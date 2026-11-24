@@ -1,0 +1,5 @@
+# The program whose generic trait's own operators replace its parent's at its own type, and whose trait narrows a method that two parents declare, links, runs and passes its checks.
+tests=TraitBridgesWrittenOnce
+link
+run
+run_out_contains=PASS

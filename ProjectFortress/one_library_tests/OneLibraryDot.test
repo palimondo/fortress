@@ -1,0 +1,5 @@
+# The program that sums the products of two array1 of RR64 in a seq loop compiles under the one library's selection, runs and finds 499500.0.
+tests=OneLibraryDot
+compile
+run
+run_out_contains=PASS

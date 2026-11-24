@@ -1,0 +1,12 @@
+(* Under the one library's selection, compiled reductions over a range of ZZ32 load the range's classes and give their values. *)
+component OneLibraryRangeReduction
+export Executable
+
+run(): () = do
+  n: ZZ32 = 4
+  assert((SUM[i <- 0#n] i) = 6, "the sum over 0#4")
+  assert((BIG AND [i <- 0#n] i < n), "every element of 0#4 is below 4")
+  println("PASS")
+end
+
+end

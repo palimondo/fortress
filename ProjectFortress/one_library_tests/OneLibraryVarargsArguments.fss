@@ -1,0 +1,15 @@
+(* Under the one library's selection, a compiled call of a function with a varargs parameter passes its arguments in an array that loads and holds them. *)
+component OneLibraryVarargsArguments
+export Executable
+
+count(xs: ZZ32...): ZZ32 = |xs|
+second(xs: ZZ32...): ZZ32 = xs[1]
+
+run(): () = do
+  assert(count() = 0, "a call of no arguments")
+  assert(count(4, 5, 6) = 3, "a call of three arguments")
+  assert(second(4, 5, 6) = 5, "the second of three arguments")
+  println("PASS")
+end
+
+end

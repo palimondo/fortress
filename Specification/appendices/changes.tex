@@ -4059,11 +4059,12 @@ binding takes as one array of that type, which the factory
 \VAR{\_\_immutableFactory1} makes and the caller fills in order, at the call
 or, where another declaration of the name takes as many arguments, in the
 dispatch method's branch for the varargs declaration.
-A program compiled against \library\ can run, as one that prints a line of
-text does, but the class of the array of a varargs call's arguments does not
-load, since its template class holds the method \VAR{copy} twice (row~1091 of
-the revival's gap ledger), so no program that calls a declaration with a
-varargs parameter runs on the compiled path yet.
+A program compiled against \library\ that calls a declaration with a varargs
+parameter runs on the compiled path, as one that counts and reads the
+arguments of such calls does; one that prints a number by \VAR{println} still
+stops, since the call names the api's declaration of \VAR{println} at
+\TYP{Number}, which \library\ implements only at \TYP{Any} (row~1098 of the
+revival's gap ledger).
 Neither implementation passes the elements of a spread argument,
 \EXP{f(1, \VAR{xs}\ldots)}, to the parameter: each calls the declaration
 without them (row~1085 of the revival's gap ledger).
@@ -6569,9 +6570,10 @@ departs on two generic functional methods of one type (rows~779 and~780).
 Keyword parameters are built in neither implementation (row~652).
 The code generator refuses a varargs parameter under the compiled path's own
 library, which declares no \TYP{ImmutableArray}; against \library\ it compiles
-one, and a program compiled against \library\ can run, as one that prints a
-line of text does, but not one that calls a declaration with a varargs parameter,
-since the class of the array of its arguments does not load (row~1091);
+one, and a program compiled against \library\ that calls a declaration with a
+varargs parameter runs, except where it prints a number by \VAR{println}, whose
+call names a declaration that \library\ implements only at a wider parameter
+type (row~1098);
 \secref{revival-varargs} names the forms that it does not yet compile.
 An object takes no varargs parameter (row~11).
 The code generator refuses an \KWD{override} of or by a method with static

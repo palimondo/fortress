@@ -1,0 +1,5 @@
+# The program that counts and reads the arguments of varargs calls compiles under the one library's selection, runs and passes its checks.
+tests=OneLibraryVarargsArguments
+compile
+run
+run_out_contains=PASS
