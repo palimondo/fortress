@@ -1,0 +1,315 @@
+<!-- Climb batch 36's gather record, run 1 of CLIMB-BATCH-36.md: rungs N, G, K and C applied on main in that order and why, their commits, the conflict in the gate's compiled list and its resolution, the rows opened, rewritten and closed, the FACTS entries written, the merged tree's tests, the demos and the specification's build, the points to report, the items for the curator and where each is in PLAN.md, and each rung's revival change for the skill writer. -->
+
+# Climb batch 36: the gather's record
+
+Written at the gather stage of climb batch 36 (2026-11-24), the first of the two runs of `explorations/coordinator/CLIMB-BATCH-36.md`, after climb batch 35b. All four rungs of this run were approved and landed: K (the checker chooses among a call's declarations by their signatures as declared, in an order that no hash decides), G (three of walk's departures: methods that differ only in their bounds, a tuple result, and a numeral type written), N (a numeral coercion's four numbers convert where they stand, on both paths) and C (three walls of a compiled program against the one library).
+
+**Preconditions.** `git status --porcelain` printed nothing, and `b5a758846dd8695c25d13a5885088454fb02dae3` is an ancestor of `HEAD` (`git merge-base --is-ancestor`, exit 0). The batch's commits start after `0cb3d14e647963523f8cc6c8d91b1cfab3793b58`, the `HEAD` the gather started from; the two commits between the base and it, the boot notes of 01:57 UTC and after, touch only `explorations/coordinator/BOOT.md`, no file of a rung. No earlier launch had worked this stage: `main` held no commit of the batch and the gather's scratch no file of it, so one launch worked it.
+
+**Scratch.** Each patch is `git diff b5a758846dd8695c25d13a5885088454fb02dae3...<branch>`, applied on `main` with `git apply --3way --index`; each rung's record folded and its commit made. The branches are left as they were.
+
+## The landed commits
+
+| Rung | Slug | Branch head | Commit on `main` |
+|---|---|---|---|
+| N | `rung-numeral-coercion-body` | `d1da4b74f0` | `2a969fed6e` |
+| G | `rung-walk-bounds-tuple-numeral-type` | `fbc5ee180d` | `df5948e7b8` |
+| K | `rung-checker-most-specific` | `37737814f4` | `da5f707779` |
+| C | `rung-one-library-run-walls` | `1f87912ff7` | `3a0bae976c` |
+
+Then `b4e9e929b0`, "Close the rows climb batch 36 fixed", and this record's commit.
+
+## The rungs applied, in order
+
+N, G, K, C. No rung lands only with another (`landsOnlyWith` is empty in this batch). Four files are shared, and the lowest line that each rung's hunks edit in each, read from `git diff -U0 b5a758846d...<branch>` per branch before anything was applied, is:
+
+| File | K | G | N | C |
+|---|---|---|---|---|
+| `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java` | 8255 | | 7135 | 1159 |
+| `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala` | 868 | | 884 | |
+| `Specification/appendices/changes.tex` | 3750 | 2424 | 2303 | 4063 |
+| `explorations/compile-ladder/gate/suite-compiled.tsv` | | | 79 | 17 |
+
+So, pair by pair: G and N share only `changes.tex`, N first; G and K share only `changes.tex`, G first; G and C share only `changes.tex`, G first. K and N are ordered both ways (`CodeGen.java` and `changes.tex` put N first, `Functionals.scala` K first), as are K and C (`CodeGen.java` C first, `changes.tex` K first) and N and C (`CodeGen.java` and the list C first, `changes.tex` N first); each of these pairs keeps the manifest's order by the rule, K before N, K before C, N before C. Those constraints hold a cycle, G before K, K before N, N before G, which no order meets; the rule does not say which to break. The gather broke the weakest: the manifest's order of the pair K and N, which is a fallback for a pair ordered both ways and whose cited lines are re-anchored in either order, where reversing G and K, or N and G, would go against the lines of their one shared file. Two of the three shared files also put N before K. The order N, G, K, C then meets every other constraint. The batch record expected K, G, N, C (`CLIMB-BATCH-36.md:677`, "The gather's order is the script's").
+
+## Conflicts
+
+One, in `explorations/compile-ladder/gate/suite-compiled.tsv`, at C's patch: both N and C added `tests/NumeralMinusOnceWalk.fss` and `tests/RadixPointLeadingZerosWalk.fss` to the gate's compiled list, N under `prelude` and C under `one`, and C added 16 other programs in the same two regions, of the 79 others it adds. Every other hunk applied cleanly ('Applied patch to ... cleanly.' for each file that `main` held and 'Falling back to direct application...' for each new one). The two lines are data, not logic, and each rung measured its own: N on its code, where under the one library each program stopped at row 1091, which C repairs (N's `REPORT.md`, "The interpreter's suite on the compiled path"); C on its code, where the two programs still carried the base's coercions with a getter, which N rewrites. The list's rule is a program's one library where it passes there, else the prelude (`explorations/coordinator/tools/suite-compiled/README.md`, "The step"). So the gather resolved it by hand from both sides, the union of both rungs' lines with C's `one` for the two programs, and measured it on the merged build before C's commit, the two programs under each library through `explorations/coordinator/tools/suite-compiled/run.sh <a list of the four lines> - <work> <out>`:
+
+    tests/NumeralMinusOnceWalk.fss	one	listed	PASS
+    tests/NumeralMinusOnceWalk.fss	prelude	listed	PASS
+    tests/RadixPointLeadingZerosWalk.fss	one	listed	PASS
+    tests/RadixPointLeadingZerosWalk.fss	prelude	listed	PASS
+    LISTED	4	PASS 4	FAIL 0	LEAVES 0	GONE 0
+
+The list as landed is C's, 278 programs, 157 under the one library; N's two lines are not separate. No conflict was left unresolved.
+
+## The lines that another rung's hunks moved
+
+Each rung's `REPORT.md` and `SKEPTIC.md` cite their branch's lines. N's are `main`'s at N's commit. The hunks of the rungs applied before G, K and C moved these of their citations; each is re-anchored by symbol here and, where the gather's folded text cites it, there:
+
+- G's citation of `Specification/basic/expressions/literals.tex:263-266` (the numeral types written only as a parameter's type), moved by N's 17 lines at `:186-205`, is `:280-283` on `main`; the gather's `PLAN.md` entry for G.worker.1 cites it so. G's `changes.tex:2424-2427` (the inference entry's clause on row 1126) is `:2426-2429`; its `:3125-3126` (the overloading entry's clause on row 539) is `:3127-3128`; its `:5442-5445` (the numeral entry's refusals at load) is `:5519-5522`, followed by the gather's clause on row 1135.
+- K's citations of `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala`, moved by N's 15 lines at `:884-898` (`typedApplication`), are 15 lines lower on `main`: `:931-1006` is `:946-1021`, `:1153-1206` is `:1168-1221`, `:1170-1204` (`head`, `ofThisUnit`, `duplicates`) is `:1185-1219` and `:1196-1198` is `:1211-1213`, `:1302-1330` is `:1317-1345`. Its `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:8255-8260` (`castToTypeBelow`'s reading of a declared `TraitSelfType`) is `:8271-8276`. Its `changes.tex:4509-4578` (the entry `revival-self-comprises`) is `:4512-4581`, and the skeptic's `:5539-5550` (the numeral entry's sentence on `c = 0` at `RR32`) is `:5547-5558`. The gather's `PLAN.md` entries for K cite `Functionals.scala` at `main`'s lines; row 1136 cites its lines at `8f5f1912ab`, the branch's commit, as written.
+- C's `changes.tex:4063-4067` (the varargs entry's sentence on row 1098) is `:4062-4067`, and `:6424-6426` is `:6572-6574`. C's `CodeGen.java` lines lie above every hunk of N and K in that file, and stay.
+
+The rows' and FACTS entries' citations that the gather wrote are by symbol or at a named commit.
+
+## The tests on the merged tree
+
+The build and every run below are of the code of `3a0bae976c`, C's commit, on the main tree; the commits after it change no code. The machine: nproc 4, Intel Xeon at 2.30 GHz, JDK 25.0.4.1.
+
+- Built once, after C's patch was applied and before its commit, on that same code (`ant compileAll`, 'BUILD SUCCESSFUL', 'Total time: 35 seconds'; 'Caches /home/user/fortress/default_repository/caches started again, empty' and the same for `caches-one`), then the library order: 'compile LibraryBuiltin/AnyType.fss rc=0' and the four others rc=0, the five jars listed (`CompilerSystem.jar`, `fortress.AnyType.jar`, `fortress.CompilerAlgebra.jar`, `fortress.CompilerBuiltin.jar`, `fortress.CompilerLibrary.jar`).
+- The walk tests of the landed rungs, the 19 `.fss` files that G and N add or change under `ProjectFortress/tests/`, `NumeralTypeNoValueWalk.fss` (whose `.test` G changes) and row 780's `XXXGenericTraitFunctionalMethodsNestedWalk.fss` (whose failure G changes), each with its `.test` beside it where it has one (nine), in one call, `explorations/compile-ladder/rung-inference-walk/harness-one.sh <scratch> ProjectFortress/tests/GenericMethodBoundsDifferWalk.fss ... ProjectFortress/tests/XXXGenericTraitFunctionalMethodsNestedWalk.fss`:
+
+      # harness-one 2026-11-24T05:47:14Z; tree 3a0bae976c; nproc=4; load 1.08 1.23 0.99; openjdk version "25.0.4.1" 2026-08-18; FORTRESS_THREADS=4; cache empty
+      OK (21 tests)
+      exit=0
+
+  The closing tests: `GenericMethodBoundsDifferWalk` ' OK (time = 337ms)' (row 1125); `GenericPairTupleReturnWalk` ' OK (time = 358ms)' (row 1122); `NumeralTypeReturnTypeWalk` ' OK Saw expected refusal at load' (row 1124), and so `NumeralTypeVariableTypeWalk`, `NumeralTypeFieldTypeWalk`, `NumeralTypeObjectParameterWalk` and `NumeralTypeNoValueWalk`. N's: `NumeralCoercionBodyWalk` 'PASS', `NumeralCoercionNumberAtCallWalk` 'PASS', `NumeralCoercionNumberRangeWalk` ' OK Saw expected refusal at load', and the six rewritten walk tests pass. The expected failures each saw theirs: `XXXGenericMethodBoundsMeetWalk` (row 1133), `XXXGenericMethodBoundSameNameWalk` (row 1134) and `XXXGenericTraitFunctionalMethodsNestedWalk` (row 780) ' OK Saw expected exception'; `XXXNumeralTypeBoundWalk` and `XXXNumeralTypeTypecaseWalk` (row 1135) ' Saw expected failure: loaded and ran, not refused at load'.
+- The compiled tests of `compiler_tests/` that the batch adds or changes, with each changed program's `.test` and K's neighbour `ComprisesSelfAbstractFunctionalMethodCall.test`, 43 files in one JVM, `ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh merged36 ProjectFortress/compiler_tests ComprisesFunctionalMethodNarrowedReturn.test ... XXXNumeralWhereRefusedCompiled.test`:
+
+      # junit.sh merged36 2026-11-24T05:48:00Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.30GHz; 2300.000 MHz; load at start 2.01 1.55 1.12; openjdk version "25.0.4.1" 2026-08-18; FORTRESS_THREADS=4; tree 3a0bae976c
+      OK (71 tests)
+      exit=0
+
+  The closing tests: '. run ProjectFortress/compiler_tests/GenericTiesDeclaredCompiled (410ms) PASS' (row 935), '. run ProjectFortress/compiler_tests/ComprisesSelfListedTypeCompiled (311ms) PASS' (rows 1100 and 1112), '. run ProjectFortress/compiler_tests/ComprisesFunctionalMethodNarrowedReturn (258ms) PASS' (row 1127), '. run ProjectFortress/compiler_tests/CoverageReturnGenericFamily (243ms) PASS' (row 543), '. run ProjectFortress/compiler_tests/OverloadGenericObjectTwoParams (475ms) PASS' (row 1046), '. run ProjectFortress/compiler_tests/ComprisesOwnParameterNarrowedReturn (278ms) PASS' (row 879), and `XXXGenericBesidePlainInvalidSetCallType.test`, the overloading check's refusal 'For g1, ...' (row 1047). Row 528's moved expected failure: 'Ambiguous coercion in call to operator =: of the declarations applicable to an argument of type (RR32, NaturalNumeral[\1,10,0\]) only by coercion, none is more specific than every other', ' Saw expected failure', as K's rewritten Appendix I sentence states on N's merged code.
+- The onelibrary track, `ant testOneLibrary`, on the merged code: '[junit] Tests run: 50, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 191.407 sec', 'BUILD SUCCESSFUL', 'Total time: 3 minutes 18 seconds'. The closing tests: ' run .../one_library_tests/OneLibraryStringEquality (820ms) Passed' (`OneLibraryRunStringEquality.test`, row 994); ' run .../OneLibraryVarargsArguments (1084ms) Passed' (row 1091), with ' run .../OneLibraryArray1 (957ms) Passed' (`OneLibraryArr.test`) and ' run .../OneLibraryDot (1283ms) Passed'; ' run .../OneLibraryRangeReduction (1095ms) Passed' (row 1099). The track also runs N's rewritten coercions of the one library and K's checker over it.
+- The two programs of the conflict, under both libraries (above).
+- The 52 team demos, the demo driver of `compile-ladder/rung-team-demos/REPORT.md`, "Commands worked out", run on the merged build from the main tree's root, `bash <driver> <scratch>`, from 05:48 to 06:09 UTC: the driver's last line, 'demos: 52 run, 52 reached their end', each of the 52 rows of its summary `END` with 'rc=0' and 'clean'. The log's `EXIT=` line reads 127, not 0: the gather's copy of the driver took in, after the driver's last line, the first line of the next paragraph of that section ("**The checker's driver over one demo.** ..."), which the shell ran after the demos had ended and refused, 'command not found'. No demo ran after it, and the copy was cut back to the driver. The `tennisRanking` demo's output file `ProjectFortress/demos/tennis051707`, which the driver names as its `outFile`, was removed after the run. Rungs G and N change walk and N the interpreter's library, so the demos are theirs to reach; the brief gives them to the gather, and they were run once, after the last edit of code.
+- The specification, built once on `main`'s text after the last edit under `Specification/` (C's commit `3a0bae976c`; the commits after it edit nothing there), `( cd Specification/fortress && ./ant genSource && ./ant tex )`: '211:BUILD SUCCESSFUL', '21688:BUILD SUCCESSFUL', '21690:EXIT=0'; the skill's warning `grep -c` over `fortress.log` printed 0; 'Output written on fortress.pdf (729 pages, 2546450 bytes).' `pdftotext` shows the gather's clauses: 'the pair that a trait with static parameters declares when an object that extends the trait is first made, finding', 'no pair of their parameter types that exclude each other (row 780). Of generic dotted methods of one name', 'the other’s and a third declaration holds their overlap (row 1133), and it reads two whose bounds name a type', and 'field, an object’s value parameters among the fields; it loads one written as a static parameter’s bound or as a', 'typecase arm’s type (row 1135).' The PDF is copied to the main tree's `tmp/gather/fortress-batch-36.pdf` for the commit stage, and the build's files are removed (`git clean -fXq -- Specification`).
+- microGPT: no line changes (`git diff --stat b5a758846d HEAD -- explorations/run-c4/src explorations/apl/mg` prints nothing), nor any line of its helper files; its quick checks are the commit stage's to run on the merged tree.
+- The count stage and the distance stage ran on K's and N's own codes ("Points to report", below); the gate's tables on the merged tree are their check. G and C ran neither, by the brief. The suites, the atomic runs, `ant testSpecData` and step 7 run in the gate.
+
+## Rows opened
+
+Eight rows, numbered by `ledger.py add` in the order the rungs were applied, each rung's rows in the order of their placeholders; each met the row template at its add. Each placeholder is replaced by its number in its rung's `REPORT.md`, `SKEPTIC.md` and `decision-record.md`, in Appendix I (N's two, `Specification/appendices/changes.tex`, the entry `revival-numeral-numbers`), in its handover line and in the FACTS entries; no test or source named one. The manifest's `newRows` named three (NEW-N-1, NEW-N-2, NEW-C-1); the other five are the skeptics' (G's `0893a671dd` and `676bda6ae6`, K's `2fe64f262a` and `1fef75d339`, C's `97d9487abc`), each in its rung's `record.md`.
+
+| Row | Placeholder | Rung | Section | Status | Claim |
+|---|---|---|---|---|---|
+| 1131 | NEW-N-1 | N | 7 | NEGATIVE-VERIFIED | on the compiled path a numeral at a type of another component, whose numeral coercion converts one of its four numbers into a bounded number type that the number does not fit, is not refused statically: `IntegerOverflow` at class initialization, or an infinity bound at `RR64` |
+| 1132 | NEW-N-2 | N | 7 | NEGATIVE-VERIFIED | on the compiled path a numeral coercion's number at a call runs the declaration that takes it as a `ZZ`, where a numeral goes to a more specific declaration that its own conversion reaches |
+| 1133 | NEW-G-1 | G's skeptic | 4 | NEGATIVE-VERIFIED | under walk, generic dotted methods of one name that differ only in their bounds, neither domain inside the other's, are refused at load where a third covers the overlap |
+| 1134 | NEW-G-2 | G's skeptic | 4 | NEGATIVE-VERIFIED | under walk, an object's generic dotted method bounded by its own component's type, beside an inherited one bounded by an api's type of the same simple name, is read as the inherited one's redeclaration |
+| 1135 | NEW-G-3 | G's skeptic | 7 | NEGATIVE-VERIFIED | under walk a numeral type written as a static parameter's bound or as a `typecase` arm's type loads and runs |
+| 1136 | NEW-K-1 | K's skeptic | 5 | CONTESTED | the compiled checker keeps with no error the first by place of a tie that no rule decides among the unit's own declarations, and refuses the same call of them from an api, 'Ambiguous call' |
+| 1137 | NEW-C-1 | C | 12 | NEGATIVE-VERIFIED | on the compiled path a function expression in an object's generic method that reads a getter of `self` fails the JVM's verification where the method is called through a value of a trait's type |
+| 1138 | NEW-C-2 | C's skeptic | 12 | NEGATIVE-VERIFIED | on the compiled path a narrowing bridge in a generic trait's class forwards to the trait's own method at a descriptor where a parent's binding of a static parameter of the same name replaces the trait's own |
+
+The sections, by number: 4 "Operators and overloading under walk", 5 "Overloading on the compiled path: checker and dispatch", 7 "Numerals, floats and comparisons", 12 "The compiled path: constructs, crashes and the switch-over", each as its rung's `record.md` named it.
+
+## Rows rewritten
+
+- Row 780 (G's skeptic), rewritten in G's commit with the record's line: its claim, a load and a call that fails, is false since G keys generic methods by their bounds; the pair now stops at an extending object's first instance. 1,145 characters.
+- Row 762 (G), a note: "A redeclaration at the instance's bound stops alike, keyed apart by `Constructor.genericKey`." 1,121 characters.
+- Rows 499, 528, 770 and 1094 (K), rewritten in K's commit with the record's lines: row 499's direct call now answers by rule, its dispatcher half open; row 528's `c = 0` now refused statically (fork K8); row 770's refusal now the export check's; row 1094's dotted form now also in a trait whose `comprises` clause lists types (fork K7). 1,118, 1,111, 1,126 and 1,120 characters.
+
+## Rows closed
+
+Fourteen rows, in `b4e9e929b0`, each by its rung's commit on `main` and its test, which passes on the merged tree ("The tests on the merged tree", above); then `explorations/coordinator/tools/ledger.py landing-check b5a758846dd8695c25d13a5885088454fb02dae3` printed 'ledger.py landing-check: b5a758846..HEAD: no finding', before the commit and after it.
+
+| Row | Rung | Commit | Test | Close note |
+|---|---|---|---|---|
+| 1125 | G | `df5948e7b8` | `ProjectFortress/tests/GenericMethodBoundsDifferWalk.fss` | none |
+| 1122 | G | `df5948e7b8` | `ProjectFortress/tests/GenericPairTupleReturnWalk.fss` | none |
+| 1124 | G | `df5948e7b8` | `ProjectFortress/tests/NumeralTypeReturnTypeWalk.fss` | the variable's, field's and value parameter's forms; a bound and a `typecase` arm: row 1135 |
+| 935 | K | `da5f707779` | `ProjectFortress/compiler_tests/GenericTiesDeclaredCompiled.test` | none |
+| 1100 | K | `da5f707779` | `ProjectFortress/compiler_tests/ComprisesSelfListedTypeCompiled.test` | its reproducer `ComprisesSelfAbstractFunctionalMethodCall.test` stays and passes |
+| 1112 | K | `da5f707779` | `ProjectFortress/compiler_tests/ComprisesSelfListedTypeCompiled.test` | none |
+| 1127 | K | `da5f707779` | `ProjectFortress/compiler_tests/ComprisesFunctionalMethodNarrowedReturn.test` | none |
+| 543 | K | `da5f707779` | `ProjectFortress/compiler_tests/CoverageReturnGenericFamily.test` | none |
+| 1046 | K | `da5f707779` | `ProjectFortress/compiler_tests/OverloadGenericObjectTwoParams.test` | none |
+| 879 | K's skeptic | `da5f707779` | `ProjectFortress/compiler_tests/ComprisesOwnParameterNarrowedReturn.test` | `CONTESTED`; settled by fork K1's default (review-queue item 621) |
+| 1047 | K's skeptic | `da5f707779` | `ProjectFortress/compiler_tests/XXXGenericBesidePlainInvalidSetCallType.test` | none |
+| 994 | C | `3a0bae976c` | `ProjectFortress/one_library_tests/OneLibraryRunStringEquality.test` | none |
+| 1091 | C | `3a0bae976c` | `ProjectFortress/one_library_tests/OneLibraryVarargsArguments.test` | also `OneLibraryArr.test` and `OneLibraryDot.test`; its reproducer stays an expected failure at row 1098 |
+| 1099 | C | `3a0bae976c` | `ProjectFortress/one_library_tests/OneLibraryRangeReduction.test` | its reproducer stays an expected failure at row 1137 |
+
+Each closes by its rung's commit on `main`, where the records named the branches' `d2ec1ec544` (G), `8f5f1912ab` (K) and `7c7b040927` (C). Row 770, which K's section closes if its test passed, stays open, rewritten: its expected failure now fails at the export check. N closes no row.
+
+## FACTS and POSITIONS entries
+
+Written with `record.py apply`, each in its rung's commit; `record.py check` after the last: 'FACTS.md 339 entries, POSITIONS.md 106 entries; 0 failures'.
+
+- N: F-407 added under "Landed semantics", the four numbers converting where they stand on both paths, with rows 1131 and 1132; F-341, F-342, F-345 and F-347 rewritten with the record's replacement words (F-345 also re-anchored to `literals.tex:98-302`, which N's 17 lines lengthen).
+- G: F-405 rewritten with the record's line (rows 1133 and 1134 numbered); F-26 and F-257 with the record's words; F-341 with its words on row 1124, now refused, and the gather's clause on row 1135 and the rung's five tests; F-253, not in the record, whose clause "of which the first met is kept (row 1125, F-405)" was false: it now names row 1134's case, as F-26 does.
+- K: F-408 added under "The checker and the one library", with row 1136's case in its last clause; F-225's sentence on a `comprises` trait and F-377's cast at a listed type's declaration, as the record gives them; F-76, not in the record, whose sentence on rows 935 and 543 ("follows the build (row 935), not by the intersection (row 543)") was false: it now gives the text's boundary and F-408.
+- C: F-409 added under "The checker and the one library"; F-396 rewritten with the record's whole text, rows 1137 and 1138 numbered, and its sentence on the checker's tie (rows 935 and 1100), which C's record left for K's landing, made true of K's change.
+- POSITIONS: not edited. P-174's sentence on row 1124 (G) and its last sentence (N), each made false, are quoted with the words that hold now in G's `REPORT.md`, section 7, and N's `REPORT.md`, "Sentences of the specification made false", for the record-landing (`CLIMB-BATCH-36.md:805`). The landing check finds no entry that states a row's status otherwise.
+
+## Each rung: the skeptic's fixes and rulings, and the gather's corrections
+
+### Rung N, `rung-numeral-coercion-body` (`2a969fed6e`)
+
+Approved, with one fix of the change and three corrections; no contested ruling and no judge. The skeptic's commits:
+
+- `fed896a1a7`, a defect fixed: the checker's join conversion read a numeral in a result position of an `if`, a `case`, a `do` block or a `try`, but not one of the four numbers, so the compiled path refused `Byte(if v < 100 then v else 99 end)`, `ByteD(do v end)` and `c: ZZ32 = case n of 3 => v; else => 0 end`, which walk converts; a number now reads as a numeral does (`Functionals.scala`, `numeralResult`, `joinInto`).
+- `dfc61e0002`, a correction: row 1131 named only `IntegerOverflow`; across components a number that rounds to infinity at `RR64` binds the infinity with no error (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ.java:66-69`), with the expected failure `XXXNumeralCoercionNumberInfinityImported` and its link test.
+- `3e72757c11`, a correction: two sentences of Appendix I made true (`revival-inference` and `revival-numerals`' Rationale), and the new entry's effect at `RR64`.
+- `8d7fea1ccc`, a correction: the report's time of the first build.
+
+`leftForGather`: none. The gather numbered rows 1131 and 1132 in the rung's files and in Appendix I; no sentence of the specification was owed.
+
+### Rung G, `rung-walk-bounds-tuple-numeral-type` (`df5948e7b8`)
+
+Approved, with corrections only; none contested, no judge. The skeptic's commits:
+
+- `0893a671dd`: two expected failures, `XXXGenericMethodBoundsMeetWalk` (row 1133) and `XXXGenericMethodBoundSameNameWalk` with its helper api `test_library/BoundSameNameTrait` (row 1134), and row 780's changed failure, in the record.
+- `9cf99f13f1`: the numeral entry's list of walk's refusals when a place runs loses a numeral bound to a variable of a numeral type, now refused at load.
+- `676bda6ae6`: two expected failures, `XXXNumeralTypeBoundWalk` and `XXXNumeralTypeTypecaseWalk` (row 1135).
+- `ea43d6a001`: the handover names the skeptic's expected failures, rows and edit.
+
+`leftForGather`: the ledger writes of the rung's `record.md`, rows 1133 and 1134 (section 4) and 1135 (section 7), row 780 rewritten, the note on row 762, beside the closes of rows 1125, 1122 and 1124. Done, as above. The gather's corrections, in G's commit, each clause checked against the code line it states: Appendix I's overloading entry said of row 780 that walk "loads the pair that a trait with static parameters declares, where a call to which both apply then fails, finding no definition of the method", false since walk keys the two by their bounds; it now says that walk refuses the pair when an object that extends the trait is first made (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:388`, `new OverloadedMethod`; `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:601`, "with generic type, at least one pair of parameters must have excluding types"); the same effect now names rows 1133 and 1134 among the sets that walk does not run (`OverloadedFunction.java:1126-1149`, `methodPairValid`; `Constructor.java:956`, the key's names without their apis); and the numeral entry's sentence on walk's refusals at load names row 1135 (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:1212-1261`). Before, the effect named neither departure, the gap climb batch 35b's merged-diff review found for rows 1123 and 1124.
+
+### Rung K, `rung-checker-most-specific` (`da5f707779`)
+
+Approved, with corrections and tests only; none contested, no judge. The skeptic's commits:
+
+- `2fe64f262a`: four tests. No gated test reached the new static error at a tie; a tie of the unit's own declarations at excluding bounds is kept by place with no error (`GenericTieInUnitFirstByPlace`, row 1136) and refused through an api (`GenericTieImportedAmbiguous` with its api, `XXXGenericTieImportedAmbiguous.test`); rows 879 and 1047, which the change repairs, gained their tests (`ComprisesOwnParameterNarrowedReturn`, `GenericBesidePlainInvalidSetCallType`).
+- `0b5f234096`: Appendix I's numeral entry said that `c = 0` for `c: RR32` compiles and overflows the stack; the change refuses it, 'Ambiguous coercion in call to operator ='.
+- `1fef75d339`: the report's time of the first build, its sentence of section 4.4 for the gather, and rows 879, 1047 and 1136 in the record.
+
+`leftForGather`: none. The gather's correction: the skeptic cites fork K1 at `explorations/coordinator/CLIMB-BATCH-36.md:427`, which is fork K3; K1 is at `:425`, which `PLAN.md` cites.
+
+### Rung C, `rung-one-library-run-walls` (`3a0bae976c`)
+
+Approved, with a trim of the change and corrections; none contested, no judge. The skeptic's commits:
+
+- `b61662765d`: the bridge marks held the class writer in a needless local alias in `overrideBridges`, `forObjectDeclPrePass` and `forTraitDecl`; they name the class writer itself, as `dumpMethodChaining`'s do.
+- `c66ae0c47c`: `OneLibraryArr` repeated `OneLibraryArray1` line for line; `OneLibraryArr.test` now runs that program.
+- `319eb91d1b`: a program's own traits under the prelude held methods twice on the base, which the record said of no class there; `compiler_tests/TraitBridgesWrittenOnce` tests it.
+- `97d9487abc`: row 1138, a narrowing bridge's target rewritten by a parent's parameter of the same name, with `XXXNarrowingBridgeTargetParameterName` and its link test; the record names what still stops a vector (row 643) and `=` of two lists (row 1137).
+
+`leftForGather`: row 1138 added in section 12, numbered in the row's reproducer's line and in the rung's files. Done. The gather's corrections: the conflict in the compiled list (above), and F-396's sentence on the checker's tie (above).
+
+## Files written from the journal
+
+None. Each branch carries its `REPORT.md` and `record.md` from the run's journal and its skeptic's `SKEPTIC.md`, each a review, none only the word committed; no rung had a repair round (`repaired` false for all four), so no `textCommands` line was run. Each `record.md` was folded and taken out of the index and the tree in its rung's commit.
+
+## Not landed
+
+None: all four rungs of the run were approved and landed.
+
+## Handover lines
+
+Each rung's own line, its placeholders replaced by their rows:
+
+- Rung N landed P-174's four numbers on both paths (`12b5f781b5`, `786aeae138`, `a66dd93281`): walk, the checker and the code generator convert each where it stands, the one library's, `FortressBuiltin`'s, the prelude's and the tests' coercions carry no getter on them, and the specification's literals chapter, natparams box and Appendix I (new entry `revival-numeral-numbers`) say so; rows 1131 and 1132 hold the two departures, 1132 a question for the curator; the suites, the count (0) and the distance (same) are unchanged.
+- Climb batch 36, rung G landed on `wip/rung-walk-bounds-tuple-numeral-type` (`d2ec1ec544`, `bc8330a285`, `0b2141429f`): walk keys an object's generic dotted methods by their bounds renamed by position and judges two of them at load on their declared domains, reads a tuple result element by element in its Return Type Rule at every instance, and refuses at load a numeral type written as a return, a variable's or a field's type, an object's value parameters among the fields; rows 1125, 1122 and 1124 close with their promoted tests and three new tests, `NumeralTypeNoValueWalk` pins the refusal at load, walk's suite is 900 of 900, and no stage ran (`STAGE_BLIND`). The skeptic added four expected failures, `tests/XXXGenericMethodBoundsMeetWalk.fss`, `XXXGenericMethodBoundSameNameWalk.fss` (helper `test_library/BoundSameNameTrait`), `XXXNumeralTypeBoundWalk` and `XXXNumeralTypeTypecaseWalk`, each green through harness-one.sh and not in that count, with rows 1133 to 1135; rewrote row 780; and took out of the numeral entry of changes.tex the refusal of a numeral bound to a variable of a numeral type, which walk now refuses at load.
+- Rung K landed on `wip/rung-checker-most-specific` (`a6a9149594`, `8f5f1912ab`, and the specification and record commit after them): the checker reads a functional method's `self` at its trait in every signature, takes a call's candidates in the order of place, decides a tie by the declared signatures, keeps P-60's intersection within the text's boundary, refuses any other tie that no overloading check judges, and the code generator casts `self` at a listed type's declaration; the gate repair's case is gone. Rows 935, 1100, 1112, 1127, 543 and 1046 close; 499, 528, 770 and 1094 are rewritten. Open: the export check's refusal of row 770's api, and row 1094's dotted form, now also in a `comprises` trait. (The gather adds: its skeptic's rows 879 and 1047 close too, and row 1136 holds a tie of the unit's own declarations kept by place, `CONTESTED`.)
+- Climb batch 36, rung C landed `7c7b040927`: against the one library a generic function's dispatch names the library's class with its package (row 994), and a class holds each method once by name and descriptor, its own over a bridge (rows 1091, 1099); five run tests pass that failed on the base, the onelibrary track runs 50 of 50, and 81 programs of the interpreter's suite join the compiled list under the one library; the varargs program waits for row 1098 (item 616), a reduction over a zip of lists for the new row 1137 (a closure over `self` in a generic method called through a trait), and a `Vector`'s `copy` for the new row 1138 (a bridge's target rewritten by a parent's parameter of the same name).
+
+## Points to report
+
+Every point that each landed rung reached, from the worker's and the skeptic's lists, each once, with the worker's evidence and then the skeptic's where it differs. Their lines are of the branches, which equal `main`'s at the rung's commit but for those "The lines that another rung's hunks moved" re-anchors. None holds the push: each is reversible (`holdsPush` false, `cannotBeUndone` false), and no step that cannot be undone or that acts against a decision on record was taken.
+
+### Rung N
+
+- The reading as built on each path, and where a number that does not fit its place is refused. Walk: `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Numerals.java:104`, `:123`, `:434`, `:548`, `:555`. Checker: `scala_src/typechecker/STypeChecker.scala:184`, `CoercionOracle.scala:198`, `:211`, `:575-612`, `:686-770`, `impls/Decls.scala:79-86`, `impls/Functionals.scala:884-898`, and since the skeptic's `fed896a1a7` `impls/Functionals.scala:1355`, `:1393`, `:1437`. Code generator: `compiler/codegen/CodeGen.java:7136`, `:8486-8524`, `NumeralCoercionFold.java:229-238`, `compiler/runtimeValues/FZZ.java:42-73`. A number that does not fit is refused statically in its own component (`XXXNumeralCoercionNumberRangeCompiled.test`), also through a join; walk refuses it when the place runs (`NumeralCoercionNumberRangeWalk.test`); across components it is not refused (row 1131).
+- The tests, each failing on the base and passing after; every coercion rewritten. Worker: `harness-one.sh` on the base, 02:10:58Z, 'Tests run: 2,  Failures: 2'; `junit.sh base` 02:11:13Z, 'Tests run: 4,  Failures: 4'; the old-code harness 02:31:54Z, 'Tests run: 1,  Failures: 1'; after, 'OK (3 tests)', 'OK (8 tests)', 'OK (9 tests)', 'OK (39 tests)'. Skeptic: `NumeralCoercionBodyCompiled` with `Clamped`, `Chosen` and `Wide64`, 'Tests run: 3,  Failures: 3' on the worker's checker, 'OK (8 tests)' on `fed896a1a7`. Coercions rewritten: `Library/FortressLibrary.fss:388-389`, `:635`, `:847`, `:954`, `:1065`; `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:67-68`, `:263`; `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:578`, `:663`, `:754`, `:819`, `:894-895`, `:956-957`; the 17 tests of the probe notes' section 7 and `NumeralStaticDesignCompiled.fss`. On the merged tree, above.
+- Walk's suite, the compiled tracks and the onelibrary track: none failed. Worker, on `786aeae138`'s code: `ant testSystem` 'BUILD SUCCESSFUL' (220 + 231 + 217 + 232), `ant testQuick` 'BUILD SUCCESSFUL' (compiler 1818, library 86, othercompiler 263), `ant testOneLibrary` 'BUILD SUCCESSFUL' (41). Skeptic, after `fed896a1a7`: `ant testQuick` 'BUILD SUCCESSFUL', compiler 'Tests run: 1820, Failures: 0, Errors: 0'; `NumeralCoercionFoldJUTest` 'OK (10 tests)'.
+- The two stages and the checker's time. Worker, on `786aeae138`: count '#total 0', '#locations 0', its diff against climb batch 35b's gate table empty; 'DISTANCE SAME   0'; 'real 1m14.003s' on the base, 'real 1m10.463s' on the change. Skeptic's reviewer run: 'real 1m6.109s' and 'real 1m5.801s', the tables equal. No stage ran after the fix; the gate's tables are the record.
+- Sentences of the specification made false, and P-174's last sentence for the record-landing: edited by the worker, `literals.tex:186-188` to `:186-205`, `trait-parameters.tex:115-118` to `:115-120`, `changes.tex:5202-5205`, `:5255-5257`, `:5437-5439`, and the new entry `revival-numeral-numbers`; by the skeptic (`3e72757c11`), `changes.tex:2303-2306` (`revival-inference`) and `:5364-5366` (`revival-numerals`' Rationale). P-174's last sentence, with the words that make it true, is in N's `REPORT.md`, "Sentences of the specification made false".
+- Files edited beyond those named: `compiler/runtimeValues/FZZ.java:42-74`; `LibraryBuiltin/FortressBuiltin.fss:67-68`, `:263`; `STypeChecker.scala:182-189`; `impls/Decls.scala:80-86`; `impls/Functionals.scala:885-899` (`typedApplication`, outside `typedApplicationOfChecked`, which the batch record kept out of N's files) and the skeptic's `numeralResult` and `joinInto`; `CodeGen.java:7136` (`forVarRef`); `CompilerBuiltin.fss:754`, `:819`, `:894-895`, `:956-957`; `compiler_tests/NumeralStaticDesignCompiled.fss`; `explorations/compile-ladder/gate/suite-compiled.tsv`.
+- Reserved (a model line; a value of a numeral at a library type that changed; a pinned message changed): none of the three. `git diff --name-only b5a758846d...HEAD -- explorations/run-c4 explorations/apl` prints nothing; the skeptic's `SkLib` and `SkLibQQ` print the same library numeral values on the base's code and the rung's, under walk and compiled; no `.test` key changed. Not filed.
+
+### Rung G
+
+- Each fix as made, by file and member: `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:896-962` (`genericKey`, `BoundWriter`); `values/OverloadedFunction.java:1348-1428` (`returnRuleAtEveryInstance`, `belowAtEveryInstance`); `evaluator/BuildEnvironments.java:1203-1272` (`checkNumeralTypesWritten`, `refuseNumeralTypesIn`).
+- The three expected failures promoted, each failing on the base and passing after: `harness-one.sh` on the base, 2026-11-24T03:26:09Z (call `6m3frC`), 'Tests run: 7,  Failures: 7'; 03:43:55Z (call `2WfgaD`), 'OK (7 tests)'; `ProjectFortress/tests/GenericMethodBoundsDifferWalk.fss:1`, `GenericPairTupleReturnWalk.fss:1`, `NumeralTypeReturnTypeWalk.fss:1`. On the merged tree, above.
+- Walk's suite: `ant testSystem` on `bc8330a285`, 'Tests run: 215/232/225/228, Failures: 0', 'BUILD SUCCESSFUL'. No test failed, no line of the library or of a test is newly refused at load. One expected failure fails another way: row 780's test now stops at its object's first instance (`ProjectFortress/tests/XXXGenericTraitFunctionalMethodsNestedWalk.fss:15`, `Constructor.java:388`), a quiet wrong answer turned into a stop.
+- A pinned message changed (reserved): filed as G.reserved.1, below.
+- Sentences of the specification made false, before and after: `Specification/appendices/changes.tex:2424-2427` and `Specification/basic/inference.tex:345-348` (row 1125), `changes.tex:3125-3126` (row 1122), `changes.tex:5442-5445` (widened, the worker's), `changes.tex:5438-5440` (the skeptic's, `9cf99f13f1`); with the gather's three clauses (above). Branch lines; `main`'s are in "The lines that another rung's hunks moved".
+- P-174's sentence on row 1124, quoted for the record-landing: 'Row 1124 holds where the tree departs: walk loading a numeral type written as a return type, a variable's or a field's type, which it refuses only where a numeral meets it.', false after the rung; the words that hold now are in G's `record.md`, folded here: "Walk refuses at load, as the checker refuses statically, a numeral type written as a return type, a variable's or a field's type, an object's value parameters among the fields." (`explorations/coordinator/POSITIONS.md:106`).
+- The files edited, for `STAGE_BLIND`, and beyond those named: the three walk files, `changes.tex`, `inference.tex` and tests under `ProjectFortress/tests/`; members of `OverloadedFunction.java` beyond `returnRuleAtEveryInstance` (`validOnDeclaredDomains`, `methodPairValid`, `methodInstanceHolding`, `symbolicStatics`, `:789-801`, `:1115-1181`), which row 1125's fix needs; the skeptic's helper api `ProjectFortress/test_library/BoundSameNameTrait.fsi:1` and `.fss:1`, a test corpus that neither stage reads (F-111).
+- Reserved, a line of the library or a team test that walk now refuses at load, and a demo that no longer reaches its end: none (walk's suite above; the demos above). A model line: none.
+
+### Rung K
+
+- The readings as built, by file and member, and the gate repair's case as removed: `ProjectFortress/src/com/sun/fortress/compiler/index/FunctionalMethod.java:153-168` (`parameters()`); `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:931-1006`, `:1153-1206`, `:1302-1330` (branch lines; on `main` 15 lower, above); `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:8255-8260` (`:8271-8276` on `main`); `traitOfSelf` and `takesSelfAtTrait` removed in `8f5f1912ab`.
+- Each test, failing on the base in the JVM's default hash mode and passing after, and the expected failures turned. Worker: `old-fortress.sh ... junit` (02:00:42 UTC, call `uQsciv`), 'FAIL:  2 =/= 12; ...', 'Tests run: 15,  Failures: 10'; `ant testQuick` on `8f5f1912ab`, 'Tests run: 1823, Failures: 0'. Turned: `XXXNumeralEqualsRR32Compiled.test` moved to the compile, `NumeralEqualsRR32CompiledLink.test` deleted, `XXXApiFunctionalMethodOfComprisedObject.test` now keyed on the export check, two `XXX` tests promoted. Skeptic's four tests: red on the base through `old-fortress.sh ... junit`, `junit.sh sk6` 'OK (14 tests)' on the head. On the merged tree, above.
+- Every tie that the rules leave in the one library, the compiled suite and the prelude, and what the checker now says: the worker's instrumented census, the one library 24 ties all decided (22 declared, 2 deduplicated, `Library/List.fss:96-97`), the prelude none, the compiled suite 'OK (1783 tests)' with 104 ties, 9 sets of the unit that the overloading check refuses and 3 duplicates (`Compiled7.e.fss:18`, `XXXImportExceptOperator.fss:10`, `XXXImportExplicitHidesOnDemand.fss:9`) keeping that check's refusals; none reaches 'Ambiguous call'. The skeptic: a tie among the unit's own declarations at excluding generic bounds is kept by place with no error, and through an api gets 'Ambiguous call to function f' (`ProjectFortress/compiler_tests/GenericTieInUnitFirstByPlace.fss:34-45`, `XXXGenericTieImportedAmbiguous.test`; row 1136).
+- The two stages' tables on the final tree against the comparand, and the checker's time: the worker's count on `8f5f1912ab`, '#total 0', its diff with `climb-batch-35b/gate/checker-count.txt` empty, 'DISTANCE SAME   0', the count timed at 65.7 s on the base (load 0.28) and 68.6 s on the change (load 2.40); the skeptic's, 75.2 s on the base and 65.7 s on the change, the tables and `run.txt` equal.
+- Sentences of the specification made false, before and after: `Specification/appendices/changes.tex:3750-3753` and `Specification/basic/expressions/var-ref.tex:64-84` (the worker's); `changes.tex:5539-5550` (the skeptic's, `0b5f234096`).
+- Files edited beyond those named: `changes.tex:4509-4578`, the worker's new entry `revival-self-comprises` (`:4512-4581` on `main`); the skeptic's correction of the numeral entry's effect; `NumeralEqualsRR32CompiledLink.test` deleted; tests beyond those named, `OverloadGenericObjectTwoParams` and `XXXComprisesDottedMethodNarrowedReturn` (worker), `GenericTieImportedAmbiguous` with its api, `GenericTieInUnitFirstByPlace`, `ComprisesOwnParameterNarrowedReturn` and `GenericBesidePlainInvalidSetCallType` (skeptic).
+- A `CONTESTED` row closed by a fork default of the batch: row 879, closed with `--settled` naming fork K1 (`explorations/coordinator/CLIMB-BATCH-36.md:425`); its question is K.skeptic.2, below.
+- Reserved (a model line; a team test's checked value or pinned message changed; a line of the libraries that the checker now refuses): none, by the skeptic's one program each on both codes. The team's `XXX7e.test` keeps its message ('There are multiple declarations of g with the same parameter type: ZZ32'), the count stage is 0 on both codes, and no model line changed. Not filed.
+
+### Rung C
+
+- Each fix as made, by file and member: `ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:962` (`generateClosureTableOwner`), `:1421` (`invokeArmAtTemplateParams`), `:1784` and `:1788` (`generateCall`); `compiler/codegen/CodeGenClassWriter.java:40-113`; `compiler/codegen/CodeGen.java:1162-1165` (`dumpMethodChaining`), `:1236-1243` (`overrideBridges`), `:5337-5343` (`forObjectDeclPrePass`), `:6114-6122` (`forTraitDecl`), as the skeptic's `b61662765d` trimmed them.
+- The expected failure promoted and the new run tests, each failing on the base and passing after, with the verifier on; each that still fails, and at which row. Promoted: `OneLibraryRunStringEquality`. New: `OneLibraryArr` (over `OneLibraryArray1`'s program), `OneLibraryDot`, `OneLibraryVarargsArguments`, `OneLibraryRangeReduction`, and the skeptic's `compiler_tests/TraitBridgesWrittenOnce`. Base: 'Tests run: 15,  Failures: 6' (worker), 'Tests run: 2,  Failures: 1' (twice), 'Tests run: 4,  Failures: 1' (skeptic). Head: 'Tests run: 50, Failures: 0' and 'OK (9 tests)'. Still failing: `XXXOneLibraryRunVarargs` at row 1098, `XXXOneLibraryRunConditionalReduction` at row 1137. On the merged tree, above.
+- The onelibrary track on the final code: worker, `ant testOneLibrary` on `7c7b040927`, 'Tests run: 50, Failures: 0, Errors: 0, Skipped: 0', 'BUILD SUCCESSFUL'; skeptic, on `b61662765d`'s code, '[junit] Tests run: 50, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 182.207 sec', 'BUILD SUCCESSFUL'.
+- The files edited, for `STAGE_BLIND`, and beyond those named: `OverloadSet.java`, `CodeGen.java`, `CodeGenClassWriter.java`, `Specification/appendices/changes.tex`, `explorations/compile-ladder/gate/suite-compiled.tsv` and the tests; beyond: `CodeGenClassWriter.java:40-113`, and `CodeGen.java` outside the section's `:974-1240` at `forObjectDeclPrePass` `:5334-5343` and `forTraitDecl` `:6112-6122`; tests in `compiler_tests/`, a folder the section does not name (`TraitBridgesWrittenOnce`, `XXXNarrowingBridgeTargetParameterName` with `NarrowingBridgeTargetParameterNameLink.test`, the worker's `XXXGenericMethodClosureSelfThroughTrait` pair).
+- A changed line of a test that the revival wrote: `ProjectFortress/one_library_tests/XXXOneLibraryRunVarargs.test:1` and `XXXOneLibraryRunConditionalReduction.test:1`, only their comment lines, now naming the new wall; keys and programs unchanged.
+- Reserved, a model line: none. Not filed.
+
+### The reserved point filed
+
+- **G.reserved.1**, a pinned message changed, landed with its default, as landed: `ProjectFortress/tests/NumeralTypeNoValueWalk.test:1` pinned 'Type mismatch binding 3' and pins 'NaturalNumeral cannot be written in a program except as a parameter's type', since walk refuses the variable of a numeral type at load (`ProjectFortress/src/com/sun/fortress/interpreter/Driver.java:227`) before its numeral binds (`:249`). The program, a revival test's, is unchanged and is now refused at load where the base refused it as the binding ran. Not consequential: no model line, and no team test. Filed in `PLAN.md` too, as the batches before filed theirs.
+
+## Items for the curator, and where each is in `PLAN.md`
+
+Each item went into `explorations/coordinator/PLAN.md` under "Off the path, parked", in the batch's group "Climb batch 36, listed for his review" (`PLAN.md:811`), made after climb batch 35b's group. None asks for an answer before work on the path can go on: each lands at its default or as landed, or asks a question with no default that no planned work waits on, and none touches microGPT's two programs, whose lines no rung changed. Fork K1 itself waits for him as review-queue item 621, which the batch record filed before the launch. Several items on one point make one entry: N.worker.1 with N.skeptic.1, G.worker.1 with G.skeptic.1, K.worker.1 with K.skeptic.1.
+
+| Id | Section | Entry |
+|---|---|---|
+| N.worker.1 | Off the path, parked | `PLAN.md:814`, "N.worker.1 and N.skeptic.1 of climb batch 36's rung N (row 1132, opened by the rung): on the compiled path, should a numeral coercion's number at a call go ...": default as landed, the built reading, row 1132 open |
+| N.skeptic.1 | Off the path, parked | the same entry, `PLAN.md:814` |
+| N.skeptic.2 | Off the path, parked | `PLAN.md:815`, "N.skeptic.2 of climb batch 36's rung N (rows 1131 and 1132, opened by the rung): P-180 has a defect fixed ...": default as landed, their repair a later rung's by P-180 |
+| G.worker.1 | Off the path, parked | `PLAN.md:816`, "G.worker.1 and G.skeptic.1 of climb batch 36's rung G (row 1135, opened by its skeptic): walk's load check now refuses ...": no default on record; as landed, row 1135 open |
+| G.skeptic.1 | Off the path, parked | the same entry, `PLAN.md:816` |
+| G.reserved.1 | Off the path, parked | `PLAN.md:817`, "Rung G of climb batch 36, its reserved point, landed at its default (as landed). G.reserved.1, a pinned message changed ...": as landed |
+| K.worker.1 | Off the path, parked | `PLAN.md:818`, "K.worker.1 and K.skeptic.1 of climb batch 36's rung K (row 1136, opened by its skeptic, `CONTESTED`): fork K3 makes a tie ...": no default on record; as landed, the exception, row 1136 open |
+| K.skeptic.1 | Off the path, parked | the same entry, `PLAN.md:818` |
+| K.worker.2 | Off the path, parked | `PLAN.md:819`, "K.worker.2 of climb batch 36's rung K (row 770, rewritten by the rung), told: the export check refuses an api ...": default as landed, row 770 open |
+| K.worker.3 | Off the path, parked | `PLAN.md:820`, "K.worker.3 of climb batch 36's rung K (row 1094, rewritten by the rung), told: row 1094 now holds the dotted form ...": default as landed, row 1094 open |
+| K.skeptic.2 | Off the path, parked | `PLAN.md:821`, "K.skeptic.2 of climb batch 36's rung K (row 879, `CONTESTED`, closed by the batch): row 879's question ... is answered by fork K1's default ...": default as landed, row 879 closed, reopened if item 621 goes the other way |
+
+### The gather's own points
+
+None. No rung's specification text disagrees with another rung's code on the merged tree: K's sentence on `c = 0` at `RR32` holds on N's code (the compiled tests, above), N's departure at a call (row 1132) holds on K's checker (`XXXNumeralCoercionNumberAtCallCompiled`, ' Saw expected failure'), and C's sentences on a varargs call hold on both (`OneLibraryVarargsArguments`, 'Passed'). The gather's own corrections state what the code does and change no rule.
+
+### Not put into `PLAN.md`
+
+None.
+
+## Left for the coordinator and the skill writer
+
+- The order rule of the gather's brief met a cycle in this batch (above): its line rule for a pair that shares one file and its manifest rule for a pair ordered both ways gave G before K, K before N and N before G. The gather broke the manifest rule's pair; the rule does not say which to break.
+- For the record-landing (`CLIMB-BATCH-36.md:791-817`): P-174's two sentences, on row 1124 (G) and its last (N), with the words in G's and N's reports; F-232, "`DeclaredFunction`s ... still hash by identity", which K makes stronger ("no choice of the checker now follows their order"), not rewritten here. F-225, F-76, F-377, F-26, F-253, F-405, F-341, F-342, F-345, F-347 and F-396 are rewritten here (above).
+- For the coordinator, the batch record's "After the landing" (`CLIMB-BATCH-36.md:785-789`): `PLAN.md`'s phase 4 and phase 5 lines, "Next" and "Runs", and the review queue's items 58 (row 543, built by K), 503 (the other forms, built by G in part: row 1135 holds the rest) and 617.
+- For the skill writer: the passages that `CLIMB-BATCH-36.md:819-826` lists for run 1 (K: `references/compiler.md`, the tie bullet and row 528's trap; G: `references/revival-changes.md`, row 1125's sentence, and `references/interpreter.md`, row 1124's bullet; N: `references/revival-changes.md`, the `Byte(v.asZZ32)` sentence; C: `references/compiler.md`, the three bullets of rows 1091, 1099 and 994); and C's finding for `references/compiler.md`, "What the compiled path cannot compile yet": the list gains "a closure in an object's generic method called through a trait's type, as a reduction over a zip of lists (ledger row 1137)" and "`+`, `-` and `copy` of a `Vector` (ledger rows 643 and 1138)". The batch writes no skill text.
+
+## Revival changes, for the skill writer
+
+Each landed rung's "Revival change" section, word for word from its `record.md` (the change, and its provenance), in the order applied; the placeholders are replaced by their rows, and G's two headings are set one level down under its rung's.
+
+### Rung N, `rung-numeral-coercion-body`: a numeral coercion's four numbers convert where they stand
+
+**The change.** The Working Draft says that a `nat` parameter "may be used ... to appear in any context that a variable of type ℕ32 can appear" (`Specification-1.0-frozen/basic/trait-parameters.tex:83-86`), and the team's implementations gave a numeral's coercion the numeral's value, not its four numbers; the specification then read each of the four as a value of type `ZZ` in a coercion's body (`Specification/basic/expressions/literals.tex:186-188` before the change), and the library's coercions converted each by a getter, as `ZZ32`'s `= v.asZZ32` (`Library/FortressLibrary.fss:847` before) and the prelude's `= jBigToZZ64(v).asZZ32` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:663` before). The tree now converts each number where it stands, as a numeral is: into the type that its place fixes, from its exact value, a `ZZ` where nothing fixes a type, refused at the numeral's place where it does not fit; so `ZZ32`'s coercion is `= v` and `value object Byte(b: ZZ32)` declares `coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v)` (`tests/NumeralCoercionBodyWalk.fss`, `compiler_tests/NumeralCoercionBodyCompiled.fss`; the refusal, `compiler_tests/XXXNumeralCoercionNumberRangeCompiled.test`, walk's `tests/NumeralCoercionNumberRangeWalk.test`). On the compiled path a number at a call stays a `ZZ` where a declaration takes one (`compiler_tests/XXXNumeralCoercionNumberAtCallCompiled.fss`), and a coercion of another component is checked only when the class initializes (`compiler_tests/XXXNumeralCoercionNumberRangeImported.fss`). The reason, as evidence: before the change `Byte(v)` stopped under walk, 'Unification error: Closure/Constructor for Byte param 1 ($b:ZZ32) got arg 200:ZZ of type ZZ', and compiled, 'ZZ32->Byte is not applicable to an argument of type ZZ.'; the Draft has library designers "decide how numerals should interact with other types of objects by defining coercion operations" (`Specification-1.0-frozen/basic/expressions/literals.tex:142-145`), and a coercion that computes its type's value from static numbers needs no method on them.
+
+**Provenance.** P-174 (its sentence on a coercion's body, of 23 November 2026) and P-173; forks N1 and N2 of climb batch 36's record, at their defaults; the prelude under P-37; climb batch 36, rung N. The departure at a call (row 1132) is a question for the curator; the record's default, the built reading, keeps the number a `ZZ` there on the compiled path.
+
+### Rung G, `rung-walk-bounds-tuple-numeral-type`: walk keys generic dotted methods by their bounds, reads a tuple result by element, and refuses a numeral type written
+
+#### The change
+
+- The team's walk keyed an object's generic methods by name alone (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:490` at a874948ac, `generics.putItem(s, (GenericMethod) fv)`, each instantiated at `genericArgs.get(s)`, `:467`), so of two generic methods of one name one signature was kept, and it refused at load two generic declarations no pair of whose parameter types excludes, 'with generic type, at least one pair of parameters must have excluding types' (`OverloadedFunction.java:527` at a874948ac). The tree runs generic dotted methods of one name that differ only in their bounds as overloads, the more specific chosen at a call, in one object, in a trait beside an object, or in two traits, and an object's redeclaration of a trait's generic method at the same bounds under other names hides it: `ProjectFortress/tests/GenericMethodBoundsDifferWalk.fss`. The reason: `Specification/advanced/overloading.tex:531-571` reads a declaration with static parameters over its instances within its bounds and chooses the more specific; measured, a `ZZ32` took the declaration bounded by `Number`, 'FAIL: a ZZ32: 2 =/= a ZZ32: 3', and a trait's method beside an object's stopped, '** bug! Meet(ZZ64, ZZ32) not a singleton: []'.
+- The team's walk refused, by the same check (`OverloadedFunction.java:527` at a874948ac), two generic declarations one inside the other, as `ident[\T extends Shape\](x: T): (T, ZZ32)` beside `ident[\T extends Round\](x: T): (T, ZZ32)`. The tree loads and runs that pair, reading the tuple result element by element in the Return Type Rule: `ProjectFortress/tests/GenericPairTupleReturnWalk.fss`. The reason: the Return Type Rule over every instance (`overloading.tex:555-559`), tuple types being covariant; measured on the base, 'fails the Return Type Rule'.
+- The Working Draft gives a numeral its type and says nothing of where such a type may be written (`Specification-1.0-frozen/basic/expressions/literals.tex:83-129`), and the team's walk read no numeral type written (`BuildEnvironments.java` at a874948ac). The tree's walk refuses at load a numeral type written as a function's result, a variable's or a field's type, or an object's value parameter type, as it does one that a type extends, a `comprises` clause lists or a static argument holds: `ProjectFortress/tests/NumeralTypeReturnTypeWalk.fss`, `NumeralTypeVariableTypeWalk.fss`, `NumeralTypeFieldTypeWalk.fss`, `NumeralTypeObjectParameterWalk.fss`, `NumeralTypeNoValueWalk.fss`. The reason: `Specification/basic/expressions/literals.tex:263-266`, a numeral type written only as a parameter's type, and the compiled checker's refusal of the same forms (`bin/fortress typecheck`: 'NaturalNumeral cannot be written in a program except as a parameter's type.').
+
+#### Provenance
+
+Rows 1125, 1122 and 1124 of the gap ledger; the forks G1, G2 and G3 of `CLIMB-BATCH-36.md`, section 3, defaults the batch takes; P-45 for the declared domains and P-174 for the numeral types; climb batch 36, rung G.
+
+The skill's text that the change makes false, for the writer: `references/interpreter.md`, "How walk evaluates a program", the bullet "A numeral type written as a return type, a variable's or a field's type loads. Walk refuses it only where a numeral is bound at it ... (ledger row 1124)."; `references/revival-changes.md`, "Dispatch and overloading", "In a departure, where two generic dotted methods of one name and parameter count differ only in their static parameters' bounds, walk drops one at load. ... (row 1125)."
+
+### Rung K, `rung-checker-most-specific`: the checker reads self at its trait in every signature and decides a tie by the declared signatures
+
+**The change.** The team's specification gives `self` in a trait with a `comprises` clause the type of the trait met with the listed types, naming no place (`Specification-1.0-frozen/basic/expressions/var-ref.tex:64-69`), and the team's compiled checker read that meet in each functional method's signature (`ProjectFortress/src/com/sun/fortress/compiler/index/FunctionalMethod.java:153-166` at b5a758846d read it plain only for a self type from the F-bound), so a trait's declaration and a listed type's had one domain; it kept the first of a tie among a call's most specific declarations in an order that followed the JVM's identity hashes (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala`, `resolved`, `sorted.headOption`, at b5a758846d, the order from `TopLevelEnv.java:465-466`). The tree now reads `self` at the trait in every signature, the meet in the bodies and the exclusion test (`Specification/basic/expressions/var-ref.tex:64-75`); takes the candidates in the order of their declarations' places; decides a tie by the declared signatures; and refuses a tie that the rules leave, save P-60's and one that the overloading check judges. Tests: `compiler_tests/ComprisesSelfListedTypeCompiled`, `GenericTiesDeclaredCompiled`, `CoverageReturnGenericFamily`. The reason: the definition of "more specific" compares declared parameter types (`Specification/basic/overloading.tex:353-372`); read with the meet, the one library's `QQ` and `Ratio` declarations of `denominator` tied, and the compiled call on `self` failed verification in one JVM and not another, 'VerifyError: Bad type on operand stack' (`explorations/compile-ladder/climb-batch-35/REPAIR-gate.md`, "The site"); on the base `GenericTiesDeclaredCompiled` answered 2 of 12 in one JVM.
+
+**Provenance.** Forks K1 to K8 of the batch record, defaults taken under P-146's ground, the specification's definition of "more specific", P-45 and P-60; climb batch 36, rung K.
+
+### Rung C, `rung-one-library-run-walls`: a generic function's class named with its package, and each method written once
+
+Revival change: none. The change repairs the code generator to do what the specification already says (`Specification/basic/traits.tex`, "Method Declarations": a type's own declaration replaces an inherited one at the same parameter types, and a declaration provided twice is provided once) and to name the library's classes as the code generator names them everywhere else; no rule of the specification, walk or the library changes, and the team's code generator never ran these programs, so no behaviour of the team's that a program relied on is undone.
