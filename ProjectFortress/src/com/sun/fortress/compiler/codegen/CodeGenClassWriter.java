@@ -16,10 +16,14 @@ package com.sun.fortress.compiler.codegen;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.jar.JarOutputStream;
 
 import org.objectweb.asm.*;
+import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.util.*;
 
 import com.sun.fortress.repository.ProjectProperties;
@@ -32,6 +36,22 @@ public class CodeGenClassWriter extends ManglingClassWriter {
 
     private final JarOutputStream jos;
     private final boolean isRoot;
+
+    /*
+     * A class holds one method of each name and descriptor (the JVM's rule; a second one stops
+     * the class as it loads, with ClassFormatError).  The methods that the code generator
+     * writes between startBridges and endBridges are bridges: methods at the signature of a
+     * declaration that the class inherits, which forward to the body that takes the call, and
+     * the dispatch methods among inherited declarations.  Each is held until the class ends
+     * and written there only where no other method of the class has its name and descriptor
+     * and no bridge before it had them.  So the class's own method is written over a bridge at
+     * its own signature, as a declaration of a type below replaces one of a type above at the
+     * same parameter types (Specification/basic/traits.tex, section "Method Declarations"),
+     * and two parents that give one bridge give it once.
+     */
+    private final Set<String> written = new HashSet<String>();
+    private final List<MethodNode> bridges = new ArrayList<MethodNode>();
+    private int bridging = 0;
 
     public CodeGenClassWriter(int flags, JarOutputStream jos) {
         super(flags);
@@ -52,7 +72,7 @@ public class CodeGenClassWriter extends ManglingClassWriter {
         desc = Naming.mangleMethodSignature(desc);
 
         return new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
-                                        super.visitNoMangleMethod(access, name, desc, signature, exceptions));
+                                        visitNoMangleMethod(access, name, desc, signature, exceptions));
     }
 
     public CodeGenMethodVisitor visitCGMethod(int access, String name, String desc, String signature, String[] exceptions) {
@@ -61,7 +81,36 @@ public class CodeGenClassWriter extends ManglingClassWriter {
         desc = Naming.mangleMethodSignature(desc);
 
         return new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
-                                        super.visitNoMangleMethod(access, name, desc, signature, exceptions));
+                                        visitNoMangleMethod(access, name, desc, signature, exceptions));
+    }
+
+    /* The methods written from here to endBridges are bridges (above). */
+    public void startBridges() {
+        bridging++;
+    }
+
+    public void endBridges() {
+        bridging--;
+    }
+
+    public ManglingMethodVisitor visitNoMangleMethod(int access, String name, String desc, String signature, String[] exceptions) {
+        if (bridging > 0) {
+            MethodNode bridge = new MethodNode(Opcodes.ASM9, access, name, desc, signature, exceptions);
+            bridges.add(bridge);
+            return new ManglingMethodVisitor(TRACE_METHODS ? new TraceMethodVisitor(bridge, new Textifier()) : bridge,
+                                             access, name, desc);
+        }
+        written.add(name + desc);
+        return super.visitNoMangleMethod(access, name, desc, signature, exceptions);
+    }
+
+    /* The bridges, each where the class has no method of its name and descriptor yet. */
+    public void visitEnd() {
+        for (MethodNode bridge : bridges)
+            if (written.add(bridge.name + bridge.desc))
+                bridge.accept(cv);
+        bridges.clear();
+        super.visitEnd();
     }
 
     private String dumpClass0( String unmangledFileName ) {

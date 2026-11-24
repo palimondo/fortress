@@ -959,7 +959,7 @@ nameTemp + "\n" +
     
     protected String generateClosureTableOwner(TaggedFunctionName f) {
         //throw new CompilerError("need to determine naming scheme for function instantiated closure tables");
-        return Naming.dotToSep(f.tagA.getText());
+        return NamingCzar.javaPackageClassForApi(f.tagA);
     }
     
     /**
@@ -1418,7 +1418,7 @@ nameTemp + "\n" +
         for (Param p : f.getParameters()) ps.add((Param) p.accept(atT));
         String sig = NamingCzar.jvmSignatureFor(ps,
                 NamingCzar.jvmBoxedTypeDesc(atT.replaceIn(f.getReturnType()), f.tagA), f.tagA);
-        String owner = Naming.dotToSep(f.tagA.getText());
+        String owner = NamingCzar.javaPackageClassForApi(f.tagA);
         String arrow = instanceArrowSchema(f);
         String fname = functionName(f);
         if (otherOverloadKeys.contains(Naming.genericFunctionPkgClass(owner, fname,
@@ -1781,11 +1781,11 @@ nameTemp + "\n" +
                 
                 
                 String templateClass = Naming.genericFunctionPkgClass(
-                        Naming.dotToSep(f.tagA.getText()), functionName, Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
+                        NamingCzar.javaPackageClassForApi(f.tagA), functionName, Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
                 
                 if (otherOverloadKeys.contains(templateClass)) {
                     templateClass = Naming.genericFunctionPkgClass(
-                            Naming.dotToSep(f.tagA.getText()), NamingCzar.mangleAwayFromOverload(functionName), Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
+                            NamingCzar.javaPackageClassForApi(f.tagA), NamingCzar.mangleAwayFromOverload(functionName), Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
                     //templateClass = NamingCzar.mangleAwayFromOverload(templateClass);
                 }
                 

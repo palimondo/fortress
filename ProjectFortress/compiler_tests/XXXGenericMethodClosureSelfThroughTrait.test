@@ -1,0 +1,4 @@
+# The program whose object's generic method holds a closure that reads a getter of self, called through the trait's type, runs: it fails after REACHED while the closure holds self at the trait's type.
+tests=XXXGenericMethodClosureSelfThroughTrait
+run
+run_out_contains=REACHED

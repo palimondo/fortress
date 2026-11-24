@@ -1,0 +1,12 @@
+(* Under the one library's selection, a compiled array1 of ZZ32 written in a seq loop holds the value written at an index. *)
+component OneLibraryArr
+export Executable
+
+run(): () = do
+  a = array1[\ZZ32, 8\]()
+  for i <- seq(0#8) do a[i] := i i end
+  assert(a[5] = 25, "a[5] is 5 5")
+  println("PASS")
+end
+
+end

@@ -1,0 +1,5 @@
+# The program that compares strings and booleans by = and orders strings by <, compiled under the one library's selection, runs and passes its checks.
+tests=OneLibraryStringEquality
+compile
+run
+run_out_contains=PASS

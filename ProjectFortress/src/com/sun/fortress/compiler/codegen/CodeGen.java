@@ -1157,8 +1157,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 		    }
 		}
 		if (!alreadyThere) {
+		    /* A forwarder to an inherited body, where no method of the class has its
+		     * name and descriptor, as the class's own (CodeGenClassWriter). */
+		    cw.startBridges();
 		    generateForwardingFor(fnl, inst, currentTraitObjectType, tupTrait); // swapped
 		    generateForwardingFor(fnl, fnl, true, inst, currentTraitObjectType, tupTrait, false); // swapped
+		    cw.endBridges();
 		}
 	    }
         }
@@ -1228,12 +1232,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> f : first.secondSet())
             viaFirst.add(f._1());
         Set<Functional> bridged = Collections.newSetFromMap(new java.util.IdentityHashMap<Functional, Boolean>());
+        /* Each bridge where no method of the class has its name and descriptor (CodeGenClassWriter). */
+        CodeGenClassWriter bridgesTo = cw;
+        bridgesTo.startBridges();
         for (scala.Tuple5<Functional, StaticTypeReplacer, TraitType, Functional, TraitType> t : hidden) {
             if (typeAnalyzer.equiv(t._5(), tt) || viaFirst.contains(t._4()) || !bridged.add(t._1()))
                 continue;
             checkOverrideCompilable(t._1(), t._2(), t._4(), new OverloadingOracle(typeAnalyzer));
             generateForwardingFor(t._1(), t._4(), false, t._2(), tt, tt, true);
         }
+        bridgesTo.endBridges();
     }
 
     /*
@@ -5325,11 +5333,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         
             
         debug("Dump overloaded method chaining for ", x);
+        /* The bridges from inherited declarations and the dispatch methods among them, each
+         * where the object's own methods leave its name and descriptor free (CodeGenClassWriter). */
+        CodeGenClassWriter bridgesTo = cw;
+        bridgesTo.startBridges();
         Map<IdOrOpOrAnonymousName, MultiMap<Integer, Functional>> overloads = dumpOverloadedMethodChaining(superInterfaces, false);
         if (OVERLOADED_METHODS)
             typeLevelOverloadedNamesAndSigs =
                 generateTopLevelOverloads(thisApi(), overloads, typeAnalyzer, cw,
                         this, new OverloadSet.TraitOrObjectFactory(Opcodes.INVOKEVIRTUAL, cnb, this));
+        bridgesTo.endBridges();
         debug("End of dump overloaded method chaining for ", x);
        
         debug("Process declarations for ", x);
@@ -6098,6 +6111,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
         // Overloads will tell us which methods need forwarding,
         // but they don't yet.
+        /* The bridges from inherited declarations and the dispatch methods among them, each
+         * where the trait's own methods leave its name and descriptor free (CodeGenClassWriter). */
+        CodeGenClassWriter bridgesTo = newcg.cw;
+        bridgesTo.startBridges();
         Map<IdOrOpOrAnonymousName, MultiMap<Integer, Functional>> overloads =
             newcg.dumpOverloadedMethodChaining(superInterfaces, true);
         
@@ -6105,6 +6122,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             newcg.typeLevelOverloadedNamesAndSigs =
                 generateTopLevelOverloads(thisApi(), overloads, newcg.typeAnalyzer, newcg.cw, newcg,
                         new OverloadSet.TraitOrObjectFactory(Opcodes.INVOKEINTERFACE, cnb, newcg));
+        bridgesTo.endBridges();
                 
         newcg.dumpTraitDecls(header.getDecls());
         newcg.dumpMethodChaining(superInterfaces, true);

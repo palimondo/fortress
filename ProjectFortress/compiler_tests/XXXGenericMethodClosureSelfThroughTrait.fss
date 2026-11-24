@@ -1,0 +1,22 @@
+(* A closure in an object's generic method reads a getter of self, and the method is called through a value of the trait's type. *)
+component XXXGenericMethodClosureSelfThroughTrait
+export Executable
+
+trait Gen[\T\]
+  gen[\R\](f: T -> R): R
+end
+
+object Holder(g0: ZZ32) extends Gen[\ZZ32\]
+  getter g(): ZZ32 = g0
+  gen[\R\](f: ZZ32 -> R): R = (fn (k: ZZ32): R => f(self.g))(7)
+end
+
+viaTrait(p: Gen[\ZZ32\]): ZZ32 = p.gen[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1)
+
+run(): () = do
+  println("REACHED")
+  assert(viaTrait(Holder(5)) = 6, "the closure reads the getter of self")
+  println("PASS")
+end
+
+end

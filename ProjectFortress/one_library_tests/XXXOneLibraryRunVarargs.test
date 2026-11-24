@@ -1,4 +1,4 @@
-# The program of varargs functions, compiled under the one library's selection, runs: it fails after REACHED while the template class of ImmutableArray1 holds its copy twice.
+# The program of varargs functions, compiled under the one library's selection, runs: it fails after REACHED while println of a number names the api's declaration at Number, which the component implements only at Any.
 tests=OneLibraryVarargsCount
 run
 run_out_contains=REACHED

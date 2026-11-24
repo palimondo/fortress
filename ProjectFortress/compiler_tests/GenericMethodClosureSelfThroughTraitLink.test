@@ -1,0 +1,3 @@
+# The program whose object's generic method holds a closure that reads a getter of self, called through the trait's type, links.
+tests=XXXGenericMethodClosureSelfThroughTrait
+link

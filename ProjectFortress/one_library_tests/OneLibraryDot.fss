@@ -1,0 +1,18 @@
+(* Under the one library's selection, the dot product of two compiled array1 of RR64, filled in a loop and summed in a seq loop, is exact. *)
+component OneLibraryDot
+export Executable
+
+run(): () = do
+  a = array1[\RR64, 1000\]()
+  b = array1[\RR64, 1000\]()
+  for i <- seq(0#1000) do
+    a[i] := asFloat(i)
+    b[i] := 1.0
+  end
+  s: RR64 := 0.0
+  for i <- seq(0#1000) do s += a[i] b[i] end
+  assert(s = 499500.0, "the dot product of 0 to 999 with ones")
+  println("PASS")
+end
+
+end
