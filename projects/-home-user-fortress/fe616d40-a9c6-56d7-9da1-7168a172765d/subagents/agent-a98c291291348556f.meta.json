@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout 1: FACTS growth by source","toolUseId":"toolu_01M2qb93XR7VGWWac2iUcoGn","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout 1: FACTS growth by source","toolUseId":"toolu_01M2qb93XR7VGWWac2iUcoGn","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-2","finished":true}
