@@ -11603,3 +11603,21 @@ closed by 3a0bae976
 rewritten
 
 | 1138 | on the compiled path a narrowing bridge in a generic trait's class forwards to the trait's own method at a descriptor where a parent's binding of a static parameter of the same name replaces the trait's own: a call at the parent's signature dies, 'NoSuchMethodError', as `copy` of a `Vector` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | ProjectFortress/compiler_tests/XXXNarrowingBridgeTargetParameterName.test | climb batch 36 rung C | siblings: 1091, 643. `Par[\T extends Par[\T,E\], E\]` gives `tab(f: ZZ32 -> E): T` a body; `Ar[\T\] extends Par[\Ar[\T\], T\]`; `Vc[\T\] extends Ar[\T\]` narrows `tab` to `Vc[\T\]`. Ar's `cp` calls `self.tab` on a `Vco[\ZZ32\]`, and Vc's class of default methods calls `Vc⟦ZZ32⟧.tab(Arrow⟦ZZ32,Ar⟦ZZ32⟧⟧)` answering `Vc⟦Ar⟦ZZ32⟧⟧`, on b5a758846d and after rung C; with Vc's parameter named `U` it runs. `Vector`'s bridge for `StandardMutableArrayType`'s `tabulate` (`Library/FortressLibrary.fss:2576`, `:2791`) does the same. Walk runs both. Workaround: name the trait's parameter apart from the parent's. |
+
+### Row 1136
+
+rewritten
+
+| 1136 | the compiled checker keeps with no error the first by place of a tie that no rule decides among the unit's own declarations, a set its overloading check accepts, and refuses the same call of them from an api, 'Ambiguous call': two generic declarations at excluding bounds, at a type bounded by both | CONTESTED | implementation gap (checker) | `basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/GenericTieInUnitFirstByPlace.test` | climb batch 36 rung K's skeptic | siblings: 935, 391. `head`'s branch `top.forall(ofThisUnit)` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:1196-1198` at 8f5f1912ab) leaves such a tie to the overloading check, which accepts `f[\T extends A\](x: T)` beside `f[\T extends B\](x: T)` for `trait A excludes B`; through an api, `XXXGenericTieImportedAmbiguous`: 'Ambiguous call to function f: ... T->ZZ32; T->String.' Fork K3 of climb batch 36 makes a tie that the rules leave a static error; the section speaks of the dynamic call only. Open: the error in the unit too, or the first kept. |
+
+### Row 879
+
+rewritten
+
+| 879 | the compiled checker reads `self` as `C[\X\] & X` in the signatures of a trait whose `comprises` clause lists its own type parameter, so a subtrait's … | FIXED | implementation gap (checker) | basic/expressions/var-ref.tex, "Identifier References" | `ProjectFortress/compiler_tests/ComprisesOwnParameterNarrowedReturn.test` | self-type idiom probe | fixed `da5f70777`; settled by fork K1 of climb batch 36, a default: self at its plain trait type in each signature, comprises T included (review-queue item 621); full text: history, row 879 |
+
+### Row 779
+
+rewritten
+
+| 779 | under walk, two generic functional methods of a trait or object without static parameters, one inside the other, are refused at load, 'fails the Meet Rule': `which[\T extends Shape\](self, x: T)` beside `which[\U extends Round\](self, x: U)`; the same two top-level functions load | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericFunctionalMethodsNestedWalk.fss` | climb batch 18 rung W | siblings: 723, 724, 765, 780. The same declared in an object, or with `T` unbounded; in a trait with static parameters the pair loads, and a call fails (780). The two are own generics read by `genericPairValid` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:960` at c124c6b65), whose `instanceHolding` (`:2573`, called at `:967-968`) finds neither domain inside the other; not traced further. The compiled path stops at compile with row 724's 'ClassCastException: ... FunctionalMethod cannot be cast to ... Method'. |
