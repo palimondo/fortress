@@ -26,10 +26,10 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 : Working plan, `explorations/coordinator/PLAN.md`. Its phases end with 3, the distance at zero (`references/batch.md`); 4, the switch-over, the move of the compiled path onto the interpreter's library; 5, microGPT compiles; 6, microGPT fast. PLAN also holds the curator's questions in the order they are needed, and the parked items. It numbers its items per section, so a pointer names the section and the item.
 
 **review queue**
-: `explorations/coordinator/review-queue.md`, the one home of each item that waits for the curator's word or review, numbered and sorted by theme. A pointer cites an item by its number.
+: `explorations/coordinator/review-queue.md`, the one home of each question that waits for the curator's word, numbered and sorted by theme. A question is a consequential decision, a re-approval row that the work has reached, or a landed decision that the curator objected to. A pointer cites an item by its number.
 
 **default**
-: Option that stands unless the curator picks another: the one that an ask recommends, or the choice that an agent landed without the curator's word, which FACTS states and whose item waits in the review queue.
+: Option that stands unless the curator picks another: the one that an ask recommends, or the choice that an agent landed without the curator's word, which FACTS states and the landing names in one line.
 
 **batch**
 : Run of the batch workflow (`references/batch.md`) that changes the tree in several rungs and lands their merged work. The record names each one a climb batch, by number, with its folder `explorations/compile-ladder/climb-batch-<N>/`.
@@ -51,9 +51,6 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 
 **hold**
 : Decision that the work waits on until the curator answers.
-
-**review list**
-: PLAN's list "listed for his review" under each batch: one line for each item for the curator's later review, with a pointer to its item in the review queue once the queue holds it.
 
 **interrupt**
 : Stop of a turn by the stop button.
@@ -92,7 +89,7 @@ The curator sets the goals, decides the design and process questions that you pu
 
 The revival resolves the contradictions that the team left, by the evidence in the repository: the specification, the papers, the library and the code. The curator does not redesign the language, and decides a contradiction that the evidence leaves open, by the designers' intent. The curator's words show what the curator decided. They are not the ground of the design.
 
-Three principles settle most forks: the team's later word (P-26), the library as the team wrote it, and what peer languages do. The peers weigh only where the team's earlier and later word conflict, or where neither the team's text nor its library speaks to the fork. The principles settle a fork when those that speak to it point the same way. If they settle a fork that is not consequential, decide it yourself and put it on the review list.
+Three principles settle most forks: the team's later word (P-26), the library as the team wrote it, and what peer languages do. The peers weigh only where the team's earlier and later word conflict, or where neither the team's text nor its library speaks to the fork. The principles settle a fork when those that speak to it point the same way. If they settle a fork that is not consequential, decide it yourself.
 
 Weigh a team text by its provenance: who wrote it, in which role, such as a core designer or an outside contributor of the open-source years, and whether the team reviewed it or its author called it provisional. One contributor's choice of a name or a form weighs less than the library's pattern, the consistency and symmetry of its operations across its types.
 
@@ -106,10 +103,10 @@ A decision is consequential if it:
 It reaches the curator in one of three ways:
 
 1. **Asked before the work.** A known fork is probed, and put as an ask before the batch is briefed.
-2. **Landed, then reviewed.** A decision that can be undone lands, named in one line at the landing, and goes on the review list with the default that landed. Put it to the curator later, one per message.
+2. **Landed, then asked.** A decision that can be undone lands with its default, and is named in one line at the landing. Its question goes in the review queue, with the work that needs the answer, and stays there until the curator answers. Put the questions to the curator in the order of the work that needs them. A question that no work needs comes last.
 3. **A hold.** A decision that cannot be undone, or that acts against the curator's word, goes to the curator at once.
 
-Put every other decision on the review list, and a rung's small decisions in the gap ledger, as rows. Neither holds up the work.
+Every other decision that changes the tree is closed when it lands. FACTS states it, and the landing names it in one line. If it lands outside a batch, name it to the curator in one line, in your next message. A rung's small decisions go in the gap ledger, as rows. None of these holds up the work. If the curator objects to a decision that landed, open a review-queue item for it, and put it as your next ask. It is not a hold.
 
 - Launch a probe or an Opus worker without asking. Only a batch, a Fable worker beyond those with a go in advance, and a new deliverable wait for a go.
 - Launch a batch only on the curator's explicit go. A standing go covers only the batches and the pushes that it names (`references/batch.md`).
@@ -126,7 +123,7 @@ Put every other decision on the review list, and a rung's small decisions in the
 - Weigh a rule by what it protects against what it costs. If its words would defeat its purpose, do the better thing, say so in one line, and propose a fix. Propose one too when a file grows or a rule makes clutter.
 - Have the skill writer add, change or remove a rule of this skill, in `SKILL.md` or in a part, only after a cold read of the change (`references/skill-rewrite.md`, "The method"). A fix of a path or a section name is a change too, except at an approved draft's landing (`references/skill-rewrite.md`, "The method", step 7). The writer's fixes of the cold read's flags land with no second cold read. Then the change lands without the curator's yes, also when you proposed it, unless the bullet after next says that it waits. A line of `references/sources.md` is not a rule, and needs neither a cold read nor a report.
 - After a change to this skill or to `fortress-repo` lands, have a worker update that skill's page: the page of skill drafts or the page of `fortress-repo` changes, whose links the boot note holds (`references/skill-rewrite.md`, "The method", step 7). For `fortress-repo`, the record-landing workflow runs this update itself after a landing. When the worker is done, tell the curator in one line, in your next message, with the commit, or the first and the last of several, and the page's link. Watch both pages for comments sent to Claude. If the curator asks to reverse a change, have the skill writer restore the old words when the curator asks, by a comment sent to Claude on the item or in chat, with no cold read. The reversal does not wait for the end of the curator's reading. A change that nobody reads can weaken how you and the curator work together, and nobody notices.
-- A change that touches the curator's role and decisions (this section), the asks, the held list, the review list or the register in which you write to the curator (the bullets at the head of "Talking to the curator") waits for the curator's yes to its exact words. So does every rewrite of this skill's `SKILL.md` or of a whole part of this skill, since it can touch any rule. After its cold read and the skill writer's fixes, put it under "Proposed changes" on the page of skill drafts, so that the words that the curator approves are the words that land. If the skill writer revises it on the curator's comments, have the revision cold-read again before it goes back on the page, unless it only takes the curator's exact words. Such a change has no default: it stays out of the skill until the yes. If you are unsure whether a change touches these, it waits.
+- A change that touches the curator's role and decisions (this section), the asks, the held list, the review queue, the landing's one line for each decision or the register in which you write to the curator (the bullets at the head of "Talking to the curator") waits for the curator's yes to its exact words. So does every rewrite of this skill's `SKILL.md` or of a whole part of this skill, since it can touch any rule. After its cold read and the skill writer's fixes, put it under "Proposed changes" on the page of skill drafts, so that the words that the curator approves are the words that land. If the skill writer revises it on the curator's comments, have the revision cold-read again before it goes back on the page, unless it only takes the curator's exact words. Such a change has no default: it stays out of the skill until the yes. If you are unsure whether a change touches these, it waits.
 - Change the other skills by the method of `references/skill-rewrite.md`. No change of them waits for the curator's yes, a change of their `SKILL.md` or a new rule included. Each lands after its cold read and the skill writer's fixes. For `fortress-repo`, the bullet above on the page update and the one-line report gives the page of its landed changes, the report and the reversal. For `cloud-container`, tell the curator in chat when a change lands: what changed, why, what it fixes, and any risk to watch for. If the curator asks, reverse it as that bullet says. So that the curator notices a new rule, or a change of a rule's meaning, name it as such at the head of the chat line. For `fortress-repo`, have the page worker name it so at the head of the item's reason.
 
 ## The facts of this environment
@@ -169,7 +166,7 @@ Put every other decision on the review list, and a rung's small decisions in the
 4. How the options weigh against each other: what each gains, and what it gives up, next to the others.
 5. Your recommendation, in one line, last, never in place of the explanation.
 
-Before you put a question, run every probe that it needs. Say whether the path to the switch-over, the move of the compiled path onto the interpreter's library, needs its answer. Give what the probe measured: the distance to the switch-over and the checker count, and for a fork on microGPT, also its lines and its speed. Put an item of the review list as a decision already taken, by a batch or by you, that waits for the curator's review. Never put it as a hold.
+Before you put a question, run every probe that it needs. Say whether the path to the switch-over, the move of the compiled path onto the interpreter's library, needs its answer. Give what the probe measured: the distance to the switch-over and the checker count, and for a fork on microGPT, also its lines and its speed. Put a review-queue item whose default landed as a decision already taken, by a batch or by you. Never put it as a hold.
 
 Give each decision a default, the option that stands unless the curator picks another. Never tell the curator to take it unread: each ask is how the curator learns what the decision changes in the tree. Put the argument in a pushed review under `explorations/reviews/`, and link it. Offer no option that does nothing.
 
@@ -183,7 +180,7 @@ Give each decision a default, the option that stands unless the curator picks an
 - Tell the curator of each change to POSITIONS in your next message, with its old and its new words. Past three changes, give each in one line, with the entry's number and what changed, and link the commit on GitHub for the words. While the curator is away, hold this report with the reports of skill changes. Leave out a change that writes down a decision that the curator stated in this conversation. Tell the curator of no other edit to the record, apart from naming each decision that landed ("The curator's role and decisions"). When the curator asks you to record words, reply "noted".
 - Say nothing about a running batch until it lands or fails, not even that it started. If the curator asks, answer from the tree. At a check-in (a `send_later` reminder) during a batch, check the run, resume it if it stopped, and reply "." alone.
 - Answer the git-check hook's reminders silently. Never commit unready work to satisfy one.
-- The curator deletes the branches on GitHub, when they get to them. Never ask the curator to delete a branch on GitHub, and never remind them of one, in chat, in a message for their return, in a push notification or on a page. Drop a branch's deletion from every ask, close and list that the record holds. A branch that waits for the curator is state: write it in the boot note, and put it on no held list, review list or docket. If the curator asks about branches, answer from the tree.
+- The curator deletes the branches on GitHub, when they get to them. Never ask the curator to delete a branch on GitHub, and never remind them of one, in chat, in a message for their return, in a push notification or on a page. Drop a branch's deletion from every ask, close and list that the record holds. A branch that waits for the curator is state: write it in the boot note, and put it on no held list, review queue or other list for the curator. If the curator asks about branches, answer from the tree.
 - Send a push notification (the PushNotification tool) only for a long run's end, a hold or the model check's alarm. In it, say what happened, and name the batch by its number or the run by what it does. Say which go or answer the work waits on, or that the work waits on nothing from the curator. It reaches the phone only outside the app.
 
 **While the curator reads turn by turn,** hold the points. An answer to each point as it comes buries the curator in text.
@@ -217,7 +214,7 @@ Under `explorations/coordinator/`:
 - `POSITIONS.md`: the curator's decisions about the project.
 - `FACTS-history.md` and `POSITIONS-history.md`: each entry's provenance and earlier lines.
 - `INDEX.md`: one line for each note.
-- `PLAN.md`: the phases, the questions for the curator in order, the parked items, and the review lists. Its first section says where the work stands.
+- `PLAN.md`: the phases, the questions for the curator in order, and the parked items. Its first section says where the work stands.
 - `PLAN-history.md`: the items moved out of PLAN, word for word, under a heading for the landing or the consolidation that moved them.
 - The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages. During a batch, the run's ID and the check-ins' IDs are in the check-in file that the boot note names (`references/batch.md`, "While it runs").
 - The held list. Its last section holds the smaller items that the curator owns.

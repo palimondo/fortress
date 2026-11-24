@@ -6,7 +6,7 @@
 : Order in which a fork is answered from the evidence: (1) what the mathematics says; (2) what each path does today, measured; (3) what the specification says under every spelling; (4) what the library does in the same family; (5) where the designers departed from Java; (6) what peer languages and their implementations do; (7) what the commits say; (8) the derivation from the curator's principles in POSITIONS; (9) the decision, yours or the curator's (`SKILL.md`, "The curator's role and decisions"). Steps 3, 5 and 7 give the team's word, step 4 the library, and step 6 the peers; the order sets no precedence. `SKILL.md` gives the peers their place.
 
 **re-approval rows**
-: Earlier decisions put to the curator again, parked in PLAN, "Off the path, parked".
+: Earlier decisions put to the curator again, parked in PLAN, "Off the path, parked". When the work reaches one, it gets a review-queue item.
 
 ## Procedures
 

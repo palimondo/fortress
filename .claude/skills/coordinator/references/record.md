@@ -19,7 +19,7 @@ An entry reads on its own. A reader who knows the language, or can look it up in
 - A POSITIONS entry holds, after its number and a bold title: what the curator decided about the project, and why, in one or two sentences; where it applies; and what it requires of the work. It may point to a fact that it rests on, in the sentence that needs it. `P-48+` finds every fact that points to it.
 - A POSITIONS entry states the curator's meaning in the record's register, and every fact in it is correct. It is the smallest text from which a fresh worker or coordinator, with the skills loaded, decides right. Workers and you decide by it where the curator is not asked, so a wrong premise in it spreads to each of those decisions.
 - Give as an entry's reason the ground of its own case, such as the specification's text, the library's code or a measurement. Never give a rule that holds for every decision, such as the team's later word (P-26).
-- POSITIONS holds only the curator's decisions. A choice that a worker made and landed without the curator's word is a fact about the tree. Its FACTS entry says that a worker chose it, and its review-queue item names that entry.
+- POSITIONS holds only the curator's decisions. A choice that a worker made and landed without the curator's word is a fact about the tree. Its FACTS entry says that a worker chose it. If the choice is consequential, its review-queue item names that entry.
 - An entry states the present, or what holds for all time. It holds no plan and no status: no state words such as "Built." or "Still to build:", no PLAN phase or item, no review-queue item, and no words that it waits for the curator's review. PLAN and the review queue name the entries that their items concern.
 - If the tree does not yet do what a decision or the team's design asks, the missing part is a row of the gap ledger. The entry may name it as "row N", with a few words on what the row holds. In an entry, "row N" always names a row of the gap ledger.
 - A pointer that stays in an entry carries a few words on what it holds, such as a ledger row's subject. A bare list of numbers goes to the history.
@@ -99,7 +99,7 @@ A consolidation runs the pass over whole sections. After a batch lands, the reco
 
 ## The consolidation tools
 
-Four Workflow scripts keep the record and the worker skill current and readable. Each one's README says how to run it and what to do with its output. Give a run only its arguments and the input files that its README names. Add no rules of your own over the tool's briefs, and change the briefs only where its README says to, such as their paths. If the briefs do not fit the job, propose their change to the curator. Put the open questions of the runs on the review queue.
+Four Workflow scripts keep the record and the worker skill current and readable. Each one's README says how to run it and what to do with its output. Give a run only its arguments and the input files that its README names. Add no rules of your own over the tool's briefs, and change the briefs only where its README says to, such as their paths. If the briefs do not fit the job, propose their change to the curator. Decide the open questions of the runs as any decision: only a consequential one goes in the review queue.
 
 Pick the tool by the job:
 

@@ -90,7 +90,7 @@ A long writing pass, such as a run of the record or ledger clarity workflow, rew
 - Before the launch, write each run's exact arguments into a `runs.json` file in the pass's folder, and name that file in the boot note. After the launch, add each run's ID to it.
 - The script resumes a stream while its context is small and its prompt cache is warm. Its header gives the limits. Otherwise it starts a fresh session.
 - So the round that fixes a chunk after its checks resumes the session that wrote it, with its evidence still in the cache. A fresh writer would read everything again.
-- End each round with one judge. For each item that a chunk's checks raise, it rules apply or hold, and writes the held items for the review queue. No chunk goes through a second fix round.
+- End each round with one judge. For each item that a chunk's checks raise, it rules apply or hold, and lists the held items for you. Decide each as any decision: only a consequential one goes in the review queue. No chunk goes through a second fix round.
 - Only you write the record files, so the runs do not conflict.
 - As each run ends, apply its judged chunks to the record, check the record, commit and push, by "After a chunk" in the workflow's README. Then take the next run that has ended.
 - If a chunk splits or merges an entry that another chunk also changes, apply that chunk first.
