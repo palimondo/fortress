@@ -66,7 +66,7 @@ Until the switch-over lands, the gate of every batch reports the checker count a
 
 ## Reserved points and repairs
 
-- A reversible reserved point does not hold the batch. The batch lands with the point's default, and the point is named in one line at the landing. If the point is consequential, such as a line of microGPT, its question also goes in the review queue. A point that is no decision, such as an output that a rung cannot explain, becomes a ledger row.
+- A reversible reserved point does not hold the batch. The batch lands with the point's default. If the point is consequential, such as a line of microGPT, its question also goes in the review queue. A point that is no decision, such as an output that a rung cannot explain, becomes a ledger row.
 - An output that the base already varies from run to run, with the test's verdict unchanged, is a ledger row.
 - After its one repair round, a merged-diff review that still blocks does not hold a batch whose gate is green. Give its findings to the post-batch reviewer ("The landing", step 3). The reviewer puts them in its list for the batch after: the part of its review that the next planner reads. The review runs once in each batch.
 - A repair after the gate runs the gate again only if it changes what the gate reads (its part in `fortress-repo`).

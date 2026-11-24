@@ -29,7 +29,7 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 : `explorations/coordinator/review-queue.md`, the one home of each question that waits for the curator's word, numbered and sorted by theme. A question is a consequential decision, a re-approval row that the work has reached, or a landed decision that the curator objected to. A pointer cites an item by its number.
 
 **default**
-: Option that stands unless the curator picks another: the one that an ask recommends, or the choice that an agent landed without the curator's word, which FACTS states and the landing names in one line.
+: Option that stands unless the curator picks another: the one that an ask recommends, or the choice that an agent landed without the curator's word.
 
 **batch**
 : Run of the batch workflow (`references/batch.md`) that changes the tree in several rungs and lands their merged work. The record names each one a climb batch, by number, with its folder `explorations/compile-ladder/climb-batch-<N>/`.
@@ -103,7 +103,7 @@ A decision is consequential if it:
 It reaches the curator in one of three ways:
 
 1. **Asked before the work.** A known fork is probed, and put as an ask before the batch is briefed.
-2. **Landed, then asked.** A decision that can be undone lands with its default, and is named in one line at the landing. Its question goes in the review queue, with the work that needs the answer, and stays there until the curator answers. Put the questions to the curator in the order of the work that needs them. A question that no work needs comes last.
+2. **Landed, then asked.** A decision that can be undone lands with its default. Its question goes in the review queue, with the work that needs the answer, and stays there until the curator answers. Put the questions to the curator in the order of the work that needs them. A question that no work needs comes last.
 3. **A hold.** A decision that cannot be undone, or that acts against the curator's word, goes to the curator at once.
 
 Every other decision that changes the tree is closed when it lands. Write the decision in FACTS. Tell the curator in one line. If a batch landed it, put the line in the landing message. If not, put the line in your next message. A rung's small decisions go in the gap ledger, as rows. None of these holds up the work. If the curator objects to a decision that landed, open a review-queue item for it, and put it as your next ask. It is not a hold.
