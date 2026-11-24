@@ -148,6 +148,12 @@ The list: the 209 programs of `ProjectFortress/tests/` that `explorations/compil
 
 The 81 that pass all pass under the one library, and none under the prelude; they join the gate's list under `one`, which grows from 197 to 278 lines (76 to 157 under the one library). Of the 128 that still fail under the one library, none dies of a method held twice or of the bare name `FortressLibrary` (`grep -l 'Duplicate method' .../suite/one/raw/tests/*.run` and `grep -l 'NoClassDefFoundError: FortressLibrary$'` print nothing); their reasons in `verdicts.tsv`, not traced here, hold (a grep each, so a line can count twice) `NoClassDefFoundError` 32 times (16 of the classes are a size's, as `n#82$RTTIc`), `AbstractMethodError` 25, 'Unable to read serialized data' 12, `NoSuchMethodError` 11, `ClassCastException` 9, `VerifyError` 9, `IncompatibleClassChangeError` 5, and 'compiled, not refused as its .test names' 5. The EXIT=1 of the run is its own rule for a listed program that fails: every line of this list was a candidate.
 
+A guard beside it, not asked by the brief: the 197 programs that the gate's list held at the base, each under its library, on `7c7b040927`'s code, so that no listed program fails at the gate by this change:
+
+    explorations/coordinator/tools/suite-compiled/run.sh tmp/rung-one-library-run-walls/listed-base.tsv - tmp/rung-one-library-run-walls/suite2 tmp/rung-one-library-run-walls/suite2-out      (listed-base.tsv: git show b5a758846d:explorations/compile-ladder/gate/suite-compiled.tsv)
+    LISTED	197	PASS 197	FAIL 0	LEAVES 0	GONE 0
+    EXIT=0
+
 ## The stages
 
 None, as the section has it: the edit changes the code generator and its class writer, and neither the count stage nor the distance stage runs the code generator. Files, for `STAGE_BLIND`: `ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java`, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java`, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java`, `Specification/appendices/changes.tex`, `explorations/compile-ladder/gate/suite-compiled.tsv`, the tests under `ProjectFortress/one_library_tests/` and `ProjectFortress/compiler_tests/` below, and this folder.
