@@ -1203,10 +1203,11 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
     /**
      * Refuses a program that writes a numeral type, NaturalNumeral or
      * RadixPointNumeral, as a type that a trait, an object or an object
-     * expression extends, as a type that a trait's comprises clause lists, or
-     * as a static argument: a numeral type is written only as a parameter's
-     * type (literals.tex, "Literals").  The libraries' own components declare
-     * the numeral types and are not read.
+     * expression extends, as a type that a trait's comprises clause lists, as
+     * a static argument, or in a return type, a variable's or a field's type,
+     * an object's value parameters among the fields: a numeral type is written
+     * only as a parameter's type (literals.tex, "Literals").  The libraries'
+     * own components declare the numeral types and are not read.
      */
     public static void checkNumeralTypesWritten(List<? extends CUWrapper> units) {
         for (CUWrapper u : units) {
@@ -1232,8 +1233,42 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
                     }
                     super.forTraitDecl(that);
                 }
+
+                @Override
+                public void forFnHeader(FnHeader that) {
+                    if (that.getReturnType().isSome()) refuseNumeralTypesIn(that.getReturnType().unwrap());
+                    super.forFnHeader(that);
+                }
+
+                @Override
+                public void forLValue(LValue that) {
+                    if (that.getIdType().isSome()) refuseNumeralTypesIn(that.getIdType().unwrap());
+                    super.forLValue(that);
+                }
+
+                @Override
+                public void forObjectDecl(ObjectDecl that) {
+                    if (that.getHeader().getParams().isSome()) {
+                        for (Param p : that.getHeader().getParams().unwrap()) {
+                            if (p.getIdType().isSome()) refuseNumeralTypesIn(p.getIdType().unwrap());
+                            if (p.getVarargsType().isSome()) refuseNumeralTypesIn(p.getVarargsType().unwrap());
+                        }
+                    }
+                    super.forObjectDecl(that);
+                }
             });
         }
+    }
+
+    /** Refuses each numeral type written in the type, or the pattern, n. */
+    private static void refuseNumeralTypesIn(Node n) {
+        n.accept(new NodeDepthFirstVisitor_void() {
+            @Override
+            public void forTraitType(TraitType that) {
+                refuseNumeralType(that);
+                super.forTraitType(that);
+            }
+        });
     }
 
     private static void refuseNumeralType(Type t) {

@@ -1,0 +1,17 @@
+(* An object's generic dotted method bounded by its own component's type beside an inherited one bounded by an api's type of the same simple name is an overload, not a redeclaration, and each call runs the declaration whose bound holds its argument (traits.tex, section "Method Declarations"; overloading.tex, section "Declarations with Static Parameters"). *)
+component XXXGenericMethodBoundSameNameWalk
+import BoundSameNameTrait.{Wd, fooHere}
+export Executable
+
+object Foo end
+
+object Obj extends Wd
+    m[\U extends Foo\](y: U): ZZ32 = 2
+end
+
+run(): () = do
+    assert(Obj.m(Foo), 2, "this component's Foo takes the object's declaration")
+    assert(Obj.m(fooHere()), 1, "the api's Foo takes the trait's declaration")
+end
+
+end

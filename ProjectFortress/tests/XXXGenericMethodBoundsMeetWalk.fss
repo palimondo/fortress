@@ -1,0 +1,19 @@
+(* Generic dotted methods of one name whose static parameters differ only in their bounds, neither declared domain inside the other's, are a valid overloading where a third covers their overlap, and each call runs the most specific declaration whose bounds hold its arguments (overloading.tex, section "Declarations with Static Parameters"). *)
+component XXXGenericMethodBoundsMeetWalk
+export Executable
+
+object Meet
+    m[\A extends ZZ32, B extends Number\](x: A, y: B): ZZ32 = 1
+    m[\A extends Number, B extends ZZ32\](x: A, y: B): ZZ32 = 2
+    m[\A extends ZZ32, B extends ZZ32\](x: A, y: B): ZZ32 = 3
+end
+
+run(): () = do
+    n: ZZ32 = 5
+    w: ZZ64 = 6
+    assert(Meet.m(n, w), 1, "a ZZ32 and a ZZ64 take the declaration whose first bound is ZZ32")
+    assert(Meet.m(w, n), 2, "a ZZ64 and a ZZ32 take the declaration whose second bound is ZZ32")
+    assert(Meet.m(n, n), 3, "two ZZ32 take the declaration that covers the overlap")
+end
+
+end

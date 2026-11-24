@@ -1,0 +1,14 @@
+(* A numeral type is written only as a parameter's type: one written as a local variable's type is refused at load, whether or not a numeral meets it. *)
+component NumeralTypeVariableTypeWalk
+export Executable
+
+unused(): ZZ32 = do
+    k: NaturalNumeral[\1, 10, 3\] = 3
+    7
+  end
+
+run(): () = do
+    println("REACHED: a numeral type is a local variable's type")
+  end
+
+end

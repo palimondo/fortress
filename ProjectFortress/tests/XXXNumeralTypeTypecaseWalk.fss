@@ -1,0 +1,15 @@
+(* A numeral type is written only as a parameter's type: one written as a typecase arm's type is refused at load, whether or not the arm is reached. *)
+component XXXNumeralTypeTypecaseWalk
+export Executable
+
+pick(z: Any): ZZ32 =
+    typecase z of
+        NaturalNumeral[\1, 10, 3\] => 1
+        Any => 2
+    end
+
+run(): () = do
+    println("REACHED: a numeral type is a typecase arm's type")
+  end
+
+end

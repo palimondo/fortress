@@ -786,6 +786,9 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * own generic and a functional method of a generic trait, without static
      * parameters of its own, is read as two own generics are, the trait's
      * static parameters standing for the method's own (traitMethodPairValid).
+     * A pair of two generic dotted methods' symbolic instances, one of whose
+     * declared domains lies inside the other's, is read as two own generics
+     * are (methodPairValid).
      * The reading names the rule that refuses the pair, or says that the
      * pair is not read on its declared domains.
      */
@@ -793,6 +796,9 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         SingleFcn f1 = o1.getFn();
         SingleFcn f2 = o2.getFn();
         if (ownGeneric(f1) && ownGeneric(f2)) return genericPairValid(o1, o2, all);
+        if (DottedMethodApplication.isSymbolicInstance(f1) && DottedMethodApplication.isSymbolicInstance(f2)) {
+            return methodPairValid(o1, o2);
+        }
         if (ownGeneric(f1) && traitMethod(f2)) return traitMethodPairValid(o1, o2, all, false);
         if (ownGeneric(f2) && traitMethod(f1)) return traitMethodPairValid(o2, o1, all, true);
         Overload gen;
@@ -1107,6 +1113,74 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     }
 
     /**
+     * Two generic dotted methods' symbolic instances, each read over the
+     * instances of its generic method, as a call reads them
+     * (preferredDeclaration): refused where each declared domain lies inside
+     * the other (the No Duplicates Rule); where one lies inside the other,
+     * valid where its return type is below the other's at the instance that
+     * holds it, and that instance stands for every instance of the other
+     * applicable to an argument of the inner one (returnRuleAtEveryInstance;
+     * the Return Type Rule).  Two declared domains neither of which lies
+     * inside the other are not read here.
+     */
+    static private DomainReading methodPairValid(Overload o1, Overload o2) {
+        List<FType> d1 = o1.getParams();
+        List<FType> d2 = o2.getParams();
+        if (hasRest(d1) || hasRest(d2) || d1.size() != d2.size()) return DomainReading.NOT_READ;
+        SingleFcn f = o1.getFn();
+        SingleFcn g = o2.getFn();
+        try {
+            SingleFcn gHolding = methodInstanceHolding(g, d1);
+            SingleFcn fHolding = methodInstanceHolding(f, d2);
+            if (gHolding != null && fHolding != null) return DomainReading.NO_DUPLICATES;
+            if (gHolding != null) {
+                return f.getRange().subtypeOf(gHolding.getRange()) && returnRuleAtEveryInstance(f, d1, g, d2) ?
+                       DomainReading.VALID : DomainReading.FIRST_RETURN_TYPE;
+            }
+            if (fHolding != null) {
+                return g.getRange().subtypeOf(fHolding.getRange()) && returnRuleAtEveryInstance(g, d2, f, d1) ?
+                       DomainReading.VALID : DomainReading.SECOND_RETURN_TYPE;
+            }
+            return DomainReading.NOT_READ;
+        }
+        catch (FortressException ex) {
+            return DomainReading.NOT_READ;
+        }
+    }
+
+    /**
+     * The instance of the generic dotted method whose symbolic instance is g
+     * that holds the types ts, as walk's inference finds it from values that
+     * carry only those types; null where none holds them.
+     */
+    static private SingleFcn methodInstanceHolding(SingleFcn g, List<FType> ts) {
+        List<FValue> dummies = new ArrayList<FValue>(ts.size());
+        for (FType t : ts) dummies.add(new TypeOnly(t.deRest()));
+        try {
+            SingleFcn inst = EvaluatorBase.inferByUnification(dummies, genericOf(g), inferenceEnv(g));
+            return FTypeTuple.make(ts).subtypeOf(FTypeTuple.make(inst.getDomain())) ? inst : null;
+        }
+        catch (FortressException ex) {
+            return null;
+        }
+        catch (EmptyLatticeIntervalError ex) {
+            return null;
+        }
+    }
+
+    /**
+     * The symbolic static arguments at which the declared domain of f is
+     * read: an own generic's, or those of a generic dotted method's symbolic
+     * instance; null for another declaration.
+     */
+    static private List<FType> symbolicStatics(SingleFcn f) {
+        if (f instanceof GenericFunctionOrMethod) {
+            return GenericFunctionOrMethod.FunctionsAndState.symbolicStaticsByPartition.get((GenericFunctionOrMethod) f);
+        }
+        return DottedMethodApplication.isSymbolicInstance(f) ? ((FunctionClosure) f).instArgs : null;
+    }
+
+    /**
      * The declared domains of an own generic function f (o1) and an own
      * generic function or a declaration without static parameters g (o2),
      * each over its own static parameters (Apart), exclude each other read
@@ -1271,7 +1345,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
     /**
      * The instance of the own generic outer that holds the declared domain
-     * dIn of the own generic inner stands, for the Return Type Rule, for
+     * dIn of the own generic inner, either of them also a generic dotted
+     * method's symbolic instance (symbolicStatics), stands, for the Return Type Rule, for
      * every instance of outer applicable to an argument of inner: each static
      * parameter of outer that its return type mentions is fixed by a static
      * argument of one of its parameter types dOut, since no type extends two
@@ -1280,29 +1355,46 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * argument's types at the parameters it is the type of, and inner either
      * returns a type parameter of its own that is the type of none but such
      * parameters, or has at one of them an object type below which its
-     * return type lies.  Otherwise an argument below dIn can select an
-     * instance of outer below the one that holds dIn, as two Circles select
-     * f[\T extends Shape\](x: T, y: T): T at Circle beside
+     * return type lies.  A tuple result is read element by element, as tuple
+     * types are covariant (belowAtEveryInstance).  Otherwise an argument below
+     * dIn can select an instance of outer below the one that holds dIn, as two
+     * Circles select f[\T extends Shape\](x: T, y: T): T at Circle beside
      * f[\U extends Round\](x: U, y: Round): Round.
      */
     static private boolean returnRuleAtEveryInstance(SingleFcn inner, List<FType> dIn,
                                                      SingleFcn outer, List<FType> dOut) {
-        if (!(inner instanceof GenericFunctionOrMethod) || !(outer instanceof GenericFunctionOrMethod)) return false;
-        List<FType> outArgs =
-                GenericFunctionOrMethod.FunctionsAndState.symbolicStaticsByPartition.get((GenericFunctionOrMethod) outer);
-        List<FType> inArgs =
-                GenericFunctionOrMethod.FunctionsAndState.symbolicStaticsByPartition.get((GenericFunctionOrMethod) inner);
+        List<FType> outArgs = symbolicStatics(outer);
+        List<FType> inArgs = symbolicStatics(inner);
         if (outArgs == null || inArgs == null || dIn.size() != dOut.size()) return false;
         FType rOut = outer.getRange();
         FType rIn = inner.getRange();
-        boolean ownReturn = false;
-        for (FType a : inArgs) ownReturn |= a == rIn;
         for (FType p : outArgs) {
             if (!mentions(rOut, p)) continue;
             boolean fixed = false;
             for (FType t : dOut) fixed |= fixedByArgument(deRest(t), p);
             if (fixed) continue;
-            if (rOut != p) return false;
+            if (!belowAtEveryInstance(rIn, rOut, p, dIn, dOut, inArgs)) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Where the return type rOut of outer mentions its static parameter p,
+     * which no argument fixes: rOut is p itself and inner either returns, as
+     * rIn, a type parameter of its own, among inArgs, that is the type of none
+     * but parameters whose type dOut in outer is p, or has at one of those an
+     * object type dIn below which rIn lies; or rOut and rIn are tuple types of
+     * as many elements, none of them varargs, each element of rIn so below the
+     * element of rOut that mentions p, as at object arguments
+     * (belowAtObjectArguments).  An element that does not mention p is left
+     * to the comparison with the instance that holds dIn.
+     */
+    static private boolean belowAtEveryInstance(FType rIn, FType rOut, FType p, List<FType> dIn,
+                                                List<FType> dOut, List<FType> inArgs) {
+        if (!mentions(rOut, p)) return true;
+        if (rOut == p) {
+            boolean ownReturn = false;
+            for (FType a : inArgs) ownReturn |= a == rIn;
             boolean holds = false;
             if (ownReturn) {
                 boolean some = false;
@@ -1322,7 +1414,15 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                 FType t = deRest(dIn.get(k));
                 holds = deRest(dOut.get(k)) == p && t instanceof FTypeObject && rIn.subtypeOf(t);
             }
-            if (!holds) return false;
+            return holds;
+        }
+        if (!(rOut instanceof FTypeTuple) || !(rIn instanceof FTypeTuple)) return false;
+        List<FType> outs = ((FTypeTuple) rOut).getTypes();
+        List<FType> ins = ((FTypeTuple) rIn).getTypes();
+        if (outs.size() != ins.size()) return false;
+        for (int j = 0; j < outs.size(); j++) {
+            if (outs.get(j) instanceof FTypeRest || ins.get(j) instanceof FTypeRest) return false;
+            if (!belowAtEveryInstance(ins.get(j), outs.get(j), p, dIn, dOut, inArgs)) return false;
         }
         return true;
     }

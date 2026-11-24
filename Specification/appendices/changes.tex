@@ -2423,9 +2423,7 @@ method has a static parameter of its own bounded by the trait's, at load or at a
 generic object's first instance (row~762); and a dotted call that writes
 static arguments to a method name that its receiver overloads by a plain and a
 generic method still stops (row~744).
-Of two generic dotted methods of one name, one number of parameters and static
-parameters of the same kinds that differ only in their bounds, it keeps the
-first that it meets and drops the other (row~1125); and a call on a receiver
+A call on a receiver
 assumed at a trait, of a name that the trait overloads by two generic dotted
 methods, stops, since it reads their parameter types without their static
 parameters (row~1126).
@@ -3127,16 +3125,18 @@ by parameter, on the two declared domains, each over its own instances, by these
 rules, but finds a third declaration that holds the overlap of two neither of
 which lies inside the other only where their parameter types are, position by
 position, instances of one generic type or static parameters, so that it
-refuses that example (row~539); and it refuses at load, as failing the Return
-Type Rule, two declarations with static parameters one of whose declared domains
-lies inside the other's where their results are tuples that each hold the
-declaration's own type parameter, a pair that these rules allow (row~1122).
+refuses that example (row~539).
 Of two generic functional methods one of whose declared domains lies inside
 the other's, it refuses at load the pair that a trait or object without
 static parameters declares, as failing the Meet Rule, where it loads the same
-two functions (row~779), and it loads the pair that a trait with static
-parameters declares, where a call to which both apply then fails, finding no
-definition of the method (row~780).
+two functions (row~779), and it refuses the pair that a trait with static
+parameters declares when an object that extends the trait is first made,
+finding no pair of their parameter types that exclude each other (row~780).
+Of generic dotted methods of one name that differ only in their bounds, it
+refuses at load a set in which neither of two declared domains lies inside the
+other's and a third declaration holds their overlap (row~1133), and it reads
+two whose bounds name a type of the object's component and an api's type of
+the same simple name as one declaration and its redeclaration (row~1134).
 Jan's example is still not a valid overloading, its two declarations having the
 same parameter type.
 The compiled type checker applies the No Duplicates Rule as it is now stated:
@@ -5445,11 +5445,14 @@ only when the place is evaluated: one outside an integer type's range, one
 that rounds to an infinity of \EXP{\mathbb{R}64} or \EXP{\mathbb{R}32}, one at a
 type that declares no coercion from the numeral's type or whose coercion's
 \KWD{where} clause the numeral does not meet, a negated numeral at a type
-without a prefix \EXP{-}, a folded constant at a type of a program's own
-without a coercion from the constant's default type, and a numeral bound to a
-variable declared of a numeral type.
+without a prefix \EXP{-}, and a folded constant at a type of a program's own
+without a coercion from the constant's default type.
 It refuses when it loads a program a numeral type written as a type that an
-object or a trait extends, or as a static argument.
+object or a trait extends, as a type that a trait's \KWD{comprises} clause
+lists, as a static argument, or in a return type or the type of a variable or
+of a field, an object's value parameters among the fields; it loads one
+written as a static parameter's bound or as a \KWD{typecase} arm's type
+(row~1135).
 It converts a
 numeral at a parameter of the declaration that a call chooses, at a variable or
 a field of a declared type and at a declared return type, but not one passed

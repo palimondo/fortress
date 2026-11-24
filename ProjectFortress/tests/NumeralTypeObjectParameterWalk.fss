@@ -1,0 +1,11 @@
+(* A numeral type is written only as a function's parameter type: one written as an object's value parameter type, which declares a field, is refused at load, whether or not a numeral meets it. *)
+component NumeralTypeObjectParameterWalk
+export Executable
+
+object Holder(f: NaturalNumeral[\1, 10, 3\]) end
+
+run(): () = do
+    println("REACHED: a numeral type is an object's value parameter type")
+  end
+
+end
