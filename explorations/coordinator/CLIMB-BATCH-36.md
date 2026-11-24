@@ -369,7 +369,7 @@ Each program is shortened to the lines that matter.
 
 ### The forks that wait for you
 
-None new. Row 1098's question (item 616) is the one that the list meets; the others of climb batch 35's list stand as that record gives them.
+Fork K1, in your review list below. The Fable review judges it consequential; it reverses no decision of yours, so it lands at its default under your go of 00:2x UTC on 24 November, and its question comes to you after the landing. Row 1098's question (item 616) is the one that the list meets; the others of climb batch 35's list stand as that record gives them.
 
 ### Cost and time
 
@@ -387,7 +387,7 @@ The agents run on the regular tiers (`tier-mode.sh status` prints `regular`).
 
 ### Your review list from this record
 
-- The forks of section 3, each at its default. By my reading none is consequential by the rule.
+- The forks of section 3, each at its default. By the planner's reading none is consequential by the rule; the Fable review judges K1 consequential (next item).
 - Fork K1 reads `self` at its trait in the heading of every trait's methods, also where the trait has a `comprises` clause. Your P-146 says so for the self-typed traits only. For a trait with a `comprises` clause, the team's sentence of 2012 gives `self` the met type and names no place, so the fork narrows that sentence to the bodies. Tonight's words asked for the cause to go, and this is the way that the probe measured.
   - The other way: keep the team's sentence whole. The two declarations then have the same parameter types, and a second rule decides: the declaration in the type below hides the trait's, as the specification says for inherited methods. No probe measured this way.
   - The Fable review judges this fork consequential by the rule, since it narrows a sentence of the team's and takes your P-146 past its words. It does not reverse a decision of yours, and it can be undone (`coordinator/climb-batch-36-review.md`).
