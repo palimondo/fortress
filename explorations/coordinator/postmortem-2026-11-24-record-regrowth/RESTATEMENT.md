@@ -1,4 +1,4 @@
-<!-- The coordinator's restatement, at the curator's ask of about 14:50 UTC on 2026-11-24, of where the work on the record stands after the refused pilot: what is being done, what went wrong, the root cause of FACTS's state, and the way to resolve it. It is the coordinator's understanding, not the curator's word, until he corrects it; written so that it survives a compaction. -->
+<!-- The coordinator's restatement, at the curator's ask of about 14:15 UTC on 2026-11-24, of where the work on the record stands after the refused pilot: what is being done, what went wrong, the root cause of FACTS's state, and the way to resolve it. It is the coordinator's understanding, not the curator's word, until he corrects it; written so that it survives a compaction. -->
 
 # The record after the refused pilot: the coordinator's restatement
 
