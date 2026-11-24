@@ -39,6 +39,39 @@ public abstract class FZZ extends FValue {
     }
     public static FZZ make(BigInteger x) {return make(x.toString());}
 
+    /*
+     * A numeral coercion's number, which this ZZ holds where the coercion's method runs,
+     * converted where its body uses it into a bounded number type (literals.tex,
+     * "Literals"): exactly into ZZ32, ZZ64, NN32 or NN64, raising IntegerOverflow where it
+     * does not fit, and rounded once into RR64 or RR32.  The checker refuses statically a
+     * number that does not fit its place, where the coercion is declared in the numeral's
+     * component; the code generator calls these where the checker typed the number so.
+     */
+    public int numberAsZZ32() {
+        if (val.bitLength() > 31) throw Utility.makeFortressException("IntegerOverflow");
+        return val.intValue();
+    }
+    public long numberAsZZ64() {
+        if (val.bitLength() > 63) throw Utility.makeFortressException("IntegerOverflow");
+        return val.longValue();
+    }
+    public int numberAsNN32() {
+        if (val.signum() < 0 || val.bitLength() > 32) throw Utility.makeFortressException("IntegerOverflow");
+        return val.intValue();
+    }
+    public long numberAsNN64() {
+        if (val.signum() < 0 || val.bitLength() > 64) throw Utility.makeFortressException("IntegerOverflow");
+        return val.longValue();
+    }
+    public double numberAsRR64() {
+        double d = com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToDouble(val.abs(), 10, 0);
+        return val.signum() < 0 ? -d : d;
+    }
+    public float numberAsRR32() {
+        float f = com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToFloat(val.abs(), 10, 0);
+        return val.signum() < 0 ? -f : f;
+    }
+
     /** The object's class's make, found when the first value is made. */
     private static final class Make {
         static final MethodHandle MAKE = LibraryNames.factory("ZZ", FZZ.class, String.class);

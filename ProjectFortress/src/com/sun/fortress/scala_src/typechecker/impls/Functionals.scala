@@ -882,6 +882,21 @@ trait Functionals { self: STypeChecker with Common =>
 
     // Check all the checkable args and make sure they all have types.
     val args = partitionArgs(iargs).getOrElse(return None)
+    // A numeral coercion's number is a ZZ, its default, at a call that a
+    // declaration takes so; it converts where it stands only at a call that
+    // none takes so (P-174).
+    if (!NumeralConversion.numbersAsZZ.value && args.exists(_.left.toOption.exists(coercions.isNumber))) {
+      val asZZ = NumeralConversion.numbersAsZZ.withValue(true) {
+        try {
+          STypeCheckerFactory.makeTryChecker(this).typedApplicationOfChecked(preCandidates, iargs, args, context,
+                                                                             mOpName, fallBackWithoutContext, true)
+        } catch { case _: StaticError => None }
+      }
+      if (asZZ.isDefined)
+        return NumeralConversion.numbersAsZZ.withValue(true) {
+          typedApplicationOfChecked(preCandidates, iargs, args, context, mOpName, fallBackWithoutContext, true)
+        }
+    }
     typedApplicationOfChecked(preCandidates, iargs, args, context, mOpName, fallBackWithoutContext, true)
   }
 

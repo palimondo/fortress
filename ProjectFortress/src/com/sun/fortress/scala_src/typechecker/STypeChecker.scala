@@ -179,6 +179,14 @@ abstract class STypeChecker(val current: CompilationUnitIndex,
       }
   }
 
+  // One of a numeral coercion's four numbers, as a value of its body: a
+  // reference to an exact static parameter that no variable hides.
+  coercions.isNumber = (e: Expr) => e match {
+    case SVarRef(_, id, sargs, _) if sargs.isEmpty && id.getApiName.isNone && env.getType(id).isEmpty =>
+      analyzer.env.staticParam(id).exists(staticenv.KindEnv.isExact)
+    case _ => false
+  }
+
   /**
    * This method simply creates a new instance of the class in which it is defined. We need this
    * so that subclasses will extend themselves properly. This MUST be overriden in every subclass of

@@ -69,7 +69,9 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
       case _:KindBool => Some(Types.BOOLEAN)
       // A size used as a value is a ZZ32.
       case _:KindInt => Some(KindEnv.sizeValueType)
-      // A numeral coercion's four numbers are exact integers, a ZZ.
+      // A numeral coercion's four numbers are exact integers, a ZZ where
+      // nothing fixes a type; the checker converts each where a place fixes
+      // a bounded number type (CoercionOracle.buildCoercion).
       case _:KindNat => Some(if (KindEnv.isExact(b.sparam)) KindEnv.exactValueType else KindEnv.sizeValueType)
       case _ => None
     })

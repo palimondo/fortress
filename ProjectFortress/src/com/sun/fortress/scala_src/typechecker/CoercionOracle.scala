@@ -176,6 +176,12 @@ class CoercionOracle(traits: TraitTable,
   var negator: (Expr, Type) => Option[Expr] = (_, _) => None
 
   /**
+   * Whether the expression names one of a numeral coercion's four numbers,
+   * as a value of its body; the type checker that owns this oracle sets it.
+   */
+  var isNumber: Expr => Boolean = _ => false
+
+  /**
    * Determines if e:T ~~> U and if so returns the FnRefs for that coercion.
    * A numeral outside the range of U, one of the library's bounded number
    * types, has none. A numeral has no sign: at a program's own type a
@@ -189,7 +195,7 @@ class CoercionOracle(traits: TraitTable,
       // A tuple that holds a numeral converts element by element where it
       // stands: no numeral value exists to bind to a variable at run time.
       case (STupleExpr(SExprInfo(span, paren, _), es, None, Nil, inApp), STupleType(_, us, None, Nil))
-          if es.size == us.size && es.exists(NumeralConversion.isNumeral) =>
+          if es.size == us.size && es.exists(x => NumeralConversion.isNumeral(x) || isNumber(x)) =>
         val nes = es.zip(us).map { case (x, t) =>
           if (getType(x).exists(xt => isTrue(analyzer.subtype(xt, t)))) Some(x) else buildCoercion(x, t) }
         if (nes.forall(_.isDefined)) Some(STupleExpr(SExprInfo(span, paren, Some(u)), nes.map(_.get), None, Nil, inApp))
@@ -199,6 +205,11 @@ class CoercionOracle(traits: TraitTable,
 
   private def buildNonTuple(e: Expr, u: Type): Option[Expr] =
     NumeralNumbers.of(e) match {
+      // One of a numeral coercion's four numbers converts where it stands into
+      // a bounded number type that its place fixes, from its exact value; into
+      // QQ by QQ's coercion from ZZ, its default.
+      case _ if isNumber(e) && !NumeralConversion.numbersAsZZ.value && NumeralConversion.numberTarget(u).isDefined =>
+        Some(NumeralConversion.numberAt(e, NumeralConversion.numberTarget(u).get))
       case nn if nn != null && !NumeralConversion.libraryTarget(u) && nn.kind == NumeralNumbers.Kind.STATIC => None
       case nn if nn != null && !NumeralConversion.libraryTarget(u) && nn.kind == NumeralNumbers.Kind.NEGATED =>
         val pos = NumeralConversion.positive(e)
@@ -561,7 +572,40 @@ object NumeralConversion {
   }
 
   /** Whether the coercion is one the call needs: not a numeral's conversion into its default. */
-  def counts(e: Expr): Boolean = e.isInstanceOf[CoercionInvocation] && !isDefault(e)
+  def counts(e: Expr): Boolean = (e.isInstanceOf[CoercionInvocation] && !isDefault(e)) || numberConversions.contains(e)
+
+  /**
+   * Whether a call is checked with a numeral coercion's numbers read as their
+   * default, ZZ, so that none converts (Functionals.typedApplication).
+   */
+  val numbersAsZZ = new scala.util.DynamicVariable[Boolean](false)
+
+  /** The bounded number types into which a numeral coercion's number converts where it stands. */
+  private val numberTargetNames = Set("ZZ32", "ZZ64", "NN32", "NN64", "RR64", "RR32")
+
+  /** The library's bounded number type that the place's type is, if it is one. */
+  def numberTarget(u: Type): Option[TraitType] = u match {
+    case t: TraitSelfType => numberTarget(t.getNamed)
+    case t: TraitType if t.getArgs.isEmpty && numberTargetNames(t.getName.getText) && libraryType(t) => Some(t)
+    case _ => None
+  }
+
+  /** The conversions of numbers that the checker builds, which rank as coercions a call needs. */
+  private val numberConversions = java.util.Collections.synchronizedSet(
+    java.util.Collections.newSetFromMap(new java.util.IdentityHashMap[Expr, java.lang.Boolean]()))
+
+  /**
+   * The number e converted where it stands into t: the reference typed at t,
+   * which the code generator converts from the ZZ that holds the number.
+   */
+  def numberAt(e: Expr, t: TraitType): Expr = {
+    val c = e match {
+      case SVarRef(SExprInfo(span, paren, _), id, sargs, depth) => SVarRef(SExprInfo(span, paren, Some(t)), id, sargs, depth)
+      case _ => e
+    }
+    numberConversions.add(c)
+    c
+  }
 
   private val libraryApis = Set("CompilerBuiltin", "CompilerLibrary", "FortressBuiltin", "FortressLibrary")
 
@@ -626,5 +670,85 @@ object NumeralConversion {
     case "RR64" if v.doubleValue.isInfinite => Some(name)
     case "RR32" if v.floatValue.isInfinite => Some(name)
     case _ => None
+  }
+
+  /**
+   * The refusals of a numeral coercion's numbers that do not fit where its
+   * body converts them, read once every declaration of the checked component
+   * is checked: for each numeral that the component converts into a type by
+   * that type's numeral coercion declared in the component, each number that
+   * the coercion's body converts into a bounded number type, at the
+   * numeral's value of that number, refused at the numeral's place.
+   */
+  def numberRefusals(c: Component): List[(Node, String)] = {
+    // Each lifted numeral coercion of the component, by its name and kind: the
+    // names of its numbers, and each number with the type its body converts it into.
+    val uses = scala.collection.mutable.Map[(String, Boolean), (List[String], List[(String, String)])]()
+    toListFromImmutable(c.getDecls).foreach {
+      case f: FnDecl if f.getBody.isSome && (NU.getName(f) match {
+          case id: Id => id.getText.startsWith(com.sun.fortress.compiler.NamingCzar.LIFTED_COERCION_PREFIX)
+          case _ => false }) =>
+        val pt = toListFromImmutable(f.getHeader.getParams) match {
+          case List(p) => toOption(p.getIdType).collect { case t: Type if Types.isNumeralType(t) => t }
+          case _ => None
+        }
+        pt.foreach { t =>
+          val point = Types.isRadixPointNumeralType(t)
+          val k = if (point) 4 else 3
+          val sps = toListFromImmutable(f.getHeader.getStaticParams)
+          if (sps.size >= k) {
+            val names = sps.drop(sps.size - k).map(_.getName.getText)
+            val bound = scala.collection.mutable.Set[String]()
+            val at = scala.collection.mutable.ListBuffer[(String, String)]()
+            (f.getBody.unwrap: Node).accept(new NodeDepthFirstVisitor_void {
+              override def forVarRefOnly(x: VarRef): scala.Unit =
+                if (x.getVarId.getApiName.isNone && x.getStaticArgs.isEmpty && names.contains(x.getVarId.getText))
+                  toOption(x.getInfo.getExprType).flatMap(numberTarget).foreach(u =>
+                    at += ((x.getVarId.getText, u.getName.getText)))
+              override def forLValueOnly(x: LValue): scala.Unit = bound += x.getName.getText
+              override def forParamOnly(x: Param): scala.Unit = bound += x.getName.getText
+            })
+            uses((NU.getName(f).asInstanceOf[Id].getText, point)) = (names, at.toList.filter(u => !bound(u._1)).distinct)
+          }
+        }
+      case _ =>
+    }
+    if (uses.values.forall(_._2.isEmpty)) return Nil
+    // Each numeral that the component converts by one of them, at its numbers.
+    val refusals = scala.collection.mutable.ListBuffer[(Node, String)]()
+    (c: Node).accept(new NodeDepthFirstVisitor_void {
+      override def forTraitCoercionInvocationOnly(x: TraitCoercionInvocation): scala.Unit = {
+        val point = x.getArg.isInstanceOf[FloatLiteralExpr]
+        if (!isNumeral(x.getArg)) return
+        val fn = x.getCoercionFn
+        val own = toListFromImmutable(fn.getNames).forall(n => toOption(n.getApiName).forall(_.getText == c.getName.getText))
+        val (names, at) = uses.get((fn.getOriginalName.getText, point)).filter(_ => own).getOrElse(return)
+        val sargs = toListFromImmutable(fn.getStaticArgs)
+        if (sargs.size < names.size) return
+        val values = sargs.drop(sargs.size - names.size).map {
+          case SIntArg(_, _, b: IntBase) => Some(b.getIntVal.getIntVal)
+          case _ => None
+        }
+        if (values.exists(_.isEmpty)) return
+        val numeral = x.getArg match {
+          case i: IntLiteralExpr => i.getIntVal.toString
+          case f: FloatLiteralExpr => f.getText
+          case e => e.toString
+        }
+        for ((name, target) <- at) {
+          val v = values(names.indexOf(name)).get
+          val gives = "The numeral %s gives the coercion to %s the number %s = %s, which ".format(
+            numeral, x.getToType.getName.getText, name, v)
+          integerRanges.get(target) match {
+            case Some((lo, hi)) if v.compareTo(lo) < 0 || v.compareTo(hi) > 0 =>
+              refusals += ((x, gives + "is out of range for %s, whose values are %s to %s.".format(target, lo, hi)))
+            case Some(_) =>
+            case None => roundsToInfinity(new java.math.BigDecimal(v), target).foreach(_ =>
+              refusals += ((x, gives + "rounds to infinity in %s.".format(target))))
+          }
+        }
+      }
+    })
+    refusals.toList
   }
 }

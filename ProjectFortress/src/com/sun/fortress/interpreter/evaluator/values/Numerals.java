@@ -86,6 +86,8 @@ public final class Numerals {
         /** Which float types the exact value rounds to an infinity at: -1 not yet known, 0 none, 1 RR32, 2 RR32 and RR64. */
         private int infiniteAt = -1;
         private final Map<FType, FValue> converted = new HashMap<FType, FValue>();
+        /** Whether this is one of a numeral coercion's four numbers, whose default is a ZZ. */
+        final boolean number;
 
         Site(NumeralNumbers x, BigInteger signed) {
             this.digits = x.n.intValue();
@@ -95,7 +97,34 @@ public final class Numerals {
             this.radixPoint = x.radixPoint;
             this.kind = x.kind;
             this.signed = signed;
+            this.number = false;
         }
+
+        /** One of a numeral coercion's four numbers, the natural v: a static integer whose default is a ZZ. */
+        Site(BigInteger v) {
+            this.digits = v.toString().length();
+            this.fractionDigits = 0;
+            this.radix = 10;
+            this.digitValue = v;
+            this.radixPoint = false;
+            this.kind = NumeralNumbers.Kind.STATIC;
+            this.signed = v;
+            this.number = true;
+        }
+    }
+
+    /**
+     * One of a numeral coercion's four numbers, v, as a value of its body
+     * (literals.tex, "Literals"): it converts where it stands, as a folded
+     * static constant does, into the type that its place fixes, from its exact
+     * value, and is refused there where it does not fit; where nothing fixes a
+     * type it is an exact integer, a ZZ.
+     */
+    static FValue number(BigInteger v) {
+        Site s = new Site(v);
+        s.value = new BigNumeral(v, s);
+        s.plain = FBigNum.make(v);
+        return s.value;
     }
 
     static final class IntNumeral extends FInt implements Numeral {
@@ -400,6 +429,9 @@ public final class Numerals {
      * reaches such a type only as its default, so never by such a coercion.
      */
     static boolean ownCoercionFrom(FType target, FValue v) {
+        // A coercion's number has a ZZ default whatever its value, so the key
+        // does not hold whether it fits a narrower number type.
+        if (v instanceof Numeral && ((Numeral) v).site().number) return isLibraryNumber(target);
         if (!(v instanceof Numeral) || isStaticExpression(v) || isLibraryNumber(target)) return false;
         return !Coercions.numeralCoercions(target, ((Numeral) v).site().radixPoint).isEmpty();
     }
@@ -488,11 +520,13 @@ public final class Numerals {
     }
 
     /**
-     * The coercion's body, run once with the four numbers bound as exact
-     * integers, ZZ values, and the coercion's type's own static parameters
-     * bound to target's; its parameter is bound to no numeral value, since
-     * none exists. For a negative constant at a program's own type, the
-     * type's own prefix minus on the result; null where it does not apply.
+     * The coercion's body, run once with the four numbers bound as numbers
+     * that convert where they stand (number), and the coercion's type's own
+     * static parameters bound to target's; its parameter is bound to no
+     * numeral value, since none exists. A number that it returns converts at
+     * target, the coercion's result type, as at a declared return type. For a negative
+     * constant at a program's own type, the type's own prefix minus on the
+     * result; null where it does not apply.
      */
     private static FValue convert(FType target, Site s, SingleFcn c) {
         FGenericFunction g = (FGenericFunction) c;
@@ -511,12 +545,14 @@ public final class Numerals {
             List<FType> targs = ((GenericTypeInstance) target).getTypeParams();
             for (int i = 0; i < targs.size() && i < sps.size(); i++) clenv.putType(NodeUtil.getName(sps.get(i)), targs.get(i));
         }
-        for (Map.Entry<String, BigInteger> e : vals.entrySet()) clenv.putValue(e.getKey(), FBigNum.make(e.getValue()));
+        for (Map.Entry<String, BigInteger> e : vals.entrySet()) clenv.putValue(e.getKey(), number(e.getValue()));
         clenv.bless();
         Environment penv = clenv.extendAt(fd);
         penv.putValue(NodeUtil.nameString(fd.getHeader().getParams().get(0).getName()), FVoid.V);
         penv.bless();
         FValue r = new Evaluator(penv).eval(fd.getBody().unwrap());
+        // A number that the body returns as it is converts at the result type.
+        if (r instanceof Numeral && ((Numeral) r).site().number) r = atReturn(target, r);
         if (minusAfter) {
             Environment within = target.getWithin();
             // walk keys a prefix operator by its fixity (OprUtil.fixityDecorator)
