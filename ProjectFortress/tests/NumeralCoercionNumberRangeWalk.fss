@@ -6,8 +6,8 @@ value object Wide(w: ZZ32)
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Wide(v)
 end
 
-small: Wide = 5
-big: Wide = 3000000000
+fits: Wide = 5
+tooWide: Wide = 3000000000
 
 run() = println("FAIL: 3000000000 at a coercion whose body puts v at a ZZ32 parameter was accepted")
 

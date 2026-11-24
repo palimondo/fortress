@@ -77,12 +77,14 @@ tests/NatReflectTest.fss	one
 tests/NestedTryInnerCatchWalk.fss	prelude
 tests/NumberMixedEqualityWalk.fss	one
 tests/NumeralEqualsNumberWalk.fss	one
+tests/NumeralMinusOnceWalk.fss	prelude
 tests/ObjectFieldShadowing.fss	prelude
 tests/OverloadConstructor1.fss	one
 tests/OverloadWithSuperExcludes.fss	one
 tests/OverloadZZ32BesideUserTraitWalk.fss	prelude
 tests/OverloadedGenericValueBoundWalk.fss	prelude
 tests/OverrideInTraitWalk.fss	prelude
+tests/RadixPointLeadingZerosWalk.fss	prelude
 tests/SuperscriptAfterDottedAccess.fss	prelude
 tests/SuperscriptAfterParenthesisedCall.fss	prelude
 tests/TestCompiledEnvironments.fss	one

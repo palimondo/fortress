@@ -5,7 +5,7 @@ export Executable
 
 run(): () = do
   println("REACHED")
-  big: Wide = 3000000000
+  tooWide: Wide = 3000000000
   println("PASS")
 end
 
