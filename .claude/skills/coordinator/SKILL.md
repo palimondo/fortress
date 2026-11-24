@@ -132,7 +132,7 @@ Every other decision that changes the tree is closed when it lands. FACTS states
 - A repository path does not open on the phone. A page link does, and so does a pushed file's GitHub URL: `https://github.com/palimondo/fortress/blob/main/<path>`.
 - The curator's client can show stale state. Answer what is in flight from the tree.
 - The curator's time zone is Central European. The container's clock is UTC.
-- The context is compacted when it grows long. The container can be lost, and a VM restart can roll the disk back. Only what is pushed survives.
+- The context is compacted when it grows long. The container can be lost, and a VM restart can roll the disk back. Only pushed files survive.
 - The session runs in auto mode. Its permission check can refuse a step after the curator's go (`fortress-repo`, its session part).
 - The prompt cache lives an hour for the main session and a headless session, and five minutes for a subagent.
 - A process stop comes about every 13 hours. Check-ins, reminders armed with `send_later` 45 minutes apart, wake the session within the cache's life (`cloud-container`, its stops part).
@@ -140,7 +140,7 @@ Every other decision that changes the tree is closed when it lands. FACTS states
 - The git-check switch, `.claude/hooks/git-check-off.sh`, turns the platform's git-check hook off at every start of the process and at every turn's end (`cloud-container`, its hooks part). Its reminders are advisory. If a git-check reminder still comes, the switch missed that turn: answer it as "Quiet times" says.
 - Cached reads are almost free on the curator's plan, so a cost counts tokens written only.
 - A worker runs on Opus unless `references/delegating.md` names another tier. Sonnet writes nothing that the curator reads.
-- The curator picks this session's model, for its register and for Fable's weekly limit. The boot note names it.
+- The curator picks this session's model, for its register and for Fable's weekly limit.
 
 ## Talking to the curator
 
@@ -180,7 +180,7 @@ Give each decision a default, the option that stands unless the curator picks an
 - Tell the curator of each change to POSITIONS in your next message, with its old and its new words. Past three changes, give each in one line, with the entry's number and what changed, and link the commit on GitHub for the words. While the curator is away, hold this report with the reports of skill changes. Leave out a change that writes down a decision that the curator stated in this conversation. Tell the curator of no other edit to the record, apart from naming each decision that landed ("The curator's role and decisions"). When the curator asks you to record words, reply "noted".
 - Say nothing about a running batch until it lands or fails, not even that it started. If the curator asks, answer from the tree. At a check-in (a `send_later` reminder) during a batch, check the run, resume it if it stopped, and reply "." alone.
 - Answer the git-check hook's reminders silently. Never commit unready work to satisfy one.
-- The curator deletes the branches on GitHub, when they get to them. Never ask the curator to delete a branch on GitHub, and never remind them of one, in chat, in a message for their return, in a push notification or on a page. Drop a branch's deletion from every ask, close and list that the record holds. A branch that waits for the curator is state: write it in the boot note, and put it on no held list, review queue or other list for the curator. If the curator asks about branches, answer from the tree.
+- The curator deletes the branches on GitHub, when they get to them. Never ask the curator to delete a branch on GitHub, and never remind them of one, in chat, in a message for their return, in a push notification or on a page. Drop a branch's deletion from every ask, close and list that the record holds. A branch that waits for the curator is state for the boot note: put it on no held list, review queue or other list for the curator. If the curator asks about branches, answer from the tree.
 - Send a push notification (the PushNotification tool) only for a long run's end, a hold or the model check's alarm. In it, say what happened, and name the batch by its number or the run by what it does. Say which go or answer the work waits on, or that the work waits on nothing from the curator. It reaches the phone only outside the app.
 
 **While the curator reads turn by turn,** hold the points. An answer to each point as it comes buries the curator in text.
@@ -216,7 +216,7 @@ Under `explorations/coordinator/`:
 - `INDEX.md`: one line for each note.
 - `PLAN.md`: the phases, the questions for the curator in order, and the parked items. Its first section says where the work stands.
 - `PLAN-history.md`: the items moved out of PLAN, word for word, under a heading for the landing or the consolidation that moved them.
-- The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages. During a batch, the run's ID and the check-ins' IDs are in the check-in file that the boot note names (`references/batch.md`, "While it runs").
+- The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages.
 - The held list. Its last section holds the smaller items that the curator owns.
 - `review-queue.md`: the review queue.
 
@@ -261,7 +261,7 @@ At session start and after each compaction, take these steps in order. If the cu
 
 - Read nothing that the boot does not name. List no directory, and bound every command's output.
 - To learn whether a worker runs, read the harness's notice at the top of the turn. After an interrupt or a process stop, check each worker before you say what ran or was lost: an Agent-tool worker in that notice, a Workflow agent by its `result` line in the run's journal. An output file is complete if it holds the last part that its brief asks for. Relaunch a killed worker only as `references/delegating.md`, "Interrupts and process stops", says.
-- Rewrite the boot note whole at every change. Never append to it.
+- When the curator asks if you can be compacted, and when the session ends or hands on its work, rewrite the boot note whole, commit and push it, then answer. Between those points, write in it only what a part names for a launch or a page. Your context survives a process stop, but not a compaction.
 - The model check runs at every turn's end, in every session that loads the repository's settings, headless sessions included. Its alarm makes the session take one more turn, with a message that starts `MODEL ALARM`. On the alarm:
   - make the alarm the first line of your reply, and send it as a push notification;
   - do no other work until step 0's check shows Opus or Fable again, or the curator says to go on.
