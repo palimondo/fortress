@@ -1634,3 +1634,12 @@ The curator's comment of 2026-11-23, 22:35 UTC, and P-103 as it ended that day: 
 - `build-and-caches.md`, "The caches": the gate's step 7 in place of the ladder among the runs with private caches. `run.sh`'s header (a private caches folder for each library).
 - `worktrees.md`, "Seeding a worktree": the script copies `build-one` and `caches-one`; `ant compileAll` keeps the seeded caches without the warning, again. `seed-worktree.sh` as of `88f286dc30` (F-404's defect fixed).
 - `worktrees.md`, "Running the old code": the example of comparing a program's old and new output, cut. P-103.
+
+The cold read of this change, 2026-11-24, its flags settled by the coordinator; S1, W3 declined, G15 a pointer to the tool's README.
+
+- `gate.md`, the opening: the sentence on each test's verdict, cut (`SKILL.md` gives the rule).
+- `gate.md`, "What it writes": the landed folder's path, `tmp/gate/suite-out/` named, and the list's path. The batch script's commit stage, step 1.
+- `gate.md`, "When to run it": step 7 alone, with the gate's commit as its base, its lines reported.
+- `gate.md`, step 3: the copies save about 145 s of the prelude's compile. `run.sh`'s header.
+- `gate.md`, "The suite on the compiled path": the programs that pass; the `XXX` prefix not turned round, a tried program that fails only counted, FAIL and MISSING defined, a non-zero exit red, the log's path; a change's own list cut to its brief. `judge.py`'s docstring; `run.sh`'s header (exit 1 when red, 2 on misuse).
+- `worktrees.md`, "Seeding a worktree": `build-one` named as the one library's build; the check for `fortress.FortressLibrary.jar` in the worktree's own `caches-one` (`run.sh`'s `one_library`); "your first `ant compileAll`".
