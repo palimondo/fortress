@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 12:30 UTC on 2026-11-24** (13:30 his time), written whole at his compaction ask. The session runs on Fable 5.2 (`claude-fable-5-2`); after the compaction he sets the reasoning effort from extra high to high. Boot by the skill's section "The boot". The VM last started at 01:16:21 UTC; the context survives a process stop. No worker runs. Check-in 14 (`trig_019VZjgjT95Qekmbi1PdvzYE`, 12:27) was the last one armed.
+**State at 12:30 UTC on 2026-11-24** (13:30 his time), written whole at his compaction ask. The session runs on Fable 5.2 (`claude-fable-5-2`); after the compaction he sets the reasoning effort from extra high to high. Boot by the skill's section "The boot". The VM last restarted at 12:25:23 UTC (trust flag true, backup run by hand, nothing lost); the context survives a process stop. No worker runs. Check-in 14 (`trig_019VZjgjT95Qekmbi1PdvzYE`, 12:27) was the last one armed.
 
 ## The order of work
 
@@ -58,7 +58,7 @@ No ask is put and unanswered. The next questions, by review-queue number: 622 (w
 
 ## The live pages
 
-- The page of skill drafts, https://claude.ai/artifact/9tX3rwtAgYHgbu8XZQtNhr (source `<scratchpad>/skill-drafts-page/page-2.html`): cleared at his word of 12:20 UTC ("clear the page right now of the debris. I want to see what you'll do with a clean slate next time"); he has read everything up to item 95; the next item is 96.
+- The page of skill drafts, https://claude.ai/artifact/9tX3rwtAgYHgbu8XZQtNhr (source `<scratchpad>/skill-drafts-page/page-2.html`), version 33: cleared at his word of 12:20 UTC ("clear the page right now of the debris. I want to see what you'll do with a clean slate next time"); he has read everything up to item 95; the next item is 96.
 - The page of `fortress-repo` changes, https://claude.ai/artifact/4MiaAx2EmfK59E8d4DP9J3 , version 39 (source `<scratchpad>/fortress-repo-page/page.html`): read up to change 41; the next new change is 203. Its form is queue item 625.
 - The revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5 , version 45 (`a5ea530560`).
 - The numerals page, https://claude.ai/artifact/Gfba5tyT2FJzPnnSrw33aC . The arrays page, https://claude.ai/artifact/7TVTSHjAtY6AvZjDztnq8q , version 3. The speed roadmap's page, https://claude.ai/artifact/1NjFC64pkL6UaTN7CtsoUc , version 2.
