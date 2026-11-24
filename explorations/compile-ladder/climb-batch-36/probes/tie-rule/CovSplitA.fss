@@ -1,0 +1,14 @@
+component CovSplitA
+import CovTraits.{...}
+import CovV.{ choose }
+export Executable
+choose(s: S): LeftResult = do println("the body at S ran"); LeftOnly end
+choose(t: T): RightResult = do println("the body at T ran"); RightOnly end
+run(): () = do
+  m: M = Vo
+  typecase choose(m) of
+    BothResult => println("PASS: the body at V ran")
+    else => println("FAIL")
+  end
+end
+end

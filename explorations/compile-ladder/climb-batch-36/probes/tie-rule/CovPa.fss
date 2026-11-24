@@ -1,0 +1,5 @@
+component CovPa
+import CovTraits.{...}
+export CovPa
+choose(s: S): LeftResult = LeftOnly
+end

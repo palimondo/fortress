@@ -1,0 +1,13 @@
+component DispUse
+import CovTraits.{...}
+import CovPa.{ choose }
+import CovPb.{ choose }
+export Executable
+run(): () = do
+  s: S = Vo
+  typecase choose(s) of
+    BothResult => println("PASS BothResult")
+    else => println("FAIL: the body at S ran")
+  end
+end
+end

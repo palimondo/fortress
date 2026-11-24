@@ -1,0 +1,16 @@
+component CovUse
+import CovTraits.{...}
+import CovPa.{ choose }
+import CovPb.{ choose }
+export Executable
+run(): () = do
+  m: M = Vo
+  result = choose(m)
+  left: LeftResult = result
+  right: RightResult = result
+  typecase result of
+    BothResult => println("PASS BothResult")
+    else => println("FAIL")
+  end
+end
+end

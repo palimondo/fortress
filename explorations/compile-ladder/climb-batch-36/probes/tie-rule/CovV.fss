@@ -1,0 +1,5 @@
+component CovV
+import CovTraits.{...}
+export CovV
+choose(v: V): BothResult = BothResult
+end

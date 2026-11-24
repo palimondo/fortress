@@ -1,0 +1,4 @@
+component DupApiZ
+export DupApiZ
+pick(x: ZZ32): String = "body of DupApiZ"
+end

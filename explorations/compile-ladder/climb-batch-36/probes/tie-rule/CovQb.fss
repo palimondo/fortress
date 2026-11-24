@@ -1,0 +1,5 @@
+component CovQb
+import CovTraits.{...}
+export CovQb
+choose(s: S): LeftResult = LeftOnly
+end

@@ -1,0 +1,6 @@
+component CovQa
+import CovTraits.{...}
+export CovQa
+choose(t: T): RightResult = RightOnly
+choose(v: V): BothResult = BothResult
+end

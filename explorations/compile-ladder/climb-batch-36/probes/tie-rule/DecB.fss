@@ -1,0 +1,14 @@
+component DecB
+export Executable
+
+object Box[\X\](v: X) end
+
+f[\U\](x: Box[\U\]): U = x.v
+f[\T\](x: T): T = x
+
+run(): () = do
+  b: Box[\ZZ32\] = Box[\ZZ32\](3)
+  r: Box[\ZZ32\] = f(b)
+  println("bound a Box")
+end
+end

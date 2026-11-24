@@ -1,0 +1,6 @@
+component DupUseR
+import DupApiZ.{ pick }
+import DupApiA.{ pick }
+export Executable
+run(): () = println(pick(3))
+end

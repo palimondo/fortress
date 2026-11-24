@@ -1,0 +1,6 @@
+component DupDem
+import DupApiA.{...}
+import DupApiZ.{...}
+export Executable
+run(): () = println(pick(3))
+end
