@@ -1659,3 +1659,11 @@ The other parts, brought in line with the same landing by the writer from the la
 - `compiler.md`, "The checker's gaps", the tie sorted by the JVM's history: deleted. Ledger rows 1046 and 1047, fixed by `da5f70777`; row 499 now records a positional reading, and row 1136 a tie kept by place, for which the skill gives no rule.
 - `interpreter.md`, walk's departures on numbers: a numeral type as a static parameter's bound or a `typecase` arm's type, in place of a return, a variable's or a field's type. Ledger row 1124, fixed by `df5948e7b`; row 1135; P-174 as rewritten at the landing; `BuildEnvironments.java`, `checkNumeralTypesWritten`.
 - `interpreter.md`, "What walk checks", row 780's clause: walk refuses the valid nested pair when it first makes an instance of an extending object. Ledger row 780 as rewritten; P-45 as changed at the landing; `tests/XXXGenericTraitFunctionalMethodsNestedWalk.fss`. Supersedes the clause "Cannot find definition for method".
+
+The cold read of these changes, 2026-11-24, its flags settled by the writer.
+
+- `compiler.md`, `=` at `RR32`: `c` defined first; the refusal's message; `c = d` for two `RR32` values. Ledger row 528 (a prelude limit, repaired by the one library's `RR32` at the switch-over).
+- `interpreter.md`, walk's departures on numbers: the places where walk refuses a numeral type at load, listed. `BuildEnvironments.java`, `checkNumeralTypesWritten`.
+- `interpreter.md`, row 780's clause: the stop comes when the program first makes the extending object at its static arguments, with the test's example. Ledger row 780; `tests/XXXGenericTraitFunctionalMethodsNestedWalk.fss`; `GenericConstructor.make` and `Constructor.java:385-387`.
+- `revival-changes.md`, "Numbers": walk refuses when the place where the program writes the numeral runs. F-407; `tests/NumeralCoercionNumberRangeWalk.test`.
+- `compiler.md`, the tie bullet, left deleted: the checker keeps the first by place, not by the JVM's history (ledger row 1136). The coercions of `Library/FortressLibrary.fss` write `= v`, so the `asZZ32` sentence stays deleted.
