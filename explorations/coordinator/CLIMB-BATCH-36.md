@@ -555,7 +555,7 @@ The code generator gathers a class's bridges with an identity set per declaratio
 **The decisions this rung builds.** None names the mechanism. Section 3's forks C1, C2 and C3.
 
 **What you build, in order.**
-1. **The tests first.** Promote `one_library_tests/XXXOneLibraryRunStringEquality.test`, `XXXOneLibraryRunConditionalReduction.test` and `XXXOneLibraryRunVarargs.test` (each a run test of a plain compile test). Add `one_library_tests/OneLibraryArr` and `OneLibraryDot`, from `plan-34/probes/programs/Arr.fss` and `Dot.fss`, each a compile test and a run test that asserts its value (`a[5] = 25`; `dot = 499500.0`), with the verifier on. Seen failing on the base, compiled against the one library through `old-fortress.sh` with a private copy of the base build's `caches-one`: 'REACHED', then 'java.lang.NoClassDefFoundError'; 'Duplicate method name "copy"'; 'Duplicate method name "narrowToRange"'; and for both array programs 'Duplicate method name "-?0"' (PRB section 3). Run them in one JVM with `junit.sh`, `FORTRESS_LIBRARY=one ONE_JVM=1`, `OneLibraryComponents.test` named first (`tests-running.md`, "Compiled tests").
+1. **The tests first.** Promote `one_library_tests/XXXOneLibraryRunStringEquality.test`, `XXXOneLibraryRunConditionalReduction.test` and `XXXOneLibraryRunVarargs.test` (each a run test of a plain compile test). Add `one_library_tests/OneLibraryArr` and `OneLibraryDot`, from `plan-34/probes/programs/Arr.fss` and `Dot.fss`, each a compile test and a run test that asserts its value (`a[5] = 25`; `dot = 499500.0`), with the verifier on. Seen failing on the base, compiled against the one library through `old-fortress.sh` with a private caches folder copied from the base build's `caches-one`: 'REACHED', then 'java.lang.NoClassDefFoundError'; 'Duplicate method name "copy"'; 'Duplicate method name "narrowToRange"'; and for both array programs 'Duplicate method name "-?0"' (PRB section 3). Run them in one JVM with `junit.sh`, `FORTRESS_LIBRARY=one ONE_JVM=1`, `OneLibraryComponents.test` named first (`tests-running.md`, "Compiled tests").
 2. **Row 994** (fork C1), then **rows 1091 and 1099** (fork C2). Each test passes, or stops at a later row: `OneLibraryVarargsCount` prints numbers by `println`, which by reading meets row 1098 once its array's class loads (fork C3).
 3. **`ant testOneLibrary`** once, at the end, on your final code.
 
@@ -765,12 +765,12 @@ For run 2, after run 1's landing: sections F, Y, B and T and "The rule the rungs
 
 ### The gate, and what it should show
 
-The comparands for run 1 are climb batch 35b's, in `compile-ladder/climb-batch-35b/gate/`: 64 suites, 3,698 tests, `CompilerJUTest` 1,810, `OtherCompilerJUTest` 263, `LibraryJUTest` 86, `OneLibraryJUTest` 41, the system shards 897, `SpecDataJUTest` 130, 24 atomic programs in 72 runs, the count 0 and the distance 0 with `#crash none`, microGPT's quick pair 7 of 7 each. The gate's new step for P-103 takes its comparand where the coordinator's change of step 7 says.
+The comparands for run 1 are climb batch 35b's, in `compile-ladder/climb-batch-35b/gate/`: 64 suites, 3,698 tests, `CompilerJUTest` 1,810, `OtherCompilerJUTest` 263, `LibraryJUTest` 86, `OneLibraryJUTest` 41, the system shards 897, `SpecDataJUTest` 130, 24 atomic programs in 72 runs, the count 0 and the distance 0 with `#crash none`, microGPT's quick pair 7 of 7 each. Step 7 judges each program of its list by the program's own verdict and has no comparand (P-103).
 
 - `testFast`: the compiler track gains K's two tests and N's compiled twin; K's promotions of rows 1127, 543 and, if it passes, 770 become plain tests; row 528's expected failure fails at the compile. The onelibrary track gains C's two array tests and its three promotions where they pass.
 - `testSystem`: N's walk test; G's three promotions.
 - The atomic runs: unchanged, 24 programs, each three times `PASS`.
-- The ladder: no rung declares a move.
+- Step 7, the interpreter's suite on the compiled path: no rung declares a program leaving its list; a test that a rung adds to `tests/` and that passes compiled joins it.
 - The checker count: 0; the distance: 0, `#crash none`; reported, never red.
 - The 52 team demos at the gather. microGPT's quick pair at the commit stage, 7 of 7 each.
 - For run 2 the comparands are run 1's gate. `testSystem` gains F's test and its rewritten tests, B's promotion and T's two; `testFast`'s onelibrary track F's and B's compile tests and Y's promotions.
