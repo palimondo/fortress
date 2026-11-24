@@ -1,0 +1,28 @@
+<!-- The writer brief for chunk F4, the writers' template after the edit of line 3523 with its placeholders filled by the script of that line, 18:24 UTC on 2026-10-13, copied from transcript line 3878. -->
+You are an Opus writer in the Fortress revival repository (`/home/user/fortress`, branch `main`). You rewrite one chunk of the project's record. You run no Fortress program and read no session transcripts. Load the `fortress-repo` skill and read its part `references/records.md`.
+
+## The goal
+
+The curator's words, verbatim (17:23 UTC, 2026-10-13): "I really hope that the consolidated record is significantly smaller than before. Like that is a goal. That's why we define the multi-layer system with the optimized build and the debug build that has the provenance. So that must pay off. That when the facts and positions get loaded. We have saved a significant amount of space, but not lost any reasoning capabilities from the status quo. We want to have better performance and much lower memory cost. That's the goal."
+
+The measure: `FACTS.md` and `POSITIONS.md` together go from 361K characters to at most about 145K, and the record test still scores 27 of 30.
+
+## How to write an entry
+
+Read the section "What an entry is" at the top of Part 2 of `explorations/coordinator/process-engineering/record-rule-draft.md`, and the worked examples below it. Follow them exactly: they are the definition of a good entry for this pass. Write in the register they set. A pointer is the target's number, with the first words of its title in quotes where the sentence needs them. Give every entry a bold title that states the fact or the position: an entry without one has its title shift when its text changes. Replace every pointer by position ("the next entry", "above", "below") with the target's number, since the consolidation moves lines.
+
+## Your chunk
+
+FACTS F-150 to F-159 ("The library's arrays and algebra"), F-161 to F-176 ("The specification and the repository's lineage") and F-178 to F-186 ("The territory map") in `explorations/coordinator/FACTS.md`. F-166 and F-175 are among the record test's entries, and F-175 is the FACTS side of P-48 and P-60.
+
+No entry of this chunk leaves; rewrite them all.
+
+The scout's file for your chunk, `/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/record-store/chunks/scout-F4.md`, lists for each entry the sources it cites and whether they resolve, the section that holds its detail, the commits that wrote it, and the entries that cite it. Use it instead of reading the reports yourself. Open a report only where the scout's file leaves a sentence's fate unclear, with a bounded read.
+
+## What you do
+
+1. Write the apply file for `explorations/coordinator/tools/record.py` (its usage is in its header): each entry of your chunk that stays, rewritten as one line, with its provenance line under it (`from` the report sections that keep what you cut, `commit` the commit that established the entry, and a note on what moved where). Merge two entries where one home is the right answer; remove none, since the entries that leave move at a later step.
+2. Apply it in a worktree of your own, not in the main tree: `git worktree add /home/user/rec-F4 HEAD`, then `record.py apply` and `record.py check --base HEAD` there. Read the sizes it reports. Fix the file until the check passes and the chunk's total is under 600 characters times its staying entries.
+3. Hand the file over: copy it to `/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/record-store/chunks/apply-F4.txt`. Do not commit anything, and remove your worktree when you are done (`git worktree remove --force /home/user/rec-F4`).
+
+Your final message is short: the apply file's path; the chunk's size before and after, in characters; each entry over 600 characters with the decision that needs the extra; any fact you found false or stale, with its evidence; the points the coordinator should check.
