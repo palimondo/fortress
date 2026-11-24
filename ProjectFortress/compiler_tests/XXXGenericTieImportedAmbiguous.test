@@ -1,0 +1,4 @@
+# A call of two imported generic declarations at excluding bounds, neither more specific, is refused as ambiguous.
+tests=GenericTieImportedAmbiguous
+compile
+compile_err_contains=Ambiguous call to function f

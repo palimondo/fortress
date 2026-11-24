@@ -1,0 +1,4 @@
+# Twelve invalid sets of a generic beside a plain declaration: each call takes the plain one, and the overloading check refuses the sets.
+tests=GenericBesidePlainInvalidSetCallType
+compile
+compile_err_contains=the return type of Circle->String
