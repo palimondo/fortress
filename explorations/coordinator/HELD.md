@@ -31,7 +31,6 @@ The page of skill drafts (https://claude.ai/artifact/9tX3rwtAgYHgbu8XZQtNhr , ve
 The page is the answers to his specification notes 3 to 15 (https://claude.ai/artifact/1pVL2hVUB5s6pFaKQNGXh6 ; source `explorations/coordinator/tools/spec-html/answers-2026-11-15.md`). Each comment is a thread on the page with his exact words and its answer. At 13:17 he ended the reading: "Can you take everything we discussed here into some actionable plan, and we can retire this artifact and close all these threads? I don't care about this anymore."
 
 - 12:28 On dispatch on every argument: "how do you implement this multiple dynamic dispatch efficiently at runtime? This seems like performance nightmare to optimize correctly. Am I missing something?" Answered from a scout's reading of the compiled dispatcher and one compiled run; no note in the tree.
-- 12:26 On note 10's program: he took it to leave out the last case; answered with the seven calls run under walk.
 
 ## Held in chat (2026-11-17)
 
@@ -39,8 +38,6 @@ The page is the answers to his specification notes 3 to 15 (https://claude.ai/ar
 
 ## Held in chat (2026-11-16)
 
-- 20:34 **His word after the compaction: "Boot light".** With it his client's usage panel: context 321.5K of 1M before the compaction; all models 23 % used, Fable only 45 % used, both reset Friday 11:00; a Fable reset (expires 9 March) and a weekly reset (expires 10 December) listed. The machine had started again at 20:28 UTC, with the tree pushed and whole.
-- 13:20 His question on the context: "Are we again at 668K? Did you do full boot and then the discussion through artifacts has filled your context with tons of garbage? You were at 730 before, and now here we are full again. Probably ready for next compaction." Answered with the measurement: 679K then, of which the full boot about 430K and the page discussion about 115K.
 
 ## Held in chat (2026-11-15)
 
@@ -49,7 +46,6 @@ The page is the answers to his specification notes 3 to 15 (https://claude.ai/ar
 ## Held in chat (2026-11-10)
 
 - 16:4x His idea for the published specification, as a museum exhibit: "publish also the version from 2008 and the frozen one and then our revival specification, with jumps between them", to see "what changed between the 2008 1.0 version of the specification and the abandoned repo at 2012", "maybe have some notes on the evolution between those revisions, what was added"; "that idea of being a curator and this having a section of a museum exhibit that faithfully represents the language at those two milestones, when they release the 1.0 specification and at the closing of project"; as a learner he wants to see "how they worked, what they changed, what they added"; the coordinator prepares it. He asked whether the 1.0 revision can be taken from the repository as LaTeX or must be reconstructed from the PDF. Found at 16:4x, from git: the tag `1.0` (`0e8ede7e7f`, 2008-03-31, Sukyoung Ryu) holds only `Specification/fortress.1.0.pdf`; the LaTeX sources entered the repository on 2009-10-20 and 2009-11-05 (`5da7257089`, `d26c347121`, Ryu; 170 `.tex` files), already as the working draft; from 2011-02-02 to the team's last commit two lines changed; the 1.0β of 2007 is not in the tree; the 1.0 release's preface survives as a comment in `Specification/fortress/preamble.tex:130-146`. No worker launched for it this week.
-- 07:1x No skill is updated for that hook: its prompt is enough.
 
 ## Held in chat (2026-11-09)
 
