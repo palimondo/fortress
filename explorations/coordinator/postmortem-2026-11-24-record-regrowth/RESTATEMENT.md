@@ -56,4 +56,11 @@ Nothing of 2 to 5 starts without his go.
 
 ## His corrections
 
-(none yet)
+At 14:34 UTC, on "The way to resolve it": "It is mostly fine, but your proposal, how to resolve it. Write down what the fact is for. I believe it is written in the record. There is a definition of a fact that you cited to me. So what do you mean? Write it in the batch briefing, or where is it missing? Because everybody reads the skill. It is in the skill where you cited it from, isn't it? Fix where an entry is born. You are saying rank hands over findings and the landing sorts each. That was the purpose of the landing workflow. So yes, that is what I said in the morning. We need to fix the landing workflow. Point 3, consolidate facts is the purpose of the landing workflow. And 4, yes, build it in the landing workflow. I keep repeating myself. The landing workflow is our issue. You need to send a scout to really prep the briefing with all of my words, because every fucking time I will tell you, I already told you. So go and dig up all of my words related to that consolidation, to what the facts are for, to how they go to skill. Like, I hate repeating myself because of your amnesia."
+
+So, as the coordinator reads him:
+
+- The definition of a fact is in the skill already. Point 1 is no new text; what is missing is named only after his own words are gathered.
+- Points 2, 3 and 4 are one thing, and it is what he ordered in the morning: fix the landing workflow. Sorting a rung's findings and consolidating the record are its purpose.
+- Before any brief is written, a scout gathers all his words on the consolidation, on what the facts are for and on how they reach the skill: `evidence/his-words/` (the scouts' brief, his page comments of today, and one file of his words for each part of the transcript).
+
