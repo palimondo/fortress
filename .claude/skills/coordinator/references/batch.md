@@ -34,9 +34,9 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 
 ## The go
 
-- Launch the batches in PLAN's order, each on the curator's go, once the batch before it has landed and its own batch record has no open question, apart from one taken at its default overnight (below).
+- Launch the batches in PLAN's order, each on the curator's go, once the batch before it has landed and its own batch record has no open question, apart from one taken at its default (below).
 - Put into a batch record every piece of work on PLAN's road that moves the project forward and is well defined: its decisions are taken. A new deliverable still waits for its go (`SKILL.md`, "The curator's role and decisions"). A piece that is not well defined waits. A well-defined piece waits only if it would put the batch's merge at risk. Two rungs put it at risk if the gather cannot merge their edits of one file or one declaration cleanly. A pair that merges cleanly but changes one behaviour two ways, or where one needs the other's result, goes in one batch only if one lands only with the other (the manifest's `landsOnlyWith`).
-- If a question that the batch record raises is consequential (`SKILL.md`), put it to the curator first. Otherwise decide it. While the curator is away, overnight, take a consequential question's recommended default, and launch. Its question goes in the review queue, with the batch as the work that needs it. If that default would reverse a decision of the curator, hold that batch, and launch the repair batch (`explorations/coordinator/REPAIR-BATCH.md`) in its place.
+- If a question that the batch record raises is consequential (`SKILL.md`), take its recommended default, and launch. Otherwise decide it. A consequential question goes in the review queue, with the batch as the work that needs it. If that default would reverse a decision of the curator, hold that batch, and launch the repair batch (`explorations/coordinator/REPAIR-BATCH.md`) in its place.
 - Have one Fable review read each coming batch record before the launch, with a go in advance. It is written for the curator in place of reading the record. Treat its questions as the batch record's.
 
 ## The workflow

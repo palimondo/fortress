@@ -37,7 +37,7 @@ Ask of each sentence, and act on the answer:
 2. Would the reader misread another sentence without it? Keep it.
 3. Does it tell how the fact came about: a date, a batch, a correction? Move it to the history.
 4. Is it detail needed only while doing the work: a line number, a list of sites, a timing? Leave it in the report, and name the section.
-5. Does another entry or a skill say it? Give that entry's number, or the skill's part.
+5. Does another entry say it? Give that entry's number.
 6. Can a reader new to the project follow every word? Name the kind of each count.
 
 In a consolidation of FACTS, judge each entry by six checks. Mark each one pass, fail, or unresolved where evidence is still needed, and quote the passage that fails:

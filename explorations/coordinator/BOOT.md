@@ -1,4 +1,4 @@
-<!-- The boot note: what is in flight, for the coordinating session after a compaction, a stop or a lost container; the one question waiting on the curator, if one is; and what the session is to do next. Rewritten whole at every change, never appended to; the earlier notes are history, in postmortem-2026-09-19/held-list.md and in git. Read at boot after PLAN.md's first section, before HELD.md. Its own home since 2026-10-12, at the curator's word. -->
+<!-- The boot note: what is in flight, for the coordinating session after a compaction, a stop or a lost container; the one question waiting on the curator, if one is; and what the session is to do next. Rewritten whole when the curator asks if the session can be compacted, and pushed before the answer (the `coordinator` skill, "The boot"); not written between those points; the earlier notes are history, in postmortem-2026-09-19/held-list.md and in git. Read at boot after PLAN.md's first section, before HELD.md. Its own home since 2026-10-12, at the curator's word. -->
 
 # Boot note
 
@@ -40,7 +40,7 @@ Its home is `explorations/coordinator/postmortem-2026-11-24-record-regrowth/REST
 ## What waits for him
 
 - **His read of the draft brief** for the landing workflow's fix, and his go to launch a design worker from it. The design worker builds nothing: it writes a design note for him.
-- **Review-queue item 630 is closed** (15:3x UTC): he called the ask a stupid question, since the record already answers it and the answer is neither of the two options. The coordinator's reading, in the queue's decided items and on the held list: a known fork is put to him when it is known, while other work runs; a launch never waits for his answer; an unanswered fork lands at the planner's default; only a default that cannot be undone, or that acts against his word, holds. **Before any ask, read the skill's own section on the subject and his words, and put no question that they answer.** Owed: `references/batch.md`, "The go", bullet 3, brought in line by the skill writer, on the page of skill drafts for his yes.
+- **Review-queue item 630 is closed** (15:3x UTC): he called the ask a stupid question, since the record already answers it and the answer is neither of the two options. The coordinator's reading, in the queue's decided items and on the held list: a known fork is put to him when it is known, while other work runs; a launch never waits for his answer; an unanswered fork lands at the planner's default; only a default that cannot be undone, or that acts against his word, holds.
 - **The review queue waits on him: never tell him that nothing does.** Next: 212 and 319 (needed by the switch-over), then 551, 552, 623 to 629; item 621 and row 1098 (item 616) with the batch after climb batch 36. He asked for these to be brought while other work runs: "Use my time wisely". One ask in a message, in the skill's form.
 
 ## The numerals: his two steps
