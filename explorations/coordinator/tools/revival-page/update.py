@@ -162,7 +162,7 @@ def read_values(landing):
 
     # the compiled path: PLAN's "Runs" line
     runs = one(r'^- \*\*Runs\.\*\* (.*)$', stand, 'PLAN.md, "Where we stand", the runs', re.M).group(1)
-    one(r'On the compiled path microGPT\'s \d+ components stop at name resolution until the switch-over', runs,
+    one(r'On the compiled path,? microGPT\'s \d+ components stop at name resolution until the switch-over', runs,
         'PLAN.md, the runs\' compiled path')
 
     # the native bindings: F-299's headline sentence
