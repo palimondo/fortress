@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Held list: remove settled, move questions","toolUseId":"toolu_0113ueGuAZbE6hrvd84fv8oR","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Held list: remove settled, move questions","toolUseId":"toolu_0113ueGuAZbE6hrvd84fv8oR","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2","finished":true}
