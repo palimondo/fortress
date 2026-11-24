@@ -1,5 +1,5 @@
 # The program that writes an array1 of ZZ32 in a seq loop compiles under the one library's selection, runs and finds a[5] = 25.
-tests=OneLibraryArr
+tests=OneLibraryArray1
 compile
 run
 run_out_contains=PASS
