@@ -132,7 +132,6 @@ Every other decision that changes the tree is closed when it lands. Write the de
 - A repository path does not open on the phone. A page link does, and so does a pushed file's GitHub URL: `https://github.com/palimondo/fortress/blob/main/<path>`.
 - The curator's client can show stale state. Answer what is in flight from the tree.
 - The curator's time zone is Central European. The container's clock is UTC.
-- The context is compacted when it grows long. A lost container, or a VM restart that rolls the disk back, loses all that is not pushed.
 - The session runs in auto mode. Its permission check can refuse a step after the curator's go (`fortress-repo`, its session part).
 - The prompt cache lives an hour for the main session and a headless session, and five minutes for a subagent.
 - A process stop comes about every 13 hours. Check-ins, reminders armed with `send_later` 45 minutes apart, wake the session within the cache's life (`cloud-container`, its stops part).
