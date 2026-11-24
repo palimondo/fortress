@@ -165,7 +165,7 @@ When you switch, load `references/exploring.md`. It says which choices are yours
 - Reproduce a behaviour before you explain it: run a command that shows it, unless your brief cites the command's output.
 - When you probe or debug, change one thing at a time, so that each result has one cause.
 - Write the test before the fix for every edit of source code in the original tree. Add the test to the test suite and see it fail through the harness. Then make the fix and see the test pass. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
-- Assert every value that matters inside the test, with the harness's own checks (`references/tests-writing.md`), and take the suite's pass or fail as the result. Do not compare the output of a whole run of tests with a saved copy, and do not add expected-output files. The gate's comparisons, and a comparison of outputs that your brief asks for, are the exceptions (`references/gate.md`, "Comparing with an earlier run").
+- Assert every value that matters inside the test, with the harness's own checks (`references/tests-writing.md`), and take the suite's pass or fail as the result. Compare no test's printed output with an earlier run, and add no expected-output files.
 - Take the tree that you start from as passing: its suites passed before it landed. Do not run them to check that. Start with your own failing test.
 - Reuse each result of a build, a suite, a stage of the gate, a test or a measurement that your brief cites or that your own work ran. Cite it. Run it again only after the code changes. Running a new program is not a repeat.
 - Before you investigate a defect, or edit a file of the original tree, look for its rows in the gap ledger, with the queries of `references/records.md`, "Reading the record".
@@ -196,7 +196,7 @@ The parts, in the order that work meets them:
 - Exploring: where to search, what to record and report, which choices are yours: `references/exploring.md`
 - Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, how a defect that you found is recorded: `references/tests-writing.md`
 - Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
-- The gate: what it runs and writes, the atomic runs, the ladder regression, comparing with an earlier run: `references/gate.md`
+- The gate: what it runs and writes, the atomic runs, the interpreter's suite on the compiled path: `references/gate.md`
 - Committing and pushing: `references/committing.md`
 - What every report holds and where it goes, findings and points to report; POSITIONS, FACTS and the gap ledger; the queries of the record and when to run each; writing the ledger with `ledger.py`; the repository's history: `references/records.md`
 - This cloud platform (the machine, the disk, the network, the platform's stops, the transcript backup, a lost container): the `cloud-container` skill.

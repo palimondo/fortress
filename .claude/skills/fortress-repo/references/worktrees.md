@@ -33,7 +33,7 @@ If you check a fix against its old code, use a base build at the commit that the
 
 A build, and a run of `bin/fortress` without a private caches folder, walk's too, write into the caches of the tree that they run in. So build and run only in a tree whose caches no other agent uses. Your brief says where you work. If your work builds or runs code and your brief gives you no tree of your own, seed a worktree of your own instead of building one. Then work only there.
 
-Seeding takes about 3 s and 206 MB of disk. The new worktree runs walk, and the compiled path on the compiler's prelude, right away, with their libraries already compiled. The script copies neither `ProjectFortress/build-one` nor `default_repository/caches-one`. So before a compiled run with `FORTRESS_LIBRARY=one`, run `ant compileAll`, then the library order, then fill `caches-one` (`build-and-caches.md`, "The caches").
+Seeding takes about 3 s and 206 MB of disk. The new worktree runs walk, and the compiled path on the compiler's prelude, right away, with their libraries already compiled. The script also copies `ProjectFortress/build-one` and `default_repository/caches-one`. If the base build's `caches-one` lacks the one library's jars, fill it before a compiled run with `FORTRESS_LIBRARY=one` (`build-and-caches.md`, "The caches").
 
     explorations/coordinator/tools/seed-worktree.sh <base-build> <new-worktree> <branch> [<start-point>]
 
@@ -42,13 +42,13 @@ Seeding takes about 3 s and 206 MB of disk. The new worktree runs walk, and the 
 - If the worktree already exists, the script keeps its branch. If it already has a build, the script keeps that too. `SEED_FORCE=1` replaces it.
 - If you start in a worktree that has no build, seed it in place: name it as `<new-worktree>`, and its branch as `<branch>`.
 - The script lists the library sources that differ from the base build's commit. Before a compiled run, take for each the step that `build-and-caches.md`, "After an edit of the library", gives.
-- If the script warns that the copied build is the base's, run `ant compileAll`, then the library order.
+- If the script warns that the copied build is the base's, run `ant compileAll`, then the library order. Without the warning, `ant compileAll` keeps the seeded caches.
 - If another agent seeded your worktree, make the script's two lists yourself: `git diff --name-only <base> -- Library ProjectFortress/LibraryBuiltin` for the library sources, and `git diff --name-only <base> -- ProjectFortress/src ProjectFortress/astgen build.xml` for the warning.
 - Reuse another tree's build or caches only through this script.
 
 ## Running the old code
 
-If your worktree holds an edit and you need the base's behaviour, run the old code instead of reverting your edit. For example, see a test fail, or compare a program's old and new output.
+If your worktree holds an edit and you need the base's behaviour, run the old code instead of reverting your edit. For example, see a test fail.
 
 `old-fortress.sh` runs the base build's `bin/fortress`. It sets `FORTRESS_HOME` to the base build and `FORTRESS_CACHES` to the private caches folder that you name, over your settings. Name a folder inside your worktree's `tmp/`:
 

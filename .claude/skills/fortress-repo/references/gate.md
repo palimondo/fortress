@@ -1,14 +1,14 @@
 # The gate
 
-The gate runs the seven steps below on one tree, in about 25 minutes. It is green if every step passes, and red if one fails. If a step fails, run the rest, so that the summary holds every step's result.
+The gate runs the seven steps below on one tree, in about 30 minutes. It is green if every step passes, and red if one fails. If a step fails, run the rest, so that the summary holds every step's result. Each test gives its verdict by its own asserts: no step compares what a test prints with an earlier run.
 
 ## What it writes
 
-The summary, `summary.txt`, has one tab-separated row for each suite: `track/suite`, tests, failures, errors, skipped. Below the rows, lines that start with `#` give each log's `BUILD` and `Total time:` lines, the machine that ran the gate (`# machine`), the atomic runs and the ladder's comparison. A landed summary can also end with `# microgpt-walk` lines: the `VERDICT:` and `rc=` lines of the microGPT walk check (`interpreter.md`, "The model program"), run on the landed tree. Add them only if your brief asks for the microGPT walk check on the landed tree.
+The summary, `summary.txt`, has one tab-separated row for each suite: `track/suite`, tests, failures, errors, skipped. Below the rows, lines that start with `#` give each log's `BUILD` and `Total time:` lines, the machine that ran the gate (`# machine`), the atomic runs and step 7's lines. A landed summary can also end with `# microgpt-walk` lines: the `VERDICT:` and `rc=` lines of the microGPT walk check (`interpreter.md`, "The model program"), run on the landed tree. Add them only if your brief asks for the microGPT walk check on the landed tree.
 
-If your brief asks you to land a gate's results, put them in a new `gate/` folder in `explorations/compile-ladder/`, under the `climb-batch-` name that your brief gives, in the form of the newest one: `summary.txt`, and in `ladder/` the files `ladder.tsv`, `microgpt-phase.md`, `comparison.txt` and `microgpt-comparison.txt`. The next gate compares with the newest summary there or in `explorations/compile-ladder/gate-baseline/`, and finds no other. Land them in a commit that changes nothing else that the gate reads.
+If your brief asks you to land a gate's results, put them in a new `gate/` folder in `explorations/compile-ladder/`, under the `climb-batch-` name that your brief gives. Put in it `summary.txt`, and step 7's output folder, `tmp/gate/suite-out/`, as `suite-compiled/`. Copy that folder's `list.tsv` over step 7's list. The next gate compares with the newest summary there or in `explorations/compile-ladder/gate-baseline/`, and finds no other. Land them and the list in a commit that changes nothing else that the gate reads.
 
-Steps 5 and 7 use shell functions that `explorations/coordinator/tools/gate-functions.sh` defines. The file runs nothing. In each Bash call of steps 5 and 7, set up the call as `build-and-caches.md` says, which sets `FORTRESS_HOME` to the tree's root. Then source the file, from the root:
+Step 5 uses shell functions that `explorations/coordinator/tools/gate-functions.sh` defines. The file runs nothing. In each Bash call of step 5, set up the call as `build-and-caches.md` says, which sets `FORTRESS_HOME` to the tree's root. Then source the file, from the root:
 
     source explorations/coordinator/tools/gate-functions.sh
 
@@ -23,7 +23,7 @@ If it asks, first check whether the newest gate still holds for your tree. A gat
         | grep -v -E '^ProjectFortress/([^/]*_)?tests/[^/]*\.(fss|fsi|test)$'
 
 - If it prints a path, run the gate.
-- If not, the newest gate holds. Run only the changed test files, through `harness-one.sh` and `junit.sh` (`tests-running.md`).
+- If not, the newest gate holds. Run only the changed test files, through `harness-one.sh` and `junit.sh` (`tests-running.md`). If one of them is in `ProjectFortress/tests/`, also run step 7, with `$G` as its base.
 
 ## The steps
 
@@ -31,16 +31,16 @@ Run these steps from the tree's root. Keep the logs of steps 2 and 4 in `tmp/gat
 
 1. Read the Avail column of `df -h /`. Warning: deleting `/tmp/fortress*rats` can break other live runs. If the column shows less than 1 GB, delete `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`, and read it again. If it still shows less than 500 MB, stop and report.
 2. Run `rm -rf ProjectFortress/TEST-RESULTS tmp/gate && mkdir -p tmp/gate`, then `ant compileAll`.
-3. If the build printed `Caches <tree>/default_repository/caches started again, empty`, run the library order (`build-and-caches.md`). If not, and a source of the compiler's library changed since the caches were filled, take its step in `build-and-caches.md`, "After an edit of the library". Then copy the caches twice for the ladder regression, before anything else compiles into them:
+3. If the build printed `Caches <tree>/default_repository/caches started again, empty`, run the library order (`build-and-caches.md`). If not, and a source of the compiler's library changed since the caches were filled, take its step in `build-and-caches.md`, "After an edit of the library". Then copy the caches twice for step 7, before anything else compiles into them:
 
-       D=$PWD/tmp/gate/ladder ; mkdir -p $D/root
-       cp -a default_repository/caches $D/root/ladder-caches
-       cp -a default_repository/caches $D/root/pristine
+       D=$PWD/tmp/gate/suite-compiled/prelude/root ; mkdir -p $D
+       cp -a default_repository/caches $D/ladder-caches
+       cp -a default_repository/caches $D/pristine
 
 4. Run `ant testFast`, then `ant testSystem`, then `ant testSpecData`. All three must have zero failures. In `ant testSystem`, `tests/XXXAtomicNestedReadsKeptWalk` can print `PASS` and fail with 'Missing expected failure': its expected failure depends on a race (ledger row 1004). The gate is then red, as for any failure. Cite the row in your report.
 5. Write the summary: `gate_summary tmp/gate tmp/gate/summary.txt`. Compare it: `gate_compare "$(last_landed_summary)" tmp/gate/summary.txt`. It prints a line for a suite with failures or errors, a suite with no tests, a suite whose count of tests fell, and a suite that is gone. Each such line makes the gate red. A count that rose prints nothing.
 6. Do the atomic runs, and append their lines to the summary.
-7. Do the ladder regression.
+7. Run the interpreter's suite on the compiled path (below).
 
 ## The atomic runs
 
@@ -65,44 +65,21 @@ The atomic runs compile the programs below, and run each one three times at four
 
 The gate is red on any FAIL, NO-PASS, COMPILE-FAILED or TIMEOUT-TWICE.
 
-## The ladder regression
+## The suite on the compiled path
 
-The compile ladder records how far each test program gets through the compiler's phases, in order: parse, disambiguate, typecheck, codegen, link, run and pass. The ladder regression runs part of it again, and compares the result with the baseline, `explorations/compile-ladder/baseline-2026-09-19/`:
+Step 7 runs, on the compiled path, the programs of the interpreter's suite (`ProjectFortress/tests/`) that compile there. Its list, `explorations/compile-ladder/gate/suite-compiled.tsv`, names each program with its library: `one` for the one library, or `prelude` for the compiler's prelude. A program passes or fails as the harness judges it under walk (`tests-writing.md`, "Where a test goes, and how it passes").
 
-- It compiles and runs the 85 programs of the baseline's `pass-list.txt`. It compares each one's phase and output with the baseline's `raw/`.
-- It compiles the eighteen components of the two microGPT programs, and never runs them. It compares each one's phase with the baseline's `microgpt-phase.md`.
+The step also tries, under both libraries, each program of `ProjectFortress/tests/` that changed since the base and that the list does not hold.
 
-A file that moved gets a mark:
+- A listed program that fails makes the gate red, unless your brief declares that it leaves the list.
+- A tried program that passes joins the list.
+- A listed program whose file is gone, as after a promotion, leaves the list.
 
-- DOWN: a phase lower than the record.
-- MISSING: a file with no output.
-- STDOUT: output that differs from the record after the `Operation took <n>ms` line is masked.
-- UP: a phase higher than the record. This is progress, not red.
+Run it from the tree's root, in the background (`session.md`, "Long commands"). It takes about 8 minutes. `<base>` is your base. After it, name each program, as `tests/X.fss`, that your brief declares leaving the list:
 
-DOWN, MISSING and STDOUT are red, unless your brief declared that move as expected before the gate ran.
-Warning: do not run `run-ladder.sh`, the driver over every test program, with its defaults. Its default root is shared, its cache pruning corrupts a parallel run, and its default `OUT` is a tracked folder.
+    explorations/coordinator/tools/suite-compiled/run.sh explorations/compile-ladder/gate/suite-compiled.tsv \
+        <base> tmp/gate/suite-compiled tmp/gate/suite-out [tests/X.fss ...]
 
-To run it, as step 7, with step 3's copies of the caches:
+Append each line of its log, except `EXIT=`, to the summary, with `# suite-compiled ` before it. A FAIL or MISSING line is red. The list after the run is `tmp/gate/suite-out/list.tsv`.
 
-1. Copy the drivers into `tmp/gate/ladder/`, and point their outputs and caches there:
-
-       D=$PWD/tmp/gate/ladder ; B=explorations/compile-ladder/baseline-2026-09-19
-       cp explorations/compile-ladder/repair-r1-atomic-static/run-subset.sh \
-          $B/classify.py $B/microgpt-phase.sh $B/microgpt-phase.py $D/
-       sed -i -e "s|^OUT=.*|OUT=$D|" -e "s|^LADDER_ROOT=.*|LADDER_ROOT=$D/root|" $D/run-subset.sh
-       sed -i -e "s|/home/user/fortress|$PWD|g" \
-           -e "s|^export LADDER_CACHES=.*|export LADDER_CACHES=$D/root/ladder-caches|" \
-           -e "s|^export LADDER_TMP=.*|export LADDER_TMP=$D/root/ladder-tmp|" \
-           -e "s|^RAW=.*|RAW=$D/raw/microgpt|" -e "s|^TSV=.*|TSV=$D/microgpt-results.tsv|" $D/microgpt-phase.sh
-       tail -n +2 $B/pass-list.txt | cut -f1 | sed 's|/|\t|' > $D/subset.txt
-
-2. Run the four scripts, with no arguments, in this order: `bash $D/run-subset.sh`, `python3 $D/classify.py`, `bash $D/microgpt-phase.sh` and `python3 $D/microgpt-phase.py`. Each reads and writes in `$D`. This takes about 200 s for the 85 and 35 s for the eighteen, so run them in the background (`session.md`, "Long commands"). With step 3's copies, the driver skips the library's build (about 145 s).
-3. Compare: `ladder_compare $B $D`, then `diff <(mg_phases $B/microgpt-phase.md) <(mg_phases $D/microgpt-phase.md)`. Append each line that they print to the summary, with `# ladder ` before it.
-
-If your brief asks for your change's own ladder subset, write your own `subset.txt`. Put in it each file whose recorded first error in the baseline's `raw/` names something that your change touched. Run them after your edit only. Compare them with the newest landed `ladder.tsv`, or with the baseline's `raw/` for a file that the gate does not run.
-
-## Comparing with an earlier run
-
-- `ant testSystem` runs in four shards, the summary's rows `system-0` to `system-3`. A shard takes the files by their place in a sorted list, so an added file moves every later file to another shard. When you compare by hand, compare only the sum of the four. `gate_compare` sums them.
-- In printed output, mask only these differences: the `Operation took <n>ms` line, a Java line number in a stack frame, an object's identity hash (`@` and hex digits), and a position in a library file that your change moved. In your report, list each test with a masked difference, and the kinds masked in it.
-- If your brief asks you to compare the interpreter tests with a base run, use the two scripts in `explorations/coordinator/tools/count-run/`. `count-run.sh` runs every `ProjectFortress/tests/*.fss` under walk, one JVM per test: run it once on the base commit and once after your edit. `compare-normalised.py` compares the two runs, with the last three masks above. Each script's header gives its usage.
+If your change is on the compiled path and your brief asks for it, run the script after your edit on a list of your own, with `-` as `<base>`. Put in it the programs that the list does not hold and that your change can make pass, each on two lines, one for each library. In your commit, add to the list each program that the run's `verdicts.tsv` shows passing: under `one` where it passes there, else under `prelude`.
