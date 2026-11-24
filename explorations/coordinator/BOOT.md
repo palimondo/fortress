@@ -4,12 +4,12 @@
 
 **State at 15:10 UTC on 2026-11-24** (16:10 his time). The session runs on Fable 5.2 (`claude-fable-5-2`), at high reasoning effort. It booted after the compaction at 15:02 UTC, every step. Boot by the skill's section "The boot", every step: **step 1 reads the facts that POSITIONS cites (`positions-facts.sh`, three slices) before POSITIONS**. The boot of 12:35 skipped them, and he caught it. `uptime -s` gave 14:31:54 UTC at the boot; the trust flag was true and the backup's last line `push=ok`. No check-in is armed.
 
-**Two workers run,** both Opus Agent-tool workers launched at 15:09 UTC, both read-only, each writing one file under `explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/` and committing nothing. They are the measurement that he asked for at 13:17 and 13:43 UTC, before he decides whether an entry names its tests (open questions 3-A and 3-B of `HIS-WORDS.md`):
+**Two workers run,** both Opus Agent-tool workers launched at 15:09 UTC, both read-only, each writing one file under `explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/`. Each commits and pushes its own file, told so by a message after its launch. They are the measurement that he asked for at 13:17 and 13:43 UTC, before he decides whether an entry names its tests (open questions 3-A and 3-B of `HIS-WORDS.md`):
 
 - "How workers use named tests" writes `test-names-use.md`: from the workers' transcripts, whether a worker uses the test names of the entries that it saw, and where the tests that it ran came from.
 - "Tests in the cited reports" writes `test-names-in-reports.md`: whether the reports that the entries cite hold the tests that the entries name, in one section or scattered, and what a reader pays to get them.
 
-At each notice: commit the file by its path, push, and give him the counts in a few lines.
+At each notice: read the final message and give him the counts in a few lines. **A worker commits and pushes its own report, as the worker skill's committing part says when a brief says nothing. Write "commit nothing" into no brief for a report file:** the coordinator did so all day on 11-24 with no rule behind it, and he asked why at 15:2x UTC. Only FACTS and POSITIONS are the coordinator's to write, and only on his go.
 
 **Done and pushed since the compaction:**
 
