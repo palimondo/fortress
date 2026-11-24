@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Profanity chart by model","toolUseId":"toolu_01SFeiiCFdmnENhWK6t7TTjA","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Profanity chart by model","toolUseId":"toolu_01SFeiiCFdmnENhWK6t7TTjA","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2","finished":true}
