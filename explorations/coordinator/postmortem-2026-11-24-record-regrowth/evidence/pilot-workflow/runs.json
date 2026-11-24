@@ -32,7 +32,8 @@
      "F-383",
      "F-108"
     ]
-   }
+   },
+   "ended": "2026-11-24 23:27 UTC: 10 entries proposed, 0 held; its files copied to chunks/pilot-1/ on main (b05d24bbc1)"
   },
   {
    "round": 2,
@@ -82,6 +83,28 @@
      }
     ]
    }
+  },
+  {
+   "round": "test of decisions on the hand writers' two rounds",
+   "runId": "wf_fa0c3ea4-699",
+   "taskId": "wnfu6e2xi",
+   "script": "/home/user/fortress/tmp/pilot-batch/record-batch-test.js: record-batch.js with one change, the grader on Opus at xhigh effort in place of Fable, since a Fable grader needs the curator's go",
+   "launched": "2026-11-24 23:5x UTC",
+   "args": {
+    "from": "test",
+    "to": "test",
+    "out": "/home/user/fortress-pilot/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/pilot-hand/",
+    "scenarios": "/home/user/fortress-pilot/explorations/coordinator/process-engineering/record-test/2026-11-24/",
+    "test": {
+     "p": "2d1614aaee",
+     "applies": [
+      "/home/user/fortress/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/pilot-2/round-1.apply",
+      "/home/user/fortress/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/pilot-2/round-2.apply"
+     ],
+     "x": "new"
+    }
+   }
   }
- ]
+ ],
+ "note": "The test's copies are /home/user/record-test-p and -q, so one test runs at a time. After round 2's workflow run ends: copy chunks/inference/ to main and push; then the same test on the workflow's two final.apply files, with out .../evidence/pilot-workflow/."
 }
