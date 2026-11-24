@@ -5539,11 +5539,15 @@ At \EXP{\mathbb{R}32} the compiled path's own library declares no \EXP{\neq},
 and its \EXP{=} is the one of its \TYP{Equality}, which calls that library's
 \EXP{\sequiv}, whose declaration at \EXP{\mathbb{R}32} calls \EXP{=}: so for
 \EXP{c\COLON\mathbb{R}32 = 0} the compiled type checker refuses
-\EXP{c \neq 0}, and \EXP{c = 0} compiles and overflows the stack when it runs
+\EXP{c \neq 0}, and refuses \EXP{c = 0} too, since the \EXP{=} of
+\TYP{Equality} and the one at \EXP{\mathbb{R}64} each apply to it only by
+coercion and neither is more specific, while \EXP{c = c} compiles and
+overflows the stack when it runs
 (rows~1059 and~528 of the revival's gap ledger;
 \nolinkurl{ProjectFortress/compiler_tests/NumeralNotEqualsFloatCompiled.fss},
-and the expected failure \nolinkurl{XXXNumeralEqualsRR32Compiled.fss}, which
-asserts \VAR{true}).
+the expected failure \nolinkurl{XXXNumeralEqualsRR32Compiled.fss}, which
+asserts \VAR{true}, and the expected failure
+\nolinkurl{ProjectFortress/library_tests/XXXRR32EqualityRungV.fss}).
 The interpreter has no static types and reads the rule on the value: for a
 variable \VAR{a} declared of type \TYP{Any} that holds a zero of
 \EXP{\mathbb{N}32} it answers \EXP{a = 0} \VAR{true}, where the text gives the
