@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Pilot checks: cold reader","toolUseId":"toolu_01NvxmdtNbSVJ13e9kTnMex4","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Pilot checks: cold reader","toolUseId":"toolu_01NvxmdtNbSVJ13e9kTnMex4","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-2","finished":true}
