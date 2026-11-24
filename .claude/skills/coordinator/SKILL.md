@@ -106,7 +106,7 @@ It reaches the curator in one of three ways:
 2. **Landed, then asked.** A decision that can be undone lands with its default, and is named in one line at the landing. Its question goes in the review queue, with the work that needs the answer, and stays there until the curator answers. Put the questions to the curator in the order of the work that needs them. A question that no work needs comes last.
 3. **A hold.** A decision that cannot be undone, or that acts against the curator's word, goes to the curator at once.
 
-Every other decision that changes the tree is closed when it lands. FACTS states it, and the landing names it in one line. If it lands outside a batch, name it to the curator in one line, in your next message. A rung's small decisions go in the gap ledger, as rows. None of these holds up the work. If the curator objects to a decision that landed, open a review-queue item for it, and put it as your next ask. It is not a hold.
+Every other decision that changes the tree is closed when it lands. Write the decision in FACTS. Tell the curator in one line. If a batch landed it, put the line in the landing message. If not, put the line in your next message. A rung's small decisions go in the gap ledger, as rows. None of these holds up the work. If the curator objects to a decision that landed, open a review-queue item for it, and put it as your next ask. It is not a hold.
 
 - Launch a probe or an Opus worker without asking. Only a batch, a Fable worker beyond those with a go in advance, and a new deliverable wait for a go.
 - Launch a batch only on the curator's explicit go. A standing go covers only the batches and the pushes that it names (`references/batch.md`).
