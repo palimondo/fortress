@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout chunk exec","toolUseId":"toolu_01Y61RSXnbXFPW9nftwM5j3q","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout chunk exec","toolUseId":"toolu_01Y61RSXnbXFPW9nftwM5j3q","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-2","finished":true}
