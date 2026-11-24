@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Change history of the two workflows","toolUseId":"toolu_01BXgEqisyorDAbpPXRRd2X3","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Change history of the two workflows","toolUseId":"toolu_01BXgEqisyorDAbpPXRRd2X3","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-2","finished":true}
