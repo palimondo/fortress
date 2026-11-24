@@ -1,0 +1,11 @@
+Record after climb batch 36's landing: P-174, P-60 and P-45 brought in line with the tree; the pass on the batch's entries; rows 1139 and 1140 filed
+
+- P-174: its sentences on where the tree departs name row 1135, walk loading a numeral type written as a bound or a typecase arm, and the compiled path's rows 1132 and 1131, since rungs G and N closed the departures they named. The decision is unchanged.
+- P-60: its last sentence drops row 543, closed by rung K; row 551 stays. The decision is unchanged.
+- P-45: on a nested pair in a generic trait, walk stops when an extending object's first instance is made, not at a call (row 780). The decision is unchanged.
+- F-408: names the decisions it builds; the order by place is a default of the batch's plan that the curator has not decided; a tie among a unit's own declarations is kept by place (row 1136).
+- F-225 and F-277: the reading of a comprises trait is fork K1's default, past P-146's and P-157's words.
+- F-405 and F-396: the Both set (row 1139) and the failing assert's crash under the one library (row 1140) named as departures.
+- F-26, F-174, F-139, F-366, F-376, F-232, F-76, F-334 and F-342: brought in line with rows 780, 528, 499 and 1136, rung K's order and rows 1131 and 1132.
+- F-257, F-341, F-347, F-377, F-407 and F-409: the pass; source names and detail left to the reports.
+- The ledger: row 1136 NEGATIVE-VERIFIED, his words making the tie a static error in the unit too; row 879's note points to review-queue item 621; row 779 follows row 780; rows 1139 and 1140 filed.

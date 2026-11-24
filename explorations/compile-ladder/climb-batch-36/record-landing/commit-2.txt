@@ -1,0 +1,10 @@
+Plan and review queue after climb batch 36's landing: the plan brought to run 1, a line for climb batch 36 with the list for the batch after, item 419 his question on fork K4
+
+- PLAN, "Where we stand": the runs, the live thread, the landed batches and "Next" brought to climb batch 36's run 1 and run 2's go.
+- PLAN, phase 4: a line for climb batch 36 with the review's list for the batch after; climb batch 35b's line says what run 1 took from its list; F-34's, the varargs and the rehearsal's lines say rows 994, 1091, 1099 and 1100 are closed.
+- PLAN, phase 5 and Pavol's answers: row 770 is the export check's; item 101's premise, c = 0 at RR32 refused statically since fork K8.
+- PLAN, the lists for his review: climb batch 28's K.worker.1 asks which rule decides a tie; judge-gate.3 cut to row 996's half; climb batch 35b's three items and climb batch 36's settled, answered and told items move to the history; fork K1 and fork K4 stay as pointers to items 621 and 419.
+- PLAN-history: the section "Climb batch 36's landing, 2026-11-24", each moved or rewritten line word for word.
+- Review queue: item 419 takes his question on fork K4, needed by the batch after; item 621 landed, needed by the batch after, its ground dated to the Working Draft of February 2011; item 616 and the head's groups follow; items 586, 58, 503, 493 and 323 brought in line with rows 528, 543, 1124 and 1135.
+- CLIMB-BATCH-36.md: the sentence on self in a comprises trait dated to the Working Draft of February 2011, not 2012.
+- The run's folder: the sort, the evidence, the writers' files and reports, the check, the cold read, the mechanical checks, the judge's files and diff.md.
