@@ -508,7 +508,7 @@ rung.testIsStage
 '',
 '# Your role: rung worker for ' + rung.id + ', ' + rung.slug + (mode === 'repair' ? ', repair round' : mode === 'resume' ? ', continued' : ''),
 '',
-'Your rung\'s section of the batch record, word for word, is at the end of this brief. It opens with the answers on record that it follows, and it is the whole of what the record asks of this rung' + (mode === 'repair' ? '.' : ', followed by your briefing\'s entries, each with why it is there.'),
+'Your rung\'s section of the batch record, word for word, is at the end of this brief. It opens with the answers on record that it follows, and it is the whole of what the record asks of this rung' + (mode === 'repair' ? '.' : ', followed by your briefing\'s entries, each with why it is there.') + ' Compare no output with an earlier run (POSITIONS.md, P-103), and keep every wait under 240 s, a long command started in the background with a log, as the skill\'s session.md, "Long commands", gives it.',
 '',
 '## The order of work',
 '',

@@ -15,7 +15,9 @@
 #                    runs the base build itself with a private caches folder.
 #
 # What it does, in order: adds the worktree; copies ProjectFortress/build, ProjectFortress/.dependencies
-# and default_repository/caches from the base; renames every file of the AST caches (analyzed_cache,
+# and default_repository/caches from the base, and ProjectFortress/build-one and default_repository/caches-one
+# where the base has them, since the implementation's stamp covers build-one, and a build that finds it
+# missing rebuilds the Scala and empties both caches (FACTS.md, F-404); renames every file of the AST caches (analyzed_cache,
 # interpreter_cache, interpreter_parsed_cache) to the hash of its source's new path (NamingCzar.deCaseName,
 # compiler/NamingCzar.java:244-245; GraphNode.java:33 hashes the canonical path) and rewrites the base path
 # inside it; rewrites the base path in the bytecode-cache jars' SourceFile attributes (debug information
@@ -86,8 +88,9 @@ step "worktree $(git -C "$NEW" rev-parse --short HEAD)"
 # The build: plain copies; nothing in it holds the base's path but scalac-compileAll.args, which
 # ant compileAll writes afresh. A symlink would send every cache lookup to the base
 # (explorations/coordinator/batched-climb-review.md, finding 2), so copy.
-rm -rf "$NEW/ProjectFortress/build" "$NEW/ProjectFortress/.dependencies"
+rm -rf "$NEW/ProjectFortress/build" "$NEW/ProjectFortress/build-one" "$NEW/ProjectFortress/.dependencies"
 cp -a "$BASE/ProjectFortress/build" "$NEW/ProjectFortress/build"
+[ -d "$BASE/ProjectFortress/build-one" ] && cp -a "$BASE/ProjectFortress/build-one" "$NEW/ProjectFortress/build-one"
 [ -d "$BASE/ProjectFortress/.dependencies" ] && cp -a "$BASE/ProjectFortress/.dependencies" "$NEW/ProjectFortress/.dependencies"
 rm -f "$NEW/ProjectFortress/build/scalac-compileAll.args"
 step "copy ProjectFortress/build"
@@ -95,18 +98,20 @@ step "copy ProjectFortress/build"
 # The caches: everything but logs/, whose subdirectories spell the base's path. global.map, the linker's
 # state, comes with them: it is untracked and ignored, and the linker writes an empty one wherever it is
 # missing (ProjectFortress/src/com/sun/fortress/linker/RepoState.java:366-385).
-C="$NEW/default_repository/caches"
-rm -rf "$C" ; mkdir -p "$C"
-for d in "$BASE"/default_repository/caches/* ; do
+C="$NEW/default_repository/caches" C1="$NEW/default_repository/caches-one"
+rm -rf "$C" "$C1" ; mkdir -p "$C"
+[ -d "$BASE/default_repository/caches-one" ] && mkdir -p "$C1"
+for d in "$BASE"/default_repository/caches/* "$BASE"/default_repository/caches-one/* ; do
+    [ -e "$d" ] || continue
     [ "$(basename "$d")" = logs ] && continue
-    cp -a "$d" "$C/"
+    cp -a "$d" "$NEW/default_repository/$(basename "$(dirname "$d")")/"
 done
 step "copy default_repository/caches"
 
 # Translate: the AST caches' names and texts, and the jars' class constants.
-python3 - "$BASE" "$NEW" "$C" <<'PY'
+python3 - "$BASE" "$NEW" "$C" "$C1" <<'PY'
 import os, sys, re, struct, zipfile, shutil
-base, new, caches = sys.argv[1], sys.argv[2], sys.argv[3]
+base, new, cache_dirs = sys.argv[1], sys.argv[2], [c for c in sys.argv[3:] if os.path.isdir(c)]
 def jhash(s):                      # java.lang.String.hashCode() & 0x7fffffff, as NamingCzar.deCaseName uses it
     u = s.encode('utf-16-be'); h = 0
     for j in range(0, len(u), 2):           # over UTF-16 code units, as Java counts them
@@ -124,7 +129,7 @@ for root, dirs, files in os.walk(base):
 old_q, new_q = (base + '/').encode(), (new + '/').encode()
 renamed = rewritten = kept = 0
 # analyzed_cache, interpreter_cache and interpreter_parsed_cache name and fill their files the same way
-for root, dirs, files in os.walk(caches):
+for root, dirs, files in (w for caches in cache_dirs for w in os.walk(caches)):
     dirs[:] = [d for d in dirs if d not in ('bytecode_cache', 'nativewrapper_cache')]
     for f in files:
         if not f.endswith(('.tfi', '.tfs')): continue
@@ -157,8 +162,7 @@ def fix_class(b):
     out.append(b[i:])
     return b''.join(out), changed
 consts = 0
-bc = os.path.join(caches, 'bytecode_cache')
-for f in sorted(os.listdir(bc)) if os.path.isdir(bc) else []:
+for bc, f in [(bc, f) for bc in (os.path.join(c, 'bytecode_cache') for c in cache_dirs) if os.path.isdir(bc) for f in sorted(os.listdir(bc))]:
     if not f.endswith('.jar'): continue
     p = os.path.join(bc, f); tmp = p + '.seed'
     with zipfile.ZipFile(p) as zin, zipfile.ZipFile(tmp, 'w') as zout:
