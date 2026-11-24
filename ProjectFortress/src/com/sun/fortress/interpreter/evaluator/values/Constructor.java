@@ -951,6 +951,9 @@ public class Constructor extends NonPrimitive {
         @Override public void forVarType(VarType that) { if (!atPosition(that.getName())) super.forVarType(that); }
         @Override public void forIntRef(IntRef that) { if (!atPosition(that.getName())) super.forIntRef(that); }
         @Override public void forBoolRef(BoolRef that) { if (!atPosition(that.getName())) super.forBoolRef(that); }
+        // A name is written without its api, so that a type that one component
+        // declares and another names through the api is written alike in both.
+        @Override public void forAPIName(APIName that) {}
         // A node's information, its span among it, is not its form.
         @Override public void forSpanInfo(SpanInfo that) {}
         @Override public void forExprInfo(ExprInfo that) {}

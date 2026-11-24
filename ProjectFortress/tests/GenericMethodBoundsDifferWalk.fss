@@ -1,4 +1,4 @@
-(* Two generic dotted methods of one name and one number of parameters in an object, whose static parameters differ only in their bounds, are a valid overloading, and each call runs the most specific declaration whose bound holds its argument; an object's redeclaration of a trait's generic method at the same bound under another parameter name hides it (overloading.tex, section "Declarations with Static Parameters"). *)
+(* Generic dotted methods of one name and one number of parameters whose static parameters differ only in their bounds, declared in one object, in a trait and an object that extends it, or in two traits, are a valid overloading, and each call runs the most specific declaration whose bound holds its argument; an object's redeclaration of a trait's generic method at the same bound under another parameter name hides it (overloading.tex, section "Declarations with Static Parameters"). *)
 component GenericMethodBoundsDifferWalk
 export Executable
 
@@ -20,6 +20,24 @@ object Hider extends Hidden
     hd[\V extends Number\](y: V): ZZ32 = 4
 end
 
+trait Wide
+    wd[\U extends Number\](y: U): ZZ32 = 2
+end
+
+object Narrow extends Wide
+    wd[\U extends ZZ32\](y: U): ZZ32 = 3
+end
+
+trait Ta
+    tb[\U extends Number\](y: U): ZZ32 = 2
+end
+
+trait Tb
+    tb[\U extends ZZ32\](y: U): ZZ32 = 3
+end
+
+object Both extends { Ta, Tb } end
+
 run(): () = do
     n: ZZ32 = 5
     m: ZZ64 = 6
@@ -28,6 +46,10 @@ run(): () = do
     assert(Apart.tk(n), 2, "a ZZ32 takes the declaration bounded by Number")
     assert(Apart.tk("a"), 3, "a String takes the declaration bounded by String")
     assert(Hider.hd(n), 4, "the object's redeclaration at the same bound under another name hides the trait's")
+    assert(Narrow.wd(n), 3, "a ZZ32 takes the object's declaration bounded by ZZ32 beside the trait's")
+    assert(Narrow.wd(m), 2, "a ZZ64 takes the trait's declaration bounded by Number beside the object's")
+    assert(Both.tb(n), 3, "a ZZ32 takes one trait's declaration bounded by ZZ32 beside the other's")
+    assert(Both.tb(m), 2, "a ZZ64 takes one trait's declaration bounded by Number beside the other's")
 end
 
 end
