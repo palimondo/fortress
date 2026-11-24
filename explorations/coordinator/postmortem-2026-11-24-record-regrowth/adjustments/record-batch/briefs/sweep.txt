@@ -1,0 +1,37 @@
+<!-- The brief of the batch workflow's stage "sweep", a pass over FACTS and POSITIONS that only deletes words: state words and pointers to PLAN and the review queue, checked by words-subset.py. Source: the brief of the Opus writer "Scrape status out of the record", 12:15 UTC on 2026-10-22 (transcript part B/002, line 10748, of the folder fe616d40-a9c6-56d7-9da1-7168a172765d.until-2026-11-07T23-09.jsonl.parts/ under /home/user/fortress-transcripts-blinded/projects/-home-user-fortress/; its result is commit 3822898328), word for word but for three changes that the README lists: that day's two exceptions (F-112, F-238 and F-223) cut, the sentence on their check cut to "Fix every failure.", and the folder made @OUT@. The launch message gives @OUT@. -->
+
+You take the planning and status references out of the Fortress revival's record, by deletion only. Load the `fortress-repo` skill first; its records part says what FACTS, POSITIONS and the gap ledger are.
+
+## The curator's rule (2026-10-22, condensed from his words)
+
+POSITIONS (his decisions) and FACTS (what is established about the tree) are timeless or describe the present. The future lives in PLAN (`explorations/coordinator/PLAN.md`), and what waits for his review lives in the review queue (`explorations/coordinator/review-queue.md`). Each PLAN item or queue item points to the entry it concerns; an entry does not point back to PLAN or the queue. A worker reads FACTS and POSITIONS and should meet nothing of the coordinator's planning there. "row N" always means a row of the gap ledger, so "gap-ledger row 537" is written "row 537". He approved a scrape, not a rewrite: the entries' wording stays, and only these references go.
+
+## What to delete
+
+In every entry of `explorations/coordinator/POSITIONS.md` and `FACTS.md` that holds one of these:
+- the state words "Built." and "Still to build:", and a status sentence built on them ("Built, except three parts.", "Built: the library half.");
+- a clause or sentence that names a PLAN phase, item or section ("PLAN, phase 4", "PLAN item 13", "PLAN lists it under 'Off the path, parked'", "no PLAN line holds it yet"), or the next batch's candidates;
+- a clause that names a review-queue item, or says that something waits for the curator's review or answer ("review-queue item 85", "which waits for his review", "holds it for his review");
+- the words "gap-ledger" before "row" or "rows".
+
+List the entries with `grep -nE 'Built\.|Still to build:|\bPLAN\b|[Pp]hase [0-9]|review[- ]queue|queue item|his review|gap-ledger row' explorations/coordinator/POSITIONS.md explorations/coordinator/FACTS.md`, and read each whole.
+
+What stays:
+- Everything else in the entry, word for word.
+- A row pointer in a deleted sentence: keep it as a pointer built from the deleted sentence's own words, such as "Row 537: the compiled dispatch between two generic declarations of one name with different bounds." The row holds the gap's status.
+- A decision about the order of work stays where the order is the decision itself, in the words it has, without the PLAN pointer ("Nothing of decision D is applied before microGPT compiles" keeps its words; drop only "PLAN's phase 5, where").
+- A sentence that says an agent's choice is not the curator's decision may lose its queue number, but keep that distinction.
+- Fix grammar only by deleting words: a clause left dangling goes with its pointer.
+
+## What to write
+
+Keep all your files in `@OUT@`:
+- `scrape.apply`: one line per changed entry as it should stand, in `record.py apply`'s form (`explorations/coordinator/tools/record.py`'s header), with a provenance note per entry, such as `by: the scrape; note: status and planning references deleted, at the curator's word of 2026-10-22`.
+- Run `python3 explorations/coordinator/tools/record-clarity/words-subset.py scrape.apply --allow row`, which fails any entry that adds a word. Fix every failure.
+- Check the file on a copy of the record before reporting: build a scratch root of the repository (symlinks, with real copies of `FACTS.md`, `FACTS-history.md`, `POSITIONS.md` and `POSITIONS-history.md`), run `record.py apply scrape.apply --by 'the scrape' --root DIR` and `record.py check --base HEAD --root DIR`. Apply nothing to the real record.
+- `backlinks.md`: for each deleted PLAN pointer, the PLAN section and item and whether that item names the entry's number; for each deleted queue pointer, the item and whether it names the entry. List the ones that do not, so that a later worker adds the entry's number there. Edit neither PLAN nor the queue.
+- `sizes.txt`: POSITIONS and FACTS characters before and after, on the copy.
+
+Commit nothing. Other agents are working in the repository: touch no other file. Keep every wait under 270 seconds.
+
+Your final message: how many entries changed in each file, the characters saved in each, the words-subset result, the check result, the backlinks missing, and any entry where deletion alone could not leave a correct sentence, with what you did.

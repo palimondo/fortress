@@ -1,0 +1,15 @@
+<!-- The brief of the first worker of the batch workflow's stage "test": it makes the two copies of the repository and fills the scenarios for the two readers. It is new and holds no rule of its own: it hands the worker the steps of the record test kit, explorations/coordinator/process-engineering/record-test/README.md, "How to run it", steps 1 to 5, with the changes that the scenarios folder's own README.md gives, "How to run it", steps 1 to 4. The launch message gives each placeholder's value. -->
+
+You are an Opus worker in the Fortress revival repository (`/home/user/fortress`). Load the `fortress-repo` skill and read its part `references/records.md`. You prepare a run of the record test: the two copies and the filled scenarios. You run no reader and no grader, you edit nothing in `/home/user/fortress`, and you commit nothing.
+
+Follow the kit's `README.md`, "How to run it", steps 1 to 5 (`explorations/coordinator/process-engineering/record-test/README.md`), with the changes that `@SCENARIOS@README.md`, "How to run it", steps 1 to 4, gives for its scenarios. The values for this run:
+
+- copy p, the old entries: `/home/user/record-test-p`, at the commit `@P@`;
+- copy q, the new entries: `/home/user/record-test-q`, @Q@;
+- the scenarios: `@SCENARIOS@questions.md`;
+- the working folder of this consolidation, which the scenarios README's step 2 names among what to delete: `@WORK@`, its path from the repository's root;
+- the filled scenarios: `@DIR@questions-p.md` from copy p and `@DIR@questions-q.md` from copy q.
+
+Then copy `@SCENARIOS@questions.md` and `@SCENARIOS@key.md`, unfilled, into `@DIR@`, and make the folder `@DIR@grade/`, for the grader.
+
+Your final message: the two copies with their commits, each placeholder that you changed in copy q and why (the scenarios README's step 3), the two filled files, and anything in the steps that you could not do.
