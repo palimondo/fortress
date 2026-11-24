@@ -28,6 +28,8 @@ Each with the commit that fixes it, `8f5f1912ab` (with the tests' commit `a6a914
 - 1127, `compiler_tests/ComprisesFunctionalMethodNarrowedReturn` (its expected failure `XXXComprisesFunctionalMethodNarrowedReturn` promoted).
 - 543, `compiler_tests/CoverageReturnGenericFamily` (its expected failure `XXXCoverageReturnGenericFamily` promoted).
 - 1046, `compiler_tests/OverloadGenericObjectTwoParams` (fork K7: the same edit repairs it).
+- 879, `compiler_tests/ComprisesOwnParameterNarrowedReturn` (the skeptic's, `2fe64f262a`: row 879's `SelfCmpTieClause`, a subtrait's narrower return type of `cmp` under `comprises T`; on the base 'the return type of ((PartOrd[\A\] & {A}), A)->Res ... should be a subtype of the return type of ((TotOrd[\A\] & {A}), A)->TRes', after 'PASS'). The row is `CONTESTED`; its question, plain trait or intersection in the signatures, is answered by fork K1 of `explorations/coordinator/CLIMB-BATCH-36.md`, "Forks the batch takes", a default of the batch: `ledger.py close 879 --commit 8f5f1912ab --test ComprisesOwnParameterNarrowedReturn --settled "fork K1 of climb batch 36, a default: self at its plain trait type in each signature, comprises T included"`.
+- 1047, `compiler_tests/XXXGenericBesidePlainInvalidSetCallType` (the skeptic's, `2fe64f262a`): twelve sets of `gK[\T\](x: T): T` beside `gK(x: Circle): String`; each call on a `Circle` takes the plain declaration by its declared parameter types in every JVM, so the type check passes and the overloading check refuses each set, 'the return type of Circle->String ... should be a subtype of the return type of [\T\]T->T'; on the base 9 of the 12 calls took the generic declaration, 'Right-hand side has type Circle, but declared type is String.'
 
 ## Ledger: rows rewritten (whole lines, for `ledger.py rewrite`; each passes `ledger.py check --rows`)
 
@@ -49,7 +51,9 @@ Row 1094, fork K7: the same refusal for a trait whose `comprises` clause lists t
 
 ## New rows
 
-None.
+The skeptic's, for the section "5. Overloading on the compiled path: checker and dispatch" (`ledger.py add FILE --section ...`):
+
+| NEW-K-1 | the compiled checker keeps with no error the first by place of a tie that no rule decides among the unit's own declarations, a set its overloading check accepts, and refuses the same call of them from an api, 'Ambiguous call': two generic declarations at excluding bounds, at a type bounded by both | CONTESTED | implementation gap (checker) | `basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/compiler_tests/GenericTieInUnitFirstByPlace.test` | climb batch 36 rung K's skeptic | siblings: 935, 391. `head`'s branch `top.forall(ofThisUnit)` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:1196-1198` at 8f5f1912ab) leaves such a tie to the overloading check, which accepts `f[\T extends A\](x: T)` beside `f[\T extends B\](x: T)` for `trait A excludes B`; through an api, `XXXGenericTieImportedAmbiguous`: 'Ambiguous call to function f: ... T->ZZ32; T->String.' Fork K3 of climb batch 36 makes a tie that the rules leave a static error; the section speaks of the dynamic call only. Open: the error in the unit too, or the first kept. |
 
 ## Handover
 
