@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Plan climb batch 36","toolUseId":"toolu_015kA8mohL16RQZ2f8R4e4kV","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Plan climb batch 36","toolUseId":"toolu_015kA8mohL16RQZ2f8R4e4kV","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","pickedEffortModel":"claude-opus-5-5","finished":true}
