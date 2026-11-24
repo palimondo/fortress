@@ -216,7 +216,7 @@ Under `explorations/coordinator/`:
 - `PLAN.md`: the phases, each with the review-queue items that it needs, and the parked items. Its first section says where the work stands.
 - `PLAN-history.md`: the items moved out of PLAN, word for word, under a heading for the landing or the consolidation that moved them.
 - The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; the ask put to the curator and not yet answered, or else the next question, by its review-queue number; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages. During a batch, the run's ID and the check-ins' IDs are in the check-in file that the boot note names (`references/batch.md`, "While it runs").
-- The held list. Its last section holds the smaller items that the curator owns.
+- The held list. Its last section holds the smaller items that the curator owns. Remove a line only when its point is addressed, with the evidence checked. You may move a question to the review queue.
 - `review-queue.md`: the review queue.
 
 Elsewhere: the reports and notes, which hold the detail; the gap ledger, `explorations/fortress-gap-ledger.md`, one numbered row for each known gap between the team's design and the tree; and the skills. This skill holds how you work with the curator and the workers. `fortress-repo` holds the rules that bind workers. `cloud-container` holds the platform.
