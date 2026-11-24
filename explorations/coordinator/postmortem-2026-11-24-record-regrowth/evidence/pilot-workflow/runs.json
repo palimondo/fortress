@@ -104,8 +104,29 @@
      ],
      "x": "new"
     }
+   },
+   "ended": "The new entries (X) 33 of 36, the old (Y) 36 of 36; lost in scenarios 3, 6 and 7; its files copied to evidence/pilot-hand/test/ on main (fb98e9265d). A worker traces the losses into evidence/pilot-2/test-losses.md."
+  },
+  {
+   "round": "test of decisions on the workflow's two rounds",
+   "runId": "wf_61ddbef4-526",
+   "taskId": "w86ilbpiz",
+   "script": "/home/user/fortress/tmp/pilot-batch/record-batch-test.js",
+   "args": {
+    "from": "test",
+    "to": "test",
+    "out": "/home/user/fortress-pilot/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/pilot-workflow/",
+    "scenarios": "/home/user/fortress-pilot/explorations/coordinator/process-engineering/record-test/2026-11-24/",
+    "test": {
+     "p": "2d1614aaee",
+     "applies": [
+      "/home/user/fortress-pilot/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/pilot-workflow/chunks/pilot-1/final.apply",
+      "/home/user/fortress-pilot/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/pilot-workflow/chunks/inference/final.apply"
+     ],
+     "x": "old"
+    }
    }
   }
  ],
- "note": "The test's copies are /home/user/record-test-p and -q, so one test runs at a time. After round 2's workflow run ends: copy chunks/inference/ to main and push; then the same test on the workflow's two final.apply files, with out .../evidence/pilot-workflow/."
+ "note": "One test runs at a time (the copies /home/user/record-test-p and -q; removed after the first test). After the second test: copy the clone's evidence/pilot-workflow/test/ to main and push; trace its losses with brief-pilot-test-losses.md; then the page worker adds both tests' results to the page's section 'test'."
 }
