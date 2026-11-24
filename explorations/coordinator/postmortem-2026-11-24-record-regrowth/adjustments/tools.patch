@@ -1,0 +1,470 @@
+diff --git a/explorations/coordinator/tools/record-clarity/assess.md b/explorations/coordinator/tools/record-clarity/assess.md
+index 2e632a8bbe..7d8b956319 100644
+--- a/explorations/coordinator/tools/record-clarity/assess.md
++++ b/explorations/coordinator/tools/record-clarity/assess.md
+@@ -4,7 +4,7 @@ You are an Opus assessor in the Fortress revival repository (`/home/user/fortres
+ 
+ `explorations/coordinator/FACTS.md` holds what the project has established about the tree, one numbered entry each. Your launch message gives your entries and your folder. Assess each entry by the rubric of `explorations/reviews/revival-record-synthesis.md`, section "For Claude: assess all FACTS, rewrite only failing entries": read that section first, its entry schema and its rubric above all, and `.claude/skills/coordinator/references/record.md`, "What an entry is".
+ 
+-For each entry: `explorations/coordinator/tools/facts-extract.sh 'F-N+'` prints it with its linked entries, and `'history:F-N'` its history. Follow its cited evidence as far as the retained claim needs: the report section, the test, the code. Read bounded sections; rerun no experiment and search no transcript; where either would be needed, record the narrow gap.
++For each entry: `explorations/coordinator/tools/facts-extract.sh 'F-N+'` prints it with its linked entries, and `'history:F-N'` its history. Follow its cited evidence as far as the retained claim needs: the report section, the test, the code. Read bounded sections; rerun no experiment and search no transcript; where either would be needed, record the narrow gap. If your folder holds `scout.md`, a scout has listed there, for each entry, the sources it cites and whether they resolve, the section that holds its detail, the commits that wrote it, its earlier texts and the entries that cite it. Use it instead of reading the reports yourself. Open a report only where `scout.md` leaves a mark unclear, with a bounded read.
+ 
+ Mark each criterion pass, fail or unresolved, with a short reason, and a quoted passage for each fail: scope, present meaning, evidence, comprehension, ownership, consistency. Do not average them. Then give each entry one disposition:
+ 
+diff --git a/explorations/coordinator/tools/record-clarity/writer.md b/explorations/coordinator/tools/record-clarity/writer.md
+index 1bb26b65c8..89885b2fe1 100644
+--- a/explorations/coordinator/tools/record-clarity/writer.md
++++ b/explorations/coordinator/tools/record-clarity/writer.md
+@@ -11,16 +11,17 @@ The record is the project's memory, under `explorations/coordinator/`. `POSITION
+ - for a position: what the curator decided, where it applies and its limits, what it requires a worker to do, and what is unfinished;
+ - for a fact: what is established and under which conditions (path, library, call form, values), what it means for the work and its limits, and its evidence.
+ 
+-Keep the meaning.
++Keep the meaning. The curator's goal for the record, in his words (17:23 UTC, 2026-10-13): "I really hope that the consolidated record is significantly smaller than before. Like that is a goal. [...] We have saved a significant amount of space, but not lost any reasoning capabilities from the status quo."
+ 
+ ## Read first
+ 
+ - The standard: `explorations/reviews/revival-record-synthesis.md`. For positions, its sections "P45: fidelity and comprehensibility are separate checks" and "For Fable: rewrite positions before consolidating Revival". For facts, "For Claude: assess all FACTS, rewrite only failing entries", its entry schema above all.
+-- What an entry holds: `.claude/skills/coordinator/references/record.md`, "What an entry is".
++- What an entry holds: `.claude/skills/coordinator/references/record.md`, "What an entry is", and the five worked examples that it names, which you follow exactly: `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/coordinator/process-engineering/record-rule-draft.md#Worked examples'`.
+ - Your entries and their evidence:
+   - positions: `python3 -I explorations/coordinator/tools/record-clarity/entries.py N...` prints each entry and the provenance audit's evidence: the scout's report on the curator's messages behind it, with his exact quotes, and the audit's judgement, corrections and takeaway sections. Read the evidence before you write an entry.
+   - facts: `assessment.md` in your folder holds the assessor's table and, for each entry you are given, what fails and why. `explorations/coordinator/tools/facts-extract.sh 'F-N+'` prints an entry with its linked entries, and `'history:F-N'` its history. Read the report section each entry cites before you change a claim.
+   - findings: if your folder holds `findings.md`, a review found faults in some of your entries, each with its ground. Correct each sentence that a finding names from its ground, opened at its source: there, and only there, the meaning changes. State the corrected reading as the decision and its reason, and point to the FACTS entry or the report section that holds its ground; the ground's dates, counts, commits and file names go in the apply file's note line, not in the entry. Change nothing that no finding names, and let an entry grow only by what its corrections need. Where a finding's only ground is a reviewer's reasoning, or it needs the curator's word, keep the text and write a question for the curator.
++  - scout: if your folder holds `scout.md`, a scout has listed there, for each entry, the sources it cites and whether they resolve, the section that holds its detail, the commits that wrote it, its earlier texts and the entries that cite it. Use it instead of reading the reports yourself. Open a report only where `scout.md` leaves a sentence's fate unclear, with a bounded read.
+ 
+ ## How to write each entry
+ 
+@@ -33,7 +34,7 @@ Keep the meaning.
+ 7. **Concepts.** Define a concept in the entry only if it belongs to this entry alone. List any other concept that a reader needs in `concepts.md` in your folder: the term, the entries that use it, and where it should be defined for every worker (the `fortress-repo` core, an area part, or the short orientation that will replace the revival part). The revival part is being rewritten: do not lean on it.
+ 8. Do not add a claim, a reason or a scope that the sources do not hold. Do not make a claim stronger or broader. Where the sources leave the meaning open, keep the current wording for that part and write a question for the curator.
+ 9. For a fact: keep a historical measurement only if it is stated as that measurement; move repair chronology to the history; link a count that changes at every landing to the entry that owns it. A fact may record an implementation choice made at a default; say so, and never as the curator's ruling.
+-10. Keep each entry near 600 characters as a check, not a cap. Clarity comes first.
++10. Keep each entry near 600 characters as a check, not a cap. Clarity comes first. Shorter entries pay for a longer one: the total of your entries stays under 600 characters times their count.
+ 
+ ## Your files, in your folder
+ 
+diff --git a/explorations/coordinator/tools/record-landing/README.md b/explorations/coordinator/tools/record-landing/README.md
+index dab62ec2ca..1797decf96 100644
+--- a/explorations/coordinator/tools/record-landing/README.md
++++ b/explorations/coordinator/tools/record-landing/README.md
+@@ -7,9 +7,9 @@
+ 1. **Sort** (Opus, `sort.md`): `prepare.sh` makes the worktree and its branch and writes the evidence into the run's folder (`evidence.py`'s header lists its six files; `plan.md` ends with the PLAN lines that look stale, from `plan-moves.py --stale-at`, cut at 40,000 characters, past which the whole list is in `plan-stale.txt`, which the cut line names); the sorter reads it, the review's routing part and the batch record's items, and writes `owed.md`, one line per change with its number, its home, its kind, its weight, its ground and its writer, and marks each kind and each "Needed by" that no source states as set by the workflow.
+ 2. **Write**: a Sonnet driver runs `drive.sh 1` in the background and waits for it in steps of 240 s, under the five minutes that its prompt cache lives. `drive.sh` starts two headless Opus writer streams side by side through the worktree's copy of `../record-clarity/writer-stream.sh`: the entries writer (`entries.md`: FACTS, POSITIONS, an entry's history, ledger rows, as `record.apply` and `rows.rewrite`) and the routing writer (`routing.md`: PLAN, PLAN-history, the queue, INDEX, other notes, edited in the worktree). Then `checks.sh 1` writes `mech-1.md`.
+ 3. **Check**: the checker (`check.md`: coverage, fidelity, form and routing) and the clarity cold reader (`../record-clarity/coldread.md`, unchanged, told to write its report in parts of five entries) on `clean.txt`, side by side.
+-4. **Fix**: `drive.sh 2` resumes both streams once with the three reports, then `checks.sh 2` writes `mech-2.md`.
++4. **Fix**: `drive.sh 2` resumes both streams once with the three reports, then `checks.sh 2` writes `mech-2.md`. Then the reread: a second clarity cold reader on the fixed `clean.txt` writes `cold-read-2.md`, which the judge reads.
+ 5. **Judge** (Opus, `judge.md`): apply or hold each change once, `final.apply` and `final.rewrite`, `diff.md` (within 10,000 characters), and `final.sh`, which runs every check again and makes two commits on the branch. The judge writes nothing after the commits.
+-6. **Land** (Sonnet, in the script): only when the judge's checks pass (the branch holds its commits past AT, `mech-final.md` says every check passes, the worktree is clean), the lander puts the two commits on `main`, runs the checks on `main`, pushes, and removes the worktree and the branch; then the script runs the orientation workflow in update mode as a child workflow (`../orientation/orientation.js`, one level deep), on the entries in the orientation call of `diff.md`'s "Next". "Landing its result" gives each step.
++6. **Land** (Sonnet, in the script): only when the judge's checks pass (the branch holds its commits past AT, `mech-final.md` says every check passes, the worktree is clean), the lander puts the two commits on `main`, runs the checks on `main`, pushes, and removes the worktree and the branch. The run ends there. The stages below run as a second run of the script, which the coordinator starts on the first run's result ("Running it"): it runs the orientation workflow in update mode as a child workflow (`../orientation/orientation.js`, one level deep), on the entries in the orientation call of `diff.md`'s "Next". "Landing its result" gives each step.
+ 7. **Skills** (a Sonnet driver; the skill writer, a headless Opus session): `skills.sh N 1` writes the writer's task from `skill-task.md` and the landed files, and starts a fresh writer on it through `../skill-writer.sh new`; the writer installs what the orientation judge accepts and brings the `fortress-repo` skill in line with the landing, and commits on `main`.
+ 8. **Cold read** (Opus): the changed parts, by `../../skill-cold-read-brief.md`, as a worker new to the repository.
+ 9. **Fixes**: `skills.sh N 2` resumes the same writer on the cold read's flags (`skill-fixes.md`).
+@@ -21,7 +21,7 @@ The mechanical checks (`checks.sh`): the six record files reset to the worktree'
+ 
+ - `plan-moves.py` fails a line out of PLAN that is not word for word in PLAN-history. Its `LOOK` lines, which never fail, name each PLAN line that still looks stale: a line whose own review-queue item is in (a) and that carries no cleanup's mark ("closed at the cleanup of DATE"), a list of items that names a settled one or differs from the queue's list that it names, and a review finding that a commit outside the record names. The checker takes each as a coverage failure, unless `owed.md` or the routing report says why the line stays.
+ - `queue-check.py` fails a gap in the new numbers, a new open item without "Needed by", a count that its items do not make, and an item new in "Answered by a decision of his" that cites no word of his on that same item, or that names a default taken without him ("at its default", "by the coordinator"), and an open item in (c). Such an item stays open in (b) if it is consequential, and otherwise closes as landed. The rule leans to keeping an item open: a true answer of his worded with those phrases fails too, and is reworded.
+-- `lengths.py` informs: each changed entry's length, and each entry already over 600 that grew, which the judge holds unless the owed clause alone explains the growth.
++- `lengths.py` informs: each changed entry's length, each entry already over 600 that grew, the changed entries' total against 600 characters times their count, and the characters of FACTS and POSITIONS at AT and now.
+ 
+ `drive.sh --dry-run` prints the commands of a round and starts nothing. The streams' headless sessions run `facts-extract.sh` and the `git` reads that `writer-stream.sh` allows, and not `record.py`, `ledger.py` or the checks, which need an approval that a headless session cannot get. So `checks.sh` is the first to apply and check the writers' files, after each round, and the fix round reads its output in `mech-1.md`.
+ 
+@@ -34,7 +34,12 @@ After the post-batch review is committed:
+     Workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/record-landing/record-landing.js',
+                args: { batch: 'N', base: 'BASE', landing: 'LANDING' } })
+ 
+-It makes `/home/user/fortress-landing-N` on the branch `record/landing-N` at `main`'s head. A replay adds `at`, the commit to make the worktree at, and its worktree and branch end in `-replay`; it stops after the judge, and lands nothing and runs neither the orientation update, the skill update nor the revival page. The replay of climb batch 24's landing, before the first live run at climb batch 25's:
++It makes `/home/user/fortress-landing-N` on the branch `record/landing-N` at `main`'s head. The run ends when the record is pushed, and its result's `next` gives the second run's call. The coordinator starts the second run with the first run's result as `after`; it runs the orientation update, the skill update and the revival page:
++
++    Workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/record-landing/record-landing.js',
++               args: { batch: 'N', base: 'BASE', landing: 'LANDING', after: <the first run's result> } })
++
++A replay adds `at`, the commit to make the worktree at, and its worktree and branch end in `-replay`; it stops after the judge, and lands nothing and runs neither the orientation update, the skill update nor the revival page. The replay of climb batch 24's landing, before the first live run at climb batch 25's:
+ 
+     Workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/record-landing/record-landing.js',
+                args: { batch: '24', base: 'b0f6cd6b7', landing: '25238e60c', at: '43cd61b62' } })
+@@ -43,7 +48,7 @@ That one runs in `/home/user/fortress-landing-24-replay` on `record/landing-24-r
+ 
+ ## What it writes
+ 
+-Until the landing, everything goes in the worktree, and the main tree is not touched. The run's folder, `explorations/compile-ladder/climb-batch-N/record-landing/` in the worktree, holds `run.env`, the evidence, `owed.md`, the writers' files, briefs and reports (the entries writer's new ledger rows in `rows.add`: each row line, `| ? | ...`, under a line `## TITLE` that names its section, a title of `ledger.py sections`, as in `## 10. Strings, maps and printing`; `checks.sh` adds each with `ledger.py add` after the other applies, so the first commit carries it, and names in its summary a row line with no such line above it, which it does not add), `check.md`, `cold-read.md`, `mech-1.md`, `mech-2.md`, `mech-final.md`, `final.apply`, `final.rewrite`, the commit messages and `diff.md`, and the logs of the rounds, which git ignores. The markers of finished rounds are in the worktree's `tmp/record-landing/`, which git ignores too, so the worktree is clean after the commits. The branch holds two commits: FACTS, POSITIONS, their histories and the ledger; then PLAN, PLAN-history, the queue, INDEX, the other notes and the run's folder. Each message ends "By the climb batch N landing workflow (Opus).", then the committing part's footer. The landing puts the two commits on `main`, and the run's folder with them, at `explorations/compile-ladder/climb-batch-N/record-landing/` in the main tree; the logs go with the worktree. The workflow's result names the worktree, the branch and `diff.md`, holds the judge's final message with the two hashes, and adds `land` (how the commits landed, their hashes on `main`, the refs pushed, what was removed, the entries given to the orientation update) and `orientation`, the child workflow's result; then `skills`, `coldRead`, `fixes`, `page` and `push`, the skill update's stages, and `line`, the one line for the coordinator's chat message; then `revival` and `revivalPublish`, the revival page's two agents; on a stop, `stopped` says where and why. The skill update writes in the main tree, in `explorations/compile-ladder/climb-batch-N/skills/`: `base.txt`, `task-1.md`, `writer-1.md`, `cold-read.md`, `task-2.md`, `writer-2.md`, and the logs, which git ignores; its markers and its writer's session are under the main tree's `tmp/record-landing-N/`. The writer's commits are on `main`; `folders.sh` commits the `skills/` folder and the orientation update's `orientation/` folder in one more commit. The revival page's stage writes, through `update.py`, the files that the script's README names (the page's two files, `landings.csv` and its row for the batch, the chart and `measure.py`'s five data files, the GitHub Pages copy under `docs/`), and commits them in one more commit, "Revival page: where it stands at the landing of climb batch N, the record chart regenerated"; its log and marker are `revival.log` and `revival.done` under the main tree's `tmp/record-landing-N/`, and its commit message `tmp/revival-msg-N.txt`.
++Until the landing, everything goes in the worktree, and the main tree is not touched. The run's folder, `explorations/compile-ladder/climb-batch-N/record-landing/` in the worktree, holds `run.env`, the evidence, `owed.md`, the writers' files, briefs and reports (the entries writer's new ledger rows in `rows.add`: each row line, `| ? | ...`, under a line `## TITLE` that names its section, a title of `ledger.py sections`, as in `## 10. Strings, maps and printing`; `checks.sh` adds each with `ledger.py add` after the other applies, so the first commit carries it, and names in its summary a row line with no such line above it, which it does not add), `check.md`, `cold-read.md`, `cold-read-2.md`, `mech-1.md`, `mech-2.md`, `mech-final.md`, `final.apply`, `final.rewrite`, the commit messages and `diff.md`, and the logs of the rounds, which git ignores. The markers of finished rounds are in the worktree's `tmp/record-landing/`, which git ignores too, so the worktree is clean after the commits. The branch holds two commits: FACTS, POSITIONS, their histories and the ledger; then PLAN, PLAN-history, the queue, INDEX, the other notes and the run's folder. Each message ends "By the climb batch N landing workflow (Opus).", then the committing part's footer. The landing puts the two commits on `main`, and the run's folder with them, at `explorations/compile-ladder/climb-batch-N/record-landing/` in the main tree; the logs go with the worktree. The workflow's result names the worktree, the branch and `diff.md`, holds the judge's final message with the two hashes, and adds `land` (how the commits landed, their hashes on `main`, the refs pushed, what was removed, the entries given to the orientation update) and `next`, the second run's call. The second run's result holds `orientation`, the child workflow's result; then `skills`, `coldRead`, `fixes`, `page` and `push`, the skill update's stages, and `line`, the one line for the coordinator's chat message; then `revival` and `revivalPublish`, the revival page's two agents; on a stop, `stopped` says where and why. The skill update writes in the main tree, in `explorations/compile-ladder/climb-batch-N/skills/`: `base.txt`, `task-1.md`, `writer-1.md`, `cold-read.md`, `task-2.md`, `writer-2.md`, and the logs, which git ignores; its markers and its writer's session are under the main tree's `tmp/record-landing-N/`. The writer's commits are on `main`; `folders.sh` commits the `skills/` folder and the orientation update's `orientation/` folder in one more commit. The revival page's stage writes, through `update.py`, the files that the script's README names (the page's two files, `landings.csv` and its row for the batch, the chart and `measure.py`'s five data files, the GitHub Pages copy under `docs/`), and commits them in one more commit, "Revival page: where it stands at the landing of climb batch N, the record chart regenerated"; its log and marker are `revival.log` and `revival.done` under the main tree's `tmp/record-landing-N/`, and its commit message `tmp/revival-msg-N.txt`.
+ 
+ ## Landing its result
+ 
+@@ -54,7 +59,7 @@ The workflow lands its own result, by the curator's rule of 2026-11-03 (`../../H
+ 3. Runs on `main` `record.py check --base <main before the landing>`, `ledger.py landing-check <the batch's base>` and `check-index.sh`. If one fails, `git reset --keep` takes the run's commits off the local `main`, which is not pushed, and the run stops as in step 1.
+ 4. Pushes, in the order of the `fortress-repo` skill's committing part: `git log origin/main..main` lists only the run's commits, then `main`, `main:claude/worker-brief-fable-vnnuv8` and `main:blinded-fable`. A refused push, or another agent's commit in that list, stops the run, landed but not all pushed, before the orientation update.
+ 5. `git worktree remove` the worktree, without `--force`, and `git branch -D` the branch.
+-6. Reads the facts list of the orientation call in the landed `diff.md`'s "Next" (the entries that the landing and the run added or changed); the script then runs `orientation.js` with `mode: 'update'`, `out` the batch's `climb-batch-N/orientation/` and `stream` `orientation-bN`. Nothing waits on the coordinator between the record's commits and the update. With no entry there, the update is skipped, and the skill update still runs. If the update fails to start, the run stops, landed and pushed, before the skill update. The skill update below installs its result.
++6. Reads the facts list of the orientation call in the landed `diff.md`'s "Next" (the entries that the landing and the run added or changed), and returns it in `land.facts`. The first run ends here. The second run, on that result, runs `orientation.js` with `mode: 'update'`, `out` the batch's `climb-batch-N/orientation/` and `stream` `orientation-bN`. With no entry there, the update is skipped, and the skill update still runs. If the update fails to start, the run stops, landed and pushed, before the skill update. The skill update below installs its result.
+ 
+ The coordinator then reviews the commits on `main`: `git show --stat` of each commit the result's `land` names, and the landed `diff.md`, not the record. It asks whether it would have done anything differently, and names each POSITIONS change to the curator, from `diff.md`, as the `coordinator` skill's "Quiet times" says. Each held change: run it again, file it in the queue, or leave it. Each "Needed by" and each kind that the workflow set, and each move to (a)'s "Answered by a decision of his", are in `diff.md`'s "For the curator", and wait for the coordinator to confirm. Once the reviews show the workflow sound, this review stops, and the behaviour the workflow encodes is relied on. On a stop, the result's `stopped` names what to do: a stop at steps 1 to 3 leaves `main` as it was, and the worktree and the branch for a resume; a stop at step 4 leaves the commits on the local `main`, for the coordinator to push or take off. The replay lands nothing on `main`: an Opus worker compares its two commits with the hand-made ones (`be3b07aac`, `08cc69e2d`, `b49631cb4`, `85b2998e9`), change by change.
+ 
+diff --git a/explorations/coordinator/tools/record-landing/check.md b/explorations/coordinator/tools/record-landing/check.md
+index bc89fc9bb4..ad4011684d 100644
+--- a/explorations/coordinator/tools/record-landing/check.md
++++ b/explorations/coordinator/tools/record-landing/check.md
+@@ -17,14 +17,14 @@ Does each change stand as its ground allows? Write `check.md` in the run's folde
+ - In the run's folder: `owed.md`; the evidence (`entries.md`, `rows.md`, `cites.md`, `plan.md`, `checks.md`, `sources.md`); `record.apply`, `rows.rewrite` and `cut-only.txt`, the entries writer's files; `entries-report.md` and `routing-report.md`; `mech-1.md`, the mechanical checks after the first round.
+ - The worktree's changes: `git -C WORKTREE diff AT -- explorations/ ':!explorations/coordinator/PLAN-history.md'`. It shows the entries as `record.py` applied them, and the routing writer's edits. PLAN-history's gained lines are left out: `plan-moves.py` compares their words with the lines that left PLAN, so you check the reason of each move in `routing-report.md`, not its words.
+ - What you read in part. In `rows.md`, the rows that a change names. In `mech-1.md`, its summary and the section of each check that fails or lists PLAN lines to look at. A change of weight none, or with writer none, needs only its line in `owed.md`.
+-- The rules of an entry, in the worktree: `.claude/skills/coordinator/references/record.md`, "What an entry is" and "The pass". The method of a fidelity check, in the worktree: `explorations/coordinator/tools/record-clarity/check.md`, its step 1. The routing's rule: `facts-extract.sh 'doc:explorations/coordinator/climb-batch-workflow.md#After the landing'`, step 2.
++- The rules of an entry, in the worktree: `.claude/skills/coordinator/references/record.md`, "What an entry is" and "The pass", and the five worked examples that "What an entry is" names (`facts-extract.sh 'doc:explorations/coordinator/process-engineering/record-rule-draft.md#Worked examples'`). The method of a fidelity check, in the worktree: `explorations/coordinator/tools/record-clarity/check.md`, its step 1. The routing's rule: `facts-extract.sh 'doc:explorations/coordinator/climb-batch-workflow.md#After the landing'`, step 2.
+ - The record. You read it only through `explorations/coordinator/tools/facts-extract.sh`, `record.py` and `ledger.py`, run from the worktree (`cd WORKTREE && ...`), and its changes through the `git diff` above. The main tree, `/home/user/fortress`, can hold a later record than the worktree, so you read none of its record files. You write no entry: entries are written only through `record.py`, from the writers' files. Change no file but your `check.md`. Commit nothing.
+ 
+ ## The four classes
+ 
+-- **coverage**: each change of `owed.md` is done, or the writer's report names it as left, with a reason. A change of weight none needs nothing.
+-- **fidelity**: by the clarity checker's step 1. The new text says no more and no less than its ground, keeps every condition, and shows no default as the curator's decision. The gate's figures in F-53 and F-240 are unchanged. Read the entry's Detail too: a claim that a change extends to the landing's batch needs that batch's figures in the entry and their source in its Detail, or it says more than its evidence. For a POSITIONS change: what the curator decided, where it applies and what it requires are the same before and after. Quote both. The curator's rule of 2026-10-31 lets a sentence that the tree made false change by the fewest words, and no more.
+-- **form**: no plan or status in an entry. No account of how the fact came about: the date, the batch or the run that found it, and a correction go to its history. The commit or the code state that bounds a one-time measurement stays in the entry, as in "measured once on `2bff2fe23`", and so does the sentence on what the fact blocks or means for the work. A change that drops either fails form. Each pointer has a few words on what it holds. A sentence past 600 characters stays only with the question that keeps it, named in `entries-report.md`, and an entry already past 600 grows only by the clause that its change owes.
++- **coverage**: each change of `owed.md` is done, or the writer's report names it as left, with a reason. A change of weight none needs nothing. A merge is done when `record.apply` holds its line `merge F-N into F-M`, with F-M's new line.
++- **fidelity**: by the clarity checker's step 1. The new text says no more and no less than its ground, keeps every condition, and shows no default as the curator's decision. A cut that keeps every condition is not "less": it passes when the home that its provenance line names holds the cut text. The gate's figures in F-53 and F-240 are unchanged. Read the entry's Detail too: a claim that a change extends to the landing's batch needs that batch's figures in the entry and their source in its Detail, or it says more than its evidence. For a POSITIONS change: what the curator decided, where it applies and what it requires are the same before and after. Quote both. The curator's rule of 2026-10-31 lets a sentence that the tree made false change by the fewest words, and no more.
++- **form**: no plan or status in an entry. No account of how the fact came about: the date, the batch or the run that found it, and a correction go to its history. The commit or the code state that bounds a one-time measurement stays in the entry, as in "measured once on `2bff2fe23`", and so does the sentence on what the fact blocks or means for the work. A change that drops either fails form. Each pointer has a few words on what it holds. A sentence past 600 characters stays only when question 1 or 2 of "What an entry is" keeps it, and `entries-report.md` names the decision or the misreading that it prevents.
+ - **routing**: each question for the curator is filed with what is asked, its default or "no default on record", and its "Needed by". Each move has its reason: built, by a named commit; answered, by the curator's word on that same item, cited with its time; stale, by a decision or a landed change. A default that the coordinator or a batch took is not his word: a consequential item stays open, and its move to (a)'s "Answered by a decision of his" fails routing; one that is not consequential closes as landed. No default is invented. Each PLAN line that `plan-moves.py` lists to look at in `mech-1.md` is moved, or `owed.md` or the routing report gives the reason that it stays; a line with neither fails coverage.
+ 
+ Read each mechanical failure of `mech-1.md` and name its cause and the change it belongs to.
+diff --git a/explorations/coordinator/tools/record-landing/entries.md b/explorations/coordinator/tools/record-landing/entries.md
+index e40a8a573e..ec40756b51 100644
+--- a/explorations/coordinator/tools/record-landing/entries.md
++++ b/explorations/coordinator/tools/record-landing/entries.md
+@@ -10,6 +10,8 @@ The curator is the person in charge of the project. An entry is one line of `exp
+ 
+ A batch has landed. Its rungs wrote their entries as drafts, as the worker skill tells them: "Spend no effort on the entry's wording: it is rewritten to the record's form after your work." The landing also made some sentences of the record false. No stage of the batch rewrites these. A sorter has listed what the record owes, one change per line, in `owed.md` in the run's folder. Each change has a number (C1, C2 ...), a home, a kind, a weight and its ground. Your homes are four: a FACTS entry, a POSITIONS entry, an entry's history alone, and a gap-ledger row. The routing writer takes the other homes at the same time, in the same worktree.
+ 
++The curator's goal for the record, in his words (17:23 UTC, 2026-10-13): "I really hope that the consolidated record is significantly smaller than before. Like that is a goal. [...] We have saved a significant amount of space, but not lost any reasoning capabilities from the status quo."
++
+ ## The question
+ 
+ For each change of `owed.md` whose writer is `entries`, what is the new line of its entry or row? Write it so that a reader who knows the language, or can look its terms up in the `fortress-repo` skill, can act right without the batch behind it, and so that it says no more and no less than its ground.
+@@ -17,8 +19,8 @@ For each change of `owed.md` whose writer is `entries`, what is the new line of
+ ## Where the sources are
+ 
+ - `owed.md`, and the evidence beside it: `entries.md` (each entry's line at the base and at AT, its history blocks, and the report sections that it cites), `rows.md`, `cites.md` and `sources.md` (the queries of the post-batch review's routing part and findings).
+-- The rules of an entry: `.claude/skills/coordinator/references/record.md`, its sections "What an entry is" and "The pass". Read both. They are the one home of these rules.
+-- How to write each entry: `explorations/coordinator/tools/record-clarity/writer.md`, its section "How to write each entry", and its clause on findings under "Read first". Here a change of `owed.md` is a finding, and its ground is the finding's ground.
++- The rules of an entry: `.claude/skills/coordinator/references/record.md`, its sections "What an entry is" and "The pass". Read both. They are the one home of these rules. Then read the five worked examples that "What an entry is" names, and follow them exactly: `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/coordinator/process-engineering/record-rule-draft.md#Worked examples'`.
++- How to write each entry: `explorations/coordinator/tools/record-clarity/writer.md`, its section "How to write each entry", and its clause on findings under "Read first". Here a change of `owed.md` that corrects an entry is a finding, and its ground is the finding's ground. A change of kind "the pass" on a FACTS entry is not a finding, and the clause on findings does not bind it: you rewrite the whole entry in the form that "What an entry is" gives.
+ - The record itself. You read it only through `explorations/coordinator/tools/facts-extract.sh`, `record.py` and `ledger.py`; in this session the first one runs, from the worktree: `explorations/coordinator/tools/facts-extract.sh 'F-87+'`, `'history:F-87'`, `'ledger:N'`, `'doc:PATH#HEADING'`. Read the report section that an entry cites before you change its claim.
+ 
+ ## POSITIONS at a landing: the curator's rule of 2026-10-31
+@@ -35,17 +37,17 @@ His words: "you don't need my approval to bring the record in line with reality"
+ 
+ - An entry keeps the commit or the code state that bounds a one-time measurement, as in "measured once on `2bff2fe23`", and its sentence on what the fact blocks or means for the work. Only how the fact came about goes to the history: the date, the batch or the run that found it, a correction.
+ - A change that extends a claim to the landing's batch, as in "from climb batch 22's gate to climb batch 24's", brings that batch's figures into the sentence that the claim rests on, and their source into the entry's Detail. A claim whose figures stop at an earlier batch says more than its evidence.
+-- An entry already past 600 characters grows only by the clause that its change owes. Before you add the clause, move other detail out: to the report that the entry names (question 4 of "What an entry is"), or to a pointer to the `fortress-repo` skill's part that already says it (question 5). Detail that belongs in the skill, and that the skill does not hold, goes to your report, for the skill writer. The judge holds an entry past 600 that grows by more.
++- Ask questions 3 to 5 of "What an entry is" of every sentence of each FACTS entry that you write. They move a sentence; they do not lose it: to the history, to the report section that the entry names, or to the number of another entry that says it. Only questions 1 and 2 keep a sentence past 600 characters. Detail that belongs in the skill, and that the skill does not hold, goes to your report, for the skill writer.
+ 
+ ## Your files, in the run's folder
+ 
+ You write entries only through `record.py`: you write them into `record.apply`, and `checks.sh` applies that file with `record.py apply` on the worktree. You never edit `FACTS.md`, `POSITIONS.md`, their histories or the ledger.
+ 
+-- `record.apply`: for each entry, its whole new line, then one indented provenance line: `  from: PATH, "HEADING"; commit: LANDING; note: WHY`. `checks.sh` gives each block `by: climb batch N landing workflow (Opus)`, the tier that wrote the text. Each `from` names a report section that holds the ground: PATH from the repository root or from `explorations/`, and HEADING held by exactly one heading of it. LANDING is the landing commit. How the fact came about goes in the note, not in the entry: its dates, the batch or the run that found it, a correction. Where only the history changes, write `note F-87` and its provenance line. The header of `explorations/coordinator/tools/record.py` gives the whole form of the file.
++- `record.apply`: for each entry, its whole new line, then one indented provenance line: `  from: PATH, "HEADING"; commit: LANDING; note: WHY`. `checks.sh` gives each block `by: climb batch N landing workflow (Opus)`, the tier that wrote the text. Each `from` names a report section that holds the ground: PATH from the repository root or from `explorations/`, and HEADING held by exactly one heading of it. LANDING is the landing commit. How the fact came about goes in the note, not in the entry: its dates, the batch or the run that found it, a correction. Where only the history changes, write `note F-87` and its provenance line. Where a change merges F-90 into F-87, write the line `merge F-90 into F-87` with its provenance line, and F-87's whole new line with its own. The header of `explorations/coordinator/tools/record.py` gives the whole form of the file.
+ - `rows.rewrite`: for each row, its whole new line, with its number in its first cell, in the ledger's template (`facts-extract.sh 'doc:explorations/fortress-gap-ledger.md#The row template'`). Write the file only if a change's home is a row.
+ - `cut-only.txt`: the number of each POSITIONS entry whose change only deletes words, one a line. `checks.sh` checks each with `words-subset.py`.
+ - `clean.txt`: the new entries alone, one a line. A cold reader gets this file and nothing else.
+-- `entries-report.md`, with a header comment of one sentence. For each change: its number and its entry or row; the old line and the new; "Meaning: unchanged", or the change of meaning with its ground; for an entry over 600 characters, the question of "What an entry is" that keeps each sentence past the 600, and for one that grew, what you moved out first; for a POSITIONS change, "cut only" where it only deletes words, and the decision, its reach and its requirement before and after; the questions for the curator.
++- `entries-report.md`, with a header comment of one sentence. For each change: its number and its entry or row; the old line and the new; "Meaning: unchanged", or the change of meaning with its ground; for an entry over 600 characters, each sentence past the 600 with the decision or the misreading that it prevents (question 1 or 2 of "What an entry is"); for a POSITIONS change, "cut only" where it only deletes words, and the decision, its reach and its requirement before and after; the questions for the curator.
+ 
+ ## The fix round
+ 
+diff --git a/explorations/coordinator/tools/record-landing/evidence.py b/explorations/coordinator/tools/record-landing/evidence.py
+index 54f17e5f46..eeb7bdc149 100755
+--- a/explorations/coordinator/tools/record-landing/evidence.py
++++ b/explorations/coordinator/tools/record-landing/evidence.py
+@@ -14,7 +14,8 @@ plan.md's stale list is cut:
+                sections that it cites, each printed once at the end and cut at SECTION_BYTES
+   rows.md      each gap-ledger row that the range opened, closed, rewrote or noted, with its claim
+   cites.md     each other entry, review-queue item and INDEX line that names a changed entry or row, with
+-               its file, its line and the sentence that names it
++               its file, its line and the sentence that names it; then, linked or not, the entries that
++               share terms with each changed entry (code spans and rows), for the sort's search by subject
+   plan.md      PLAN.md's headings, the PLAN lines that the batch added, the other PLAN lines that name
+                a changed entry or row, and the lines that look stale at AT: plan-moves.py --stale-at AT, each
+                line whose own review-queue item is settled, each list of items that disagrees with the
+@@ -400,7 +401,7 @@ def queue_items(text):
+ 
+ 
+ def cites_md():
+-    out = ['<!-- The record-landing workflow\'s evidence of what names a changed entry or row: each other FACTS or POSITIONS entry, review-queue item and INDEX line at %s that names an entry or a gap-ledger row that %s..%s changed, written by evidence.py. -->' % (AT, BASE, AT), '',
++    out = ['<!-- The record-landing workflow\'s evidence of what names a changed entry or row: each other FACTS or POSITIONS entry, review-queue item and INDEX line at %s that names an entry or a gap-ledger row that %s..%s changed, and the entries that share terms with a changed entry, linked or not, written by evidence.py. -->' % (AT, BASE, AT), '',
+            '# What names a changed entry or row', '',
+            'The changed entries are those of `entries.md`, the changed rows those of `rows.md`. PLAN.md\'s lines are in `plan.md`. '
+            'Each line below: the file and line, what it names, then each sentence that names it.', '']
+@@ -437,7 +438,51 @@ def cites_md():
+             out.append('- INDEX.md:%d, `%s`, names %s: %s' % (i, m.group(1) if m else '?', describe(ents, rows), ' | '.join(sentences_at(ln, spans))))
+     if not n:
+         out.append('None.')
+-    return '\n'.join(out)
++    return '\n'.join(out + shared())
++
++
++# ---------------------------------------------------------------- the entries that share terms, linked or not
++
++SPAN = re.compile(r'`([\w#/\\.\[][^`\n]{3,79})`')     # a span opens with a word character or a path's: no stray text between two spans
++COMMON = 15             # a term that more entries hold than this says nothing of a subject
++SHARE_MAX = 10          # entries listed for each changed entry
++
++
++def terms_of(text):
++    """The terms of an entry: each code span of four characters or more, and each gap-ledger row that it names."""
++    return {'`%s`' % s.strip() for s in SPAN.findall(text)} | {'row %d' % n for n, _ in rows_named(text)}
++
++
++def shared():
++    live = [e for k, name in R.FILES.items() for e in R.RecordFile(k, name, show(AT, COORD + name)).entries if e.key]
++    terms = {e.key: terms_of(e.line) for e in live}
++    links = {e.key: {'%s-%s' % (m.group(1), m.group(2)) for m in R.POINTER.finditer(e.line)} for e in live}
++    df = collections.Counter(t for ts in terms.values() for t in ts)
++    out = ['', '## The entries that share terms with a changed entry, linked or not', '',
++           'For each entry of `entries.md` that stands at %s: each other entry that shares with it two terms, one gap-ledger row, '
++           'or one term that at most three entries hold. A term is a code span of four characters or more, or a row that the '
++           'entry names; a term that more than %d entries hold is left out. "linked" marks a pair of which one names the other. '
++           'At most %d for each entry, those with the most shared terms first. Search further with `facts-extract.sh \'WORDS\'`.'
++           % (AT, COMMON, SHARE_MAX), '']
++    n = 0
++    for k in CHANGED:
++        if k not in terms:
++            continue
++        mine = {t for t in terms[k] if df[t] <= COMMON}
++        hits = []
++        for e in live:
++            s = mine & terms[e.key] if e.key != k else set()
++            if len(s) >= 2 or any(t.startswith('row ') or df[t] <= 3 for t in s):
++                hits.append((-len(s), R.sort_key(e.key), e.key, sorted(s)))
++        if not hits:
++            continue
++        n += 1
++        hits.sort()
++        out.append('- %s: %s' % (k, '; '.join('%s (%s%s)' % (o, clip(', '.join(s), 160), '; linked' if o in links[k] or k in links[o] else '')
++                                              for _, _, o, s in hits[:SHARE_MAX])))
++    if not n:
++        out.append('None.')
++    return out
+ 
+ 
+ # ---------------------------------------------------------------- PLAN
+diff --git a/explorations/coordinator/tools/record-landing/judge.md b/explorations/coordinator/tools/record-landing/judge.md
+index 4fb596ae74..8e69766b88 100644
+--- a/explorations/coordinator/tools/record-landing/judge.md
++++ b/explorations/coordinator/tools/record-landing/judge.md
+@@ -14,14 +14,14 @@ Which changes land? For each change: apply, or hold, once. Then make the branch'
+ 
+ ## Where the sources are
+ 
+-- In the run's folder: `owed.md`; the evidence (`entries.md`, `rows.md`, `cites.md`, `plan.md`, `checks.md`, `sources.md`); `record.apply`, `rows.rewrite`, `cut-only.txt` and `clean.txt`, the entries writer's files after its fix round; `entries-report.md` and `routing-report.md`; `check.md` and `cold-read.md`, on the first round; `mech-1.md` and `mech-2.md`, the mechanical checks after each round.
++- In the run's folder: `owed.md`; the evidence (`entries.md`, `rows.md`, `cites.md`, `plan.md`, `checks.md`, `sources.md`); `record.apply`, `rows.rewrite`, `cut-only.txt` and `clean.txt`, the entries writer's files after its fix round; `entries-report.md` and `routing-report.md`; `check.md` and `cold-read.md`, on the first round; `cold-read-2.md`, a second cold read of `clean.txt` after the fix round; `mech-1.md` and `mech-2.md`, the mechanical checks after each round.
+ - The worktree's changes: `git -C WORKTREE diff AT -- explorations/`.
+ - The rule of a verdict, in the worktree: `explorations/coordinator/tools/record-clarity/judge.md`, its two verdicts, apply and hold.
+ - The record. You read it only through `explorations/coordinator/tools/facts-extract.sh`, `record.py` and `ledger.py`, run from the worktree (`cd WORKTREE && ...`), and its changes through the `git diff` above. The main tree, `/home/user/fortress`, can hold a later record than the worktree, so you read none of its record files. You write entries only through `record.py`: your `final.apply` goes through `record.py apply` in `final.sh`.
+ 
+ ## The verdicts
+ 
+-Apply a change when its final text keeps the meaning of its ground, the checks that bear on it pass, and what the cold reader still raises changes no action. Hold it when it says more or less than its ground, drops a condition, or fails a check, and nothing in the folder settles it. Hold an entry already past 600 characters that grows, unless the clause that its change owes alone explains the growth: `lengths.py` in `mech-2.md` names each such entry, and `entries-report.md` says what the writer moved out first. Where `check.md` named a failure and the fix round claims to settle it, read the sentence and its source yourself. You do not rewrite a text: you judge it as it stands.
++Apply a change when its final text keeps the meaning of its ground, the checks that bear on it pass, and what the cold reader still raises changes no action. Hold it when it says more or less than its ground, drops a condition, or fails a check, and nothing in the folder settles it. A cut is not less than its ground when the home that its provenance line names holds the cut text. Where `check.md` named a failure and the fix round claims to settle it, read the sentence and its source yourself. You do not rewrite a text: you judge it as it stands.
+ 
+ POSITIONS follows the curator's rule of 2026-10-31. His words: "you don't need my approval to bring the record in line with reality" (`explorations/coordinator/HELD.md`, "Held in chat (2026-10-31)", 08:1x UTC). A sentence that the tree made false changes by the fewest words and lands without his yes, and the landing report names it with its old and its new words. Any change of what he decided, where it applies or what it requires is held, with its question for him.
+ 
+diff --git a/explorations/coordinator/tools/record-landing/lengths.py b/explorations/coordinator/tools/record-landing/lengths.py
+index 50bfaa52e4..8780b66578 100755
+--- a/explorations/coordinator/tools/record-landing/lengths.py
++++ b/explorations/coordinator/tools/record-landing/lengths.py
+@@ -1,11 +1,12 @@
+ #!/usr/bin/env python3
+-"""lengths.py --root WT --base AT: each changed entry's length before and after.
++"""lengths.py --root WT --base AT: each changed entry's length before and after, and the totals.
+ 
+ For each FACTS or POSITIONS entry whose line in the worktree WT differs from its line at AT, the commit
+ that the worktree was made at: its number, its characters at AT and now, the change, and whether it stands
+ over the record's 600, the size that record.py reports. An entry already over 600 at AT that grew is marked
+-"grew past 600": the judge holds it unless the clause that its change owes alone explains the growth
+-(judge.md). The last line names each such entry. Information only; exit 0.
++"grew past 600", and a line names each such entry. Then the totals: the changed entries' characters now,
++against 600 times their count; and FACTS.md's and POSITIONS.md's characters at AT and now.
++Information only; exit 0.
+ """
+ import argparse
+ import os
+@@ -29,18 +30,26 @@ def entries(text):
+     return out
+ 
+ 
+-rows, grew = [], []
++rows, grew, files, now = [], [], [], []
+ for f in ('FACTS.md', 'POSITIONS.md'):
+-    old = entries(subprocess.run(['git', '-C', a.root, 'show', '%s:%s' % (a.base, D + f)], capture_output=True, text=True).stdout)
++    old_text = subprocess.run(['git', '-C', a.root, 'show', '%s:%s' % (a.base, D + f)], capture_output=True, text=True).stdout
++    old = entries(old_text)
+     with open(os.path.join(a.root, D + f), encoding='utf-8') as fh:
+-        new = entries(fh.read())
++        new_text = fh.read()
++    new = entries(new_text)
++    files.append('%s from %d to %d characters (%+d)' % (f, len(old_text), len(new_text), len(new_text) - len(old_text)))
+     for k in sorted(set(old) | set(new), key=lambda k: (k[0], int(k[2:]))):
+         if old.get(k) != new.get(k):
+             b, n = len(old.get(k, '')), len(new.get(k, ''))
+             mark = ', grew past 600' if b > SIZE and n > b else ', over 600' if n > SIZE else ''
+             if b > SIZE and n > b:
+                 grew.append('%s (%+d)' % (k, n - b))
++            if n:
++                now.append(n)
+             rows.append('- %s: %s to %s characters (%+d)%s' % (k, b or 'none', n or 'gone', n - b, mark))
+ print('lengths: %d entries changed' % len(rows))
+ print('\n'.join(rows))
+ print('lengths: %d already over 600 grew%s' % (len(grew), ': ' + ', '.join(grew) if grew else ''))
++print('lengths: the %d changed entries that stand now hold %d characters, against 600 times %d, %d (%+d)' % (
++    len(now), sum(now), len(now), SIZE * len(now), sum(now) - SIZE * len(now)))
++print('lengths: %s' % '; '.join(files))
+diff --git a/explorations/coordinator/tools/record-landing/record-landing.js b/explorations/coordinator/tools/record-landing/record-landing.js
+index 07634cff27..8affe89b33 100644
+--- a/explorations/coordinator/tools/record-landing/record-landing.js
++++ b/explorations/coordinator/tools/record-landing/record-landing.js
+@@ -1,13 +1,14 @@
+ export const meta = {
+   name: 'record-landing',
+-  description: 'The record brought in line with a landed batch, in a worktree of its own: the evidence script and an Opus sort by home and weight; the entries and routing writers as two headless Opus streams with the mechanical checks; a checker and a cold read; one fix round; a judge who applies or holds each change once, makes two commits on the branch and writes diff.md; then, past the judge\'s checks, the commits landed on main and pushed, the worktree and branch removed, and the orientation update run as a child workflow on the entries the landing changed; then the skill writer installs what the orientation judge accepts and brings fortress-repo in line with the landing, a cold read of its commits, the writer\'s fixes, the page of fortress-repo\'s changes, and the pushes; then the revival page\'s update script, its commit and push, and the page republished by its URL, ending in one line for the coordinator\'s chat message',
++  description: 'The record brought in line with a landed batch, in a worktree of its own: the evidence script and an Opus sort by home and weight; the entries and routing writers as two headless Opus streams with the mechanical checks; a checker and a cold read; one fix round; a second cold read; a judge who applies or holds each change once, makes two commits on the branch and writes diff.md; then, past the judge\'s checks, the commits landed on main and pushed, the worktree and branch removed, where the run ends; a second run on its result (args.after): the orientation update run as a child workflow on the entries the landing changed; then the skill writer installs what the orientation judge accepts and brings fortress-repo in line with the landing, a cold read of its commits, the writer\'s fixes, the page of fortress-repo\'s changes, and the pushes; then the revival page\'s update script, its commit and push, and the page republished by its URL, ending in one line for the coordinator\'s chat message',
+   phases: [
+     { title: 'Sort', detail: 'prepare.sh makes the worktree and the evidence; the sorter writes owed.md, one line per change', model: 'opus' },
+     { title: 'Write', detail: 'a Sonnet driver starts the entries and routing writers, two headless Opus streams, then checks.sh 1', model: 'sonnet' },
+     { title: 'Check', detail: 'the checker and the clarity cold reader, side by side', model: 'opus' },
+     { title: 'Fix', detail: 'both writers once more, in the same streams, then checks.sh 2', model: 'sonnet' },
++    { title: 'Reread', detail: 'a second cold read of the fixed entries', model: 'opus' },
+     { title: 'Judge', detail: 'apply or hold each change once; final.sh checks and commits twice on the branch; diff.md', model: 'opus' },
+-    { title: 'Land', detail: 'the two commits onto main (a fast-forward, or a cherry-pick if main moved), the checks on main, the three pushes, the worktree and branch removed; then the orientation update, a child workflow', model: 'sonnet' },
++    { title: 'Land', detail: 'the two commits onto main (a fast-forward, or a cherry-pick if main moved), the checks on main, the three pushes, the worktree and branch removed; the first run ends here, and the second run starts with the orientation update, a child workflow', model: 'sonnet' },
+     { title: 'Skills', detail: 'skills.sh writes the task from the landed diff.md and the orientation judgement; the skill writer, a headless Opus session, installs and edits fortress-repo and commits on main', model: 'sonnet' },
+     { title: 'Cold read', detail: 'the changed parts read as a worker new to the repository', model: 'opus' },
+     { title: 'Fixes', detail: 'the same writer fixes the cold read\'s flags and commits', model: 'sonnet' },
+@@ -37,9 +38,13 @@ const SONNET = FABLE_WEEK ? { model: 'fable', effort: 'low' } : { model: 'sonnet
+ // the entries the landing changed (README.md, "Landing its result"); then the skill update, its cold read, its
+ // fixes, the page and the pushes (README.md, "The skill update"); then the revival page's update, its commit, its
+ // push and its republish (README.md, "The revival page"). A replay lands nothing and runs no update.
++// The run ends when the record is pushed. The stages from the orientation update on run as a second run of this
++// script, which the coordinator starts with the first run's result as args.after (README.md, "Running it").
+ const T = '/home/user/fortress/explorations/coordinator/tools/record-landing/'
+ const RC = '/home/user/fortress/explorations/coordinator/tools/record-clarity/'
+-if (!args || !args.batch || !args.base || !args.landing) throw new Error('args: { batch, base, landing, at (a replay only) }')
++const MAIN = '/home/user/fortress'
++if (!args || !args.batch || !args.base || !args.landing) throw new Error('args: { batch, base, landing, at (a replay only), after (the second run only) }')
++const AFTER = args.after || null
+ const N = String(args.batch)
+ const BASE = String(args.base)
+ const LANDING = String(args.landing)
+@@ -75,6 +80,8 @@ const drive = (n) => {
+ 4. Your final message: the last 80 lines of ${log}, verbatim.`, { label: n === 1 ? 'write' : 'fix', phase: n === 1 ? 'Write' : 'Fix', ...SONNET })
+ }
+ 
++let result, l
++if (!AFTER) {   // the first run: Sort to Land, to the record's push. The block is not indented, so that its stages read as before.
+ phase('Sort')
+ const s = await agent(`Read your brief and follow it: ${T}sort.md\n\n${where}\nFirst run, exactly: ${T}prepare.sh ${N} ${BASE} ${LANDING} ${AT} ${WT} ${BRANCH}`,
+   { label: 'sort', phase: 'Sort', ...OPUS, schema: SORT })
+@@ -93,22 +100,24 @@ const checks = await parallel([
+ phase('Fix')
+ const w2 = await drive(2)
+ 
++phase('Reread')
++const reread = await agent(`Read your brief and follow it: ${RC}coldread.md\n\nThe file to read: ${RUN}clean.txt\nYour report: ${RUN}cold-read-2.md\nWrite your report in parts of five entries: write the first part to the file, then add each next part to its end, one tool call for each part. So no reply runs for minutes, and your prompt cache stays warm between your calls.`, { label: 'reread', phase: 'Reread', ...OPUS })
++
+ phase('Judge')
+ const j = await agent(`Read your brief and follow it: ${T}judge.md\n\n${where}`, { label: 'judge', phase: 'Judge', ...OPUS })
+ log(`judged: ${cut(j, 200)}`)
+ 
+-const result = {
++result = {
+   batch: N, worktree: WT, branch: BRANCH, run: RUN, diff: RUN + 'diff.md',
+   sort: { counts: s.counts, orientation: s.orientation, curator: s.curator, summary: cut(s.summary, 1200) },
+-  write: cut(w1, 1500), checks: checks.map(c => cut(c, 800)), fix: cut(w2, 1500), judge: cut(j, 2000),
++  write: cut(w1, 1500), checks: checks.map(c => cut(c, 800)), fix: cut(w2, 1500), reread: cut(reread, 800), judge: cut(j, 2000),
+ }
+ if (args.at) return result   // a replay lands nothing on main
+ if (!j) return Object.assign(result, { stopped: 'the judge returned nothing: nothing landed; read its transcript and the run folder before a resume' })
+ 
+ // The landing (curator, 2026-11-03 06:2x, HELD.md): the commits go onto main in this run, and the orientation
+-// update follows in the same chain. A fast-forward keeps the judge's hashes when main has not moved since AT; a
++// update follows in the second run. A fast-forward keeps the judge's hashes when main has not moved since AT; a
+ // cherry-pick lands the same two commits when it has. The judge's diff.md, "Next", gives the update's entries.
+-const MAIN = '/home/user/fortress'
+ const LAND = {
+   type: 'object',
+   properties: {
+@@ -125,7 +134,7 @@ const LAND = {
+   required: ['landed', 'how', 'commits', 'pushed', 'facts', 'stopped', 'summary'],
+ }
+ phase('Land')
+-const l = await agent([
++l = await agent([
+   'You land the record-landing run of climb batch ' + N + ' on main. You run commands and report; you judge nothing and write no file. You work in the main tree, ' + MAIN + ', on the branch main, and read the worktree ' + WT + ' (branch ' + BRANCH + '). AT is in ' + RUN + 'run.env. Another agent may commit in the main tree meanwhile: on an index.lock error, wait five seconds and retry, up to four times; leave other uncommitted edits in the main tree alone.',
+   '',
+   'The judge\'s commits on the branch may have been made by the coordinator, who ran final.sh again after a stop at step 1 with the cause fixed: take them as the judge\'s. ' +
+@@ -143,6 +152,13 @@ const l = await agent([
+ result.land = l
+ if (!l || !l.landed) return Object.assign(result, { stopped: 'nothing landed: ' + (l ? l.stopped : 'the lander returned nothing; read its transcript, git -C ' + MAIN + ' log origin/main..main and the branch before a resume') })
+ if (l.stopped) return Object.assign(result, { stopped: 'landed on the local main, not all pushed, no orientation update: ' + l.stopped })
++return Object.assign(result, { next: 'landed and pushed; the second run, on this result: Workflow({ scriptPath: \'' + T + 'record-landing.js\', args: { batch: \'' + N + '\', base: \'' + BASE + '\', landing: \'' + LANDING + '\', after: <this result> } })' })
++}   // the end of the first run
++
++// The second run: its input is the first run's result, whose land holds the landed commits and the facts list.
++if (!AFTER.land || !AFTER.land.landed || AFTER.land.stopped) throw new Error('args.after: the first run\'s result, landed and pushed (its land.landed true and land.stopped empty)')
++l = AFTER.land
++result = { batch: N, after: 'the second run, after the landing of ' + (l.commits || []).join('; ') }
+ 
+ // The orientation update, the child workflow (one level deep), on the entries diff.md's "Next" names. With no
+ // entry there, the update has nothing to judge, and the skill update below still runs on diff.md's skill lines.
+diff --git a/explorations/coordinator/tools/record-landing/routing.md b/explorations/coordinator/tools/record-landing/routing.md
+index 737c3f1660..1288b2a2d2 100644
+--- a/explorations/coordinator/tools/record-landing/routing.md
++++ b/explorations/coordinator/tools/record-landing/routing.md
+@@ -26,7 +26,7 @@ For each change of `owed.md` whose writer is `routing`, what do PLAN, PLAN-histo
+ - **A line moved.** A line that the batch built or answered, or that no longer holds, goes to `PLAN-history.md` word for word: under the landing's heading, `## Climb batch N's landing, DATE` (DATE from `git log -1 --format=%cs LANDING`), and under the heading that it stood under in PLAN. Every line that leaves PLAN or changes in it stands there word for word, since `checks.sh` compares the two files line by line.
+ - **A line cut to a pointer.** An open line whose whole text another home holds (a queue item, a ledger row, an entry) becomes one line in PLAN: what is asked, its default, and a pointer to that home. Its old text moves as above.
+ - **The batch's own line** in its phase becomes one line, with its landing commit and its post-batch review. "Where we stand" states the landing. Both keep the form that `explorations/coordinator/tools/revival-page/update.py` parses, or the workflow's last stage stops: the batch's line opens ``- **Climb batch N**, phase P's ORDINAL batch, landed YYYY-MM-DD at `COMMIT` ``, with N as the record names the batch and a second run such as `31b` on a line of its own, and the live thread says ``At the last landed gate, climb batch N's (`COMMIT` ``.
+-- **A queue item.** Each question for the curator that no file holds becomes one, numbered after the queue's last number, in its theme's section in (b): a consequential decision, by the kind that `owed.md` gives, a re-approval row that the work has reached, or a landed decision that he objected to. A decision that is not consequential becomes no item: it closes as landed, stated in FACTS or a row. It says what is asked, its default as the record states it or "no default on record", the other way, its cost, its home, and its "Needed by". A "Needed by" that the batch record or the review states is taken as stated. Any other is yours, and you mark it "(set by the landing workflow)". Each section's count and the head's counts follow the items.
++- **A queue item.** Each question for the curator that no file holds becomes one, numbered after the queue's last number, in its theme's section in (b): a consequential decision, by the kind that `owed.md` gives, a re-approval row that the work has reached, or a landed decision that he objected to. A decision that is not consequential becomes no item: it closes as landed, stated in a row, or in FACTS only where question 1 of "What an entry is" keeps it. It says what is asked, its default as the record states it or "no default on record", the other way, its cost, its home, and its "Needed by". A "Needed by" that the batch record or the review states is taken as stated. Any other is yours, and you mark it "(set by the landing workflow)". Each section's count and the head's counts follow the items.
+ - **A move to (a).** An item goes to "Answered by a decision of his" only with his word on that same item, cited with its time. A default that the coordinator or a batch took is not his word. A consequential item stays open in (b), with the default as landed, until he answers; one that is not consequential closes as landed, under "Answered by a landed fix or a closed row", with the commit that landed it. `queue-check.py` fails a new item in that section that names such a default, or his word on another item. An item goes to "Answered by a landed fix or a closed row" only with the commit or the row that made it moot.
+ - **An INDEX line** for each note that `checks.md` names without one: `` - `PATH`: `` and the first sentence of the note's header comment.
+ - **A citation of a moved line** by its line number, in PLAN, the queue, FACTS, POSITIONS or INDEX: repoint it. `checks.md` lists them.
+diff --git a/explorations/coordinator/tools/record-landing/sort.md b/explorations/coordinator/tools/record-landing/sort.md
+index b50e9c9f40..68f9cbfa2b 100644
+--- a/explorations/coordinator/tools/record-landing/sort.md
++++ b/explorations/coordinator/tools/record-landing/sort.md
+@@ -16,7 +16,7 @@ What does the record owe after this landing, change by change? A change is one t
+ 
+ ## Where the sources are
+ 
+-First run the command that your launch message gives. It is `prepare.sh`. It makes the worktree and writes the evidence into the run's folder. Its six files: `entries.md` (each entry that the batch added or changed, its lines at the base and now, its history blocks with who wrote each, and the report sections that it cites); `rows.md` (each row that the batch opened, closed, rewrote or noted); `cites.md` (each other entry, queue item and INDEX line that names a changed entry or row); `plan.md` (PLAN's headings, the lines that the batch added, the other lines that name a changed entry or row, and the lines that look stale: a line whose own review-queue item is settled, a list of items that disagrees with the queue, a review finding that a later commit names); `checks.md` (the record's checks at the worktree's head); `sources.md` (the queries that print the review's routing part, its findings and its part for the curator, and the batch record's items for the curator and what it left for the coordinator). Read all six, and print every query of `sources.md`. The last part of `entries.md`, "The cited sections", is the entries writer's: open a section of it only where a change's ground turns on it.
++First run the command that your launch message gives. It is `prepare.sh`. It makes the worktree and writes the evidence into the run's folder. Its six files: `entries.md` (each entry that the batch added or changed, its lines at the base and now, its history blocks with who wrote each, and the report sections that it cites); `rows.md` (each row that the batch opened, closed, rewrote or noted); `cites.md` (each other entry, queue item and INDEX line that names a changed entry or row, and, in its last part, the entries that share terms with a changed entry, linked or not); `plan.md` (PLAN's headings, the lines that the batch added, the other lines that name a changed entry or row, and the lines that look stale: a line whose own review-queue item is settled, a list of items that disagrees with the queue, a review finding that a later commit names); `checks.md` (the record's checks at the worktree's head); `sources.md` (the queries that print the review's routing part, its findings and its part for the curator, and the batch record's items for the curator and what it left for the coordinator). Read all six, and print every query of `sources.md`. The last part of `entries.md`, "The cited sections", is the entries writer's: open a section of it only where a change's ground turns on it.
+ 
+ You read the record only through `explorations/coordinator/tools/facts-extract.sh`, `record.py` and `ledger.py`, run from the worktree: `cd WORKTREE && explorations/coordinator/tools/facts-extract.sh 'QUERY'`. The main tree, `/home/user/fortress`, can hold a later record than the worktree, so you read none of its record files. You write no entry: entries are written only through `record.py`, from the entries writer's file. Change no file but `owed.md`. Commit nothing.
+ 
+@@ -27,9 +27,9 @@ Write each change as one line, in this form:
+     - C12 | home: P-N | kind: made false | weight: high | ground: <the rung's commit that closed row N; rows.md, row N> | the batch: not done | the curator's word: no, a sentence brought in line with the tree | writer: entries
+ 
+ - **C-number**: C1, C2 and so on. The writers, the checker and the judge name the change by it.
+-- **home**: one of nine. A FACTS entry (F-N); a POSITIONS entry (P-N); an entry's history only (a noted block, when the entry stays and its history lacks a fact); a gap-ledger row (row N); a PLAN line (PLAN.md:N, with its heading); a PLAN line moved to PLAN-history; a review-queue item (new, or item N); an INDEX line; a line of another note (PATH:N). Or none.
++- **home**: one of nine. A FACTS entry (F-N), or a merge of one FACTS entry into the entry that owns its subject (F-N merged into F-M); a POSITIONS entry (P-N); an entry's history only (a noted block, when the entry stays and its history lacks a fact); a gap-ledger row (row N); a PLAN line (PLAN.md:N, with its heading); a PLAN line moved to PLAN-history; a review-queue item (new, or item N); an INDEX line; a line of another note (PATH:N). Or none.
+ - **kind**: the pass on an entry that the batch added or changed; made false; stale; past 600 characters; built; answered; a new item for the curator; a new note.
+-- **weight**: high, a reader would act otherwise; low, wording or a pointer; none, no change, with the reason.
++- **weight**: high, a reader would act otherwise; low, wording or a pointer; none, no change, with the reason. A change of kind "the pass" has weight none only when the entry passes all six checks of "What an entry is".
+ - **ground**: the file and line, the commit, or the review's section that shows the change is owed.
+ - **the batch**: whether a stage of the batch did it, or a part of it. `entries.md` names who wrote each history block: the gather, the merged-diff review or the commit stage.
+ - **the curator's word**: whether the change needs it, and why.
+@@ -37,12 +37,14 @@ Write each change as one line, in this form:
+ 
+ What decides a line:
+ 
+-- Each entry that the batch added or changed gets one change of kind "the pass", whatever else it gets. The rungs wrote it as a draft.
++- Each entry that the batch added or changed gets one change of kind "the pass", whatever else it gets. The rungs wrote it as a draft. Weigh it by the six checks of `.claude/skills/coordinator/references/record.md`, "What an entry is": scope, present meaning, evidence, comprehension, ownership and consistency.
++- For each entry that the batch added, say which entry it supersedes or refines, or that it is new. Search FACTS by its subject, linked or not: the last part of `cites.md`, then `facts-extract.sh 'WORDS'` and `'section:HEADING'`. Where another entry owns the subject, put the new fact in that entry: the change's home is "F-N merged into F-M". One home per thing: point to it from elsewhere rather than restate it.
++- For each behaviour or figure that the batch changed, check every other entry that states it, linked or not, by the same search. Each entry that the landing made false gets a change of kind "made false".
+ - Each line that `plan.md` lists as looking stale gets one change: stale, built or answered, with its ground, or weight none with the reason that it stays.
+ - The gate's figures in F-53 and F-240 are the commit stage's. A change keeps them, and a sentence of those entries changes only when the commit stage named it false.
+ - The gather closes rows. A change closes no row, and `ledger.py landing-check` must stay clean.
+ - A POSITIONS sentence that the tree made false changes by the fewest words, with no word of the curator: his rule of 2026-10-31. A change of what he decided, where it applies or what it requires needs his word. Name the clause and the landed fact that makes it false.
+-- Before you call an item for the curator open, search POSITIONS and INDEX for his answer (`positions:WORDS`, `index:WORDS`), and the ledger for a row that holds it (`ledger-find:WORDS`). An item that he answered is of kind "answered", with his word on that item's own question and its time. A default that the coordinator or a batch took is not his answer: a consequential item stays open, of kind "a new item for the curator", with the default as landed; one that is not consequential closes as landed, named in the landing's one line, and is no item.
++- Before you call an item for the curator open, search POSITIONS and INDEX for his answer (`positions:WORDS`, `index:WORDS`), and the ledger for a row that holds it (`ledger-find:WORDS`). An item that he answered is of kind "answered", with his word on that item's own question and its time. A default that the coordinator or a batch took is not his answer: a consequential item stays open, of kind "a new item for the curator", with the default as landed; one that is not consequential closes as landed, named in the landing's one line, and is no item. It gets a change whose home is a FACTS entry only where question 1 of "What an entry is" keeps it.
+ - A default that the record does not hold is "no default on record". A "Needed by" that neither the batch record nor the review states is set by the workflow: mark it so, since the coordinator confirms it and the curator may change it. Mark an item as consequential, where neither of them states it, as "kind set by the workflow", for the same reason; the kind "routine" is retired.
+ - A change of weight none stays in the file, with its reason, so that the checker can see that nothing was missed.
+ 
