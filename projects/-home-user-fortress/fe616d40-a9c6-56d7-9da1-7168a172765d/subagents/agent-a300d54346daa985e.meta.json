@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Revival page: update and republish","toolUseId":"toolu_01EjvajNXHTskpuh2txuLstc","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Revival page: update and republish","toolUseId":"toolu_01EjvajNXHTskpuh2txuLstc","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-2","finished":true}
