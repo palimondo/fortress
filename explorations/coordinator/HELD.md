@@ -5,7 +5,6 @@
 ## Held in chat (2026-11-24)
 
 - 09:4x **For analysis, the coordinator's own entry, beside the lines of 11-23 on P-103 and on `Byte(v.asZZ32)`:** it defended the boot note's rule to him with a premise that it had not checked, that after a process stop it resumes from the note, though the `cloud-container` skill's core in its context, the `coordinator` skill's glossary and the boot note's own record of last night's restarts all said that the session goes on with its context. It looked up the rule's words and not the fact under its defence, and opened the stops part only after he contradicted it. His question: "why didn't you consult it before you were trying to reason about it?"
-- 09:2x **His plan for the session:** after the skill change he compacts, and switches the reasoning effort from extra high to high on Fable 5.2. Measured for him: of the 138K that the context grew between 07:45 and 09:24, about 43K was the coordinator's reasoning between steps.
 
 ## Held in chat (2026-11-23)
 
