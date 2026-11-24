@@ -3137,6 +3137,10 @@ refuses at load a set in which neither of two declared domains lies inside the
 other's and a third declaration holds their overlap (row~1133), and it reads
 two whose bounds name a type of the object's component and an api's type of
 the same simple name as one declaration and its redeclaration (row~1134).
+Of two generic functional methods of one name and number of parameters in an
+object whose parameter types exclude each other at a parameter whose type holds
+no static parameter, it never chooses the one declared second, so that a call
+that only that one fits fails, finding no matching overload (row~1123).
 Jan's example is still not a valid overloading, its two declarations having the
 same parameter type.
 The compiled type checker applies the No Duplicates Rule as it is now stated:
