@@ -4,6 +4,10 @@
 
 **State at 00:5x UTC on 2026-11-24** (01:5x his time). The session runs on Opus 5.5 (`model-now.sh` prints `claude-opus-5-5`). It was compacted at 00:23 UTC on 11-24, at his word, and booted by the skill's section "The boot" (no form named by him); its context after the boot was 262K, of which the boot's reads were 136K. The VM restarted at 23:27:47 UTC on 11-23 and again at 01:16:21 UTC on 11-24 (trust flag `True`, backup run by hand `push=ok` at 01:18, disk not rolled back); the three running workers were resumed by message at 01:1x. **The next process stop is about 12:2x UTC on 11-24.** He is asleep; his reading of the page of skill drafts resumes at item 70.
 
+## His word at 06:58 UTC on 11-24
+
+"Let's compact and start again with full boot for the landing, what do you say? I don't like you without full record in context in landing and planning." He is here for about an hour. After the compaction: **the full boot** (FACTS whole in place of step 1's script, and INDEX whole after step 1), then the landing's steps from where they stand below, then the morning message.
+
 ## Overnight, 11-24: climb batch 36 runs
 
 **His go, at 00:2x UTC on 11-24:** "approved for the next batch with planner's defaults after Fable review. Go overnight." He is asleep. Quiet times: "." at a check-in; nothing about the batch until it lands or fails.
