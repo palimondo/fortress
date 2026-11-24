@@ -26,7 +26,7 @@ P-174: "A coercion's body is a computation at compile time, with no method invoc
 
 ## The tests, failing and passing
 
-The order: each test written, then run through the harness on the base's code before any build of the edit (the build began at 02:15Z).
+The order: each test written, then run through the harness on the base's code before any build of the edit (the first build began at 02:17:30Z).
 
     echo "Expected failure: NumeralCoercionBodyWalk red on the base, its first coercion stopping with 'Unification error: Closure/Constructor for Byte param 1 ($b:ZZ32) got arg 200:ZZ of type ZZ'; NumeralCoercionNumberRangeWalk red, its load refusal naming 'got arg 5:ZZ' at small and not the pinned 'param 1 ($w:ZZ32) got arg 3000000000'"
     explorations/compile-ladder/rung-inference-walk/harness-one.sh $PWD/tmp/rung-numeral-coercion-body/h-base ProjectFortress/tests/NumeralCoercionBodyWalk.fss ProjectFortress/tests/NumeralCoercionNumberRangeWalk.fss ProjectFortress/tests/NumeralCoercionNumberRangeWalk.test
