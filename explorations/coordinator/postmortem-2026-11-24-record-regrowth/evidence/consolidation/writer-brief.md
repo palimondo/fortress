@@ -44,4 +44,6 @@ Write halfway to ASD-STE100: plain short sentences, active voice, one word for o
 
 Run no build and no suite. Keep every wait under 240 seconds. Launch no agents.
 
-Your final message, in at most 25 lines: the apply file's path; the chunk's size before and after, and the count of entries staying, merged and removed; each entry over 600 with the sentence's reason; each removed entry with its home in a few words; the entries made true of the tree, each in a few words; the skill sentences that must change, with the right words; the pointers left for the coordinator; the entries to investigate; and anything that you could not do.
+5. Write `/home/user/fortress/explorations/coordinator/postmortem-2026-11-24-record-regrowth/evidence/consolidation/followups-CHUNK.md`, with a header comment whose first sentence says what the file is, under these headings: "Over 600" (each entry over 600 with the sentence's reason), "Removed" (each removed or merged entry with its home), "Made true of the tree" (each in a few words), "Skill sentences to change" (the file, the sentence now, the right words), "Pointers" (each pointer left for the coordinator, with its new home), "Investigate" (each entry, with the narrow question), "Not done".
+
+Your final message, in at most 8 lines: the apply file's path and its `--by` value; the chunk's size before and after; the count of entries staying, merged and removed; whether the check passed with 0 failures; and whether the apply rewrote a pointer in `POSITIONS.md`. The rest is in the follow-ups file.
