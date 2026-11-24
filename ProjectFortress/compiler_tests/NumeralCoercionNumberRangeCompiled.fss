@@ -1,0 +1,15 @@
+(* Compiled, a numeral coercion's number that does not fit the place where its body uses it is refused statically at the numeral's place: v of 3000000000 at a ZZ32 parameter. *)
+component NumeralCoercionNumberRangeCompiled
+export Executable
+
+value object Wide(w: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Wide(v)
+end
+
+run(): () = do
+    fits: Wide = 5
+    tooWide: Wide = 3000000000
+    println("PASS")
+end
+
+end

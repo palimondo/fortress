@@ -3,7 +3,7 @@ component FloatLiteralValuePrint
 export Executable
 
 value object Dec(src: String)
-  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Dec((bigToZZ64(v).asZZ32 DIV 10).asString || "." || (bigToZZ64(v).asZZ32 MOD 10).asString)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Dec((v DIV 10).asString || "." || (v MOD 10).asString)
 end
 
 run(): () = do
@@ -14,5 +14,4 @@ run(): () = do
 end
 
 
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

@@ -7,7 +7,7 @@ echo(x: RadixPointNumeral[\2, 1, 10, 5\]): String = "echo"
 first(x: ZZ32): RadixPointNumeral[\2, 1, 10, 5\] = 0.5
 object Wrap[\T\](w: T) end
 object Tally(n: ZZ32)
-  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(bigToZZ64(v).asZZ32)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(v)
 end
 
 run(): () = do
@@ -19,5 +19,4 @@ run(): () = do
 end
 
 
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

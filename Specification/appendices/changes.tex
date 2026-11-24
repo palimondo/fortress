@@ -2300,10 +2300,12 @@ is below $2^{31}$ (row~962 of the revival's gap ledger), where the compiled type
 checker gave it the type of a numeral before 8~November 2026, so an \KWD{int}
 parameter is read as a \KWD{nat} parameter is; on the Java
 Virtual Machine the length and the indices of an array are 32-bit integers.
-The four numbers of a numeral type, read as values in the body of a coercion
-from it, are integers of type \EXP{\mathbb{Z}} instead, since the revival
-decided on 9~November 2026 that they are naturals of any size
-(\secref{revival-numerals}).
+The four numbers of a numeral type, used as values in the body of a coercion
+from it, are instead converted where they stand, as a numeral is, and are
+integers of type \EXP{\mathbb{Z}} where nothing fixes a type, since the
+revival decided on 9~November 2026 that they are naturals of any size
+(\secref{revival-numerals}) and on 23~November 2026 how the body reads them
+(\secref{revival-numeral-numbers}).
 The team's later Types chapter (Luchangco, 2012) gives the coercion relation,
 the coercion of a generic type and the valid instantiations of a quantified
 type (\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines
@@ -5201,8 +5203,8 @@ numeral is converted where it stands, and its sentences on library designers
 and their coercions stand.
 New paragraphs say that each number type of \library\ declares its coercion from
 a numeral type generic over the four numbers, whose parameter has no value and
-whose body computes the type's value from the four numbers, read as values of
-type \EXP{\mathbb{Z}}: exactly into the integer types and \EXP{\mathbb{Q}}, and
+whose body computes the type's value from the four numbers, each converted where
+it stands (\secref{revival-numeral-numbers}): exactly into the integer types and \EXP{\mathbb{Q}}, and
 with one rounding into \EXP{\mathbb{R}64} and \EXP{\mathbb{R}32}; that the
 compiler instantiates the coercion at the numeral and evaluates it, so that a
 value that the Java Virtual Machine holds as an \texttt{int}, a \texttt{long}, a
@@ -5253,8 +5255,8 @@ tie of a numeral with a radix point read as an \EXP{\mathbb{R}64}, with a box.
 over the four numbers, and says that the numeral types declare no \EXP{=} with a
 number type and no \VAR{asFloat}, with a box.
 \secref{natparams} gains a box on a \KWD{nat} parameter used as a value and on
-the four numbers of a numeral type, which are integers of type \EXP{\mathbb{Z}}
-in a coercion's body, and the binary chapter's declarations over
+the four numbers of a numeral type, which in a coercion's body are converted
+where they stand (\secref{revival-numeral-numbers}), and the binary chapter's declarations over
 \TYP{NaturalNumeral} gain eight boxes; the text of both stands.
 The entries \secref{revival-numeral-type}, \secref{revival-inference},
 \secref{revival-asfloat}, \secref{revival-object-kinds} and
@@ -5361,9 +5363,10 @@ names either final or temporary.
 A \KWD{nat} parameter used as a value has one type, \EXP{\mathbb{Z}32}, as the
 revival decided on 28~September 2026 for the ranges (\secref{revival-inference}),
 not \EXP{\mathbb{N}32} as \secref{natparams} says; the four numbers of a numeral
-type, naturals of any size, are read in a coercion's body as values of type
-\EXP{\mathbb{Z}}, the bound of a size to 32 bits being this implementation's,
-for the lengths of arrays.
+type, naturals of any size, are converted where they stand in a coercion's
+body, and are values of type \EXP{\mathbb{Z}} where nothing fixes a type
+(\secref{revival-numeral-numbers}), the bound of a size to 32 bits being this
+implementation's, for the lengths of arrays.
 A numeral at a type of a program's own that declares no coercion from the
 numeral's type is refused, since coercion does not chain; the alternative not
 taken converts it into its default first and then by the type's own coercion
@@ -5435,8 +5438,9 @@ A signed constant at a number type of \library\ is converted from its exact
 value on both implementations, outside the coercion, so that no coercion from a
 numeral type receives a sign.
 The interpreter, which has no static types, applies a coercion from a numeral
-type at the place's first evaluation, with the four numbers bound as values of
-type \EXP{\mathbb{Z}}, and keeps its result for the place; it refuses a numeral
+type at the place's first evaluation, with the four numbers bound as numbers
+that convert where they stand (\secref{revival-numeral-numbers}), and keeps its
+result for the place; it refuses a numeral
 only when the place is evaluated: one outside an integer type's range, one
 that rounds to an infinity of \EXP{\mathbb{R}64} or \EXP{\mathbb{R}32}, one at a
 type that declares no coercion from the numeral's type or whose coercion's
@@ -5762,6 +5766,76 @@ to a constant) is concatenation by using the operator \EXP{\|}.
 One may concatenate mixed string and
 character literals, producing a string literal.
 For example, ``\txt{foo}''\EXP{\|}''\txt{bar}'' yields ``\txt{foobar}''.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The four numbers in a numeral coercion's body}
+\seclabel{revival-numeral-numbers}
+
+\begin{description}
+\item[Affected sections] \secref{literals}; \secref{natparams};
+\secref{revival-numerals}.
+\item[Change] \secref{literals} says that a coercion from a numeral type
+computes the type's value from the four numbers with no method invocation; that
+each of the four, used as a value in the coercion's body, is converted where it
+stands, as a numeral is, into the type that its place fixes, from its exact
+value, and is an integer of type \EXP{\mathbb{Z}} where nothing fixes a type;
+and that a number that does not fit the type that its place fixes, at a
+numeral's four numbers, is a static error at that numeral's place.
+It gives \EXP{\mathbb{Z}32}'s coercion, \EXP{v}, and a byte type's,
+\EXP{\TYP{Byte}(v)}, as examples, with a box.
+The box of \secref{natparams} on the four numbers says the same, and three
+sentences of \secref{revival-numerals} that read the four as values of type
+\EXP{\mathbb{Z}} point here.
+\item[Rationale] This change does not follow from route~A; the revival decided
+on 23~November 2026 that a coercion's body is a computation at compile time with
+no method invocation, in which a number used as a value converts where it
+stands, as a numeral does, into the type that its place fixes, is refused
+statically where it does not fit, and is an exact integer, \EXP{\mathbb{Z}},
+where nothing fixes a type.
+The revival's text of 9~November 2026 read the four as values of type
+\EXP{\mathbb{Z}} wherever they stand, so that \library's coercions and those of
+the revival's tests converted each by a method, as \EXP{v.\VAR{asZZ32}}, though
+the four numbers are static parameters, not values with methods.
+A reversal would read the four as values of type \EXP{\mathbb{Z}} wherever they
+stand again, and would put a method back in each coercion that needs one of
+them at another type.
+\item[Effect] Both implementations convert each of the four numbers where it
+stands, and \library's coercions, the compiled path's own library's and the
+revival's tests' are written with no method on the four numbers, as
+\EXP{\mathbb{Z}32}'s \EXP{v}.
+The compiled type checker types a number as \EXP{\mathbb{Z}}, converts it where
+its place fixes \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}32},
+\EXP{\mathbb{N}64}, \EXP{\mathbb{R}64} or \EXP{\mathbb{R}32}, and refuses, at the
+numeral's place, a number that does not fit there, where the coercion is
+declared in the numeral's component; the compiled code converts the number from
+the \EXP{\mathbb{Z}} that holds it, and the compiled coercion of another
+component raises \TYP{IntegerOverflow} when the class that holds the numeral's
+place is initialized, where such a number does not fit an integer type, and
+gives an infinity where it rounds to one at \EXP{\mathbb{R}64} or
+\EXP{\mathbb{R}32} (row~1131 of the revival's gap ledger).
+The interpreter binds each number as a value of type \EXP{\mathbb{Z}} that
+converts where its place fixes a type, as a numeral does, and refuses one that
+does not fit when the place is evaluated.
+At a call, the interpreter sends a number, as a numeral, to the most specific
+declaration that takes it, by its own conversion if need be
+(\secref{resolving-coercion}); the compiled type checker, which checks the body
+once for every numeral, reads a number at a call as a \EXP{\mathbb{Z}} where a
+declaration of the called name takes one, and converts it only where none does,
+so that on the compiled path a declaration more specific than the one that takes
+the \EXP{\mathbb{Z}}, which the number's conversion reaches, does not run
+(row~1132).
+\item[Original text] None: the Working Draft does not say how a coercion's body
+reads the static parameters of a numeral type.
+The passage that this change builds stands, in
+\nolinkurl{Specification-1.0-frozen/basic/expressions/literals.tex}, lines
+142--145:
+\begin{quote}
+This approach allows library designers to decide how numerals should
+interact with other types of objects by defining coercion operations
+(see \secref{coercion} for an explanation of coercion
+in Fortress).
 \end{quote}
 \item[Route C] The same under route~C.
 \end{description}

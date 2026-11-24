@@ -385,8 +385,8 @@ value object RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax
                             AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
     coerce(x: ZZ32) = asFloat(x)
     coerce(x: RR32) = asFloat(x)
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = numeralRR64(v, r.asZZ32, 0)
-    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = numeralRR64(v, r.asZZ32, m.asZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = numeralRR64(v, r, 0)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = numeralRR64(v, r, m)
     getter zero(): RR64 = 0.0
     getter one(): RR64 = 1.0
     getter asString(): String =
@@ -632,7 +632,7 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     coerce(x: NN64) = Ratio(x, 1)
     coerce(x: ZZ) = Ratio(x, 1)
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Ratio(v, 1)
-    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = v / r^(m.asZZ32)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = v / r^m
     getter zero(): QQ = Ratio(0, 1)
     getter one(): QQ = Ratio(1, 1)
     getter isNaN(): Boolean
@@ -844,7 +844,7 @@ private lowExponent32(isOdd:Boolean):ZZ32 =
     if isOdd then -2147483647 else -2147483647 - 1 end
 
 value object ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asZZ32
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     getter zero(): ZZ32 = 0
     getter one(): ZZ32 = 1
     getter asString(): String =
@@ -951,7 +951,7 @@ end
 value object ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     coerce(x: ZZ32) = widen(x)
     coerce(x: NN32) = signed(widen(x))
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asZZ64
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     getter zero(): ZZ64 = widen(0)
     getter one(): ZZ64 = widen(1)
     getter asString(): String =
@@ -1062,7 +1062,7 @@ end
 
 value object NN64 extends { AnyIntegral, Integral[\NN64\] }
     coerce(x: NN32) = widen(x)
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asNN64
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     getter zero(): NN64 = widen(unsigned(0))
     getter one(): NN64 = widen(unsigned(1))
     getter asString(): String =

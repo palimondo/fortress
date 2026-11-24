@@ -7,9 +7,9 @@ oneRounding(v: ZZ, r: ZZ32, m: ZZ32): RR64 =
     builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToDouble")
 
 value object CC64(re: RR64, im: RR64)
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = CC64(oneRounding(v, r.asZZ32, 0), 0.0)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = CC64(oneRounding(v, r, 0), 0.0)
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) =
-        CC64(oneRounding(v, r.asZZ32, m.asZZ32), 0.0)
+        CC64(oneRounding(v, r, m), 0.0)
     opr -(self): CC64 = CC64(-re, -im)
     opr +(self, other: CC64): CC64 = CC64(re + other.re, im + other.im)
     opr -(self, other: CC64): CC64 = CC64(re - other.re, im - other.im)
@@ -20,7 +20,7 @@ end
 i: CC64 = CC64(0.0, 1.0)
 
 value object Tally(k: ZZ32, seen: ZZ, negated: Boolean)
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(v.asZZ32, v, false)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(v, v, false)
     opr -(self): Tally = Tally(-k, seen, true)
 end
 
@@ -37,7 +37,7 @@ end
 object Cell[\T\](c: T) end
 
 value object Byte(b: ZZ32)
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v.asZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v)
 end
 
 isZZ32(a: Any): Boolean = typecase a of ZZ32 => true; else => false end

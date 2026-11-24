@@ -30,7 +30,8 @@ import edu.rice.cs.plt.tuple.Option;
  * native over the built-in number types (a generated import java of a helper
  * of nativeHelpers/, run through its Java method on constant arguments) or
  * of a function or method, getter included, whose body is itself in the
- * fragment, to a depth of a few calls. What it knows of the built-in types is
+ * fragment, to a depth of a few calls; a number that the checker typed at a
+ * built-in type where it stands converts there. What it knows of the built-in types is
  * their representations, for the natives' arguments and results; it knows no
  * target type and no method by its name. Anything else, or a native that
  * raises, is not folded, and the place then takes its coercion's call once,
@@ -228,7 +229,12 @@ public final class NumeralCoercionFold {
             if (e instanceof VarRef) {
                 Id id = ((VarRef) e).getVarId();
                 if (id.getApiName().isSome() || !((VarRef) e).getStaticArgs().isEmpty()) return null;
-                return env.get(id.getText());
+                Object b = env.get(id.getText());
+                // One of the four numbers, which the checker typed where it
+                // stands, converts there: into its place's representation.
+                if (b instanceof BigInteger && typeOf(e) != null && representation(typeOf(e)) != null &&
+                    representation(typeOf(e)) != BigInteger.class) return integer((BigInteger) b, typeOf(e));
+                return b;
             }
             if (e instanceof IntLiteralExpr) return integer(((IntLiteralExpr) e).getIntVal(), typeOf(e));
             if (e instanceof FloatLiteralExpr) return radixPoint((FloatLiteralExpr) e, typeOf(e));

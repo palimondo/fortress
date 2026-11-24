@@ -8,7 +8,7 @@ var minuses: ZZ32 = 0
 object Tally(k: ZZ32)
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
         coercions += 1
-        Tally(v.asZZ32)
+        Tally(v)
     end
     opr -(self): Tally = do
         minuses += 1

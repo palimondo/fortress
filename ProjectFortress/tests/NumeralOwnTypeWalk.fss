@@ -6,9 +6,9 @@ oneRounding(v: ZZ, r: ZZ32, m: ZZ32): RR64 =
     builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToDouble")
 
 value object CC64(re: RR64, im: RR64)
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = CC64(oneRounding(v, r.asZZ32, 0), 0.0)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = CC64(oneRounding(v, r, 0), 0.0)
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) =
-        CC64(oneRounding(v, r.asZZ32, m.asZZ32), 0.0)
+        CC64(oneRounding(v, r, m), 0.0)
     opr +(self, other: CC64): CC64 = CC64(re + other.re, im + other.im)
     opr juxtaposition(self, other: CC64): CC64 =
         CC64(re other.re - im other.im, re other.im + im other.re)
@@ -28,8 +28,8 @@ exact(d: RR64): QQ = do
 
 value object Iv(lo: RR64, hi: RR64)
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
-        q: QQ = v / r^(m.asZZ32)
-        d: RR64 = oneRounding(v, r.asZZ32, m.asZZ32)
+        q: QQ = v / r^m
+        d: RR64 = oneRounding(v, r, m)
         a: QQ = exact(d)
         if a = q then Iv(d, d) elif q < a then Iv(d.nextDown, d) else Iv(d, d.nextUp) end
       end
@@ -37,7 +37,7 @@ end
 
 value object BF16(bits: ZZ32)
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
-        q: QQ = v / r^(m.asZZ32)
+        q: QQ = v / r^m
         half: QQ = 1/2
         s: QQ = q (128/1)
         k0: ZZ = floor(s)
@@ -49,7 +49,7 @@ value object BF16(bits: ZZ32)
 end
 
 value object Dec(unscaled: ZZ, scale: ZZ32)
-    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Dec(v, m.asZZ32)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Dec(v, m)
 end
 
 digitsOf(v: ZZ, r: ZZ, n: ZZ32): String = do
@@ -69,12 +69,12 @@ suffix(r: ZZ): String = if r = big(10) then "" else "_" || r.asString end
 
 value object RoundtripNumeral(text: String)
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
-        t = digitsOf(v, r, n.asZZ32)
+        t = digitsOf(v, r, n)
         w = (n - m).asZZ32
-        RoundtripNumeral(t[0#w] || "." || t[w#(m.asZZ32)] || suffix(r))
+        RoundtripNumeral(t[0#w] || "." || t[w#m] || suffix(r))
       end
     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) =
-        RoundtripNumeral(digitsOf(v, r, n.asZZ32) || suffix(r))
+        RoundtripNumeral(digitsOf(v, r, n) || suffix(r))
     getter asString(): String = text
 end
 

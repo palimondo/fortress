@@ -882,6 +882,21 @@ trait Functionals { self: STypeChecker with Common =>
 
     // Check all the checkable args and make sure they all have types.
     val args = partitionArgs(iargs).getOrElse(return None)
+    // A numeral coercion's number is a ZZ, its default, at a call that a
+    // declaration takes so; it converts where it stands only at a call that
+    // none takes so (P-174).
+    if (!NumeralConversion.numbersAsZZ.value && args.exists(_.left.toOption.exists(coercions.isNumber))) {
+      val asZZ = NumeralConversion.numbersAsZZ.withValue(true) {
+        try {
+          STypeCheckerFactory.makeTryChecker(this).typedApplicationOfChecked(preCandidates, iargs, args, context,
+                                                                             mOpName, fallBackWithoutContext, true)
+        } catch { case _: StaticError => None }
+      }
+      if (asZZ.isDefined)
+        return NumeralConversion.numbersAsZZ.withValue(true) {
+          typedApplicationOfChecked(preCandidates, iargs, args, context, mOpName, fallBackWithoutContext, true)
+        }
+    }
     typedApplicationOfChecked(preCandidates, iargs, args, context, mOpName, fallBackWithoutContext, true)
   }
 
@@ -1331,9 +1346,13 @@ trait Functionals { self: STypeChecker with Common =>
   def numeralJoinInto(e: Expr, t: Type): Option[Expr] =
     if (NumeralConversion.isNumeral(e) || !numeralResult(e)) None else joinInto(e, t)
 
-  /** Whether some result position of the join is a numeral. */
+  /**
+   * Whether some result position of the join is a numeral, or one of a
+   * numeral coercion's four numbers, which converts where it stands as a
+   * numeral does.
+   */
   private def numeralResult(e: Expr): Boolean = e match {
-    case n if NumeralConversion.isNumeral(n) => true
+    case n if NumeralConversion.isNumeral(n) || coercions.isNumber(n) => true
     case SBlock(_, _, _, _, es) if es.nonEmpty => numeralResult(es.last)
     case SDo(_, List(front)) => numeralResult(front)
     case SIf(_, clauses, Some(els)) => (els :: clauses.map(_.getBody)).exists(numeralResult)
@@ -1363,7 +1382,7 @@ trait Functionals { self: STypeChecker with Common =>
     }
   }
 
-  /** The join with each numeral in its result positions converted into d, and its type d. */
+  /** The join with each numeral, or number, in its result positions converted into d, and its type d. */
   private def joinInto(e: Expr, d: Type): Option[Expr] = {
     def block(b: Block): Option[Block] = joinInto(b, d).map(_.asInstanceOf[Block])
     def each[A](as: List[A], f: A => Option[A]): Option[List[A]] = {
@@ -1371,7 +1390,7 @@ trait Functionals { self: STypeChecker with Common =>
       if (rs.forall(_.isDefined)) Some(rs.map(_.get)) else None
     }
     e match {
-      case n if NumeralConversion.isNumeral(n) => numeralInto(n, d)
+      case n if NumeralConversion.isNumeral(n) || coercions.isNumber(n) => numeralInto(n, d)
       case SBlock(SExprInfo(sp, p, _), loc, at, wd, es) =>
         joinInto(es.last, d).map(l => SBlock(SExprInfo(sp, p, Some(d)), loc, at, wd, es.init :+ l))
       case SDo(SExprInfo(sp, p, _), List(front)) =>
@@ -1412,6 +1431,10 @@ trait Functionals { self: STypeChecker with Common =>
           else None
         case _ => if (getType(t).exists(isSubtype(_, d))) Some(t) else None
       }
+      // a result that the join's own typing coerced into its winner, as a
+      // numeral or a ZZ32 variable beside a number into ZZ: its own value,
+      // converted or coerced into d where it stands
+      case c: CoercionInvocation if getType(c.getArg).isDefined => numeralInto(c.getArg, d)
       // a result that already has the type stays as it is
       case x if !NumeralConversion.isNumeral(x) && !numeralResult(x) && getType(x).exists(t => isSubtype(t, d)) => Some(x)
       case _ => None

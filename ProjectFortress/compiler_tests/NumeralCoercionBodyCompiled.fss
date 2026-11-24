@@ -1,0 +1,66 @@
+(* Compiled, a numeral coercion's four numbers, used as values in its body, convert where they stand, with no getter: v at a ZZ32 or an RR64 parameter, also in a do block and in the branches of an if and a case, n at a ZZ32 parameter, and v where nothing fixes a type an exact ZZ (literals.tex, section "Literals"). *)
+component NumeralCoercionBodyCompiled
+export Executable
+
+value object Byte(b: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v)
+end
+
+value object Digits(count: ZZ32)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Digits(n)
+end
+
+value object Approx(a: RR64)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Approx(v)
+end
+
+value object Clamped(b: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Clamped(if v < 100 then do v end else 99 end)
+end
+
+value object Chosen(b: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
+        c: ZZ32 = case n of 3 => v; else => 0 end
+        Chosen(if v < 1000 then c else v end)
+    end
+end
+
+value object Wide64(w: ZZ64)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
+        z: ZZ32 = 5
+        Wide64(if v < 100 then v else z end)
+    end
+end
+
+value object Big(z: ZZ)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
+        w = v
+        Big(w)
+    end
+end
+
+run(): () = do
+    y: Byte = 200
+    assert(y.b, 200, "v converts into ZZ32 at Byte's parameter")
+    d: Digits = 00.5
+    assert(d.count, 3, "n converts into ZZ32 at Digits' parameter")
+    p: Approx = 9007199254740993
+    assert(p.a = 9007199254740992.0, "v converts into RR64 at Approx's parameter, rounded once")
+    c1: Clamped = 42
+    assert(c1.b, 42, "v converts in a do block in an if's branch at Clamped's parameter")
+    c2: Clamped = 123
+    assert(c2.b, 99, "the if's other branch, a numeral, converts at Clamped's parameter")
+    c3: Chosen = 123
+    assert(c3.b, 123, "v converts in a case's branch at a ZZ32 binding")
+    c4: Chosen = 5000
+    assert(c4.b, 5000, "v converts in an if's branch beside a ZZ32 variable at Chosen's parameter")
+    c5: Wide64 = 42
+    assert(c5.w = 42, "v converts in an if's branch beside a ZZ32 variable, which coerces, at Wide64's parameter")
+    c6: Wide64 = 500
+    assert(c6.w = 5, "the ZZ32 variable in the if's other branch coerces at Wide64's parameter")
+    g: Big = 123456789012345678901234567890
+    assert(g.z.asString, "123456789012345678901234567890", "v, bound where nothing fixes a type, is an exact ZZ")
+    println("PASS")
+end
+
+end

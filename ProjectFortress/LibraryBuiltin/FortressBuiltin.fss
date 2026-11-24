@@ -64,8 +64,8 @@ private numeralRR32(v: ZZ, r: ZZ32, m: ZZ32): RR32 =
 
 value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = numeralRR32(v, r.asZZ32, 0)
-    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = numeralRR32(v, r.asZZ32, m.asZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = numeralRR32(v, r, 0)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = numeralRR32(v, r, m)
     getter zero(): RR32 = narrow(0.0)
     getter one(): RR32 = narrow(1.0)
     getter asString(): String =
@@ -260,7 +260,7 @@ private exponentNN32(b:AnyIntegral):ZZ32 =
     end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
-    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asNN32
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     getter zero(): NN32 = unsigned(0)
     getter one(): NN32 = unsigned(1)
     getter asString(): String =

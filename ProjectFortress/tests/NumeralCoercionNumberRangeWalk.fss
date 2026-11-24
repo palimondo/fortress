@@ -1,0 +1,14 @@
+(* A numeral coercion's number that does not fit the place where its body uses it is refused where the numeral's place runs: v of 3000000000 at a ZZ32 parameter. *)
+component NumeralCoercionNumberRangeWalk
+export Executable
+
+value object Wide(w: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Wide(v)
+end
+
+fits: Wide = 5
+tooWide: Wide = 3000000000
+
+run() = println("FAIL: 3000000000 at a coercion whose body puts v at a ZZ32 parameter was accepted")
+
+end

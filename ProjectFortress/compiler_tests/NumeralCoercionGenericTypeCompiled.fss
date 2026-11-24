@@ -3,7 +3,7 @@ component NumeralCoercionGenericTypeCompiled
 export Executable
 
 object Gen[\T extends Object\](v: ZZ32)
-  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](bigToZZ64(v).asZZ32)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](v)
 end
 
 sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
@@ -17,5 +17,4 @@ run(): () = do
 end
 
 
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

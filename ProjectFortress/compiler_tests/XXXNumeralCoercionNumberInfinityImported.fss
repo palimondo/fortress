@@ -1,0 +1,13 @@
+(* Compiled, a numeral at a type of an imported component whose coercion puts its number v at an RR64 parameter, where v rounds to infinity there, is refused statically at the numeral's place, as in the numeral's own component (literals.tex, section "Literals"). *)
+component XXXNumeralCoercionNumberInfinityImported
+import NumeralCoercionNumberRangeImportedApi.{...}
+export Executable
+
+run(): () = do
+  println("REACHED")
+  tooLarge: Approx = 100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  assert(tooLarge.a - tooLarge.a = 0.0, "a number that rounds to infinity at RR64 was accepted at Approx's parameter")
+  println("PASS")
+end
+
+end

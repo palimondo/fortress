@@ -77,9 +77,13 @@ trait Decls { self: STypeChecker with Common =>
   def checkDecls(node: Node): Node = node match {
 
     case SComponent(info, name, imports, decls, comprises, isNative, exports) =>
-      SComponent(info, name, imports,
-                 decls.map((n:Decl) => check(n).asInstanceOf[Decl]), comprises,
-                 isNative, exports)
+      val checked = SComponent(info, name, imports,
+                               decls.map((n:Decl) => check(n).asInstanceOf[Decl]), comprises,
+                               isNative, exports)
+      // A numeral coercion's number that does not fit where its body converts
+      // it is refused at the numeral's place, once every body is checked.
+      NumeralConversion.numberRefusals(checked).foreach { case (at, msg) => signal(at, msg) }
+      checked
 
     case t@STraitDecl(info,
                       STraitTypeHeader(sparams, mods, name, where,

@@ -29,7 +29,7 @@ ee[\nat n\](e: ZZ32): ZZ32 = 1
 ee(e: Any): ZZ32 = 2
 
 object Tally(n: ZZ32)
-  coerce[\nat n, nat r, nat v\](lit: NaturalNumeral[\n, r, v\]) = Tally(bigToZZ64(v).asZZ32)
+  coerce[\nat n, nat r, nat v\](lit: NaturalNumeral[\n, r, v\]) = Tally(v)
 end
 
 x = 3
@@ -84,5 +84,4 @@ run(): () = do
 end
 
 
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

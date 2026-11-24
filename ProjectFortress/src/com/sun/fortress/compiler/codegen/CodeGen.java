@@ -7133,6 +7133,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         debug("forVarRef ", v , " Value = ", vcg);
         String static_args = NamingCzar.instantiatedGenericDecoration(lsargs, thisApi());
         vcg.pushValue(mv, static_args);
+        convertNumber(v, vcg);
     }
 
     private void pushVoid() {
@@ -8480,6 +8481,46 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
     private static Type withoutSelfType(Type t) {
         return t instanceof TraitSelfType ? ((TraitSelfType) t).getNamed() : t;
+    }
+
+    /**
+     * The bounded number types into which a numeral coercion's number
+     * converts: the method of FZZ that converts it, and the JVM type of the
+     * type's payload.
+     */
+    private static final Map<String, String[]> NUMBER_CONVERSIONS = new HashMap<String, String[]>();
+    static {
+        NUMBER_CONVERSIONS.put("ZZ32", new String[] { "numberAsZZ32", NamingCzar.descInt });
+        NUMBER_CONVERSIONS.put("ZZ64", new String[] { "numberAsZZ64", NamingCzar.descLong });
+        NUMBER_CONVERSIONS.put("NN32", new String[] { "numberAsNN32", NamingCzar.descInt });
+        NUMBER_CONVERSIONS.put("NN64", new String[] { "numberAsNN64", NamingCzar.descLong });
+        NUMBER_CONVERSIONS.put("RR64", new String[] { "numberAsRR64", NamingCzar.descDouble });
+        NUMBER_CONVERSIONS.put("RR32", new String[] { "numberAsRR32", NamingCzar.descFloat });
+    }
+
+    /**
+     * In the method of a numeral coercion's numbers (numeralCoercionMethods),
+     * a number that the checker converts where it stands: the reference to the
+     * ZZ parameter that holds it, typed at a bounded number type of the
+     * library, converted into that type from the ZZ on the stack (literals.tex,
+     * "Literals").
+     */
+    private void convertNumber(VarRef v, VarCodeGen vcg) {
+        if (!(vcg.fortressType instanceof TraitType) || !((TraitType) vcg.fortressType).getName().getText().equals("ZZ"))
+            return;
+        Option<Type> et = v.getInfo().getExprType();
+        if (et.isNone()) return;
+        Type t = withoutSelfType(et.unwrap());
+        if (!(t instanceof TraitType) || NamingCzar.payloadObjectClass(t) == null) return;
+        String[] conversion = NUMBER_CONVERSIONS.get(((TraitType) t).getName().getText());
+        if (conversion == null) return;
+        String payload = conversion[1];
+        String method = conversion[0];
+        String desc = NamingCzar.jvmBoxedTypeDesc(t, thisApi());
+        mv.visitTypeInsn(CHECKCAST, "com/sun/fortress/compiler/runtimeValues/FZZ");
+        mv.visitMethodInsn(INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/FZZ", method, "()" + payload);
+        mv.visitMethodInsn(INVOKESTATIC, desc.substring(1, desc.length() - 1), NamingCzar.make,
+                           Naming.makeMethodDesc(payload, desc));
     }
 
     /**

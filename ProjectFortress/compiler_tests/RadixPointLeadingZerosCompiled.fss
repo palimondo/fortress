@@ -3,7 +3,7 @@ component RadixPointLeadingZerosCompiled
 export Executable
 
 value object Digits(count: ZZ32)
-  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Digits(bigToZZ64(n).asZZ32)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Digits(n)
 end
 
 counted(d: Digits): ZZ32 = d.count
@@ -14,5 +14,4 @@ run(): () = do
   println("PASS")
 end
 
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

@@ -5,7 +5,7 @@ export Executable
 object Cell(v: ZZ32)
   coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
     println("coerce")
-    Cell(bigToZZ64(v).asZZ32)
+    Cell(v)
   end
 end
 
@@ -27,5 +27,4 @@ run(): () = do
 end
 
 
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

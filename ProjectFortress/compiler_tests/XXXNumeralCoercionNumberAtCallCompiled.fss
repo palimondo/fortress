@@ -1,0 +1,22 @@
+(* Compiled, a numeral coercion's number at a call goes, as a numeral does, to the most specific declaration that takes it, by its own conversion if need be: tag(x: ZZ32) beside tag(x: Number) runs tag(ZZ32), and a call that only a conversion reaches converts it (literals.tex, section "Literals"). *)
+component XXXNumeralCoercionNumberAtCallCompiled
+export Executable
+
+tag(x: Number): ZZ32 = 1
+tag(x: ZZ32): ZZ32 = 2
+
+only(x: ZZ32): ZZ32 = 3
+
+value object Tagged(t: ZZ32, u: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tagged(tag(v), only(v))
+end
+
+run(): () = do
+    k: Tagged = 7
+    assert(k.u, 3, "v at only converts into ZZ32")
+    println("REACHED")
+    assert(k.t, 2, "v at tag runs tag(ZZ32), which its conversion reaches, below tag(Number)")
+    println("PASS")
+end
+
+end

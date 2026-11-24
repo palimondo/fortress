@@ -1,0 +1,3 @@
+tests=XXXNumeralCoercionNumberAtCallCompiled
+run
+run_out_contains=REACHED

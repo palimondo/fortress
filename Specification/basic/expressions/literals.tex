@@ -184,8 +184,25 @@ and \EXP{\mathbb{R}32} declare one from \TYP{RadixPointNumeral}, each generic
 over the four numbers, as \EXP{\mathbb{Z}32} declares
 \EXP{\KWD{coerce}\llbracket\KWD{nat} n,\KWD{nat} r,\KWD{nat} v\rrbracket(x\COLON \TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket)}.
 The parameter of such a coercion has no value: its body computes the type's
-value from the four numbers, which it reads as values, integers of type
-\EXP{\mathbb{Z}} (\secref{natparams}).
+value from the four numbers, with no method invocation.
+Each of the four, used as a value in the body, is converted where it stands, as
+a numeral is: into the type that its place fixes, from its exact value; where
+nothing fixes a type, it is an integer of type \EXP{\mathbb{Z}}
+(\secref{natparams}).
+A number that does not fit the type that its place fixes, at a numeral's four
+numbers, is a static error at that numeral's place, as a numeral out of the
+range of its place's type is.
+So \EXP{\mathbb{Z}32}'s coercion is
+\EXP{\KWD{coerce}\llbracket\KWD{nat} n,\KWD{nat} r,\KWD{nat} v\rrbracket(x\COLON \TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket) = v},
+and a byte type \EXP{\KWD{value}\;\KWD{object}\;\TYP{Byte}(b\COLON\mathbb{Z}32)}
+declares
+\EXP{\KWD{coerce}\llbracket\KWD{nat} n,\KWD{nat} r,\KWD{nat} v\rrbracket(x\COLON \TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket)\;\KWD{where}\;\{v < 256\} = \TYP{Byte}(v)}.
+\revision{revival-numeral-numbers}{The revival's text of 9~November 2026 read
+the four numbers in a coercion's body as values of type \EXP{\mathbb{Z}}
+wherever they stand, so that a coercion converted each by a method, as
+\EXP{v.\VAR{asZZ32}}.
+The revival decided on 23~November 2026 that each is converted where it stands,
+as a numeral is, and is a \EXP{\mathbb{Z}} only where nothing fixes a type.}
 The conversion is exact into the five integer types (\secref{basic-integers})
 and \EXP{\mathbb{Q}}, and rounds once, to the nearest value of the type, into
 \EXP{\mathbb{R}64} and \EXP{\mathbb{R}32}.

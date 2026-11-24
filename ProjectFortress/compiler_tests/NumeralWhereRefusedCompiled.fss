@@ -3,7 +3,7 @@ component NumeralWhereRefusedCompiled
 export Executable
 
 value object Byte(b: ZZ32)
-  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(bigToZZ64(v).asZZ32)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v)
 end
 
 run(): () = do
@@ -12,5 +12,4 @@ run(): () = do
 end
 
 
-bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end
