@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Judge one FACTS chunk","toolUseId":"toolu_015wjpFHwQ4V2E2iDFTDibpJ","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","pickedEffortModel":"claude-fable-5-2"}
