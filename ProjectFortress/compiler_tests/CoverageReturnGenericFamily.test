@@ -1,0 +1,6 @@
+# A call between two closed traits, in a family with a generic declaration that cannot apply to it, is typed by the intersection of its candidates' return types.
+tests=CoverageReturnGenericFamily
+compile
+link
+run
+run_out_contains=PASS
