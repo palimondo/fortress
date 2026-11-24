@@ -1,0 +1,9 @@
+component TypecaseNarrowAsString
+export Executable
+shown(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString
+    else => "other"
+  end
+run(): () = println(shown(3))
+end

@@ -1,0 +1,5 @@
+component TypecaseNarrowAsStringZZ
+export Executable
+shown(v: ZZ32): String = v.asString
+run(): () = println(shown(3))
+end

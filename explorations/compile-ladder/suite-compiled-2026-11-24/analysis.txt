@@ -1,0 +1,242 @@
+files 925 tests/*.fss 896 with run() 894
+walk-only: ['tests/LanguageTypeInstancesWalk.fss', 'tests/NumeralFoldedConstantLibraryWalk.fss', 'tests/NumeralStaticDesignWalk.fss', 'tests/ReflectTest.fss', 'tests/ReflectiveNumberTypes.fss', 'tests/ReflectiveQuickCheckTest.fss']
+no run(): ['tests/testTest1.fss', 'tests/testTest2.fss']
+
+==== library prelude
+brief set (tests/*.fss with run(), less walk-only): 888; pass 188
+baseline set (tests/*.fss + nwlt, less walk-only): 919; pass 193
+walk-only phases: {'tests/LanguageTypeInstancesWalk.fss': 'disambiguate', 'tests/NumeralFoldedConstantLibraryWalk.fss': 'disambiguate', 'tests/NumeralStaticDesignWalk.fss': 'disambiguate', 'tests/ReflectTest.fss': 'disambiguate', 'tests/ReflectiveNumberTypes.fss': 'disambiguate', 'tests/ReflectiveQuickCheckTest.fss': 'disambiguate'}
+pass of which XXX: ['tests/XXXAbstractMethodGenericBodyWalk.fss', 'tests/XXXArrowCoercionFnArgument.fss', 'tests/XXXAsIfBoundWalk.fss', 'tests/XXXAsIfTupleWalk.fss', 'tests/XXXAtomicNestedReadsKeptWalk.fss', 'tests/XXXCoercionOwnStaticRungK.fss', 'tests/XXXCoercionStaticNarrowRungC.fss', 'tests/XXXCoercionStaticRungC.fss', 'tests/XXXCoercionTupleOverloadRungC.fss', 'tests/XXXComprisesCoverNestedWalk.fss', 'tests/XXXDispatchGenericMethodBesidePlain.fss', 'tests/XXXDispatchTwoCommonParentsWalk.fss', 'tests/XXXExitThroughCatchWalk.fss', 'tests/XXXExpectedTypeFixRungT.fss', 'tests/XXXGenericMethodTraitWhereWalk.fss', 'tests/XXXGenericPairWhereExcludesTogetherWalk.fss', 'tests/XXXInferAboveBoundMentionsParamWalk.fss', 'tests/XXXInferCallArgumentWalk.fss', 'tests/XXXInferThroughBoundWalk.fss', 'tests/XXXInferUntypedLambdaResultWalk.fss', 'tests/XXXInitializerCallReadsLaterMutableWalk.fss', 'tests/XXXNatSizeExclusionWalk.fss', 'tests/XXXOverrideKeepsOtherOverloadsWalk.fss', 'tests/XXXPostfixAfterExponentiation.fss', 'tests/XXXTopLevelVarForwardRead.fss', 'tests/XXXTraitBoundGenericMethod.fss', 'tests/XXXTypecaseTypeOnlyElementWalk.fss', 'tests/XXXWhereVariableMemberWalk.fss', 'tests/XXXWhereVariableObjectWalk.fss', 'tests/XXXWhereVariableScopeWalk.fss', 'tests/XXXgenericMethod1.fss', 'tests/XXXgenericMethod2.fss', 'tests/XXXgenericMethod3.fss']
+pass of which refusal key: ['tests/NonValueBelowValueTypeWalk.fss', 'tests/NumberOpenTraitPlusBesideArrayWalk.fss', 'tests/OverloadTwoBoundsClosedTraitExclusionWalk.fss']
+of the 85 not passing now (0): []
+new passes (108):
+    not_working_library_tests/FailInference2.fss  
+    not_working_library_tests/GenTest5.fss  
+    tests/AsIfCallsWalk.fss  
+    tests/ChooseHelperWalk.fss  
+    tests/ChooseZZ32Walk.fss  
+    tests/CoercionGenericTraitRungC.fss  
+    tests/CoercionSpecTableRungC.fss  
+    tests/ComprisesCoverReturn.fss  
+    tests/ComprisesMeetViaExclusion.fss  
+    tests/ComprisesMeetWalk.fss  
+    tests/ConditionalOpTruncation.fss  
+    tests/DispatchCrossingMeetWalk.fss  
+    tests/DispatchDeclaredDomain.fss  
+    tests/DispatchRenamedGenericArmWalk.fss  
+    tests/DispatchSwappedGenericArmWalk.fss  
+    tests/DispatchSymmetricSortedWalk.fss  
+    tests/DivPrecedence.fss  
+    tests/ExclusionVectorScalarWalk.fss  
+    tests/ExitOutOfAtomicWalk.fss  
+    tests/ExtendsGenericAtAnyWalk.fss  
+    tests/FixedWidthOverflowRungB.fss  
+    tests/ForbidClauseWalk.fss  
+    tests/FunctionalMethodMeetProvided.fss  
+    tests/GenericBesidePlainEveryInstanceWalk.fss  
+    tests/GenericBesidePlainObjectNoReturnTypeWalk.fss  
+    tests/GenericBesidePlainOverlapShapes.fss  
+    tests/GenericBesidePlainTupleReturnWalk.fss  
+    tests/GenericBesidePlainTwoBounds.fss  
+    tests/GenericBesideTraitMethodInsideWalk.fss  
+    tests/GenericFunctionAssignedWalk.fss  
+    tests/GenericMethodOverloadArity.fss  
+    tests/GenericMethodOverloadSetWalk.fss  
+    tests/GenericOverloadStaticArgKindsWalk.fss  
+    tests/GenericPairExcludesTogetherWalk.fss  
+    tests/GenericPairForcedObjectApartWalk.fss  
+    tests/GenericReturningAny.fss  
+    tests/GenericSizePairNestedWalk.fss  
+    tests/InferContravariantWalk.fss  
+    tests/InferLoneBoundWalk.fss  
+    tests/InferLoneUnboundedWalk.fss  
+    tests/InferredIntegerBindingWalk.fss  
+    tests/InferredStringStaticArgWalk.fss  
+    tests/LocalFunctionCallWalk.fss  
+    tests/LocalFunctionCaptureWalk.fss  
+    tests/LocalFunctionGenericContextWalk.fss  
+    tests/LocalFunctionRecursiveWalk.fss  
+    tests/LocalFunctionValueWalk.fss  
+    tests/MethodStaticArgInference.fss  
+    tests/MethodStaticArgInheritedGeneric.fss  
+    tests/NestedTryInnerCatchWalk.fss  
+    tests/NonValueBelowValueTypeWalk.fss  (refusal key)
+    tests/NumberOpenTraitPlusBesideArrayWalk.fss  (refusal key)
+    tests/OverloadSingleParamUnbounded.fss  
+    tests/OverloadTwoBoundsClosedTraitExclusionWalk.fss  (refusal key)
+    tests/OverloadZZ32BesideUserTraitWalk.fss  
+    tests/OverloadedGenericValueBoundWalk.fss  
+    tests/OverrideInTraitWalk.fss  
+    tests/SuperscriptAfterDottedAccess.fss  
+    tests/SuperscriptAfterParenthesisedCall.fss  
+    tests/TestModifierWalk.fss  
+    tests/TraitGenericMethodValueBoundWalk.fss  
+    tests/TupleBinding.fss  
+    tests/TupleBinding2.fss  
+    tests/TypecaseNoMatchUncheckedWalk.fss  
+    tests/TypecaseTypeParamArmWalk.fss  
+    tests/Variable.VarWTypes.fss  
+    tests/WhereBoundOverloadWalk.fss  
+    tests/XXXAbstractMethodGenericBodyWalk.fss (XXX) 
+    tests/XXXArrowCoercionFnArgument.fss (XXX) 
+    tests/XXXAsIfBoundWalk.fss (XXX) 
+    tests/XXXAsIfTupleWalk.fss (XXX) 
+    tests/XXXAtomicNestedReadsKeptWalk.fss (XXX) 
+    tests/XXXCoercionOwnStaticRungK.fss (XXX) 
+    tests/XXXCoercionStaticNarrowRungC.fss (XXX) 
+    tests/XXXCoercionStaticRungC.fss (XXX) 
+    tests/XXXCoercionTupleOverloadRungC.fss (XXX) 
+    tests/XXXComprisesCoverNestedWalk.fss (XXX) 
+    tests/XXXDispatchGenericMethodBesidePlain.fss (XXX) 
+    tests/XXXDispatchTwoCommonParentsWalk.fss (XXX) 
+    tests/XXXExitThroughCatchWalk.fss (XXX) 
+    tests/XXXExpectedTypeFixRungT.fss (XXX) 
+    tests/XXXGenericMethodTraitWhereWalk.fss (XXX) 
+    tests/XXXGenericPairWhereExcludesTogetherWalk.fss (XXX) 
+    tests/XXXInferAboveBoundMentionsParamWalk.fss (XXX) 
+    tests/XXXInferCallArgumentWalk.fss (XXX) 
+    tests/XXXInferThroughBoundWalk.fss (XXX) 
+    tests/XXXInferUntypedLambdaResultWalk.fss (XXX) 
+    tests/XXXInitializerCallReadsLaterMutableWalk.fss (XXX) 
+    tests/XXXNatSizeExclusionWalk.fss (XXX) 
+    tests/XXXOverrideKeepsOtherOverloadsWalk.fss (XXX) 
+    tests/XXXPostfixAfterExponentiation.fss (XXX) 
+    tests/XXXTopLevelVarForwardRead.fss (XXX) 
+    tests/XXXTraitBoundGenericMethod.fss (XXX) 
+    tests/XXXTypecaseTypeOnlyElementWalk.fss (XXX) 
+    tests/XXXWhereVariableMemberWalk.fss (XXX) 
+    tests/XXXWhereVariableObjectWalk.fss (XXX) 
+    tests/XXXWhereVariableScopeWalk.fss (XXX) 
+    tests/disp0.fss  
+    tests/disp2.fss  
+    tests/funny.fss  
+    tests/genericTest1.fss  
+    tests/genericTest2.fss  
+    tests/instantiateNatParam.fss  
+    tests/natInference0.fss  
+    tests/rshiftbug.fss  
+    tests/tparams0.fss  
+    tests/tupleTypeParam.fss  
+    tests/tupleTypeParam2.fss  
+rest (700) by phase: [('parse', 3), ('disambiguate', 303), ('typecheck', 320), ('codegen', 38), ('link', 16), ('run', 20)]
+rest of baseline set (726) by phase: [('parse', 17), ('disambiguate', 312), ('typecheck', 322), ('codegen', 38), ('link', 17), ('run', 20)]
+top first errors among rest:
+    93  ImmutableArray is undefined.
+    27  Could not check call to function assert
+    22  head of empty list
+    19  QQ is undefined.
+    15  Variable big is not defined.
+    12  Invalid overloading of <name> in component <C>:
+    11  Char is undefined.
+    10  Variable asFloat is not defined.
+  phase parse top:
+        2  Syntax Error
+        1  Syntax Error: a hexadecimal character literal has fewer than four hexadecimal digits.
+  phase disambiguate top:
+       93  ImmutableArray is undefined.
+       19  QQ is undefined.
+       15  Variable big is not defined.
+  phase typecheck top:
+       27  Could not check call to function assert
+       22  head of empty list
+       12  Invalid overloading of <name> in component <C>:
+  phase codegen top:
+        5  class com.sun.fortress.compiler.index.FunctionalMethod cannot be cast to class com.sun.fortress.compiler.index.Method (com.sun.fortress.compiler.index.Functiona
+        4  Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
+        3  Can't compile VarArgs yet: the library in use, CompilerLibrary, declares no ImmutableArray, the type of a varargs parameter
+  phase link top:
+        5  java.lang.NoClassDefFoundError
+        4  java.lang.Error: java.lang.Error: Unable to read serialized data for <program member>
+        2  Bad return type
+  phase run top:
+        2  java.lang.Error: java.lang.Error: Not in range for ZZ32: N
+        1  FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL: f(Mid) got N =/= f(Mid) got N; row N: of two coercions the one to the more specif
+        1  FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL: plain64[ ZZ64 , ZZ64 ] =/= plain64[ZZ64,ZZ64]; the generic declaration takes a ZZ
+refusal-key programs (119) by phase: [('disambiguate', 13), ('typecheck', 99), ('codegen', 3), ('run', 1), ('pass', 3)]
+XXX programs (172) by phase: [('parse', 3), ('disambiguate', 28), ('typecheck', 84), ('codegen', 14), ('link', 5), ('run', 5), ('pass', 33)]
+  examples of [ImmutableArray is undefined.]: ['tests/AnyGenPerturbOtherType.fss', 'tests/AnyListElementTypeWalk.fss', 'tests/ArrayListQuick.fss', 'tests/ArrayStoreWalk.fss', 'tests/ComprehensionTypedBindingWalk.fss', 'tests/CovCollTest.fss']
+  examples of [Could not check call to function assert]: ['tests/BooleanEquivalenceWalk.fss', 'tests/ChooseHelperZZ64Walk.fss', 'tests/ChooseZZ64Walk.fss', 'tests/CoercionBindRungC.fss', 'tests/CoercionOverloadRungC.fss', 'tests/ComparisonLazyLexico.fss']
+  examples of [head of empty list]: ['tests/AbstractMethodCoveredWalk.fss', 'tests/NatParamOverloading.fss', 'tests/ObjectFieldArrayLiteral.fss', 'tests/SubscriptThenSuperscriptWalk.fss', 'tests/TopLevelArrayLiteralElement.fss', 'tests/TopLevelArrayLiteralSize.fss']
+timeouts: []
+
+==== library one
+brief set (tests/*.fss with run(), less walk-only): 888; pass 82
+baseline set (tests/*.fss + nwlt, less walk-only): 919; pass 84
+walk-only phases: {'tests/LanguageTypeInstancesWalk.fss': 'codegen', 'tests/NumeralFoldedConstantLibraryWalk.fss': 'link', 'tests/NumeralStaticDesignWalk.fss': 'link', 'tests/ReflectTest.fss': 'typecheck', 'tests/ReflectiveNumberTypes.fss': 'typecheck', 'tests/ReflectiveQuickCheckTest.fss': 'typecheck'}
+pass of which XXX: ['tests/XXXArrowCoercionFnArgument.fss', 'tests/XXXComprisesGenericChildAcrossComponents.fss', 'tests/XXXExpectedTypeFixRungT.fss', 'tests/XXXgenericMethod1.fss', 'tests/XXXgenericMethod2.fss', 'tests/XXXgenericMethod3.fss']
+pass of which refusal key: ['tests/TrivialOpenRangeAtMostStop.fss', 'tests/TrivialOpenRangeEveryStop.fss', 'tests/TrivialOpenRangeImposeStrideStop.fss', 'tests/TrivialOpenRangeTruncLStop.fss', 'tests/TrivialOpenRangeTruncRStop.fss', 'tests/XXXComprisesGenericChildAcrossComponents.fss']
+of the 85 not passing now (34): [('not_working_library_tests/Comparison1.fss', 'disambiguate'), ('not_working_library_tests/Comparison2.fss', 'run'), ('tests/AliasedGetterTest.fss', 'link'), ('tests/AsExprSimple.fss', 'link'), ('tests/BuiltinBound.fss', 'link'), ('tests/ObjectFieldShadowing.fss', 'link'), ('tests/ampersand.fss', 'link'), ('tests/atomic0.fss', 'link'), ('tests/atomic2.fss', 'link'), ('tests/atomic3.fss', 'link'), ('tests/atomic4.fss', 'link'), ('tests/atomicTest.fss', 'link'), ('tests/emptyLoop.fss', 'typecheck'), ('tests/emptySubscripting.fss', 'link'), ('tests/fib.fss', 'link'), ('tests/forFnDecl.fss', 'link'), ('tests/forTest.fss', 'link'), ('tests/forTest2.fss', 'link'), ('tests/han.fss', 'link'), ('tests/infixBars.fss', 'link'), ('tests/initOrder.fss', 'link'), ('tests/nestedTransactions1.fss', 'link'), ('tests/nestedTransactions2.fss', 'link'), ('tests/nestedTransactions4.fss', 'link'), ('tests/operatorSynonym.fss', 'link'), ('tests/overloadTest1.fss', 'link'), ('tests/overloadTest2.fss', 'link'), ('tests/postfixTest.fss', 'link'), ('tests/precedence.fss', 'link'), ('tests/testCharLiteral.fss', 'link'), ('tests/testParen.fss', 'link'), ('tests/tupleTest2.fss', 'link'), ('tests/unicodeTest.fss', 'link'), ('tests/varTest.fss', 'link')]
+new passes (33):
+    not_working_library_tests/FailInference2.fss  
+    tests/AfterTypeChecking.fss  
+    tests/GS3.fss  
+    tests/InferredIntegerBindingWalk.fss  
+    tests/MapExprTest.fss  
+    tests/MethodStaticArgInference.fss  
+    tests/NatReflectTest.fss  
+    tests/NumberMixedEqualityWalk.fss  
+    tests/NumeralEqualsNumberWalk.fss  
+    tests/TrivialOpenRangeAtMostStop.fss  (refusal key)
+    tests/TrivialOpenRangeEveryStop.fss  (refusal key)
+    tests/TrivialOpenRangeImposeStrideStop.fss  (refusal key)
+    tests/TrivialOpenRangeTruncLStop.fss  (refusal key)
+    tests/TrivialOpenRangeTruncRStop.fss  (refusal key)
+    tests/XXXArrowCoercionFnArgument.fss (XXX) 
+    tests/XXXComprisesGenericChildAcrossComponents.fss (XXX) (refusal key)
+    tests/XXXExpectedTypeFixRungT.fss (XXX) 
+    tests/ZZOneGetterWalk.fss  
+    tests/disp0.fss  
+    tests/disp2.fss  
+    tests/extendAny.fss  
+    tests/extendNumber.fss  
+    tests/funny.fss  
+    tests/genericTest1.fss  
+    tests/genericTest2.fss  
+    tests/natInference0.fss  
+    tests/objectZZ.fss  
+    tests/oddJuxt.fss  
+    tests/rshiftbug.fss  
+    tests/simpleExp.fss  
+    tests/taskTrace2.fss  
+    tests/tparams0.fss  
+    tests/tupleTypeParam.fss  
+rest (806) by phase: [('parse', 3), ('disambiguate', 10), ('typecheck', 417), ('codegen', 50), ('link', 308), ('run', 18)]
+rest of baseline set (835) by phase: [('parse', 17), ('disambiguate', 22), ('typecheck', 419), ('codegen', 50), ('link', 308), ('run', 19)]
+top first errors among rest:
+   173  java.lang.ClassFormatError: Duplicate method name "copy" with signature "()Lfortress.FortressLibrary$\=ImmutableArray1?fortress\|AnyType\%Any,N,N?;" in class fi
+    36  java.lang.ClassFormatError: Duplicate method name "narrowToRange" with signature "(Lfortress.FortressLibrary$\=Range?com\|sun\|fortress\|compiler\|runtimeValues
+    30  java.lang.NoClassDefFoundError
+    19  Any has no getter called asString
+    18  java.lang.NoSuchMethodError
+    14  java.lang.ClassFormatError: Duplicate method name "copy" with signature "()Lfortress.FortressLibrary$\=ImmutableArray1?com\|sun\|fortress\|compiler\|runtimeValu
+    14  Invalid overloading of <name> in component <C>:
+    11  /home/user/fortress-wsuite/Library/FileSupport.fsi:N:N-N:N:
+  phase parse top:
+        2  Syntax Error
+        1  Syntax Error: a hexadecimal character literal has fewer than four hexadecimal digits.
+  phase disambiguate top:
+        1  Operator NOTEQUIV is not defined.
+        1  NoSuchTypeHere is undefined.
+        1  NoSuchArgType is undefined.
+  phase typecheck top:
+       19  Any has no getter called asString
+       14  Invalid overloading of <name> in component <C>:
+       11  /home/user/fortress-wsuite/Library/FileSupport.fsi:N:N-N:N:
+  phase codegen top:
+        5  class com.sun.fortress.compiler.index.FunctionalMethod cannot be cast to class com.sun.fortress.compiler.index.Method (com.sun.fortress.compiler.index.Functiona
+        4  Exception in thread "main" edu.rice.cs.plt.tuple.OptionUnwrapException
+        2  emitDesc of type Object failed
+  phase link top:
+      173  java.lang.ClassFormatError: Duplicate method name "copy" with signature "()Lfortress.FortressLibrary$\=ImmutableArray1?fortress\|AnyType\%Any,N,N?;" in class fi
+       36  java.lang.ClassFormatError: Duplicate method name "narrowToRange" with signature "(Lfortress.FortressLibrary$\=Range?com\|sun\|fortress\|compiler\|runtimeValues
+       30  java.lang.NoClassDefFoundError
+  phase run top:
+        6  FortressException: class fortress.FortressLibrary$FailCalled with string Bogus value from FValue.asString()
+        3  java.lang.AbstractMethodError
+        2  FortressException: class fortress.FortressLibrary$CastError with string Bogus value from FValue.asString()
+refusal-key programs (119) by phase: [('disambiguate', 4), ('typecheck', 101), ('codegen', 3), ('link', 4), ('run', 1), ('pass', 6)]
+XXX programs (172) by phase: [('parse', 3), ('disambiguate', 7), ('typecheck', 87), ('codegen', 14), ('link', 46), ('run', 9), ('pass', 6)]
+  examples of [java.lang.ClassFormatError: Duplicate method name "copy" wit]: ['tests/AliasedGetterTest.fss', 'tests/AnyNativesIntrinsicWalk.fss', 'tests/AsIfCallsWalk.fss', 'tests/AsIfOverloadedMethodWalk.fss', 'tests/BooleanEquivalenceWalk.fss', 'tests/CharCodePointOutOfRangeWalk.fss']
+  examples of [java.lang.ClassFormatError: Duplicate method name "narrowToR]: ['tests/BigMinMax.fss', 'tests/ColonOperator.fss', 'tests/ExitOutOfAtomicWalk.fss', 'tests/GeneratorSize.fss', 'tests/LocalFunctionCaptureWalk.fss', 'tests/RangeBoundsRungO.fss']
+  examples of [java.lang.NoClassDefFoundError]: ['tests/ApiPostfixExponentOp.fss', 'tests/ArrayInferredElementVectorWalk.fss', 'tests/ArrayOperatorsBesideLibrary.fss', 'tests/ArrayScalarExtension.fss', 'tests/BoolMethodParamBug.fss', 'tests/BooleanOps.fss']
+timeouts: []
