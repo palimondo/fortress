@@ -105,7 +105,8 @@
      "x": "new"
     }
    },
-   "ended": "The new entries (X) 33 of 36, the old (Y) 36 of 36; lost in scenarios 3, 6 and 7; its files copied to evidence/pilot-hand/test/ on main (fb98e9265d). A worker traces the losses into evidence/pilot-2/test-losses.md."
+   "ended": "The new entries (X) 33 of 36, the old (Y) 36 of 36; lost in scenarios 3, 6 and 7; its files copied to evidence/pilot-hand/test/ on main (fb98e9265d). A worker traces the losses into evidence/pilot-2/test-losses.md.",
+   "traced": "evidence/pilot-2/test-losses.md (63be760519): no entry of the pilot lost what the reader missed; each lost fact is the curator's open item, kept in PLAN or the review queue."
   },
   {
    "round": "test of decisions on the workflow's two rounds",
@@ -125,8 +126,9 @@
      ],
      "x": "old"
     }
-   }
+   },
+   "ended": "The old entries (X) 35 of 36, the new (Y) 32 of 36; they differ in scenarios 5 and 8; its files copied to evidence/pilot-workflow/test/ on main. A worker traces the losses into evidence/pilot-workflow/test-losses.md."
   }
  ],
- "note": "One test runs at a time (the copies /home/user/record-test-p and -q; removed after the first test). After the second test: copy the clone's evidence/pilot-workflow/test/ to main and push; trace its losses with brief-pilot-test-losses.md; then the page worker adds both tests' results to the page's section 'test'."
+ "note": "Both tests are done; the copies /home/user/record-test-p and -q are removed. F-43 is settled in evidence/pilot-2/f43-settled.md (ab29373274). Left: the second trace, then one worker adds both tests, the traces and F-43's verdict to the page https://claude.ai/artifact/PfpJL94ACCggwpp7SHKvR1 (source <scratchpad>/pilot-page/build.py, section id 'test')."
 }
